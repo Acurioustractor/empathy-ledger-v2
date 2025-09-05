@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, User, Heart, Map, BookOpen, Users } from 'lucide-react'
+import { Menu, X, User, Heart, Map, BookOpen, Users, BarChart3 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
@@ -41,6 +41,14 @@ const mainNavigation: NavigationItem[] = [
     icon: <Heart className="w-4 h-4" />,
     description: 'Learn how to share and discover stories',
     showFor: 'all'
+  },
+  {
+    name: 'Analytics',
+    href: '/analytics',
+    icon: <BarChart3 className="w-4 h-4" />,
+    description: 'Community impact and cultural insights',
+    showFor: 'all',
+    badge: 'Insights'
   },
   {
     name: 'About',
