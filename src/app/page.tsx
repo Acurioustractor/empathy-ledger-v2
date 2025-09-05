@@ -1,103 +1,216 @@
-import Image from "next/image";
+import Link from 'next/link'
+import { ArrowRight, Heart, BookOpen, Users, Map, Shield, Sparkles } from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Typography, Heading } from '@/components/ui/typography'
+import { Badge } from '@/components/ui/badge'
+import Header from '@/components/layout/header'
+import Footer from '@/components/layout/footer'
+import { cn } from '@/lib/utils'
+
+const features = [
+  {
+    icon: <BookOpen className="w-6 h-6" />,
+    title: "Cultural Stories",
+    description: "Discover and share authentic Indigenous stories, wisdom, and oral traditions with cultural respect and integrity.",
+    color: "clay"
+  },
+  {
+    icon: <Users className="w-6 h-6" />,
+    title: "Community Storytellers", 
+    description: "Connect with knowledge keepers, elders, and community members who share their cultural heritage.",
+    color: "sage"
+  },
+  {
+    icon: <Map className="w-6 h-6" />,
+    title: "Cultural Mapping",
+    description: "Explore stories by location and cultural connections across traditional territories and communities.",
+    color: "sky"
+  },
+  {
+    icon: <Shield className="w-6 h-6" />,
+    title: "Cultural Safety",
+    description: "Built with OCAP principles ensuring Indigenous communities maintain control over their cultural content.",
+    color: "clay"
+  }
+]
+
+const stats = [
+  { number: "500+", label: "Cultural Stories" },
+  { number: "150+", label: "Storytellers" },
+  { number: "50+", label: "Communities" },
+  { number: "25+", label: "Languages" }
+]
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div className="min-h-screen bg-background">
+      <Header />
+      
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-clay-50 via-background to-sage-50/30 dark:from-clay-950/20 dark:via-background dark:to-sage-950/10">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-gradient-to-r from-clay-100/10 to-sage-100/10 dark:from-clay-900/5 dark:to-sage-900/5" 
+             style={{
+               backgroundImage: `radial-gradient(circle at 1px 1px, rgb(120 113 108 / 0.15) 1px, transparent 0)`,
+               backgroundSize: '24px 24px'
+             }}
         />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+        
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 lg:py-32">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Hero Content */}
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <Badge variant="cultural-featured" size="cultural" className="w-fit">
+                  <Sparkles className="w-3 h-3 mr-1" />
+                  Indigenous Stories & Cultural Wisdom
+                </Badge>
+                
+                <Heading level={1} cultural className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                  Preserving Stories,{" "}
+                  <span className="bg-gradient-to-r from-clay-600 to-sage-600 bg-clip-text text-transparent">
+                    Honoring Wisdom
+                  </span>
+                </Heading>
+                
+                <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-lg leading-relaxed">
+                  A culturally respectful platform for Indigenous communities to share, preserve, and celebrate their stories, traditions, and wisdom for future generations.
+                </Typography>
+              </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button variant="cultural-primary" size="cultural-lg" asChild>
+                  <Link href="/stories" className="group">
+                    Explore Stories
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </Button>
+                <Button variant="cultural-secondary" size="cultural-lg" asChild>
+                  <Link href="/about">
+                    Learn More
+                  </Link>
+                </Button>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-stone-200 dark:border-stone-800">
+                {stats.map((stat, index) => (
+                  <div key={index} className="text-center sm:text-left">
+                    <Typography variant="cultural-heading" className="text-clay-700 dark:text-clay-300 font-bold">
+                      {stat.number}
+                    </Typography>
+                    <Typography variant="caption" className="text-stone-600 dark:text-stone-400">
+                      {stat.label}
+                    </Typography>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Hero Visual */}
+            <div className="relative">
+              <div className="relative rounded-2xl overflow-hidden shadow-cultural">
+                <div className="aspect-[4/3] bg-gradient-to-br from-clay-400 via-sage-400 to-sky-400 flex items-center justify-center">
+                  <div className="text-center space-y-4 p-8">
+                    <div className="w-20 h-20 mx-auto rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                      <Heart className="w-10 h-10 text-white" />
+                    </div>
+                    <Typography variant="cultural-subheading" className="text-white font-semibold">
+                      Interactive Cultural Map
+                    </Typography>
+                    <Typography variant="body-small" className="text-white/90 max-w-sm">
+                      Coming Soon - Explore stories connected to traditional territories and cultural landscapes
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Floating Elements */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 rounded-full bg-gradient-to-br from-sage-400 to-sage-600 shadow-lg opacity-80" />
+              <div className="absolute -bottom-6 -left-6 w-16 h-16 rounded-full bg-gradient-to-br from-clay-400 to-clay-600 shadow-lg opacity-60" />
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4 mb-16">
+            <Badge variant="cultural-new" size="cultural">
+              Platform Features
+            </Badge>
+            <Heading level={2} cultural className="text-3xl md:text-4xl font-bold">
+              Built for Cultural Integrity
+            </Heading>
+            <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
+              Every feature is designed with Indigenous communities in mind, ensuring cultural protocols are respected and voices are heard authentically.
+            </Typography>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <Card key={index} variant="cultural" size="cultural" className="group hover:shadow-lg transition-all duration-300">
+                <CardHeader cultural>
+                  <div className={cn(
+                    "w-12 h-12 rounded-lg flex items-center justify-center mb-4 shadow-md",
+                    feature.color === "clay" && "bg-clay-100 text-clay-600 dark:bg-clay-900/30 dark:text-clay-400",
+                    feature.color === "sage" && "bg-sage-100 text-sage-600 dark:bg-sage-900/30 dark:text-sage-400", 
+                    feature.color === "sky" && "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400"
+                  )}>
+                    {feature.icon}
+                  </div>
+                  <CardTitle cultural>{feature.title}</CardTitle>
+                </CardHeader>
+                <CardContent cultural>
+                  <CardDescription cultural>{feature.description}</CardDescription>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-clay-100/50 via-sage-100/30 to-sky-100/20 dark:from-clay-950/20 dark:via-sage-950/10 dark:to-sky-950/10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <div className="space-y-4">
+              <Heading level={2} cultural className="text-3xl md:text-4xl font-bold">
+                Join Our Community
+              </Heading>
+              <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
+                Whether you're a storyteller, knowledge keeper, or someone who values cultural preservation, there's a place for you in our community.
+              </Typography>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button variant="cultural-primary" size="cultural-lg" asChild>
+                <Link href="/auth/signup">
+                  Get Started Today
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+              <Button variant="clay-outline" size="cultural-lg" asChild>
+                <Link href="/storytellers">
+                  Meet Our Storytellers
+                </Link>
+              </Button>
+            </div>
+
+            <div className="pt-8 border-t border-stone-200 dark:border-stone-800">
+              <Typography variant="body-small" className="text-stone-500 dark:text-stone-400">
+                <Shield className="w-4 h-4 inline mr-2" />
+                Built with Indigenous data sovereignty principles and cultural safety protocols
+              </Typography>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
-  );
+  )
 }

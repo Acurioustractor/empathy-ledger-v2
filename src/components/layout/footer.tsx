@@ -1,0 +1,212 @@
+import React from 'react'
+import Link from 'next/link'
+import { Heart, Mail, MapPin, Phone, Globe, Shield, Eye } from 'lucide-react'
+
+import { Typography } from '@/components/ui/typography'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+
+interface FooterSection {
+  title: string
+  links: {
+    name: string
+    href: string
+    external?: boolean
+    icon?: React.ReactNode
+  }[]
+}
+
+const footerSections: FooterSection[] = [
+  {
+    title: 'Platform',
+    links: [
+      { name: 'Stories', href: '/stories' },
+      { name: 'Storytellers', href: '/storytellers' },
+      { name: 'Cultural Map', href: '/map' },
+      { name: 'Organizations', href: '/organizations' },
+    ]
+  },
+  {
+    title: 'Community',
+    links: [
+      { name: 'How It Works', href: '/how-it-works' },
+      { name: 'Community Guidelines', href: '/guidelines' },
+      { name: 'Cultural Review', href: '/cultural-review' },
+      { name: 'Become a Storyteller', href: '/storyteller/apply' },
+    ]
+  },
+  {
+    title: 'Resources',
+    links: [
+      { name: 'About Us', href: '/about' },
+      { name: 'Blog', href: '/blog' },
+      { name: 'Help Center', href: '/help' },
+      { name: 'Contact', href: '/contact' },
+    ]
+  },
+  {
+    title: 'Legal & Privacy',
+    links: [
+      { name: 'Privacy Policy', href: '/privacy', icon: <Shield className="w-3 h-3" /> },
+      { name: 'Terms of Service', href: '/terms', icon: <Eye className="w-3 h-3" /> },
+      { name: 'Consent Management', href: '/consent' },
+      { name: 'Cultural Protocols', href: '/cultural-protocols' },
+    ]
+  }
+]
+
+const socialLinks = [
+  { name: 'Website', href: '#', icon: <Globe className="w-4 h-4" /> },
+  { name: 'Contact', href: '/contact', icon: <Mail className="w-4 h-4" /> },
+]
+
+const culturalAcknowledgment = `
+We acknowledge the Traditional Custodians of the lands on which we work and live. 
+We pay our respects to Elders past, present and emerging. We are committed to 
+honoring the stories, wisdom, and cultural heritage of Indigenous peoples while 
+ensuring their voices are heard with respect and cultural integrity.
+`
+
+export default function Footer() {
+  const currentYear = new Date().getFullYear()
+
+  return (
+    <footer className="bg-gradient-to-br from-stone-50 to-clay-50/30 dark:from-stone-950 dark:to-clay-950/20 border-t border-stone-200 dark:border-stone-800">
+      {/* Cultural Acknowledgment Section */}
+      <div className="border-b border-stone-200 dark:border-stone-800 bg-clay-100/50 dark:bg-clay-950/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="flex justify-center mb-4">
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-clay-500 to-sage-600 shadow-cultural">
+                <Heart className="w-6 h-6 text-white" />
+              </div>
+            </div>
+            <Typography variant="h3" className="mb-4 text-clay-800 dark:text-clay-200">
+              Cultural Acknowledgment
+            </Typography>
+            <Typography variant="body" className="text-stone-600 dark:text-stone-400 leading-relaxed max-w-3xl mx-auto">
+              {culturalAcknowledgment.trim()}
+            </Typography>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Footer Content */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+          {/* Brand Section */}
+          <div className="lg:col-span-1">
+            <Link href="/" className="flex items-center space-x-3 mb-4 group">
+              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-clay-500 to-sage-600 shadow-cultural group-hover:shadow-lg transition-shadow">
+                <Heart className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <Typography variant="cultural-subheading" className="text-clay-800 dark:text-clay-200">
+                  Empathy Ledger
+                </Typography>
+                <Typography variant="caption" className="text-stone-500 dark:text-stone-400 -mt-1">
+                  Cultural Stories & Wisdom
+                </Typography>
+              </div>
+            </Link>
+            <Typography variant="body-small" className="text-stone-600 dark:text-stone-400 mb-6 leading-relaxed">
+              A platform dedicated to preserving and sharing Indigenous stories, 
+              wisdom, and cultural heritage with respect and cultural integrity.
+            </Typography>
+            
+            {/* Social Links */}
+            <div className="flex space-x-3">
+              {socialLinks.map((link) => (
+                <Button
+                  key={link.name}
+                  variant="ghost"
+                  size="icon"
+                  asChild
+                  className="text-stone-500 hover:text-clay-600 dark:text-stone-400 dark:hover:text-clay-400"
+                >
+                  <Link 
+                    href={link.href}
+                    aria-label={link.name}
+                    {...(link.href.startsWith('http') && {
+                      target: '_blank',
+                      rel: 'noopener noreferrer'
+                    })}
+                  >
+                    {link.icon}
+                  </Link>
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          {/* Footer Sections */}
+          {footerSections.map((section) => (
+            <div key={section.title} className="">
+              <Typography variant="h6" className="mb-4 text-clay-700 dark:text-clay-300 font-semibold">
+                {section.title}
+              </Typography>
+              <ul className="space-y-3">
+                {section.links.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "flex items-center space-x-2 text-sm transition-colors",
+                        "text-stone-600 dark:text-stone-400",
+                        "hover:text-clay-700 dark:hover:text-clay-300"
+                      )}
+                      {...(link.external && {
+                        target: '_blank',
+                        rel: 'noopener noreferrer'
+                      })}
+                    >
+                      {link.icon}
+                      <span>{link.name}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom Bar */}
+      <div className="border-t border-stone-200 dark:border-stone-800 bg-stone-100/50 dark:bg-stone-900/50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+            <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm text-stone-500 dark:text-stone-400">
+              <Typography variant="small" className="text-center md:text-left">
+                © {currentYear} Empathy Ledger. Built with respect for Indigenous cultures.
+              </Typography>
+            </div>
+
+            <div className="flex items-center space-x-4 text-xs text-stone-400 dark:text-stone-500">
+              <span className="flex items-center space-x-1">
+                <Heart className="w-3 h-3 text-clay-500" />
+                <span>Made with cultural respect</span>
+              </span>
+              <span>•</span>
+              <span>OCAP Principles Applied</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Cultural Protocols Notice */}
+      <div className="bg-sage-100/50 dark:bg-sage-950/20 border-t border-sage-200/50 dark:border-sage-800/50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-6 text-center">
+            <Typography variant="caption" className="text-sage-700 dark:text-sage-300 font-medium">
+              Cultural Content Advisory:
+            </Typography>
+            <Typography variant="caption" className="text-sage-600 dark:text-sage-400">
+              This platform contains cultural content that may be subject to cultural protocols. 
+              Please engage respectfully and honor the wisdom shared.
+            </Typography>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
