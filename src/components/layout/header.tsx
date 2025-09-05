@@ -22,40 +22,40 @@ interface NavigationItem {
 
 const mainNavigation: NavigationItem[] = [
   {
-    name: 'Stories',
+    name: 'All Stories',
     href: '/stories',
     icon: <BookOpen className="w-4 h-4" />,
-    description: 'Discover and share cultural stories',
+    description: 'Discover personal, family, community, and cultural stories',
     showFor: 'all'
   },
   {
     name: 'Storytellers',
     href: '/storytellers',
     icon: <Users className="w-4 h-4" />,
-    description: 'Meet our community storytellers',
+    description: 'Meet storytellers from all backgrounds',
     showFor: 'all'
   },
   {
-    name: 'Cultural Map',
-    href: '/map',
-    icon: <Map className="w-4 h-4" />,
-    description: 'Explore stories by location and culture',
+    name: 'How It Works',
+    href: '/how-it-works',
+    icon: <Heart className="w-4 h-4" />,
+    description: 'Learn how to share and discover stories',
     showFor: 'all'
   },
   {
     name: 'About',
     href: '/about',
-    description: 'Learn about our mission and values',
+    description: 'Our mission to preserve every story',
     showFor: 'all'
   }
 ]
 
 const authenticatedNavigation: NavigationItem[] = [
   {
-    name: 'Create Story',
+    name: 'Share Your Story',
     href: '/stories/create',
     icon: <BookOpen className="w-4 h-4" />,
-    description: 'Share your cultural narrative',
+    description: 'Share your personal or cultural story',
     requiresAuth: true,
     showFor: 'authenticated',
     badge: 'New'
@@ -153,7 +153,7 @@ export default function Header() {
                 Empathy Ledger
               </Typography>
               <Typography variant="caption" className="text-stone-500 dark:text-stone-400 -mt-1">
-                Cultural Stories & Wisdom
+                Every Story Matters
               </Typography>
             </div>
           </Link>

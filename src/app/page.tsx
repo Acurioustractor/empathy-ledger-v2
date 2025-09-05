@@ -12,32 +12,32 @@ import { cn } from '@/lib/utils'
 const features = [
   {
     icon: <BookOpen className="w-6 h-6" />,
-    title: "Cultural Stories",
-    description: "Discover and share authentic Indigenous stories, wisdom, and oral traditions with cultural respect and integrity.",
+    title: "Every Story Matters",
+    description: "Share personal memories, family histories, life experiences, and cultural traditions in a welcoming, respectful space.",
     color: "clay"
   },
   {
     icon: <Users className="w-6 h-6" />,
-    title: "Community Storytellers", 
-    description: "Connect with knowledge keepers, elders, and community members who share their cultural heritage.",
+    title: "Global Community", 
+    description: "Connect with storytellers from all backgrounds sharing their unique perspectives, wisdom, and life experiences.",
     color: "sage"
   },
   {
     icon: <Map className="w-6 h-6" />,
-    title: "Cultural Mapping",
-    description: "Explore stories by location and cultural connections across traditional territories and communities.",
+    title: "Story Discovery",
+    description: "Explore diverse narratives by location, theme, and type - from personal journeys to cultural heritage.",
     color: "sky"
   },
   {
     icon: <Shield className="w-6 h-6" />,
-    title: "Cultural Safety",
-    description: "Built with OCAP principles ensuring Indigenous communities maintain control over their cultural content.",
+    title: "Privacy & Safety",
+    description: "Share your stories with confidence using flexible privacy controls and optional cultural protocols.",
     color: "clay"
   }
 ]
 
 const stats = [
-  { number: "500+", label: "Cultural Stories" },
+  { number: "500+", label: "Life Stories" },
   { number: "150+", label: "Storytellers" },
   { number: "50+", label: "Communities" },
   { number: "25+", label: "Languages" }
@@ -65,18 +65,18 @@ export default function Home() {
               <div className="space-y-4">
                 <Badge variant="cultural-featured" size="cultural" className="w-fit">
                   <Sparkles className="w-3 h-3 mr-1" />
-                  Indigenous Stories & Cultural Wisdom
+                  Stories That Connect & Inspire
                 </Badge>
                 
                 <Heading level={1} cultural className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                  Preserving Stories,{" "}
+                  Every Story Matters:{" "}
                   <span className="bg-gradient-to-r from-clay-600 to-sage-600 bg-clip-text text-transparent">
-                    Honoring Wisdom
+                    Share, Preserve, Connect
                   </span>
                 </Heading>
                 
                 <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-lg leading-relaxed">
-                  A culturally respectful platform for Indigenous communities to share, preserve, and celebrate their stories, traditions, and wisdom for future generations.
+                  A welcoming platform for everyone to share their stories - from personal memories and family histories to cultural traditions and life experiences. Your story matters.
                 </Typography>
               </div>
 
@@ -118,10 +118,10 @@ export default function Home() {
                       <Heart className="w-10 h-10 text-white" />
                     </div>
                     <Typography variant="cultural-subheading" className="text-white font-semibold">
-                      Interactive Cultural Map
+                      Interactive Story Map
                     </Typography>
                     <Typography variant="body-small" className="text-white/90 max-w-sm">
-                      Coming Soon - Explore stories connected to traditional territories and cultural landscapes
+                      Coming Soon - Explore stories from around the world, connected by place and experience
                     </Typography>
                   </div>
                 </div>
@@ -143,10 +143,10 @@ export default function Home() {
               Platform Features
             </Badge>
             <Heading level={2} cultural className="text-3xl md:text-4xl font-bold">
-              Built for Cultural Integrity
+              Built for Everyone's Stories
             </Heading>
             <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-              Every feature is designed with Indigenous communities in mind, ensuring cultural protocols are respected and voices are heard authentically.
+              Every feature supports diverse storytelling needs, from casual sharing to cultural preservation, with respect and authenticity at the core.
             </Typography>
           </div>
 
@@ -182,7 +182,7 @@ export default function Home() {
                 Join Our Community
               </Heading>
               <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-                Whether you're a storyteller, knowledge keeper, or someone who values cultural preservation, there's a place for you in our community.
+                Whether you're sharing personal memories, family histories, professional journeys, or cultural traditions, there's a place for your story in our community.
               </Typography>
             </div>
 
@@ -194,8 +194,8 @@ export default function Home() {
                 </Link>
               </Button>
               <Button variant="clay-outline" size="cultural-lg" asChild>
-                <Link href="/storytellers">
-                  Meet Our Storytellers
+                <Link href="/how-it-works">
+                  Learn How It Works
                 </Link>
               </Button>
             </div>
@@ -203,7 +203,7 @@ export default function Home() {
             <div className="pt-8 border-t border-stone-200 dark:border-stone-800">
               <Typography variant="body-small" className="text-stone-500 dark:text-stone-400">
                 <Shield className="w-4 h-4 inline mr-2" />
-                Built with Indigenous data sovereignty principles and cultural safety protocols
+                Built with privacy, safety, and respect for all communities and cultural protocols
               </Typography>
             </div>
           </div>

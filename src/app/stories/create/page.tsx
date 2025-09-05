@@ -30,11 +30,14 @@ import {
 import Link from 'next/link'
 
 const STORY_TYPES = [
-  { value: 'traditional', label: 'Traditional Story', description: 'Ancestral stories passed down through generations' },
-  { value: 'personal', label: 'Personal Story', description: 'Individual experiences and memories' },
-  { value: 'historical', label: 'Historical Account', description: 'Historical events and documentation' },
-  { value: 'educational', label: 'Educational Content', description: 'Teaching stories and lessons' },
-  { value: 'healing', label: 'Healing Story', description: 'Stories for healing and wellness' }
+  { value: 'personal', label: 'Personal Journey', description: 'Your life experiences, memories, and personal stories' },
+  { value: 'family', label: 'Family Stories', description: 'Family history, traditions, and generational tales' },
+  { value: 'community', label: 'Community Stories', description: 'Local history, shared experiences, and community narratives' },
+  { value: 'cultural', label: 'Cultural Heritage', description: 'Traditional stories, cultural practices, and ancestral wisdom' },
+  { value: 'professional', label: 'Professional Life', description: 'Career journeys, workplace experiences, and professional insights' },
+  { value: 'historical', label: 'Historical Events', description: 'Historical accounts and documentation' },
+  { value: 'educational', label: 'Educational Content', description: 'Teaching stories and lessons learned' },
+  { value: 'healing', label: 'Healing & Recovery', description: 'Stories of resilience, healing, and recovery' }
 ]
 
 const AUDIENCES = [
@@ -45,23 +48,29 @@ const AUDIENCES = [
   { value: 'elders', label: 'Elders', description: 'Elder community' }
 ]
 
-const CULTURAL_SENSITIVITY_LEVELS = [
+const CONTENT_SHARING_LEVELS = [
   { 
-    value: 'low', 
-    label: 'Low Sensitivity', 
-    description: 'General content suitable for public sharing',
+    value: 'public', 
+    label: 'Public Story', 
+    description: 'Open sharing - anyone can discover and read this story',
     color: 'text-green-800 bg-green-100'
   },
   { 
-    value: 'medium', 
-    label: 'Medium Sensitivity', 
-    description: 'Some cultural elements, community review recommended',
+    value: 'community', 
+    label: 'Community Story', 
+    description: 'Community sharing - visible to registered members',
+    color: 'text-blue-800 bg-blue-100'
+  },
+  { 
+    value: 'cultural', 
+    label: 'Cultural Content', 
+    description: 'Cultural content with appropriate protocols and review',
     color: 'text-amber-800 bg-amber-100'
   },
   { 
-    value: 'high', 
-    label: 'High Sensitivity', 
-    description: 'Sacred or ceremonial content, requires elder approval',
+    value: 'sacred', 
+    label: 'Sacred/Sensitive', 
+    description: 'Sacred or highly sensitive content requiring special protocols',
     color: 'text-red-800 bg-red-100'
   }
 ]
@@ -92,13 +101,13 @@ export default function CreateStoryPage() {
     storyteller_id: '',
     story_type: 'personal',
     audience: 'all',
-    cultural_sensitivity_level: 'medium',
+    cultural_sensitivity_level: 'public',
     location: '',
     tags: '',
     cultural_context: '',
     featured: false,
     elder_approval_required: false,
-    cultural_review_required: true
+    cultural_review_required: false
   })
 
   useEffect(() => {
@@ -118,7 +127,20 @@ export default function CreateStoryPage() {
   }
 
   const handleInputChange = (field: keyof FormData, value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
+    let updatedData = { ...formData, [field]: value }
+    
+    // Auto-enable cultural review for cultural content
+    if (field === 'story_type' && value === 'cultural') {
+      updatedData.cultural_review_required = true
+    }
+    if (field === 'cultural_sensitivity_level' && (value === 'cultural' || value === 'sacred')) {
+      updatedData.cultural_review_required = true
+    }
+    if (field === 'cultural_sensitivity_level' && value === 'sacred') {
+      updatedData.elder_approval_required = true
+    }
+    
+    setFormData(updatedData)
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }))
     }
@@ -148,12 +170,12 @@ export default function CreateStoryPage() {
     }
 
     if (!formData.cultural_sensitivity_level) {
-      newErrors.cultural_sensitivity_level = 'Cultural sensitivity level is required'
+      newErrors.cultural_sensitivity_level = 'Sharing level is required'
     }
 
-    // Validate high sensitivity requirements
-    if (formData.cultural_sensitivity_level === 'high' && !formData.elder_approval_required) {
-      newErrors.elder_approval = 'High sensitivity stories require elder approval'
+    // Validate sacred content requirements
+    if (formData.cultural_sensitivity_level === 'sacred' && !formData.elder_approval_required) {
+      newErrors.elder_approval = 'Sacred stories typically require elder approval'
     }
 
     setErrors(newErrors)
@@ -236,7 +258,7 @@ export default function CreateStoryPage() {
     }
   }
 
-  const selectedSensitivity = CULTURAL_SENSITIVITY_LEVELS.find(
+  const selectedSensitivity = CONTENT_SHARING_LEVELS.find(
     level => level.value === formData.cultural_sensitivity_level
   )
 
@@ -259,10 +281,10 @@ export default function CreateStoryPage() {
               <BookOpen className="h-12 w-12 text-earth-600" />
             </div>
             <Typography variant="h1" className="mb-4">
-              Create New Story
+              Share Your Story
             </Typography>
             <Typography variant="large" className="text-gray-600">
-              Share your cultural narrative with respect and authenticity
+              Every story matters - share your experience with the world
             </Typography>
           </div>
         </div>
@@ -391,27 +413,27 @@ export default function CreateStoryPage() {
             </div>
           </Card>
 
-          {/* Cultural Information */}
+          {/* Privacy & Sharing */}
           <Card className="p-6">
             <Typography variant="h3" className="mb-6 flex items-center gap-2">
               <Shield className="h-5 w-5" />
-              Cultural Considerations
+              Privacy & Sharing Settings
             </Typography>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Cultural Sensitivity Level *
+                  Sharing Level *
                 </label>
                 <Select 
                   value={formData.cultural_sensitivity_level} 
                   onValueChange={(value) => handleInputChange('cultural_sensitivity_level', value)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select sensitivity level" />
+                    <SelectValue placeholder="Choose how to share your story" />
                   </SelectTrigger>
                   <SelectContent>
-                    {CULTURAL_SENSITIVITY_LEVELS.map(level => (
+                    {CONTENT_SHARING_LEVELS.map(level => (
                       <SelectItem key={level.value} value={level.value}>
                         <div>
                           <div className="flex items-center gap-2">
@@ -436,17 +458,19 @@ export default function CreateStoryPage() {
                 )}
               </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Cultural Context (Optional)
-                </label>
-                <Textarea
-                  value={formData.cultural_context}
-                  onChange={(e) => handleInputChange('cultural_context', e.target.value)}
-                  placeholder="Provide additional cultural context, traditions, or protocols relevant to this story..."
-                  rows={4}
-                />
-              </div>
+              {(formData.cultural_sensitivity_level === 'cultural' || formData.cultural_sensitivity_level === 'sacred') && (
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Cultural Context (Optional)
+                  </label>
+                  <Textarea
+                    value={formData.cultural_context}
+                    onChange={(e) => handleInputChange('cultural_context', e.target.value)}
+                    placeholder="Provide additional cultural context, traditions, or protocols relevant to this story..."
+                    rows={4}
+                  />
+                </div>
+              )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -473,7 +497,7 @@ export default function CreateStoryPage() {
                     <Input
                       value={formData.tags}
                       onChange={(e) => handleInputChange('tags', e.target.value)}
-                      placeholder="ceremony, wisdom, family, tradition (comma-separated)"
+                      placeholder="family, memories, travel, career, love, healing (comma-separated)"
                       className="pl-10"
                     />
                   </div>
@@ -482,45 +506,49 @@ export default function CreateStoryPage() {
             </div>
           </Card>
 
-          {/* Review Requirements */}
+          {/* Additional Options */}
           <Card className="p-6">
             <Typography variant="h3" className="mb-6 flex items-center gap-2">
               <Crown className="h-5 w-5" />
-              Review & Approval
+              Additional Options
             </Typography>
             
             <div className="space-y-6">
-              <div className="flex items-start gap-3">
-                <Switch
-                  id="cultural-review"
-                  checked={formData.cultural_review_required}
-                  onCheckedChange={(checked) => handleInputChange('cultural_review_required', checked)}
-                />
-                <div>
-                  <label htmlFor="cultural-review" className="text-sm font-medium cursor-pointer">
-                    Require Cultural Review
-                  </label>
-                  <p className="text-xs text-gray-600 mt-1">
-                    Have this story reviewed by cultural advisors before publication
-                  </p>
-                </div>
-              </div>
+              {(formData.story_type === 'cultural' || formData.cultural_sensitivity_level === 'cultural' || formData.cultural_sensitivity_level === 'sacred') && (
+                <>
+                  <div className="flex items-start gap-3">
+                    <Switch
+                      id="cultural-review"
+                      checked={formData.cultural_review_required}
+                      onCheckedChange={(checked) => handleInputChange('cultural_review_required', checked)}
+                    />
+                    <div>
+                      <label htmlFor="cultural-review" className="text-sm font-medium cursor-pointer">
+                        Cultural Review
+                      </label>
+                      <p className="text-xs text-gray-600 mt-1">
+                        Have this story reviewed by cultural advisors before publication
+                      </p>
+                    </div>
+                  </div>
 
-              <div className="flex items-start gap-3">
-                <Switch
-                  id="elder-approval"
-                  checked={formData.elder_approval_required}
-                  onCheckedChange={(checked) => handleInputChange('elder_approval_required', checked)}
-                />
-                <div>
-                  <label htmlFor="elder-approval" className="text-sm font-medium cursor-pointer">
-                    Require Elder Approval
-                  </label>
-                  <p className="text-xs text-gray-600 mt-1">
-                    Have this story approved by community elders before publication
-                  </p>
-                </div>
-              </div>
+                  <div className="flex items-start gap-3">
+                    <Switch
+                      id="elder-approval"
+                      checked={formData.elder_approval_required}
+                      onCheckedChange={(checked) => handleInputChange('elder_approval_required', checked)}
+                    />
+                    <div>
+                      <label htmlFor="elder-approval" className="text-sm font-medium cursor-pointer">
+                        Elder Approval
+                      </label>
+                      <p className="text-xs text-gray-600 mt-1">
+                        Have this story approved by community elders before publication
+                      </p>
+                    </div>
+                  </div>
+                </>
+              )}
 
               <div className="flex items-start gap-3">
                 <Switch
@@ -533,16 +561,16 @@ export default function CreateStoryPage() {
                     Nominate as Featured Story
                   </label>
                   <p className="text-xs text-gray-600 mt-1">
-                    Suggest this story for featuring on the platform
+                    Suggest this story for highlighting on the platform
                   </p>
                 </div>
               </div>
 
-              {formData.cultural_sensitivity_level === 'high' && !formData.elder_approval_required && (
+              {formData.cultural_sensitivity_level === 'sacred' && !formData.elder_approval_required && (
                 <Alert className="border-amber-200 bg-amber-50">
                   <AlertTriangle className="h-4 w-4 text-amber-600" />
                   <AlertDescription className="text-amber-800">
-                    High sensitivity stories typically require elder approval to ensure cultural protocols are respected.
+                    Sacred or highly sensitive stories typically require elder approval to ensure cultural protocols are respected.
                   </AlertDescription>
                 </Alert>
               )}
@@ -576,7 +604,10 @@ export default function CreateStoryPage() {
               </div>
               
               <Typography variant="small" className="text-gray-600 text-center sm:text-right">
-                Stories undergo cultural review to ensure respectful sharing
+                {(formData.story_type === 'cultural' || formData.cultural_sensitivity_level === 'cultural' || formData.cultural_sensitivity_level === 'sacred')
+                  ? 'Cultural stories undergo review to ensure respectful sharing'
+                  : 'Your story will be published once submitted for review'
+                }
               </Typography>
             </div>
           </Card>

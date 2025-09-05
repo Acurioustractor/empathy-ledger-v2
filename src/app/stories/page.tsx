@@ -55,11 +55,14 @@ interface StoriesResponse {
 }
 
 const STORY_TYPES = [
-  { value: 'traditional', label: 'Traditional' },
-  { value: 'personal', label: 'Personal' },
-  { value: 'historical', label: 'Historical' },
+  { value: 'personal', label: 'Personal Journey' },
+  { value: 'family', label: 'Family Stories' },
+  { value: 'community', label: 'Community Stories' },
+  { value: 'cultural', label: 'Cultural Heritage' },
+  { value: 'professional', label: 'Professional Life' },
+  { value: 'historical', label: 'Historical Events' },
   { value: 'educational', label: 'Educational' },
-  { value: 'healing', label: 'Healing' }
+  { value: 'healing', label: 'Healing & Recovery' }
 ]
 
 const AUDIENCES = [
@@ -70,10 +73,10 @@ const AUDIENCES = [
   { value: 'elders', label: 'Elders' }
 ]
 
-const CULTURAL_SENSITIVITY = [
-  { value: 'low', label: 'Low Sensitivity' },
-  { value: 'medium', label: 'Medium Sensitivity' },
-  { value: 'high', label: 'High Sensitivity' }
+const CONTENT_LEVELS = [
+  { value: 'public', label: 'Public Stories' },
+  { value: 'sensitive', label: 'Culturally Sensitive' },
+  { value: 'community', label: 'Community Only' }
 ]
 
 export default function StoriesPage() {
@@ -165,11 +168,11 @@ export default function StoriesPage() {
               <BookOpen className="h-12 w-12 text-earth-300" />
             </div>
             <Typography variant="h1" className="text-white mb-4">
-              Cultural Stories
+              All Stories
             </Typography>
             <Typography variant="large" className="text-earth-200 max-w-2xl mx-auto">
-              Discover the rich tapestry of cultural narratives, traditional wisdom, 
-              and personal stories from our diverse community of storytellers.
+              Discover the rich tapestry of human experience - personal journeys, family histories, 
+              community tales, and cultural wisdom from storytellers around the world.
             </Typography>
             <div className="flex justify-center mt-6 gap-6 text-earth-300">
               <div className="flex items-center gap-2">
@@ -178,11 +181,11 @@ export default function StoriesPage() {
               </div>
               <div className="flex items-center gap-2">
                 <Users className="h-5 w-5" />
-                <span>Community Contributors</span>
+                <span>Global Contributors</span>
               </div>
               <div className="flex items-center gap-2">
-                <Crown className="h-5 w-5" />
-                <span>Elder Approved</span>
+                <Star className="h-5 w-5" />
+                <span>Featured Stories</span>
               </div>
             </div>
           </div>
@@ -279,18 +282,16 @@ export default function StoriesPage() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Cultural Sensitivity</label>
+                  <label className="text-sm font-medium mb-2 block">Content Level</label>
                   <Select value={filters.cultural_sensitivity} onValueChange={(value) => handleFilterChange('cultural_sensitivity', value)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Any level" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="">Any level</SelectItem>
-                      {CULTURAL_SENSITIVITY.map(level => (
-                        <SelectItem key={level.value} value={level.value}>
-                          {level.label}
-                        </SelectItem>
-                      ))}
+                      <SelectItem value="public">Public Stories</SelectItem>
+                      <SelectItem value="sensitive">Culturally Sensitive</SelectItem>
+                      <SelectItem value="community">Community Only</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
