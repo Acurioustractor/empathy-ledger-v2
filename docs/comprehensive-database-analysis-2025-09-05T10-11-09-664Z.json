@@ -1,0 +1,69 @@
+{
+  "timestamp": "2025-09-05T10:11:08.832Z",
+  "project_id": "yvnuayzslukamizrlhwb",
+  "summary": {
+    "connection_status": {
+      "anon_client": "failed",
+      "admin_client": "failed",
+      "anon_error": "Invalid API key",
+      "admin_error": "Invalid API key"
+    }
+  },
+  "schema": {
+    "tables_error": "Invalid API key",
+    "columns_error": "Invalid API key",
+    "indexes_error": "Invalid API key",
+    "foreign_keys": []
+  },
+  "rls_policies": {},
+  "storage": {
+    "error": "signature verification failed"
+  },
+  "auth": {
+    "current_user": "authenticated",
+    "auth_error": "Auth session missing!"
+  },
+  "functions": {
+    "error": "Invalid API key"
+  },
+  "data_quality": {},
+  "performance": {
+    "connection_test_time": 1757067069664,
+    "total_tables": 0,
+    "total_indexes": 0,
+    "total_buckets": 0,
+    "analysis_timestamp": "2025-09-05T10:11:09.664Z"
+  },
+  "cultural_compliance": {
+    "cultural_columns_found": 0,
+    "cultural_functions_found": 0,
+    "consent_tracking": false,
+    "elder_review_system": false,
+    "privacy_controls": false,
+    "cultural_safety_score": 0,
+    "compliance_level": "low"
+  },
+  "recommendations": [
+    {
+      "category": "schema",
+      "priority": "critical",
+      "title": "Database Schema Missing",
+      "description": "No tables found in the database. Core schema needs to be deployed.",
+      "action": "Run database initialization scripts"
+    },
+    {
+      "category": "cultural",
+      "priority": "critical",
+      "title": "Cultural Compliance Enhancement Needed",
+      "description": "Cultural safety score is 0/100. Missing key cultural protection features.",
+      "action": "Implement consent tracking, elder review system, and privacy controls"
+    },
+    {
+      "category": "storage",
+      "priority": "high",
+      "title": "Storage Buckets Not Configured",
+      "description": "No storage buckets found for media management.",
+      "action": "Set up storage buckets for photos, videos, and documents"
+    }
+  ]
+}

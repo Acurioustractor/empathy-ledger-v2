@@ -52,6 +52,15 @@ const mainNavigation: NavigationItem[] = [
 
 const authenticatedNavigation: NavigationItem[] = [
   {
+    name: 'Create Story',
+    href: '/stories/create',
+    icon: <BookOpen className="w-4 h-4" />,
+    description: 'Share your cultural narrative',
+    requiresAuth: true,
+    showFor: 'authenticated',
+    badge: 'New'
+  },
+  {
     name: 'Dashboard',
     href: '/dashboard',
     description: 'Your personal storytelling space',

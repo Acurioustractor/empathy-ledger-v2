@@ -1,0 +1,52 @@
+{
+  "timestamp": "2025-09-05T10:21:00.964Z",
+  "connection": {
+    "status": "failed",
+    "error": "Could not find the table 'public.information_schema.tables' in the schema cache",
+    "timestamp": "2025-09-05T10:21:01.372Z"
+  },
+  "schema": {
+    "tables": [],
+    "views": [],
+    "functions": [],
+    "triggers": []
+  },
+  "data": {
+    "tableCounts": {},
+    "sampleData": {},
+    "dataQuality": {}
+  },
+  "security": {
+    "rlsPolicies": [],
+    "authConfig": null,
+    "storagePolicies": []
+  },
+  "storage": {
+    "buckets": [],
+    "policies": [],
+    "usage": {}
+  },
+  "performance": {
+    "indexes": [],
+    "constraints": [],
+    "stats": {}
+  },
+  "missingComponents": [],
+  "recommendations": [
+    {
+      "priority": "critical",
+      "category": "security",
+      "title": "Implement Row Level Security",
+      "description": "No RLS policies detected. This is a critical security gap.",
+      "action": "Deploy comprehensive RLS policies for data protection"
+    },
+    {
+      "priority": "high",
+      "category": "storage",
+      "title": "Configure Storage Buckets",
+      "description": "No storage buckets found for media management.",
+      "action": "Create and configure storage buckets for profiles, media, and transcripts"
+    }
+  ],
+  "error": "Could not find the table 'public.information_schema.tables' in the schema cache"
+}
