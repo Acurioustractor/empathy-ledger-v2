@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
     }
     
     if (storytellerId) {
-      query = query.eq('storyteller_id', storytellerId)
+      query = query.eq('author_id', storytellerId)
     }
     
     if (location) {
@@ -125,7 +125,6 @@ export async function POST(request: NextRequest) {
       title: body.title,
       content: body.content,
       author_id: body.author_id,
-      storyteller_id: body.storyteller_id || null,
       status: body.status || 'draft',
       featured: body.featured || false,
       cultural_context: body.cultural_context || null,
