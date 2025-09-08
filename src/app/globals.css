@@ -22,14 +22,47 @@
   --color-earth-700: #6b5a4a;
   --color-earth-800: #4a3f33;
   --color-earth-900: #2c241c;
+
+  /* Clay Color Palette */
+  --color-clay-50: #fdf8f6;
+  --color-clay-100: #f2e8e0;
+  --color-clay-200: #e3d1c5;
+  --color-clay-300: #d3b9aa;
+  --color-clay-400: #c1a08f;
+  --color-clay-500: #a8866e;
+  --color-clay-600: #8f6d54;
+  --color-clay-700: #75583f;
+  --color-clay-800: #5c442b;
+  --color-clay-900: #3d2d1c;
+  --color-clay-950: #2a1f12;
+
+  /* Sage Color Palette */
+  --color-sage-50: #f7f8f6;
+  --color-sage-100: #e8ebe5;
+  --color-sage-200: #d2d7ca;
+  --color-sage-300: #b7c2ae;
+  --color-sage-400: #9cad92;
+  --color-sage-500: #7e9774;
+  --color-sage-600: #67805c;
+  --color-sage-700: #526946;
+  --color-sage-800: #3e5131;
+  --color-sage-900: #2a3620;
+  --color-sage-950: #1d2416;
+
+  /* Sky Color Palette */
+  --color-sky-50: #f0f9ff;
+  --color-sky-100: #e0f2fe;
+  --color-sky-200: #bae6fd;
+  --color-sky-300: #7dd3fc;
+  --color-sky-400: #38bdf8;
+  --color-sky-500: #0ea5e9;
+  --color-sky-600: #0284c7;
+  --color-sky-700: #0369a1;
+  --color-sky-800: #075985;
+  --color-sky-900: #0c4a6e;
+  --color-sky-950: #082f49;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 
 body {
   background: var(--background);
@@ -63,4 +96,9 @@ body {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+/* Cultural shadow utility */
+.shadow-cultural {
+  box-shadow: 0 4px 6px -1px rgba(120, 113, 108, 0.1), 0 2px 4px -2px rgba(120, 113, 108, 0.1);
 }

@@ -384,7 +384,7 @@ export default function EditStoryPage({ params }: { params: { id: string } }) {
                     <SelectValue placeholder="Select a storyteller or leave blank" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">None (Author only)</SelectItem>
+                    <SelectItem value="none">None (Author only)</SelectItem>
                     {storytellers.map(storyteller => (
                       <SelectItem key={storyteller.id} value={storyteller.id}>
                         {storyteller.display_name}

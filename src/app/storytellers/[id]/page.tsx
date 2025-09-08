@@ -10,6 +10,8 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { StoryCard } from '@/components/story/story-card'
 import { Card } from '@/components/ui/card'
+import Header from '@/components/layout/header'
+import Footer from '@/components/layout/footer'
 import { cn } from '@/lib/utils'
 import { 
   Crown, 
@@ -209,6 +211,7 @@ export default function StorytellerProfilePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 to-earth-50">
+      <Header />
       <div className="container mx-auto px-4 py-8">
         {/* Back Navigation */}
         <div className="mb-6">
@@ -680,6 +683,7 @@ export default function StorytellerProfilePage() {
           </TabsContent>
         </Tabs>
       </div>
+      <Footer />
     </div>
   )
 }

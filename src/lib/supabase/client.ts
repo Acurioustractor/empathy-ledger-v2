@@ -13,23 +13,7 @@ if (!supabaseAnonKey) {
 }
 
 // Client-side Supabase client for browser usage
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-    flowType: 'pkce',
-    storage: typeof window !== 'undefined' ? window.localStorage : undefined,
-  },
-  db: {
-    schema: 'public',
-  },
-  global: {
-    headers: {
-      'x-application-name': 'empathy-ledger',
-    },
-  },
-})
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey)
 
 // Create a function to get a fresh client instance
 export const createSupabaseClient = () => {

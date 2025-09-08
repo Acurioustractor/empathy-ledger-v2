@@ -131,6 +131,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(null)
       setSession(null)
       setProfile(null)
+      // Redirect to home page after sign out
+      if (typeof window !== 'undefined') {
+        window.location.href = '/'
+      }
     } catch (error) {
       console.error('Error signing out:', error)
     }

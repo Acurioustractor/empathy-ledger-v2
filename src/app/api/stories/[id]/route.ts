@@ -10,36 +10,19 @@ interface RouteParams {
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id } = params
-    const supabase = createSupabaseServerClient()
+    const { id } = await params
+    const supabase = await createSupabaseServerClient()
     
     const { data: story, error } = await supabase
       .from('stories')
       .select(`
         *,
-        storyteller:storytellers(
-          id,
-          display_name,
-          bio,
-          cultural_background,
-          elder_status,
-          specialties,
-          years_of_experience,
-          storytelling_style,
-          profile:profiles(
-            avatar_url,
-            cultural_affiliations,
-            pronouns
-          )
-        ),
         author:profiles!stories_author_id_fkey(
           id,
           display_name,
-          first_name,
-          last_name,
-          avatar_url,
-          bio,
-          cultural_affiliations
+          full_name,
+          profile_image_url,
+          cultural_background
         )
       `)
       .eq('id', id)
@@ -80,7 +63,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = params
     const body = await request.json()
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Calculate reading time if content is being updated
     let readingTimeMinutes = body.reading_time_minutes
@@ -108,19 +91,12 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       .eq('id', id)
       .select(`
         *,
-        storyteller:storytellers(
-          id,
-          display_name,
-          bio,
-          cultural_background,
-          elder_status
-        ),
         author:profiles!stories_author_id_fkey(
           id,
           display_name,
-          first_name,
-          last_name,
-          avatar_url
+          full_name,
+          profile_image_url,
+          cultural_background
         )
       `)
       .single()
@@ -153,7 +129,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     const { error } = await supabase
       .from('stories')

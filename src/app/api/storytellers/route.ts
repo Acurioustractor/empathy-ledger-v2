@@ -6,48 +6,38 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
-    const limit = parseInt(searchParams.get('limit') || '20')
+    const limit = parseInt(searchParams.get('limit') || '1000')
     const search = searchParams.get('search') || ''
     const status = searchParams.get('status') || 'active'
     const featured = searchParams.get('featured')
     const elder = searchParams.get('elder')
     const culturalBackground = searchParams.get('cultural_background')
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
+    // Query profiles table for all profiles (treating them as storytellers)
     let query = supabase
-      .from('storytellers')
+      .from('profiles')
       .select(`
         *,
-        profile:profiles(
-          avatar_url,
-          cultural_affiliations,
-          pronouns,
-          display_name,
-          bio
-        )
-      `)
+        stories!stories_author_id_fkey(count)
+      `, { count: 'exact' })
 
-    // Apply filters
-    if (status !== 'all') {
-      query = query.eq('status', status)
-    }
-    
-    if (featured === 'true') {
-      query = query.eq('featured', true)
-    }
-    
-    if (elder === 'true') {
-      query = query.eq('elder_status', true)
-    }
-    
-    if (culturalBackground) {
-      query = query.ilike('cultural_background', `%${culturalBackground}%`)
+    // Apply elder filter (skip for now until we know database schema)
+    // if (elder === 'true') {
+    //   query = query.eq('is_elder', true)
+    // } else if (elder === 'false') {
+    //   query = query.eq('is_elder', false)
+    // }
+
+    // Apply cultural background filter
+    if (culturalBackground && culturalBackground !== 'all') {
+      query = query.eq('cultural_background', culturalBackground)
     }
 
     // Apply search
     if (search) {
-      query = query.or(`display_name.ilike.%${search}%,bio.ilike.%${search}%,cultural_background.ilike.%${search}%`)
+      query = query.or(`display_name.ilike.%${search}%,bio.ilike.%${search}%`)
     }
 
     // Apply pagination and ordering
@@ -56,7 +46,8 @@ export async function GET(request: NextRequest) {
       .order('display_name', { ascending: true })
       .range(offset, offset + limit - 1)
 
-    const { data: storytellers, error, count } = await query
+    // Get count and data
+    const { data: profiles, error, count } = await query
 
     if (error) {
       console.error('Error fetching storytellers:', error)
@@ -66,8 +57,64 @@ export async function GET(request: NextRequest) {
       )
     }
 
+    // Helper function to extract themes from bio text
+    const extractThemesFromBio = (bio: string): string[] => {
+      if (!bio) return []
+      const themes = []
+      const keywords = ['family', 'community', 'health', 'business', 'environment', 'education', 'culture', 'tradition', 'healing', 'land', 'country', 'elders', 'youth', 'stories', 'wisdom', 'connection', 'identity', 'heritage', 'language', 'ceremony']
+      keywords.forEach(keyword => {
+        if (bio.toLowerCase().includes(keyword)) {
+          themes.push(keyword.charAt(0).toUpperCase() + keyword.slice(1))
+        }
+      })
+      return [...new Set(themes)] // Remove duplicates
+    }
+
+    // Helper function to extract location mentions from bio
+    const extractLocationFromBio = (bio: string): string | null => {
+      if (!bio) return null
+      const locationMatch = bio.match(/Growing up in ([^,]+)/i)
+      if (locationMatch && locationMatch[1] && locationMatch[1].trim() !== 'na') {
+        return locationMatch[1].trim()
+      }
+      return null
+    }
+
+    // Transform profiles to storyteller format
+    const storytellers = (profiles || []).map(profile => {
+      const bio = profile.bio || ''
+      const themes = extractThemesFromBio(bio)
+      const location = extractLocationFromBio(bio)
+      const storyCount = profile.stories ? profile.stories.length : 0
+      
+      return {
+        id: profile.id,
+        display_name: profile.display_name || profile.preferred_name || 'Unknown Storyteller',
+        bio: bio,
+        cultural_background: profile.cultural_background,
+        specialties: themes,
+        years_of_experience: null,
+        preferred_topics: profile.interests || [],
+        story_count: storyCount,
+        featured: storyCount > 0,
+        status: 'active' as const,
+        elder_status: false,
+        storytelling_style: null,
+        location: location,
+        occupation: profile.occupation,
+        languages: profile.languages_spoken,
+        profile: {
+          avatar_url: profile.profile_image_url,
+          cultural_affiliations: profile.cultural_affiliations,
+          pronouns: profile.preferred_pronouns,
+          display_name: profile.display_name,
+          bio: profile.bio
+        }
+      }
+    })
+
     return NextResponse.json({
-      storytellers: storytellers || [],
+      storytellers,
       pagination: {
         page,
         limit,
@@ -97,7 +144,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const storytellerData: StorytellerInsert = {
       profile_id: body.profile_id,

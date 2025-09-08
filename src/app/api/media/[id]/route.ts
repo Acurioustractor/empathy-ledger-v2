@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { createSupabaseClient } from '@/lib/supabase/client-ssr'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import type { MediaAssetUpdate } from '@/types/database'
 
 interface Params {
@@ -8,11 +8,11 @@ interface Params {
 
 export async function GET(
   request: Request,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseClient()
-    const { id } = params
+    const supabase = await createSupabaseServerClient()
+    const { id } = await params
     
     // Get current user for permission checks
     const { data: { user } } = await supabase.auth.getUser()
@@ -130,7 +130,7 @@ export async function PUT(
   { params }: { params: Params }
 ) {
   try {
-    const supabase = createSupabaseClient()
+    const supabase = await createSupabaseServerClient()
     const { id } = params
     
     // Check authentication
@@ -202,7 +202,7 @@ export async function DELETE(
   { params }: { params: Params }
 ) {
   try {
-    const supabase = createSupabaseClient()
+    const supabase = await createSupabaseServerClient()
     const { id } = params
     
     // Check authentication

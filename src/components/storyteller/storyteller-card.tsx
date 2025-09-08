@@ -35,6 +35,9 @@ interface StorytellerCardProps {
     status: 'active' | 'inactive' | 'pending'
     elder_status: boolean
     storytelling_style: string[] | null
+    location?: string | null
+    occupation?: string | null
+    languages?: string[] | null
     profile?: {
       avatar_url?: string
       cultural_affiliations?: string[]
@@ -96,124 +99,127 @@ export function StorytellerCard({
   return (
     <Card 
       className={cn(
-        'group transition-all duration-300 hover:shadow-xl border-l-4 overflow-hidden',
-        isFeatured && 'border-l-amber-400 bg-gradient-to-br from-amber-50 to-white shadow-lg',
-        !isFeatured && isElder && 'border-l-purple-400 bg-gradient-to-br from-purple-50 to-white',
-        !isFeatured && !isElder && 'border-l-earth-400 hover:border-l-earth-500',
-        variant === 'compact' && 'p-4',
+        'group transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 overflow-hidden bg-white border-0 shadow-lg',
+        'rounded-2xl backdrop-blur-sm',
+        isFeatured && 'ring-2 ring-amber-200 shadow-amber-100/50',
+        isElder && 'ring-2 ring-purple-200 shadow-purple-100/50',
         !isActive && 'opacity-75',
         className
       )}
     >
-      <div className="p-6">
-        {/* Header with Avatar and Status */}
-        <div className="flex items-start gap-4 mb-4">
-          <div className="relative">
-            <Avatar className="h-16 w-16">
-              <AvatarImage 
-                src={storyteller.profile?.avatar_url} 
-                alt={storyteller.display_name}
-              />
-              <AvatarFallback className="bg-earth-200 text-earth-700 text-lg">
+      {/* Large Profile Image Header */}
+      <div className="relative h-64 bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden">
+        {storyteller.profile?.avatar_url ? (
+          <img
+            src={storyteller.profile.avatar_url}
+            alt={storyteller.display_name}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 via-purple-50 to-rose-100">
+            <div className="w-32 h-32 rounded-full bg-white/90 flex items-center justify-center shadow-2xl backdrop-blur-sm">
+              <span className="text-4xl font-bold text-slate-700">
                 {getInitials(storyteller.display_name)}
-              </AvatarFallback>
-            </Avatar>
-            
-            {/* Status Indicators */}
-            <div className="absolute -top-1 -right-1 flex flex-col gap-1">
-              {isFeatured && (
-                <div className="bg-amber-400 rounded-full p-1">
-                  <Star className="w-3 h-3 text-white" />
-                </div>
-              )}
-              {isElder && (
-                <div className="bg-purple-500 rounded-full p-1">
-                  <Crown className="w-3 h-3 text-white" />
-                </div>
-              )}
+              </span>
             </div>
           </div>
-
-          <div className="flex-1">
-            <div className="flex items-start justify-between">
-              <div>
-                <Link href={`/storytellers/${storyteller.id}`}>
-                  <Typography 
-                    variant="h4" 
-                    className="group-hover:text-earth-700 transition-colors cursor-pointer"
-                  >
-                    {storyteller.display_name}
-                  </Typography>
-                </Link>
-                
-                {storyteller.profile?.pronouns && (
-                  <Typography variant="small" className="text-gray-500 mb-1">
-                    {storyteller.profile.pronouns}
-                  </Typography>
-                )}
-
-                {storyteller.cultural_background && (
-                  <div className="flex items-center gap-1 mb-2">
-                    <MapPin className="w-3 h-3 text-gray-400" />
-                    <Typography variant="small" className="text-gray-600">
-                      {storyteller.cultural_background}
-                    </Typography>
-                  </div>
-                )}
-              </div>
-
-              {/* Badges */}
-              <div className="flex flex-col gap-1 items-end">
-                {isFeatured && (
-                  <Badge className="bg-amber-100 text-amber-800 text-xs">
-                    Featured
-                  </Badge>
-                )}
-                {isElder && (
-                  <Badge className="bg-purple-100 text-purple-800 text-xs">
-                    <Crown className="w-3 h-3 mr-1" />
-                    Elder
-                  </Badge>
-                )}
-                <Badge className={cn('text-xs', statusColors[storyteller.status])}>
-                  {storyteller.status}
-                </Badge>
+        )}
+        
+        {/* Elegant overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+        
+        {/* Status indicators - floating badges */}
+        <div className="absolute top-4 right-4 flex flex-col gap-2">
+          {isFeatured && (
+            <div className="bg-amber-400/90 backdrop-blur-md rounded-full px-3 py-1 shadow-lg">
+              <div className="flex items-center gap-1">
+                <Star className="w-3 h-3 text-white" />
+                <span className="text-xs font-medium text-white">Featured</span>
               </div>
             </div>
-          </div>
+          )}
+          {isElder && (
+            <div className="bg-purple-500/90 backdrop-blur-md rounded-full px-3 py-1 shadow-lg">
+              <div className="flex items-center gap-1">
+                <Crown className="w-3 h-3 text-white" />
+                <span className="text-xs font-medium text-white">Elder</span>
+              </div>
+            </div>
+          )}
+        </div>
+        
+        {/* Name overlay at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent p-6">
+          <Link href={`/storytellers/${storyteller.id}`}>
+            <Typography 
+              variant="h3" 
+              className="text-white font-bold group-hover:text-amber-200 transition-colors cursor-pointer drop-shadow-lg"
+            >
+              {storyteller.display_name}
+            </Typography>
+          </Link>
+          {(storyteller.location || storyteller.cultural_background) && (
+            <div className="flex items-center gap-1 mt-1">
+              <MapPin className="w-3 h-3 text-white/80" />
+              <Typography variant="small" className="text-white/90 font-medium">
+                {storyteller.location || storyteller.cultural_background}
+              </Typography>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Content section */}
+      <div className="p-6">
+        {/* Pronouns and Occupation */}
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+          {storyteller.profile?.pronouns && (
+            <span className="text-slate-500 text-sm font-medium">
+              {storyteller.profile.pronouns}
+            </span>
+          )}
+          {storyteller.occupation && (
+            <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">
+              {storyteller.occupation}
+            </span>
+          )}
         </div>
 
         {/* Bio */}
         {storyteller.bio && (
-          <div className="mb-4">
-            <Typography variant="body" className="text-gray-600 leading-relaxed text-sm">
-              {truncateBio(storyteller.bio)}
+          <div className="mb-6">
+            <Typography variant="body" className="text-slate-600 leading-relaxed">
+              {truncateBio(storyteller.bio, 140)}
             </Typography>
           </div>
         )}
 
-        {/* Experience and Stats */}
-        <div className="grid grid-cols-2 gap-4 mb-4 p-3 bg-gray-50 rounded-lg">
-          <div className="text-center">
-            <div className="flex items-center justify-center mb-1">
-              <BookOpen className="w-4 h-4 text-earth-600" />
+        {/* Refined Stats */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="text-center p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
+            <div className="flex items-center justify-center mb-2">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <BookOpen className="w-4 h-4 text-blue-600" />
+              </div>
             </div>
-            <Typography variant="h4" className="text-earth-800">
+            <Typography variant="h3" className="text-slate-800 font-bold">
               {storyteller.story_count}
             </Typography>
-            <Typography variant="small" className="text-gray-600">
+            <Typography variant="small" className="text-slate-500 font-medium">
               {storyteller.story_count === 1 ? 'Story' : 'Stories'}
             </Typography>
           </div>
           
-          <div className="text-center">
-            <div className="flex items-center justify-center mb-1">
-              <Calendar className="w-4 h-4 text-earth-600" />
+          <div className="text-center p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
+            <div className="flex items-center justify-center mb-2">
+              <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
+                <Calendar className="w-4 h-4 text-emerald-600" />
+              </div>
             </div>
-            <Typography variant="h4" className="text-earth-800">
+            <Typography variant="h3" className="text-slate-800 font-bold">
               {storyteller.years_of_experience || 'New'}
             </Typography>
-            <Typography variant="small" className="text-gray-600">
+            <Typography variant="small" className="text-slate-500 font-medium">
               {storyteller.years_of_experience ? 
                 (storyteller.years_of_experience === 1 ? 'Year' : 'Years') : 
                 'Storyteller'
@@ -222,117 +228,78 @@ export function StorytellerCard({
           </div>
         </div>
 
-        {/* Experience Level Badge */}
-        {storyteller.years_of_experience && (
-          <div className="mb-4">
-            <Badge variant="outline" className="text-xs bg-earth-50 text-earth-700">
-              <Award className="w-3 h-3 mr-1" />
-              {getExperienceLabel(storyteller.years_of_experience)}
-            </Badge>
-          </div>
-        )}
-
-        {/* Specialties */}
+        {/* Specialties - Only show if they exist */}
         {storyteller.specialties && storyteller.specialties.length > 0 && (
-          <div className="mb-4">
-            <Typography variant="small" className="text-gray-700 mb-2 font-medium">
+          <div className="mb-6">
+            <Typography variant="small" className="text-slate-500 mb-3 font-semibold uppercase tracking-wide">
               Specialties
             </Typography>
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap gap-2">
               {storyteller.specialties.slice(0, 3).map((specialty, index) => (
-                <Badge 
+                <span 
                   key={index} 
-                  variant="secondary" 
-                  className={cn('text-xs', specialtyColors[index % specialtyColors.length])}
+                  className="px-3 py-1 bg-gradient-to-r from-blue-50 to-indigo-50 text-indigo-700 rounded-full text-xs font-medium border border-indigo-100"
                 >
                   {specialty}
-                </Badge>
+                </span>
               ))}
               {storyteller.specialties.length > 3 && (
-                <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-600">
+                <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">
                   +{storyteller.specialties.length - 3} more
-                </Badge>
+                </span>
               )}
             </div>
           </div>
         )}
 
-        {/* Storytelling Styles */}
-        {storyteller.storytelling_style && storyteller.storytelling_style.length > 0 && (
-          <div className="mb-4">
-            <Typography variant="small" className="text-gray-700 mb-2 font-medium">
-              Storytelling Style
-            </Typography>
-            <div className="flex flex-wrap gap-1">
-              {storyteller.storytelling_style.slice(0, 2).map((style, index) => (
-                <Badge key={index} variant="outline" className="text-xs">
-                  {style}
-                </Badge>
-              ))}
-              {storyteller.storytelling_style.length > 2 && (
-                <Badge variant="outline" className="text-xs text-gray-500">
-                  +{storyteller.storytelling_style.length - 2}
-                </Badge>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Cultural Affiliations */}
+        {/* Cultural Affiliations - Only show if they exist */}
         {storyteller.profile?.cultural_affiliations && storyteller.profile.cultural_affiliations.length > 0 && (
-          <div className="mb-4">
-            <Typography variant="small" className="text-gray-700 mb-2 font-medium">
-              Cultural Affiliations
+          <div className="mb-6">
+            <Typography variant="small" className="text-slate-500 mb-3 font-semibold uppercase tracking-wide">
+              Cultural Connections
             </Typography>
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap gap-2">
               {storyteller.profile.cultural_affiliations.slice(0, 2).map((affiliation, index) => (
-                <Badge key={index} variant="outline" className="text-xs bg-sage-50 text-sage-700">
-                  <Users className="w-3 h-3 mr-1" />
+                <span key={index} className="px-3 py-1 bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 rounded-full text-xs font-medium border border-emerald-100 flex items-center gap-1">
+                  <Users className="w-3 h-3" />
                   {affiliation}
-                </Badge>
+                </span>
               ))}
             </div>
           </div>
         )}
 
-        {/* Actions */}
+        {/* Languages - Only show if they exist */}
+        {storyteller.languages && storyteller.languages.length > 0 && (
+          <div className="mb-6">
+            <Typography variant="small" className="text-slate-500 mb-3 font-semibold uppercase tracking-wide">
+              Languages
+            </Typography>
+            <div className="flex flex-wrap gap-2">
+              {storyteller.languages.slice(0, 3).map((language, index) => (
+                <span key={index} className="px-3 py-1 bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 rounded-full text-xs font-medium border border-purple-100">
+                  {language}
+                </span>
+              ))}
+              {storyteller.languages.length > 3 && (
+                <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">
+                  +{storyteller.languages.length - 3} more
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Elegant Actions */}
         {showActions && (
-          <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t border-gray-100">
+          <div className="pt-6 border-t border-slate-100">
             <Button 
-              variant="default" 
-              size="sm"
-              className="flex-1 group/button"
+              className="w-full bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-900 hover:to-black text-white rounded-xl py-3 font-semibold transition-all duration-300 group"
               asChild
             >
               <Link href={`/storytellers/${storyteller.id}`} className="flex items-center justify-center">
                 View Profile
-                <ChevronRight className="w-4 h-4 ml-1 group-hover/button:translate-x-0.5 transition-transform" />
-              </Link>
-            </Button>
-            
-            {showStories && storyteller.story_count > 0 && (
-              <Button 
-                variant="outline" 
-                size="sm"
-                className="flex-1"
-                asChild
-              >
-                <Link href={`/storytellers/${storyteller.id}/stories`} className="flex items-center justify-center">
-                  <BookOpen className="w-4 h-4 mr-1" />
-                  View Stories ({storyteller.story_count})
-                </Link>
-              </Button>
-            )}
-            
-            <Button 
-              variant="ghost" 
-              size="sm"
-              className="flex-1"
-              asChild
-            >
-              <Link href={`/storytellers/${storyteller.id}/contact`} className="flex items-center justify-center">
-                <MessageCircle className="w-4 h-4 mr-1" />
-                Contact
+                <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
             </Button>
           </div>

@@ -1,0 +1,2140 @@
+{
+  "timestamp": "2025-09-05T19:46:19.937Z",
+  "project_url": "https://yvnuayzslukamizrlhwb.supabase.co",
+  "tables": {
+    "profiles": {
+      "exists": true,
+      "accessible": true,
+      "row_count": 223,
+      "error": null,
+      "columns": {
+        "id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "ca4958b8-a501-40e1-9b17-ac466052511d"
+        },
+        "tenant_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "c22fcf84-5a09-4893-a8ef-758c781e88a8"
+        },
+        "full_name": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "David"
+        },
+        "email": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "bio": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "profile_image_url": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "https://yvnuayzslukamizrlhwb.supabase.co/storage/v1/object/public/avatars/storytellers/david_profile"
+        },
+        "cultural_background": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "preferred_pronouns": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "tenant_roles": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "[\"storyteller\"]"
+        },
+        "cross_tenant_sharing": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "legacy_storyteller_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "ca4958b8-a501-40e1-9b17-ac466052511d"
+        },
+        "airtable_record_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "geographic_connections": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "consent_given": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "true"
+        },
+        "consent_date": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "consent_version": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "1.0"
+        },
+        "privacy_preferences": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "{}"
+        },
+        "story_visibility_level": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "community"
+        },
+        "quote_sharing_consent": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "impact_story_promotion": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "wisdom_sharing_level": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "open_to_mentoring": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "available_for_collaboration": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "seeking_organizational_connections": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "interested_in_peer_support": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "narrative_ownership_level": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "attribution_preferences": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "story_use_permissions": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "platform_benefit_sharing": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "ai_processing_consent": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "ai_consent_date": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "ai_consent_scope": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "{}"
+        },
+        "generated_themes": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "created_at": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "updated_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-09-01T20:20:21.603117+00:00"
+        },
+        "display_name": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "David"
+        },
+        "personal_statement": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "life_motto": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "phone_number": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "date_of_birth": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "age_range": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "location_data": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "current_role": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "current_organization": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "years_of_experience": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "professional_summary": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "industry_sectors": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "profile_visibility": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "community"
+        },
+        "profile_image_alt_text": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "website_url": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "linkedin_profile_url": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "resume_url": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "legacy_organization_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "legacy_project_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "legacy_location_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "legacy_user_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "legacy_airtable_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "migrated_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-08-27T02:43:19.266+00:00"
+        },
+        "migration_quality_score": {
+          "type": "number",
+          "has_sample_data": true,
+          "sample_value": "40"
+        },
+        "ai_enhanced_bio": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "ai_personality_insights": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "ai_themes": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "[]"
+        },
+        "basic_info_visibility": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "professional_visibility": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "cultural_identity_visibility": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "cultural_communities_visibility": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "language_communities_visibility": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "stories_visibility": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "transcripts_visibility": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "media_visibility": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "allow_ai_analysis": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "allow_research_participation": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "allow_community_recommendations": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "requires_elder_review": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "traditional_knowledge_flag": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "cultural_protocol_level": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "profile_status": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        }
+      },
+      "sample_data": {
+        "id": "ca4958b8-a501-40e1-9b17-ac466052511d",
+        "tenant_id": "c22fcf84-5a09-4893-a8ef-758c781e88a8",
+        "full_name": "David",
+        "email": null,
+        "bio": null,
+        "profile_image_url": "https://yvnuayzslukamizrlhwb.supabase.co/storage/v1/object/public/avatars/storytellers/david_profile.jpg",
+        "cultural_background": null,
+        "preferred_pronouns": null,
+        "tenant_roles": [
+          "storyteller"
+        ],
+        "cross_tenant_sharing": false,
+        "legacy_storyteller_id": "ca4958b8-a501-40e1-9b17-ac466052511d",
+        "airtable_record_id": null,
+        "geographic_connections": null,
+        "consent_given": true,
+        "consent_date": null,
+        "consent_version": "1.0",
+        "privacy_preferences": {},
+        "story_visibility_level": "community",
+        "quote_sharing_consent": null,
+        "impact_story_promotion": null,
+        "wisdom_sharing_level": null,
+        "open_to_mentoring": null,
+        "available_for_collaboration": null,
+        "seeking_organizational_connections": null,
+        "interested_in_peer_support": null,
+        "narrative_ownership_level": null,
+        "attribution_preferences": null,
+        "story_use_permissions": null,
+        "platform_benefit_sharing": null,
+        "ai_processing_consent": false,
+        "ai_consent_date": null,
+        "ai_consent_scope": {},
+        "generated_themes": null,
+        "created_at": null,
+        "updated_at": "2025-09-01T20:20:21.603117+00:00",
+        "display_name": "David",
+        "personal_statement": null,
+        "life_motto": null,
+        "phone_number": null,
+        "date_of_birth": null,
+        "age_range": null,
+        "location_data": null,
+        "current_role": null,
+        "current_organization": null,
+        "years_of_experience": null,
+        "professional_summary": null,
+        "industry_sectors": null,
+        "profile_visibility": "community",
+        "profile_image_alt_text": null,
+        "website_url": null,
+        "linkedin_profile_url": null,
+        "resume_url": null,
+        "legacy_organization_id": null,
+        "legacy_project_id": null,
+        "legacy_location_id": null,
+        "legacy_user_id": null,
+        "legacy_airtable_id": null,
+        "migrated_at": "2025-08-27T02:43:19.266+00:00",
+        "migration_quality_score": 40,
+        "ai_enhanced_bio": null,
+        "ai_personality_insights": null,
+        "ai_themes": [],
+        "basic_info_visibility": null,
+        "professional_visibility": null,
+        "cultural_identity_visibility": null,
+        "cultural_communities_visibility": null,
+        "language_communities_visibility": null,
+        "stories_visibility": null,
+        "transcripts_visibility": null,
+        "media_visibility": null,
+        "allow_ai_analysis": null,
+        "allow_research_participation": null,
+        "allow_community_recommendations": null,
+        "requires_elder_review": null,
+        "traditional_knowledge_flag": null,
+        "cultural_protocol_level": null,
+        "profile_status": null
+      }
+    },
+    "organizations": {
+      "exists": true,
+      "accessible": true,
+      "row_count": 15,
+      "error": null,
+      "columns": {
+        "id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "4a1c31e8-89b7-476d-a74b-0c8b37efc850"
+        },
+        "tenant_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "96197009-c7bb-4408-89de-cd04085cdf44"
+        },
+        "name": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "Snow Foundation"
+        },
+        "description": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "A family philanthropic organisation that creates opportunities and strengthens resilience for a more"
+        },
+        "type": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "nonprofit"
+        },
+        "location": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "Canberra, Australia"
+        },
+        "website_url": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "https://snowfoundation.org.au"
+        },
+        "contact_email": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "hello@snowfoundation.org.au"
+        },
+        "logo_url": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "cultural_protocols": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "{\"privacy_default\":\"organization\",\"elder_approval_needed\":false,\"content_review_required\":true}"
+        },
+        "cultural_significance": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "Community support and winter relief programs"
+        },
+        "created_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-08-31T11:13:07.866742+00:00"
+        },
+        "updated_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-09-01T08:53:14.638+00:00"
+        },
+        "slug": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "snow-foundation"
+        }
+      },
+      "sample_data": {
+        "id": "4a1c31e8-89b7-476d-a74b-0c8b37efc850",
+        "tenant_id": "96197009-c7bb-4408-89de-cd04085cdf44",
+        "name": "Snow Foundation",
+        "description": "A family philanthropic organisation that creates opportunities and strengthens resilience for a more caring and inclusive community.",
+        "type": "nonprofit",
+        "location": "Canberra, Australia",
+        "website_url": "https://snowfoundation.org.au",
+        "contact_email": "hello@snowfoundation.org.au",
+        "logo_url": null,
+        "cultural_protocols": {
+          "privacy_default": "organization",
+          "elder_approval_needed": false,
+          "content_review_required": true
+        },
+        "cultural_significance": "Community support and winter relief programs",
+        "created_at": "2025-08-31T11:13:07.866742+00:00",
+        "updated_at": "2025-09-01T08:53:14.638+00:00",
+        "slug": "snow-foundation"
+      }
+    },
+    "projects": {
+      "exists": true,
+      "accessible": true,
+      "row_count": 17,
+      "error": null,
+      "columns": {
+        "id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "5b55a98f-4e81-42f8-ad83-bba6aabaf13e"
+        },
+        "tenant_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "c22fcf84-5a09-4893-a8ef-758c781e88a8"
+        },
+        "organization_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "1d542d98-38ea-4f1f-b1ad-60dced1a2985"
+        },
+        "name": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "Mobile Laundry Services"
+        },
+        "description": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "Providing laundry and shower services to communities"
+        },
+        "location": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "status": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "active"
+        },
+        "start_date": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "end_date": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "budget": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "created_by": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "created_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-08-31T10:38:47.611638+00:00"
+        },
+        "updated_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-08-31T10:38:47.611638+00:00"
+        }
+      },
+      "sample_data": {
+        "id": "5b55a98f-4e81-42f8-ad83-bba6aabaf13e",
+        "tenant_id": "c22fcf84-5a09-4893-a8ef-758c781e88a8",
+        "organization_id": "1d542d98-38ea-4f1f-b1ad-60dced1a2985",
+        "name": "Mobile Laundry Services",
+        "description": "Providing laundry and shower services to communities",
+        "location": null,
+        "status": "active",
+        "start_date": null,
+        "end_date": null,
+        "budget": null,
+        "created_by": null,
+        "created_at": "2025-08-31T10:38:47.611638+00:00",
+        "updated_at": "2025-08-31T10:38:47.611638+00:00"
+      }
+    },
+    "stories": {
+      "exists": true,
+      "accessible": true,
+      "row_count": 550,
+      "error": null,
+      "columns": {
+        "id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "dfae3a84-1f93-4fdd-a279-51d193ae7eb2"
+        },
+        "tenant_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "bf17d0a9-2b12-4e4a-982e-09a8b1952ec6"
+        },
+        "author_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "32f1aa83-f79c-40a4-b25a-6c3c615cd37a"
+        },
+        "title": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "The Power of Community: Finding Equality at the Table"
+        },
+        "content": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "The Power of Community: Finding Equality at the Table\n===\n\nSpeaker 9: ~And so particularly the commu"
+        },
+        "summary": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "The Power of Community: Finding Equality at the Table\n===\n\nSpeaker 9: ~And so particularly the commu"
+        },
+        "media_url": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "transcription": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "video_embed_code": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "story_image_url": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "story_image_file": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "themes": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "[\"dignity and equality\",\"community connection through shared meals\",\"basic needs and wellbeing\",\"soc"
+        },
+        "story_category": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "story_type": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "personal_narrative"
+        },
+        "privacy_level": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "public"
+        },
+        "is_public": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "true"
+        },
+        "is_featured": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "true"
+        },
+        "cultural_sensitivity_level": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "standard"
+        },
+        "cultural_warnings": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "[]"
+        },
+        "requires_elder_approval": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "elder_approved_by": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "elder_approved_at": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "sharing_permissions": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "{}"
+        },
+        "cross_tenant_visibility": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "[]"
+        },
+        "embedding": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "ai_processed": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "ai_processing_consent_verified": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "ai_confidence_scores": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "{\"summary_quality\":0.95,\"engagement_score\":75,\"cultural_sensitivity\":0.9}"
+        },
+        "ai_generated_summary": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "true"
+        },
+        "search_vector": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "'00':62B,63B,64B '8':80B,242B '9':20B,105B,285C 'abl':156B 'access':158B,223B 'amaz':83B,232B 'appli"
+        },
+        "community_status": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "draft"
+        },
+        "reviewed_by": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "reviewed_at": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "review_notes": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "legacy_story_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "airtable_record_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "fellowship_phase": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "fellow_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "created_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-04-14T20:29:09+00:00"
+        },
+        "updated_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-08-30T08:52:08.384401+00:00"
+        },
+        "cultural_themes": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "[]"
+        },
+        "legacy_storyteller_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "legacy_airtable_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "legacy_fellow_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "legacy_author": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "migrated_at": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "migration_quality_score": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "ai_enhanced_content": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "media_urls": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "[]"
+        },
+        "published_at": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "status": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "published"
+        },
+        "media_metadata": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "{\"source\":\"original_database_migration\",\"authentic\":true,\"media_url\":\"https://share.descript.com/vie"
+        },
+        "cultural_sensitivity_flag": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "traditional_knowledge_flag": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "story_stage": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "draft"
+        },
+        "video_stage": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "source_links": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        }
+      },
+      "sample_data": {
+        "id": "dfae3a84-1f93-4fdd-a279-51d193ae7eb2",
+        "tenant_id": "bf17d0a9-2b12-4e4a-982e-09a8b1952ec6",
+        "author_id": "32f1aa83-f79c-40a4-b25a-6c3c615cd37a",
+        "title": "The Power of Community: Finding Equality at the Table",
+        "content": "The Power of Community: Finding Equality at the Table\n===\n\nSpeaker 9: ~And so particularly the community meal night, there's nothing better than someone finding their place at the table with cutlery on one side and salt and pepper and flowers. It's a really beautiful thing. It's that great equalizer. ~[00:00:00] Once you sit around the table, you find community and everyone's the same.\n\nSpeaker 8: That's amazing. What's this soaring sky community thing? What, like how does that match together and does it match together? Yeah, \n\nSpeaker 9: so part of that table, it's all that dignity. And so a big thing of what we want to do is dignity. And so something like orange sky is a great service for some of our folks who, that is not a lived experience for them. They're not able to access clean clothes, and when you don't have clean clothes, you don't feel very good. You get really stinky. We've got some people who need to be applying for jobs as well. So when you don't have good clothes, you feel stinky, you feel pretty rubbish about yourself.\n\nSo Orange Sky's a great service and it means that people can access fresh, clean clothes and it just, it has amazing boost to their mental health and general wellbeing. \n\nSpeaker 8: ~Something about this place, philosophy, values, safety. What it's what do you think that provides A safe place where people feel like that's, they want to all do that.~\n\n~Yep.~\n\n",
+        "summary": "The Power of Community: Finding Equality at the Table\n===\n\nSpeaker 9: ~And so particularly the community meal night, there's nothing better than someo...",
+        "media_url": null,
+        "transcription": null,
+        "video_embed_code": null,
+        "story_image_url": null,
+        "story_image_file": null,
+        "themes": [
+          "dignity and equality",
+          "community connection through shared meals",
+          "basic needs and wellbeing",
+          "social inclusion",
+          "restoring self-worth"
+        ],
+        "story_category": null,
+        "story_type": "personal_narrative",
+        "privacy_level": "public",
+        "is_public": true,
+        "is_featured": true,
+        "cultural_sensitivity_level": "standard",
+        "cultural_warnings": [],
+        "requires_elder_approval": false,
+        "elder_approved_by": null,
+        "elder_approved_at": null,
+        "sharing_permissions": {},
+        "cross_tenant_visibility": [],
+        "embedding": null,
+        "ai_processed": false,
+        "ai_processing_consent_verified": false,
+        "ai_confidence_scores": {
+          "summary_quality": 0.95,
+          "engagement_score": 75,
+          "cultural_sensitivity": 0.9
+        },
+        "ai_generated_summary": true,
+        "search_vector": "'00':62B,63B,64B '8':80B,242B '9':20B,105B,285C 'abl':156B 'access':158B,223B 'amaz':83B,232B 'appli':188B 'around':68B 'beauti':55B 'better':31B,296C 'big':119B 'boost':233B 'clean':159B,167B,225B 'cloth':160B,168B,200B,226B 'communiti':4A,13B,25B,73B,89B,278C,290C 'cutleri':41B 'digniti':115B,128B 'equal':6A,15B,61B,280C 'everyon':75B 'experi':150B 'feel':172B,202B,205B,264B 'find':5A,14B,34B,72B,279C 'flower':50B 'folk':143B 'fresh':224B 'general':239B 'get':176B 'good':174B,199B 'got':181B 'great':60B,137B,215B 'health':237B 'job':190B 'like':92B,132B,265B 'live':149B 'match':96B,101B 'meal':26B,291C 'mean':219B 'mental':236B 'need':185B 'night':27B,292C 'noth':30B,295C 'one':43B 'orang':133B,211B 'part':107B 'particular':23B,288C 'peopl':183B,221B,263B 'pepper':48B 'philosophi':247B 'place':36B,246B,261B 'power':2A,11B,276C 'pretti':206B 'provid':258B 're':154B 'realli':54B,177B 'rubbish':207B 'safe':260B 'safeti':249B 'salt':46B 'servic':138B,216B 'side':44B 'sit':67B 'sky':88B,134B,212B 'soar':87B 'someo':298C 'someon':33B 'someth':131B,243B 'speaker':19B,79B,104B,241B,284C 'stinki':178B,203B 'tabl':9A,18B,39B,70B,110B,283C 'thing':56B,90B,120B 'think':256B 'togeth':97B,102B 'valu':248B 've':180B 'want':124B,269B 'well':192B 'wellb':240B 'yeah':103B 'yep':274B",
+        "community_status": "draft",
+        "reviewed_by": null,
+        "reviewed_at": null,
+        "review_notes": null,
+        "legacy_story_id": null,
+        "airtable_record_id": null,
+        "fellowship_phase": null,
+        "fellow_id": null,
+        "created_at": "2025-04-14T20:29:09+00:00",
+        "updated_at": "2025-08-30T08:52:08.384401+00:00",
+        "cultural_themes": [],
+        "legacy_storyteller_id": null,
+        "legacy_airtable_id": null,
+        "legacy_fellow_id": null,
+        "legacy_author": null,
+        "migrated_at": null,
+        "migration_quality_score": null,
+        "ai_enhanced_content": null,
+        "media_urls": [],
+        "published_at": null,
+        "status": "published",
+        "media_metadata": "{\"source\":\"original_database_migration\",\"authentic\":true,\"media_url\":\"https://share.descript.com/view/YJk4EKp82ip\",\"video_embed_code\":\"<iframe src=\\\"https://share.descript.com/embed/YJk4EKp82ip\\\" width=\\\"640\\\" height=\\\"360\\\" frameborder=\\\"0\\\" allowfullscreen></iframe>\",\"story_image_url\":\"https://tednluwflfhxyucgwigh.supabase.co/storage/v1/object/public/story-images/stories/drew-nicholls--the-power-of-community--findin-4134e8f0.jpg\",\"transcription\":\"The Power of Community: Finding Equality at the Table\\n===\\n\\nSpeaker 9: ~And so particularly the community meal night, there's nothing better than someone finding their place at the table with cutlery on one side and salt and pepper and flowers. It's a really beautiful thing. It's that great equalizer. ~[00:00:00] Once you sit around the table, you find community and everyone's the same.\\n\\nSpeaker 8: That's amazing. What's this soaring sky community thing? What, like how does that match together and does it match together? Yeah, \\n\\nSpeaker 9: so part of that table, it's all that dignity. And so a big thing of what we want to do is dignity. And so something like orange sky is a great service for some of our folks who, that is not a lived experience for them. They're not able to access clean clothes, and when you don't have clean clothes, you don't feel very good. You get really stinky. We've got some people who need to be applying for jobs as well. So when you don't have good clothes, you feel stinky, you feel pretty rubbish about yourself.\\n\\nSo Orange Sky's a great service and it means that people can access fresh, clean clothes and it just, it has amazing boost to their mental health and general wellbeing. \\n\\nSpeaker 8: ~Something about this place, philosophy, values, safety. What it's what do you think that provides A safe place where people feel like that's, they want to all do that.~\\n\\n~Yep.~\\n\\n\",\"story_category\":\"fellowship_journey\",\"fellowship_phase\":\"active_fellowship\",\"is_featured\":false,\"is_public\":true,\"original_author\":\"Unknown Author\",\"legacy_storyteller_id\":\"32f1aa83-f79c-40a4-b25a-6c3c615cd37a\",\"storyteller_name\":\"Drew Nicholls \",\"content_length\":1414,\"transcription_length\":1414}",
+        "cultural_sensitivity_flag": false,
+        "traditional_knowledge_flag": false,
+        "story_stage": "draft",
+        "video_stage": null,
+        "source_links": null
+      }
+    },
+    "media_assets": {
+      "exists": true,
+      "accessible": true,
+      "row_count": 121,
+      "error": null,
+      "columns": {
+        "id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "23b21a00-5b89-476e-bdb9-29b1eae5c1e7"
+        },
+        "original_filename": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "20250809-IMG_0485.jpg"
+        },
+        "display_name": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "file_size": {
+          "type": "number",
+          "has_sample_data": true,
+          "sample_value": "1697350"
+        },
+        "file_type": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "image/jpeg"
+        },
+        "storage_bucket": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "media"
+        },
+        "storage_path": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "c22fcf84-5a09-4893-a8ef-758c781e88a8/media/1756707168370_bndoyfag4mw.jpg"
+        },
+        "cdn_url": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "https://yvnuayzslukamizrlhwb.supabase.co/storage/v1/object/public/media/c22fcf84-5a09-4893-a8ef-758c"
+        },
+        "thumbnail_url": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "medium_url": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "large_url": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "processing_status": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "pending"
+        },
+        "processing_metadata": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "cultural_sensitivity_level": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "standard"
+        },
+        "privacy_level": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "private"
+        },
+        "requires_consent": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "consent_granted": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "consent_granted_by": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "consent_granted_at": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "tenant_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "96197009-c7bb-4408-89de-cd04085cdf44"
+        },
+        "uploader_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "d0a162d2-282e-4653-9d12-aa934c9dfa4e"
+        },
+        "story_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "collection_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "title": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "description": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "alt_text": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "width": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "height": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "duration": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "fps": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "bitrate": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "latitude": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "longitude": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "location_name": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "taken_at": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "uploaded_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-09-01T06:12:52.513021+00:00"
+        },
+        "created_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-09-01T06:12:52.409+00:00"
+        },
+        "updated_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-09-02T04:04:09.558925+00:00"
+        },
+        "view_count": {
+          "type": "number",
+          "has_sample_data": true,
+          "sample_value": "0"
+        },
+        "download_count": {
+          "type": "number",
+          "has_sample_data": true,
+          "sample_value": "0"
+        },
+        "last_accessed_at": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "search_vector": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "'20250809-img_0485.jpg':1"
+        }
+      },
+      "sample_data": {
+        "id": "23b21a00-5b89-476e-bdb9-29b1eae5c1e7",
+        "original_filename": "20250809-IMG_0485.jpg",
+        "display_name": null,
+        "file_size": 1697350,
+        "file_type": "image/jpeg",
+        "storage_bucket": "media",
+        "storage_path": "c22fcf84-5a09-4893-a8ef-758c781e88a8/media/1756707168370_bndoyfag4mw.jpg",
+        "cdn_url": "https://yvnuayzslukamizrlhwb.supabase.co/storage/v1/object/public/media/c22fcf84-5a09-4893-a8ef-758c781e88a8/media/1756707168370_bndoyfag4mw.jpg",
+        "thumbnail_url": null,
+        "medium_url": null,
+        "large_url": null,
+        "processing_status": "pending",
+        "processing_metadata": null,
+        "cultural_sensitivity_level": "standard",
+        "privacy_level": "private",
+        "requires_consent": false,
+        "consent_granted": false,
+        "consent_granted_by": null,
+        "consent_granted_at": null,
+        "tenant_id": "96197009-c7bb-4408-89de-cd04085cdf44",
+        "uploader_id": "d0a162d2-282e-4653-9d12-aa934c9dfa4e",
+        "story_id": null,
+        "collection_id": null,
+        "title": null,
+        "description": null,
+        "alt_text": null,
+        "width": null,
+        "height": null,
+        "duration": null,
+        "fps": null,
+        "bitrate": null,
+        "latitude": null,
+        "longitude": null,
+        "location_name": null,
+        "taken_at": null,
+        "uploaded_at": "2025-09-01T06:12:52.513021+00:00",
+        "created_at": "2025-09-01T06:12:52.409+00:00",
+        "updated_at": "2025-09-02T04:04:09.558925+00:00",
+        "view_count": 0,
+        "download_count": 0,
+        "last_accessed_at": null,
+        "search_vector": "'20250809-img_0485.jpg':1"
+      }
+    },
+    "transcripts": {
+      "exists": true,
+      "accessible": true,
+      "row_count": 211,
+      "error": null,
+      "columns": {
+        "id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "edde7ce6-9347-439a-ba04-bf8e0a7ba85e"
+        },
+        "storyteller_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "7380ee75-512c-41b6-9f17-416e3dbba302"
+        },
+        "tenant_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "bf17d0a9-2b12-4e4a-982e-09a8b1952ec6"
+        },
+        "title": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "Aunty Vicky Wade - Community Story"
+        },
+        "transcript_content": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "Aunty Vicky Wade\n===\n\n[00:00:00] \n\nHi, my name's Auntie Vicki. That's V-I-C-K-I and auntie A-N-U-T-Y"
+        },
+        "recording_date": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-08-30T20:37:54.536+00:00"
+        },
+        "duration_seconds": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "ai_processing_consent": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "processing_status": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "pending"
+        },
+        "transcript_quality": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "good"
+        },
+        "word_count": {
+          "type": "number",
+          "has_sample_data": true,
+          "sample_value": "1187"
+        },
+        "character_count": {
+          "type": "number",
+          "has_sample_data": true,
+          "sample_value": "6562"
+        },
+        "cultural_sensitivity": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "standard"
+        },
+        "requires_elder_review": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "elder_reviewed_by": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "elder_reviewed_at": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "audio_url": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "video_url": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "media_metadata": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "{\"source\":\"manual_entry\",\"project\":\"Deadly Hearts\",\"location\":\"Katherine\",\"created_by\":\"admin\",\"crea"
+        },
+        "legacy_transcript_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "legacy_story_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "content_embedding": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "search_vector": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "'00':9B,10B,11B,200B,202B,409B,411B,599B,601B,779B,781B,980B,982B,1142B,1144B '01':201B '02':410B '0"
+        },
+        "created_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-08-30T20:37:54.536+00:00"
+        },
+        "updated_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-08-30T20:52:12.823777+00:00"
+        },
+        "ai_processing_date": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "ai_model_version": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "claude-3.5-sonnet"
+        },
+        "ai_confidence_score": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "processing_consent": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "ai_analysis_allowed": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "anonymization_level": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "partial"
+        },
+        "privacy_level": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "community"
+        },
+        "source_video_url": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "source_video_title": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "source_video_platform": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "descript"
+        },
+        "source_video_duration": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "source_video_thumbnail": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        }
+      },
+      "sample_data": {
+        "id": "edde7ce6-9347-439a-ba04-bf8e0a7ba85e",
+        "storyteller_id": "7380ee75-512c-41b6-9f17-416e3dbba302",
+        "tenant_id": "bf17d0a9-2b12-4e4a-982e-09a8b1952ec6",
+        "title": "Aunty Vicky Wade - Community Story",
+        "transcript_content": "Aunty Vicky Wade\n===\n\n[00:00:00] \n\nHi, my name's Auntie Vicki. That's V-I-C-K-I and auntie A-N-U-T-Y. And my surname Wade, WADE. \n\nI've always been interested in health and in particular heart health. from an early age, I had relatives, Nan had a pacemaker, so I was always interested in health.\n\nthrough my matriarchal lineage, I come from healers, so women in my family are healers. my nan was a healer on the mission. She looked after, children. She birthed mums at the birthing tree, and then mum became an enrolled nurse, and then I became a nurse and my daughter's a doctor. that matriarchal lineage of healers, we've got a strong desire to look after our mob and I'm just fascinated with the heart.\n\nSo I went into heart health, gee, 40 years or more ago.\n\nI think it's important that when we go out on community, particularly when it's not my land, that I go softly. I always tread softly because I think the footprints that we leave in community is so important and that [00:01:00] will, give us an invitation back. So if we go in their loud way, if we walk real quickly and not look at and take in what's going around us, this is what our old people did, and our old people told us.\n\nWhen we go into community, particularly my old Nan Lily, she said, you go in there with your eyes and you go in there with your ears. And you keep that mouth shut. I observe, I never go onto country unless I am welcomed by traditional owners. So that's really, really important for me and an important message for the trek that we have to go, quietly.\n\nAnd their cultural protocols are really important because you could be walking on a sacred site or you go in men's business area and you don't know. So it's really important for us to ground ourselves on the country we are in.\n\nDr. Bo came to me and Dr. Gavin. So Dr. Gavin and Dr. Beau, that's their job and they thought, oh gee, there's a lot of young kids out here that we pick up with rheumatic heart disease. So they came to me and they said, what [00:02:00] would that look like in a cultural sense?\n\nAnd I said, yeah, that's fantastic. our mothers and our aunties and our grandmothers we're sick of our little kids. Being sick. So we would be welcomed on country by that strong women and some communities are, patriarchal. So the men are strong in that community. So I did a little bit of asking around and yeah, it was very welcome for us to go out on country to do the trek.\n\nSo it was really Dr. Bow and Dr. Gavin came to me.\n\nThe Trek is not, we're on camels. The trek is not, we are walking the trek is that, it's a trek because we originally wanted to go right across Australia, but we understand that it takes a lot of preparation to get into communities, to get permission from the, education department to visit schools and the clinics.\n\nSo we have to do a lot of consultation before we go into the trek. So how I'd explain it is the Trek is a group of passionate, culturally safe people that go [00:03:00] into communities. We scan hearts, we check skin and raise awareness. So what we are really wanting to do is pick up kids with rheumatic heart disease early.\n\nIf we pick them up early, we can prevent them from having open heart surgery. Sonographers, cultural guides are really important, so we always have to have people with the cultural knowledge. \n\nWhat I think is the litmus test is that communities are banging on our door. They've heard about it and they want us to come out and screen their kids. And we have a few communities now. We have, about four communities that wanting us to visit, but it takes a while. So we have to, plan it, so we do it proper way.\n\nWe're not rushing in and rushing out and living a big mess. Like a lot of people that go into communities go in muck around. Make a mess and move back out. \n\nWhat we do too is we advocate for communities. So if we go into community and we see maybe [00:04:00] that, the clinics aren't run efficient, there's no work staff. Because at the moment there's critical shortage of Aboriginal people working in clinics.\n\nSo we advocate for change. We'll go and we'll talk to, parliament. We'll talk to government, we'll talk to state reps. We've got a state rep in here today, minister. That will watch the film and certainly people will be talking to her about the trek and what needs to happen in communities. We educate, a beautiful example.\n\nYesterday we had three beautiful young girls and they're coming to me and they're talking, oh what do you do? And I said, I'm a nurse, but I'm. Doing my PhD, I'm at university and they said, we wanna study. We are gonna go back to boarding school so we can go. And I said, what do you wanna do? And they said, I wanna be a nurse or I wanna be a doctor.\n\nSo when we are out in community, we actually role models. So one part of it, they see us that they can do it. The other part is that, we [00:05:00] advocate. And by education is knowledge. So when people are educated about their illnesses and what causes rheumatic heart disease, they wanna make a difference.\n\nUnfortunately I'm not joining the trek this week, and it's always heartbreaking when, you've built up such a strong rapport with a group of people. Sometimes going into difficult communities, so it's more trekking more around Catherine.\n\nSo a lot around this Catherine area. There's a lot of schools here, big mob of Aboriginal people up here. So they'll be doing more scanning, more education in the classrooms to the kids and building our model of care as we go along. \n\nWe will do a quality assurance. So it's continually quality improvement. Continuous quality improvement, where we will get stronger each time we go on a trek because we know. What needs to improve. \n\nI think that, acute rheumatic fever, rheumatic heart disease rates aren't improving [00:06:00] as we, we want them to. So. there could be questionable little bit of improvement in the last A IHW. So that's the Australian Institute of Health and Welfare Report.\n\nBut we are not on track to eliminate rheumatic heart disease by 2031. And we've signed up to it. Australia signed up at the World Health Assembly in 2018 to eliminate rheumatic heart disease in Australia by 2031. We cannot be complacent now. Now is the time to ramp up efforts and we need funding.\n\nAnd the funding needs to go directly to community. So community leadership, community ownership, our mob is smart. We got a lot of real deadly people out there in communities that know what the community want and how they can get the resources from that community to make a difference.\n\n",
+        "recording_date": "2025-08-30T20:37:54.536+00:00",
+        "duration_seconds": null,
+        "ai_processing_consent": false,
+        "processing_status": "pending",
+        "transcript_quality": "good",
+        "word_count": 1187,
+        "character_count": 6562,
+        "cultural_sensitivity": "standard",
+        "requires_elder_review": false,
+        "elder_reviewed_by": null,
+        "elder_reviewed_at": null,
+        "audio_url": null,
+        "video_url": null,
+        "media_metadata": {
+          "source": "manual_entry",
+          "project": "Deadly Hearts",
+          "location": "Katherine",
+          "created_by": "admin",
+          "created_via": "admin_interface"
+        },
+        "legacy_transcript_id": null,
+        "legacy_story_id": null,
+        "content_embedding": null,
+        "search_vector": "'00':9B,10B,11B,200B,202B,409B,411B,599B,601B,779B,781B,980B,982B,1142B,1144B '01':201B '02':410B '03':600B '04':780B '05':981B '06':1143B '2018':1205B '2031':1188B,1214B '40':153B 'a-n-u-t-i':28B 'aborigin':803B,1066B 'across':536B 'actual':958B 'acut':1132B 'advoc':766B,810B,983B 'age':54B 'ago':157B 'along':1094B 'alway':41B,65B,182B,653B,1020B 'area':338B,1055B 'aren':785B,1139B 'around':232B,476B,752B,1047B,1052B 'ask':475B 'assembl':1203B 'assur':1100B 'aunti':1A,6B,16B,27B,431B 'australia':537B,1196B,1212B 'australian':1169B 'awar':612B 'back':208B,758B,920B 'bang':673B 'beau':373B 'beauti':869B,875B 'becam':106B,113B 'big':738B,1063B 'birth':97B,101B 'bit':473B,1157B 'bo':361B 'board':922B 'bow':499B 'build':1086B 'built':1025B 'busi':337B 'c':23B 'came':362B,402B,503B 'camel':513B 'cannot':1216B 'care':1090B 'catherin':1048B,1054B 'caus':999B 'certain':849B 'chang':812B 'check':608B 'children':95B 'classroom':1081B 'clinic':564B,784B,807B 'come':74B,687B,881B 'communiti':4A,169B,194B,251B,457B,467B,551B,603B,671B,698B,704B,748B,768B,774B,865B,956B,1040B,1240B,1242B,1244B,1261B,1266B,1277B 'complac':1218B 'consult':573B 'continu':1104B,1107B 'could':324B,1153B 'countri':286B,356B,450B,489B 'critic':800B 'cultur':317B,418B,594B,646B,660B 'd':583B 'daughter':118B 'dead':1256B 'depart':558B 'desir':132B 'differ':1007B,1281B 'difficult':1039B 'direct':1238B 'diseas':399B,628B,1002B,1137B,1186B,1210B 'doctor':121B,949B 'door':676B 'dr':360B,366B,369B,372B,498B,501B 'ear':273B 'earli':53B,629B,635B 'educ':557B,867B,986B,993B,1078B 'effici':788B 'effort':1227B 'elimin':1183B,1207B 'enrol':108B 'exampl':870B 'explain':584B 'eye':265B 'famili':81B 'fantast':426B 'fascin':142B 'fever':1134B 'film':847B 'footprint':189B 'four':703B 'fund':1231B,1234B 'gavin':367B,370B,502B 'gee':152B,382B 'get':549B,553B,1113B,1272B 'girl':877B 'give':204B 'go':166B,179B,212B,231B,249B,260B,268B,284B,313B,333B,486B,534B,576B,598B,746B,749B,772B,815B,919B,927B,1037B,1093B,1118B,1237B 'gonna':918B 'got':129B,835B,1251B 'govern':826B 'grandmoth':434B 'ground':352B 'group':591B,1033B 'guid':647B 'happen':863B 'healer':76B,83B,88B,126B 'health':45B,50B,68B,151B,1172B,1202B 'heard':679B 'heart':49B,145B,150B,398B,606B,627B,643B,1001B,1136B,1185B,1209B 'heartbreak':1021B 'hi':12B 'ihw':1164B 'ill':996B 'import':162B,197B,299B,304B,321B,348B,650B 'improv':1106B,1109B,1128B,1141B,1159B 'institut':1170B 'interest':43B,66B 'invit':207B 'job':377B 'join':1012B 'k':24B 'keep':276B 'kid':389B,441B,624B,692B,1084B 'know':343B,1124B,1263B 'knowledg':661B,988B 'land':176B 'last':1162B 'leadership':1243B 'leav':192B 'like':415B,740B 'lili':256B 'lineag':72B,124B 'litmus':667B 'littl':440B,472B,1156B 'live':736B 'll':814B,818B,823B,828B,1072B 'look':93B,134B,224B,414B 'lot':386B,545B,571B,742B,1051B,1059B,1253B 'loud':215B 'm':140B,897B,902B,907B,1010B 'make':753B,1005B,1279B 'matriarch':71B,123B 'mayb':778B 'men':335B,462B 'mess':739B,755B 'messag':305B 'minist':842B 'mission':91B 'mob':137B,1064B,1247B 'model':960B,1088B 'moment':797B 'mother':428B 'mouth':278B 'move':757B 'muck':751B 'mum':98B,105B 'n':30B 'name':14B 'nan':58B,85B,255B 'need':861B,1126B,1230B,1235B 'never':283B 'nurs':109B,115B,899B,943B 'observ':281B 'oh':381B,888B 'old':238B,243B,254B 'one':962B 'onto':285B 'open':642B 'origin':531B 'owner':293B 'ownership':1245B 'pacemak':61B 'parliament':821B 'part':963B,976B 'particular':48B,170B,252B 'passion':593B 'patriarch':459B 'peopl':239B,244B,596B,657B,744B,804B,850B,991B,1035B,1067B,1257B 'permiss':554B 'phd':905B 'pick':394B,622B,632B 'plan':719B 'prepar':547B 'prevent':638B 'proper':725B 'protocol':318B 'qualiti':1099B,1105B,1108B 'question':1155B 'quick':221B 'quiet':314B 'rais':611B 'ramp':1225B 'rapport':1030B 'rate':1138B 're':436B,511B,728B,880B,886B 'real':220B,1255B 'realli':297B,298B,320B,347B,497B,617B,649B 'relat':57B 'rep':832B,838B 'report':1175B 'resourc':1274B 'rheumat':397B,626B,1000B,1133B,1135B,1184B,1208B 'right':535B 'role':959B 'run':787B 'rush':730B,733B 'sacr':329B 'safe':595B 'said':258B,407B,422B,895B,912B,930B,938B 'scan':605B,1076B 'school':561B,923B,1061B 'screen':690B 'see':777B,967B 'sens':419B 'shortag':801B 'shut':279B 'sick':437B,443B 'sign':1192B,1197B 'site':330B 'skin':609B 'smart':1249B 'soft':180B,184B 'sometim':1036B 'sonograph':645B 'staff':793B 'state':831B,837B 'stori':5A 'strong':131B,453B,464B,1029B 'stronger':1114B 'studi':915B 'surgeri':644B 'surnam':36B 'take':227B,543B,712B 'talk':819B,824B,829B,853B,887B 'test':668B 'think':159B,187B,664B,1130B 'thought':380B 'three':874B 'time':1116B,1223B 'today':841B 'told':245B 'track':1181B 'tradit':292B 'tread':183B 'tree':102B 'trek':308B,493B,507B,515B,522B,528B,579B,588B,858B,1014B,1121B 'trekk':1045B 'u':31B 'understand':540B 'unfortun':1008B 'univers':909B 'unless':287B 'us':205B,233B,246B,350B,484B,685B,707B,968B 'v':21B 'v-i-c-k-i':20B 've':40B,128B,678B,834B,1024B,1191B 'vicki':2A,7B,17B 'visit':560B,709B 'wade':3A,8B,37B,38B 'walk':219B,326B,520B 'wanna':914B,934B,940B,946B,1004B 'want':532B,618B,684B,706B,1148B,1267B 'watch':845B 'way':216B,726B 'week':1016B 'welcom':290B,448B,482B 'welfar':1174B 'went':148B 'women':78B,454B 'work':792B,805B 'world':1201B 'would':412B,446B 'y':33B 'yeah':423B,478B 'year':154B 'yesterday':871B 'young':388B,876B",
+        "created_at": "2025-08-30T20:37:54.536+00:00",
+        "updated_at": "2025-08-30T20:52:12.823777+00:00",
+        "ai_processing_date": null,
+        "ai_model_version": "claude-3.5-sonnet",
+        "ai_confidence_score": null,
+        "processing_consent": false,
+        "ai_analysis_allowed": false,
+        "anonymization_level": "partial",
+        "privacy_level": "community",
+        "source_video_url": null,
+        "source_video_title": null,
+        "source_video_platform": "descript",
+        "source_video_duration": null,
+        "source_video_thumbnail": null
+      }
+    },
+    "photo_tags": {
+      "exists": true,
+      "accessible": true,
+      "row_count": 363,
+      "error": null,
+      "columns": {
+        "id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "32adff97-fee3-4945-b0a3-96273a7ef3c4"
+        },
+        "media_asset_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "23b21a00-5b89-476e-bdb9-29b1eae5c1e7"
+        },
+        "tag_type": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "custom"
+        },
+        "tag_value": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "Deadly Hearts Trek 2025"
+        },
+        "confidence_score": {
+          "type": "number",
+          "has_sample_data": true,
+          "sample_value": "1"
+        },
+        "source": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "user"
+        },
+        "person_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "organization_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "project_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "location_name": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "latitude": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "longitude": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "location_confidence": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "is_verified": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "verified_by": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "verified_at": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "cultural_sensitivity": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "standard"
+        },
+        "requires_review": {
+          "type": "boolean",
+          "has_sample_data": true,
+          "sample_value": "false"
+        },
+        "tenant_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "c22fcf84-5a09-4893-a8ef-758c781e88a8"
+        },
+        "created_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-09-01T06:12:53.210027+00:00"
+        },
+        "created_by": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "updated_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-09-01T06:12:53.210027+00:00"
+        }
+      },
+      "sample_data": {
+        "id": "32adff97-fee3-4945-b0a3-96273a7ef3c4",
+        "media_asset_id": "23b21a00-5b89-476e-bdb9-29b1eae5c1e7",
+        "tag_type": "custom",
+        "tag_value": "Deadly Hearts Trek 2025",
+        "confidence_score": 1,
+        "source": "user",
+        "person_id": null,
+        "organization_id": null,
+        "project_id": null,
+        "location_name": null,
+        "latitude": null,
+        "longitude": null,
+        "location_confidence": null,
+        "is_verified": false,
+        "verified_by": null,
+        "verified_at": null,
+        "cultural_sensitivity": "standard",
+        "requires_review": false,
+        "tenant_id": "c22fcf84-5a09-4893-a8ef-758c781e88a8",
+        "created_at": "2025-09-01T06:12:53.210027+00:00",
+        "created_by": null,
+        "updated_at": "2025-09-01T06:12:53.210027+00:00"
+      }
+    },
+    "cultural_protocols": {
+      "exists": true,
+      "accessible": true,
+      "row_count": 11,
+      "error": null,
+      "columns": {
+        "id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "70abe3ee-82d6-47a5-a4eb-249e4ab1ee23"
+        },
+        "tenant_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "bf17d0a9-2b12-4e4a-982e-09a8b1952ec6"
+        },
+        "protocol_name": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "Orange Sky"
+        },
+        "protocol_type": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "project_governance"
+        },
+        "description": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "Project: Orange Sky"
+        },
+        "rules": {
+          "type": "object",
+          "has_sample_data": true,
+          "sample_value": "{\"project_scope\":\"Project: Orange Sky\",\"status_requirements\":\"active\",\"location_restriction\":null}"
+        },
+        "enforcement_level": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "advisory"
+        },
+        "created_by": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "approved_by": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "effective_date": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-08-27T02:41:27.817143+00:00"
+        },
+        "expiry_date": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        },
+        "status": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "active"
+        },
+        "created_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-07-23T19:37:26.159912+00:00"
+        },
+        "updated_at": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "2025-08-27T02:43:18.129232+00:00"
+        },
+        "legacy_project_id": {
+          "type": "string",
+          "has_sample_data": true,
+          "sample_value": "70abe3ee-82d6-47a5-a4eb-249e4ab1ee23"
+        },
+        "organization_id": {
+          "type": "null",
+          "has_sample_data": false,
+          "sample_value": null
+        }
+      },
+      "sample_data": {
+        "id": "70abe3ee-82d6-47a5-a4eb-249e4ab1ee23",
+        "tenant_id": "bf17d0a9-2b12-4e4a-982e-09a8b1952ec6",
+        "protocol_name": "Orange Sky",
+        "protocol_type": "project_governance",
+        "description": "Project: Orange Sky",
+        "rules": {
+          "project_scope": "Project: Orange Sky",
+          "status_requirements": "active",
+          "location_restriction": null
+        },
+        "enforcement_level": "advisory",
+        "created_by": null,
+        "approved_by": null,
+        "effective_date": "2025-08-27T02:41:27.817143+00:00",
+        "expiry_date": null,
+        "status": "active",
+        "created_at": "2025-07-23T19:37:26.159912+00:00",
+        "updated_at": "2025-08-27T02:43:18.129232+00:00",
+        "legacy_project_id": "70abe3ee-82d6-47a5-a4eb-249e4ab1ee23",
+        "organization_id": null
+      }
+    },
+    "photo_faces": {
+      "exists": true,
+      "accessible": true,
+      "row_count": 0,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "users": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "auth.users": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "auth.sessions": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "auth.identities": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "personal_insights": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "professional_competencies": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "impact_stories": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "opportunity_recommendations": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "development_plans": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "analysis_jobs": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "galleries": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "gallery_media_associations": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "cultural_tags": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "media_cultural_tags": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "photo_people": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "cultural_locations": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "media_locations": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "content_enhancement_results": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "moderation_results": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "elder_review_queue": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "ai_safety_logs": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "ai_recommendation_logs": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "search_analytics": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "ai_connection_analysis_logs": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "ai_enhancement_logs": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "moderation_appeals": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "storytellers": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "memberships": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "permissions": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "consent_records": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "analytics_events": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "ai_processing_queue": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "content_recommendations": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "photos": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "comments": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "likes": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "tags": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    },
+    "categories": {
+      "exists": true,
+      "accessible": true,
+      "row_count": null,
+      "error": null,
+      "columns": {},
+      "sample_data": null
+    }
+  },
+  "functions": {
+    "exec": {
+      "available": false,
+      "tested": true,
+      "error": "Could not find the function public.exec(sql) in the schema cache"
+    },
+    "exec_sql": {
+      "available": false,
+      "tested": true,
+      "error": "Could not find the function public.exec_sql(sql) in the schema cache"
+    },
+    "execute": {
+      "available": false,
+      "tested": true,
+      "error": "Could not find the function public.execute(sql) in the schema cache"
+    },
+    "sql_exec": {
+      "available": false,
+      "tested": true,
+      "error": "Could not find the function public.sql_exec(sql) in the schema cache"
+    },
+    "pg_exec": {
+      "available": false,
+      "tested": true,
+      "error": "Could not find the function public.pg_exec(sql) in the schema cache"
+    },
+    "run_sql": {
+      "available": false,
+      "tested": true,
+      "error": "Could not find the function public.run_sql(sql) in the schema cache"
+    },
+    "execute_sql": {
+      "available": false,
+      "tested": true,
+      "error": "Could not find the function public.execute_sql(sql) in the schema cache"
+    }
+  },
+  "policies": {},
+  "indexes": {},
+  "triggers": {},
+  "summary": {
+    "total_tables_checked": 47,
+    "existing_tables": 47,
+    "accessible_tables": 47,
+    "missing_tables": 0,
+    "available_functions": 0,
+    "total_functions_checked": 7
+  }
+}

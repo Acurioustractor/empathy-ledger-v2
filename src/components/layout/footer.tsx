@@ -81,10 +81,10 @@ export default function Footer() {
                 <Heart className="w-6 h-6 text-white" />
               </div>
             </div>
-            <Typography variant="h3" className="mb-4 text-clay-800 dark:text-clay-200">
+            <Typography variant="h3" className="mb-4 text-gray-900 dark:text-gray-100 font-bold">
               Cultural Acknowledgment
             </Typography>
-            <Typography variant="body" className="text-stone-600 dark:text-stone-400 leading-relaxed max-w-3xl mx-auto">
+            <Typography variant="body" className="text-gray-700 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto font-medium">
               {culturalAcknowledgment.trim()}
             </Typography>
           </div>
@@ -101,15 +101,15 @@ export default function Footer() {
                 <Heart className="w-5 h-5 text-white" />
               </div>
               <div>
-                <Typography variant="cultural-subheading" className="text-clay-800 dark:text-clay-200">
+                <Typography variant="cultural-subheading" className="text-gray-900 dark:text-gray-100 font-bold">
                   Empathy Ledger
                 </Typography>
-                <Typography variant="caption" className="text-stone-500 dark:text-stone-400 -mt-1">
+                <Typography variant="caption" className="text-gray-600 dark:text-gray-300 -mt-1">
                   Cultural Stories & Wisdom
                 </Typography>
               </div>
             </Link>
-            <Typography variant="body-small" className="text-stone-600 dark:text-stone-400 mb-6 leading-relaxed">
+            <Typography variant="body-small" className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed font-medium">
               A platform dedicated to preserving and sharing Indigenous stories, 
               wisdom, and cultural heritage with respect and cultural integrity.
             </Typography>
@@ -142,7 +142,7 @@ export default function Footer() {
           {/* Footer Sections */}
           {footerSections.map((section) => (
             <div key={section.title} className="">
-              <Typography variant="h6" className="mb-4 text-clay-700 dark:text-clay-300 font-semibold">
+              <Typography variant="h6" className="mb-4 text-gray-900 dark:text-gray-100 font-bold">
                 {section.title}
               </Typography>
               <ul className="space-y-3">
@@ -152,8 +152,8 @@ export default function Footer() {
                       href={link.href}
                       className={cn(
                         "flex items-center space-x-2 text-sm transition-colors",
-                        "text-stone-600 dark:text-stone-400",
-                        "hover:text-clay-700 dark:hover:text-clay-300"
+                        "text-gray-700 dark:text-gray-300 font-medium",
+                        "hover:text-gray-900 dark:hover:text-gray-100"
                       )}
                       {...(link.external && {
                         target: '_blank',
@@ -176,12 +176,12 @@ export default function Footer() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm text-stone-500 dark:text-stone-400">
-              <Typography variant="small" className="text-center md:text-left">
+              <Typography variant="small" className="text-center md:text-left text-gray-700 dark:text-gray-300 font-semibold">
                 © {currentYear} Empathy Ledger. Built with respect for Indigenous cultures.
               </Typography>
             </div>
 
-            <div className="flex items-center space-x-4 text-xs text-stone-400 dark:text-stone-500">
+            <div className="flex items-center space-x-4 text-xs text-gray-600 dark:text-gray-400 font-medium">
               <span className="flex items-center space-x-1">
                 <Heart className="w-3 h-3 text-clay-500" />
                 <span>Made with cultural respect</span>
@@ -197,7 +197,7 @@ export default function Footer() {
       <div className="bg-sage-100/50 dark:bg-sage-950/20 border-t border-sage-200/50 dark:border-sage-800/50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-6 text-center">
-            <Typography variant="caption" className="text-sage-700 dark:text-sage-300 font-medium">
+            <Typography variant="caption" className="text-gray-800 dark:text-gray-200 font-bold">
               Cultural Content Advisory:
             </Typography>
             <Typography variant="caption" className="text-sage-600 dark:text-sage-400">

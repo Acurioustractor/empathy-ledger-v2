@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { createSupabaseClient } from '@/lib/supabase/client-ssr'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import type { CulturalTagInsert } from '@/types/database'
 
 export async function GET(request: Request) {
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     const parentId = searchParams.get('parent_id')
     const includeUsage = searchParams.get('include_usage') === 'true'
     
-    const supabase = createSupabaseClient()
+    const supabase = await createSupabaseServerClient()
     
     // Get current user for permission checks
     const { data: { user } } = await supabase.auth.getUser()
@@ -83,7 +83,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const supabase = createSupabaseClient()
+    const supabase = await createSupabaseServerClient()
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()

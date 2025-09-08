@@ -25,6 +25,7 @@ const buttonVariants = cva(
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
         cultural: "h-11 px-6 py-3", // Generous cultural spacing
+        "cultural-lg": "h-12 px-8 py-4 text-base", // Larger cultural buttons
       },
     },
     defaultVariants: {

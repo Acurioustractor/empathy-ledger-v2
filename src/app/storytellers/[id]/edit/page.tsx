@@ -12,6 +12,8 @@ import { Card } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAuth } from '@/lib/context/auth.context'
+import Header from '@/components/layout/header'
+import Footer from '@/components/layout/footer'
 import { cn } from '@/lib/utils'
 import { 
   ArrowLeft,
@@ -239,6 +241,8 @@ export default function StorytellerEditPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 to-earth-50">
+      <Header />
+      
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -655,6 +659,8 @@ export default function StorytellerEditPage() {
           </div>
         )}
       </div>
+
+      <Footer />
     </div>
   )
 }

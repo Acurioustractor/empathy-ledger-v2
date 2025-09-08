@@ -89,190 +89,219 @@ export function StoryCard({
     return content.substring(0, maxLength) + '...'
   }
 
-  return (
-    <Card className={cn(
-      'group transition-all duration-200 hover:shadow-lg border-l-4',
-      isFeatured && 'border-l-amber-400 bg-gradient-to-r from-amber-50 to-white',
-      !isFeatured && 'border-l-earth-600',
-      variant === 'compact' && 'p-3',
-      className
-    )}>
-      <div className="p-6">
-        {/* Header */}
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex-1">
+  // Render different layouts for grid vs list view
+  if (variant === 'compact') {
+    // List view with left image and content on the right
+    return (
+      <Card className={cn(
+        'group transition-all duration-300 hover:shadow-lg overflow-hidden',
+        isFeatured && 'ring-2 ring-amber-200',
+        className
+      )}>
+        <div className="flex">
+          {/* Left: Profile Image */}
+          <div className="relative w-32 h-32 bg-gradient-to-br from-blue-50 to-indigo-100 flex-shrink-0">
+            {story.author?.profile_image_url ? (
+              <img
+                src={story.author.profile_image_url}
+                alt={story.author?.display_name || story.author?.full_name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100">
+                <div className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center shadow-lg">
+                  <span className="text-lg font-bold text-blue-700">
+                    {getInitials(story.author?.display_name || story.author?.full_name)}
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right: Content */}
+          <div className="flex-1 p-4">
+            {/* Badges */}
             <div className="flex items-center gap-2 mb-2">
               {isFeatured && (
                 <Badge className="bg-amber-100 text-amber-800 text-xs">
-                  Featured
+                  ⭐ Featured
                 </Badge>
               )}
-              <Badge 
-                variant="outline" 
-                className={cn('text-xs', storyTypeColors[story.story_type])}
-              >
-                {story.story_type}
-              </Badge>
-              <Badge 
-                variant="outline" 
-                className={cn('text-xs', statusColors[story.status])}
-              >
-                {story.status}
+              <Badge variant="outline" className="text-xs capitalize">
+                {story.story_type?.replace('_', ' ')}
               </Badge>
             </div>
-            
+
+            {/* Author */}
+            <Typography variant="small" className="font-semibold text-gray-900 mb-1">
+              {story.author?.display_name || story.author?.full_name || 'Unknown Author'}
+            </Typography>
+
+            {/* Title */}
             <Link href={`/stories/${story.id}`}>
               <Typography 
-                variant="h3" 
-                className="group-hover:text-earth-700 transition-colors cursor-pointer line-clamp-2"
+                variant="h4" 
+                className="group-hover:text-blue-700 transition-colors cursor-pointer line-clamp-1 mb-2 text-base font-bold"
               >
                 {story.title}
               </Typography>
             </Link>
-          </div>
 
-          {/* Cultural Sensitivity Indicator */}
-          <div className="ml-4 flex flex-col items-end gap-2">
-            <Badge 
-              className={cn('text-xs', culturalColors[story.cultural_sensitivity_level])}
-            >
-              <Shield className="w-3 h-3 mr-1" />
-              {story.cultural_sensitivity_level} sensitivity
+            {/* Content Preview */}
+            <Typography variant="body" className="text-gray-600 line-clamp-2 text-sm mb-3">
+              {truncateContent(story.content, 100)}
+            </Typography>
+
+            {/* Footer */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3 text-xs text-gray-500">
+                {story.reading_time_minutes && (
+                  <div className="flex items-center gap-1">
+                    <Clock className="w-3 h-3" />
+                    <span>{story.reading_time_minutes} min</span>
+                  </div>
+                )}
+                {story.location && (
+                  <div className="flex items-center gap-1">
+                    <MapPin className="w-3 h-3" />
+                    <span className="truncate max-w-16">{story.location}</span>
+                  </div>
+                )}
+              </div>
+
+              {showActions && (
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="text-xs h-7"
+                  asChild
+                >
+                  <Link href={`/stories/${story.id}`}>
+                    Read
+                  </Link>
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </Card>
+    )
+  }
+
+  // Default grid view
+  return (
+    <Card className={cn(
+      'group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden',
+      isFeatured && 'ring-2 ring-amber-200',
+      className
+    )}>
+      {/* Profile Image Header */}
+      <div className="relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100">
+        {story.author?.profile_image_url ? (
+          <img
+            src={story.author.profile_image_url}
+            alt={story.author?.display_name || story.author?.full_name}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100">
+            <div className="w-20 h-20 rounded-full bg-white/80 flex items-center justify-center shadow-lg">
+              <span className="text-2xl font-bold text-blue-700">
+                {getInitials(story.author?.display_name || story.author?.full_name)}
+              </span>
+            </div>
+          </div>
+        )}
+        
+        {/* Overlay for badges */}
+        <div className="absolute top-4 left-4 flex gap-2">
+          {isFeatured && (
+            <Badge className="bg-amber-500/90 text-white text-xs shadow-lg backdrop-blur-sm">
+              ⭐ Featured
             </Badge>
-            
-            {/* Cultural Approval Indicators */}
-            <div className="flex gap-1">
-              {hasElderApproval && (
-                <div className="flex items-center text-xs text-amber-600">
-                  <Crown className="w-3 h-3" />
-                </div>
-              )}
-              {isCulturallyReviewed && (
-                <div className="flex items-center text-xs text-green-600">
-                  <CheckCircle className="w-3 h-3" />
-                </div>
-              )}
-            </div>
-          </div>
+          )}
+          <Badge variant="secondary" className="bg-white/90 text-gray-700 text-xs shadow-lg backdrop-blur-sm capitalize">
+            {story.story_type?.replace('_', ' ')}
+          </Badge>
         </div>
+      </div>
 
-        {/* Content Preview */}
-        <div className="mb-4">
-          <Typography variant="body" className="text-gray-600 leading-relaxed">
-            {truncateContent(story.content)}
-          </Typography>
-        </div>
-
-        {/* Storyteller/Author Info */}
-        <div className="flex items-center gap-3 mb-4 p-3 bg-earth-50 rounded-lg">
-          <Avatar className="h-8 w-8">
-            <AvatarImage 
-              src={story.storyteller?.profile?.avatar_url || story.author?.avatar_url} 
-              alt={story.storyteller?.display_name || story.author?.display_name}
-            />
-            <AvatarFallback className="bg-earth-200 text-earth-700 text-xs">
-              {getInitials(story.storyteller?.display_name || story.author?.display_name)}
-            </AvatarFallback>
-          </Avatar>
-          
+      <div className="p-6">
+        {/* Author Info */}
+        <div className="flex items-center gap-3 mb-4">
           <div className="flex-1">
-            <div className="flex items-center gap-2">
-              <Typography variant="small" className="font-medium">
-                {story.storyteller?.display_name || `${story.author?.first_name} ${story.author?.last_name}`.trim() || story.author?.display_name}
-              </Typography>
-              {story.storyteller?.elder_status && (
-                <Crown className="w-3 h-3 text-amber-500" />
-              )}
-            </div>
-            {story.storyteller?.cultural_background && (
-              <Typography variant="small" className="text-gray-500">
-                {story.storyteller.cultural_background}
+            <Typography variant="small" className="font-semibold text-gray-900">
+              {story.author?.display_name || story.author?.full_name || 'Unknown Author'}
+            </Typography>
+            {story.author?.cultural_background && (
+              <Typography variant="small" className="text-gray-500 mt-1">
+                {story.author.cultural_background}
               </Typography>
             )}
           </div>
         </div>
 
-        {/* Metadata */}
-        <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-4">
-          {story.reading_time_minutes && (
-            <div className="flex items-center gap-1">
-              <Clock className="w-4 h-4" />
-              <span>{story.reading_time_minutes} min read</span>
-            </div>
-          )}
-          
-          {story.location && (
-            <div className="flex items-center gap-1">
-              <MapPin className="w-4 h-4" />
-              <span>{story.location}</span>
-            </div>
-          )}
-          
-          <div className="flex items-center gap-1">
-            <User className="w-4 h-4" />
-            <span>{story.audience}</span>
-          </div>
+        {/* Title */}
+        <Link href={`/stories/${story.id}`}>
+          <Typography 
+            variant="h3" 
+            className="group-hover:text-blue-700 transition-colors cursor-pointer line-clamp-2 mb-3 text-lg font-bold"
+          >
+            {story.title}
+          </Typography>
+        </Link>
+
+        {/* Content Preview */}
+        <div className="mb-4">
+          <Typography variant="body" className="text-gray-600 leading-relaxed line-clamp-3">
+            {truncateContent(story.content, 120)}
+          </Typography>
         </div>
 
         {/* Tags */}
         {story.tags && story.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
-            {story.tags.slice(0, 3).map((tag, index) => (
-              <Badge key={index} variant="secondary" className="text-xs">
+            {story.tags.slice(0, 2).map((tag, index) => (
+              <Badge key={index} variant="outline" className="text-xs">
                 {tag}
               </Badge>
             ))}
-            {story.tags.length > 3 && (
-              <Badge variant="secondary" className="text-xs">
-                +{story.tags.length - 3} more
+            {story.tags.length > 2 && (
+              <Badge variant="outline" className="text-xs text-gray-500">
+                +{story.tags.length - 2} more
               </Badge>
             )}
           </div>
         )}
 
-        {/* Footer - Stats and Actions */}
+        {/* Footer */}
         <div className="flex items-center justify-between pt-4 border-t border-gray-100">
           <div className="flex items-center gap-4 text-sm text-gray-500">
-            <div className="flex items-center gap-1">
-              <Eye className="w-4 h-4" />
-              <span>{story.views_count || 0}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Heart className="w-4 h-4" />
-              <span>{story.likes_count || 0}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Share2 className="w-4 h-4" />
-              <span>{story.shares_count || 0}</span>
-            </div>
+            {story.reading_time_minutes && (
+              <div className="flex items-center gap-1">
+                <Clock className="w-4 h-4" />
+                <span>{story.reading_time_minutes} min</span>
+              </div>
+            )}
+            {story.location && (
+              <div className="flex items-center gap-1">
+                <MapPin className="w-4 h-4" />
+                <span className="truncate max-w-20">{story.location}</span>
+              </div>
+            )}
           </div>
 
           {showActions && (
-            <div className="flex gap-2">
-              <Button 
-                variant="outline" 
-                size="sm"
-                className="text-xs"
-                asChild
-              >
-                <Link href={`/stories/${story.id}`}>
-                  Read Story
-                </Link>
-              </Button>
-              
-              {story.storyteller && (
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  className="text-xs text-earth-600 hover:text-earth-700"
-                  asChild
-                >
-                  <Link href={`/storytellers/${story.storyteller.id}`}>
-                    View Storyteller
-                  </Link>
-                </Button>
-              )}
-            </div>
+            <Button 
+              variant="default" 
+              size="sm"
+              className="text-xs bg-blue-600 hover:bg-blue-700"
+              asChild
+            >
+              <Link href={`/stories/${story.id}`}>
+                Read Story
+              </Link>
+            </Button>
           )}
         </div>
       </div>

@@ -3,10 +3,10 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const storytellerId = params.id
+    const { id: storytellerId } = await params
     
     if (!storytellerId) {
       return NextResponse.json(
@@ -15,32 +15,14 @@ export async function GET(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
-    // Fetch storyteller with profile information
-    const { data: storyteller, error } = await supabase
-      .from('storytellers')
+    // Fetch profile information (treating it as storyteller)
+    const { data: profile, error } = await supabase
+      .from('profiles')
       .select(`
         *,
-        profile:profiles(
-          avatar_url,
-          cultural_affiliations,
-          pronouns,
-          display_name,
-          bio,
-          phone,
-          social_links,
-          languages_spoken,
-          interests,
-          preferred_communication,
-          occupation,
-          timezone,
-          cultural_background,
-          storytelling_experience,
-          preferred_name,
-          first_name,
-          last_name
-        )
+        stories!stories_author_id_fkey(count)
       `)
       .eq('id', storytellerId)
       .single()
@@ -59,20 +41,72 @@ export async function GET(
       )
     }
 
-    // Get story count for this storyteller
-    const { count: storyCount } = await supabase
-      .from('stories')
-      .select('*', { count: 'exact', head: true })
-      .eq('storyteller_id', storytellerId)
-      .eq('status', 'published')
-
-    // Update the storyteller object with the current story count
-    const updatedStoryteller = {
-      ...storyteller,
-      story_count: storyCount || 0
+    // Helper function to extract themes from bio text
+    const extractThemesFromBio = (bio: string): string[] => {
+      if (!bio) return []
+      const themes = []
+      const keywords = ['family', 'community', 'health', 'business', 'environment', 'education', 'culture', 'tradition', 'healing', 'land', 'country', 'elders', 'youth', 'stories', 'wisdom', 'connection', 'identity', 'heritage', 'language', 'ceremony']
+      keywords.forEach(keyword => {
+        if (bio.toLowerCase().includes(keyword)) {
+          themes.push(keyword.charAt(0).toUpperCase() + keyword.slice(1))
+        }
+      })
+      return [...new Set(themes)]
     }
 
-    return NextResponse.json(updatedStoryteller)
+    // Helper function to extract location mentions from bio
+    const extractLocationFromBio = (bio: string): string | null => {
+      if (!bio) return null
+      const locationMatch = bio.match(/Growing up in ([^,]+)/i)
+      if (locationMatch && locationMatch[1] && locationMatch[1].trim() !== 'na') {
+        return locationMatch[1].trim()
+      }
+      return null
+    }
+
+    // Transform profile to storyteller format
+    const bio = profile.bio || ''
+    const themes = extractThemesFromBio(bio)
+    const location = extractLocationFromBio(bio)
+    const storyCount = profile.stories ? profile.stories.length : 0
+
+    const storyteller = {
+      id: profile.id,
+      display_name: profile.display_name || profile.preferred_name || 'Unknown Storyteller',
+      bio: bio,
+      cultural_background: profile.cultural_background,
+      specialties: themes,
+      years_of_experience: null,
+      preferred_topics: profile.interests || [],
+      story_count: storyCount,
+      featured: storyCount > 0,
+      status: 'active' as const,
+      elder_status: false,
+      storytelling_style: null,
+      availability: null,
+      cultural_protocols: null,
+      community_recognition: null,
+      performance_preferences: null,
+      compensation_preferences: null,
+      travel_availability: null,
+      technical_requirements: null,
+      profile: {
+        avatar_url: profile.profile_image_url,
+        cultural_affiliations: profile.cultural_affiliations,
+        pronouns: profile.preferred_pronouns,
+        display_name: profile.display_name,
+        bio: profile.bio,
+        phone: profile.phone_number,
+        social_links: profile.social_links,
+        languages_spoken: profile.languages_spoken,
+        interests: profile.interests,
+        preferred_communication: profile.preferred_communication,
+        occupation: profile.current_role,
+        timezone: profile.timezone
+      }
+    }
+
+    return NextResponse.json(storyteller)
 
   } catch (error) {
     console.error('Storyteller API error:', error)
@@ -85,10 +119,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const storytellerId = params.id
+    const { id: storytellerId } = await params
     const body = await request.json()
     
     if (!storytellerId) {
@@ -98,7 +132,7 @@ export async function PUT(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Extract storyteller fields vs profile fields
     const storytellerFields = {
@@ -174,10 +208,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const storytellerId = params.id
+    const { id: storytellerId } = await params
     
     if (!storytellerId) {
       return NextResponse.json(
@@ -186,7 +220,7 @@ export async function DELETE(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Soft delete by setting status to inactive
     const { error } = await supabase

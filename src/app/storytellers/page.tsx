@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Typography } from '@/components/ui/typography'
 import { StorytellerCard } from '@/components/storyteller/storyteller-card'
+import Header from '@/components/layout/header'
+import Footer from '@/components/layout/footer'
 import { 
   Search, 
   Filter, 
@@ -188,7 +190,7 @@ export default function StorytellerDirectoryPage() {
     async function fetchStorytellers() {
       try {
         setLoading(true)
-        const response = await fetch('/api/storytellers?status=active&limit=100')
+        const response = await fetch('/api/storytellers?status=active&limit=1000')
         if (!response.ok) {
           throw new Error('Failed to fetch storytellers')
         }
@@ -251,7 +253,9 @@ export default function StorytellerDirectoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sage-50 to-earth-50">
+    <div className="min-h-screen bg-background">
+      <Header />
+      
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
@@ -265,64 +269,60 @@ export default function StorytellerDirectoryPage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-          <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-            <div className="flex items-center justify-center mb-2">
-              <Users className="w-5 h-5 text-earth-600" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-center mb-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <Users className="w-6 h-6 text-blue-600" />
+              </div>
             </div>
-            <Typography variant="h3" className="text-earth-800">
-              {stats.active}
+            <Typography variant="h2" className="text-slate-800 font-bold">
+              {stats.total}
             </Typography>
-            <Typography variant="small" className="text-gray-600">
-              Active Storytellers
+            <Typography variant="small" className="text-slate-500 font-medium">
+              Community Storytellers
             </Typography>
           </div>
           
-          <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-            <div className="flex items-center justify-center mb-2">
-              <Crown className="w-5 h-5 text-amber-500" />
+          <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-center mb-3">
+              <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
+                <Crown className="w-6 h-6 text-amber-600" />
+              </div>
             </div>
-            <Typography variant="h3" className="text-amber-600">
+            <Typography variant="h2" className="text-amber-600 font-bold">
               {stats.elders}
             </Typography>
-            <Typography variant="small" className="text-gray-600">
+            <Typography variant="small" className="text-slate-500 font-medium">
               Elder Storytellers
             </Typography>
           </div>
 
-          <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-            <div className="flex items-center justify-center mb-2">
-              <Star className="w-5 h-5 text-yellow-500" />
+          <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-center mb-3">
+              <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
+                <BookOpen className="w-6 h-6 text-emerald-600" />
+              </div>
             </div>
-            <Typography variant="h3" className="text-yellow-600">
-              {stats.featured}
-            </Typography>
-            <Typography variant="small" className="text-gray-600">
-              Featured
-            </Typography>
-          </div>
-
-          <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-            <div className="flex items-center justify-center mb-2">
-              <BookOpen className="w-5 h-5 text-blue-500" />
-            </div>
-            <Typography variant="h3" className="text-blue-600">
+            <Typography variant="h2" className="text-emerald-600 font-bold">
               {stats.stories}
             </Typography>
-            <Typography variant="small" className="text-gray-600">
-              Total Stories
+            <Typography variant="small" className="text-slate-500 font-medium">
+              Stories Shared
             </Typography>
           </div>
 
-          <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-            <div className="flex items-center justify-center mb-2">
-              <User className="w-5 h-5 text-green-500" />
+          <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-center mb-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                <Star className="w-6 h-6 text-purple-600" />
+              </div>
             </div>
-            <Typography variant="h3" className="text-green-600">
-              {stats.total}
+            <Typography variant="h2" className="text-purple-600 font-bold">
+              {stats.featured}
             </Typography>
-            <Typography variant="small" className="text-gray-600">
-              Total Community
+            <Typography variant="small" className="text-slate-500 font-medium">
+              Featured Stories
             </Typography>
           </div>
         </div>
@@ -358,7 +358,7 @@ export default function StorytellerDirectoryPage() {
 
           {/* Expanded Filters */}
           {showFilters && (
-            <div className="border-t pt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="border-t pt-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
               {/* Cultural Background */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -491,6 +491,8 @@ export default function StorytellerDirectoryPage() {
           </div>
         )}
       </div>
+
+      <Footer />
     </div>
   )
 }

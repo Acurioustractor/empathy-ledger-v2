@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Typography } from '@/components/ui/typography'
 import { Badge } from '@/components/ui/badge'
 import { StoryCard } from '@/components/story/story-card'
+import Header from '@/components/layout/header'
+import Footer from '@/components/layout/footer'
 import type { Story } from '@/types/database'
 import { cn } from '@/lib/utils'
 import { 
@@ -84,10 +86,10 @@ export default function StoriesPage() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [filters, setFilters] = useState({
-    type: '',
-    audience: '',
-    cultural_sensitivity: '',
-    featured: '',
+    type: 'all',
+    audience: 'all',
+    cultural_sensitivity: 'all',
+    featured: 'all',
     location: '',
     tag: ''
   })
@@ -110,10 +112,10 @@ export default function StoriesPage() {
       })
 
       if (searchTerm) params.append('search', searchTerm)
-      if (filters.type) params.append('type', filters.type)
-      if (filters.audience) params.append('audience', filters.audience)
-      if (filters.cultural_sensitivity) params.append('cultural_sensitivity', filters.cultural_sensitivity)
-      if (filters.featured) params.append('featured', filters.featured)
+      if (filters.type && filters.type !== 'all') params.append('type', filters.type)
+      if (filters.audience && filters.audience !== 'all') params.append('audience', filters.audience)
+      if (filters.cultural_sensitivity && filters.cultural_sensitivity !== 'all') params.append('cultural_sensitivity', filters.cultural_sensitivity)
+      if (filters.featured && filters.featured !== 'all') params.append('featured', filters.featured)
       if (filters.location) params.append('location', filters.location)
       if (filters.tag) params.append('tag', filters.tag)
 
@@ -141,10 +143,10 @@ export default function StoriesPage() {
 
   const clearFilters = () => {
     setFilters({
-      type: '',
-      audience: '',
-      cultural_sensitivity: '',
-      featured: '',
+      type: 'all',
+      audience: 'all',
+      cultural_sensitivity: 'all',
+      featured: 'all',
       location: '',
       tag: ''
     })
@@ -156,10 +158,14 @@ export default function StoriesPage() {
     setPagination(prev => ({ ...prev, page: newPage }))
   }
 
-  const activeFilterCount = Object.values(filters).filter(Boolean).length
+  const activeFilterCount = Object.entries(filters).filter(([key, value]) => 
+    value && value !== 'all'
+  ).length
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-earth-50 to-white">
+    <div className="min-h-screen bg-background">
+      <Header />
+      
       {/* Hero Section */}
       <div className="bg-earth-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -247,7 +253,7 @@ export default function StoriesPage() {
           {/* Filter Panel */}
           {showFilters && (
             <Card className="p-4 mb-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                 <div>
                   <label className="text-sm font-medium mb-2 block">Story Type</label>
                   <Select value={filters.type} onValueChange={(value) => handleFilterChange('type', value)}>
@@ -255,7 +261,7 @@ export default function StoriesPage() {
                       <SelectValue placeholder="Any type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Any type</SelectItem>
+                      <SelectItem value="all">Any type</SelectItem>
                       {STORY_TYPES.map(type => (
                         <SelectItem key={type.value} value={type.value}>
                           {type.label}
@@ -288,7 +294,7 @@ export default function StoriesPage() {
                       <SelectValue placeholder="Any level" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Any level</SelectItem>
+                      <SelectItem value="all">Any level</SelectItem>
                       <SelectItem value="public">Public Stories</SelectItem>
                       <SelectItem value="sensitive">Culturally Sensitive</SelectItem>
                       <SelectItem value="community">Community Only</SelectItem>
@@ -303,7 +309,7 @@ export default function StoriesPage() {
                       <SelectValue placeholder="All stories" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All stories</SelectItem>
+                      <SelectItem value="all">All stories</SelectItem>
                       <SelectItem value="true">Featured only</SelectItem>
                     </SelectContent>
                   </Select>
@@ -403,6 +409,8 @@ export default function StoriesPage() {
           </>
         )}
       </div>
+
+      <Footer />
     </div>
   )
 }

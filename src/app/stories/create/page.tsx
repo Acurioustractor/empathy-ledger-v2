@@ -325,7 +325,7 @@ export default function CreateStoryPage() {
                     <SelectValue placeholder="Select a storyteller or leave blank if you're the author" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">None (I am the author)</SelectItem>
+                    <SelectItem value="none">None (I am the author)</SelectItem>
                     {storytellers.map(storyteller => (
                       <SelectItem key={storyteller.id} value={storyteller.id}>
                         {storyteller.display_name}

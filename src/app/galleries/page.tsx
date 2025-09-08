@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useAuth } from '@/lib/context/auth.context'
+import Header from '@/components/layout/header'
+import Footer from '@/components/layout/footer'
 import type { Gallery } from '@/types/database'
 
 interface GalleriesResponse {
@@ -135,7 +137,9 @@ export default function GalleriesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50">
+    <div className="min-h-screen bg-background">
+      <Header />
+      
       <div className="container mx-auto px-6 py-12">
         {/* Header */}
         <div className="text-center mb-12">
@@ -380,6 +384,8 @@ export default function GalleriesPage() {
           </>
         )}
       </div>
+
+      <Footer />
     </div>
   )
 }

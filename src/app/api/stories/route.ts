@@ -17,29 +17,18 @@ export async function GET(request: NextRequest) {
     const tag = searchParams.get('tag')
     const location = searchParams.get('location')
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     let query = supabase
       .from('stories')
       .select(`
         *,
-        storyteller:storytellers(
-          id,
-          display_name,
-          bio,
-          cultural_background,
-          elder_status,
-          profile:profiles(
-            avatar_url,
-            cultural_affiliations
-          )
-        ),
         author:profiles!stories_author_id_fkey(
           id,
           display_name,
-          first_name,
-          last_name,
-          avatar_url
+          full_name,
+          profile_image_url,
+          cultural_background
         )
       `)
 
@@ -158,26 +147,19 @@ export async function POST(request: NextRequest) {
       shares_count: 0
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     const { data: story, error } = await supabase
       .from('stories')
       .insert([storyData])
       .select(`
         *,
-        storyteller:storytellers(
-          id,
-          display_name,
-          bio,
-          cultural_background,
-          elder_status
-        ),
         author:profiles!stories_author_id_fkey(
           id,
           display_name,
-          first_name,
-          last_name,
-          avatar_url
+          full_name,
+          profile_image_url,
+          cultural_background
         )
       `)
       .single()

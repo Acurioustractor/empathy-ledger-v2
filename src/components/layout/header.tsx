@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, User, Heart, Map, BookOpen, Users, BarChart3 } from 'lucide-react'
+import { Menu, X, User, Heart, Map, BookOpen, Users, BarChart3, Info, Layout, Settings } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
@@ -22,7 +22,7 @@ interface NavigationItem {
 
 const mainNavigation: NavigationItem[] = [
   {
-    name: 'All Stories',
+    name: 'Stories',
     href: '/stories',
     icon: <BookOpen className="w-4 h-4" />,
     description: 'Discover personal, family, community, and cultural stories',
@@ -36,66 +36,50 @@ const mainNavigation: NavigationItem[] = [
     showFor: 'all'
   },
   {
-    name: 'How It Works',
-    href: '/how-it-works',
-    icon: <Heart className="w-4 h-4" />,
-    description: 'Learn how to share and discover stories',
-    showFor: 'all'
-  },
-  {
     name: 'Analytics',
     href: '/analytics',
     icon: <BarChart3 className="w-4 h-4" />,
     description: 'Community impact and cultural insights',
-    showFor: 'all',
-    badge: 'Insights'
-  },
-  {
-    name: 'About',
-    href: '/about',
-    description: 'Our mission to preserve every story',
     showFor: 'all'
   }
 ]
 
 const authenticatedNavigation: NavigationItem[] = [
   {
-    name: 'Share Your Story',
+    name: 'Dashboard',
+    href: '/storytellers/dashboard',
+    icon: <Layout className="w-4 h-4" />,
+    description: 'Your storyteller tools',
+    requiresAuth: true,
+    showFor: 'authenticated'
+  },
+  {
+    name: 'Create',
     href: '/stories/create',
     icon: <BookOpen className="w-4 h-4" />,
-    description: 'Share your personal or cultural story',
-    requiresAuth: true,
-    showFor: 'authenticated',
-    badge: 'New'
-  },
-  {
-    name: 'Dashboard',
-    href: '/dashboard',
-    description: 'Your personal storytelling space',
-    requiresAuth: true,
-    showFor: 'authenticated'
-  },
-  {
-    name: 'My Stories',
-    href: '/stories/mine',
-    description: 'Manage your stories',
-    requiresAuth: true,
-    showFor: 'authenticated'
-  },
-  {
-    name: 'Profile',
-    href: '/profile',
-    icon: <User className="w-4 h-4" />,
+    description: 'Share your story',
     requiresAuth: true,
     showFor: 'authenticated'
   }
 ]
 
-const storytellerNavigation: NavigationItem[] = [
+const getStorytellerNavigation = (userId: string): NavigationItem[] => [
   {
-    name: 'Storyteller Hub',
-    href: '/storyteller/dashboard',
-    badge: 'Storyteller',
+    name: 'Storyteller Dashboard',
+    href: `/storytellers/${userId}/dashboard`,
+    badge: 'Dashboard',
+    requiresAuth: true,
+    showFor: 'storytellers'
+  },
+  {
+    name: 'My Stories',
+    href: `/storytellers/${userId}/stories`,
+    requiresAuth: true,
+    showFor: 'storytellers'
+  },
+  {
+    name: 'Analytics',
+    href: `/storytellers/${userId}/analytics`,
     requiresAuth: true,
     showFor: 'storytellers'
   }
@@ -134,8 +118,9 @@ export default function Header() {
       navigation = [...navigation, ...authenticatedNavigation.filter(shouldShowNavItem)]
     }
     
-    if (isStoryteller) {
-      navigation = [...navigation, ...storytellerNavigation.filter(shouldShowNavItem)]
+    if (isStoryteller && user?.id) {
+      const storytellerNav = getStorytellerNavigation(user.id)
+      navigation = [...navigation, ...storytellerNav.filter(shouldShowNavItem)]
     }
 
     return navigation.filter(shouldShowNavItem)
@@ -144,7 +129,7 @@ export default function Header() {
   const visibleNavigation = getVisibleNavigation()
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-stone-200 dark:border-stone-800 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo and Brand */}
@@ -157,10 +142,10 @@ export default function Header() {
               <Heart className="w-5 h-5 text-white" />
             </div>
             <div className="hidden sm:block">
-              <Typography variant="cultural-heading" className="text-clay-800 dark:text-clay-200">
+              <Typography variant="cultural-heading" className="text-gray-900 dark:text-white text-lg font-bold">
                 Empathy Ledger
               </Typography>
-              <Typography variant="caption" className="text-stone-500 dark:text-stone-400 -mt-1">
+              <Typography variant="caption" className="text-gray-600 dark:text-gray-400 -mt-1 text-xs">
                 Every Story Matters
               </Typography>
             </div>
@@ -173,13 +158,13 @@ export default function Header() {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                  "text-stone-600 dark:text-stone-300 hover:text-clay-700 dark:hover:text-clay-300",
-                  "hover:bg-clay-50 dark:hover:bg-clay-950/30"
+                  "flex items-center space-x-1 px-2 py-2 rounded-lg text-sm font-semibold transition-colors whitespace-nowrap",
+                  "text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white",
+                  "hover:bg-gray-100 dark:hover:bg-gray-800"
                 )}
               >
                 {item.icon}
-                <span>{item.name}</span>
+                <span className="font-semibold">{item.name}</span>
                 {item.badge && (
                   <Badge variant="cultural-featured" size="sm">
                     {item.badge}
@@ -195,38 +180,75 @@ export default function Header() {
             {isAuthenticated ? (
               <div className="flex items-center space-x-2">
                 {profile && (
-                  <div className="hidden sm:block text-right">
-                    <Typography variant="small" className="text-stone-700 dark:text-stone-300">
-                      {profile.display_name || profile.first_name || 'User'}
-                    </Typography>
-                    {isStoryteller && (
-                      <Badge variant="sage-soft" size="sm" className="mt-1">
-                        Storyteller
-                      </Badge>
-                    )}
-                    {isElder && (
-                      <Badge variant="clay-soft" size="sm" className="mt-1 ml-1">
-                        Elder
-                      </Badge>
-                    )}
-                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    asChild
+                    className="hidden sm:flex border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400 hover:text-blue-800 transition-all duration-200 font-semibold px-3 py-1.5"
+                  >
+                    <Link href="/profile" className="flex items-center gap-2">
+                      <User className="w-4 h-4" />
+                      <div className="flex flex-col items-start">
+                        <span className="text-sm font-semibold">
+                          {profile.display_name || profile.first_name || 'User'}
+                        </span>
+                        <div className="flex gap-1 mt-0.5">
+                          {isStoryteller && (
+                            <Badge variant="sage-soft" size="sm" className="text-xs px-1.5 py-0">
+                              Storyteller
+                            </Badge>
+                          )}
+                          {isElder && (
+                            <Badge variant="clay-soft" size="sm" className="text-xs px-1.5 py-0">
+                              Elder
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
+                  </Button>
                 )}
+                <Button 
+                  size="sm" 
+                  asChild
+                  className="hidden sm:flex bg-purple-600 hover:bg-purple-700 text-white shadow-md hover:shadow-lg transition-all duration-200 font-semibold border-0 px-3 py-1"
+                >
+                  <Link href="/admin" className="flex items-center gap-1">
+                    <Settings className="w-3 h-3" />
+                    Admin
+                  </Link>
+                </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={signOut}
-                  className="hidden sm:flex"
+                  className="hidden sm:flex border-gray-400 text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-semibold px-3 py-1"
                 >
                   Sign Out
                 </Button>
               </div>
             ) : (
               <div className="hidden sm:flex items-center space-x-2">
-                <Button variant="ghost" size="sm" asChild>
-                  <Link href="/auth/signin">Sign In</Link>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  asChild
+                  className="border-gray-400 text-black hover:bg-gray-100 hover:text-black hover:border-gray-500 transition-all duration-200 font-bold"
+                >
+                  <Link href="/auth/signin" className="flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    Sign In
+                  </Link>
                 </Button>
-                <Button variant="cultural-primary" size="sm" asChild>
-                  <Link href="/auth/signup">Get Started</Link>
+                <Button 
+                  size="sm" 
+                  asChild
+                  className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 font-semibold border-0"
+                >
+                  <Link href="/auth/signup" className="flex items-center gap-2">
+                    <Heart className="w-4 h-4" />
+                    Get Started
+                  </Link>
                 </Button>
               </div>
             )}
@@ -235,7 +257,7 @@ export default function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="md:hidden border border-gray-400 text-gray-700 hover:bg-gray-100"
               onClick={toggleMobileMenu}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
@@ -251,7 +273,7 @@ export default function Header() {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-stone-200 dark:border-stone-800 bg-background">
+        <div className="md:hidden border-t border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-4 py-4 space-y-2">
             {visibleNavigation.map((item) => (
               <Link
@@ -260,14 +282,14 @@ export default function Header() {
                 onClick={closeMobileMenu}
                 className={cn(
                   "flex items-center space-x-3 px-3 py-3 rounded-lg transition-colors",
-                  "text-stone-600 dark:text-stone-300 hover:text-clay-700 dark:hover:text-clay-300",
+                  "text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white font-medium",
                   "hover:bg-clay-50 dark:hover:bg-clay-950/30"
                 )}
               >
                 {item.icon}
                 <div className="flex-1">
                   <div className="flex items-center space-x-2">
-                    <Typography variant="body-small" className="font-medium">
+                    <Typography variant="body-small" className="font-medium text-gray-700 dark:text-gray-200">
                       {item.name}
                     </Typography>
                     {item.badge && (
@@ -277,7 +299,7 @@ export default function Header() {
                     )}
                   </div>
                   {item.description && (
-                    <Typography variant="caption" className="text-stone-500 dark:text-stone-400">
+                    <Typography variant="caption" className="text-gray-700 dark:text-gray-300 font-medium">
                       {item.description}
                     </Typography>
                   )}
@@ -290,24 +312,44 @@ export default function Header() {
               {isAuthenticated ? (
                 <>
                   {profile && (
-                    <div className="px-3 py-2">
-                      <Typography variant="small" className="font-medium text-stone-700 dark:text-stone-300">
-                        {profile.display_name || profile.first_name || 'User'}
-                      </Typography>
-                      <div className="flex space-x-1 mt-1">
-                        {isStoryteller && (
-                          <Badge variant="sage-soft" size="sm">
-                            Storyteller
-                          </Badge>
-                        )}
-                        {isElder && (
-                          <Badge variant="clay-soft" size="sm">
-                            Elder
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      asChild
+                      className="w-full justify-start border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400 hover:text-blue-800 transition-all duration-200 font-semibold mb-2"
+                    >
+                      <Link href="/profile" onClick={closeMobileMenu} className="flex items-center gap-3">
+                        <User className="w-4 h-4" />
+                        <div className="flex flex-col items-start">
+                          <span className="font-semibold">
+                            {profile.display_name || profile.first_name || 'User'}
+                          </span>
+                          <div className="flex space-x-1 mt-1">
+                            {isStoryteller && (
+                              <Badge variant="sage-soft" size="sm" className="text-xs">
+                                Storyteller
+                              </Badge>
+                            )}
+                            {isElder && (
+                              <Badge variant="clay-soft" size="sm" className="text-xs">
+                                Elder
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                      </Link>
+                    </Button>
                   )}
+                  <Button 
+                    size="sm" 
+                    asChild
+                    className="w-full justify-start bg-purple-600 hover:bg-purple-700 text-white shadow-md hover:shadow-lg transition-all duration-200 font-semibold border-0 mb-2"
+                  >
+                    <Link href="/admin" onClick={closeMobileMenu} className="flex items-center gap-2">
+                      <Settings className="w-4 h-4" />
+                      Admin
+                    </Link>
+                  </Button>
                   <Button
                     variant="outline"
                     size="sm"
@@ -315,30 +357,31 @@ export default function Header() {
                       signOut()
                       closeMobileMenu()
                     }}
-                    className="w-full justify-start"
+                    className="w-full justify-start border-gray-400 text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-semibold"
                   >
                     Sign Out
                   </Button>
                 </>
               ) : (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <Button 
-                    variant="ghost" 
+                    variant="outline" 
                     size="sm" 
                     asChild 
-                    className="w-full justify-start"
+                    className="w-full justify-start border-clay-300 text-clay-700 hover:bg-clay-50 hover:text-clay-800 hover:border-clay-400 transition-all duration-200 font-medium"
                   >
-                    <Link href="/auth/signin" onClick={closeMobileMenu}>
+                    <Link href="/auth/signin" onClick={closeMobileMenu} className="flex items-center gap-2">
+                      <User className="w-4 h-4" />
                       Sign In
                     </Link>
                   </Button>
                   <Button 
-                    variant="cultural-primary" 
                     size="sm" 
                     asChild 
-                    className="w-full justify-start"
+                    className="w-full justify-start bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 font-semibold border-0"
                   >
-                    <Link href="/auth/signup" onClick={closeMobileMenu}>
+                    <Link href="/auth/signup" onClick={closeMobileMenu} className="flex items-center gap-2">
+                      <Heart className="w-4 h-4" />
                       Get Started
                     </Link>
                   </Button>

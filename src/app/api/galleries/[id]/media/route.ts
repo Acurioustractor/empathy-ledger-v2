@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { createSupabaseClient } from '@/lib/supabase/client-ssr'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import type { GalleryMediaAssociationInsert } from '@/types/database'
 
 interface Params {
@@ -8,11 +8,11 @@ interface Params {
 
 export async function GET(
   request: Request,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseClient()
-    const { id: galleryId } = params
+    const supabase = await createSupabaseServerClient()
+    const { id: galleryId } = await params
     
     // Get current user
     const { data: { user } } = await supabase.auth.getUser()
@@ -106,11 +106,11 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseClient()
-    const { id: galleryId } = params
+    const supabase = await createSupabaseServerClient()
+    const { id: galleryId } = await params
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -254,13 +254,79 @@ export async function POST(
   }
 }
 
-export async function DELETE(
+export async function PUT(
   request: Request,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseClient()
-    const { id: galleryId } = params
+    const supabase = await createSupabaseServerClient()
+    const { id: galleryId } = await params
+    
+    // Check authentication
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
+    }
+
+    // Check if user owns this gallery
+    const { data: gallery, error: galleryError } = await supabase
+      .from('galleries')
+      .select('created_by')
+      .eq('id', galleryId)
+      .single()
+
+    if (galleryError) {
+      return NextResponse.json({ error: 'Gallery not found' }, { status: 404 })
+    }
+
+    if (gallery.created_by !== user.id) {
+      return NextResponse.json({ error: 'Access denied' }, { status: 403 })
+    }
+
+    const body = await request.json()
+    const { id: associationId, ...updateData } = body
+
+    // Update the gallery media association
+    const { data: updatedAssociation, error: updateError } = await supabase
+      .from('gallery_media_associations')
+      .update(updateData)
+      .eq('id', associationId)
+      .eq('gallery_id', galleryId) // Double-check gallery ownership
+      .select(`
+        *,
+        media_asset:media_assets(
+          id,
+          filename,
+          public_url,
+          thumbnail_url,
+          alt_text,
+          title,
+          cultural_sensitivity_level,
+          width,
+          height
+        )
+      `)
+      .single()
+
+    if (updateError) {
+      console.error('Error updating media association:', updateError)
+      return NextResponse.json({ error: 'Failed to update media' }, { status: 500 })
+    }
+
+    return NextResponse.json({ association: updatedAssociation })
+  } catch (error) {
+    console.error('Error in gallery media update:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<Params> }
+) {
+  try {
+    const supabase = await createSupabaseServerClient()
+    const { id: galleryId } = await params
     const { searchParams } = new URL(request.url)
     const associationId = searchParams.get('association_id')
     const mediaAssetId = searchParams.get('media_asset_id')

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { createSupabaseClient } from '@/lib/supabase/client-ssr'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import type { MediaAssetInsert } from '@/types/database'
 
 export async function GET(request: Request) {
@@ -13,53 +13,23 @@ export async function GET(request: Request) {
     const organizationId = searchParams.get('organization_id')
     const uploaderSearch = searchParams.get('uploader')
     
-    const supabase = createSupabaseClient()
+    const supabase = await createSupabaseServerClient()
     
     // Get current user
     const { data: { user } } = await supabase.auth.getUser()
     
     let query = supabase
       .from('media_assets')
-      .select(`
-        *,
-        uploaded_by_profile:profiles!media_assets_uploaded_by_fkey(
-          id,
-          display_name,
-          avatar_url
-        ),
-        organization:organizations(
-          id,
-          name,
-          slug,
-          logo_url
-        )
-      `)
-      .eq('processing_status', 'completed')
+      .select('*')
       .order('created_at', { ascending: false })
 
-    // Apply visibility filters
-    if (!user) {
-      query = query.eq('visibility', 'public')
-    } else {
-      query = query.in('visibility', ['public', 'community'])
-    }
-
-    // Apply content filters
+    // Apply content filters that exist in our minimal schema
     if (fileType) {
       query = query.eq('file_type', fileType)
     }
     
     if (culturalSensitivity) {
       query = query.eq('cultural_sensitivity_level', culturalSensitivity)
-    }
-    
-    if (organizationId) {
-      query = query.eq('organization_id', organizationId)
-    }
-
-    // Apply tag filter if provided
-    if (tags && tags.length > 0) {
-      query = query.overlaps('tags', tags)
     }
 
     // Apply pagination
@@ -96,7 +66,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const supabase = createSupabaseClient()
+    const supabase = await createSupabaseServerClient()
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -130,9 +100,11 @@ export async function POST(request: Request) {
       }, { status: 400 })
     }
 
-    // Generate unique filename
+    // Generate unique filename using timestamp and user ID (more predictable than Math.random)
     const fileExtension = file.name.split('.').pop()
-    const filename = `${user.id}/${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExtension}`
+    const timestamp = Date.now()
+    const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
+    const filename = `${user.id}/${timestamp}_${sanitizedName}`
     const storageBucket = 'media-assets'
 
     // Upload to Supabase Storage

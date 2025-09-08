@@ -27,6 +27,8 @@ import {
   MessageCircle
 } from 'lucide-react'
 import Link from 'next/link'
+import Header from '@/components/layout/header'
+import Footer from '@/components/layout/footer'
 
 interface StoryWithRelations extends Story {
   storyteller?: {
@@ -69,16 +71,27 @@ const storyTypeColors = {
   healing: 'bg-rose-100 text-rose-800'
 }
 
-export default function StoryDetailPage({ params }: { params: { id: string } }) {
+export default function StoryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [story, setStory] = useState<StoryWithRelations | null>(null)
   const [loading, setLoading] = useState(true)
   const [liked, setLiked] = useState(false)
+  const [storyId, setStoryId] = useState<string>('')
 
   useEffect(() => {
+    const resolveParams = async () => {
+      const resolvedParams = await params
+      setStoryId(resolvedParams.id)
+    }
+    resolveParams()
+  }, [params])
+
+  useEffect(() => {
+    if (!storyId) return
+    
     const fetchStory = async () => {
       try {
         setLoading(true)
-        const response = await fetch(`/api/stories/${params.id}`)
+        const response = await fetch(`/api/stories/${storyId}`)
         
         if (!response.ok) {
           if (response.status === 404) {
@@ -99,7 +112,7 @@ export default function StoryDetailPage({ params }: { params: { id: string } }) 
     }
 
     fetchStory()
-  }, [params.id])
+  }, [storyId])
 
   const handleLike = async () => {
     if (!story) return
@@ -172,7 +185,8 @@ export default function StoryDetailPage({ params }: { params: { id: string } }) 
   const isCulturallyReviewed = story.cultural_review_status === 'approved'
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-earth-50 to-white">
+    <div className="min-h-screen bg-background">
+      <Header />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back Button */}
         <div className="mb-6">
@@ -450,6 +464,7 @@ export default function StoryDetailPage({ params }: { params: { id: string } }) 
           </div>
         </Card>
       </div>
+      <Footer />
     </div>
   )
 }

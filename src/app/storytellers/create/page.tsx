@@ -12,6 +12,8 @@ import { Card } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { useAuth } from '@/lib/context/auth.context'
+import Header from '@/components/layout/header'
+import Footer from '@/components/layout/footer'
 import { cn } from '@/lib/utils'
 import { 
   Crown, 
@@ -327,6 +329,8 @@ export default function StorytellerRegistrationPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sage-50 to-earth-50">
+      <Header />
+      
       <div className="container mx-auto px-4 py-8">
         {/* Back Navigation */}
         <div className="mb-6">
@@ -814,6 +818,8 @@ export default function StorytellerRegistrationPage() {
           </Card>
         </div>
       </div>
+
+      <Footer />
     </div>
   )
 }

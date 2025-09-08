@@ -14,8 +14,8 @@ if (!supabaseAnonKey) {
 }
 
 // Server-side Supabase client for App Router
-export const createSupabaseServerClient = () => {
-  const cookieStore = cookies()
+export const createSupabaseServerClient = async () => {
+  const cookieStore = await cookies()
   
   return createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
     cookies: {
@@ -24,9 +24,9 @@ export const createSupabaseServerClient = () => {
       },
       setAll(cookiesToSet) {
         try {
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value, options }) => {
             cookieStore.set(name, value, options)
-          )
+          })
         } catch {
           // The `setAll` method was called from a Server Component.
           // This can be ignored if you have middleware refreshing

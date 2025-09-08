@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Verify user exists and get their context
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { data: user, error: userError } = await supabase
       .from('profiles')
       .select('id, display_name, cultural_affiliations, is_elder')
@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify user exists
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { data: user, error: userError } = await supabase
       .from('profiles')
       .select('id, display_name, cultural_affiliations, is_elder')

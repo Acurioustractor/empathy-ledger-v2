@@ -1,13 +1,12 @@
 import Link from 'next/link'
-import { ArrowRight, Heart, Shield } from 'lucide-react'
+import { Heart, Shield } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { Typography } from '@/components/ui/typography'
-import { Badge } from '@/components/ui/badge'
 import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
+import { SimpleSignInForm } from '@/components/auth/SimpleSignInForm'
 
 export default function SignInPage() {
   return (
@@ -41,59 +40,7 @@ export default function SignInPage() {
             </CardHeader>
             
             <CardContent cultural>
-              <form className="space-y-6">
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium text-stone-700 dark:text-stone-300">
-                    Email Address
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="your.email@example.com"
-                    cultural
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="password" className="text-sm font-medium text-stone-700 dark:text-stone-300">
-                    Password
-                  </label>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    cultural
-                    required
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <label className="flex items-center space-x-2 text-sm">
-                    <input 
-                      type="checkbox" 
-                      className="rounded border-stone-300 text-clay-600 focus:ring-clay-500"
-                    />
-                    <span className="text-stone-600 dark:text-stone-400">Remember me</span>
-                  </label>
-                  <Link 
-                    href="/auth/forgot-password" 
-                    className="text-sm text-clay-600 hover:text-clay-700 dark:text-clay-400 dark:hover:text-clay-300"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
-
-                <Button 
-                  type="submit" 
-                  variant="cultural-primary" 
-                  size="cultural" 
-                  className="w-full"
-                >
-                  Sign In
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </form>
+              <SimpleSignInForm redirectTo="/profile" />
 
               {/* Divider */}
               <div className="relative my-6">

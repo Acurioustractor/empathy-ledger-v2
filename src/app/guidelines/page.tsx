@@ -3,7 +3,7 @@ import { ArrowRight, Shield, Heart, Users, BookOpen, CheckCircle, AlertTriangle,
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Typography, Heading } from '@/components/ui/typography'
+import { Typography } from '@/components/ui/typography'
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import Header from '@/components/layout/header'
@@ -96,12 +96,12 @@ export default function GuidelinesPage() {
               Community Guidelines
             </Badge>
             
-            <Heading level={1} cultural className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
               Sharing Stories{" "}
               <span className="bg-gradient-to-r from-clay-600 to-sage-600 bg-clip-text text-transparent">
                 Responsibly
               </span>
-            </Heading>
+            </Typography>
             
             <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto leading-relaxed">
               Guidelines for sharing your stories with respect, authenticity, and care for the communities and cultures we represent.
@@ -117,9 +117,9 @@ export default function GuidelinesPage() {
             <Badge variant="cultural-new" size="cultural">
               Core Values
             </Badge>
-            <Heading level={2} cultural className="text-3xl md:text-4xl font-bold">
+            <Typography variant="h2" className="text-3xl md:text-4xl font-bold">
               Universal Principles
-            </Heading>
+            </Typography>
             <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
               These core principles guide all storytelling on our platform, regardless of the type of story you're sharing.
             </Typography>
@@ -152,9 +152,9 @@ export default function GuidelinesPage() {
             <Badge variant="clay-soft" size="cultural">
               Story Categories
             </Badge>
-            <Heading level={2} cultural className="text-3xl md:text-4xl font-bold">
+            <Typography variant="h2" className="text-3xl md:text-4xl font-bold">
               Guidelines by Story Type
-            </Heading>
+            </Typography>
             <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
               Different types of stories have different considerations. Here's what to keep in mind for each category.
             </Typography>
@@ -205,9 +205,9 @@ export default function GuidelinesPage() {
               <Badge variant="cultural-featured" size="cultural">
                 Important Reminders
               </Badge>
-              <Heading level={2} cultural className="text-3xl md:text-4xl font-bold">
+              <Typography variant="h2" className="text-3xl md:text-4xl font-bold">
                 Before You Share
-              </Heading>
+              </Typography>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
@@ -248,9 +248,9 @@ export default function GuidelinesPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div className="space-y-4">
-              <Heading level={2} cultural className="text-3xl md:text-4xl font-bold">
+              <Typography variant="h2" className="text-3xl md:text-4xl font-bold">
                 Ready to Share Responsibly?
-              </Heading>
+              </Typography>
               <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
                 Now that you understand our guidelines, you're ready to share your story with confidence and care.
               </Typography>

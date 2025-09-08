@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '@/lib/context/auth.context'
+import Header from '@/components/layout/header'
+import Footer from '@/components/layout/footer'
 import type { MediaAsset, CulturalTag } from '@/types/database'
 
 interface PhotoWithContext extends MediaAsset {
@@ -166,6 +168,8 @@ export default function PhotoDetailPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50">
+      <Header />
+      
       <div className="container mx-auto px-6 py-8">
         {/* Breadcrumb */}
         <nav className="flex mb-6 text-sm">
@@ -479,6 +483,8 @@ export default function PhotoDetailPage() {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   )
 }

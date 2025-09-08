@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-09-05T10:21:00.964Z",
+  "timestamp": "2025-09-05T19:40:43.221Z",
   "connection": {
     "status": "failed",
     "error": "Could not find the table 'public.information_schema.tables' in the schema cache",
-    "timestamp": "2025-09-05T10:21:01.372Z"
+    "timestamp": "2025-09-05T19:40:43.351Z"
   },
   "schema": {
     "tables": [],

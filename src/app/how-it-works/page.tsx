@@ -3,7 +3,7 @@ import { ArrowRight, BookOpen, Users, Shield, Heart, Upload, Eye, Share2, Lock, 
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Typography, Heading } from '@/components/ui/typography'
+import { Typography } from '@/components/ui/typography'
 import { Badge } from '@/components/ui/badge'
 import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
@@ -96,12 +96,12 @@ export default function HowItWorksPage() {
               Getting Started Guide
             </Badge>
             
-            <Heading level={1} cultural className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-center mx-auto">
               How to Share{" "}
               <span className="bg-gradient-to-r from-clay-600 to-sage-600 bg-clip-text text-transparent">
                 Your Story
               </span>
-            </Heading>
+            </Typography>
             
             <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto leading-relaxed">
               Whether it's a personal memory, family tradition, or cultural heritage, sharing your story is simple, safe, and meaningful. Here's how it works.
@@ -131,9 +131,9 @@ export default function HowItWorksPage() {
             <Badge variant="cultural-new" size="cultural">
               Simple Process
             </Badge>
-            <Heading level={2} cultural className="text-3xl md:text-4xl font-bold">
+            <Typography variant="h2" className="text-3xl md:text-4xl font-bold">
               Four Simple Steps
-            </Heading>
+            </Typography>
             <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
               From idea to preserved story in just four steps. No technical expertise required - just your unique story to share.
             </Typography>
@@ -191,9 +191,9 @@ export default function HowItWorksPage() {
             <Badge variant="clay-soft" size="cultural">
               Story Categories
             </Badge>
-            <Heading level={2} cultural className="text-3xl md:text-4xl font-bold">
+            <Typography variant="h2" className="text-3xl md:text-4xl font-bold">
               Every Type of Story Welcomed
-            </Heading>
+            </Typography>
             <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
               From personal memories to cultural traditions, we support all types of human stories with appropriate privacy and cultural protections.
             </Typography>
@@ -221,7 +221,7 @@ export default function HowItWorksPage() {
                     <div className="grid grid-cols-2 gap-2">
                       {type.examples.map((example, i) => (
                         <Typography key={i} variant="small" className="text-stone-600 dark:text-stone-400 flex items-center">
-                          <div className="w-1.5 h-1.5 rounded-full bg-clay-400 mr-2 flex-shrink-0" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-clay-400 mr-2 flex-shrink-0 inline-block" />
                           {example}
                         </Typography>
                       ))}
@@ -248,9 +248,9 @@ export default function HowItWorksPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div className="space-y-4">
-              <Heading level={2} cultural className="text-3xl md:text-4xl font-bold">
+              <Typography variant="h2" className="text-3xl md:text-4xl font-bold">
                 Ready to Share Your Story?
-              </Heading>
+              </Typography>
               <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
                 Join thousands of storytellers who have found their voice and connected with others through the power of shared human experience.
               </Typography>

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { createSupabaseClient } from '@/lib/supabase/client-ssr'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import type { Gallery, GalleryInsert } from '@/types/database'
 
 export async function GET(request: Request) {
@@ -12,36 +12,14 @@ export async function GET(request: Request) {
     const organizationId = searchParams.get('organization_id')
     const featured = searchParams.get('featured') === 'true'
     
-    const supabase = createSupabaseClient()
+    const supabase = await createSupabaseServerClient()
     
     // Get current user to check permissions
     const { data: { user } } = await supabase.auth.getUser()
     
     let query = supabase
       .from('galleries')
-      .select(`
-        *,
-        cover_image:media_assets!galleries_cover_image_id_fkey(
-          id,
-          filename,
-          public_url,
-          thumbnail_url,
-          alt_text,
-          cultural_sensitivity_level
-        ),
-        created_by_profile:profiles!galleries_created_by_fkey(
-          id,
-          display_name,
-          avatar_url
-        ),
-        organization:organizations(
-          id,
-          name,
-          slug,
-          logo_url
-        )
-      `)
-      .eq('status', 'active')
+      .select('*')
       .order('created_at', { ascending: false })
 
     // Apply visibility filters based on user authentication
@@ -84,7 +62,6 @@ export async function GET(request: Request) {
     const { count: totalCount } = await supabase
       .from('galleries')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'active')
 
     return NextResponse.json({
       galleries: galleries || [],
@@ -103,7 +80,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const supabase = createSupabaseClient()
+    const supabase = await createSupabaseServerClient()
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
