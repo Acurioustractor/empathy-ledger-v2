@@ -114,17 +114,17 @@ export default async function OrganizationDashboard({
           <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
             <RecentActivity 
               stories={data.recentStories}
-              organizationId={params.id}
+              organizationId={id}
             />
             
             <RecentProjects 
               projects={data.recentProjects}
-              organizationId={params.id}
+              organizationId={id}
             />
             
             <MemberHighlights 
               members={data.recentMembers}
-              organizationId={params.id}
+              organizationId={id}
             />
           </div>
         </div>
