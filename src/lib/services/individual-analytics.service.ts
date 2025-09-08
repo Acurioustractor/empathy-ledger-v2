@@ -580,7 +580,7 @@ export class IndividualAnalyticsService {
   // Helper methods
   private async getStorytellerProfile(storytellerId: string): Promise<StorytellerProfile> {
     const { data, error } = await this.supabase
-      .from('storytellers')
+      .from('photo_storytellers')
       .select('*')
       .eq('id', storytellerId)
       .single();

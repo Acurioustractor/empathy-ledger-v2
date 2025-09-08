@@ -910,6 +910,8 @@ export default function StorytellerAnalyticsPage() {
           </TabsContent>
 
           {/* Development Tab */}
+          {insights && 
+           (insights.professional_competencies.length > 0 || insights.impact_stories.length > 0) && (
           <TabsContent value="development" className="space-y-6">
             <Card>
               <CardHeader>
@@ -965,6 +967,7 @@ export default function StorytellerAnalyticsPage() {
               </Link>
             </div>
           </TabsContent>
+          )}
         </Tabs>
 
         {/* Analysis Timestamp */}
