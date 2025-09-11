@@ -147,11 +147,11 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     const supabase = await createSupabaseServerClient()
-    const { id } = params
+    const { id } = await params
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -215,11 +215,11 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     const supabase = await createSupabaseServerClient()
-    const { id } = params
+    const { id } = await params
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()

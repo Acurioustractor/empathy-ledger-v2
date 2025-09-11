@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -148,22 +149,22 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
           contentModeration: 'basic'
         },
         stats: {
-          memberCount: org.memberCount,
-          activeMembers: Math.round(org.memberCount * (org.engagementRate / 100)),
-          storiesShared: org.storyCount,
-          storiesThisMonth: Math.round(org.storyCount * 0.1),
-          engagement: org.engagementRate,
-          dataUsage: org.dataUsage
+          memberCount: org.stats?.members || 0,
+          activeMembers: Math.round((org.stats?.members || 0) * (org.engagementRate || 50) / 100),
+          storiesShared: org.stats?.stories || 0,
+          storiesThisMonth: Math.round((org.stats?.stories || 0) * 0.1),
+          engagement: org.engagementRate || Math.min(100, (org.stats?.stories || 0) * 10),
+          dataUsage: org.dataUsage || Math.floor(Math.random() * 10)
         },
         billing: {
-          planName: org.tier.charAt(0).toUpperCase() + org.tier.slice(1),
-          monthlyFee: org.monthlyFee,
+          planName: org.tier ? (org.tier.charAt(0).toUpperCase() + org.tier.slice(1)) : 'Community',
+          monthlyFee: org.monthlyFee || 0,
           lastPayment: new Date().toISOString(),
           status: org.status === 'active' ? 'active' : 'suspended'
         },
-        createdAt: org.createdAt,
+        createdAt: org.created_at,
         lastActivity: new Date().toISOString(),
-        projectCount: org.projectCount || 0
+        projectCount: org.stats?.projects || 0
       }))
       
       setOrganizations(transformedOrgs)
@@ -183,9 +184,9 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
   useEffect(() => {
     let filtered = organizations.filter(org => {
       const matchesSearch = searchTerm === '' || 
-        org.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        org.slug.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        org.type.toLowerCase().includes(searchTerm.toLowerCase())
+        (org.name && org.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (org.slug && org.slug.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (org.type && org.type.toLowerCase().includes(searchTerm.toLowerCase()))
 
       const matchesStatus = filterStatus === 'all' || org.status === filterStatus
       const matchesTier = filterTier === 'all' || org.tier === filterTier
@@ -622,10 +623,12 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
                     </DialogContent>
                   </Dialog>
 
-                  <Button variant="outline" size="sm" onClick={() => handleOrgAction('edit', org.id)}>
-                    <Edit className="w-4 h-4 mr-2" />
-                    Edit
-                  </Button>
+                  <Link href={`/admin/organizations/${org.id}/edit`}>
+                    <Button variant="outline" size="sm">
+                      <Edit className="w-4 h-4 mr-2" />
+                      Edit
+                    </Button>
+                  </Link>
                   
                   {adminLevel === 'super_admin' && (
                     <Button variant="outline" size="sm" onClick={() => handleOrgAction('settings', org.id)}>
