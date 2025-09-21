@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import AdminNavigation from '@/components/admin/AdminNavigation'
 import {
   Switch
 } from '@/components/ui/switch'
@@ -248,7 +247,6 @@ export default function SettingsAdminPage() {
   if (loading || !settings) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <AdminNavigation className="mb-8" />
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
           <span className="ml-2">Loading system settings...</span>
@@ -259,12 +257,11 @@ export default function SettingsAdminPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <AdminNavigation className="mb-8" />
 
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">System Settings</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-grey-900 mb-2">System Settings</h1>
+          <p className="text-grey-600">
             Configure platform settings, cultural protocols, and system preferences
           </p>
         </div>
@@ -306,10 +303,10 @@ export default function SettingsAdminPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center space-x-3 px-4 py-3 text-left rounded-lg transition-colors ${
+                className={`w-full flex items-center space-x-3 px-4 py-3 text-left rounded-lg transition-colours ${
                   activeTab === tab.id
                     ? 'bg-orange-100 text-orange-800 border border-orange-200'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    : 'text-grey-700 hover:bg-grey-100'
                 }`}
               >
                 <tab.icon className="w-5 h-5" />
@@ -343,7 +340,7 @@ export default function SettingsAdminPage() {
                     <select
                       value={settings.platform.default_language}
                       onChange={(e) => updateSetting('platform', 'default_language', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     >
                       {settings.platform.supported_languages.map(lang => (
                         <option key={lang} value={lang}>{lang}</option>
@@ -358,7 +355,7 @@ export default function SettingsAdminPage() {
                     value={settings.platform.site_description}
                     onChange={(e) => updateSetting('platform', 'site_description', e.target.value)}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
                 </div>
 
@@ -375,7 +372,7 @@ export default function SettingsAdminPage() {
                     <select
                       value={settings.platform.date_format}
                       onChange={(e) => updateSetting('platform', 'date_format', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     >
                       <option value="YYYY-MM-DD">YYYY-MM-DD</option>
                       <option value="MM/DD/YYYY">MM/DD/YYYY</option>
@@ -387,7 +384,7 @@ export default function SettingsAdminPage() {
                     <select
                       value={settings.platform.time_format}
                       onChange={(e) => updateSetting('platform', 'time_format', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     >
                       <option value="12h">12 Hour</option>
                       <option value="24h">24 Hour</option>
@@ -420,7 +417,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Elder Review Required</label>
-                      <p className="text-sm text-gray-600">Require elder approval for sensitive content</p>
+                      <p className="text-sm text-grey-600">Require elder approval for sensitive content</p>
                     </div>
                     <Switch
                       checked={settings.cultural.elder_review_required}
@@ -431,7 +428,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Ceremonial Content Protection</label>
-                      <p className="text-sm text-gray-600">Extra protection for ceremonial materials</p>
+                      <p className="text-sm text-grey-600">Extra protection for ceremonial materials</p>
                     </div>
                     <Switch
                       checked={settings.cultural.ceremonial_content_protection}
@@ -442,7 +439,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Traditional Knowledge Protocols</label>
-                      <p className="text-sm text-gray-600">Apply traditional knowledge restrictions</p>
+                      <p className="text-sm text-grey-600">Apply traditional knowledge restrictions</p>
                     </div>
                     <Switch
                       checked={settings.cultural.traditional_knowledge_protocols}
@@ -453,7 +450,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Consent Tracking</label>
-                      <p className="text-sm text-gray-600">Track and manage content consent</p>
+                      <p className="text-sm text-grey-600">Track and manage content consent</p>
                     </div>
                     <Switch
                       checked={settings.cultural.consent_tracking_enabled}
@@ -464,7 +461,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">OCAP Compliance</label>
-                      <p className="text-sm text-gray-600">Ownership, Control, Access, Possession principles</p>
+                      <p className="text-sm text-grey-600">Ownership, Control, Access, Possession principles</p>
                     </div>
                     <Switch
                       checked={settings.cultural.ocap_compliance}
@@ -513,7 +510,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Registration Enabled</label>
-                      <p className="text-sm text-gray-600">Allow new user registration</p>
+                      <p className="text-sm text-grey-600">Allow new user registration</p>
                     </div>
                     <Switch
                       checked={settings.user_management.registration_enabled}
@@ -524,7 +521,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Email Verification</label>
-                      <p className="text-sm text-gray-600">Require email verification for new accounts</p>
+                      <p className="text-sm text-grey-600">Require email verification for new accounts</p>
                     </div>
                     <Switch
                       checked={settings.user_management.email_verification_required}
@@ -535,7 +532,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Manual Approval</label>
-                      <p className="text-sm text-gray-600">Require admin approval for new accounts</p>
+                      <p className="text-sm text-grey-600">Require admin approval for new accounts</p>
                     </div>
                     <Switch
                       checked={settings.user_management.manual_approval_required}
@@ -546,7 +543,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Require 2FA</label>
-                      <p className="text-sm text-gray-600">Require two-factor authentication</p>
+                      <p className="text-sm text-grey-600">Require two-factor authentication</p>
                     </div>
                     <Switch
                       checked={settings.user_management.require_2fa}
@@ -561,7 +558,7 @@ export default function SettingsAdminPage() {
                     <select
                       value={settings.user_management.default_user_role}
                       onChange={(e) => updateSetting('user_management', 'default_user_role', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     >
                       <option value="storyteller">Storyteller</option>
                       <option value="member">Member</option>
@@ -601,7 +598,7 @@ export default function SettingsAdminPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <label className="text-sm font-medium">Auto-Moderation</label>
-                    <p className="text-sm text-gray-600">Automatically flag potentially inappropriate content</p>
+                    <p className="text-sm text-grey-600">Automatically flag potentially inappropriate content</p>
                   </div>
                   <Switch
                     checked={settings.content.auto_moderation}
@@ -617,7 +614,7 @@ export default function SettingsAdminPage() {
                       value={settings.content.flagged_content_threshold}
                       onChange={(e) => updateSetting('content', 'flagged_content_threshold', parseInt(e.target.value))}
                     />
-                    <p className="text-xs text-gray-500 mt-1">Number of flags before content is hidden</p>
+                    <p className="text-xs text-grey-500 mt-1">Number of flags before content is hidden</p>
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">Media Upload Limit (MB)</label>
@@ -670,7 +667,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Email Notifications</label>
-                      <p className="text-sm text-gray-600">Send email notifications to users</p>
+                      <p className="text-sm text-grey-600">Send email notifications to users</p>
                     </div>
                     <Switch
                       checked={settings.notifications.email_notifications}
@@ -681,7 +678,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Admin Alerts</label>
-                      <p className="text-sm text-gray-600">Send alerts to administrators</p>
+                      <p className="text-sm text-grey-600">Send alerts to administrators</p>
                     </div>
                     <Switch
                       checked={settings.notifications.admin_alerts}
@@ -692,7 +689,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Content Review Alerts</label>
-                      <p className="text-sm text-gray-600">Notify when content needs review</p>
+                      <p className="text-sm text-grey-600">Notify when content needs review</p>
                     </div>
                     <Switch
                       checked={settings.notifications.content_review_alerts}
@@ -703,7 +700,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Maintenance Alerts</label>
-                      <p className="text-sm text-gray-600">System maintenance notifications</p>
+                      <p className="text-sm text-grey-600">System maintenance notifications</p>
                     </div>
                     <Switch
                       checked={settings.notifications.system_maintenance_alerts}
@@ -760,7 +757,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Rate Limiting</label>
-                      <p className="text-sm text-gray-600">Limit API requests per user</p>
+                      <p className="text-sm text-grey-600">Limit API requests per user</p>
                     </div>
                     <Switch
                       checked={settings.api.rate_limiting}
@@ -771,7 +768,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Analytics</label>
-                      <p className="text-sm text-gray-600">Enable usage analytics</p>
+                      <p className="text-sm text-grey-600">Enable usage analytics</p>
                     </div>
                     <Switch
                       checked={settings.api.enable_analytics}
@@ -782,7 +779,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Search Indexing</label>
-                      <p className="text-sm text-gray-600">Allow search engine indexing</p>
+                      <p className="text-sm text-grey-600">Allow search engine indexing</p>
                     </div>
                     <Switch
                       checked={settings.api.enable_search_indexing}
@@ -826,7 +823,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Automated Backups</label>
-                      <p className="text-sm text-gray-600">Enable automatic data backups</p>
+                      <p className="text-sm text-grey-600">Enable automatic data backups</p>
                     </div>
                     <Switch
                       checked={settings.security.automated_backups}
@@ -837,7 +834,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Encryption at Rest</label>
-                      <p className="text-sm text-gray-600">Encrypt stored data</p>
+                      <p className="text-sm text-grey-600">Encrypt stored data</p>
                     </div>
                     <Switch
                       checked={settings.security.encryption_at_rest}
@@ -848,7 +845,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Audit Logging</label>
-                      <p className="text-sm text-gray-600">Log all administrative actions</p>
+                      <p className="text-sm text-grey-600">Log all administrative actions</p>
                     </div>
                     <Switch
                       checked={settings.security.audit_logging}
@@ -859,7 +856,7 @@ export default function SettingsAdminPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <label className="text-sm font-medium">Security Headers</label>
-                      <p className="text-sm text-gray-600">Enable HTTP security headers</p>
+                      <p className="text-sm text-grey-600">Enable HTTP security headers</p>
                     </div>
                     <Switch
                       checked={settings.security.security_headers}

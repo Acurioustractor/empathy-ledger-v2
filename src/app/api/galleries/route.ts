@@ -8,35 +8,58 @@ export async function GET(request: Request) {
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '12')
     const culturalTheme = searchParams.get('cultural_theme')
+    const culturalSensitivity = searchParams.get('cultural_sensitivity')
     const visibility = searchParams.get('visibility')
     const organizationId = searchParams.get('organization_id')
     const featured = searchParams.get('featured') === 'true'
     
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Get current user to check permissions
     const { data: { user } } = await supabase.auth.getUser()
     
     let query = supabase
-      .from('galleries')
-      .select('*')
+      .from('photo_galleries')
+      .select(`
+        *,
+        cover_image:media_assets!photo_galleries_cover_image_id_fkey(
+          id,
+          public_url,
+          thumbnail_url,
+          alt_text,
+          cultural_sensitivity_level
+        ),
+        created_by_profile:profiles!photo_galleries_created_by_fkey(
+          display_name,
+          avatar_url
+        ),
+        organisation:organisations(
+          name,
+          slug,
+          logo_url
+        )
+      `)
       .order('created_at', { ascending: false })
 
     // Apply visibility filters based on user authentication
     if (!user) {
-      query = query.eq('visibility', 'public')
+      query = query.eq('privacy_level', 'public')
     } else {
       // Authenticated users can see public and community galleries
-      query = query.in('visibility', ['public', 'community'])
+      query = query.in('privacy_level', ['public', 'organisation'])
     }
 
     // Apply filters
     if (culturalTheme) {
       query = query.eq('cultural_theme', culturalTheme)
     }
-    
+
+    if (culturalSensitivity) {
+      query = query.eq('cultural_sensitivity_level', culturalSensitivity)
+    }
+
     if (visibility && user) {
-      query = query.eq('visibility', visibility)
+      query = query.eq('privacy_level', visibility)
     }
     
     if (organizationId) {
@@ -58,13 +81,28 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Failed to fetch galleries' }, { status: 500 })
     }
 
+    // Add photo count to each gallery
+    const galleriesWithCounts = await Promise.all(
+      (galleries || []).map(async (gallery) => {
+        const { count: photoCount } = await supabase
+          .from('gallery_media_associations')
+          .select('*', { count: 'exact', head: true })
+          .eq('gallery_id', gallery.id)
+
+        return {
+          ...gallery,
+          photo_count: photoCount || 0
+        }
+      })
+    )
+
     // Get total count for pagination
     const { count: totalCount } = await supabase
-      .from('galleries')
+      .from('photo_galleries')
       .select('*', { count: 'exact', head: true })
 
     return NextResponse.json({
-      galleries: galleries || [],
+      galleries: galleriesWithCounts,
       pagination: {
         page,
         limit,
@@ -80,7 +118,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -117,7 +155,7 @@ export async function POST(request: Request) {
 
     // Check if slug is unique
     const { data: existingGallery } = await supabase
-      .from('galleries')
+      .from('photo_galleries')
       .select('id')
       .eq('slug', slug)
       .single()
@@ -143,7 +181,7 @@ export async function POST(request: Request) {
       seasonal_context,
       traditional_knowledge_content: traditional_knowledge_content || false,
       requires_elder_approval: requires_elder_approval || false,
-      visibility: visibility || 'private',
+      privacy_level: visibility || 'private',
       access_restrictions: access_restrictions || {},
       organization_id,
       cover_image_id,
@@ -159,18 +197,18 @@ export async function POST(request: Request) {
 
     // Create gallery
     const { data: gallery, error } = await supabase
-      .from('galleries')
+      .from('photo_galleries')
       .insert(galleryData)
       .select(`
         *,
-        cover_image:media_assets!galleries_cover_image_id_fkey(
+        cover_image:media_assets!photo_galleries_cover_image_id_fkey(
           id,
           filename,
           public_url,
           thumbnail_url,
           alt_text
         ),
-        created_by_profile:profiles!galleries_created_by_fkey(
+        created_by_profile:profiles!photo_galleries_created_by_fkey(
           id,
           display_name,
           avatar_url

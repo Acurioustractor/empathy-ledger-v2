@@ -26,7 +26,7 @@ interface PhotoFormData {
   cultural_sensitivity_level: 'low' | 'medium' | 'high'
   ceremonial_content: boolean
   traditional_knowledge: boolean
-  visibility: 'public' | 'community' | 'organization' | 'private'
+  visibility: 'public' | 'community' | 'organisation' | 'private'
   tags: string
   caption: string
   location_in_ceremony: string
@@ -238,12 +238,12 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
       {/* Upload Dropzone */}
       <div
         {...getRootProps()}
-        className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+        className={`border-2 border-dashed rounded-lg p-8 text-center transition-colours ${
           isDragActive
             ? 'border-orange-400 bg-orange-50'
             : isUploading
-            ? 'border-gray-200 bg-gray-50 cursor-not-allowed'
-            : 'border-gray-300 hover:border-orange-400 hover:bg-orange-50 cursor-pointer'
+            ? 'border-grey-200 bg-grey-50 cursor-not-allowed'
+            : 'border-grey-300 hover:border-orange-400 hover:bg-orange-50 cursor-pointer'
         }`}
       >
         <input {...getInputProps()} />
@@ -251,7 +251,7 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
         <div className="space-y-4">
           <svg
             className={`mx-auto h-16 w-16 ${
-              isDragActive ? 'text-orange-400' : 'text-gray-400'
+              isDragActive ? 'text-orange-400' : 'text-grey-400'
             }`}
             fill="none"
             viewBox="0 0 24 24"
@@ -266,7 +266,7 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
           </svg>
           
           <div>
-            <p className="text-lg font-medium text-gray-900">
+            <p className="text-lg font-medium text-grey-900">
               {isDragActive
                 ? 'Drop photos here...'
                 : isUploading
@@ -274,13 +274,13 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
                 : 'Upload Photos'
               }
             </p>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm text-grey-600 mt-1">
               {isUploading
                 ? 'Please wait while files are being processed'
                 : 'Drag and drop photos here, or click to select files'
               }
             </p>
-            <p className="text-xs text-gray-500 mt-2">
+            <p className="text-xs text-grey-500 mt-2">
               Supports JPEG, PNG, WebP, GIF images and MP4, WebM videos
             </p>
           </div>
@@ -290,9 +290,9 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
       {/* Upload Progress */}
       {uploads.length > 0 && (
         <div className="bg-white rounded-lg shadow-md">
-          <div className="p-4 border-b border-gray-200">
+          <div className="p-4 border-b border-grey-200">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-medium text-gray-900">
+              <h3 className="text-lg font-medium text-grey-900">
                 Upload Progress ({completedCount}/{uploads.length})
               </h3>
               <div className="flex items-center space-x-4 text-sm">
@@ -320,10 +320,10 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
               {uploads.map((upload, index) => (
                 <div
                   key={index}
-                  className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg"
+                  className="flex items-center space-x-4 p-3 bg-grey-50 rounded-lg"
                 >
                   {/* File Preview */}
-                  <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
+                  <div className="w-12 h-12 bg-grey-200 rounded-lg flex items-center justify-center overflow-hidden">
                     {upload.file.type.startsWith('image/') ? (
                       <Image
                         src={URL.createObjectURL(upload.file)}
@@ -334,7 +334,7 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
                         onLoad={() => URL.revokeObjectURL(URL.createObjectURL(upload.file))}
                       />
                     ) : (
-                      <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-6 h-6 text-grey-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                       </svg>
                     )}
@@ -342,10 +342,10 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
 
                   {/* File Info */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
+                    <p className="text-sm font-medium text-grey-900 truncate">
                       {upload.file.name}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-grey-500">
                       {(upload.file.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                   </div>
@@ -354,7 +354,7 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
                   <div className="flex items-center space-x-2">
                     {upload.status === 'uploading' || upload.status === 'processing' ? (
                       <>
-                        <div className="w-8 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="w-8 h-2 bg-grey-200 rounded-full overflow-hidden">
                           <div
                             className="h-full bg-blue-500 transition-all duration-300"
                             style={{ width: `${upload.progress}%` }}
@@ -391,7 +391,7 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
                     {/* Remove Button */}
                     <button
                       onClick={() => removeUpload(index)}
-                      className="text-gray-400 hover:text-red-500 ml-2"
+                      className="text-grey-400 hover:text-red-500 ml-2"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -405,11 +405,11 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
 
           {/* Finish Button */}
           {completedCount > 0 && (
-            <div className="p-4 border-t border-gray-200">
+            <div className="p-4 border-t border-grey-200">
               <div className="flex justify-end">
                 <button
                   onClick={handleFinishUploading}
-                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colours"
                 >
                   Add {completedCount} Photos to Gallery
                 </button>

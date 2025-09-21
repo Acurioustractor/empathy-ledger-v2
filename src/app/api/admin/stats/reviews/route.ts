@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Temporarily bypass auth check to get data working
     // TODO: Fix proper authentication flow later

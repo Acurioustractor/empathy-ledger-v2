@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colours focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {
     variants: {
       variant: {
@@ -107,11 +107,11 @@ StatusBadge.displayName = "StatusBadge";
 const CulturalBadge = React.forwardRef<
   HTMLDivElement,
   Omit<BadgeProps, "variant" | "cultural"> & {
-    color?: "clay" | "sage" | "sky";
+    colour?: "clay" | "sage" | "sky";
     soft?: boolean;
   }
->(({ color = "clay", soft = false, size = "cultural", ...props }, ref) => {
-  const variant = soft ? `${color}-soft` as const : color;
+>(({ colour = "clay", soft = false, size = "cultural", ...props }, ref) => {
+  const variant = soft ? `${colour}-soft` as const : colour;
 
   return (
     <Badge

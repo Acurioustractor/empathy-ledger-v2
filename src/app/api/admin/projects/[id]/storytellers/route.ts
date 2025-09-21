@@ -3,7 +3,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id: projectId } = await params
     
     console.log('Getting storytellers for project:', projectId)
@@ -42,11 +42,31 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: 'Failed to fetch storytellers' }, { status: 500 })
     }
 
-    // Get existing project participants
-    const { data: participants, error: participantsError } = await supabase
-      .from('project_participants')
-      .select('storyteller_id, role, joined_at')
+    // Try project_storytellers table first, fall back to project_participants
+    let participants = null
+    let participantsError = null
+
+    const { data: projectStorytellers, error: projectStorytellersError } = await supabase
+      .from('project_storytellers')
+      .select('storyteller_id, role, created_at')
       .eq('project_id', projectId)
+
+    if (!projectStorytellersError && projectStorytellers) {
+      participants = projectStorytellers.map(ps => ({
+        storyteller_id: ps.storyteller_id,
+        role: ps.role,
+        joined_at: ps.created_at
+      }))
+    } else {
+      // Fall back to project_participants if project_storytellers doesn't work
+      const result = await supabase
+        .from('project_participants')
+        .select('storyteller_id, role, joined_at')
+        .eq('project_id', projectId)
+
+      participants = result.data
+      participantsError = result.error
+    }
 
     if (participantsError) {
       console.error('Error fetching participants:', participantsError)
@@ -75,15 +95,22 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       
       return {
         id: profile.id,
-        name: profile.display_name || profile.full_name || 'Unknown',
+        display_name: profile.display_name || profile.full_name || 'Unknown',
+        name: profile.display_name || profile.full_name || 'Unknown', // Keep for backward compatibility
         bio: profile.bio || '',
         avatar: profile.profile_image_url,
+        avatar_url: profile.profile_image_url, // Add for card compatibility
         culturalBackground: profile.cultural_background,
         isElder: profile.is_elder || false,
+        elder_status: profile.is_elder || false, // Add for card compatibility
+        featured: false, // Default to false
+        status: 'active', // Default status
         storyCount: profileStories.length,
+        story_count: profileStories.length, // Add for card compatibility
         isAssigned: Boolean(participant),
         role: participant?.role || (profile.is_elder ? 'Elder' : 'Storyteller'),
-        joinedAt: participant?.joined_at
+        joinedAt: participant?.joined_at,
+        last_active: participant?.joined_at
       }
     })
 
@@ -106,7 +133,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id: projectId } = await params
     const body = await request.json()
     
@@ -139,7 +166,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       .single()
 
     if (profileError) {
-      return NextResponse.json({ error: 'Storyteller not found or not in same organization' }, { status: 404 })
+      return NextResponse.json({ error: 'Storyteller not found or not in same organisation' }, { status: 404 })
     }
 
     // Create the project participant record
@@ -188,7 +215,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id: projectId } = await params
     const { searchParams } = new URL(request.url)
     const storytellerId = searchParams.get('storytellerId')

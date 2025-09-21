@@ -236,7 +236,7 @@ export default function DemographicsPage() {
                   
                   <div className="space-y-3">
                     {demographicData.ageGroups.map((group, index) => (
-                      <div key={group.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div key={group.name} className="flex items-center justify-between p-3 bg-grey-50 rounded-lg">
                         <div className="flex items-center space-x-3">
                           <div 
                             className="w-4 h-4 rounded-full" 
@@ -257,8 +257,8 @@ export default function DemographicsPage() {
                 </>
               ) : (
                 <div className="text-center py-8">
-                  <EyeOff className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                  <p className="text-gray-600">Detailed age demographics require authorization</p>
+                  <EyeOff className="w-12 h-12 mx-auto mb-4 text-grey-400" />
+                  <p className="text-grey-600">Detailed age demographics require authorization</p>
                   <p className="text-sm text-muted-foreground mt-2">
                     Enable detailed view to see age distribution analysis
                   </p>
@@ -303,7 +303,7 @@ export default function DemographicsPage() {
                   
                   <div className="space-y-3">
                     {demographicData.culturalBackgrounds.map((bg, index) => (
-                      <div key={bg.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div key={bg.name} className="flex items-center justify-between p-3 bg-grey-50 rounded-lg">
                         <div className="flex items-center space-x-3">
                           <div 
                             className="w-4 h-4 rounded-full" 
@@ -322,7 +322,7 @@ export default function DemographicsPage() {
               ) : (
                 <div className="text-center py-8">
                   <Shield className="w-12 h-12 mx-auto mb-4 text-amber-500" />
-                  <p className="text-gray-600">Cultural heritage data protected</p>
+                  <p className="text-grey-600">Cultural heritage data protected</p>
                   <p className="text-sm text-muted-foreground mt-2">
                     This information requires community consent to display
                   </p>
@@ -368,8 +368,8 @@ export default function DemographicsPage() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <MapPin className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-              <p className="text-gray-600">Geographic data requires authorization</p>
+              <MapPin className="w-12 h-12 mx-auto mb-4 text-grey-400" />
+              <p className="text-grey-600">Geographic data requires authorization</p>
               <p className="text-sm text-muted-foreground mt-2">
                 Location information is protected for community privacy
               </p>
@@ -425,8 +425,8 @@ export default function DemographicsPage() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <BookOpen className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-              <p className="text-gray-600">Language data requires community consent</p>
+              <BookOpen className="w-12 h-12 mx-auto mb-4 text-grey-400" />
+              <p className="text-grey-600">Language data requires community consent</p>
               <p className="text-sm text-muted-foreground mt-2">
                 Indigenous language information is culturally sensitive
               </p>

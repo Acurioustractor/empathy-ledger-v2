@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     const storyId = searchParams.get('story_id')
     const userId = searchParams.get('user_id')
     const analysisType = searchParams.get('analysis_type') || 'comprehensive'
-    const action = searchParams.get('action') || 'analyze'
+    const action = searchParams.get('action') || 'analyse'
     const theme = searchParams.get('theme')
     const maxResults = parseInt(searchParams.get('max_results') || '5')
     const timeframe = searchParams.get('timeframe') as 'week' | 'month' | 'all'
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Verify user exists and has permissions
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { data: user, error: userError } = await supabase
       .from('profiles')
       .select('id, display_name, cultural_affiliations, is_elder')
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
     let result
 
     switch (action) {
-      case 'analyze':
+      case 'analyse':
         if (!storyId) {
           return NextResponse.json(
             { error: 'Story ID is required for connection analysis' },
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
 
         if (!canAccess) {
           return NextResponse.json(
-            { error: 'Insufficient permissions to analyze this story' },
+            { error: 'Insufficient permissions to analyse this story' },
             { status: 403 }
           )
         }
@@ -179,7 +179,7 @@ export async function GET(request: NextRequest) {
 
       default:
         return NextResponse.json(
-          { error: 'Invalid action. Use: analyze, themes, patterns, or analytics' },
+          { error: 'Invalid action. Use: analyse, themes, patterns, or analytics' },
           { status: 400 }
         )
     }
@@ -189,7 +189,7 @@ export async function GET(request: NextRequest) {
     
     return NextResponse.json(
       { 
-        error: 'Failed to analyze story connections',
+        error: 'Failed to analyse story connections',
         details: process.env.NODE_ENV === 'development' ? error instanceof Error ? error.message : String(error) : undefined
       },
       { status: 500 }
@@ -217,7 +217,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify user
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { data: user, error: userError } = await supabase
       .from('profiles')
       .select('id, display_name, cultural_affiliations, is_elder')
@@ -339,7 +339,7 @@ export async function POST(request: NextRequest) {
 
         if (!canAccessFocal) {
           return NextResponse.json(
-            { error: 'Insufficient permissions to analyze this story' },
+            { error: 'Insufficient permissions to analyse this story' },
             { status: 403 }
           )
         }
@@ -404,7 +404,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Verify user has elevated permissions for batch operations
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { data: user, error: userError } = await supabase
       .from('profiles')
       .select('id, is_elder, community_roles')

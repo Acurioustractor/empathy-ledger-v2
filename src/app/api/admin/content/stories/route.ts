@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin content stories')
@@ -18,41 +19,10 @@ export async function GET(request: NextRequest) {
     
     const offset = (page - 1) * limit
 
-    // Build query
+    // Build query with actual database columns
     let query = supabase
       .from('stories')
-      .select(`
-        id,
-        title,
-        content,
-        status,
-        featured,
-        cultural_context,
-        tags,
-        story_type,
-        audience,
-        cultural_sensitivity_level,
-        elder_approval,
-        cultural_review_status,
-        consent_status,
-        views_count,
-        likes_count,
-        shares_count,
-        created_at,
-        updated_at,
-        publication_date,
-        profiles!stories_author_id_fkey (
-          id,
-          display_name,
-          full_name,
-          cultural_background
-        ),
-        storytellers!stories_storyteller_id_fkey (
-          id,
-          display_name,
-          elder_status
-        )
-      `)
+      .select('*')
 
     // Apply filters
     if (status !== 'all') {
@@ -72,53 +42,53 @@ export async function GET(request: NextRequest) {
     }
 
     // Get total count for pagination
-    const { count: totalCount } = await query.select('*', { count: 'exact', head: true })
+    const { count: totalCount } = await supabase
+      .from('stories')
+      .select('*', { count: 'exact', head: true })
 
-    // Get paginated results
-    const { data: stories, error } = await query
-      .order('created_at', { ascending: false })
+    // Get paginated results with filters applied
+    query = query.order('created_at', { ascending: false })
       .range(offset, offset + limit - 1)
+
+    const { data: stories, error } = await query
 
     if (error) {
       console.error('Error fetching stories:', error)
       return NextResponse.json({ error: 'Failed to fetch stories' }, { status: 500 })
     }
 
-    // Transform data for admin interface
+    console.log('📚 Stories API: Found', stories?.length || 0, 'stories out of', totalCount, 'total')
+
+    // Transform data for admin interface - using actual column names
     const formattedStories = stories?.map(story => ({
       id: story.id,
       title: story.title,
       content: story.content,
       status: story.status,
-      featured: story.featured,
-      culturalContext: story.cultural_context,
-      tags: story.tags || [],
-      storyType: story.story_type,
-      audience: story.audience,
-      culturalSensitivityLevel: story.cultural_sensitivity_level,
-      elderApproval: story.elder_approval,
-      culturalReviewStatus: story.cultural_review_status,
-      consentStatus: story.consent_status,
-      views: story.views_count || 0,
-      likes: story.likes_count || 0,
-      shares: story.shares_count || 0,
+      views: 0, // view_count column doesn't exist yet
       createdAt: story.created_at,
       updatedAt: story.updated_at,
-      publicationDate: story.publication_date,
+      publishedAt: story.published_at,
+      featured: story.is_featured || false,
+      culturalSensitivity: story.cultural_sensitivity_level || 'standard',
+      culturalTags: story.cultural_tags || [],
+      culturalContext: story.cultural_context,
+      hasConsent: story.has_consent || false,
+      consentVerified: story.consent_verified || false,
       author: {
-        id: story.profiles?.id,
-        name: story.profiles?.display_name || story.profiles?.full_name || 'Unknown',
-        culturalBackground: story.profiles?.cultural_background
+        id: story.storyteller_id,
+        name: 'Unknown', // Would need separate query to get storyteller name
+        email: null,
+        culturalBackground: null
       },
-      storyteller: story.storytellers ? {
-        id: story.storytellers.id,
-        name: story.storytellers.display_name,
-        elderStatus: story.storytellers.elder_status
-      } : null,
-      needsReview: story.status === 'review' || story.cultural_review_status === 'pending',
-      needsElderReview: story.cultural_sensitivity_level === 'high' && !story.elder_approval,
-      priority: story.cultural_sensitivity_level === 'high' ? 'high' : 
-                story.cultural_sensitivity_level === 'medium' ? 'medium' : 'low'
+      storyteller: {
+        id: story.storyteller_id,
+        name: 'Unknown', // Would need separate query to get storyteller name
+        culturalBackground: null
+      },
+      needsReview: story.status === 'review' || story.status === 'pending',
+      priority: story.cultural_sensitivity_level === 'high' ? 'high' :
+               story.cultural_sensitivity_level === 'medium' ? 'medium' : 'low'
     })) || []
 
     return NextResponse.json({
@@ -140,7 +110,7 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin content stories update')
@@ -159,33 +129,38 @@ export async function PUT(request: NextRequest) {
         case 'approve':
           updateData = {
             status: 'published',
-            cultural_review_status: 'approved',
             publication_date: new Date().toISOString()
           }
           break
         case 'reject':
           updateData = {
-            status: 'draft',
-            cultural_review_status: 'rejected'
+            status: 'draft'
           }
           break
         case 'flag':
           updateData = {
-            status: 'review',
-            cultural_review_status: 'needs_review'
+            status: 'review'
           }
           break
         case 'feature':
-          updateData = { featured: true }
+          updateData = { is_featured: true }
           break
         case 'unfeature':
-          updateData = { featured: false }
+          updateData = { is_featured: false }
           break
-        case 'elder_approve':
-          updateData = { elder_approval: true }
+        case 'consent_approve':
+          updateData = {
+            has_consent: true,
+            consent_verified: true,
+            consent_verified_at: new Date().toISOString()
+          }
           break
-        case 'elder_reject':
-          updateData = { elder_approval: false }
+        case 'consent_reject':
+          updateData = {
+            has_consent: false,
+            consent_verified: true,
+            consent_verified_at: new Date().toISOString()
+          }
           break
         default:
           return NextResponse.json({ error: 'Invalid admin action' }, { status: 400 })

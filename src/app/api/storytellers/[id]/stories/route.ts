@@ -11,7 +11,7 @@ export async function GET(
     const page = parseInt(searchParams.get('page') || '1')
     const status = searchParams.get('status') || 'published'
     
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id: storytellerId } = await params
 
     let query = supabase

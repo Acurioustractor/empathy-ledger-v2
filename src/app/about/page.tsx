@@ -8,30 +8,50 @@ import { Badge } from '@/components/ui/badge'
 import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
 
+// Helper function to render icons
+const renderIcon = (iconName: string, className: string) => {
+  switch (iconName) {
+    case 'Shield':
+      return <Shield className={className} />
+    case 'Heart':
+      return <Heart className={className} />
+    case 'Users':
+      return <Users className={className} />
+    case 'Globe':
+      return <Globe className={className} />
+    case 'BookOpen':
+      return <BookOpen className={className} />
+    case 'Lightbulb':
+      return <Lightbulb className={className} />
+    default:
+      return null
+  }
+}
+
 const values = [
   {
-    icon: <Shield className="w-8 h-8" />,
+    iconName: "Shield",
     title: "Cultural Safety First",
     description: "Every story is protected by Indigenous data sovereignty principles and community-driven protocols.",
-    color: "clay"
+    colour: "clay"
   },
   {
-    icon: <Heart className="w-8 h-8" />,
+    iconName: "Heart",
     title: "Respectful Storytelling",
-    description: "We honor each voice with dignity, ensuring stories are shared with consent and cultural sensitivity.",
-    color: "sage"
+    description: "We honour each voice with dignity, ensuring stories are shared with consent and cultural sensitivity.",
+    colour: "sage"
   },
   {
-    icon: <Users className="w-8 h-8" />,
+    iconName: "Users",
     title: "Community-Centered",
     description: "Built by and for communities, with elder guidance and grassroots participation at every step.",
-    color: "sky"
+    colour: "sky"
   },
   {
-    icon: <Globe className="w-8 h-8" />,
+    iconName: "Globe",
     title: "Global Connection",
     description: "Connecting diverse communities worldwide while respecting local traditions and cultural boundaries.",
-    color: "clay"
+    colour: "clay"
   }
 ]
 
@@ -39,22 +59,22 @@ const features = [
   {
     title: "Secure Story Sharing",
     description: "Share your experiences with full control over privacy and access permissions.",
-    icon: <BookOpen className="w-6 h-6" />
+    iconName: "BookOpen"
   },
   {
     title: "Cultural Protocols",
     description: "Built-in respect for traditional knowledge and sacred stories with elder oversight.",
-    icon: <Shield className="w-6 h-6" />
+    iconName: "Shield"
   },
   {
     title: "Community Analytics",
     description: "Understand collective impact while maintaining individual privacy and cultural sensitivity.",
-    icon: <Lightbulb className="w-6 h-6" />
+    iconName: "Lightbulb"
   },
   {
     title: "Healing Focus",
     description: "Supporting personal and community healing through shared experiences and wisdom.",
-    icon: <Heart className="w-6 h-6" />
+    iconName: "Heart"
   }
 ]
 
@@ -108,13 +128,13 @@ export default function AboutPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-              <Button variant="cultural-primary" size="cultural-lg" asChild className="shadow-lg hover:shadow-xl hover:shadow-clay-200/30 transition-all duration-300">
+              <Button variant="clay-primary" size="cultural-lg" asChild className="shadow-lg hover:shadow-xl hover:shadow-clay-200/30 transition-all duration-300">
                 <Link href="/how-it-works" className="group">
                   Learn How It Works
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
-              <Button variant="cultural-secondary" size="cultural-lg" asChild className="shadow-lg hover:shadow-xl hover:shadow-sage-200/30 transition-all duration-300">
+              <Button variant="sage-secondary" size="cultural-lg" asChild className="shadow-lg hover:shadow-xl hover:shadow-sage-200/30 transition-all duration-300">
                 <Link href="/stories">
                   Explore Stories
                 </Link>
@@ -135,18 +155,18 @@ export default function AboutPage() {
               Born from Community Need
             </Typography>
             <div className="space-y-6 text-left">
-              <Typography variant="body" className="text-lg leading-relaxed text-stone-600 dark:text-stone-400">
+              <Typography variant="body-lg" className="leading-relaxed text-stone-600 dark:text-stone-400">
                 Empathy Ledger emerged from conversations with Indigenous communities who needed a safe, 
                 respectful way to preserve and share their stories. Traditional storytelling platforms 
                 often lack the cultural protocols and data sovereignty protections that Indigenous 
                 communities require.
               </Typography>
-              <Typography variant="body" className="text-lg leading-relaxed text-stone-600 dark:text-stone-400">
+              <Typography variant="body-lg" className="leading-relaxed text-stone-600 dark:text-stone-400">
                 We built this platform in partnership with elders, community leaders, and storytellers 
-                to ensure every feature respects cultural boundaries, honors traditional knowledge, 
+                to ensure every feature respects cultural boundaries, honours traditional knowledge, 
                 and empowers communities to control their own narratives.
               </Typography>
-              <Typography variant="body" className="text-lg leading-relaxed text-stone-600 dark:text-stone-400">
+              <Typography variant="body-lg" className="leading-relaxed text-stone-600 dark:text-stone-400">
                 Today, Empathy Ledger serves as a bridge between generations, connecting traditional 
                 wisdom with modern technology while maintaining the sacred trust that storytelling represents.
               </Typography>
@@ -188,16 +208,16 @@ export default function AboutPage() {
                 <CardHeader cultural className="relative z-10">
                   <div className="flex items-start space-x-4">
                     <div className={`flex-shrink-0 w-16 h-16 rounded-xl shadow-lg transform group-hover:scale-105 transition-transform duration-300 ${
-                      value.color === 'clay' 
+                      value.colour === 'clay' 
                         ? 'bg-gradient-to-br from-clay-200 to-clay-300 text-clay-700 dark:from-clay-800 dark:to-clay-700 dark:text-clay-300'
-                        : value.color === 'sage'
+                        : value.colour === 'sage'
                         ? 'bg-gradient-to-br from-sage-200 to-sage-300 text-sage-700 dark:from-sage-800 dark:to-sage-700 dark:text-sage-300'
                         : 'bg-gradient-to-br from-sky-200 to-sky-300 text-sky-700 dark:from-sky-800 dark:to-sky-700 dark:text-sky-300'
                     }`}>
-                      {value.icon}
+                      {renderIcon(value.iconName, "w-8 h-8")}
                     </div>
                     <div className="flex-1">
-                      <CardTitle cultural className="text-xl mb-2 group-hover:text-clay-700 dark:group-hover:text-clay-300 transition-colors">
+                      <CardTitle cultural className="text-xl mb-2 group-hover:text-clay-700 dark:group-hover:text-clay-300 transition-colours">
                         {value.title}
                       </CardTitle>
                       <CardDescription cultural className="text-base">
@@ -232,7 +252,7 @@ export default function AboutPage() {
               <Card key={index} variant="cultural" className="group hover:shadow-lg transition-all duration-300 text-center">
                 <CardHeader cultural>
                   <div className="mx-auto w-12 h-12 rounded-lg bg-gradient-to-br from-clay-100 to-sage-100 dark:from-clay-900/30 dark:to-sage-900/30 flex items-center justify-center text-clay-600 dark:text-clay-400 shadow-md mb-4">
-                    {feature.icon}
+                    {renderIcon(feature.iconName, "w-6 h-6")}
                   </div>
                   <CardTitle cultural className="text-lg">{feature.title}</CardTitle>
                 </CardHeader>
@@ -254,13 +274,13 @@ export default function AboutPage() {
                 Join Our Community
               </Typography>
               <Typography variant="lead" className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-                Whether you're sharing your story, preserving family history, or building community connections, 
-                you're part of a movement that honors all voices and experiences.
+                Whether you&apos;re sharing your story, preserving family history, or building community connections, 
+                you&apos;re part of a movement that honours all voices and experiences.
               </Typography>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="cultural-primary" size="cultural-lg" asChild>
+              <Button variant="clay-primary" size="cultural-lg" asChild>
                 <Link href="/auth/signup">
                   Start Your Story
                   <ArrowRight className="w-4 h-4 ml-2" />
@@ -274,7 +294,7 @@ export default function AboutPage() {
             </div>
 
             <div className="pt-8 border-t border-stone-200 dark:border-stone-800">
-              <Typography variant="body-small" className="text-stone-500 dark:text-stone-400">
+              <Typography variant="body-sm" className="text-stone-500 dark:text-stone-400">
                 <Shield className="w-4 h-4 inline mr-2" />
                 Built with Indigenous data sovereignty and cultural safety protocols
               </Typography>

@@ -187,7 +187,7 @@ export class CulturalProtocolChecker {
   static checkCulturalPermission(
     action: 'share_traditional' | 'share_ceremonial' | 'represent_community' | 'access_restricted',
     userProfile: Profile | null,
-    organization?: Organization | null
+    organisation?: Organization | null
   ): {
     allowed: boolean
     reason?: string
@@ -324,7 +324,7 @@ export class ConsentManager {
  */
 export class OrganizationManager {
   static checkOrganizationAccess(
-    organization: Organization,
+    organisation: Organization,
     userProfile: Profile | null
   ): {
     canView: boolean
@@ -334,7 +334,7 @@ export class OrganizationManager {
   } {
     if (!userProfile) {
       return {
-        canView: organization.status === 'active',
+        canView: organisation.status === 'active',
         canEdit: false,
         canManage: false,
         membership: null
@@ -343,7 +343,7 @@ export class OrganizationManager {
 
     // This would need to be expanded with actual membership checking
     // For now, basic implementation
-    const canView = organization.status === 'active' || userProfile.is_elder
+    const canView = organisation.status === 'active' || userProfile.is_elder
     const canEdit = userProfile.is_elder // Simplified - would check membership
     const canManage = userProfile.is_elder // Simplified - would check admin rights
 

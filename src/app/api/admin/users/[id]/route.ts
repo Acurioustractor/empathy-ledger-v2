@@ -1,10 +1,11 @@
 import { NextRequest } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Temporarily bypass auth check for development
     console.log('Bypassing auth check for individual user fetch')
@@ -66,12 +67,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     // Get user's auth metadata
     const { data: authUser, error: authUserError } = await supabase.auth.admin.getUserById(id)
     
-    // Get organization info if available
+    // Get organisation info if available
     const { data: orgData } = await supabase
       .from('organization_members')
       .select(`
         organization_id,
-        organizations (
+        organisations (
           id,
           name
         )
@@ -114,9 +115,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       is_super_admin: userData.is_super_admin || false,
       cultural_affiliations: userData.cultural_affiliations || [],
       status: userData.status || 'active',
-      organization: orgData?.organizations ? {
-        id: orgData.organizations.id,
-        name: orgData.organizations.name
+      organisation: orgData?.organisations ? {
+        id: orgData.organisations.id,
+        name: orgData.organisations.name
       } : null,
       stats: {
         stories_count: storiesData?.length || 0,
@@ -144,7 +145,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Temporarily bypass auth check for development
     console.log('Bypassing auth check for user update')
@@ -189,7 +190,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Get the current user to verify super admin access
     const { data: { user }, error: authError } = await supabase.auth.getUser()

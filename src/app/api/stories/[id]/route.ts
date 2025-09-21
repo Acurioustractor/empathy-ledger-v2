@@ -11,7 +11,7 @@ interface RouteParams {
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     const { data: story, error } = await supabase
       .from('stories')
@@ -42,11 +42,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       )
     }
 
-    // Increment view count
-    await supabase
-      .from('stories')
-      .update({ views_count: (story.views_count || 0) + 1 })
-      .eq('id', id)
+    // View counting functionality would need to be implemented with analytics table
 
     return NextResponse.json(story)
 
@@ -63,27 +59,21 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = params
     const body = await request.json()
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Calculate reading time if content is being updated
-    let readingTimeMinutes = body.reading_time_minutes
-    if (body.content) {
-      const wordCount = body.content.split(/\s+/).length
-      readingTimeMinutes = Math.ceil(wordCount / 200)
-    }
-
     const updateData: StoryUpdate = {
       updated_at: new Date().toISOString(),
-      ...body,
-      reading_time_minutes: readingTimeMinutes
+      ...body
     }
 
-    // Remove fields that shouldn't be updated directly
+    // Remove fields that shouldn't be updated directly or don't exist in schema
     delete updateData.id
     delete updateData.created_at
     delete updateData.views_count
     delete updateData.likes_count
     delete updateData.shares_count
+    delete updateData.reading_time_minutes
 
     const { data: story, error } = await supabase
       .from('stories')
@@ -129,7 +119,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = params
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     const { error } = await supabase
       .from('stories')

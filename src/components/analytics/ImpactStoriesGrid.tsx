@@ -62,7 +62,7 @@ export function ImpactStoriesGrid({
       case 'grant_application': return 'text-green-600 bg-green-50 border-green-200'
       case 'interview': return 'text-purple-600 bg-purple-50 border-purple-200'
       case 'portfolio': return 'text-yellow-600 bg-yellow-50 border-yellow-200'
-      default: return 'text-gray-600 bg-gray-50 border-gray-200'
+      default: return 'text-grey-600 bg-grey-50 border-grey-200'
     }
   }
 
@@ -78,11 +78,11 @@ export function ImpactStoriesGrid({
   if (displayStories.length === 0) {
     return (
       <div className="text-center py-12">
-        <Trophy className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+        <Trophy className="h-12 w-12 text-grey-400 mx-auto mb-4" />
+        <h3 className="text-lg font-semibold text-grey-900 mb-2">
           {selectedUsage ? 'No Stories Found' : 'No Impact Stories Available'}
         </h3>
-        <p className="text-gray-600">
+        <p className="text-grey-600">
           {selectedUsage 
             ? `No stories suitable for ${selectedUsage.replace('_', ' ')} found.`
             : 'Generate an analysis to discover your impact stories.'
@@ -128,11 +128,11 @@ export function ImpactStoriesGrid({
                   {story.measurable_outcomes.slice(0, 2).map((outcome, i) => (
                     <div key={i} className="flex items-start gap-2">
                       <CheckCircle className="h-3 w-3 text-green-500 mt-1 flex-shrink-0" />
-                      <span className="text-xs text-gray-700 line-clamp-2">{outcome}</span>
+                      <span className="text-xs text-grey-700 line-clamp-2">{outcome}</span>
                     </div>
                   ))}
                   {story.measurable_outcomes.length > 2 && (
-                    <div className="text-xs text-gray-500 pl-5">
+                    <div className="text-xs text-grey-500 pl-5">
                       +{story.measurable_outcomes.length - 2} more outcomes
                     </div>
                   )}
@@ -165,7 +165,7 @@ export function ImpactStoriesGrid({
                   <Globe className="h-3 w-3 text-purple-500" />
                   Cultural Context
                 </h4>
-                <p className="text-xs text-gray-600 bg-purple-50 p-2 rounded line-clamp-2">
+                <p className="text-xs text-grey-600 bg-purple-50 p-2 rounded line-clamp-2">
                   {story.cultural_significance}
                 </p>
               </div>
@@ -225,8 +225,8 @@ export function ImpactStoriesGrid({
       ))}
       
       {maxStories && filteredStories.length > maxStories && (
-        <div className="lg:col-span-2 text-center py-6 border-2 border-dashed border-gray-200 rounded-lg">
-          <p className="text-sm text-gray-600 mb-2">
+        <div className="lg:col-span-2 text-center py-6 border-2 border-dashed border-grey-200 rounded-lg">
+          <p className="text-sm text-grey-600 mb-2">
             Showing {maxStories} of {filteredStories.length} impact stories
           </p>
           <Button variant="outline" size="sm">

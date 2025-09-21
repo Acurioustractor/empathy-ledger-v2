@@ -46,7 +46,7 @@ interface User {
   lastActive: string
   status: 'active' | 'inactive' | 'suspended' | 'pending'
   roles: ('user' | 'storyteller' | 'elder' | 'moderator' | 'admin' | 'super_admin')[]
-  organization?: {
+  organisation?: {
     id: string
     name: string
   }
@@ -147,7 +147,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ adminLevel, tenantId })
       case 'active':
         return <Badge variant="outline" className="text-green-600 border-green-600">Active</Badge>
       case 'inactive':
-        return <Badge variant="outline" className="text-gray-600 border-gray-600">Inactive</Badge>
+        return <Badge variant="outline" className="text-grey-600 border-grey-600">Inactive</Badge>
       case 'suspended':
         return <Badge variant="destructive">Suspended</Badge>
       case 'pending':
@@ -390,10 +390,10 @@ const UserManagement: React.FC<UserManagementProps> = ({ adminLevel, tenantId })
                       </div>
                     </div>
 
-                    {user.organization && (
+                    {user.organisation && (
                       <div className="flex items-center gap-1 text-sm text-stone-600 dark:text-stone-400">
                         <Building2 className="w-3 h-3" />
-                        {user.organization.name}
+                        {user.organisation.name}
                       </div>
                     )}
 

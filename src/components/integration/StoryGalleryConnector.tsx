@@ -124,10 +124,10 @@ export default function StoryGalleryConnector({
     return (
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+          <div className="h-4 bg-grey-200 rounded w-3/4 mb-4"></div>
           <div className="space-y-3">
-            <div className="h-3 bg-gray-200 rounded"></div>
-            <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+            <div className="h-3 bg-grey-200 rounded"></div>
+            <div className="h-3 bg-grey-200 rounded w-5/6"></div>
           </div>
         </div>
       </div>
@@ -137,9 +137,9 @@ export default function StoryGalleryConnector({
   return (
     <div className="bg-white rounded-lg shadow-md">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
+      <div className="px-6 py-4 border-b border-grey-200">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-medium text-gray-900 flex items-center">
+          <h3 className="text-lg font-medium text-grey-900 flex items-center">
             <svg className="w-5 h-5 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
@@ -174,11 +174,11 @@ export default function StoryGalleryConnector({
       <div className="p-6">
         {relatedGalleries.length === 0 ? (
           <div className="text-center py-8">
-            <svg className="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="mx-auto h-12 w-12 text-grey-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            <h4 className="mt-2 text-sm font-medium text-gray-900">No galleries connected</h4>
-            <p className="mt-1 text-sm text-gray-500">
+            <h4 className="mt-2 text-sm font-medium text-grey-900">No galleries connected</h4>
+            <p className="mt-1 text-sm text-grey-500">
               Connect photo galleries to provide visual context for this story.
             </p>
           </div>
@@ -188,10 +188,10 @@ export default function StoryGalleryConnector({
               <div key={gallery.id} className="relative group">
                 <Link
                   href={`/galleries/${gallery.id}`}
-                  className="block bg-gray-50 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+                  className="block bg-grey-50 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
                 >
                   {/* Gallery Preview */}
-                  <div className="aspect-video bg-gray-200 overflow-hidden relative">
+                  <div className="aspect-video bg-grey-200 overflow-hidden relative">
                     {gallery.cover_image_id ? (
                       <Image
                         src={gallery.cover_image_id} // This would need to be resolved to actual URL
@@ -202,7 +202,7 @@ export default function StoryGalleryConnector({
                       />
                     ) : (
                       <div className="flex items-center justify-center h-full">
-                        <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-8 h-8 text-grey-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                       </div>
@@ -225,10 +225,10 @@ export default function StoryGalleryConnector({
 
                   {/* Gallery Info */}
                   <div className="p-3">
-                    <h4 className="font-medium text-gray-900 text-sm mb-1 line-clamp-1">
+                    <h4 className="font-medium text-grey-900 text-sm mb-1 line-clamp-1">
                       {gallery.title}
                     </h4>
-                    <div className="flex items-center justify-between text-xs text-gray-500">
+                    <div className="flex items-center justify-between text-xs text-grey-500">
                       <span>{gallery.photo_count} photos</span>
                       {gallery.cultural_theme && (
                         <span className="capitalize">{gallery.cultural_theme.replace('_', ' ')}</span>
@@ -256,14 +256,14 @@ export default function StoryGalleryConnector({
 
       {/* Gallery Connector */}
       {showConnector && (
-        <div className="border-t border-gray-200 bg-gray-50">
+        <div className="border-t border-grey-200 bg-grey-50">
           <div className="p-6">
-            <h4 className="text-sm font-medium text-gray-900 mb-4">
+            <h4 className="text-sm font-medium text-grey-900 mb-4">
               Connect a Gallery
             </h4>
             
             {availableToConnect.length === 0 ? (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-grey-500">
                 No additional galleries available to connect.
               </p>
             ) : (
@@ -274,7 +274,7 @@ export default function StoryGalleryConnector({
                     className="flex items-center justify-between p-3 bg-white rounded-lg border"
                   >
                     <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-gray-200 rounded-lg flex-shrink-0 overflow-hidden">
+                      <div className="w-12 h-12 bg-grey-200 rounded-lg flex-shrink-0 overflow-hidden">
                         {gallery.cover_image_id ? (
                           <Image
                             src={gallery.cover_image_id} // This would need to be resolved to actual URL
@@ -285,7 +285,7 @@ export default function StoryGalleryConnector({
                           />
                         ) : (
                           <div className="flex items-center justify-center w-full h-full">
-                            <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-6 h-6 text-grey-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                           </div>
@@ -293,10 +293,10 @@ export default function StoryGalleryConnector({
                       </div>
                       
                       <div>
-                        <p className="font-medium text-gray-900 text-sm">
+                        <p className="font-medium text-grey-900 text-sm">
                           {gallery.title}
                         </p>
-                        <div className="flex items-center space-x-3 text-xs text-gray-500">
+                        <div className="flex items-center space-x-3 text-xs text-grey-500">
                           <span>{gallery.photo_count} photos</span>
                           {gallery.cultural_theme && (
                             <span className="capitalize">
@@ -318,7 +318,7 @@ export default function StoryGalleryConnector({
 
                     <button
                       onClick={() => connectGallery(gallery.id)}
-                      className="px-3 py-1 bg-orange-600 text-white text-sm rounded-md hover:bg-orange-700 transition-colors"
+                      className="px-3 py-1 bg-orange-600 text-white text-sm rounded-md hover:bg-orange-700 transition-colours"
                     >
                       Connect
                     </button>

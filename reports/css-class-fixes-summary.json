@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-09-18T20:40:13.622Z",
+  "filesProcessed": 429,
+  "totalChanges": 3041,
+  "fixesApplied": {
+    "items-centre": "items-center",
+    "justify-centre": "justify-center",
+    "text-centre": "text-center",
+    "place-items-centre": "place-items-center",
+    "place-content-centre": "place-content-center",
+    "bg-grey-": "bg-gray-",
+    "text-grey-": "text-gray-",
+    "border-grey-": "border-gray-",
+    "hover:bg-grey-": "hover:bg-gray-",
+    "hover:text-grey-": "hover:text-gray-",
+    "dark:bg-grey-": "dark:bg-gray-",
+    "dark:text-grey-": "dark:text-gray-",
+    "dark:border-grey-": "dark:border-gray-",
+    "dark:hover:bg-grey-": "dark:hover:bg-gray-",
+    "dark:hover:text-grey-": "dark:hover:text-gray-"
+  }
+}

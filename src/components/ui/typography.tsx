@@ -5,41 +5,59 @@ import { cn } from "@/lib/utils";
 const typographyVariants = cva("", {
   variants: {
     variant: {
-      // Cultural variants with generous spacing and readable typography
-      "cultural-display": "text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-clay-900 dark:text-clay-100 leading-relaxed",
-      "cultural-heading": "text-2xl md:text-3xl font-bold text-clay-800 dark:text-clay-200 leading-relaxed",
-      "cultural-subheading": "text-xl md:text-2xl font-semibold text-stone-700 dark:text-stone-300 leading-relaxed",
-      "cultural-body": "text-base md:text-lg leading-loose text-stone-600 dark:text-stone-400",
+      // Display Scale - Hero and page titles
+      "display-2xl": "text-display-2xl text-earth-900 dark:text-earth-100",
+      "display-xl": "text-display-xl text-earth-900 dark:text-earth-100", 
+      "display-lg": "text-display-lg text-earth-900 dark:text-earth-100",
+      "display-md": "text-display-md text-earth-800 dark:text-earth-200",
+      "display-sm": "text-display-sm text-earth-800 dark:text-earth-200",
       
-      // Standard variants
-      h1: "scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl",
-      h2: "scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
-      h3: "scroll-m-20 text-2xl font-semibold tracking-tight",
-      h4: "scroll-m-20 text-xl font-semibold tracking-tight",
-      h5: "scroll-m-20 text-lg font-semibold tracking-tight",
-      h6: "scroll-m-20 text-base font-semibold tracking-tight",
+      // Heading Scale - Section and content headers
+      h1: "text-display-lg text-earth-900 dark:text-earth-100 scroll-m-20",
+      h2: "text-display-md text-earth-800 dark:text-earth-200 scroll-m-20 border-b border-stone-200 pb-3 first:mt-0",
+      h3: "text-display-sm text-earth-800 dark:text-earth-200 scroll-m-20",
+      h4: "text-body-xl font-semibold text-earth-700 dark:text-earth-300 scroll-m-20",
+      h5: "text-body-lg font-semibold text-earth-700 dark:text-earth-300 scroll-m-20",
+      h6: "text-body-md font-semibold text-earth-700 dark:text-earth-300 scroll-m-20",
       
-      p: "leading-7 [&:not(:first-child)]:mt-6",
-      blockquote: "mt-6 border-l-2 pl-6 italic",
+      // Body Text Scale - Content and descriptions
+      "body-xl": "text-body-xl text-stone-700 dark:text-stone-300",
+      "body-lg": "text-body-lg text-stone-700 dark:text-stone-300",
+      "body-md": "text-body-md text-stone-600 dark:text-stone-400",
+      "body-sm": "text-body-sm text-stone-600 dark:text-stone-400",
+      "body-xs": "text-body-xs text-stone-500 dark:text-stone-500",
       
-      // Size variants
-      large: "text-lg font-semibold",
-      small: "text-sm font-medium leading-none",
-      caption: "text-xs text-muted-foreground",
-      "body-small": "text-sm leading-6",
+      // Label Scale - UI labels and small text
+      "label-lg": "text-label-lg text-stone-700 dark:text-stone-300",
+      "label-md": "text-label-md text-stone-700 dark:text-stone-300", 
+      "label-sm": "text-label-sm text-stone-600 dark:text-stone-400",
       
-      // Utility variants
-      muted: "text-sm text-muted-foreground",
-      lead: "text-xl text-muted-foreground",
+      // Cultural Storytelling Variants - Warm and inviting
+      "cultural-hero": "text-display-xl text-earth-900 dark:text-earth-100 leading-tight",
+      "cultural-title": "text-display-md text-clay-800 dark:text-clay-200 leading-snug",
+      "cultural-subtitle": "text-body-xl text-sage-700 dark:text-sage-300 leading-relaxed",
+      "cultural-body": "text-body-lg text-stone-600 dark:text-stone-400 leading-loose",
+      "cultural-caption": "text-body-sm text-stone-500 dark:text-stone-500 leading-normal",
       
       // Story-specific variants
-      "story-title": "text-2xl font-bold text-clay-800 dark:text-clay-200 leading-tight",
-      "story-excerpt": "text-base text-stone-600 dark:text-stone-400 leading-relaxed",
-      "storyteller-name": "text-lg font-semibold text-sage-700 dark:text-sage-300",
+      "story-title": "text-display-sm text-clay-800 dark:text-clay-200 leading-tight",
+      "story-excerpt": "text-body-lg text-stone-600 dark:text-stone-400 leading-relaxed",
+      "story-meta": "text-body-sm text-sage-600 dark:text-sage-400 leading-normal",
+      "storyteller-name": "text-body-lg font-semibold text-sage-700 dark:text-sage-300",
+      "storyteller-role": "text-body-sm text-stone-500 dark:text-stone-500",
+      
+      // Legacy variants for backwards compatibility
+      p: "text-body-md text-stone-600 dark:text-stone-400 leading-7 [&:not(:first-child)]:mt-6",
+      blockquote: "text-body-lg text-stone-700 dark:text-stone-300 mt-6 border-l-2 border-earth-300 pl-6 italic leading-loose",
+      large: "text-body-xl font-semibold text-stone-700 dark:text-stone-300",
+      small: "text-body-sm font-medium text-stone-600 dark:text-stone-400 leading-none",
+      caption: "text-body-xs text-stone-500 dark:text-stone-500",
+      muted: "text-body-sm text-stone-500 dark:text-stone-500",
+      lead: "text-body-xl text-stone-600 dark:text-stone-400",
     },
   },
   defaultVariants: {
-    variant: "p",
+    variant: "body-md",
   },
 });
 

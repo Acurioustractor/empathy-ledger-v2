@@ -38,10 +38,24 @@ import {
 interface Transcript {
   id: string
   title: string
-  content: string
-  date: string
-  themes: string[]
-  length: number
+  transcript_content: string
+  created_at: string
+  storyteller_id: string
+  status: string
+  word_count: number
+  metadata?: {
+    themes?: string[]
+    topics?: string[]
+    key_quotes?: string[]
+  }
+  storyteller?: {
+    display_name: string
+    email: string
+  }
+  organisation?: {
+    name: string
+    id: string
+  }
 }
 
 interface AIPersona {
@@ -71,35 +85,43 @@ export default function AIStoryCreator() {
   const [transcripts, setTranscripts] = useState<Transcript[]>([])
   const [personas, setPersonas] = useState<AIPersona[]>([])
   const [searchTerm, setSearchTerm] = useState('')
+  const [selectedOrganization, setSelectedOrganization] = useState<string>('all')
+  const [selectedStatus, setSelectedStatus] = useState<string>('all')
+  const [loading, setLoading] = useState(true)
+  const [organisations, setOrganizations] = useState<{id: string, name: string}[]>([])
+  const [error, setError] = useState<string | null>(null)
 
-  // Mock data - replace with real API calls
+  // Load real data from API
   useEffect(() => {
-    setTranscripts([
-      {
-        id: '1',
-        title: 'Technology Innovation Stories',
-        content: 'Discussion about building digital platforms for cultural preservation...',
-        date: '2025-01-05',
-        themes: ['Technology', 'Cultural Preservation', 'Innovation'],
-        length: 2400
-      },
-      {
-        id: '2', 
-        title: 'Traditional Knowledge & Modern Applications',
-        content: 'Exploring how traditional wisdom can inform modern solutions...',
-        date: '2025-01-03',
-        themes: ['Traditional Knowledge', 'Wisdom', 'Applications'],
-        length: 1800
-      },
-      {
-        id: '3',
-        title: 'Community Building Through Storytelling',
-        content: 'The power of stories to connect communities across generations...',
-        date: '2024-12-28',
-        themes: ['Community', 'Storytelling', 'Connection'],
-        length: 3200
+    const loadData = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+
+        // Fetch transcripts with storyteller and organisation data
+        const transcriptsResponse = await fetch('/api/transcripts')
+        if (!transcriptsResponse.ok) throw new Error('Failed to load transcripts')
+        const transcriptsData = await transcriptsResponse.json()
+
+        // Fetch organizations for filtering
+        const organizationsResponse = await fetch('/api/organisations')
+        if (!organizationsResponse.ok) throw new Error('Failed to load organisations')
+        const organizationsData = await organizationsResponse.json()
+
+        setTranscripts(transcriptsData.transcripts || [])
+        setOrganizations(organizationsData.organisations || [])
+      } catch (err) {
+        console.error('Error loading data:', err)
+        setError(err instanceof Error ? err.message : 'Failed to load data')
+        // Fallback to empty arrays
+        setTranscripts([])
+        setOrganizations([])
+      } finally {
+        setLoading(false)
       }
-    ])
+    }
+
+    loadData()
 
     setPersonas([
       {
@@ -162,10 +184,25 @@ export default function AIStoryCreator() {
     }
   }
 
-  const filteredTranscripts = transcripts.filter(transcript =>
-    transcript.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    transcript.themes.some(theme => theme.toLowerCase().includes(searchTerm.toLowerCase()))
-  )
+  const filteredTranscripts = transcripts.filter(transcript => {
+    // Text search
+    const matchesSearch = !searchTerm ||
+      transcript.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transcript.transcript_content?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transcript.storyteller?.display_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transcript.metadata?.themes?.some(theme => theme.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      transcript.metadata?.topics?.some(topic => topic.toLowerCase().includes(searchTerm.toLowerCase()))
+
+    // Organization filter
+    const matchesOrganization = !selectedOrganization || selectedOrganization === 'all' ||
+      transcript.organisation?.id === selectedOrganization
+
+    // Status filter
+    const matchesStatus = !selectedStatus || selectedStatus === 'all' ||
+      transcript.status === selectedStatus
+
+    return matchesSearch && matchesOrganization && matchesStatus
+  })
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50/50 via-white to-indigo-50/30">
@@ -175,8 +212,8 @@ export default function AIStoryCreator() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Story Creator</h1>
-            <p className="text-gray-600">Create compelling stories using AI with your transcripts and personalized writing personas</p>
+            <h1 className="text-3xl font-bold text-grey-900 mb-2">AI Story Creator</h1>
+            <p className="text-grey-600">Create compelling stories using AI with your transcripts and personalized writing personas</p>
           </div>
           <Button variant="outline" asChild>
             <a href="/stories">
@@ -231,10 +268,10 @@ export default function AIStoryCreator() {
                     </SelectContent>
                   </Select>
                   {selectedPersona && (
-                    <div className="p-3 bg-gray-50 rounded-lg">
+                    <div className="p-3 bg-grey-50 rounded-lg">
                       <div className="text-sm">
                         <p className="font-medium mb-1">{personas.find(p => p.id === selectedPersona)?.description}</p>
-                        <p className="text-gray-600">Tone: {personas.find(p => p.id === selectedPersona)?.tone}</p>
+                        <p className="text-grey-600">Tone: {personas.find(p => p.id === selectedPersona)?.tone}</p>
                       </div>
                     </div>
                   )}
@@ -329,60 +366,133 @@ export default function AIStoryCreator() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {/* Search */}
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <Input
-                      placeholder="Search transcripts..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
-                    />
+                  {/* Error Display */}
+                  {error && (
+                    <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                      Error: {error}
+                    </div>
+                  )}
+
+                  {/* Filters */}
+                  <div className="space-y-3">
+                    {/* Search */}
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-grey-400" />
+                      <Input
+                        placeholder="Search transcripts, storytellers, themes..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10"
+                      />
+                    </div>
+
+                    {/* Organization Filter */}
+                    <Select value={selectedOrganization} onValueChange={setSelectedOrganization}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Filter by organisation..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Organizations</SelectItem>
+                        {organisations.map(org => (
+                          <SelectItem key={org.id} value={org.id}>
+                            {org.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    {/* Status Filter */}
+                    <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Filter by status..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Statuses</SelectItem>
+                        <SelectItem value="completed">Completed</SelectItem>
+                        <SelectItem value="pending">Pending</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   {/* Transcript List */}
                   <ScrollArea className="h-64">
-                    <div className="space-y-3">
-                      {filteredTranscripts.map(transcript => (
-                        <div
-                          key={transcript.id}
-                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                            selectedTranscripts.includes(transcript.id)
-                              ? 'bg-green-50 border-green-200'
-                              : 'hover:bg-gray-50'
-                          }`}
-                          onClick={() => {
-                            setSelectedTranscripts(prev =>
-                              prev.includes(transcript.id)
-                                ? prev.filter(id => id !== transcript.id)
-                                : [...prev, transcript.id]
-                            )
-                          }}
-                        >
-                          <div className="flex items-start justify-between">
-                            <div className="flex-1">
-                              <h4 className="font-medium text-sm">{transcript.title}</h4>
-                              <p className="text-xs text-gray-500 mt-1">{transcript.date}</p>
-                              <p className="text-xs text-gray-600 mt-1 line-clamp-2">{transcript.content}</p>
+                    {loading ? (
+                      <div className="flex items-center justify-center h-32">
+                        <div className="text-sm text-grey-500">Loading transcripts...</div>
+                      </div>
+                    ) : filteredTranscripts.length === 0 ? (
+                      <div className="flex items-center justify-center h-32">
+                        <div className="text-sm text-grey-500">No transcripts found</div>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {filteredTranscripts.map(transcript => (
+                          <div
+                            key={transcript.id}
+                            className={`p-3 border rounded-lg cursor-pointer transition-colours ${
+                              selectedTranscripts.includes(transcript.id)
+                                ? 'bg-green-50 border-green-200'
+                                : 'hover:bg-grey-50'
+                            }`}
+                            onClick={() => {
+                              setSelectedTranscripts(prev =>
+                                prev.includes(transcript.id)
+                                  ? prev.filter(id => id !== transcript.id)
+                                  : [...prev, transcript.id]
+                              )
+                            }}
+                          >
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <h4 className="font-medium text-sm">{transcript.title}</h4>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <p className="text-xs text-grey-500">
+                                    {new Date(transcript.created_at).toLocaleDateString()}
+                                  </p>
+                                  <Badge variant="outline" className="text-xs">
+                                    {transcript.status}
+                                  </Badge>
+                                  <span className="text-xs text-grey-500">
+                                    {transcript.word_count} words
+                                  </span>
+                                </div>
+                                {transcript.storyteller && (
+                                  <p className="text-xs text-blue-600 mt-1">
+                                    by {transcript.storyteller.display_name || transcript.storyteller.email}
+                                  </p>
+                                )}
+                                {transcript.organisation && (
+                                  <p className="text-xs text-purple-600 mt-1">
+                                    {transcript.organisation.name}
+                                  </p>
+                                )}
+                                <p className="text-xs text-grey-600 mt-1 line-clamp-2">
+                                  {transcript.transcript_content?.substring(0, 100)}...
+                                </p>
+                              </div>
+                              {selectedTranscripts.includes(transcript.id) && (
+                                <div className="w-2 h-2 bg-green-500 rounded-full mt-1 ml-2"></div>
+                              )}
                             </div>
-                            {selectedTranscripts.includes(transcript.id) && (
-                              <div className="w-2 h-2 bg-green-500 rounded-full mt-1 ml-2"></div>
+                            {transcript.metadata?.themes && (
+                              <div className="flex flex-wrap gap-1 mt-2">
+                                {transcript.metadata.themes.slice(0, 2).map(theme => (
+                                  <Badge key={theme} variant="outline" className="text-xs">{theme}</Badge>
+                                ))}
+                                {transcript.metadata.themes.length > 2 && (
+                                  <Badge variant="outline" className="text-xs">
+                                    +{transcript.metadata.themes.length - 2}
+                                  </Badge>
+                                )}
+                              </div>
                             )}
                           </div>
-                          <div className="flex flex-wrap gap-1 mt-2">
-                            {transcript.themes.slice(0, 2).map(theme => (
-                              <Badge key={theme} variant="outline" className="text-xs">{theme}</Badge>
-                            ))}
-                            {transcript.themes.length > 2 && (
-                              <Badge variant="outline" className="text-xs">+{transcript.themes.length - 2}</Badge>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    )}
                   </ScrollArea>
 
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-grey-600">
                     {selectedTranscripts.length} transcript{selectedTranscripts.length !== 1 ? 's' : ''} selected
                   </div>
                 </div>
@@ -405,16 +515,16 @@ export default function AIStoryCreator() {
                       <div className="space-y-3 text-sm">
                         <div>
                           <h4 className="font-medium">{persona.name}</h4>
-                          <p className="text-gray-600">{persona.description}</p>
+                          <p className="text-grey-600">{persona.description}</p>
                         </div>
                         <Separator />
                         <div>
                           <p className="font-medium">Writing Style:</p>
-                          <p className="text-gray-600">{persona.style}</p>
+                          <p className="text-grey-600">{persona.style}</p>
                         </div>
                         <div>
                           <p className="font-medium">Cultural Integration:</p>
-                          <p className="text-gray-600">{persona.cultural_context}</p>
+                          <p className="text-grey-600">{persona.cultural_context}</p>
                         </div>
                       </div>
                     ) : null
@@ -432,7 +542,7 @@ export default function AIStoryCreator() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-sm space-y-2">
-                <ul className="space-y-1 text-gray-600">
+                <ul className="space-y-1 text-grey-600">
                   <li>• Select 2-3 related transcripts for richer context</li>
                   <li>• Choose personas that match your story's purpose</li>
                   <li>• Be specific in your story prompts</li>

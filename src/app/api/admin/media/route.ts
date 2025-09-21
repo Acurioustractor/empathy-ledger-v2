@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 interface AdminMediaAsset {
   id: string
@@ -67,7 +68,7 @@ interface MediaResponse {
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin media')
@@ -78,7 +79,7 @@ export async function GET(request: NextRequest) {
     const visibility = searchParams.get('visibility') || 'all'
     const consent = searchParams.get('consent') || 'all'
     const sensitivity = searchParams.get('sensitivity') || 'all'
-    const organization = searchParams.get('organization') || 'all'
+    const organisation = searchParams.get('organisation') || 'all'
 
     console.log('Fetching media assets from database...')
     
@@ -113,9 +114,9 @@ export async function GET(request: NextRequest) {
       console.log('Profiles error:', profilesError.message)
     }
 
-    // Get organizations for context
-    const { data: organizations, error: orgsError } = await supabase
-      .from('organizations')
+    // Get organisations for context
+    const { data: organisations, error: orgsError } = await supabase
+      .from('organisations')
       .select('id, name')
 
     if (orgsError) {
@@ -159,7 +160,7 @@ export async function GET(request: NextRequest) {
         
         const assetGalleries = assetGalleryIds
           .map(galleryId => galleries?.find(g => g.id === galleryId))
-          .filter(Boolean)
+          .filter((gallery): gallery is NonNullable<typeof gallery> => Boolean(gallery))
           .map(gallery => ({
             id: gallery.id,
             title: gallery.title,
@@ -171,29 +172,29 @@ export async function GET(request: NextRequest) {
         const uploaderName = uploader?.display_name || uploader?.full_name || 'Unknown User'
         const uploaderEmail = uploader?.email || 'unknown@example.com'
 
-        // Find organization if tenant_id matches
-        const org = organizations?.find(o => o.id === asset.tenant_id)
+        // Find organisation if tenant_id matches
+        const org = organisations?.find(o => o.id === asset.tenant_id)
         
-        // Find associated galleries and their organizations
+        // Find associated galleries and their organisations
         const galleryOrgs = assetGalleries
           .map(gallery => galleries?.find(g => g.id === gallery.id)?.organization_id)
           .filter(Boolean)
-          .map(orgId => organizations?.find(o => o.id === orgId))
+          .map(orgId => organisations?.find(o => o.id === orgId))
           .filter(Boolean)
 
-        // For Snow Foundation tenant, always use Snow Foundation as the organization
-        // (since we've updated galleries to be under Snow Foundation)
-        const primaryOrg = galleryOrgs[0] || org || organizations?.find(o => o.name === 'Snow Foundation')
+        // Use the first gallery organisation, or fallback to current organisation context
+        const primaryOrg = galleryOrgs[0] || org
         
         // Generate cultural tags based on content
         const culturalTags = []
         if (asset.cultural_sensitivity_level === 'high') culturalTags.push('sacred', 'ceremonial')
         if (asset.cultural_sensitivity_level === 'medium' || asset.cultural_sensitivity_level === 'standard') culturalTags.push('cultural', 'community')
         if (asset.requires_consent) culturalTags.push('consent-required')
-        if (asset.traditional_knowledge) culturalTags.push('traditional-knowledge')
+        // TODO: Add traditional knowledge check when column exists
+        // if (asset.traditional_knowledge) culturalTags.push('traditional-knowledge')
         if (assetGalleries.length > 0) culturalTags.push('gallery-featured')
         
-        // Add organization-specific tags
+        // Add organisation-specific tags
         if (primaryOrg?.name === 'Snow Foundation') culturalTags.push('snow-foundation')
         if (primaryOrg?.name === 'Deadly Hearts') culturalTags.push('deadly-hearts-trek')
         
@@ -206,14 +207,14 @@ export async function GET(request: NextRequest) {
           id: asset.id,
           filename: asset.original_filename || `media-${asset.id}`,
           title: asset.title || asset.display_name || asset.original_filename || 'Untitled Media',
-          description: asset.description || `Media file uploaded ${new Date(asset.created_at).toLocaleDateString()}`,
+          description: asset.description || `Media file uploaded ${new Date(asset.created_at || Date.now()).toLocaleDateString()}`,
           fileSize: asset.file_size || 0,
           mimeType: asset.file_type || 'application/octet-stream',
           width: asset.width || 0,
           height: asset.height || 0,
-          publicUrl: asset.cdn_url || asset.storage_path || '',
-          thumbnailUrl: asset.thumbnail_url,
-          optimizedUrl: asset.medium_url,
+          publicUrl: asset.cdn_url || (asset.storage_path ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/media/${asset.storage_path}` : ''),
+          thumbnailUrl: asset.thumbnail_url || undefined,
+          optimizedUrl: asset.medium_url || undefined,
           uploadedBy: asset.uploader_id,
           uploaderName,
           uploaderEmail,
@@ -223,13 +224,12 @@ export async function GET(request: NextRequest) {
                      asset.privacy_level === 'private' ? 'private' : 'community',
           consentStatus: asset.consent_granted ? 'granted' : 
                         asset.consent_granted === false ? 'denied' : 'pending',
-          culturalSensitivityLevel: asset.cultural_sensitivity_level === 'standard' ? 'medium' : (asset.cultural_sensitivity_level || 'medium'),
+          culturalSensitivityLevel: (asset.cultural_sensitivity_level === 'standard' ? 'medium' : (asset.cultural_sensitivity_level || 'medium')) as 'low' | 'medium' | 'high',
           accessCount: asset.view_count || 0,
-          status: asset.processing_status === 'completed' ? 'active' : 
-                 asset.processing_status === 'failed' ? 'flagged' : 
-                 asset.processing_status === 'pending' ? 'active' : 'pending',
-          createdAt: asset.created_at,
-          lastAccessedAt: asset.last_accessed_at,
+          status: (asset.processing_status === 'completed' ? 'active' :
+                 asset.processing_status === 'failed' ? 'flagged' : 'active') as 'active' | 'flagged' | 'hidden' | 'deleted',
+          createdAt: asset.created_at || new Date().toISOString(),
+          lastAccessedAt: asset.last_accessed_at || undefined,
           galleries: assetGalleries,
           culturalTags,
           flags: {
@@ -279,10 +279,10 @@ export async function GET(request: NextRequest) {
       filteredAssets = filteredAssets.filter(asset => asset.culturalSensitivityLevel === sensitivity)
     }
 
-    if (organization !== 'all') {
+    if (organisation !== 'all') {
       filteredAssets = filteredAssets.filter(asset => 
-        asset.organizationName?.toLowerCase().includes(organization.toLowerCase()) ||
-        asset.culturalTags.some(tag => tag.includes(organization.toLowerCase()))
+        asset.organizationName?.toLowerCase().includes(organisation.toLowerCase()) ||
+        asset.culturalTags.some(tag => tag.includes(organisation.toLowerCase()))
       )
     }
 
@@ -290,8 +290,8 @@ export async function GET(request: NextRequest) {
     const totalSize = filteredAssets.reduce((sum, asset) => sum + (asset.fileSize || 0), 0) / (1024 * 1024) // Convert to MB
     const totalViews = filteredAssets.reduce((sum, asset) => sum + (asset.accessCount || 0), 0)
     
-    // Calculate organization and project stats
-    // All photos belong to Snow Foundation (organization)
+    // Calculate organisation and project stats
+    // All photos belong to Snow Foundation (organisation)
     const snowFoundationPhotos = filteredAssets.length
     
     // All photos are part of Deadly Hearts Trek project under Snow Foundation
@@ -335,7 +335,7 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin media update')
@@ -346,18 +346,23 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Media asset ID is required' }, { status: 400 })
     }
 
+    // Build update object
+    const updateObject: any = {
+      updated_at: new Date().toISOString()
+    }
+
+    // Only update provided fields
+    if (updateData.title !== undefined) updateObject.title = updateData.title
+    if (updateData.description !== undefined) updateObject.description = updateData.description
+    if (updateData.visibility !== undefined) updateObject.privacy_level = updateData.visibility
+    if (updateData.consentStatus !== undefined) updateObject.consent_granted = updateData.consentStatus === 'granted'
+    if (updateData.culturalSensitivityLevel !== undefined) updateObject.cultural_sensitivity_level = updateData.culturalSensitivityLevel
+    if (updateData.altText !== undefined) updateObject.alt_text = updateData.altText
+
     // Update media asset in database
     const { data: updatedAsset, error: updateError } = await supabase
       .from('media_assets')
-      .update({
-        title: updateData.title,
-        description: updateData.description,
-        privacy_level: updateData.visibility,
-        consent_granted: updateData.consentStatus === 'granted',
-        cultural_sensitivity_level: updateData.culturalSensitivityLevel,
-        alt_text: updateData.altText,
-        updated_at: new Date().toISOString()
-      })
+      .update(updateObject)
       .eq('id', id)
       .select()
       .single()
@@ -380,7 +385,7 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin media delete')

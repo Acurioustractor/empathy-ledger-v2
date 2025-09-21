@@ -123,7 +123,7 @@ export class IntelligentSearchSystem {
       content: query.query,
       user_id: query.user_id,
       context_type: 'search',
-      operation: 'analyze'
+      operation: 'analyse'
     }, async () => {
       
       // Analyze search intent and context

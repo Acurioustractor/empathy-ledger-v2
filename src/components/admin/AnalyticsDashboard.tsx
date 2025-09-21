@@ -86,13 +86,13 @@ const AnalyticsDashboard: React.FC = () => {
     } else if (percentage < 0) {
       return <TrendingDown className="w-4 h-4 text-red-500" />
     }
-    return <Activity className="w-4 h-4 text-gray-500" />
+    return <Activity className="w-4 h-4 text-grey-500" />
   }
 
   const getTrendColor = (percentage: number) => {
     if (percentage > 0) return 'text-green-600'
     if (percentage < 0) return 'text-red-600'
-    return 'text-gray-600'
+    return 'text-grey-600'
   }
 
   const formatPercentage = (num: number) => {
@@ -105,7 +105,7 @@ const AnalyticsDashboard: React.FC = () => {
       case 'high': return 'bg-red-100 text-red-800'
       case 'medium': return 'bg-yellow-100 text-yellow-800'
       case 'low': return 'bg-green-100 text-green-800'
-      default: return 'bg-gray-100 text-gray-800'
+      default: return 'bg-grey-100 text-grey-800'
     }
   }
 

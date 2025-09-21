@@ -10,7 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * Cultural color utilities for consistent theming
+ * Cultural colour utilities for consistent theming
  */
 export const culturalColors = {
   clay: {

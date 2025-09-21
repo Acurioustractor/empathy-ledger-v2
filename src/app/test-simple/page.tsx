@@ -55,7 +55,7 @@ export default function TestSimplePage() {
       >
         Test Direct Fetch
       </button>
-      <div className="mt-4 p-4 bg-gray-100 rounded">
+      <div className="mt-4 p-4 bg-grey-100 rounded">
         <pre>{result}</pre>
       </div>
     </div>

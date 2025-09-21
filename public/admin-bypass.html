@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Direct Access</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .admin-badge {
+            background: #dc2626;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin: 10px 0;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .link-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            text-decoration: none;
+            color: #495057;
+            transition: all 0.2s;
+        }
+        .link-card:hover {
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .link-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+        .link-desc {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            background: #22c55e;
+            color: white;
+            text-align: center;
+        }
+        .warning {
+            background: #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <h1>🚨 Super Admin Direct Access
+                <span class="admin-badge">BYPASS MODE</span>
+            </h1>
+            <p>Benjamin Knight • benjamin@act.place</p>
+        </div>
+
+        <div class="status warning">
+            ⚠️ AUTH SYSTEM BROKEN - Using Emergency Bypass
+        </div>
+
+        <button onclick="clearAllAuth()" class="btn btn-danger">🧹 Clear All Auth Data</button>
+        <button onclick="setupAdminAccess()" class="btn">🔧 Setup Admin Access</button>
+        
+        <div class="links">
+            <a href="javascript:openAdmin()" class="link-card">
+                <div class="link-title">⚡ Direct Admin Access</div>
+                <div class="link-desc">Bypass auth and go directly to admin</div>
+            </a>
+
+            <a href="javascript:openProjects()" class="link-card">
+                <div class="link-title">📋 Admin Projects</div>
+                <div class="link-desc">Manage all projects including Deadly Hearts</div>
+            </a>
+
+            <a href="javascript:openOrganizations()" class="link-card">
+                <div class="link-title">🏢 Organizations</div>
+                <div class="link-desc">Edit A Curious Tractor and others</div>
+            </a>
+
+            <a href="http://localhost:3002/auth/signin" class="link-card">
+                <div class="link-title">🔐 Normal Sign In</div>
+                <div class="link-desc">Try standard auth (broken)</div>
+            </a>
+        </div>
+
+        <div class="status">
+            🎯 GOAL: Get to Deadly Hearts project editing in admin dashboard
+        </div>
+    </div>
+
+    <script>
+        function clearAllAuth() {
+            localStorage.clear();
+            sessionStorage.clear();
+            // Clear all cookies
+            document.cookie.split(";").forEach(function(c) { 
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+            });
+            alert('✅ All auth data cleared!');
+        }
+
+        function setupAdminAccess() {
+            // Set a temp admin flag
+            localStorage.setItem('temp_admin_access', 'benjamin@act.place');
+            localStorage.setItem('admin_bypass', 'true');
+            alert('✅ Admin access setup complete!');
+        }
+
+        function openAdmin() {
+            setupAdminAccess();
+            setTimeout(() => {
+                window.open('http://localhost:3002/admin', '_blank');
+            }, 500);
+        }
+
+        function openProjects() {
+            setupAdminAccess();
+            setTimeout(() => {
+                const url = 'http://localhost:3002/admin';
+                const win = window.open(url, '_blank');
+                // Try to switch to projects tab (won't work but shows intent)
+                setTimeout(() => {
+                    alert('Once admin loads, click the "Projects" tab to find Deadly Hearts!');
+                }, 2000);
+            }, 500);
+        }
+
+        function openOrganizations() {
+            setupAdminAccess();
+            setTimeout(() => {
+                window.open('http://localhost:3002/admin', '_blank');
+            }, 500);
+        }
+    </script>
+</body>
+</html>

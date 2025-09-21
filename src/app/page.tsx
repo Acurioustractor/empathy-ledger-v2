@@ -9,30 +9,46 @@ import Footer from '@/components/layout/footer'
 import { NetworkGraph } from '@/components/ui/network-graph'
 import { cn } from '@/lib/utils'
 
+// Helper function to render icons
+const renderIcon = (iconName: string, className: string) => {
+  switch (iconName) {
+    case 'BookOpen':
+      return <BookOpen className={className} />
+    case 'Users':
+      return <Users className={className} />
+    case 'Building2':
+      return <Building2 className={className} />
+    case 'Shield':
+      return <Shield className={className} />
+    default:
+      return null
+  }
+}
+
 const features = [
   {
-    icon: <BookOpen className="w-6 h-6" />,
+    iconName: "BookOpen",
     title: "Every Story Matters",
     description: "Share personal memories, family histories, life experiences, and cultural traditions in a welcoming, respectful space.",
-    color: "blue"
+    colour: "blue"
   },
   {
-    icon: <Users className="w-6 h-6" />,
+    iconName: "Users",
     title: "Global Community", 
     description: "Connect with storytellers from all backgrounds sharing their unique perspectives, wisdom, and life experiences.",
-    color: "green"
+    colour: "green"
   },
   {
-    icon: <Building2 className="w-6 h-6" />,
+    iconName: "Building2",
     title: "Organization Dashboards",
     description: "Organizations can support their communities with member analytics, project tracking, and story curation.",
-    color: "purple"
+    colour: "purple"
   },
   {
-    icon: <Shield className="w-6 h-6" />,
+    iconName: "Shield",
     title: "Privacy & Safety",
     description: "Share your stories with confidence using flexible privacy controls and optional cultural protocols.",
-    color: "red"
+    colour: "red"
   }
 ]
 
@@ -80,7 +96,7 @@ export default function Home() {
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
-                  <Link href="/organizations/4a1c31e8-89b7-476d-a74b-0c8b37efc850/dashboard">
+                  <Link href="/organisations/4a1c31e8-89b7-476d-a74b-0c8b37efc850/dashboard">
                     View Organization Dashboard
                   </Link>
                 </Button>
@@ -103,7 +119,7 @@ export default function Home() {
 
             {/* Hero Visual */}
             <div className="relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-lg bg-white border border-gray-200">
+              <div className="relative rounded-2xl overflow-hidden shadow-lg bg-white border border-grey-200">
                 <div className="aspect-[4/3] w-full h-full flex items-center justify-center">
                   <NetworkGraph />
                 </div>
@@ -134,12 +150,12 @@ export default function Home() {
                 <CardHeader>
                   <div className={cn(
                     "w-12 h-12 rounded-lg flex items-center justify-center mb-4 shadow-md",
-                    feature.color === "blue" && "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400",
-                    feature.color === "green" && "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400", 
-                    feature.color === "purple" && "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400",
-                    feature.color === "red" && "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
+                    feature.colour === "blue" && "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400",
+                    feature.colour === "green" && "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400", 
+                    feature.colour === "purple" && "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400",
+                    feature.colour === "red" && "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
                   )}>
-                    {feature.icon}
+                    {renderIcon(feature.iconName, "w-6 h-6")}
                   </div>
                   <CardTitle>{feature.title}</CardTitle>
                 </CardHeader>
@@ -161,7 +177,7 @@ export default function Home() {
                 Quick Access
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Explore our platform features and organization dashboards
+                Explore our platform features and organisation dashboards
               </p>
             </div>
 
@@ -173,10 +189,10 @@ export default function Home() {
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="mb-4">
-                    Nonprofit organization with 5 members, 1 project, and analytics dashboard
+                    Nonprofit organisation with 5 members, 1 project, and analytics dashboard
                   </CardDescription>
                   <Button asChild variant="outline" className="w-full">
-                    <Link href="/organizations/4a1c31e8-89b7-476d-a74b-0c8b37efc850/dashboard">
+                    <Link href="/organisations/4a1c31e8-89b7-476d-a74b-0c8b37efc850/dashboard">
                       View Dashboard
                     </Link>
                   </Button>

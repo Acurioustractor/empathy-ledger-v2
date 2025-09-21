@@ -174,7 +174,7 @@ export default function CommunityImpactPage() {
                   <span>Social Cohesion</span>
                   <span className="font-medium">82%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-grey-200 rounded-full h-2">
                   <div className="bg-green-500 h-2 rounded-full" style={{ width: '82%' }} />
                 </div>
                 
@@ -182,7 +182,7 @@ export default function CommunityImpactPage() {
                   <span>Cultural Vitality</span>
                   <span className="font-medium">75%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-grey-200 rounded-full h-2">
                   <div className="bg-blue-500 h-2 rounded-full" style={{ width: '75%' }} />
                 </div>
                 
@@ -190,7 +190,7 @@ export default function CommunityImpactPage() {
                   <span>Healing Progress</span>
                   <span className="font-medium">78%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-grey-200 rounded-full h-2">
                   <div className="bg-amber-500 h-2 rounded-full" style={{ width: '78%' }} />
                 </div>
               </div>

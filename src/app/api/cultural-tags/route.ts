@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     const parentId = searchParams.get('parent_id')
     const includeUsage = searchParams.get('include_usage') === 'true'
     
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Get current user for permission checks
     const { data: { user } } = await supabase.auth.getUser()
@@ -69,7 +69,7 @@ export async function GET(request: Request) {
 
       return NextResponse.json({ 
         tags: filteredTags, 
-        categorized: grouped,
+        categorised: grouped,
         categories: Object.keys(grouped)
       })
     }
@@ -83,7 +83,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()

@@ -1,10 +1,11 @@
 import { NextRequest } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Temporarily bypass auth check for development
     console.log('Bypassing auth check for user status update')

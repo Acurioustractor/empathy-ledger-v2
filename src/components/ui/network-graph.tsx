@@ -10,7 +10,7 @@ interface Node {
   vy: number
   radius: number
   type: 'storyteller' | 'story' | 'community'
-  color: string
+  colour: string
   targetX: number
   targetY: number
   energy: number
@@ -56,7 +56,7 @@ export function NetworkGraph() {
     canvas.style.height = height + 'px'
     ctx.scale(dpr, dpr)
 
-    // Physics constants for floating behavior
+    // Physics constants for floating behaviour
     const DAMPING = 0.995
     const CONNECTION_DISTANCE = 80 // Distance at which nodes connect
     const REPULSION_DISTANCE = 60 // Distance at which nodes repel each other
@@ -67,7 +67,7 @@ export function NetworkGraph() {
     const nodes: Node[] = [
       // Community nodes (larger, slower)
       ...Array.from({length: 3}, (_, i) => {
-        const colors = ['#a8866e', '#67805c', '#0ea5e9'] // clay, sage, sky
+        const colours = ['#a8866e', '#67805c', '#0ea5e9'] // clay, sage, sky
         return {
           id: `community_${i}`,
           x: 50 + Math.random() * (width - 100),
@@ -76,7 +76,7 @@ export function NetworkGraph() {
           vy: (Math.random() - 0.5) * FLOAT_SPEED * 0.7,
           radius: 12 + Math.random() * 4,
           type: 'community' as const,
-          color: colors[i],
+          colour: colours[i],
           targetX: 0, targetY: 0,
           energy: 0.8 + Math.random() * 0.4
         }
@@ -84,7 +84,7 @@ export function NetworkGraph() {
       
       // Storyteller nodes (medium size, medium speed)
       ...Array.from({length: 8}, (_, i) => {
-        const colors = ['#75583f', '#526946', '#0284c7', '#5c442b', '#3e5131', '#075985', '#8f6d54', '#7e9774']
+        const colours = ['#75583f', '#526946', '#0284c7', '#5c442b', '#3e5131', '#075985', '#8f6d54', '#7e9774']
         return {
           id: `storyteller_${i}`,
           x: 30 + Math.random() * (width - 60),
@@ -93,7 +93,7 @@ export function NetworkGraph() {
           vy: (Math.random() - 0.5) * FLOAT_SPEED,
           radius: 8 + Math.random() * 3,
           type: 'storyteller' as const,
-          color: colors[i % colors.length],
+          colour: colours[i % colours.length],
           targetX: 0, targetY: 0,
           energy: 0.6 + Math.random() * 0.4
         }
@@ -101,7 +101,7 @@ export function NetworkGraph() {
       
       // Story nodes (smaller, faster)
       ...Array.from({length: 6}, (_, i) => {
-        const colors = ['#c1a08f', '#9cad92', '#38bdf8', '#d3b9aa', '#b7c2ae', '#7dd3fc']
+        const colours = ['#c1a08f', '#9cad92', '#38bdf8', '#d3b9aa', '#b7c2ae', '#7dd3fc']
         return {
           id: `story_${i}`,
           x: 20 + Math.random() * (width - 40),
@@ -110,7 +110,7 @@ export function NetworkGraph() {
           vy: (Math.random() - 0.5) * FLOAT_SPEED * 1.3,
           radius: 5 + Math.random() * 2,
           type: 'story' as const,
-          color: colors[i % colors.length],
+          colour: colours[i % colours.length],
           targetX: 0, targetY: 0,
           energy: 0.4 + Math.random() * 0.3
         }
@@ -165,7 +165,7 @@ export function NetworkGraph() {
       })
     }
 
-    // Physics simulation for free-floating behavior
+    // Physics simulation for free-floating behaviour
     function updatePhysics() {
       nodes.forEach(node => {
         // Randomly change direction occasionally for organic movement
@@ -259,7 +259,7 @@ export function NetworkGraph() {
       
       // Simple outer glow (single layer)
       const glowGradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius + 8)
-      glowGradient.addColorStop(0, `${node.color}66`)
+      glowGradient.addColorStop(0, `${node.colour}66`)
       glowGradient.addColorStop(1, 'transparent')
       
       ctx.fillStyle = glowGradient
@@ -268,7 +268,7 @@ export function NetworkGraph() {
       ctx.fill()
       
       // Main node body
-      ctx.fillStyle = node.color
+      ctx.fillStyle = node.colour
       ctx.beginPath()
       ctx.arc(node.x, node.y, node.radius * pulse, 0, Math.PI * 2)
       ctx.fill()

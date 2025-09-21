@@ -27,20 +27,33 @@ interface OrganizationAnalyticsProps {
   analyticsCount: number
 }
 
-export function OrganizationAnalytics({ 
-  insights, 
-  memberCount, 
-  analyticsCount 
+export function OrganizationAnalytics({
+  insights,
+  memberCount,
+  analyticsCount
 }: OrganizationAnalyticsProps) {
   const analyticsRate = memberCount > 0 ? (analyticsCount / memberCount) * 100 : 0
 
+  console.log('🖥️ Component received insights:', {
+    insights: insights,
+    topThemes: insights?.topThemes?.length,
+    topValues: insights?.topValues?.length,
+    topStrengths: insights?.topStrengths?.length,
+    culturalMarkers: insights?.culturalMarkers?.length,
+    memberCount,
+    analyticsCount
+  })
+
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto px-4 py-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">Community Analytics</h2>
           <p className="text-muted-foreground">
-            Aggregated insights from {analyticsCount} of {memberCount} members
+            {analyticsCount > 0
+              ? `AI-powered insights from ${analyticsCount} analysed stories by ${memberCount} storytellers`
+              : `Ready to analyse stories from ${memberCount} storytellers`
+            }
           </p>
         </div>
         
@@ -68,7 +81,7 @@ export function OrganizationAnalytics({
             <Lightbulb className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{insights.topThemes.length}</div>
+            <div className="text-2xl font-bold">{insights?.topThemes?.length || 0}</div>
             <p className="text-xs text-muted-foreground">Unique themes identified</p>
           </CardContent>
         </Card>
@@ -79,7 +92,7 @@ export function OrganizationAnalytics({
             <Heart className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{insights.topValues.length}</div>
+            <div className="text-2xl font-bold">{insights?.topValues?.length || 0}</div>
             <p className="text-xs text-muted-foreground">Shared values</p>
           </CardContent>
         </Card>
@@ -90,7 +103,7 @@ export function OrganizationAnalytics({
             <Globe className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{insights.culturalMarkers.length}</div>
+            <div className="text-2xl font-bold">{insights?.culturalMarkers?.length || 0}</div>
             <p className="text-xs text-muted-foreground">Cultural identities</p>
           </CardContent>
         </Card>
@@ -106,9 +119,9 @@ export function OrganizationAnalytics({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {insights.topThemes.length > 0 ? (
+            {(insights?.topThemes?.length || 0) > 0 ? (
               <div className="space-y-3">
-                {insights.topThemes.slice(0, 8).map(({ theme, count }) => (
+                {insights.topThemes?.slice(0, 8).map(({ theme, count }) => (
                   <div key={theme} className="flex items-center justify-between">
                     <span className="text-sm font-medium truncate flex-1">
                       {theme}
@@ -139,9 +152,9 @@ export function OrganizationAnalytics({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {insights.topValues.length > 0 ? (
+            {(insights?.topValues?.length || 0) > 0 ? (
               <div className="space-y-3">
-                {insights.topValues.slice(0, 8).map(({ value, count }) => (
+                {insights.topValues?.slice(0, 8).map(({ value, count }) => (
                   <div key={value} className="flex items-center justify-between">
                     <span className="text-sm font-medium truncate flex-1">
                       {value}
@@ -172,9 +185,9 @@ export function OrganizationAnalytics({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {insights.topStrengths.length > 0 ? (
+            {(insights?.topStrengths?.length || 0) > 0 ? (
               <div className="space-y-3">
-                {insights.topStrengths.slice(0, 8).map(({ strength, count }) => (
+                {insights.topStrengths?.slice(0, 8).map(({ strength, count }) => (
                   <div key={strength} className="flex items-center justify-between">
                     <span className="text-sm font-medium truncate flex-1">
                       {strength}
@@ -198,7 +211,7 @@ export function OrganizationAnalytics({
       </div>
 
       {/* Cultural Identity Markers */}
-      {insights.culturalMarkers.length > 0 && (
+      {(insights?.culturalMarkers?.length || 0) > 0 && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -208,7 +221,7 @@ export function OrganizationAnalytics({
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
-              {insights.culturalMarkers.map((marker, index) => (
+              {insights.culturalMarkers?.map((marker, index) => (
                 <Badge key={index} variant="outline">
                   {marker}
                 </Badge>
@@ -221,13 +234,13 @@ export function OrganizationAnalytics({
       {analyticsCount === 0 && (
         <Card>
           <CardContent className="text-center py-12">
-            <BarChart3 className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No Analytics Data Yet</h3>
+            <Lightbulb className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-lg font-semibold mb-2">AI Analysis Ready</h3>
             <p className="text-muted-foreground mb-4">
-              Community analytics will appear here once members complete their individual analytics.
+              Community insights will appear here once storytellers' transcripts are analysed by our AI system.
             </p>
             <p className="text-sm text-muted-foreground">
-              Encourage members to visit their individual analytics page to contribute to community insights.
+              Upload and transcribe stories to unlock AI-powered community themes, values, and cultural insights.
             </p>
           </CardContent>
         </Card>

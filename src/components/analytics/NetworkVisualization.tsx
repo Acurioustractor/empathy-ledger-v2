@@ -42,7 +42,7 @@ interface NetworkLink extends d3.SimulationLinkDatum<NetworkNode> {
   source: string | NetworkNode;
   target: string | NetworkNode;
   strength: number;
-  type: 'theme' | 'organization' | 'cultural';
+  type: 'theme' | 'organisation' | 'cultural';
 }
 
 interface NetworkVisualizationProps {
@@ -62,7 +62,7 @@ export const NetworkVisualization: React.FC<NetworkVisualizationProps> = ({
   const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
   const [filterByRole, setFilterByRole] = useState<string>('all');
   const [showInfluence, setShowInfluence] = useState(true);
-  const [colorBy, setColorBy] = useState<'role' | 'influence' | 'organization'>('role');
+  const [colorBy, setColorBy] = useState<'role' | 'influence' | 'organisation'>('role');
   const [simulation, setSimulation] = useState<d3.Simulation<NetworkNode, NetworkLink> | null>(null);
 
   // Transform storyteller data into network format
@@ -70,7 +70,7 @@ export const NetworkVisualization: React.FC<NetworkVisualizationProps> = ({
     const nodes: NetworkNode[] = storytellers.map(storyteller => ({
       id: storyteller.id,
       name: storyteller.name,
-      group: storyteller.organization || 'Independent',
+      group: storyteller.organisation || 'Independent',
       size: Math.max(8, storyteller.storyCount * 2),
       influence: storyteller.influences,
       culturalRole: storyteller.culturalRole,
@@ -95,7 +95,7 @@ export const NetworkVisualization: React.FC<NetworkVisualizationProps> = ({
             source: storyteller.id,
             target: connectionId,
             strength,
-            type: storyteller.organization === target.group ? 'organization' : 'theme'
+            type: storyteller.organisation === target.group ? 'organisation' : 'theme'
           });
         }
       });
@@ -129,7 +129,7 @@ export const NetworkVisualization: React.FC<NetworkVisualizationProps> = ({
     const svg = d3.select(svgRef.current);
     const container = svg.append('g');
 
-    // Add zoom behavior
+    // Add zoom behaviour
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.1, 10])
       .on('zoom', (event) => {
@@ -145,7 +145,7 @@ export const NetworkVisualization: React.FC<NetworkVisualizationProps> = ({
 
     const influenceColorScale = d3.scaleLinear<string>()
       .domain([0, 100])
-      .range(['#e5e7eb', '#dc2626']); // gray to red
+      .range(['#e5e7eb', '#dc2626']); // grey to red
 
     const orgColorScale = d3.scaleOrdinal<string>()
       .domain([...new Set(filteredData.nodes.map(n => n.group))])
@@ -157,7 +157,7 @@ export const NetworkVisualization: React.FC<NetworkVisualizationProps> = ({
           return roleColorScale(node.culturalRole);
         case 'influence':
           return influenceColorScale(node.influence);
-        case 'organization':
+        case 'organisation':
           return orgColorScale(node.group);
         default:
           return '#6b7280';
@@ -174,7 +174,7 @@ export const NetworkVisualization: React.FC<NetworkVisualizationProps> = ({
       .force('charge', d3.forceManyBody()
         .strength(-300)
       )
-      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('centre', d3.forceCenter(width / 2, height / 2))
       .force('collision', d3.forceCollide()
         .radius((d: any) => d.size + 5)
       );
@@ -351,7 +351,7 @@ export const NetworkVisualization: React.FC<NetworkVisualizationProps> = ({
   return (
     <div className="space-y-4">
       {/* Controls */}
-      <div className="flex flex-wrap gap-4 items-center justify-between p-4 bg-gray-50 rounded-lg">
+      <div className="flex flex-wrap gap-4 items-center justify-between p-4 bg-grey-50 rounded-lg">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <Filter className="w-4 h-4" />
@@ -370,14 +370,14 @@ export const NetworkVisualization: React.FC<NetworkVisualizationProps> = ({
 
           <div className="flex items-center space-x-2">
             <span className="text-sm">Color by:</span>
-            <Select value={colorBy} onValueChange={(value: 'role' | 'influence' | 'organization') => setColorBy(value)}>
+            <Select value={colorBy} onValueChange={(value: 'role' | 'influence' | 'organisation') => setColorBy(value)}>
               <SelectTrigger className="w-32">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="role">Role</SelectItem>
                 <SelectItem value="influence">Influence</SelectItem>
-                <SelectItem value="organization">Organization</SelectItem>
+                <SelectItem value="organisation">Organization</SelectItem>
               </SelectContent>
             </Select>
           </div>

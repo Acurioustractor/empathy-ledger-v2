@@ -21,7 +21,7 @@ export async function GET(
       )
     }
 
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
 
     // First get the storyteller's profile_id
     const { data: storyteller, error: storytellerError } = await supabase
@@ -144,7 +144,7 @@ export async function POST(
       )
     }
 
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
 
     // Verify storyteller exists and get profile_id
     const { data: storyteller, error: storytellerError } = await supabase

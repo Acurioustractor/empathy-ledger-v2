@@ -265,29 +265,29 @@ export default function VideoReviewModal({
             <CardContent className="p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Media Details</h4>
+                  <h4 className="font-medium text-grey-900 mb-2">Media Details</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Filename:</span>
+                      <span className="text-grey-600">Filename:</span>
                       <span className="font-medium">{mediaAsset.filename}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Duration:</span>
+                      <span className="text-grey-600">Duration:</span>
                       <span className="font-medium">{mediaAsset.duration ? `${Math.floor(mediaAsset.duration / 60)}:${(mediaAsset.duration % 60).toString().padStart(2, '0')}` : 'Unknown'}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">File Size:</span>
+                      <span className="text-grey-600">File Size:</span>
                       <span className="font-medium">{(mediaAsset.file_size / (1024 * 1024)).toFixed(1)} MB</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Upload Date:</span>
+                      <span className="text-grey-600">Upload Date:</span>
                       <span className="font-medium">{new Date(mediaAsset.created_at).toLocaleDateString()}</span>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Current Status</h4>
+                  <h4 className="font-medium text-grey-900 mb-2">Current Status</h4>
                   <div className="space-y-2">
                     <Badge className={getSensitivityColor(mediaAsset.cultural_sensitivity_level)}>
                       {getSensitivityLabel(mediaAsset.cultural_sensitivity_level)}
@@ -311,7 +311,7 @@ export default function VideoReviewModal({
                       )}
                     </div>
 
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-grey-600">
                       Status: <span className="font-medium capitalize">{mediaAsset.cultural_review_status}</span>
                     </div>
                   </div>
@@ -320,8 +320,8 @@ export default function VideoReviewModal({
 
               {mediaAsset.description && (
                 <div className="mt-4">
-                  <h4 className="font-medium text-gray-900 mb-2">Description</h4>
-                  <p className="text-sm text-gray-600">{mediaAsset.description}</p>
+                  <h4 className="font-medium text-grey-900 mb-2">Description</h4>
+                  <p className="text-sm text-grey-600">{mediaAsset.description}</p>
                 </div>
               )}
             </CardContent>
@@ -330,7 +330,7 @@ export default function VideoReviewModal({
           {/* Review Form */}
           <Card>
             <CardContent className="p-4">
-              <h4 className="font-medium text-gray-900 mb-4">Cultural Review</h4>
+              <h4 className="font-medium text-grey-900 mb-4">Cultural Review</h4>
               
               {/* Decision Buttons */}
               <div className="flex space-x-3 mb-4">
@@ -355,7 +355,7 @@ export default function VideoReviewModal({
 
               {/* Cultural Sensitivity Level */}
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-grey-700 mb-2">
                   Cultural Sensitivity Level
                 </label>
                 <select
@@ -364,7 +364,7 @@ export default function VideoReviewModal({
                     ...prev, 
                     culturalSensitivityLevel: e.target.value as 'low' | 'medium' | 'high' 
                   }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 >
                   <option value="low">Low - Community Open</option>
                   <option value="medium">Medium - Respectful Viewing</option>
@@ -379,7 +379,7 @@ export default function VideoReviewModal({
                     type="checkbox"
                     checked={review.ceremonialContent}
                     onChange={(e) => setReview(prev => ({ ...prev, ceremonialContent: e.target.checked }))}
-                    className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                    className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-grey-300 rounded"
                   />
                   <span className="text-sm">Contains ceremonial content</span>
                 </label>
@@ -389,7 +389,7 @@ export default function VideoReviewModal({
                     type="checkbox"
                     checked={review.traditionalKnowledge}
                     onChange={(e) => setReview(prev => ({ ...prev, traditionalKnowledge: e.target.checked }))}
-                    className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                    className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-grey-300 rounded"
                   />
                   <span className="text-sm">Contains traditional knowledge</span>
                 </label>
@@ -397,7 +397,7 @@ export default function VideoReviewModal({
 
               {/* Review Notes */}
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-grey-700 mb-2">
                   Review Notes {review.decision === 'rejected' && <span className="text-red-500">*</span>}
                 </label>
                 <Textarea
@@ -451,10 +451,10 @@ export default function VideoReviewModal({
           {mediaAsset.cultural_review_notes && (
             <Card>
               <CardContent className="p-4">
-                <h4 className="font-medium text-gray-900 mb-2">Previous Review Notes</h4>
-                <p className="text-sm text-gray-600">{mediaAsset.cultural_review_notes}</p>
+                <h4 className="font-medium text-grey-900 mb-2">Previous Review Notes</h4>
+                <p className="text-sm text-grey-600">{mediaAsset.cultural_review_notes}</p>
                 {mediaAsset.cultural_review_date && (
-                  <div className="mt-2 text-xs text-gray-500">
+                  <div className="mt-2 text-xs text-grey-500">
                     Reviewed on {new Date(mediaAsset.cultural_review_date).toLocaleDateString()}
                   </div>
                 )}

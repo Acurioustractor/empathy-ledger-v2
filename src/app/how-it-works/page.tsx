@@ -16,7 +16,7 @@ const steps = [
     title: "Choose Your Story Type",
     description: "Share a personal memory, family history, community tale, or cultural tradition. Every story has its place.",
     examples: ["Personal journey", "Family heritage", "Professional experience", "Cultural tradition"],
-    color: "clay"
+    colour: "clay"
   },
   {
     step: 2,
@@ -24,7 +24,7 @@ const steps = [
     title: "Tell Your Story",
     description: "Write, record, or upload your story. Add photos, audio, or video to bring it to life. Our tools adapt to your comfort level.",
     examples: ["Written narrative", "Audio recording", "Video testimonial", "Photo album"],
-    color: "sage"
+    colour: "sage"
   },
   {
     step: 3,
@@ -32,7 +32,7 @@ const steps = [
     title: "Set Your Privacy",
     description: "Choose who can see your story. From completely public to family-only, or culturally protected content with community approval.",
     examples: ["Public sharing", "Family only", "Community review", "Cultural protocols"],
-    color: "sky"
+    colour: "sky"
   },
   {
     step: 4,
@@ -40,7 +40,7 @@ const steps = [
     title: "Connect & Preserve",
     description: "Your story joins our global library of human experiences, safely preserved and thoughtfully shared with those you choose.",
     examples: ["Discover similar stories", "Connect with others", "Preserve for future", "Build community"],
-    color: "clay"
+    colour: "clay"
   }
 ]
 
@@ -146,9 +146,9 @@ export default function HowItWorksPage() {
                   <div className="flex items-center justify-between mb-4">
                     <div className={cn(
                       "w-12 h-12 rounded-lg flex items-center justify-center shadow-md",
-                      step.color === "clay" && "bg-clay-100 text-clay-600 dark:bg-clay-900/30 dark:text-clay-400",
-                      step.color === "sage" && "bg-sage-100 text-sage-600 dark:bg-sage-900/30 dark:text-sage-400", 
-                      step.color === "sky" && "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400"
+                      step.colour === "clay" && "bg-clay-100 text-clay-600 dark:bg-clay-900/30 dark:text-clay-400",
+                      step.colour === "sage" && "bg-sage-100 text-sage-600 dark:bg-sage-900/30 dark:text-sage-400", 
+                      step.colour === "sky" && "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400"
                     )}>
                       {step.icon}
                     </div>

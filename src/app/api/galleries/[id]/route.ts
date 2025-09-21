@@ -11,74 +11,16 @@ export async function GET(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id } = await params
     
     // Get current user for permission checks
     const { data: { user } } = await supabase.auth.getUser()
     
-    // Fetch gallery with all related data
+    // Fetch gallery with basic data first (avoiding foreign key issues)
     const { data: gallery, error } = await supabase
-      .from('galleries')
-      .select(`
-        *,
-        cover_image:media_assets!galleries_cover_image_id_fkey(
-          id,
-          filename,
-          public_url,
-          thumbnail_url,
-          optimized_url,
-          alt_text,
-          title,
-          description,
-          cultural_sensitivity_level,
-          width,
-          height
-        ),
-        created_by_profile:profiles!galleries_created_by_fkey(
-          id,
-          display_name,
-          avatar_url,
-          is_elder
-        ),
-        organization:organizations(
-          id,
-          name,
-          slug,
-          logo_url,
-          cultural_focus
-        ),
-        media_associations:gallery_media_associations(
-          id,
-          sort_order,
-          caption,
-          cultural_context,
-          location_in_ceremony,
-          people_depicted,
-          is_cover_image,
-          consent_status,
-          media_asset:media_assets(
-            id,
-            filename,
-            public_url,
-            thumbnail_url,
-            optimized_url,
-            alt_text,
-            title,
-            description,
-            cultural_sensitivity_level,
-            ceremonial_content,
-            traditional_knowledge,
-            consent_status,
-            elder_approval,
-            width,
-            height,
-            file_type,
-            capture_date,
-            tags
-          )
-        )
-      `)
+      .from('photo_galleries')
+      .select('*')
       .eq('id', id)
       .single()
 
@@ -94,46 +36,91 @@ export async function GET(
       return NextResponse.json({ error: 'Gallery not found' }, { status: 404 })
     }
 
-    // Check visibility permissions
-    const canView = 
-      gallery.visibility === 'public' ||
-      (gallery.visibility === 'community' && user) ||
-      (gallery.created_by === user?.id)
+    // Check user permissions
+    let canView = false
+    let isSuperAdmin = false
+    let isOrganizationMember = false
+    let hasProjectAccess = false
+
+    if (user) {
+      // Check if user is super admin
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_super_admin')
+        .eq('id', user.id)
+        .single()
+
+      isSuperAdmin = profile?.is_super_admin || false
+
+      // Check if user is a member of the gallery's organisation (if gallery belongs to one)
+      let isOrganizationMember = false
+      if (gallery.organization_id) {
+        const { data: membership } = await supabase
+          .from('profile_organizations')
+          .select('id')
+          .eq('profile_id', user.id)
+          .eq('organization_id', gallery.organization_id)
+          .eq('is_active', true)
+          .single()
+
+        isOrganizationMember = !!membership
+      }
+
+      // Check if user has access to the project this gallery belongs to (if any)
+      let hasProjectAccess = false
+      if (gallery.project_id) {
+        // Check if user is organisation member of the project's organisation
+        const { data: project } = await supabase
+          .from('projects')
+          .select('organization_id')
+          .eq('id', gallery.project_id)
+          .single()
+
+        if (project?.organization_id) {
+          const { data: projectOrgMembership } = await supabase
+            .from('profile_organizations')
+            .select('id')
+            .eq('profile_id', user.id)
+            .eq('organization_id', project.organization_id)
+            .eq('is_active', true)
+            .single()
+
+          hasProjectAccess = !!projectOrgMembership
+        }
+      }
+
+      // Determine view permissions
+      canView =
+        gallery.privacy_level === 'public' ||
+        isSuperAdmin ||
+        (gallery.created_by === user.id) ||
+        (gallery.privacy_level === 'organisation' && isOrganizationMember) ||
+        hasProjectAccess
+    } else {
+      // No user - only public galleries
+      canView = gallery.privacy_level === 'public'
+    }
+
+    console.log('🔐 Gallery access check:', {
+      galleryId: id,
+      privacyLevel: gallery.privacy_level,
+      hasUser: !!user,
+      isSuperAdmin,
+      isOrganizationMember,
+      hasProjectAccess,
+      canView
+    })
 
     if (!canView) {
       return NextResponse.json({ error: 'Access denied' }, { status: 403 })
     }
 
-    // Filter media based on consent and cultural sensitivity
-    if (gallery.media_associations) {
-      gallery.media_associations = gallery.media_associations.filter((assoc: any) => {
-        if (!assoc.media_asset) return false
-        
-        // Check consent status
-        if (assoc.consent_status !== 'granted' && assoc.media_asset.consent_status !== 'granted') {
-          // Only show to gallery owner
-          if (gallery.created_by !== user?.id) return false
-        }
-
-        // Check cultural sensitivity permissions
-        const asset = assoc.media_asset
-        if (asset.cultural_sensitivity_level === 'high') {
-          // High sensitivity content - requires specific permissions
-          if (!user) return false
-          // Additional checks can be added here based on user's cultural permissions
-        }
-
-        return true
-      })
-
-      // Sort by sort_order
-      gallery.media_associations.sort((a: any, b: any) => a.sort_order - b.sort_order)
-    }
+    // Basic gallery data is returned (media associations will be handled separately when needed)
 
     // Increment view count if this is a public view (not the owner)
     if (gallery.created_by !== user?.id) {
       await supabase
-        .from('galleries')
+        .from('photo_galleries')
         .update({ view_count: (gallery.view_count || 0) + 1 })
         .eq('id', id)
     }
@@ -150,7 +137,7 @@ export async function PUT(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id } = await params
     
     // Check authentication
@@ -161,7 +148,7 @@ export async function PUT(
 
     // Check if user owns this gallery
     const { data: existingGallery, error: fetchError } = await supabase
-      .from('galleries')
+      .from('photo_galleries')
       .select('created_by')
       .eq('id', id)
       .single()
@@ -186,19 +173,10 @@ export async function PUT(
 
     // Update gallery
     const { data: gallery, error } = await supabase
-      .from('galleries')
+      .from('photo_galleries')
       .update(updateData)
       .eq('id', id)
-      .select(`
-        *,
-        cover_image:media_assets!galleries_cover_image_id_fkey(
-          id,
-          filename,
-          public_url,
-          thumbnail_url,
-          alt_text
-        )
-      `)
+      .select('*')
       .single()
 
     if (error) {
@@ -218,7 +196,7 @@ export async function DELETE(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id } = await params
     
     // Check authentication
@@ -229,7 +207,7 @@ export async function DELETE(
 
     // Check if user owns this gallery
     const { data: existingGallery, error: fetchError } = await supabase
-      .from('galleries')
+      .from('photo_galleries')
       .select('created_by, photo_count')
       .eq('id', id)
       .single()
@@ -251,7 +229,7 @@ export async function DELETE(
 
     // Delete gallery
     const { error } = await supabase
-      .from('galleries')
+      .from('photo_galleries')
       .delete()
       .eq('id', id)
 

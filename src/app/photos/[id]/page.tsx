@@ -16,7 +16,7 @@ interface PhotoWithContext extends MediaAsset {
     avatar_url?: string
     is_elder: boolean
   }
-  organization?: {
+  organisation?: {
     id: string
     name: string
     slug: string
@@ -71,16 +71,16 @@ export default function PhotoDetailPage() {
 
   const getSensitivityBadge = (level: string) => {
     const badges = {
-      low: { label: 'Community Open', color: 'bg-green-100 text-green-800', icon: '🌱' },
-      medium: { label: 'Respectful Viewing', color: 'bg-yellow-100 text-yellow-800', icon: '🤝' },
-      high: { label: 'Cultural Guidance', color: 'bg-red-100 text-red-800', icon: '🙏' }
+      low: { label: 'Community Open', colour: 'bg-green-100 text-green-800', icon: '🌱' },
+      medium: { label: 'Respectful Viewing', colour: 'bg-yellow-100 text-yellow-800', icon: '🤝' },
+      high: { label: 'Cultural Guidance', colour: 'bg-red-100 text-red-800', icon: '🙏' }
     }
     
     const badge = badges[level as keyof typeof badges]
     if (!badge) return null
     
     return (
-      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${badge.color}`}>
+      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${badge.colour}`}>
         <span className="mr-1">{badge.icon}</span>
         {badge.label}
       </span>
@@ -134,7 +134,7 @@ export default function PhotoDetailPage() {
         <div className="container mx-auto px-6 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading photo...</p>
+            <p className="mt-4 text-grey-600">Loading photo...</p>
           </div>
         </div>
       </div>
@@ -149,7 +149,7 @@ export default function PhotoDetailPage() {
             <svg className="mx-auto h-24 w-24 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
             </svg>
-            <h3 className="mt-4 text-lg font-medium text-gray-900">{error}</h3>
+            <h3 className="mt-4 text-lg font-medium text-grey-900">{error}</h3>
             <div className="mt-4">
               <Link
                 href="/galleries"
@@ -178,7 +178,7 @@ export default function PhotoDetailPage() {
           </Link>
           {photo.galleries && photo.galleries.length > 0 && (
             <>
-              <span className="mx-2 text-gray-500">/</span>
+              <span className="mx-2 text-grey-500">/</span>
               <Link 
                 href={`/galleries/${photo.galleries[0].id}`}
                 className="text-orange-600 hover:text-orange-700"
@@ -187,8 +187,8 @@ export default function PhotoDetailPage() {
               </Link>
             </>
           )}
-          <span className="mx-2 text-gray-500">/</span>
-          <span className="text-gray-900">{photo.title || photo.filename}</span>
+          <span className="mx-2 text-grey-500">/</span>
+          <span className="text-grey-900">{photo.title || photo.filename}</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -209,7 +209,7 @@ export default function PhotoDetailPage() {
                     src={photo.optimized_url || photo.public_url || ''}
                     alt={photo.alt_text || photo.title || ''}
                     fill
-                    className="object-contain bg-gray-100"
+                    className="object-contain bg-grey-100"
                     sizes="(max-width: 1024px) 100vw, 66vw"
                     priority
                   />
@@ -255,7 +255,7 @@ export default function PhotoDetailPage() {
                   
                   <button
                     onClick={() => setShowMetadata(!showMetadata)}
-                    className={`${showMetadata ? 'bg-orange-600' : 'bg-black bg-opacity-70'} text-white p-2 rounded-full hover:bg-opacity-90 transition-colors`}
+                    className={`${showMetadata ? 'bg-orange-600' : 'bg-black bg-opacity-70'} text-white p-2 rounded-full hover:bg-opacity-90 transition-colours`}
                     title="Toggle metadata"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -268,13 +268,13 @@ export default function PhotoDetailPage() {
               {/* Photo Title & Description */}
               <div className="p-6">
                 {photo.title && (
-                  <h1 className="text-2xl font-bold text-gray-900 mb-3">
+                  <h1 className="text-2xl font-bold text-grey-900 mb-3">
                     {photo.title}
                   </h1>
                 )}
                 
                 {photo.description && (
-                  <p className="text-gray-700 text-lg leading-relaxed mb-4">
+                  <p className="text-grey-700 text-lg leading-relaxed mb-4">
                     {photo.description}
                   </p>
                 )}
@@ -311,7 +311,7 @@ export default function PhotoDetailPage() {
                     {photo.tags.map((tag, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 text-gray-700"
+                        className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-grey-100 text-grey-700"
                       >
                         #{tag}
                       </span>
@@ -326,7 +326,7 @@ export default function PhotoDetailPage() {
           <div className="space-y-6">
             {/* Creator Info */}
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Uploaded by</h3>
+              <h3 className="text-lg font-medium text-grey-900 mb-4">Uploaded by</h3>
               <div className="flex items-center">
                 {photo.uploaded_by_profile?.avatar_url ? (
                   <Image
@@ -337,10 +337,10 @@ export default function PhotoDetailPage() {
                     className="rounded-full mr-4"
                   />
                 ) : (
-                  <div className="w-12 h-12 bg-gray-300 rounded-full mr-4" />
+                  <div className="w-12 h-12 bg-grey-300 rounded-full mr-4" />
                 )}
                 <div>
-                  <p className="font-medium text-gray-900">
+                  <p className="font-medium text-grey-900">
                     {photo.uploaded_by_profile?.display_name || 'Unknown'}
                   </p>
                   {photo.uploaded_by_profile?.is_elder && (
@@ -349,24 +349,24 @@ export default function PhotoDetailPage() {
                 </div>
               </div>
 
-              {photo.organization && (
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                  <h4 className="text-sm font-medium text-gray-900 mb-2">Organization</h4>
+              {photo.organisation && (
+                <div className="mt-4 pt-4 border-t border-grey-200">
+                  <h4 className="text-sm font-medium text-grey-900 mb-2">Organization</h4>
                   <div className="flex items-center">
-                    {photo.organization.logo_url ? (
+                    {photo.organisation.logo_url ? (
                       <Image
-                        src={photo.organization.logo_url}
+                        src={photo.organisation.logo_url}
                         alt=""
                         width={24}
                         height={24}
                         className="rounded mr-2"
                       />
                     ) : (
-                      <svg className="w-6 h-6 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-6 h-6 mr-2 text-grey-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                       </svg>
                     )}
-                    <span className="text-sm text-gray-600">{photo.organization.name}</span>
+                    <span className="text-sm text-grey-600">{photo.organisation.name}</span>
                   </div>
                 </div>
               )}
@@ -375,7 +375,7 @@ export default function PhotoDetailPage() {
             {/* Galleries */}
             {photo.galleries && photo.galleries.length > 0 && (
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
+                <h3 className="text-lg font-medium text-grey-900 mb-4">
                   In Galleries
                 </h3>
                 <div className="space-y-2">
@@ -383,13 +383,13 @@ export default function PhotoDetailPage() {
                     <Link
                       key={gallery.id}
                       href={`/galleries/${gallery.id}`}
-                      className="block p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                      className="block p-3 rounded-lg hover:bg-grey-50 transition-colours"
                     >
                       <p className="font-medium text-orange-600 hover:text-orange-700">
                         {gallery.title}
                       </p>
                       {gallery.cultural_theme && (
-                        <p className="text-sm text-gray-500 capitalize">
+                        <p className="text-sm text-grey-500 capitalize">
                           {gallery.cultural_theme.replace('_', ' ')}
                         </p>
                       )}
@@ -402,7 +402,7 @@ export default function PhotoDetailPage() {
             {/* Cultural Tags */}
             {photo.cultural_tags && photo.cultural_tags.length > 0 && (
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
+                <h3 className="text-lg font-medium text-grey-900 mb-4">
                   Cultural Context
                 </h3>
                 <div className="space-y-3">
@@ -410,12 +410,12 @@ export default function PhotoDetailPage() {
                     <div key={tag.id} className="flex items-start">
                       <span className="flex-shrink-0 w-2 h-2 bg-orange-400 rounded-full mt-2 mr-3"></span>
                       <div>
-                        <p className="font-medium text-gray-900">{tag.name}</p>
+                        <p className="font-medium text-grey-900">{tag.name}</p>
                         {tag.description && (
-                          <p className="text-sm text-gray-600">{tag.description}</p>
+                          <p className="text-sm text-grey-600">{tag.description}</p>
                         )}
                         {tag.traditional_name && (
-                          <p className="text-sm text-gray-500 italic">
+                          <p className="text-sm text-grey-500 italic">
                             Traditional: {tag.traditional_name}
                           </p>
                         )}
@@ -429,46 +429,46 @@ export default function PhotoDetailPage() {
             {/* Technical Metadata */}
             {showMetadata && (
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
+                <h3 className="text-lg font-medium text-grey-900 mb-4">
                   Technical Details
                 </h3>
                 <div className="space-y-3 text-sm">
                   {photo.width && photo.height && (
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Dimensions:</span>
-                      <span className="text-gray-900">{photo.width} × {photo.height}</span>
+                      <span className="text-grey-600">Dimensions:</span>
+                      <span className="text-grey-900">{photo.width} × {photo.height}</span>
                     </div>
                   )}
                   
                   <div className="flex justify-between">
-                    <span className="text-gray-600">File Size:</span>
-                    <span className="text-gray-900">{formatFileSize(photo.file_size)}</span>
+                    <span className="text-grey-600">File Size:</span>
+                    <span className="text-grey-900">{formatFileSize(photo.file_size)}</span>
                   </div>
                   
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Format:</span>
-                    <span className="text-gray-900 uppercase">{photo.mime_type.split('/')[1]}</span>
+                    <span className="text-grey-600">Format:</span>
+                    <span className="text-grey-900 uppercase">{photo.mime_type.split('/')[1]}</span>
                   </div>
 
                   {photo.capture_date && (
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Captured:</span>
-                      <span className="text-gray-900">{formatDate(photo.capture_date)}</span>
+                      <span className="text-grey-600">Captured:</span>
+                      <span className="text-grey-900">{formatDate(photo.capture_date)}</span>
                     </div>
                   )}
                   
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Uploaded:</span>
-                    <span className="text-gray-900">{formatDate(photo.created_at)}</span>
+                    <span className="text-grey-600">Uploaded:</span>
+                    <span className="text-grey-900">{formatDate(photo.created_at)}</span>
                   </div>
 
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Views:</span>
-                    <span className="text-gray-900">{photo.access_count}</span>
+                    <span className="text-grey-600">Views:</span>
+                    <span className="text-grey-900">{photo.access_count}</span>
                   </div>
 
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Status:</span>
+                    <span className="text-grey-600">Status:</span>
                     <span className={`${
                       photo.consent_status === 'granted' ? 'text-green-600' :
                       photo.consent_status === 'pending' ? 'text-yellow-600' :

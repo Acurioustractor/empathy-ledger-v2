@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import AdminNavigation from '@/components/admin/AdminNavigation'
 import MediaLinkingManager from '@/components/media/MediaLinkingManager'
 import {
   Dialog,
@@ -42,7 +41,7 @@ interface Story {
   updated_at: string
   author_id: string
   status: 'published' | 'draft' | 'under_review' | 'flagged' | 'archived'
-  visibility: 'public' | 'community' | 'organization' | 'private'
+  visibility: 'public' | 'community' | 'organisation' | 'private'
   cultural_sensitivity_level: 'low' | 'medium' | 'high'
   tags: string[]
   location?: string
@@ -101,6 +100,7 @@ export default function StoriesAdminPage() {
   const [sensitivityFilter, setSensitivityFilter] = useState<string>('all')
   const [editingStory, setEditingStory] = useState<Partial<Story>>({})
   const [isEditing, setIsEditing] = useState(false)
+  const [totalDatabaseCount, setTotalDatabaseCount] = useState(0)
 
   useEffect(() => {
     fetchStories()
@@ -113,11 +113,15 @@ export default function StoriesAdminPage() {
   const fetchStories = async () => {
     try {
       setLoading(true)
-      
-      // Fetch real stories from API
-      const response = await fetch('/api/admin/content/stories?limit=50')
+
+      // Fetch real stories from API - show all stories for admin
+      console.log('📚 Fetching stories from API...')
+      const response = await fetch('/api/admin/content/stories?limit=1000')
       if (response.ok) {
         const data = await response.json()
+        console.log('📚 Stories API response:', data)
+        // Store total database count for accurate display
+        setTotalDatabaseCount(data.pagination?.totalCount || 0)
         // Transform API data to match Story interface
         const transformedStories = data.stories?.map((story: any) => ({
           id: story.id,
@@ -170,9 +174,14 @@ export default function StoriesAdminPage() {
           transcript_analysis: undefined
         })) || []
         
+        console.log('📚 Transformed', transformedStories.length, 'stories')
+        console.log('📚 Total stories count in database:', data.pagination?.totalCount || 0)
+        console.log('📚 First story:', transformedStories[0])
         setStories(transformedStories)
       } else {
-        console.error('Failed to fetch stories')
+        console.error('Failed to fetch stories - Response not OK:', response.status, response.statusText)
+        const errorText = await response.text()
+        console.error('API Error:', errorText)
         setStories([])
       }
     } catch (error) {
@@ -240,11 +249,11 @@ export default function StoriesAdminPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'published': return 'bg-green-100 text-green-800'
-      case 'draft': return 'bg-gray-100 text-gray-800'
+      case 'draft': return 'bg-grey-100 text-grey-800'
       case 'under_review': return 'bg-yellow-100 text-yellow-800'
       case 'flagged': return 'bg-red-100 text-red-800'
       case 'archived': return 'bg-blue-100 text-blue-800'
-      default: return 'bg-gray-100 text-gray-800'
+      default: return 'bg-grey-100 text-grey-800'
     }
   }
 
@@ -252,9 +261,9 @@ export default function StoriesAdminPage() {
     switch (visibility) {
       case 'public': return 'bg-blue-100 text-blue-800'
       case 'community': return 'bg-purple-100 text-purple-800'
-      case 'organization': return 'bg-indigo-100 text-indigo-800'
-      case 'private': return 'bg-gray-100 text-gray-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'organisation': return 'bg-indigo-100 text-indigo-800'
+      case 'private': return 'bg-grey-100 text-grey-800'
+      default: return 'bg-grey-100 text-grey-800'
     }
   }
 
@@ -263,11 +272,12 @@ export default function StoriesAdminPage() {
       case 'high': return 'bg-red-100 text-red-800'
       case 'medium': return 'bg-yellow-100 text-yellow-800'
       case 'low': return 'bg-green-100 text-green-800'
-      default: return 'bg-gray-100 text-gray-800'
+      default: return 'bg-grey-100 text-grey-800'
     }
   }
 
-  const totalStories = stories.length
+  // Use database count for total, local count for filtered views
+  const totalStories = totalDatabaseCount || stories.length
   const publishedStories = stories.filter(s => s.status === 'published').length
   const flaggedStories = stories.filter(s => s.status === 'flagged').length
   const underReview = stories.filter(s => s.status === 'under_review').length
@@ -277,7 +287,6 @@ export default function StoriesAdminPage() {
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <AdminNavigation className="mb-8" />
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
           <span className="ml-2">Loading stories...</span>
@@ -288,13 +297,15 @@ export default function StoriesAdminPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <AdminNavigation className="mb-8" />
 
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Stories Admin</h1>
-        <p className="text-gray-600">
+        <h1 className="text-3xl font-bold text-grey-900 mb-2">Stories Admin</h1>
+        <p className="text-grey-600">
           Manage community stories with cultural sensitivity and elder review protocols
         </p>
+        <div className="mt-3 text-sm text-grey-500">
+          Showing {stories.length} of {totalStories} total stories {filteredStories.length !== stories.length && `(${filteredStories.length} filtered)`}
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -303,7 +314,7 @@ export default function StoriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-blue-600">{totalStories}</p>
-              <p className="text-xs text-gray-600">Total Stories</p>
+              <p className="text-xs text-grey-600">Total Stories</p>
             </div>
           </CardContent>
         </Card>
@@ -311,7 +322,7 @@ export default function StoriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-green-600">{publishedStories}</p>
-              <p className="text-xs text-gray-600">Published</p>
+              <p className="text-xs text-grey-600">Published</p>
             </div>
           </CardContent>
         </Card>
@@ -319,7 +330,7 @@ export default function StoriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-red-600">{flaggedStories}</p>
-              <p className="text-xs text-gray-600">Flagged</p>
+              <p className="text-xs text-grey-600">Flagged</p>
             </div>
           </CardContent>
         </Card>
@@ -327,7 +338,7 @@ export default function StoriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-yellow-600">{underReview}</p>
-              <p className="text-xs text-gray-600">Under Review</p>
+              <p className="text-xs text-grey-600">Under Review</p>
             </div>
           </CardContent>
         </Card>
@@ -335,7 +346,7 @@ export default function StoriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-purple-600">{elderApproved}</p>
-              <p className="text-xs text-gray-600">Elder Approved</p>
+              <p className="text-xs text-grey-600">Elder Approved</p>
             </div>
           </CardContent>
         </Card>
@@ -343,7 +354,7 @@ export default function StoriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-orange-600">{highSensitivity}</p>
-              <p className="text-xs text-gray-600">High Sensitivity</p>
+              <p className="text-xs text-grey-600">High Sensitivity</p>
             </div>
           </CardContent>
         </Card>
@@ -354,7 +365,7 @@ export default function StoriesAdminPage() {
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-grey-400" />
               <Input
                 placeholder="Search stories..."
                 value={searchTerm}
@@ -366,7 +377,7 @@ export default function StoriesAdminPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Status</option>
               <option value="published">Published</option>
@@ -379,19 +390,19 @@ export default function StoriesAdminPage() {
             <select
               value={visibilityFilter}
               onChange={(e) => setVisibilityFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Visibility</option>
               <option value="public">Public</option>
               <option value="community">Community</option>
-              <option value="organization">Organization</option>
+              <option value="organisation">Organization</option>
               <option value="private">Private</option>
             </select>
 
             <select
               value={sensitivityFilter}
               onChange={(e) => setSensitivityFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Sensitivity</option>
               <option value="low">Low</option>
@@ -444,7 +455,7 @@ export default function StoriesAdminPage() {
                     </Badge>
                   </div>
 
-                  <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
+                  <div className="flex items-center space-x-4 text-sm text-grey-600 mb-3">
                     <span className="flex items-center">
                       <User className="w-3 h-3 mr-1" />
                       {story.author?.display_name}
@@ -466,7 +477,7 @@ export default function StoriesAdminPage() {
                   </div>
 
                   {story.excerpt && (
-                    <p className="text-sm text-gray-700 mb-3 line-clamp-2">
+                    <p className="text-sm text-grey-700 mb-3 line-clamp-2">
                       {story.excerpt}
                     </p>
                   )}
@@ -528,19 +539,19 @@ export default function StoriesAdminPage() {
                   <div className="grid grid-cols-4 gap-4 text-center text-sm">
                     <div>
                       <p className="font-bold">{story.stats?.views_count || 0}</p>
-                      <p className="text-gray-600 text-xs">Views</p>
+                      <p className="text-grey-600 text-xs">Views</p>
                     </div>
                     <div>
                       <p className="font-bold">{story.stats?.likes_count || 0}</p>
-                      <p className="text-gray-600 text-xs">Likes</p>
+                      <p className="text-grey-600 text-xs">Likes</p>
                     </div>
                     <div>
                       <p className="font-bold">{story.stats?.comments_count || 0}</p>
-                      <p className="text-gray-600 text-xs">Comments</p>
+                      <p className="text-grey-600 text-xs">Comments</p>
                     </div>
                     <div>
                       <p className="font-bold">{story.stats?.shares_count || 0}</p>
-                      <p className="text-gray-600 text-xs">Shares</p>
+                      <p className="text-grey-600 text-xs">Shares</p>
                     </div>
                   </div>
                 </div>
@@ -572,9 +583,9 @@ export default function StoriesAdminPage() {
 
       {filteredStories.length === 0 && (
         <div className="text-center py-12">
-          <BookOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No stories found</h3>
-          <p className="text-gray-600">Try adjusting your search or filter criteria.</p>
+          <BookOpen className="w-12 h-12 text-grey-400 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-grey-900 mb-2">No stories found</h3>
+          <p className="text-grey-600">Try adjusting your search or filter criteria.</p>
         </div>
       )}
 
@@ -642,7 +653,7 @@ export default function StoriesAdminPage() {
                               excerpt: e.target.value
                             }))}
                             rows={3}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                           />
                         </div>
                         <div>
@@ -654,7 +665,7 @@ export default function StoriesAdminPage() {
                               content: e.target.value
                             }))}
                             rows={10}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                           />
                         </div>
                       </>
@@ -662,27 +673,27 @@ export default function StoriesAdminPage() {
                       <>
                         <div>
                           <strong className="text-sm">Title:</strong>
-                          <p className="text-sm text-gray-600">{selectedStory.title}</p>
+                          <p className="text-sm text-grey-600">{selectedStory.title}</p>
                         </div>
                         {selectedStory.excerpt && (
                           <div>
                             <strong className="text-sm">Excerpt:</strong>
-                            <p className="text-sm text-gray-600">{selectedStory.excerpt}</p>
+                            <p className="text-sm text-grey-600">{selectedStory.excerpt}</p>
                           </div>
                         )}
                         <div>
                           <strong className="text-sm">Content Preview:</strong>
-                          <div className="max-h-64 overflow-y-auto p-3 bg-gray-50 rounded-md">
-                            <p className="text-sm text-gray-700">{selectedStory.content}</p>
+                          <div className="max-h-64 overflow-y-auto p-3 bg-grey-50 rounded-md">
+                            <p className="text-sm text-grey-700">{selectedStory.content}</p>
                           </div>
                         </div>
                         <div>
                           <strong className="text-sm">Author:</strong>
-                          <p className="text-sm text-gray-600">{selectedStory.author?.display_name}</p>
+                          <p className="text-sm text-grey-600">{selectedStory.author?.display_name}</p>
                         </div>
                         <div>
                           <strong className="text-sm">Reading Time:</strong>
-                          <p className="text-sm text-gray-600">{selectedStory.stats?.reading_time} minutes</p>
+                          <p className="text-sm text-grey-600">{selectedStory.stats?.reading_time} minutes</p>
                         </div>
                       </>
                     )}
@@ -725,7 +736,7 @@ export default function StoriesAdminPage() {
                         <Badge className={
                           selectedStory.transcript_analysis.sentiment === 'positive' ? 'bg-green-100 text-green-800' :
                           selectedStory.transcript_analysis.sentiment === 'negative' ? 'bg-red-100 text-red-800' :
-                          'bg-gray-100 text-gray-800'
+                          'bg-grey-100 text-grey-800'
                         }>
                           {selectedStory.transcript_analysis.sentiment}
                         </Badge>
@@ -756,7 +767,7 @@ export default function StoriesAdminPage() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Featured:</span>
-                      <Badge className={selectedStory.featured ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800'}>
+                      <Badge className={selectedStory.featured ? 'bg-yellow-100 text-yellow-800' : 'bg-grey-100 text-grey-800'}>
                         {selectedStory.featured ? 'Yes' : 'No'}
                       </Badge>
                     </div>
@@ -776,19 +787,19 @@ export default function StoriesAdminPage() {
                   <CardContent className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Elder Approved:</span>
-                      <Badge className={selectedStory.elder_approved ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}>
+                      <Badge className={selectedStory.elder_approved ? 'bg-green-100 text-green-800' : 'bg-grey-100 text-grey-800'}>
                         {selectedStory.elder_approved ? 'Yes' : 'No'}
                       </Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Ceremonial Content:</span>
-                      <Badge className={selectedStory.ceremonial_content ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-800'}>
+                      <Badge className={selectedStory.ceremonial_content ? 'bg-purple-100 text-purple-800' : 'bg-grey-100 text-grey-800'}>
                         {selectedStory.ceremonial_content ? 'Yes' : 'No'}
                       </Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Traditional Knowledge:</span>
-                      <Badge className={selectedStory.traditional_knowledge ? 'bg-indigo-100 text-indigo-800' : 'bg-gray-100 text-gray-800'}>
+                      <Badge className={selectedStory.traditional_knowledge ? 'bg-indigo-100 text-indigo-800' : 'bg-grey-100 text-grey-800'}>
                         {selectedStory.traditional_knowledge ? 'Yes' : 'No'}
                       </Badge>
                     </div>
@@ -818,19 +829,19 @@ export default function StoriesAdminPage() {
                     <div className="grid grid-cols-2 gap-4 text-center">
                       <div>
                         <p className="text-2xl font-bold text-blue-600">{selectedStory.stats?.views_count || 0}</p>
-                        <p className="text-sm text-gray-600">Views</p>
+                        <p className="text-sm text-grey-600">Views</p>
                       </div>
                       <div>
                         <p className="text-2xl font-bold text-red-600">{selectedStory.stats?.likes_count || 0}</p>
-                        <p className="text-sm text-gray-600">Likes</p>
+                        <p className="text-sm text-grey-600">Likes</p>
                       </div>
                       <div>
                         <p className="text-2xl font-bold text-green-600">{selectedStory.stats?.comments_count || 0}</p>
-                        <p className="text-sm text-gray-600">Comments</p>
+                        <p className="text-sm text-grey-600">Comments</p>
                       </div>
                       <div>
                         <p className="text-2xl font-bold text-purple-600">{selectedStory.stats?.shares_count || 0}</p>
-                        <p className="text-sm text-gray-600">Shares</p>
+                        <p className="text-sm text-grey-600">Shares</p>
                       </div>
                     </div>
                   </CardContent>

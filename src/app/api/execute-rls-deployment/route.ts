@@ -175,7 +175,7 @@ export async function POST(req: NextRequest) {
       manualSteps: [
         '1. Access Supabase Dashboard SQL Editor',
         '2. Execute the SQL statements provided in the results',
-        '3. Enable RLS on tables: profiles, stories, transcripts, organizations, media_assets, galleries, photos',
+        '3. Enable RLS on tables: profiles, stories, transcripts, organisations, media_assets, galleries, photos',
         '4. Verify policies are active by testing access patterns'
       ],
       urgentNote: 'CULTURAL DATA PROTECTION REQUIRES IMMEDIATE MANUAL INTERVENTION'

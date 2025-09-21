@@ -135,7 +135,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
       pie: topThemes.map((theme, index) => ({
         name: theme.name,
         value: theme.frequency,
-        color: CULTURAL_COLORS[index % CULTURAL_COLORS.length]
+        colour: CULTURAL_COLORS[index % CULTURAL_COLORS.length]
       })),
       sentiment: themes.reduce((acc, theme) => {
         const existing = acc.find(item => item.sentiment === theme.sentiment);
@@ -170,7 +170,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
       case 'negative':
         return <TrendingDown className="w-4 h-4 text-red-500" />;
       case 'neutral':
-        return <Minus className="w-4 h-4 text-gray-500" />;
+        return <Minus className="w-4 h-4 text-grey-500" />;
     }
   };
 
@@ -181,7 +181,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
       case 'negative':
         return 'bg-red-100 text-red-800 border-red-200';
       case 'neutral':
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-grey-100 text-grey-800 border-grey-200';
     }
   };
 
@@ -237,7 +237,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
       <Alert className="border-amber-200 bg-amber-50">
         <Shield className="w-4 h-4" />
         <AlertDescription>
-          Cultural themes are analyzed with respect for Indigenous knowledge systems. 
+          Cultural themes are analysed with respect for Indigenous knowledge systems. 
           Sensitive themes require elder approval before being displayed publicly.
         </AlertDescription>
       </Alert>
@@ -370,7 +370,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                   >
                     {chartData.pie.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
+                      <Cell key={`cell-${index}`} fill={entry.colour} />
                     ))}
                   </Pie>
                   <Tooltip />
@@ -505,7 +505,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
                       </h5>
                       <div className="space-y-2">
                         {theme.relatedQuotes.slice(0, 2).map((quote, i) => (
-                          <blockquote key={i} className="text-sm italic text-gray-600 border-l-2 border-gray-300 pl-3">
+                          <blockquote key={i} className="text-sm italic text-grey-600 border-l-2 border-grey-300 pl-3">
                             "{quote.length > 100 ? `${quote.substring(0, 100)}...` : quote}"
                           </blockquote>
                         ))}
@@ -537,7 +537,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
                         <span className="font-medium text-sm">All Quotes ({theme.relatedQuotes.length}):</span>
                         <div className="mt-2 space-y-2 max-h-48 overflow-y-auto">
                           {theme.relatedQuotes.map((quote, i) => (
-                            <div key={i} className="text-sm p-2 bg-gray-50 rounded border-l-2 border-amber-300">
+                            <div key={i} className="text-sm p-2 bg-grey-50 rounded border-l-2 border-amber-300">
                               "{quote}"
                             </div>
                           ))}
@@ -552,7 +552,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
 
           {processedThemes.length === 0 && (
             <div className="text-center py-12">
-              <Brain className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+              <Brain className="w-16 h-16 mx-auto mb-4 text-grey-400" />
               <h3 className="text-lg font-medium mb-2">No Themes Found</h3>
               <p className="text-muted-foreground">
                 No cultural themes match the current filter criteria.

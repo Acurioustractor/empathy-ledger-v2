@@ -78,7 +78,7 @@ export default function ForgotPasswordPage() {
                   </Alert>
                   
                   <div className="text-center space-y-3">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-grey-600">
                       Didn't receive the email? Check your spam folder or
                     </p>
                     <Button
@@ -125,7 +125,7 @@ export default function ForgotPasswordPage() {
                     {loading ? 'Sending...' : 'Send Reset Instructions'}
                   </Button>
                   
-                  <div className="text-center text-sm text-gray-600">
+                  <div className="text-center text-sm text-grey-600">
                     Remember your password?{' '}
                     <Link href="/auth/signin" className="text-blue-600 hover:underline font-medium">
                       Sign In

@@ -192,7 +192,7 @@ export default function CulturalReviewWorkflow({
       case 'high': return 'bg-red-100 text-red-800 border-red-200'
       case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
       case 'low': return 'bg-green-100 text-green-800 border-green-200'
-      default: return 'bg-gray-100 text-gray-800 border-gray-200'
+      default: return 'bg-grey-100 text-grey-800 border-grey-200'
     }
   }
 
@@ -236,7 +236,7 @@ export default function CulturalReviewWorkflow({
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600 mx-auto"></div>
-          <p className="mt-2 text-gray-600">Loading items for review...</p>
+          <p className="mt-2 text-grey-600">Loading items for review...</p>
         </div>
       </div>
     )
@@ -270,10 +270,10 @@ export default function CulturalReviewWorkflow({
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-grey-900">
               Cultural Review Workflow
             </h2>
-            <p className="text-gray-600 mt-1">
+            <p className="text-grey-600 mt-1">
               {userRole === 'elder' ? 'Elder Review' : 'Cultural Review'} • {reviewItems.length} items pending
             </p>
           </div>
@@ -281,7 +281,7 @@ export default function CulturalReviewWorkflow({
           <div className="flex items-center space-x-2">
             <button
               onClick={fetchReviewItems}
-              className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 text-sm border border-grey-300 rounded-md hover:bg-grey-50 transition-colours"
             >
               <svg className="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -298,8 +298,8 @@ export default function CulturalReviewWorkflow({
           <svg className="mx-auto h-16 w-16 text-green-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">All Caught Up!</h3>
-          <p className="text-gray-500">
+          <h3 className="text-lg font-medium text-grey-900 mb-2">All Caught Up!</h3>
+          <p className="text-grey-500">
             There are no items pending cultural review at this time.
           </p>
         </div>
@@ -308,7 +308,7 @@ export default function CulturalReviewWorkflow({
           {reviewItems.map((item) => (
             <div key={`${item.type}-${item.id}`} className="bg-white rounded-lg shadow-md overflow-hidden">
               {/* Preview */}
-              <div className="aspect-video bg-gray-100 overflow-hidden relative">
+              <div className="aspect-video bg-grey-100 overflow-hidden relative">
                 {item.preview_url ? (
                   <Image
                     src={item.preview_url}
@@ -318,7 +318,7 @@ export default function CulturalReviewWorkflow({
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full">
-                    <svg className="w-16 h-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-16 h-16 text-grey-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                   </div>
@@ -344,12 +344,12 @@ export default function CulturalReviewWorkflow({
 
               {/* Content */}
               <div className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-grey-900 mb-2">
                   {item.title}
                 </h3>
 
                 {item.description && (
-                  <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                  <p className="text-grey-600 text-sm mb-3 line-clamp-2">
                     {item.description}
                   </p>
                 )}
@@ -376,7 +376,7 @@ export default function CulturalReviewWorkflow({
                 </div>
 
                 {/* Submitter Info */}
-                <div className="flex items-center justify-between mb-4 text-sm text-gray-500">
+                <div className="flex items-center justify-between mb-4 text-sm text-grey-500">
                   <div className="flex items-center">
                     {item.created_by_profile?.avatar_url ? (
                       <Image
@@ -387,7 +387,7 @@ export default function CulturalReviewWorkflow({
                         className="rounded-full mr-2"
                       />
                     ) : (
-                      <div className="w-6 h-6 bg-gray-300 rounded-full mr-2" />
+                      <div className="w-6 h-6 bg-grey-300 rounded-full mr-2" />
                     )}
                     <span>{item.created_by_profile?.display_name || 'Unknown'}</span>
                   </div>
@@ -401,7 +401,7 @@ export default function CulturalReviewWorkflow({
                       setSelectedItem(item)
                       setReviewAction('approve')
                     }}
-                    className="flex-1 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm font-medium"
+                    className="flex-1 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colours text-sm font-medium"
                   >
                     ✓ Approve
                   </button>
@@ -411,7 +411,7 @@ export default function CulturalReviewWorkflow({
                       setSelectedItem(item)
                       setReviewAction('request_changes')
                     }}
-                    className="flex-1 px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colors text-sm font-medium"
+                    className="flex-1 px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colours text-sm font-medium"
                   >
                     ⚠ Request Changes
                   </button>
@@ -421,7 +421,7 @@ export default function CulturalReviewWorkflow({
                       setSelectedItem(item)
                       setReviewAction('reject')
                     }}
-                    className="flex-1 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors text-sm font-medium"
+                    className="flex-1 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colours text-sm font-medium"
                   >
                     ✗ Reject
                   </button>
@@ -437,14 +437,14 @@ export default function CulturalReviewWorkflow({
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
             <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="text-lg font-semibold text-grey-900 mb-4">
                 {reviewAction === 'approve' ? 'Approve Content' :
                  reviewAction === 'reject' ? 'Reject Content' :
                  'Request Changes'} - {selectedItem.title}
               </h3>
 
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-grey-700 mb-2">
                   Review Notes
                   {reviewAction !== 'approve' && (
                     <span className="text-red-500 ml-1">*</span>
@@ -454,7 +454,7 @@ export default function CulturalReviewWorkflow({
                   value={reviewNotes}
                   onChange={(e) => setReviewNotes(e.target.value)}
                   rows={4}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full border border-grey-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   placeholder={
                     reviewAction === 'approve' ? 'Optional notes about the approval...' :
                     reviewAction === 'reject' ? 'Please explain why this content is being rejected...' :
@@ -470,7 +470,7 @@ export default function CulturalReviewWorkflow({
                     setReviewAction(null)
                     setReviewNotes('')
                   }}
-                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                  className="px-4 py-2 text-grey-700 border border-grey-300 rounded-md hover:bg-grey-50 transition-colours"
                   disabled={submitting}
                 >
                   Cancel
@@ -479,7 +479,7 @@ export default function CulturalReviewWorkflow({
                 <button
                   onClick={() => handleReviewAction(selectedItem, reviewAction, reviewNotes)}
                   disabled={submitting || (reviewAction !== 'approve' && !reviewNotes.trim())}
-                  className={`px-4 py-2 rounded-md text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                  className={`px-4 py-2 rounded-md text-white font-medium transition-colours disabled:opacity-50 disabled:cursor-not-allowed ${
                     reviewAction === 'approve' ? 'bg-green-600 hover:bg-green-700' :
                     reviewAction === 'reject' ? 'bg-red-600 hover:bg-red-700' :
                     'bg-yellow-600 hover:bg-yellow-700'

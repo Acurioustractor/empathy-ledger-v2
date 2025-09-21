@@ -11,7 +11,7 @@ export async function GET(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id: galleryId } = await params
     
     // Get current user
@@ -109,7 +109,7 @@ export async function POST(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id: galleryId } = await params
     
     // Check authentication
@@ -259,7 +259,7 @@ export async function PUT(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id: galleryId } = await params
     
     // Check authentication
@@ -325,7 +325,7 @@ export async function DELETE(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id: galleryId } = await params
     const { searchParams } = new URL(request.url)
     const associationId = searchParams.get('association_id')

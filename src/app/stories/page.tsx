@@ -163,34 +163,34 @@ export default function StoriesPage() {
   ).length
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-sage-50/20 to-clay-50/10">
       <Header />
       
       {/* Hero Section */}
-      <div className="bg-earth-800 text-white py-16">
+      <div className="bg-gradient-to-br from-earth-800 via-earth-700 to-clay-800 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="flex justify-center mb-4">
-              <BookOpen className="h-12 w-12 text-earth-300" />
+            <div className="flex justify-center mb-6">
+              <BookOpen className="h-16 w-16 text-earth-200" />
             </div>
-            <Typography variant="h1" className="text-white mb-4">
-              All Stories
+            <Typography variant="cultural-hero" className="text-white mb-6">
+              Stories That Shape Us
             </Typography>
-            <Typography variant="large" className="text-earth-200 max-w-2xl mx-auto">
-              Discover the rich tapestry of human experience - personal journeys, family histories, 
+            <Typography variant="cultural-subtitle" className="text-earth-200 max-w-3xl mx-auto mb-8">
+              Discover the rich tapestry of human experience through personal journeys, family histories, 
               community tales, and cultural wisdom from storytellers around the world.
             </Typography>
-            <div className="flex justify-center mt-6 gap-6 text-earth-300">
-              <div className="flex items-center gap-2">
-                <BookOpen className="h-5 w-5" />
+            <div className="flex justify-center mt-8 gap-8 text-earth-200">
+              <div className="flex items-center gap-3 text-body-lg">
+                <BookOpen className="h-6 w-6" />
                 <span>{pagination.total} Stories</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
+              <div className="flex items-center gap-3 text-body-lg">
+                <Users className="h-6 w-6" />
                 <span>Global Contributors</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Star className="h-5 w-5" />
+              <div className="flex items-center gap-3 text-body-lg">
+                <Star className="h-6 w-6" />
                 <span>Featured Stories</span>
               </div>
             </div>
@@ -204,7 +204,7 @@ export default function StoriesPage() {
           <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-4">
             {/* Search */}
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400 h-4 w-4" />
               <Input
                 placeholder="Search stories, themes, or locations..."
                 value={searchTerm}
@@ -215,7 +215,7 @@ export default function StoriesPage() {
 
             {/* View Toggle and Filter Button */}
             <div className="flex items-center gap-2">
-              <div className="flex border border-gray-300 rounded-md">
+              <div className="flex border border-grey-300 rounded-md">
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="sm"
@@ -317,7 +317,7 @@ export default function StoriesPage() {
               </div>
 
               <div className="flex justify-between items-center mt-4 pt-4 border-t">
-                <Typography variant="small" className="text-gray-600">
+                <Typography variant="small" className="text-grey-600">
                   {pagination.total} stories found
                 </Typography>
                 <Button variant="ghost" size="sm" onClick={clearFilters}>
@@ -333,7 +333,7 @@ export default function StoriesPage() {
           <div className="flex justify-center items-center py-20">
             <div className="text-center">
               <Loader2 className="h-8 w-8 animate-spin text-earth-600 mx-auto mb-4" />
-              <Typography variant="body" className="text-gray-600">
+              <Typography variant="body" className="text-grey-600">
                 Loading stories...
               </Typography>
             </div>
@@ -360,11 +360,11 @@ export default function StoriesPage() {
             {/* Empty State */}
             {stories.length === 0 && (
               <div className="text-center py-20">
-                <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <Typography variant="h3" className="text-gray-600 mb-2">
+                <BookOpen className="h-12 w-12 text-grey-400 mx-auto mb-4" />
+                <Typography variant="h3" className="text-grey-600 mb-2">
                   No stories found
                 </Typography>
-                <Typography variant="body" className="text-gray-500 mb-6">
+                <Typography variant="body" className="text-grey-500 mb-6">
                   Try adjusting your search terms or filters to find more stories.
                 </Typography>
                 <Button variant="outline" onClick={clearFilters}>

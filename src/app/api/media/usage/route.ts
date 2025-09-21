@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     const usedInId = searchParams.get('used_in_id')
     const mediaAssetId = searchParams.get('media_asset_id')
     
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     let query = supabase
       .from('media_usage_tracking')
@@ -56,7 +56,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -148,7 +148,7 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()

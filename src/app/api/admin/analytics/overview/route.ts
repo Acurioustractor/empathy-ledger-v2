@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin analytics overview')
@@ -70,14 +71,13 @@ export async function GET(request: NextRequest) {
       return acc
     }, {} as Record<string, number>) || {}
 
-    // Story type breakdown
+    // Story type breakdown - using status instead since story_type doesn't exist
     const { data: storyTypeBreakdown } = await supabase
       .from('stories')
-      .select('story_type')
-      .eq('status', 'published')
+      .select('status')
 
     const storyTypeStats = storyTypeBreakdown?.reduce((acc, story) => {
-      const type = story.story_type || 'personal'
+      const type = story.status || 'draft'
       acc[type] = (acc[type] || 0) + 1
       return acc
     }, {} as Record<string, number>) || {}

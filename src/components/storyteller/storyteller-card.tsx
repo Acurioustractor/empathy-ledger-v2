@@ -4,21 +4,14 @@ import React from 'react'
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
-import { 
-  Crown, 
-  User, 
-  MapPin, 
-  BookOpen,
-  Calendar,
+import {
+  Crown,
+  MapPin,
   Star,
-  MessageCircle,
-  ChevronRight,
-  Users,
-  Award
+  Heart,
+  ArrowRight
 } from 'lucide-react'
 
 interface StorytellerCardProps {
@@ -38,6 +31,16 @@ interface StorytellerCardProps {
     location?: string | null
     occupation?: string | null
     languages?: string[] | null
+    organisations?: Array<{
+      id: string
+      name: string
+      role: string
+    }>
+    projects?: Array<{
+      id: string
+      name: string
+      role: string
+    }>
     profile?: {
       avatar_url?: string
       cultural_affiliations?: string[]
@@ -54,7 +57,7 @@ interface StorytellerCardProps {
 
 const statusColors = {
   active: 'bg-green-100 text-green-800 border-green-200',
-  inactive: 'bg-gray-100 text-gray-600 border-gray-200',
+  inactive: 'bg-grey-100 text-grey-600 border-grey-200',
   pending: 'bg-yellow-100 text-yellow-800 border-yellow-200'
 }
 
@@ -97,214 +100,160 @@ export function StorytellerCard({
   }
 
   return (
-    <Card 
-      className={cn(
-        'group transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 overflow-hidden bg-white border-0 shadow-lg',
-        'rounded-2xl backdrop-blur-sm',
-        isFeatured && 'ring-2 ring-amber-200 shadow-amber-100/50',
-        isElder && 'ring-2 ring-purple-200 shadow-purple-100/50',
-        !isActive && 'opacity-75',
-        className
-      )}
-    >
-      {/* Large Profile Image Header */}
-      <div className="relative h-64 bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden">
-        {storyteller.profile?.avatar_url ? (
-          <img
-            src={storyteller.profile.avatar_url}
-            alt={storyteller.display_name}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 via-purple-50 to-rose-100">
-            <div className="w-32 h-32 rounded-full bg-white/90 flex items-center justify-center shadow-2xl backdrop-blur-sm">
-              <span className="text-4xl font-bold text-slate-700">
-                {getInitials(storyteller.display_name)}
-              </span>
-            </div>
-          </div>
+    <Link href={`/storytellers/${storyteller.id}`}>
+      <Card
+        className={cn(
+          'group cursor-pointer transition-all duration-500 hover:shadow-xl hover:-translate-y-1 overflow-hidden',
+          'bg-white border-0 shadow-lg rounded-2xl relative',
+          isFeatured && 'ring-2 ring-amber-300/50',
+          isElder && 'ring-2 ring-purple-300/50',
+          !isActive && 'opacity-80',
+          className
         )}
-        
-        {/* Elegant overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-        
-        {/* Status indicators - floating badges */}
-        <div className="absolute top-4 right-4 flex flex-col gap-2">
-          {isFeatured && (
-            <div className="bg-amber-400/90 backdrop-blur-md rounded-full px-3 py-1 shadow-lg">
-              <div className="flex items-center gap-1">
-                <Star className="w-3 h-3 text-white" />
-                <span className="text-xs font-medium text-white">Featured</span>
+      >
+        {/* Large Portrait Image - Hero Style */}
+        <div className="relative h-80 overflow-hidden bg-gradient-to-br from-warm-50 via-earth-50 to-sage-50">
+          {storyteller.profile?.avatar_url ? (
+            <img
+              src={storyteller.profile.avatar_url}
+              alt={storyteller.display_name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center relative">
+              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-earth-200 to-sage-200 flex items-center justify-center shadow-2xl">
+                <span className="text-4xl font-bold text-earth-800">
+                  {getInitials(storyteller.display_name)}
+                </span>
               </div>
+              {/* Soft background pattern */}
+              <div className="absolute inset-0 bg-gradient-to-br from-earth-100/20 to-sage-100/20"></div>
             </div>
           )}
-          {isElder && (
-            <div className="bg-purple-500/90 backdrop-blur-md rounded-full px-3 py-1 shadow-lg">
-              <div className="flex items-center gap-1">
-                <Crown className="w-3 h-3 text-white" />
-                <span className="text-xs font-medium text-white">Elder</span>
+
+          {/* Elegant Status Indicators */}
+          <div className="absolute top-4 right-4 flex flex-col gap-2">
+            {isFeatured && (
+              <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center shadow-lg">
+                <Star className="w-4 h-4 text-amber-600 mr-1" />
+                <span className="text-xs font-medium text-amber-800">Featured</span>
               </div>
-            </div>
-          )}
-        </div>
-        
-        {/* Name overlay at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent p-6">
-          <Link href={`/storytellers/${storyteller.id}`}>
-            <Typography 
-              variant="h3" 
-              className="text-white font-bold group-hover:text-amber-200 transition-colors cursor-pointer drop-shadow-lg"
-            >
+            )}
+            {isElder && (
+              <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center shadow-lg">
+                <Crown className="w-4 h-4 text-purple-600 mr-1" />
+                <span className="text-xs font-medium text-purple-800">Elder</span>
+              </div>
+            )}
+          </div>
+
+          {/* Gradient Overlay for Text Readability */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+
+          {/* Name Overlay on Image */}
+          <div className="absolute bottom-4 left-4 right-4">
+            <h3 className="text-white text-xl font-bold mb-1 drop-shadow-lg">
               {storyteller.display_name}
-            </Typography>
-          </Link>
-          {(storyteller.location || storyteller.cultural_background) && (
-            <div className="flex items-center gap-1 mt-1">
-              <MapPin className="w-3 h-3 text-white/80" />
-              <Typography variant="small" className="text-white/90 font-medium">
-                {storyteller.location || storyteller.cultural_background}
-              </Typography>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Content section */}
-      <div className="p-6">
-        {/* Pronouns and Occupation */}
-        <div className="flex flex-wrap items-center gap-3 mb-4">
-          {storyteller.profile?.pronouns && (
-            <span className="text-slate-500 text-sm font-medium">
-              {storyteller.profile.pronouns}
-            </span>
-          )}
-          {storyteller.occupation && (
-            <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">
-              {storyteller.occupation}
-            </span>
-          )}
-        </div>
-
-        {/* Bio */}
-        {storyteller.bio && (
-          <div className="mb-6">
-            <Typography variant="body" className="text-slate-600 leading-relaxed">
-              {truncateBio(storyteller.bio, 140)}
-            </Typography>
-          </div>
-        )}
-
-        {/* Refined Stats */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="text-center p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
-            <div className="flex items-center justify-center mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                <BookOpen className="w-4 h-4 text-blue-600" />
+            </h3>
+            {(storyteller.location || storyteller.cultural_background) && (
+              <div className="flex items-center text-white/90 text-sm drop-shadow">
+                <MapPin className="w-4 h-4 mr-1" />
+                <span>{storyteller.location || storyteller.cultural_background}</span>
               </div>
-            </div>
-            <Typography variant="h3" className="text-slate-800 font-bold">
-              {storyteller.story_count}
-            </Typography>
-            <Typography variant="small" className="text-slate-500 font-medium">
-              {storyteller.story_count === 1 ? 'Story' : 'Stories'}
-            </Typography>
-          </div>
-          
-          <div className="text-center p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
-            <div className="flex items-center justify-center mb-2">
-              <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
-                <Calendar className="w-4 h-4 text-emerald-600" />
-              </div>
-            </div>
-            <Typography variant="h3" className="text-slate-800 font-bold">
-              {storyteller.years_of_experience || 'New'}
-            </Typography>
-            <Typography variant="small" className="text-slate-500 font-medium">
-              {storyteller.years_of_experience ? 
-                (storyteller.years_of_experience === 1 ? 'Year' : 'Years') : 
-                'Storyteller'
-              }
-            </Typography>
+            )}
           </div>
         </div>
 
-        {/* Specialties - Only show if they exist */}
-        {storyteller.specialties && storyteller.specialties.length > 0 && (
-          <div className="mb-6">
-            <Typography variant="small" className="text-slate-500 mb-3 font-semibold uppercase tracking-wide">
-              Specialties
-            </Typography>
-            <div className="flex flex-wrap gap-2">
-              {storyteller.specialties.slice(0, 3).map((specialty, index) => (
-                <span 
-                  key={index} 
-                  className="px-3 py-1 bg-gradient-to-r from-blue-50 to-indigo-50 text-indigo-700 rounded-full text-xs font-medium border border-indigo-100"
+        {/* Story Content - Minimal and Elegant */}
+        <div className="p-6">
+          {/* Bio - Focus on the Story */}
+          {storyteller.bio && (
+            <p className="text-grey-700 leading-relaxed mb-4 text-sm">
+              {truncateBio(storyteller.bio, 100)}
+            </p>
+          )}
+
+          {/* Soft Story Indicator */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              {storyteller.story_count > 0 && (
+                <div className="flex items-center text-earth-600">
+                  <Heart className="w-4 h-4 mr-1" />
+                  <span className="text-sm font-medium">
+                    {storyteller.story_count} {storyteller.story_count === 1 ? 'story' : 'stories'}
+                  </span>
+                </div>
+              )}
+
+              {/* Subtle Experience Indicator */}
+              {storyteller.years_of_experience && getExperienceLabel(storyteller.years_of_experience) && (
+                <Badge
+                  variant="outline"
+                  className="text-xs bg-sage-50 text-sage-700 border-sage-200"
                 >
-                  {specialty}
-                </span>
-              ))}
-              {storyteller.specialties.length > 3 && (
-                <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">
-                  +{storyteller.specialties.length - 3} more
-                </span>
+                  {getExperienceLabel(storyteller.years_of_experience)}
+                </Badge>
               )}
             </div>
-          </div>
-        )}
 
-        {/* Cultural Affiliations - Only show if they exist */}
-        {storyteller.profile?.cultural_affiliations && storyteller.profile.cultural_affiliations.length > 0 && (
-          <div className="mb-6">
-            <Typography variant="small" className="text-slate-500 mb-3 font-semibold uppercase tracking-wide">
-              Cultural Connections
-            </Typography>
-            <div className="flex flex-wrap gap-2">
-              {storyteller.profile.cultural_affiliations.slice(0, 2).map((affiliation, index) => (
-                <span key={index} className="px-3 py-1 bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 rounded-full text-xs font-medium border border-emerald-100 flex items-center gap-1">
-                  <Users className="w-3 h-3" />
-                  {affiliation}
-                </span>
-              ))}
+            {/* Discover More Arrow */}
+            <div className="text-earth-500 group-hover:text-earth-700 group-hover:translate-x-1 transition-all duration-300">
+              <ArrowRight className="w-5 h-5" />
             </div>
           </div>
-        )}
 
-        {/* Languages - Only show if they exist */}
-        {storyteller.languages && storyteller.languages.length > 0 && (
-          <div className="mb-6">
-            <Typography variant="small" className="text-slate-500 mb-3 font-semibold uppercase tracking-wide">
-              Languages
-            </Typography>
-            <div className="flex flex-wrap gap-2">
-              {storyteller.languages.slice(0, 3).map((language, index) => (
-                <span key={index} className="px-3 py-1 bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 rounded-full text-xs font-medium border border-purple-100">
-                  {language}
-                </span>
-              ))}
-              {storyteller.languages.length > 3 && (
-                <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">
-                  +{storyteller.languages.length - 3} more
-                </span>
-              )}
+          {/* Organization and Project Tags */}
+          {(storyteller.organisations?.length || storyteller.projects?.length) && (
+            <div className="mt-3 pt-3 border-t border-grey-100">
+              <div className="flex flex-wrap gap-2">
+                {storyteller.organisations?.slice(0, 1).map((org, index) => (
+                  <span
+                    key={`org-${index}`}
+                    className="text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded-full border border-blue-200"
+                  >
+                    📋 {org.name}
+                  </span>
+                ))}
+                {storyteller.projects?.slice(0, 1).map((project, index) => (
+                  <span
+                    key={`project-${index}`}
+                    className="text-xs px-2 py-1 bg-green-50 text-green-700 rounded-full border border-green-200"
+                  >
+                    🎯 {project.name}
+                  </span>
+                ))}
+                {(storyteller.organisations?.length || 0) + (storyteller.projects?.length || 0) > 2 && (
+                  <span className="text-xs text-grey-500">
+                    +{((storyteller.organisations?.length || 0) + (storyteller.projects?.length || 0)) - 2} more
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Elegant Actions */}
-        {showActions && (
-          <div className="pt-6 border-t border-slate-100">
-            <Button 
-              className="w-full bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-900 hover:to-black text-white rounded-xl py-3 font-semibold transition-all duration-300 group"
-              asChild
-            >
-              <Link href={`/storytellers/${storyteller.id}`} className="flex items-center justify-center">
-                View Profile
-                <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-              </Link>
-            </Button>
-          </div>
-        )}
-      </div>
-    </Card>
+          {/* Key Specialties - Only if no org/project tags */}
+          {!(storyteller.organisations?.length || storyteller.projects?.length) &&
+           storyteller.specialties && storyteller.specialties.length > 0 && (
+            <div className="mt-3 pt-3 border-t border-grey-100">
+              <div className="flex flex-wrap gap-2">
+                {storyteller.specialties.slice(0, 2).map((specialty, index) => (
+                  <span
+                    key={index}
+                    className="text-xs px-2 py-1 bg-earth-50 text-earth-700 rounded-full"
+                  >
+                    {specialty}
+                  </span>
+                ))}
+                {storyteller.specialties.length > 2 && (
+                  <span className="text-xs text-grey-500">
+                    +{storyteller.specialties.length - 2} more
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </Card>
+    </Link>
   )
 }

@@ -276,7 +276,7 @@ export class StoryRecommendationsEngine {
     // Get recent, well-rated stories
     query = query
       .order('created_at', { ascending: false })
-      .limit(50) // Get a good pool to analyze
+      .limit(50) // Get a good pool to analyse
 
     const { data: stories, error } = await query
 
@@ -374,7 +374,7 @@ export class StoryRecommendationsEngine {
       reading_time: story.reading_time_minutes
     })).slice(0, 20) // Limit for token efficiency
 
-    return `As a culturally sensitive AI assistant for an Indigenous storytelling platform, analyze these stories and recommend the best matches for this user.
+    return `As a culturally sensitive AI assistant for an Indigenous storytelling platform, analyse these stories and recommend the best matches for this user.
 
 USER PROFILE:
 - Cultural Background: ${userContext.cultural_background || 'Not specified'}

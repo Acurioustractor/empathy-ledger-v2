@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     const organizationId = searchParams.get('organization_id')
     const uploaderSearch = searchParams.get('uploader')
     
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Get current user
     const { data: { user } } = await supabase.auth.getUser()
@@ -66,7 +66,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()

@@ -26,9 +26,9 @@ export default function TermsPage() {
           
           <div className="bg-white rounded-lg shadow-lg p-8">
             <h1 className="text-3xl font-bold mb-6 text-earth-800">Terms of Service</h1>
-            <p className="text-gray-600 mb-8">Last updated: {new Date().toLocaleDateString()}</p>
+            <p className="text-grey-600 mb-8">Last updated: {new Date().toLocaleDateString()}</p>
             
-            <div className="space-y-6 text-gray-700">
+            <div className="space-y-6 text-grey-700">
               <section>
                 <h2 className="text-xl font-semibold mb-3 text-earth-700">1. Acceptance of Terms</h2>
                 <p>By accessing and using Empathy Ledger, you accept and agree to be bound by the terms and provision of this agreement.</p>

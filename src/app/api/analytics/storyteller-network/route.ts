@@ -4,7 +4,7 @@ import { analyticsService } from '@/lib/services/analytics.service';
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const organizationFilter = searchParams.get('organization');
+    const organizationFilter = searchParams.get('organisation');
     const roleFilter = searchParams.get('role');
     const includeConnections = searchParams.get('includeConnections') === 'true';
 
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     
     if (organizationFilter && organizationFilter !== 'all') {
       filteredNetwork = filteredNetwork.filter(storyteller => 
-        storyteller.organization?.toLowerCase().includes(organizationFilter.toLowerCase())
+        storyteller.organisation?.toLowerCase().includes(organizationFilter.toLowerCase())
       );
     }
 
@@ -165,7 +165,7 @@ async function analyzeConnectionTypes(storyteller: any, connections: any[]) {
       c.themes.some((theme: string) => storyteller.themes.includes(theme))
     ).length,
     organizationConnections: connections.filter(c => 
-      c.organization === storyteller.organization
+      c.organisation === storyteller.organisation
     ).length,
     culturalConnections: connections.filter(c => 
       c.culturalRole === storyteller.culturalRole
@@ -205,11 +205,11 @@ function calculateThemeDiversity(network: any[]) {
 }
 
 function convertNetworkToCSV(network: any[]) {
-  const headers = ['id', 'name', 'organization', 'culturalRole', 'storyCount', 'influences', 'connections', 'themes'];
+  const headers = ['id', 'name', 'organisation', 'culturalRole', 'storyCount', 'influences', 'connections', 'themes'];
   const rows = network.map(s => [
     s.id,
     s.name,
-    s.organization || '',
+    s.organisation || '',
     s.culturalRole,
     s.storyCount,
     s.influences,

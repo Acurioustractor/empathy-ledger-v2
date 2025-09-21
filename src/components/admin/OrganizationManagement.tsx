@@ -92,7 +92,7 @@ interface OrganizationManagementProps {
 }
 
 const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLevel }) => {
-  const [organizations, setOrganizations] = useState<Organization[]>([])
+  const [organisations, setOrganizations] = useState<Organization[]>([])
   const [filteredOrgs, setFilteredOrgs] = useState<Organization[]>([])
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState<string>('all')
@@ -100,20 +100,20 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
   const [selectedOrg, setSelectedOrg] = useState<Organization | null>(null)
   const [isOrgDialogOpen, setIsOrgDialogOpen] = useState(false)
 
-  // Fetch organizations from API
+  // Fetch organisations from API
   const fetchOrganizations = async () => {
     try {
       const searchParams = new URLSearchParams()
       if (filterStatus !== 'all') searchParams.set('status', filterStatus)
       if (filterTier !== 'all') searchParams.set('tier', filterTier)
       
-      const response = await fetch(`/api/admin/organizations?${searchParams.toString()}`)
+      const response = await fetch(`/api/admin/orgs?${searchParams.toString()}`)
       if (!response.ok) {
-        throw new Error('Failed to fetch organizations')
+        throw new Error('Failed to fetch organisations')
       }
       
       const data = await response.json()
-      const apiOrgs = data.organizations
+      const apiOrgs = data.organisations
       
       // Transform API data to match component interface
       const transformedOrgs: Organization[] = apiOrgs.map((org: any) => ({
@@ -170,7 +170,7 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
       setOrganizations(transformedOrgs)
       setFilteredOrgs(transformedOrgs)
     } catch (error) {
-      console.error('Failed to fetch organizations:', error)
+      console.error('Failed to fetch organisations:', error)
       setOrganizations([])
       setFilteredOrgs([])
     }
@@ -180,9 +180,9 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
     fetchOrganizations()
   }, [filterStatus, filterTier])
 
-  // Filter organizations
+  // Filter organisations
   useEffect(() => {
-    let filtered = organizations.filter(org => {
+    let filtered = organisations.filter(org => {
       const matchesSearch = searchTerm === '' || 
         (org.name && org.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (org.slug && org.slug.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -195,14 +195,14 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
     })
 
     setFilteredOrgs(filtered)
-  }, [organizations, searchTerm, filterStatus, filterTier])
+  }, [organisations, searchTerm, filterStatus, filterTier])
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
         return <Badge variant="outline" className="text-green-600 border-green-600">Active</Badge>
       case 'inactive':
-        return <Badge variant="outline" className="text-gray-600 border-gray-600">Inactive</Badge>
+        return <Badge variant="outline" className="text-grey-600 border-grey-600">Inactive</Badge>
       case 'suspended':
         return <Badge variant="destructive">Suspended</Badge>
       case 'pending_approval':
@@ -248,7 +248,7 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
       case 'suspended':
         return <Clock className="w-4 h-4 text-yellow-600" />
       default:
-        return <Clock className="w-4 h-4 text-gray-600" />
+        return <Clock className="w-4 h-4 text-grey-600" />
     }
   }
 
@@ -257,7 +257,7 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
       switch (action) {
         case 'edit':
           if (orgData) {
-            const response = await fetch('/api/admin/organizations', {
+            const response = await fetch('/api/admin/orgs', {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ id: orgId, ...orgData })
@@ -267,14 +267,14 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
               await fetchOrganizations() // Refresh the list
               console.log('Organization updated successfully')
             } else {
-              console.error('Failed to update organization')
+              console.error('Failed to update organisation')
             }
           }
           break
           
         case 'delete':
-          if (confirm('Are you sure you want to delete this organization?')) {
-            const response = await fetch(`/api/admin/organizations?id=${orgId}`, {
+          if (confirm('Are you sure you want to delete this organisation?')) {
+            const response = await fetch(`/api/admin/orgs?id=${orgId}`, {
               method: 'DELETE'
             })
             
@@ -282,14 +282,14 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
               await fetchOrganizations() // Refresh the list
               console.log('Organization deleted successfully')
             } else {
-              console.error('Failed to delete organization')
+              console.error('Failed to delete organisation')
             }
           }
           break
           
         case 'create':
           if (orgData) {
-            const response = await fetch('/api/admin/organizations', {
+            const response = await fetch('/api/admin/orgs', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(orgData)
@@ -299,16 +299,16 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
               await fetchOrganizations() // Refresh the list
               console.log('Organization created successfully')
             } else {
-              console.error('Failed to create organization')
+              console.error('Failed to create organisation')
             }
           }
           break
           
         default:
-          console.log(`Action: ${action} for organization: ${orgId}`)
+          console.log(`Action: ${action} for organisation: ${orgId}`)
       }
     } catch (error) {
-      console.error(`Error performing ${action} on organization:`, error)
+      console.error(`Error performing ${action} on organisation:`, error)
     }
   }
 
@@ -319,7 +319,7 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-stone-400" />
           <Input
-            placeholder="Search organizations by name, type, or slug..."
+            placeholder="Search organisations by name, type, or slug..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
@@ -416,7 +416,7 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
                           {selectedOrg?.name} - Organization Details
                         </DialogTitle>
                         <DialogDescription>
-                          Comprehensive organization management and analytics
+                          Comprehensive organisation management and analytics
                         </DialogDescription>
                       </DialogHeader>
                       
@@ -519,7 +519,6 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
                                   <div>
                                     <Label className="text-sm font-medium">Cultural Settings</Label>
                                     <div className="flex flex-wrap gap-1 mt-1">
-                                      {selectedOrg.settings.culturalProtocols && <Badge variant="sage-soft" className="text-xs">Cultural Protocols</Badge>}
                                       {selectedOrg.settings.elderOversight && <Badge variant="clay-soft" className="text-xs">Elder Oversight</Badge>}
                                       {selectedOrg.settings.publicVisibility && <Badge variant="outline" className="text-xs">Public</Badge>}
                                     </div>
@@ -534,7 +533,7 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
                               <CardHeader>
                                 <CardTitle>Member Management</CardTitle>
                                 <CardDescription>
-                                  Manage organization members and their roles
+                                  Manage organisation members and their roles
                                 </CardDescription>
                               </CardHeader>
                               <CardContent>
@@ -550,7 +549,7 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
                               <CardHeader>
                                 <CardTitle>Content Management</CardTitle>
                                 <CardDescription>
-                                  Manage organization's stories and content
+                                  Manage organisation's stories and content
                                 </CardDescription>
                               </CardHeader>
                               <CardContent>
@@ -623,7 +622,7 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
                     </DialogContent>
                   </Dialog>
 
-                  <Link href={`/admin/organizations/${org.id}/edit`}>
+                  <Link href={`/admin/organisations/${org.id}/edit`}>
                     <Button variant="outline" size="sm">
                       <Edit className="w-4 h-4 mr-2" />
                       Edit
@@ -671,9 +670,9 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
         <Card>
           <CardContent className="text-center py-12">
             <Building2 className="w-12 h-12 mx-auto text-stone-400 mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No organizations found</h3>
+            <h3 className="text-lg font-semibold mb-2">No organisations found</h3>
             <p className="text-stone-600 dark:text-stone-400">
-              Try adjusting your search terms or filters to find organizations.
+              Try adjusting your search terms or filters to find organisations.
             </p>
           </CardContent>
         </Card>

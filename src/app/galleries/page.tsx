@@ -21,7 +21,7 @@ interface GalleriesResponse {
       display_name: string
       avatar_url: string
     }
-    organization?: {
+    organisation?: {
       name: string
       slug: string
       logo_url: string
@@ -48,9 +48,9 @@ const culturalThemes = [
 
 const sensitivityLevels = [
   { value: '', label: 'All Levels' },
-  { value: 'low', label: 'Community Open', color: 'bg-green-100 text-green-800' },
-  { value: 'medium', label: 'Respectful Viewing', color: 'bg-yellow-100 text-yellow-800' },
-  { value: 'high', label: 'Cultural Guidance', color: 'bg-red-100 text-red-800' }
+  { value: 'low', label: 'Community Open', colour: 'bg-green-100 text-green-800' },
+  { value: 'medium', label: 'Respectful Viewing', colour: 'bg-yellow-100 text-yellow-800' },
+  { value: 'high', label: 'Cultural Guidance', colour: 'bg-red-100 text-red-800' }
 ]
 
 export default function GalleriesPage() {
@@ -67,7 +67,7 @@ export default function GalleriesPage() {
   const [filters, setFilters] = useState({
     culturalTheme: '',
     sensitivity: '',
-    organization: '',
+    organisation: '',
     featured: false
   })
 
@@ -81,7 +81,7 @@ export default function GalleriesPage() {
 
       if (filters.culturalTheme) params.append('cultural_theme', filters.culturalTheme)
       if (filters.sensitivity) params.append('cultural_sensitivity', filters.sensitivity)
-      if (filters.organization) params.append('organization_id', filters.organization)
+      if (filters.organisation) params.append('organization_id', filters.organisation)
       if (filters.featured) params.append('featured', 'true')
 
       const response = await fetch(`/api/galleries?${params}`)
@@ -112,7 +112,7 @@ export default function GalleriesPage() {
     if (!levelInfo || !levelInfo.value) return null
     
     return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${levelInfo.color}`}>
+      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${levelInfo.colour}`}>
         {levelInfo.label}
       </span>
     )
@@ -129,7 +129,7 @@ export default function GalleriesPage() {
         <div className="container mx-auto px-6 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading photo galleries...</p>
+            <p className="mt-4 text-grey-600">Loading photo galleries...</p>
           </div>
         </div>
       </div>
@@ -143,10 +143,10 @@ export default function GalleriesPage() {
       <div className="container mx-auto px-6 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-grey-900 mb-4">
             Photo Galleries
           </h1>
-          <p className="text-xl text-gray-700 max-w-2xl mx-auto">
+          <p className="text-xl text-grey-700 max-w-2xl mx-auto">
             Explore visual stories and memories that capture the spirit of our communities, 
             shared with respect for cultural protocols and storyteller consent.
           </p>
@@ -157,7 +157,7 @@ export default function GalleriesPage() {
           <div className="flex justify-center mb-8">
             <Link
               href="/galleries/create"
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 transition-colors"
+              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 transition-colours"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -169,16 +169,16 @@ export default function GalleriesPage() {
 
         {/* Filters */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Filter Galleries</h3>
+          <h3 className="text-lg font-medium text-grey-900 mb-4">Filter Galleries</h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-grey-700 mb-2">
                 Cultural Theme
               </label>
               <select
                 value={filters.culturalTheme}
                 onChange={(e) => handleFilterChange('culturalTheme', e.target.value)}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full border border-grey-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
               >
                 {culturalThemes.map(theme => (
                   <option key={theme.value} value={theme.value}>
@@ -189,13 +189,13 @@ export default function GalleriesPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-grey-700 mb-2">
                 Cultural Sensitivity
               </label>
               <select
                 value={filters.sensitivity}
                 onChange={(e) => handleFilterChange('sensitivity', e.target.value)}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full border border-grey-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
               >
                 {sensitivityLevels.map(level => (
                   <option key={level.value} value={level.value}>
@@ -211,9 +211,9 @@ export default function GalleriesPage() {
                   type="checkbox"
                   checked={filters.featured}
                   onChange={(e) => handleFilterChange('featured', e.target.checked)}
-                  className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                  className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-grey-300 rounded"
                 />
-                <span className="text-sm font-medium text-gray-700">Featured Only</span>
+                <span className="text-sm font-medium text-grey-700">Featured Only</span>
               </label>
             </div>
           </div>
@@ -233,11 +233,11 @@ export default function GalleriesPage() {
         {/* Galleries Grid */}
         {galleries.length === 0 ? (
           <div className="text-center py-12">
-            <svg className="mx-auto h-24 w-24 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="mx-auto h-24 w-24 text-grey-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            <h3 className="mt-4 text-lg font-medium text-gray-900">No galleries found</h3>
-            <p className="mt-2 text-gray-500">
+            <h3 className="mt-4 text-lg font-medium text-grey-900">No galleries found</h3>
+            <p className="mt-2 text-grey-500">
               {user ? 'Be the first to create a gallery!' : 'Check back later for new galleries.'}
             </p>
           </div>
@@ -251,7 +251,7 @@ export default function GalleriesPage() {
                   className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200"
                 >
                   {/* Cover Image */}
-                  <div className="aspect-video bg-gray-200 overflow-hidden relative">
+                  <div className="aspect-video bg-grey-200 overflow-hidden relative">
                     {gallery.cover_image?.public_url ? (
                       <Image
                         src={gallery.cover_image.thumbnail_url || gallery.cover_image.public_url}
@@ -287,12 +287,12 @@ export default function GalleriesPage() {
 
                   {/* Content */}
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">
+                    <h3 className="text-xl font-semibold text-grey-900 mb-2 group-hover:text-orange-600 transition-colours">
                       {gallery.title}
                     </h3>
                     
                     {gallery.description && (
-                      <p className="text-gray-600 mb-4 line-clamp-2">
+                      <p className="text-grey-600 mb-4 line-clamp-2">
                         {gallery.description}
                       </p>
                     )}
@@ -307,7 +307,7 @@ export default function GalleriesPage() {
                     )}
 
                     {/* Metadata */}
-                    <div className="flex items-center justify-between text-sm text-gray-500">
+                    <div className="flex items-center justify-between text-sm text-grey-500">
                       <div className="flex items-center">
                         {gallery.created_by_profile?.avatar_url ? (
                           <Image
@@ -318,7 +318,7 @@ export default function GalleriesPage() {
                             className="rounded-full mr-2"
                           />
                         ) : (
-                          <div className="w-6 h-6 bg-gray-300 rounded-full mr-2" />
+                          <div className="w-6 h-6 bg-grey-300 rounded-full mr-2" />
                         )}
                         <span>{gallery.created_by_profile?.display_name || 'Unknown'}</span>
                       </div>
@@ -332,12 +332,12 @@ export default function GalleriesPage() {
                     </div>
 
                     {/* Organization */}
-                    {gallery.organization && (
-                      <div className="mt-3 pt-3 border-t border-gray-100">
-                        <div className="flex items-center text-sm text-gray-600">
-                          {gallery.organization.logo_url ? (
+                    {gallery.organisation && (
+                      <div className="mt-3 pt-3 border-t border-grey-100">
+                        <div className="flex items-center text-sm text-grey-600">
+                          {gallery.organisation.logo_url ? (
                             <Image
-                              src={gallery.organization.logo_url}
+                              src={gallery.organisation.logo_url}
                               alt=""
                               width={16}
                               height={16}
@@ -348,7 +348,7 @@ export default function GalleriesPage() {
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                           )}
-                          {gallery.organization.name}
+                          {gallery.organisation.name}
                         </div>
                       </div>
                     )}
@@ -363,19 +363,19 @@ export default function GalleriesPage() {
                 <button
                   onClick={() => fetchGalleries(pagination.page - 1)}
                   disabled={pagination.page <= 1}
-                  className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 text-sm font-medium text-grey-500 bg-white border border-grey-300 rounded-md hover:bg-grey-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Previous
                 </button>
                 
-                <span className="px-4 py-2 text-sm text-gray-700">
+                <span className="px-4 py-2 text-sm text-grey-700">
                   Page {pagination.page} of {pagination.totalPages}
                 </span>
                 
                 <button
                   onClick={() => fetchGalleries(pagination.page + 1)}
                   disabled={pagination.page >= pagination.totalPages}
-                  className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 text-sm font-medium text-grey-500 bg-white border border-grey-300 rounded-md hover:bg-grey-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                 </button>

@@ -17,13 +17,13 @@ export async function GET(request: NextRequest) {
     const tag = searchParams.get('tag')
     const location = searchParams.get('location')
 
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     
     let query = supabase
       .from('stories')
       .select(`
         *,
-        author:profiles!stories_author_id_fkey(
+        storyteller:profiles!stories_storyteller_id_fkey(
           id,
           display_name,
           full_name,
@@ -41,20 +41,21 @@ export async function GET(request: NextRequest) {
       query = query.eq('story_type', storyType)
     }
     
-    if (audience && audience !== 'all') {
-      query = query.eq('audience', audience)
-    }
+    // Note: audience column doesn't exist in current schema
+    // if (audience && audience !== 'all') {
+    //   query = query.eq('audience', audience)
+    // }
     
     if (culturalSensitivity) {
       query = query.eq('cultural_sensitivity_level', culturalSensitivity)
     }
     
     if (featured === 'true') {
-      query = query.eq('featured', true)
+      query = query.eq('is_featured', true)
     }
     
     if (storytellerId) {
-      query = query.eq('author_id', storytellerId)
+      query = query.eq('storyteller_id', storytellerId)
     }
     
     if (location) {
@@ -62,7 +63,7 @@ export async function GET(request: NextRequest) {
     }
     
     if (tag) {
-      query = query.contains('tags', [tag])
+      query = query.contains('cultural_tags', [tag])
     }
 
     // Apply search
@@ -107,8 +108,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const supabase = createSupabaseServerClient()
     const body = await request.json()
-    
+
     // Validate required fields
     if (!body.title || !body.content || !body.author_id) {
       return NextResponse.json(
@@ -117,43 +119,40 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Get tenant_id from the author's profile
+    const { data: userProfile } = await supabase
+      .from('profiles')
+      .select('tenant_id')
+      .eq('id', body.author_id)
+      .single()
+
+    const tenantId = body.tenant_id || userProfile?.tenant_id || null
+
     // Calculate reading time (rough estimate: 200 words per minute)
     const wordCount = body.content.split(/\s+/).length
     const readingTimeMinutes = Math.ceil(wordCount / 200)
 
-    const storyData: StoryInsert = {
+    // Use fields that actually exist in the database - verified working
+    const storyData = {
       title: body.title,
       content: body.content,
-      author_id: body.author_id,
+      storyteller_id: body.author_id,
+      author_id: body.author_id,  // Both fields are required!
+      tenant_id: tenantId,
       status: body.status || 'draft',
-      featured: body.featured || false,
-      cultural_context: body.cultural_context || null,
-      tags: body.tags || [],
-      location: body.location || null,
-      story_type: body.story_type || 'personal',
-      audience: body.audience || 'all',
-      cultural_permissions: body.cultural_permissions || null,
-      consent_status: body.consent_status || 'pending',
-      media_attachments: body.media_attachments || null,
-      transcript_id: body.transcript_id || null,
-      language: body.language || 'en',
-      cultural_sensitivity_level: body.cultural_sensitivity_level || 'medium',
-      elder_approval: body.elder_approval || null,
-      cultural_review_status: body.cultural_review_status || 'pending',
-      reading_time_minutes: readingTimeMinutes,
-      views_count: 0,
-      likes_count: 0,
-      shares_count: 0
+      // Add optional fields that work
+      is_featured: body.featured || false,
+      cultural_sensitivity_level: body.cultural_sensitivity_level || 'standard',
+      privacy_level: body.privacy_level || 'private',
+      story_type: body.story_type || 'personal_narrative'
     }
 
-    const supabase = await createSupabaseServerClient()
-    
     const { data: story, error } = await supabase
       .from('stories')
       .insert([storyData])
       .select(`
         *,
-        author:profiles!stories_author_id_fkey(
+        storyteller:profiles!stories_storyteller_id_fkey(
           id,
           display_name,
           full_name,

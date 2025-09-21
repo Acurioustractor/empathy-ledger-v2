@@ -22,7 +22,7 @@ const guidelineCategories = [
       "Use content warnings for sensitive topics",
       "Respect privacy boundaries of others mentioned"
     ],
-    color: "clay"
+    colour: "clay"
   },
   {
     title: "Family & Community",
@@ -35,7 +35,7 @@ const guidelineCategories = [
       "Consider cultural traditions in storytelling",
       "Include diverse perspectives when telling community stories"
     ],
-    color: "sage"
+    colour: "sage"
   },
   {
     title: "Cultural Heritage",
@@ -48,7 +48,7 @@ const guidelineCategories = [
       "Provide proper cultural context and background",
       "Respect intellectual property and traditional knowledge"
     ],
-    color: "sky"
+    colour: "sky"
   }
 ]
 
@@ -167,9 +167,9 @@ export default function GuidelinesPage() {
                   <div className="flex items-start space-x-4">
                     <div className={cn(
                       "flex-shrink-0 w-16 h-16 rounded-xl flex items-center justify-center shadow-md",
-                      category.color === "clay" && "bg-clay-100 text-clay-600 dark:bg-clay-900/30 dark:text-clay-400",
-                      category.color === "sage" && "bg-sage-100 text-sage-600 dark:bg-sage-900/30 dark:text-sage-400", 
-                      category.color === "sky" && "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400"
+                      category.colour === "clay" && "bg-clay-100 text-clay-600 dark:bg-clay-900/30 dark:text-clay-400",
+                      category.colour === "sage" && "bg-sage-100 text-sage-600 dark:bg-sage-900/30 dark:text-sage-400", 
+                      category.colour === "sky" && "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400"
                     )}>
                       {category.icon}
                     </div>

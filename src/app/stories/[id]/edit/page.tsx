@@ -49,17 +49,17 @@ const CULTURAL_SENSITIVITY_LEVELS = [
   { 
     value: 'low', 
     label: 'Low Sensitivity', 
-    color: 'text-green-800 bg-green-100'
+    colour: 'text-green-800 bg-green-100'
   },
   { 
     value: 'medium', 
     label: 'Medium Sensitivity',
-    color: 'text-amber-800 bg-amber-100'
+    colour: 'text-amber-800 bg-amber-100'
   },
   { 
     value: 'high', 
     label: 'High Sensitivity',
-    color: 'text-red-800 bg-red-100'
+    colour: 'text-red-800 bg-red-100'
   }
 ]
 
@@ -284,9 +284,9 @@ export default function EditStoryPage({ params }: { params: { id: string } }) {
       <div className="min-h-screen bg-gradient-to-b from-earth-50 to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="animate-pulse space-y-6">
-            <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-            <div className="h-12 bg-gray-200 rounded"></div>
-            <div className="h-64 bg-gray-200 rounded"></div>
+            <div className="h-8 bg-grey-200 rounded w-1/4"></div>
+            <div className="h-12 bg-grey-200 rounded"></div>
+            <div className="h-64 bg-grey-200 rounded"></div>
           </div>
         </div>
       </div>
@@ -327,7 +327,7 @@ export default function EditStoryPage({ params }: { params: { id: string } }) {
               <Typography variant="h1" className="mb-2">
                 Edit Story
               </Typography>
-              <Typography variant="large" className="text-gray-600">
+              <Typography variant="large" className="text-grey-600">
                 Make changes to "{story.title}"
               </Typography>
             </div>
@@ -454,7 +454,7 @@ export default function EditStoryPage({ params }: { params: { id: string } }) {
                         <SelectItem key={status.value} value={status.value}>
                           <div>
                             <div className="font-medium">{status.label}</div>
-                            <div className="text-xs text-gray-500">{status.description}</div>
+                            <div className="text-xs text-grey-500">{status.description}</div>
                           </div>
                         </SelectItem>
                       ))}
@@ -476,7 +476,7 @@ export default function EditStoryPage({ params }: { params: { id: string } }) {
                 {errors.content && (
                   <p className="text-red-600 text-sm mt-1">{errors.content}</p>
                 )}
-                <div className="text-xs text-gray-500 mt-1">
+                <div className="text-xs text-grey-500 mt-1">
                   {formData.content.length} characters • ~{Math.ceil(formData.content.split(' ').length / 200)} min read
                 </div>
               </div>
@@ -514,7 +514,7 @@ export default function EditStoryPage({ params }: { params: { id: string } }) {
                   </SelectContent>
                 </Select>
                 {selectedSensitivity && (
-                  <div className={cn('p-2 rounded mt-2', selectedSensitivity.color)}>
+                  <div className={cn('p-2 rounded mt-2', selectedSensitivity.colour)}>
                     <Typography variant="small">
                       {selectedSensitivity.label} content
                     </Typography>
@@ -578,7 +578,7 @@ export default function EditStoryPage({ params }: { params: { id: string } }) {
                   <label htmlFor="featured" className="text-sm font-medium cursor-pointer">
                     Featured Story
                   </label>
-                  <p className="text-xs text-gray-600">
+                  <p className="text-xs text-grey-600">
                     Highlight this story on the platform
                   </p>
                 </div>

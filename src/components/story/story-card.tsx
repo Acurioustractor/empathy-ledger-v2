@@ -62,10 +62,10 @@ const storyTypeColors = {
 }
 
 const statusColors = {
-  draft: 'bg-gray-100 text-gray-800',
+  draft: 'bg-grey-100 text-grey-800',
   review: 'bg-yellow-100 text-yellow-800',
   published: 'bg-green-100 text-green-800',
-  archived: 'bg-gray-100 text-gray-600'
+  archived: 'bg-grey-100 text-grey-600'
 }
 
 export function StoryCard({ 
@@ -133,7 +133,7 @@ export function StoryCard({
             </div>
 
             {/* Author */}
-            <Typography variant="small" className="font-semibold text-gray-900 mb-1">
+            <Typography variant="small" className="font-semibold text-grey-900 mb-1">
               {story.author?.display_name || story.author?.full_name || 'Unknown Author'}
             </Typography>
 
@@ -141,20 +141,20 @@ export function StoryCard({
             <Link href={`/stories/${story.id}`}>
               <Typography 
                 variant="h4" 
-                className="group-hover:text-blue-700 transition-colors cursor-pointer line-clamp-1 mb-2 text-base font-bold"
+                className="group-hover:text-blue-700 transition-colours cursor-pointer line-clamp-1 mb-2 text-base font-bold"
               >
                 {story.title}
               </Typography>
             </Link>
 
             {/* Content Preview */}
-            <Typography variant="body" className="text-gray-600 line-clamp-2 text-sm mb-3">
+            <Typography variant="body" className="text-grey-600 line-clamp-2 text-sm mb-3">
               {truncateContent(story.content, 100)}
             </Typography>
 
             {/* Footer */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3 text-xs text-gray-500">
+              <div className="flex items-center gap-3 text-xs text-grey-500">
                 {story.reading_time_minutes && (
                   <div className="flex items-center gap-1">
                     <Clock className="w-3 h-3" />
@@ -220,7 +220,7 @@ export function StoryCard({
               ⭐ Featured
             </Badge>
           )}
-          <Badge variant="secondary" className="bg-white/90 text-gray-700 text-xs shadow-lg backdrop-blur-sm capitalize">
+          <Badge variant="secondary" className="bg-white/90 text-grey-700 text-xs shadow-lg backdrop-blur-sm capitalize">
             {story.story_type?.replace('_', ' ')}
           </Badge>
         </div>
@@ -230,11 +230,11 @@ export function StoryCard({
         {/* Author Info */}
         <div className="flex items-center gap-3 mb-4">
           <div className="flex-1">
-            <Typography variant="small" className="font-semibold text-gray-900">
+            <Typography variant="small" className="font-semibold text-grey-900">
               {story.author?.display_name || story.author?.full_name || 'Unknown Author'}
             </Typography>
             {story.author?.cultural_background && (
-              <Typography variant="small" className="text-gray-500 mt-1">
+              <Typography variant="small" className="text-grey-500 mt-1">
                 {story.author.cultural_background}
               </Typography>
             )}
@@ -245,7 +245,7 @@ export function StoryCard({
         <Link href={`/stories/${story.id}`}>
           <Typography 
             variant="h3" 
-            className="group-hover:text-blue-700 transition-colors cursor-pointer line-clamp-2 mb-3 text-lg font-bold"
+            className="group-hover:text-blue-700 transition-colours cursor-pointer line-clamp-2 mb-3 text-lg font-bold"
           >
             {story.title}
           </Typography>
@@ -253,7 +253,7 @@ export function StoryCard({
 
         {/* Content Preview */}
         <div className="mb-4">
-          <Typography variant="body" className="text-gray-600 leading-relaxed line-clamp-3">
+          <Typography variant="body" className="text-grey-600 leading-relaxed line-clamp-3">
             {truncateContent(story.content, 120)}
           </Typography>
         </div>
@@ -267,7 +267,7 @@ export function StoryCard({
               </Badge>
             ))}
             {story.tags.length > 2 && (
-              <Badge variant="outline" className="text-xs text-gray-500">
+              <Badge variant="outline" className="text-xs text-grey-500">
                 +{story.tags.length - 2} more
               </Badge>
             )}
@@ -275,8 +275,8 @@ export function StoryCard({
         )}
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-          <div className="flex items-center gap-4 text-sm text-gray-500">
+        <div className="flex items-center justify-between pt-4 border-t border-grey-100">
+          <div className="flex items-center gap-4 text-sm text-grey-500">
             {story.reading_time_minutes && (
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />

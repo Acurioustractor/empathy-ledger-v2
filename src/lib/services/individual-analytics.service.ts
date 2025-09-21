@@ -67,7 +67,7 @@ export interface ImpactStory {
 
 export interface CareerRecommendation {
   title: string;
-  organization: string;
+  organisation: string;
   match_score: number; // 0-100
   required_skills: string[];
   storyteller_skills: string[];
@@ -81,7 +81,7 @@ export interface CareerRecommendation {
 
 export interface GrantOpportunity {
   title: string;
-  organization: string;
+  organisation: string;
   funding_amount: string;
   match_score: number; // 0-100
   required_criteria: string[];
@@ -157,7 +157,7 @@ const ImpactStorySchema = z.object({
 
 const CareerRecommendationSchema = z.object({
   title: z.string(),
-  organization: z.string(),
+  organisation: z.string(),
   match_score: z.number().min(0).max(100),
   required_skills: z.array(z.string()),
   storyteller_skills: z.array(z.string()),
@@ -168,7 +168,7 @@ const CareerRecommendationSchema = z.object({
 
 const GrantOpportunitySchema = z.object({
   title: z.string(),
-  organization: z.string(),
+  organisation: z.string(),
   funding_amount: z.string(),
   match_score: z.number().min(0).max(100),
   required_criteria: z.array(z.string()),
@@ -201,7 +201,7 @@ export class IndividualAnalyticsService {
       const insights = await generateObject({
         model: openai('gpt-4-turbo'),
         schema: PersonalInsightsSchema,
-        system: `You are an expert cultural anthropologist and career counselor specializing in Indigenous and culturally diverse storytelling. 
+        system: `You are an expert cultural anthropologist and career counsellor specialising in Indigenous and culturally diverse storytelling. 
                  Analyze the following life stories to extract deep personal insights while respecting cultural protocols and privacy.
                  
                  Focus on:
@@ -214,7 +214,7 @@ export class IndividualAnalyticsService {
                  - Ways this person contributes to their community
                  
                  Be respectful of cultural contexts and avoid making assumptions about specific cultural practices.
-                 Highlight universal human experiences while honoring cultural uniqueness.`,
+                 Highlight universal human experiences while honouring cultural uniqueness.`,
         prompt: `Analyze these life stories from ${storyteller.display_name}:
                 
                 Background: ${storyteller.cultural_background || 'Not specified'}
@@ -241,7 +241,7 @@ export class IndividualAnalyticsService {
 
       return personalInsights;
     } catch (error) {
-      console.error('Error analyzing storyteller transcripts:', error);
+      console.error('Error analysing storyteller transcripts:', error);
       throw error;
     }
   }
@@ -259,7 +259,7 @@ export class IndividualAnalyticsService {
         schema: z.object({
           competencies: z.array(ProfessionalCompetencySchema)
         }),
-        system: `You are an expert career counselor and skills assessor. Analyze life stories to identify 
+        system: `You are an expert career counsellor and skills assessor. Analyze life stories to identify 
                  professional competencies, skills, and abilities that have market value.
                  
                  Look for:
@@ -269,7 +269,7 @@ export class IndividualAnalyticsService {
                  - Problem-solving and analytical capabilities
                  - Creative and artistic talents
                  - Cultural and linguistic competencies
-                 - Community organizing and social skills
+                 - Community organising and social skills
                  - Teaching and mentoring abilities
                  - Traditional knowledge and practices (if applicable)
                  
@@ -347,16 +347,16 @@ export class IndividualAnalyticsService {
         schema: z.object({
           recommendations: z.array(CareerRecommendationSchema)
         }),
-        system: `You are a career counselor specializing in matching diverse professionals with opportunities 
+        system: `You are a career counsellor specialising in matching diverse professionals with opportunities 
                  that value their unique experiences and cultural perspectives.
                  
                  Consider:
-                 - Cultural organizations and Indigenous-led initiatives
+                 - Cultural organisations and Indigenous-led initiatives
                  - Education and community development roles
                  - Creative industries and storytelling professions
                  - Social services and community support roles
                  - Government and policy positions
-                 - Non-profit and charitable organizations
+                 - Non-profit and charitable organisations
                  - Cultural preservation and heritage roles
                  - Consulting and advisory positions
                  
@@ -396,7 +396,7 @@ export class IndividualAnalyticsService {
         schema: z.object({
           opportunities: z.array(GrantOpportunitySchema)
         }),
-        system: `You are a grant writing consultant specializing in funding opportunities for diverse 
+        system: `You are a grant writing consultant specialising in funding opportunities for diverse 
                  communities and cultural preservation projects.
                  
                  Focus on:
@@ -442,8 +442,8 @@ export class IndividualAnalyticsService {
 
       const developmentText = await generateText({
         model: openai('gpt-4-turbo'),
-        system: `You are a personal development coach specializing in culturally-informed career planning.
-                 Create comprehensive development plans that honor cultural values while building 
+        system: `You are a personal development coach specialising in culturally-informed career planning.
+                 Create comprehensive development plans that honour cultural values while building 
                  professional capabilities.`,
         prompt: `Create a personal development plan for ${storyteller.display_name}:
                 
@@ -500,7 +500,7 @@ export class IndividualAnalyticsService {
           timeline: "6-12 months"
         })),
         networking_recommendations: [
-          "Connect with cultural organizations",
+          "Connect with cultural organisations",
           "Join professional associations",
           "Attend community events"
         ],
@@ -652,7 +652,7 @@ export class IndividualAnalyticsService {
       const insights = await generateObject({
         model: openai('gpt-4-turbo'),
         schema: PersonalInsightsSchema,
-        system: `You are an expert cultural anthropologist and career counselor specializing in Indigenous and culturally diverse storytelling. 
+        system: `You are an expert cultural anthropologist and career counsellor specialising in Indigenous and culturally diverse storytelling. 
                  Analyze the following transcript to extract deep personal insights while respecting cultural protocols and privacy.
                  
                  Focus on:
@@ -665,7 +665,7 @@ export class IndividualAnalyticsService {
                  - Ways this person contributes to their community
                  
                  Be respectful of cultural contexts and avoid making assumptions about specific cultural practices.
-                 Highlight universal human experiences while honoring cultural uniqueness.`,
+                 Highlight universal human experiences while honouring cultural uniqueness.`,
         prompt: `Analyze this transcript from ${storyteller.display_name}:
                 
                 Background: ${storyteller.cultural_background}
@@ -697,7 +697,7 @@ export class IndividualAnalyticsService {
 
       return personalInsights;
     } catch (error) {
-      console.error('Error analyzing transcript:', error);
+      console.error('Error analysing transcript:', error);
       throw error;
     }
   }

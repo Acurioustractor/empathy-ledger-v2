@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Login - Benjamin Knight</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .admin-badge {
+            background: #dc2626;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            background: #22c55e;
+            color: white;
+            text-align: center;
+        }
+        .sign-in-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin: 20px 0;
+        }
+        .clear-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .link-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            text-decoration: none;
+            color: #495057;
+            transition: all 0.2s;
+        }
+        .link-card:hover {
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .link-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+        .link-desc {
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <h1>Super Admin Access
+                <span class="admin-badge">SUPER ADMIN</span>
+            </h1>
+            <p>Benjamin Knight • benjamin@act.place</p>
+        </div>
+
+        <div class="status">
+            ✅ Authentication Fixed! Ready to sign in as Super Admin
+        </div>
+
+        <button onclick="clearAuthData()" class="clear-btn">Clear Browser Auth Data</button>
+        <button onclick="signInDirect()" class="sign-in-btn">🔑 Sign In as Super Admin</button>
+
+        <div class="links">
+            <a href="http://localhost:3030/auth/signin" class="link-card">
+                <div class="link-title">🔐 Sign In Page</div>
+                <div class="link-desc">Standard sign-in form</div>
+            </a>
+
+            <a href="http://localhost:3030/admin" class="link-card">
+                <div class="link-title">⚡ Super Admin Dashboard</div>
+                <div class="link-desc">Project Management</div>
+            </a>
+
+            <a href="http://localhost:3030/organizations" class="link-card">
+                <div class="link-title">🏢 Organizations</div>
+                <div class="link-desc">Manage all organizations</div>
+            </a>
+
+            <a href="http://localhost:3030/admin/storytellers/create" class="link-card">
+                <div class="link-title">👤 Add Storyteller</div>
+                <div class="link-desc">Quick admin storyteller form</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function clearAuthData() {
+            localStorage.clear();
+            sessionStorage.clear();
+            alert('✅ Browser auth data cleared!');
+        }
+
+        function signInDirect() {
+            clearAuthData();
+            setTimeout(() => {
+                window.location.href = 'http://localhost:3030/auth/signin';
+            }, 500);
+        }
+    </script>
+</body>
+</html>

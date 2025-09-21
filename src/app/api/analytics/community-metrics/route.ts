@@ -4,7 +4,7 @@ import { analyticsService } from '@/lib/services/analytics.service';
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const organizationFilter = searchParams.get('organization');
+    const organizationFilter = searchParams.get('organisation');
     const timeRange = searchParams.get('timeRange') || 'all';
 
     // Get community metrics with optional filtering

@@ -68,7 +68,7 @@ const sampleLocations: CulturalLocation[] = [
     traditionalTerritory: 'Musqueam, Squamish, Tsleil-Waututh Traditional Territory',
     storyCount: 45,
     storytellerCount: 12,
-    description: 'A vibrant community center preserving Coast Salish stories, traditions, and wisdom.',
+    description: 'A vibrant community centre preserving Coast Salish stories, traditions, and wisdom.',
     establishedYear: 1995,
     languages: ['Halkomelem', 'Squamish', 'English'],
     culturalFocus: ['Traditional Stories', 'Canoe Culture', 'Cedar Traditions'],
@@ -224,7 +224,7 @@ export default function InteractiveMap({
     <div className={cn("relative", className)}>
       <div className="relative rounded-lg overflow-hidden border border-stone-200 dark:border-stone-800 shadow-cultural">
         <MapContainer
-          center={[60.0, -110.0]} // Centered on Canada
+          centre={[60.0, -110.0]} // Centered on Canada
           zoom={4}
           style={{ height, width: '100%' }}
           className="z-0"
@@ -239,10 +239,10 @@ export default function InteractiveMap({
             <React.Fragment key={location.id}>
               {/* Cultural territory circle */}
               <Circle
-                center={location.coordinates}
+                centre={location.coordinates}
                 radius={50000} // 50km radius
                 pathOptions={{
-                  color: '#a68b6c', // clay-600
+                  colour: '#a68b6c', // clay-600
                   fillColor: '#6f7a6f', // sage-500
                   fillOpacity: 0.1,
                   weight: 2,
@@ -250,7 +250,7 @@ export default function InteractiveMap({
                 }}
               />
               
-              {/* Cultural center marker */}
+              {/* Cultural centre marker */}
               <Marker
                 position={location.coordinates}
                 icon={createCulturalIcon(location)}

@@ -15,7 +15,7 @@ export async function GET(
       )
     }
 
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
 
     // Get media files for the storyteller
     const { data: media, error } = await supabase
@@ -25,13 +25,13 @@ export async function GET(
         filename,
         file_type,
         file_size,
-        upload_date,
-        storyteller_id,
+        uploaded_at,
+        uploader_id,
         title,
         description
       `)
-      .eq('storyteller_id', storytellerId)
-      .order('upload_date', { ascending: false })
+      .eq('uploader_id', storytellerId)
+      .order('uploaded_at', { ascending: false })
 
     if (error) {
       console.error('Error fetching storyteller media:', error)

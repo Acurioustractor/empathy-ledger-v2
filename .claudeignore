@@ -1,0 +1,53 @@
+# Claude Code ignore file - prevents accidental reading of large files/directories
+
+# Archive directory (large backup files)
+.archive/
+
+# Node modules (always ignore)
+node_modules/
+
+# Large migration and backup files
+*migration-backup*.json
+*complete-supabase-audit*.json
+
+# Build directories
+.next/
+dist/
+build/
+
+# Environment and config files
+.env*
+.vercel/
+
+# Database dumps and large data files
+*.sql.gz
+*.sql
+*.dump
+
+# Large log files
+*.log
+logs/
+
+# Temporary files and caches
+.cache/
+.temp/
+tmp/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large documentation that shouldn't be read automatically
+docs/legacy-reports/
+docs/complete-*
+docs/*audit*
+
+# Supabase generated files
+.supabase/
+
+# Large generated files
+src/types/database.generated.ts

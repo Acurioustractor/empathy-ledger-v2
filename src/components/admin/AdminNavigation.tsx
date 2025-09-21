@@ -13,7 +13,9 @@ import {
   BarChart3,
   FileVideo,
   UserCog,
-  Building2
+  Building2,
+  Eye,
+  Clock
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -31,6 +33,18 @@ export default function AdminNavigation({ className }: AdminNavigationProps) {
       label: 'Dashboard',
       icon: BarChart3,
       description: 'Overview & Stats'
+    },
+    {
+      href: '/admin/workflow',
+      label: 'Storytelling Workflow',
+      icon: FileVideo,
+      description: 'Guided Story Creation'
+    },
+    {
+      href: '/admin/reviews',
+      label: 'Content Reviews',
+      icon: Eye,
+      description: 'Review pending content submissions'
     },
     {
       href: '/admin/users',
@@ -63,10 +77,10 @@ export default function AdminNavigation({ className }: AdminNavigationProps) {
       description: 'Gallery management'
     },
     {
-      href: '/admin/organizations',
+      href: '/admin/organisations',
       label: 'Organizations',
       icon: Building2,
-      description: 'Tenant & organization management'
+      description: 'Tenant & organisation management'
     },
     {
       href: '/admin/settings',
@@ -87,7 +101,7 @@ export default function AdminNavigation({ className }: AdminNavigationProps) {
     <div className={cn('space-y-6', className)}>
       {/* Public Navigation */}
       <div className="bg-white rounded-lg border p-4">
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Public Navigation</h3>
+        <h3 className="text-sm font-semibold text-grey-900 mb-3">Public Navigation</h3>
         <div className="flex flex-wrap gap-2">
           {publicNavItems.map((item) => (
             <Link key={item.href} href={item.href}>
@@ -102,23 +116,23 @@ export default function AdminNavigation({ className }: AdminNavigationProps) {
 
       {/* Admin Navigation */}
       <div className="bg-white rounded-lg border p-4">
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Admin Navigation</h3>
+        <h3 className="text-sm font-semibold text-grey-900 mb-3">Admin Navigation</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3">
           {navItems.map((item) => (
             <Link key={item.href} href={item.href}>
               <div
                 className={cn(
-                  'p-3 rounded-lg border transition-colors hover:bg-gray-50',
+                  'p-3 rounded-lg border transition-colours hover:bg-grey-50',
                   pathname === item.href 
                     ? 'bg-orange-50 border-orange-200 text-orange-800' 
-                    : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300'
+                    : 'bg-white border-grey-200 text-grey-700 hover:border-grey-300'
                 )}
               >
                 <div className="flex items-start space-x-2 mb-1">
                   <item.icon className="w-4 h-4 flex-shrink-0 mt-0.5" />
                   <span className="font-medium text-sm break-words">{item.label}</span>
                 </div>
-                <p className="text-xs text-gray-500 break-words">{item.description}</p>
+                <p className="text-xs text-grey-500 break-words">{item.description}</p>
               </div>
             </Link>
           ))}
@@ -127,10 +141,16 @@ export default function AdminNavigation({ className }: AdminNavigationProps) {
 
       {/* Quick Actions */}
       <div className="bg-white rounded-lg border p-4">
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Quick Actions</h3>
+        <h3 className="text-sm font-semibold text-grey-900 mb-3">Quick Actions</h3>
         <div className="flex flex-wrap gap-2">
-          <Link href="/admin/media-review">
+          <Link href="/admin/reviews">
             <Button size="sm" className="bg-orange-600 hover:bg-orange-700">
+              <Clock className="w-3 h-3 mr-1" />
+              Pending Reviews
+            </Button>
+          </Link>
+          <Link href="/admin/media-review">
+            <Button size="sm" className="bg-clay-600 hover:bg-clay-700">
               <Shield className="w-3 h-3 mr-1" />
               Review Media
             </Button>

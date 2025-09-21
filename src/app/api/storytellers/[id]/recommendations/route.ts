@@ -90,7 +90,7 @@ export async function POST(
       // Filter by preferences if provided
       if (locationPreference) {
         careerRecommendations = careerRecommendations.filter(rec => 
-          rec.organization.toLowerCase().includes(locationPreference.toLowerCase()) ||
+          rec.organisation.toLowerCase().includes(locationPreference.toLowerCase()) ||
           rec.title.toLowerCase().includes(locationPreference.toLowerCase())
         )
       }

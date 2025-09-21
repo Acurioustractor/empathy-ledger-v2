@@ -11,7 +11,7 @@ export async function GET(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id } = await params
     
     // Get current user for permission checks
@@ -28,7 +28,7 @@ export async function GET(
           avatar_url,
           is_elder
         ),
-        organization:organizations(
+        organisation:organisations(
           id,
           name,
           slug,
@@ -130,7 +130,7 @@ export async function PUT(
   { params }: { params: Params }
 ) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id } = params
     
     // Check authentication
@@ -202,7 +202,7 @@ export async function DELETE(
   { params }: { params: Params }
 ) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { id } = params
     
     // Check authentication

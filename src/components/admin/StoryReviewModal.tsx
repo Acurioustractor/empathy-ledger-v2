@@ -88,7 +88,7 @@ const StoryReviewModal: React.FC<StoryReviewModalProps> = ({ story, children, on
       
       These weren't just remedies; they were relationships. Grandmother taught me to speak to each plant, to offer tobacco, to never take more than was freely given. "The plants are teachers," she would say, "and we must listen with more than our ears."
       
-      When neighbors came seeking help, they knew they weren't just receiving herbs—they were joining a circle of care that stretched back countless generations and forward to children not yet born.
+      When neighbours came seeking help, they knew they weren't just receiving herbs—they were joining a circle of care that stretched back countless generations and forward to children not yet born.
       
       Today, as I tend my own healing garden, I carry these lessons forward, sharing not just the plants, but the protocols, the respect, and the understanding that healing happens in relationship—with the plants, with each other, and with the sacred responsibility to preserve this knowledge for those who come after us.
     `.trim(),
@@ -142,7 +142,7 @@ const StoryReviewModal: React.FC<StoryReviewModalProps> = ({ story, children, on
       case 'community': return 'bg-sage-100 text-sage-800 dark:bg-sage-900 dark:text-sage-200'
       case 'family': return 'bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200'
       case 'personal': return 'bg-stone-100 text-stone-800 dark:bg-stone-900 dark:text-stone-200'
-      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+      default: return 'bg-grey-100 text-grey-800 dark:bg-grey-900 dark:text-grey-200'
     }
   }
 
@@ -152,7 +152,7 @@ const StoryReviewModal: React.FC<StoryReviewModalProps> = ({ story, children, on
       case 'high': return 'border-l-orange-500 bg-orange-50 dark:bg-orange-950/20'
       case 'medium': return 'border-l-yellow-500 bg-yellow-50 dark:bg-yellow-950/20'
       case 'low': return 'border-l-green-500 bg-green-50 dark:bg-green-950/20'
-      default: return 'border-l-gray-500 bg-gray-50 dark:bg-gray-950/20'
+      default: return 'border-l-grey-500 bg-grey-50 dark:bg-grey-950/20'
     }
   }
 

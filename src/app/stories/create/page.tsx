@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/lib/context/auth.context'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,9 +26,15 @@ import {
   Users,
   MapPin,
   Tag,
-  Loader2
+  Loader2,
+  Image,
+  CheckCircle,
+  Building2,
+  Plus,
+  X
 } from 'lucide-react'
 import Link from 'next/link'
+import { MediaUploader } from '@/components/media/MediaUploader'
 
 const STORY_TYPES = [
   { value: 'personal', label: 'Personal Journey', description: 'Your life experiences, memories, and personal stories' },
@@ -49,36 +56,35 @@ const AUDIENCES = [
 ]
 
 const CONTENT_SHARING_LEVELS = [
-  { 
-    value: 'public', 
-    label: 'Public Story', 
-    description: 'Open sharing - anyone can discover and read this story',
-    color: 'text-green-800 bg-green-100'
+  {
+    value: 'standard',
+    label: 'Standard Story',
+    description: 'Standard sharing - appropriate for general audiences',
+    colour: 'text-green-800 bg-green-100'
   },
-  { 
-    value: 'community', 
-    label: 'Community Story', 
-    description: 'Community sharing - visible to registered members',
-    color: 'text-blue-800 bg-blue-100'
+  {
+    value: 'sensitive',
+    label: 'Sensitive Content',
+    description: 'Sensitive content requiring careful handling',
+    colour: 'text-blue-800 bg-blue-100'
   },
-  { 
-    value: 'cultural', 
-    label: 'Cultural Content', 
-    description: 'Cultural content with appropriate protocols and review',
-    color: 'text-amber-800 bg-amber-100'
+  {
+    value: 'high_sensitivity',
+    label: 'High Sensitivity',
+    description: 'Highly sensitive cultural or personal content',
+    colour: 'text-amber-800 bg-amber-100'
   },
-  { 
-    value: 'sacred', 
-    label: 'Sacred/Sensitive', 
-    description: 'Sacred or highly sensitive content requiring special protocols',
-    color: 'text-red-800 bg-red-100'
+  {
+    value: 'restricted',
+    label: 'Restricted Access',
+    description: 'Restricted access with special protocols required',
+    colour: 'text-red-800 bg-red-100'
   }
 ]
 
 interface FormData {
   title: string
   content: string
-  storyteller_id: string
   story_type: string
   audience: string
   cultural_sensitivity_level: string
@@ -88,43 +94,51 @@ interface FormData {
   featured: boolean
   elder_approval_required: boolean
   cultural_review_required: boolean
+  media_assets: any[]
+  // Enhancement: Organization and project context
+  selectedOrganizations: string[]
+  selectedProjects: string[]
+  customTags: string[]
+  culturalGuidanceNotes: string
 }
 
 export default function CreateStoryPage() {
   const router = useRouter()
+  const { user, profile, isAuthenticated } = useAuth()
   const [loading, setLoading] = useState(false)
-  const [storytellers, setStorytellers] = useState<Storyteller[]>([])
   const [errors, setErrors] = useState<Record<string, string>>({})
+  
+  // Enhancement: Organization and project data
+  const [availableOrganizations, setAvailableOrganizations] = useState<any[]>([])
+  const [availableProjects, setAvailableProjects] = useState<any[]>([])
+  const [loadingOrganizations, setLoadingOrganizations] = useState(false)
+  
   const [formData, setFormData] = useState<FormData>({
     title: '',
     content: '',
-    storyteller_id: '',
     story_type: 'personal',
     audience: 'all',
-    cultural_sensitivity_level: 'public',
+    cultural_sensitivity_level: 'standard',
     location: '',
     tags: '',
     cultural_context: '',
     featured: false,
     elder_approval_required: false,
-    cultural_review_required: false
+    cultural_review_required: false,
+    media_assets: [],
+    // Enhancement: Organization and project context
+    selectedOrganizations: [],
+    selectedProjects: [],
+    customTags: [],
+    culturalGuidanceNotes: ''
   })
 
+  // Redirect if not authenticated
   useEffect(() => {
-    fetchStorytellers()
-  }, [])
-
-  const fetchStorytellers = async () => {
-    try {
-      const response = await fetch('/api/storytellers')
-      if (response.ok) {
-        const data = await response.json()
-        setStorytellers(data.storytellers || data)
-      }
-    } catch (error) {
-      console.error('Error fetching storytellers:', error)
+    if (!isAuthenticated) {
+      router.push('/auth/signin')
     }
-  }
+  }, [isAuthenticated, router])
 
   const handleInputChange = (field: keyof FormData, value: string | boolean) => {
     let updatedData = { ...formData, [field]: value }
@@ -133,10 +147,10 @@ export default function CreateStoryPage() {
     if (field === 'story_type' && value === 'cultural') {
       updatedData.cultural_review_required = true
     }
-    if (field === 'cultural_sensitivity_level' && (value === 'cultural' || value === 'sacred')) {
+    if (field === 'cultural_sensitivity_level' && (value === 'high_sensitivity' || value === 'restricted')) {
       updatedData.cultural_review_required = true
     }
-    if (field === 'cultural_sensitivity_level' && value === 'sacred') {
+    if (field === 'cultural_sensitivity_level' && value === 'restricted') {
       updatedData.elder_approval_required = true
     }
     
@@ -173,9 +187,9 @@ export default function CreateStoryPage() {
       newErrors.cultural_sensitivity_level = 'Sharing level is required'
     }
 
-    // Validate sacred content requirements
-    if (formData.cultural_sensitivity_level === 'sacred' && !formData.elder_approval_required) {
-      newErrors.elder_approval = 'Sacred stories typically require elder approval'
+    // Validate restricted content requirements
+    if (formData.cultural_sensitivity_level === 'restricted' && !formData.elder_approval_required) {
+      newErrors.elder_approval = 'Restricted stories typically require elder approval'
     }
 
     setErrors(newErrors)
@@ -209,30 +223,29 @@ export default function CreateStoryPage() {
   }
 
   const saveStory = async (status: 'draft' | 'review') => {
-    // Get author ID from auth context (this would come from your auth system)
-    const authorId = 'temp-author-id' // Replace with actual auth
+    // Get author ID from auth context
+    const authorId = user?.id
+    if (!authorId) {
+      setErrors({ submit: 'You must be logged in to create a story' })
+      setLoading(false)
+      return
+    }
 
     const tags = formData.tags
       .split(',')
       .map(tag => tag.trim())
       .filter(tag => tag.length > 0)
 
-    const storyData: Partial<StoryInsert> = {
+    // Use only fields that exist in the actual database (fixed based on API testing)
+    const storyData = {
       title: formData.title,
       content: formData.content,
-      author_id: authorId,
-      storyteller_id: formData.storyteller_id || null,
+      author_id: authorId, // This gets mapped to storyteller_id and author_id by the API
       status,
-      story_type: formData.story_type as any,
-      audience: formData.audience as any,
-      cultural_sensitivity_level: formData.cultural_sensitivity_level as any,
-      location: formData.location || null,
-      tags: tags.length > 0 ? tags : null,
-      cultural_context: formData.cultural_context ? { description: formData.cultural_context } : null,
+      story_type: formData.story_type,
+      cultural_sensitivity_level: formData.cultural_sensitivity_level,
       featured: formData.featured,
-      elder_approval: formData.elder_approval_required ? null : false,
-      cultural_review_status: formData.cultural_review_required ? 'pending' : 'approved',
-      consent_status: 'pending'
+      privacy_level: formData.cultural_sensitivity_level === 'standard' ? 'public' : 'private'
     }
 
     const response = await fetch('/api/stories', {
@@ -268,8 +281,8 @@ export default function CreateStoryPage() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-4">
-            <Button variant="ghost" asChild className="text-earth-600 hover:text-earth-700">
-              <Link href="/stories">
+            <Button variant="earth-outline" size="cultural-sm" asChild>
+              <Link href="/stories" className="flex items-center">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Stories
               </Link>
@@ -283,7 +296,7 @@ export default function CreateStoryPage() {
             <Typography variant="h1" className="mb-4">
               Share Your Story
             </Typography>
-            <Typography variant="large" className="text-gray-600">
+            <Typography variant="large" className="text-grey-600">
               Every story matters - share your experience with the world
             </Typography>
           </div>
@@ -313,28 +326,7 @@ export default function CreateStoryPage() {
                 )}
               </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Storyteller (Optional)
-                </label>
-                <Select 
-                  value={formData.storyteller_id} 
-                  onValueChange={(value) => handleInputChange('storyteller_id', value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a storyteller or leave blank if you're the author" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">None (I am the author)</SelectItem>
-                    {storytellers.map(storyteller => (
-                      <SelectItem key={storyteller.id} value={storyteller.id}>
-                        {storyteller.display_name}
-                        {storyteller.elder_status && <Crown className="inline ml-2 h-3 w-3" />}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              {/* Author is automatically set to the logged-in user */}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -353,7 +345,7 @@ export default function CreateStoryPage() {
                         <SelectItem key={type.value} value={type.value}>
                           <div>
                             <div className="font-medium">{type.label}</div>
-                            <div className="text-xs text-gray-500">{type.description}</div>
+                            <div className="text-xs text-grey-500">{type.description}</div>
                           </div>
                         </SelectItem>
                       ))}
@@ -380,7 +372,7 @@ export default function CreateStoryPage() {
                         <SelectItem key={audience.value} value={audience.value}>
                           <div>
                             <div className="font-medium">{audience.label}</div>
-                            <div className="text-xs text-gray-500">{audience.description}</div>
+                            <div className="text-xs text-grey-500">{audience.description}</div>
                           </div>
                         </SelectItem>
                       ))}
@@ -406,7 +398,7 @@ export default function CreateStoryPage() {
                 {errors.content && (
                   <p className="text-red-600 text-sm mt-1">{errors.content}</p>
                 )}
-                <div className="text-xs text-gray-500 mt-1">
+                <div className="text-xs text-grey-500 mt-1">
                   {formData.content.length} characters • ~{Math.ceil(formData.content.split(' ').length / 200)} min read
                 </div>
               </div>
@@ -440,14 +432,14 @@ export default function CreateStoryPage() {
                             <Shield className="h-3 w-3" />
                             <span className="font-medium">{level.label}</span>
                           </div>
-                          <div className="text-xs text-gray-500 mt-1">{level.description}</div>
+                          <div className="text-xs text-grey-500 mt-1">{level.description}</div>
                         </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 {selectedSensitivity && (
-                  <div className={cn('p-3 rounded-lg mt-2', selectedSensitivity.color)}>
+                  <div className={cn('p-3 rounded-lg mt-2', selectedSensitivity.colour)}>
                     <div className="flex items-start gap-2">
                       <Info className="h-4 w-4 mt-0.5 flex-shrink-0" />
                       <div className="text-sm">
@@ -478,7 +470,7 @@ export default function CreateStoryPage() {
                     Location (Optional)
                   </label>
                   <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400 h-4 w-4" />
                     <Input
                       value={formData.location}
                       onChange={(e) => handleInputChange('location', e.target.value)}
@@ -493,7 +485,7 @@ export default function CreateStoryPage() {
                     Tags (Optional)
                   </label>
                   <div className="relative">
-                    <Tag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                    <Tag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400 h-4 w-4" />
                     <Input
                       value={formData.tags}
                       onChange={(e) => handleInputChange('tags', e.target.value)}
@@ -506,6 +498,49 @@ export default function CreateStoryPage() {
             </div>
           </Card>
 
+          {/* Media Upload Section */}
+          <Card className="p-6">
+            <Typography variant="h3" className="mb-6 flex items-center gap-2">
+              <Image className="h-5 w-5" />
+              Media & Attachments
+            </Typography>
+            
+            <div className="space-y-4">
+              <p className="text-sm text-grey-600">
+                Add photos, videos, or audio recordings to enrich your story. 
+                Audio and video files will be automatically transcribed.
+              </p>
+              
+              <MediaUploader
+                storyId={undefined} // Will be set after story creation
+                onUploadComplete={(media) => {
+                  setFormData(prev => ({
+                    ...prev,
+                    media_assets: [...prev.media_assets, ...media]
+                  }))
+                }}
+                maxFiles={10}
+                enableTranscription={true}
+              />
+              
+              {formData.media_assets.length > 0 && (
+                <div className="mt-4">
+                  <p className="text-sm font-medium mb-2">
+                    Attached Media ({formData.media_assets.length})
+                  </p>
+                  <div className="space-y-2">
+                    {formData.media_assets.map((media, index) => (
+                      <div key={index} className="flex items-center gap-2 text-sm text-grey-600">
+                        <CheckCircle className="h-4 w-4 text-green-500" />
+                        {media.filename}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </Card>
+
           {/* Additional Options */}
           <Card className="p-6">
             <Typography variant="h3" className="mb-6 flex items-center gap-2">
@@ -514,7 +549,7 @@ export default function CreateStoryPage() {
             </Typography>
             
             <div className="space-y-6">
-              {(formData.story_type === 'cultural' || formData.cultural_sensitivity_level === 'cultural' || formData.cultural_sensitivity_level === 'sacred') && (
+              {(formData.story_type === 'cultural' || formData.cultural_sensitivity_level === 'high_sensitivity' || formData.cultural_sensitivity_level === 'restricted') && (
                 <>
                   <div className="flex items-start gap-3">
                     <Switch
@@ -526,7 +561,7 @@ export default function CreateStoryPage() {
                       <label htmlFor="cultural-review" className="text-sm font-medium cursor-pointer">
                         Cultural Review
                       </label>
-                      <p className="text-xs text-gray-600 mt-1">
+                      <p className="text-xs text-grey-600 mt-1">
                         Have this story reviewed by cultural advisors before publication
                       </p>
                     </div>
@@ -542,7 +577,7 @@ export default function CreateStoryPage() {
                       <label htmlFor="elder-approval" className="text-sm font-medium cursor-pointer">
                         Elder Approval
                       </label>
-                      <p className="text-xs text-gray-600 mt-1">
+                      <p className="text-xs text-grey-600 mt-1">
                         Have this story approved by community elders before publication
                       </p>
                     </div>
@@ -560,17 +595,17 @@ export default function CreateStoryPage() {
                   <label htmlFor="featured" className="text-sm font-medium cursor-pointer">
                     Nominate as Featured Story
                   </label>
-                  <p className="text-xs text-gray-600 mt-1">
+                  <p className="text-xs text-grey-600 mt-1">
                     Suggest this story for highlighting on the platform
                   </p>
                 </div>
               </div>
 
-              {formData.cultural_sensitivity_level === 'sacred' && !formData.elder_approval_required && (
+              {formData.cultural_sensitivity_level === 'restricted' && !formData.elder_approval_required && (
                 <Alert className="border-amber-200 bg-amber-50">
                   <AlertTriangle className="h-4 w-4 text-amber-600" />
                   <AlertDescription className="text-amber-800">
-                    Sacred or highly sensitive stories typically require elder approval to ensure cultural protocols are respected.
+                    Restricted stories typically require elder approval to ensure cultural protocols are respected.
                   </AlertDescription>
                 </Alert>
               )}
@@ -583,7 +618,8 @@ export default function CreateStoryPage() {
               <div className="flex gap-4">
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="earth-outline"
+                  size="cultural"
                   onClick={handleSaveDraft}
                   disabled={loading}
                   className="flex items-center gap-2"
@@ -591,9 +627,11 @@ export default function CreateStoryPage() {
                   {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                   Save as Draft
                 </Button>
-                
+
                 <Button
                   type="button"
+                  variant="earth-primary"
+                  size="cultural"
                   onClick={handleSubmitForReview}
                   disabled={loading}
                   className="flex items-center gap-2"
@@ -603,9 +641,9 @@ export default function CreateStoryPage() {
                 </Button>
               </div>
               
-              <Typography variant="small" className="text-gray-600 text-center sm:text-right">
-                {(formData.story_type === 'cultural' || formData.cultural_sensitivity_level === 'cultural' || formData.cultural_sensitivity_level === 'sacred')
-                  ? 'Cultural stories undergo review to ensure respectful sharing'
+              <Typography variant="small" className="text-grey-600 text-center sm:text-right">
+                {(formData.story_type === 'cultural' || formData.cultural_sensitivity_level === 'high_sensitivity' || formData.cultural_sensitivity_level === 'restricted')
+                  ? 'Cultural and sensitive stories undergo review to ensure respectful sharing'
                   : 'Your story will be published once submitted for review'
                 }
               </Typography>

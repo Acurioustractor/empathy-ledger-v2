@@ -183,7 +183,7 @@ export const AnalyticsDashboard: React.FC = () => {
                       {communityMetrics.communityResilience}%
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-grey-200 rounded-full h-2">
                     <div 
                       className="bg-green-500 h-2 rounded-full" 
                       style={{ width: `${communityMetrics.communityResilience}%` }}
@@ -246,11 +246,11 @@ export const AnalyticsDashboard: React.FC = () => {
             <CardContent>
               <div className="space-y-4">
                 {[
-                  { name: '🌱 Healing & Recovery', stories: 127, percentage: 23, color: 'bg-green-500' },
-                  { name: '🏠 Connection to Land', stories: 98, percentage: 18, color: 'bg-blue-500' },
-                  { name: '👥 Community Resilience', stories: 89, percentage: 16, color: 'bg-purple-500' },
-                  { name: '🎓 Learning & Growth', stories: 76, percentage: 14, color: 'bg-orange-500' },
-                  { name: '❤️ Family & Relationships', stories: 65, percentage: 12, color: 'bg-red-500' }
+                  { name: '🌱 Healing & Recovery', stories: 127, percentage: 23, colour: 'bg-green-500' },
+                  { name: '🏠 Connection to Land', stories: 98, percentage: 18, colour: 'bg-blue-500' },
+                  { name: '👥 Community Resilience', stories: 89, percentage: 16, colour: 'bg-purple-500' },
+                  { name: '🎓 Learning & Growth', stories: 76, percentage: 14, colour: 'bg-orange-500' },
+                  { name: '❤️ Family & Relationships', stories: 65, percentage: 12, colour: 'bg-red-500' }
                 ].map((theme) => (
                   <div key={theme.name} className="space-y-2">
                     <div className="flex justify-between items-center">
@@ -259,9 +259,9 @@ export const AnalyticsDashboard: React.FC = () => {
                         <div className="text-sm font-bold">{theme.stories} stories ({theme.percentage}%)</div>
                       </div>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div className="w-full bg-grey-200 rounded-full h-3">
                       <div 
-                        className={`${theme.color} h-3 rounded-full`} 
+                        className={`${theme.colour} h-3 rounded-full`} 
                         style={{ width: `${theme.percentage}%` }}
                       />
                     </div>
@@ -290,7 +290,7 @@ export const AnalyticsDashboard: React.FC = () => {
                   { pattern: 'Challenge → Community Support → Empowerment', percentage: 19, description: 'Community-supported healing' },
                   { pattern: 'Isolation → Connection → Belonging', percentage: 19, description: 'Finding community and place' }
                 ].map((journey) => (
-                  <div key={journey.pattern} className="p-4 bg-gray-50 rounded-lg">
+                  <div key={journey.pattern} className="p-4 bg-grey-50 rounded-lg">
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex-1">
                         <h4 className="font-semibold text-lg">{journey.pattern}</h4>
@@ -616,10 +616,10 @@ export const AnalyticsDashboard: React.FC = () => {
                       <span className="text-sm font-medium">{cluster.storytellers} storytellers</span>
                       <div className="flex space-x-1">
                         {Array.from({ length: Math.min(cluster.storytellers, 8) }).map((_, i) => (
-                          <div key={i} className="w-6 h-6 bg-gray-300 rounded-full"></div>
+                          <div key={i} className="w-6 h-6 bg-grey-300 rounded-full"></div>
                         ))}
                         {cluster.storytellers > 8 && (
-                          <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs">
+                          <div className="w-6 h-6 bg-grey-200 rounded-full flex items-center justify-center text-xs">
                             +{cluster.storytellers - 8}
                           </div>
                         )}
@@ -665,7 +665,7 @@ export const AnalyticsDashboard: React.FC = () => {
                     { type: 'Cultural bridge stories', influence: 68, description: 'Connect different communities' },
                     { type: 'Environmental connection tales', influence: 54, description: 'Spark land-based narratives' }
                   ].map((story) => (
-                    <div key={story.type} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                    <div key={story.type} className="flex justify-between items-center p-3 bg-grey-50 rounded">
                       <div>
                         <div className="font-medium">{story.type}</div>
                         <div className="text-sm text-muted-foreground">{story.description}</div>
@@ -777,7 +777,7 @@ export const AnalyticsDashboard: React.FC = () => {
                     stories: 142,
                     themes: ['Salmon', 'Cedar', 'Water rights'],
                     storytellers: 28,
-                    healthIndicator: { level: 'Strong', percentage: 85, color: 'bg-green-500' },
+                    healthIndicator: { level: 'Strong', percentage: 85, colour: 'bg-green-500' },
                     description: 'Rich traditional ecological knowledge and active land rights advocacy'
                   },
                   {
@@ -785,7 +785,7 @@ export const AnalyticsDashboard: React.FC = () => {
                     stories: 89,
                     themes: ['Wild rice', 'Migration', 'Healing'],
                     storytellers: 19,
-                    healthIndicator: { level: 'Growing', percentage: 72, color: 'bg-blue-500' },
+                    healthIndicator: { level: 'Growing', percentage: 72, colour: 'bg-blue-500' },
                     description: 'Strong healing traditions with growing intergenerational connection'
                   },
                   {
@@ -793,7 +793,7 @@ export const AnalyticsDashboard: React.FC = () => {
                     stories: 156,
                     themes: ['Identity', 'Adaptation', 'Preservation'],
                     storytellers: 34,
-                    healthIndicator: { level: 'Resilient', percentage: 79, color: 'bg-purple-500' },
+                    healthIndicator: { level: 'Resilient', percentage: 79, colour: 'bg-purple-500' },
                     description: 'Innovative cultural preservation in metropolitan environments'
                   },
                   {
@@ -801,7 +801,7 @@ export const AnalyticsDashboard: React.FC = () => {
                     stories: 67,
                     themes: ['Desert wisdom', 'Pottery', 'Ancient ways'],
                     storytellers: 15,
-                    healthIndicator: { level: 'Stable', percentage: 68, color: 'bg-orange-500' },
+                    healthIndicator: { level: 'Stable', percentage: 68, colour: 'bg-orange-500' },
                     description: 'Deep connection to ancestral practices and land-based knowledge'
                   }
                 ].map((region) => (
@@ -837,9 +837,9 @@ export const AnalyticsDashboard: React.FC = () => {
                         <span className="text-sm font-medium">{region.healthIndicator.level}</span>
                         <span className="text-sm text-muted-foreground">{region.healthIndicator.percentage}%</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-3">
+                      <div className="w-full bg-grey-200 rounded-full h-3">
                         <div 
-                          className={`${region.healthIndicator.color} h-3 rounded-full`}
+                          className={`${region.healthIndicator.colour} h-3 rounded-full`}
                           style={{ width: `${region.healthIndicator.percentage}%` }}
                         />
                       </div>
@@ -889,7 +889,7 @@ export const AnalyticsDashboard: React.FC = () => {
                     { theme: 'Building community in diaspora', stories: 42, impact: 'New cultural hubs formed' },
                     { theme: 'Intergenerational transmission challenges', stories: 19, impact: 'Language and tradition gaps' }
                   ].map((item) => (
-                    <div key={item.theme} className="p-3 bg-gray-50 rounded-lg">
+                    <div key={item.theme} className="p-3 bg-grey-50 rounded-lg">
                       <div className="flex justify-between items-start">
                         <div>
                           <div className="font-medium">{item.theme}</div>
@@ -928,10 +928,10 @@ export const AnalyticsDashboard: React.FC = () => {
                         examples: '7 communities identified'
                       },
                       {
-                        area: 'Urban indigenous centers with youth programs',
+                        area: 'Urban indigenous centres with youth programs',
                         score: 87,
                         characteristics: 'Cultural education, arts programs, identity development',
-                        examples: '12 centers active'
+                        examples: '12 centres active'
                       },
                       {
                         area: 'Rural communities with language revitalization',

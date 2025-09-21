@@ -22,7 +22,7 @@ export interface CommunityMetrics {
 export interface StorytellerConnection {
   id: string;
   name: string;
-  organization?: string;
+  organisation?: string;
   connections: string[];
   influences: number;
   culturalRole: string;
@@ -197,7 +197,7 @@ export class AnalyticsService {
           .select(`
             id,
             name,
-            organization,
+            organisation,
             cultural_background,
             stories!inner(
               id,
@@ -213,7 +213,7 @@ export class AnalyticsService {
           {
             id: '1',
             name: 'Sample Storyteller',
-            organization: 'Community Center',
+            organisation: 'Community Center',
             connections: [],
             influences: 85,
             culturalRole: 'Community Keeper',
@@ -229,18 +229,18 @@ export class AnalyticsService {
         try {
           const storyThemes = storyteller.stories?.flatMap((s: any) => s.themes || []) || [];
           
-          // Find connections based on shared themes, organizations, or cultural background
+          // Find connections based on shared themes, organisations, or cultural background
           const relatedStorytellers = await this.findRelatedStorytellers(
             storyteller.id, 
             storyThemes, 
-            storyteller.organization,
+            storyteller.organisation,
             storyteller.cultural_background
           );
 
           connections.push({
             id: storyteller.id,
             name: storyteller.name,
-            organization: storyteller.organization,
+            organisation: storyteller.organisation,
             connections: relatedStorytellers.map(r => r.id),
             influences: await this.calculateInfluenceScore(storyteller.id),
             culturalRole: this.determineCulturalRole(storyteller),
@@ -260,7 +260,7 @@ export class AnalyticsService {
         {
           id: '1',
           name: 'Sample Storyteller',
-          organization: 'Community Center',
+          organisation: 'Community Center',
           connections: [],
           influences: 85,
           culturalRole: 'Community Keeper',
@@ -385,7 +385,7 @@ export class AnalyticsService {
       const result = culturalThemes.sort((a, b) => b.significance - a.significance);
       return result.length > 0 ? result : fallbackThemes;
     } catch (error) {
-      console.error('Error analyzing cultural themes:', error);
+      console.error('Error analysing cultural themes:', error);
       // Return fallback data instead of throwing
       return [
         {
@@ -977,7 +977,7 @@ export class AnalyticsService {
   }
 
   private async analyzeSentiment(content: string): Promise<'positive' | 'neutral' | 'negative'> {
-    // Use AI to analyze sentiment
+    // Use AI to analyse sentiment
     return 'positive'; // Placeholder
   }
 

@@ -1,7 +1,7 @@
 import { createBrowserClient } from '@supabase/ssr'
 import type { Database } from '@/types/database'
 
-type Organization = Database['public']['Tables']['organizations']['Row']
+type Organization = Database['public']['Tables']['organisations']['Row']
 type Profile = Database['public']['Tables']['profiles']['Row']
 type Story = Database['public']['Tables']['stories']['Row']
 type PersonalInsights = Database['public']['Tables']['personal_insights']['Row']
@@ -37,18 +37,18 @@ export class OrganizationService {
   )
 
   /**
-   * Get organization by ID with access verification
+   * Get organisation by ID with access verification
    */
   async getOrganization(organizationId: string): Promise<Organization | null> {
     try {
       const { data, error } = await this.supabase
-        .from('organizations')
+        .from('organisations')
         .select('*')
         .eq('id', organizationId)
         .single()
 
       if (error) {
-        console.error('Error fetching organization:', error)
+        console.error('Error fetching organisation:', error)
         return null
       }
 
@@ -60,7 +60,7 @@ export class OrganizationService {
   }
 
   /**
-   * Get all members of an organization by tenant ID
+   * Get all members of an organisation by tenant ID
    */
   async getOrganizationMembers(tenantId: string): Promise<Profile[]> {
     try {
@@ -71,7 +71,7 @@ export class OrganizationService {
         .order('created_at', { ascending: false })
 
       if (error) {
-        console.error('Error fetching organization members:', error)
+        console.error('Error fetching organisation members:', error)
         return []
       }
 
@@ -83,7 +83,7 @@ export class OrganizationService {
   }
 
   /**
-   * Get all stories for an organization by tenant ID
+   * Get all stories for an organisation by tenant ID
    */
   async getOrganizationStories(tenantId: string, limit = 50): Promise<Story[]> {
     try {
@@ -95,7 +95,7 @@ export class OrganizationService {
         .limit(limit)
 
       if (error) {
-        console.error('Error fetching organization stories:', error)
+        console.error('Error fetching organisation stories:', error)
         return []
       }
 
@@ -107,7 +107,7 @@ export class OrganizationService {
   }
 
   /**
-   * Get organization metrics and KPIs
+   * Get organisation metrics and KPIs
    */
   async getOrganizationMetrics(tenantId: string): Promise<OrganizationMetrics> {
     try {
@@ -171,7 +171,7 @@ export class OrganizationService {
    */
   async getCommunityInsights(tenantId: string): Promise<CommunityInsights> {
     try {
-      // Get all analytics for organization members
+      // Get all analytics for organisation members
       const { data: insights } = await this.supabase
         .from('personal_insights')
         .select('narrative_themes, core_values, personal_strengths, cultural_identity_markers, profiles!inner(tenant_id)')
@@ -242,7 +242,7 @@ export class OrganizationService {
   }
 
   /**
-   * Get potential mentorship matches within organization
+   * Get potential mentorship matches within organisation
    */
   async getMentorshipMatches(tenantId: string): Promise<MentorshipMatch[]> {
     try {
@@ -298,7 +298,7 @@ export class OrganizationService {
   }
 
   /**
-   * Verify user has access to organization
+   * Verify user has access to organisation
    */
   async verifyOrganizationAccess(organizationId: string, userId: string): Promise<boolean> {
     try {
@@ -313,19 +313,19 @@ export class OrganizationService {
         return false
       }
 
-      // Get organization tenant ID
-      const { data: organization } = await this.supabase
-        .from('organizations')
+      // Get organisation tenant ID
+      const { data: organisation } = await this.supabase
+        .from('organisations')
         .select('tenant_id')
         .eq('id', organizationId)
         .single()
 
-      if (!organization) {
+      if (!organisation) {
         return false
       }
 
       // Check if user is in same tenant or has admin role
-      const hasAccess = profile.tenant_id === organization.tenant_id ||
+      const hasAccess = profile.tenant_id === organisation.tenant_id ||
         (profile.tenant_roles as string[])?.includes('admin') ||
         (profile.tenant_roles as string[])?.includes('organization_admin')
 

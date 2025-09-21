@@ -282,7 +282,7 @@ export default function GalleryEditPage() {
         <div className="container mx-auto px-6 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading gallery...</p>
+            <p className="mt-4 text-grey-600">Loading gallery...</p>
           </div>
         </div>
       </div>
@@ -302,7 +302,7 @@ export default function GalleryEditPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-700 mb-4">{error}</p>
+              <p className="text-grey-700 mb-4">{error}</p>
               <Button onClick={() => router.push('/galleries')} variant="outline">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Galleries
@@ -332,8 +332,8 @@ export default function GalleryEditPage() {
               Back to Gallery
             </Button>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Edit Gallery</h1>
-              <p className="text-gray-600">Make changes to your gallery settings and photo order</p>
+              <h1 className="text-3xl font-bold text-grey-900">Edit Gallery</h1>
+              <p className="text-grey-600">Make changes to your gallery settings and photo order</p>
             </div>
           </div>
           
@@ -419,7 +419,7 @@ export default function GalleryEditPage() {
                       setGalleryForm(prev => ({ ...prev, cultural_theme: e.target.value }))
                       setHasUnsavedChanges(true)
                     }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   >
                     <option value="">Select theme</option>
                     {culturalThemes.map(theme => (
@@ -438,7 +438,7 @@ export default function GalleryEditPage() {
                       setGalleryForm(prev => ({ ...prev, cultural_sensitivity_level: e.target.value as any }))
                       setHasUnsavedChanges(true)
                     }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   >
                     <option value="low">Community Open</option>
                     <option value="medium">Respectful Viewing</option>
@@ -459,7 +459,7 @@ export default function GalleryEditPage() {
                       setGalleryForm(prev => ({ ...prev, visibility: e.target.value as any }))
                       setHasUnsavedChanges(true)
                     }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   >
                     <option value="private">Private</option>
                     <option value="community">Community</option>
@@ -476,7 +476,7 @@ export default function GalleryEditPage() {
                         setGalleryForm(prev => ({ ...prev, ceremonial_content: e.target.checked }))
                         setHasUnsavedChanges(true)
                       }}
-                      className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                      className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-grey-300 rounded"
                     />
                     <span className="text-sm">Contains ceremonial content</span>
                   </label>
@@ -489,7 +489,7 @@ export default function GalleryEditPage() {
                         setGalleryForm(prev => ({ ...prev, traditional_knowledge_content: e.target.checked }))
                         setHasUnsavedChanges(true)
                       }}
-                      className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                      className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-grey-300 rounded"
                     />
                     <span className="text-sm">Contains traditional knowledge</span>
                   </label>
@@ -502,7 +502,7 @@ export default function GalleryEditPage() {
                         setGalleryForm(prev => ({ ...prev, allow_downloads: e.target.checked }))
                         setHasUnsavedChanges(true)
                       }}
-                      className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                      className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-grey-300 rounded"
                     />
                     <span className="text-sm">Allow downloads</span>
                   </label>
@@ -515,7 +515,7 @@ export default function GalleryEditPage() {
                         setGalleryForm(prev => ({ ...prev, allow_comments: e.target.checked }))
                         setHasUnsavedChanges(true)
                       }}
-                      className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                      className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-grey-300 rounded"
                     />
                     <span className="text-sm">Allow comments</span>
                   </label>
@@ -539,9 +539,9 @@ export default function GalleryEditPage() {
               <CardContent>
                 {mediaAssociations.length === 0 ? (
                   <div className="text-center py-12">
-                    <Upload className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">No photos yet</h3>
-                    <p className="text-gray-500 mb-4">Add some photos to get started!</p>
+                    <Upload className="w-16 h-16 text-grey-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-grey-900 mb-2">No photos yet</h3>
+                    <p className="text-grey-500 mb-4">Add some photos to get started!</p>
                     <Button variant="outline">
                       <Plus className="w-4 h-4 mr-2" />
                       Add Your First Photo
@@ -570,8 +570,8 @@ export default function GalleryEditPage() {
                                   className={`
                                     border rounded-lg p-4 bg-white transition-all
                                     ${snapshot.isDragging ? 'shadow-lg' : 'shadow-sm'}
-                                    ${association.isDeleted ? 'opacity-50 bg-gray-50' : ''}
-                                    ${association.hasChanges ? 'border-orange-300 bg-orange-50' : 'border-gray-200'}
+                                    ${association.isDeleted ? 'opacity-50 bg-grey-50' : ''}
+                                    ${association.hasChanges ? 'border-orange-300 bg-orange-50' : 'border-grey-200'}
                                   `}
                                 >
                                   <div className="flex items-start space-x-4">
@@ -580,11 +580,11 @@ export default function GalleryEditPage() {
                                       {...provided.dragHandleProps}
                                       className="cursor-grab active:cursor-grabbing pt-2"
                                     >
-                                      <GripVertical className="w-5 h-5 text-gray-400" />
+                                      <GripVertical className="w-5 h-5 text-grey-400" />
                                     </div>
 
                                     {/* Photo Thumbnail */}
-                                    <div className="flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden">
+                                    <div className="flex-shrink-0 w-20 h-20 bg-grey-200 rounded-lg overflow-hidden">
                                       {association.media_asset?.public_url ? (
                                         <Image
                                           src={association.media_asset.thumbnail_url || association.media_asset.public_url}
@@ -595,7 +595,7 @@ export default function GalleryEditPage() {
                                         />
                                       ) : (
                                         <div className="flex items-center justify-center h-full">
-                                          <Upload className="w-6 h-6 text-gray-400" />
+                                          <Upload className="w-6 h-6 text-grey-400" />
                                         </div>
                                       )}
                                     </div>
@@ -604,10 +604,10 @@ export default function GalleryEditPage() {
                                     <div className="flex-1 space-y-3">
                                       <div className="flex items-start justify-between">
                                         <div>
-                                          <h4 className="font-medium text-gray-900">
+                                          <h4 className="font-medium text-grey-900">
                                             {association.media_asset?.title || association.media_asset?.filename || 'Untitled'}
                                           </h4>
-                                          <p className="text-sm text-gray-500">
+                                          <p className="text-sm text-grey-500">
                                             Sort order: {association.sort_order}
                                           </p>
                                         </div>
@@ -640,7 +640,7 @@ export default function GalleryEditPage() {
                                         <>
                                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             <div>
-                                              <label className="text-xs text-gray-600 mb-1 block">Caption</label>
+                                              <label className="text-xs text-grey-600 mb-1 block">Caption</label>
                                               <Input
                                                 size="sm"
                                                 value={association.caption || ''}
@@ -649,7 +649,7 @@ export default function GalleryEditPage() {
                                               />
                                             </div>
                                             <div>
-                                              <label className="text-xs text-gray-600 mb-1 block">Cultural Context</label>
+                                              <label className="text-xs text-grey-600 mb-1 block">Cultural Context</label>
                                               <Input
                                                 size="sm"
                                                 value={association.cultural_context || ''}
@@ -660,7 +660,7 @@ export default function GalleryEditPage() {
                                           </div>
                                           
                                           <div>
-                                            <label className="text-xs text-gray-600 mb-1 block">People Depicted</label>
+                                            <label className="text-xs text-grey-600 mb-1 block">People Depicted</label>
                                             <Input
                                               size="sm"
                                               value={association.people_depicted?.join(', ') || ''}

@@ -165,7 +165,7 @@ export default function StorytellerNetworkPage() {
             <CardContent>
               <div className="space-y-3">
                 {topInfluencers.map((storyteller, index) => (
-                  <div key={storyteller.id} className="flex items-center space-x-3 p-2 rounded-lg bg-gray-50">
+                  <div key={storyteller.id} className="flex items-center space-x-3 p-2 rounded-lg bg-grey-50">
                     <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
                       {index + 1}
                     </div>
@@ -250,10 +250,10 @@ export default function StorytellerNetworkPage() {
                     </div>
                   </div>
 
-                  {selectedStoryteller.organization && (
+                  {selectedStoryteller.organisation && (
                     <div>
                       <span className="text-sm font-medium">Organization:</span>
-                      <p className="text-sm text-muted-foreground">{selectedStoryteller.organization}</p>
+                      <p className="text-sm text-muted-foreground">{selectedStoryteller.organisation}</p>
                     </div>
                   )}
 
@@ -346,7 +346,7 @@ export default function StorytellerNetworkPage() {
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start space-x-2">
                   <div className="w-1.5 h-1.5 bg-amber-500 rounded-full mt-2"></div>
-                  <span>Potential for more cross-cultural connections between organizations</span>
+                  <span>Potential for more cross-cultural connections between organisations</span>
                 </li>
                 <li className="flex items-start space-x-2">
                   <div className="w-1.5 h-1.5 bg-amber-500 rounded-full mt-2"></div>

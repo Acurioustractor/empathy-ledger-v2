@@ -6,9 +6,9 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-  Search, 
-  Calendar, 
+import {
+  Search,
+  Calendar,
   MapPin,
   DollarSign,
   ExternalLink,
@@ -16,7 +16,9 @@ import {
   Target,
   Users,
   Building2,
-  Activity
+  Activity,
+  FileText,
+  UserCheck
 } from 'lucide-react'
 
 interface Project {
@@ -38,9 +40,11 @@ interface Project {
 interface ProjectsCollectionProps {
   projects: Project[]
   organizationId: string
+  storytellerCount?: number
+  transcriptCount?: number
 }
 
-export function ProjectsCollection({ projects, organizationId }: ProjectsCollectionProps) {
+export function ProjectsCollection({ projects, organizationId, storytellerCount = 0, transcriptCount = 0 }: ProjectsCollectionProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedStatus, setSelectedStatus] = useState<string>('all')
 
@@ -67,7 +71,7 @@ export function ProjectsCollection({ projects, organizationId }: ProjectsCollect
       case 'completed': return 'bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300'
       case 'paused': return 'bg-yellow-50 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-300'
       case 'cancelled': return 'bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300'
-      default: return 'bg-gray-50 text-gray-700 dark:bg-gray-950 dark:text-gray-300'
+      default: return 'bg-grey-50 text-grey-700 dark:bg-grey-950 dark:text-grey-300'
     }
   }
 
@@ -81,7 +85,7 @@ export function ProjectsCollection({ projects, organizationId }: ProjectsCollect
   }
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto px-4 py-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">Community Projects</h2>
@@ -172,7 +176,11 @@ export function ProjectsCollection({ projects, organizationId }: ProjectsCollect
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Calendar className="h-4 w-4 flex-shrink-0" />
                   <span>
-                    Started {new Date(project.created_at).toLocaleDateString()}
+                    Started {new Date(project.created_at).toLocaleDateString('en-US', { 
+                      month: 'numeric', 
+                      day: 'numeric', 
+                      year: 'numeric' 
+                    })}
                   </span>
                 </div>
                 
@@ -188,8 +196,14 @@ export function ProjectsCollection({ projects, organizationId }: ProjectsCollect
                     <Target className="h-4 w-4 flex-shrink-0" />
                     <span>
                       {project.end_date ? 
-                        `${new Date(project.start_date).toLocaleDateString()} - ${new Date(project.end_date).toLocaleDateString()}` :
-                        `Started ${new Date(project.start_date).toLocaleDateString()}`
+                        `${new Date(project.start_date).toLocaleDateString('en-US', { 
+                          month: 'numeric', day: 'numeric', year: 'numeric' 
+                        })} - ${new Date(project.end_date).toLocaleDateString('en-US', { 
+                          month: 'numeric', day: 'numeric', year: 'numeric' 
+                        })}` :
+                        `Started ${new Date(project.start_date).toLocaleDateString('en-US', { 
+                          month: 'numeric', day: 'numeric', year: 'numeric' 
+                        })}`
                       }
                     </span>
                   </div>
@@ -201,6 +215,12 @@ export function ProjectsCollection({ projects, organizationId }: ProjectsCollect
                   <Link href={`/projects/${project.id}`}>
                     <ExternalLink className="h-4 w-4 mr-2" />
                     View Project
+                  </Link>
+                </Button>
+                <Button asChild size="sm" variant="secondary">
+                  <Link href={`/organisations/${organizationId}/projects/${project.id}/manage`}>
+                    <Users className="h-4 w-4 mr-2" />
+                    Manage
                   </Link>
                 </Button>
               </div>
@@ -215,7 +235,7 @@ export function ProjectsCollection({ projects, organizationId }: ProjectsCollect
           <h3 className="text-lg font-semibold mb-2">No projects found</h3>
           <p className="text-muted-foreground">
             {projects.length === 0 
-              ? "No projects have been created for this organization yet."
+              ? "No projects have been created for this organisation yet."
               : "Try adjusting your search criteria or filters."
             }
           </p>

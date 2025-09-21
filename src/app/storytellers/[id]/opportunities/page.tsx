@@ -32,7 +32,7 @@ import {
 
 interface CareerRecommendation {
   title: string;
-  organization: string;
+  organisation: string;
   match_score: number;
   required_skills: string[];
   storyteller_skills: string[];
@@ -46,7 +46,7 @@ interface CareerRecommendation {
 
 interface GrantOpportunity {
   title: string;
-  organization: string;
+  organisation: string;
   funding_amount: string;
   match_score: number;
   required_criteria: string[];
@@ -155,8 +155,8 @@ export default function StorytellerOpportunitiesPage() {
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
               <Target className="h-12 w-12 text-green-600 mx-auto mb-4 animate-pulse" />
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Finding Opportunities...</h2>
-              <p className="text-gray-600">Matching your skills with career and grant opportunities</p>
+              <h2 className="text-xl font-semibold text-grey-900 mb-2">Finding Opportunities...</h2>
+              <p className="text-grey-600">Matching your skills with career and grant opportunities</p>
             </div>
           </div>
         </div>
@@ -215,9 +215,9 @@ export default function StorytellerOpportunitiesPage() {
                 <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Briefcase className="h-8 w-8 text-blue-500" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Ready to Discover Opportunities?</h3>
-                <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                  Start by sharing your story or uploading a transcript. Our AI will analyze your experiences 
+                <h3 className="text-lg font-semibold text-grey-900 mb-2">Ready to Discover Opportunities?</h3>
+                <p className="text-grey-600 mb-6 max-w-md mx-auto">
+                  Start by sharing your story or uploading a transcript. Our AI will analyse your experiences 
                   to find matching career opportunities and grant funding.
                 </p>
                 
@@ -238,23 +238,23 @@ export default function StorytellerOpportunitiesPage() {
               </div>
               
               <div className="border-t pt-6">
-                <h4 className="font-semibold text-gray-900 mb-3">What you'll discover:</h4>
+                <h4 className="font-semibold text-grey-900 mb-3">What you'll discover:</h4>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm text-gray-700">Personalized career recommendations based on your skills and experiences</span>
+                    <span className="text-sm text-grey-700">Personalized career recommendations based on your skills and experiences</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm text-gray-700">Grant opportunities matching your cultural background and interests</span>
+                    <span className="text-sm text-grey-700">Grant opportunities matching your cultural background and interests</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    <span className="text-sm text-gray-700">Skills gap analysis with development recommendations</span>
+                    <span className="text-sm text-grey-700">Skills gap analysis with development recommendations</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                    <span className="text-sm text-gray-700">Cultural alignment assessment for meaningful work connections</span>
+                    <span className="text-sm text-grey-700">Cultural alignment assessment for meaningful work connections</span>
                   </div>
                 </div>
               </div>
@@ -277,10 +277,10 @@ export default function StorytellerOpportunitiesPage() {
           
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-3xl font-bold text-grey-900 mb-2">
                 Career & Grant Opportunities
               </h1>
-              <p className="text-gray-600">
+              <p className="text-grey-600">
                 Personalized recommendations for {storyteller?.display_name}
               </p>
             </div>
@@ -358,9 +358,9 @@ export default function StorytellerOpportunitiesPage() {
               <Card>
                 <CardContent className="flex items-center justify-center py-12">
                   <div className="text-center">
-                    <Briefcase className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No Career Recommendations Yet</h3>
-                    <p className="text-gray-600 mb-4">Generate a full analysis to discover career opportunities.</p>
+                    <Briefcase className="h-12 w-12 text-grey-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-grey-900 mb-2">No Career Recommendations Yet</h3>
+                    <p className="text-grey-600 mb-4">Generate a full analysis to discover career opportunities.</p>
                     <Link href={`/storytellers/${storytellerId}/analytics`}>
                       <Button>Generate Analysis</Button>
                     </Link>
@@ -379,7 +379,7 @@ export default function StorytellerOpportunitiesPage() {
                             <CardTitle className="text-lg mb-1">{career.title}</CardTitle>
                             <CardDescription className="flex items-center gap-2">
                               <Users className="h-3 w-3" />
-                              {career.organization}
+                              {career.organisation}
                             </CardDescription>
                           </div>
                           <Badge className={`${getMatchScoreColor(career.match_score)} font-bold`}>
@@ -393,7 +393,7 @@ export default function StorytellerOpportunitiesPage() {
                           <div>
                             <div className="flex items-center justify-between mb-2">
                               <span className="text-sm font-medium">Match Quality</span>
-                              <span className="text-sm text-gray-500">
+                              <span className="text-sm text-grey-500">
                                 {getMatchScoreLabel(career.match_score)}
                               </span>
                             </div>
@@ -431,7 +431,7 @@ export default function StorytellerOpportunitiesPage() {
                                 {career.gap_analysis.slice(0, 3).map((gap, i) => (
                                   <div key={i} className="flex items-start gap-2">
                                     <Lightbulb className="h-3 w-3 text-yellow-500 mt-1 flex-shrink-0" />
-                                    <span className="text-xs text-gray-600">{gap}</span>
+                                    <span className="text-xs text-grey-600">{gap}</span>
                                   </div>
                                 ))}
                               </div>
@@ -444,7 +444,7 @@ export default function StorytellerOpportunitiesPage() {
                               <Target className="h-3 w-3 text-blue-500" />
                               Application Strategy
                             </h4>
-                            <p className="text-xs text-gray-600 bg-blue-50 p-3 rounded border-l-2 border-blue-500">
+                            <p className="text-xs text-grey-600 bg-blue-50 p-3 rounded border-l-2 border-blue-500">
                               {career.application_strategy}
                             </p>
                           </div>
@@ -455,14 +455,14 @@ export default function StorytellerOpportunitiesPage() {
                               <Heart className="h-3 w-3 text-purple-500" />
                               Cultural Alignment
                             </h4>
-                            <p className="text-xs text-gray-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
+                            <p className="text-xs text-grey-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
                               {career.cultural_fit}
                             </p>
                           </div>
 
                           {/* Additional Info */}
                           <div className="flex items-center justify-between pt-2 border-t">
-                            <div className="flex items-center gap-4 text-xs text-gray-500">
+                            <div className="flex items-center gap-4 text-xs text-grey-500">
                               {career.salary_range && (
                                 <div className="flex items-center gap-1">
                                   <DollarSign className="h-3 w-3" />
@@ -499,9 +499,9 @@ export default function StorytellerOpportunitiesPage() {
               <Card>
                 <CardContent className="flex items-center justify-center py-12">
                   <div className="text-center">
-                    <DollarSign className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No Grant Opportunities Yet</h3>
-                    <p className="text-gray-600 mb-4">Generate a full analysis to discover funding opportunities.</p>
+                    <DollarSign className="h-12 w-12 text-grey-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-grey-900 mb-2">No Grant Opportunities Yet</h3>
+                    <p className="text-grey-600 mb-4">Generate a full analysis to discover funding opportunities.</p>
                     <Link href={`/storytellers/${storytellerId}/analytics`}>
                       <Button>Generate Analysis</Button>
                     </Link>
@@ -520,7 +520,7 @@ export default function StorytellerOpportunitiesPage() {
                             <CardTitle className="text-lg mb-1">{grant.title}</CardTitle>
                             <CardDescription className="flex items-center gap-2">
                               <Globe className="h-3 w-3" />
-                              {grant.organization}
+                              {grant.organisation}
                             </CardDescription>
                           </div>
                           <div className="flex flex-col items-end gap-1">
@@ -548,7 +548,7 @@ export default function StorytellerOpportunitiesPage() {
                           <div>
                             <div className="flex items-center justify-between mb-2">
                               <span className="text-sm font-medium">Qualification Match</span>
-                              <span className="text-sm text-gray-500">
+                              <span className="text-sm text-grey-500">
                                 {getMatchScoreLabel(grant.match_score)}
                               </span>
                             </div>
@@ -565,11 +565,11 @@ export default function StorytellerOpportunitiesPage() {
                               {grant.storyteller_qualifications.slice(0, 3).map((qual, i) => (
                                 <div key={i} className="flex items-start gap-2">
                                   <div className="w-1 h-1 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                                  <span className="text-xs text-gray-700">{qual}</span>
+                                  <span className="text-xs text-grey-700">{qual}</span>
                                 </div>
                               ))}
                               {grant.storyteller_qualifications.length > 3 && (
-                                <p className="text-xs text-gray-500 pl-3">
+                                <p className="text-xs text-grey-500 pl-3">
                                   +{grant.storyteller_qualifications.length - 3} more qualifications
                                 </p>
                               )}
@@ -582,7 +582,7 @@ export default function StorytellerOpportunitiesPage() {
                               <Lightbulb className="h-3 w-3 text-blue-500" />
                               Suggested Project Approach
                             </h4>
-                            <p className="text-xs text-gray-600 bg-blue-50 p-3 rounded border-l-2 border-blue-500">
+                            <p className="text-xs text-grey-600 bg-blue-50 p-3 rounded border-l-2 border-blue-500">
                               {grant.suggested_project}
                             </p>
                           </div>
@@ -593,7 +593,7 @@ export default function StorytellerOpportunitiesPage() {
                               <Users className="h-3 w-3 text-purple-500" />
                               Community Impact Potential
                             </h4>
-                            <p className="text-xs text-gray-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
+                            <p className="text-xs text-grey-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
                               {grant.community_impact_potential}
                             </p>
                           </div>
@@ -601,7 +601,7 @@ export default function StorytellerOpportunitiesPage() {
                           {/* Application Info */}
                           <div className="flex items-center justify-between pt-2 border-t">
                             {grant.application_deadline && (
-                              <div className="flex items-center gap-1 text-xs text-gray-500">
+                              <div className="flex items-center gap-1 text-xs text-grey-500">
                                 <Clock className="h-3 w-3" />
                                 Deadline: {grant.application_deadline}
                               </div>
@@ -713,7 +713,7 @@ export default function StorytellerOpportunitiesPage() {
                           {grantOpportunities.some(g => g.cultural_focus) && (
                             <div className="p-3 bg-purple-50 rounded-lg border-l-2 border-purple-500">
                               <h4 className="font-medium text-sm mb-2">Cultural Projects Advantage</h4>
-                              <p className="text-xs text-gray-600">
+                              <p className="text-xs text-grey-600">
                                 {grantOpportunities.filter(g => g.cultural_focus).length} grants 
                                 specifically focus on cultural work - this aligns with your background.
                               </p>

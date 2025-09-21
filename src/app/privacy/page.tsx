@@ -30,9 +30,9 @@ export default function PrivacyPage() {
               <h1 className="text-3xl font-bold text-earth-800">Privacy Policy</h1>
             </div>
             
-            <p className="text-gray-600 mb-8">Last updated: {new Date().toLocaleDateString()}</p>
+            <p className="text-grey-600 mb-8">Last updated: {new Date().toLocaleDateString()}</p>
             
-            <div className="space-y-8 text-gray-700">
+            <div className="space-y-8 text-grey-700">
               <section>
                 <div className="flex items-center gap-2 mb-3">
                   <Lock className="w-5 h-5 text-earth-600" />
@@ -125,7 +125,7 @@ export default function PrivacyPage() {
             
             <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
               <p className="text-sm text-blue-800">
-                <strong>Our Commitment:</strong> We are committed to protecting your privacy while honoring cultural protocols and ensuring your stories are shared respectfully and appropriately.
+                <strong>Our Commitment:</strong> We are committed to protecting your privacy while honouring cultural protocols and ensuring your stories are shared respectfully and appropriately.
               </p>
             </div>
           </div>

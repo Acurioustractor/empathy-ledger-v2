@@ -139,7 +139,7 @@ export default function StoryDetailPage({ params }: { params: Promise<{ id: stri
           url: window.location.href,
         })
       } catch (error) {
-        console.log('Share canceled or failed:', error)
+        console.log('Share cancelled or failed:', error)
       }
     } else {
       // Fallback: copy to clipboard
@@ -166,9 +166,9 @@ export default function StoryDetailPage({ params }: { params: Promise<{ id: stri
       <div className="min-h-screen bg-gradient-to-b from-earth-50 to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="animate-pulse space-y-6">
-            <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-            <div className="h-12 bg-gray-200 rounded"></div>
-            <div className="h-64 bg-gray-200 rounded"></div>
+            <div className="h-8 bg-grey-200 rounded w-1/4"></div>
+            <div className="h-12 bg-grey-200 rounded"></div>
+            <div className="h-64 bg-grey-200 rounded"></div>
           </div>
         </div>
       </div>
@@ -227,7 +227,7 @@ export default function StoryDetailPage({ params }: { params: Promise<{ id: stri
               </Typography>
 
               {/* Metadata */}
-              <div className="flex flex-wrap gap-6 text-gray-600 mb-6">
+              <div className="flex flex-wrap gap-6 text-grey-600 mb-6">
                 {story.reading_time_minutes && (
                   <div className="flex items-center gap-1">
                     <Clock className="w-4 h-4" />
@@ -301,7 +301,7 @@ export default function StoryDetailPage({ params }: { params: Promise<{ id: stri
           </div>
 
           {/* Stats */}
-          <div className="flex items-center gap-6 text-sm text-gray-500">
+          <div className="flex items-center gap-6 text-sm text-grey-500">
             <div className="flex items-center gap-1">
               <Eye className="w-4 h-4" />
               <span>{story.views_count} views</span>
@@ -362,27 +362,27 @@ export default function StoryDetailPage({ params }: { params: Promise<{ id: stri
                   <Crown className="w-5 h-5 text-amber-500" />
                 )}
                 {story.storyteller?.profile?.pronouns && (
-                  <Typography variant="small" className="text-gray-500">
+                  <Typography variant="small" className="text-grey-500">
                     ({story.storyteller.profile.pronouns})
                   </Typography>
                 )}
               </div>
               
               {story.storyteller?.cultural_background && (
-                <Typography variant="body" className="text-gray-600 mb-2">
+                <Typography variant="body" className="text-grey-600 mb-2">
                   {story.storyteller.cultural_background}
                 </Typography>
               )}
               
               {story.storyteller?.bio && (
-                <Typography variant="body" className="text-gray-700 mb-4">
+                <Typography variant="body" className="text-grey-700 mb-4">
                   {story.storyteller.bio}
                 </Typography>
               )}
               
               {story.storyteller?.specialties && story.storyteller.specialties.length > 0 && (
                 <div className="mb-4">
-                  <Typography variant="small" className="font-medium text-gray-700 mb-2">
+                  <Typography variant="small" className="font-medium text-grey-700 mb-2">
                     Specialties:
                   </Typography>
                   <div className="flex flex-wrap gap-2">

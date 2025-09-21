@@ -12,7 +12,7 @@ interface FooterSection {
     name: string
     href: string
     external?: boolean
-    icon?: React.ReactNode
+    iconName?: string
   }[]
 }
 
@@ -23,7 +23,7 @@ const footerSections: FooterSection[] = [
       { name: 'Stories', href: '/stories' },
       { name: 'Storytellers', href: '/storytellers' },
       { name: 'Cultural Map', href: '/map' },
-      { name: 'Organizations', href: '/organizations' },
+      { name: 'Organizations', href: '/organisations' },
     ]
   },
   {
@@ -47,8 +47,8 @@ const footerSections: FooterSection[] = [
   {
     title: 'Legal & Privacy',
     links: [
-      { name: 'Privacy Policy', href: '/privacy', icon: <Shield className="w-3 h-3" /> },
-      { name: 'Terms of Service', href: '/terms', icon: <Eye className="w-3 h-3" /> },
+      { name: 'Privacy Policy', href: '/privacy', iconName: 'Shield' },
+      { name: 'Terms of Service', href: '/terms', iconName: 'Eye' },
       { name: 'Consent Management', href: '/consent' },
       { name: 'Cultural Protocols', href: '/cultural-protocols' },
     ]
@@ -56,14 +56,30 @@ const footerSections: FooterSection[] = [
 ]
 
 const socialLinks = [
-  { name: 'Website', href: '#', icon: <Globe className="w-4 h-4" /> },
-  { name: 'Contact', href: '/contact', icon: <Mail className="w-4 h-4" /> },
+  { name: 'Website', href: '#', iconName: 'Globe' },
+  { name: 'Contact', href: '/contact', iconName: 'Mail' },
 ]
+
+// Helper function to render icons
+const renderIcon = (iconName: string, className: string) => {
+  switch (iconName) {
+    case 'Shield':
+      return <Shield className={className} />
+    case 'Eye':
+      return <Eye className={className} />
+    case 'Globe':
+      return <Globe className={className} />
+    case 'Mail':
+      return <Mail className={className} />
+    default:
+      return null
+  }
+}
 
 const culturalAcknowledgment = `
 We acknowledge the Traditional Custodians of the lands on which we work and live. 
 We pay our respects to Elders past, present and emerging. We are committed to 
-honoring the stories, wisdom, and cultural heritage of Indigenous peoples while 
+honouring the stories, wisdom, and cultural heritage of Indigenous peoples while 
 ensuring their voices are heard with respect and cultural integrity.
 `
 
@@ -81,10 +97,10 @@ export default function Footer() {
                 <Heart className="w-6 h-6 text-white" />
               </div>
             </div>
-            <Typography variant="h3" className="mb-4 text-gray-900 dark:text-gray-100 font-bold">
+            <Typography variant="h3" className="mb-4 text-grey-900 dark:text-grey-100 font-bold">
               Cultural Acknowledgment
             </Typography>
-            <Typography variant="body" className="text-gray-700 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto font-medium">
+            <Typography variant="body" className="text-grey-700 dark:text-grey-300 leading-relaxed max-w-3xl mx-auto font-medium">
               {culturalAcknowledgment.trim()}
             </Typography>
           </div>
@@ -101,15 +117,15 @@ export default function Footer() {
                 <Heart className="w-5 h-5 text-white" />
               </div>
               <div>
-                <Typography variant="cultural-subheading" className="text-gray-900 dark:text-gray-100 font-bold">
+                <Typography variant="cultural-subheading" className="text-grey-900 dark:text-grey-100 font-bold">
                   Empathy Ledger
                 </Typography>
-                <Typography variant="caption" className="text-gray-600 dark:text-gray-300 -mt-1">
+                <Typography variant="caption" className="text-grey-600 dark:text-grey-300 -mt-1">
                   Cultural Stories & Wisdom
                 </Typography>
               </div>
             </Link>
-            <Typography variant="body-small" className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed font-medium">
+            <Typography variant="body-small" className="text-grey-700 dark:text-grey-300 mb-6 leading-relaxed font-medium">
               A platform dedicated to preserving and sharing Indigenous stories, 
               wisdom, and cultural heritage with respect and cultural integrity.
             </Typography>
@@ -132,7 +148,7 @@ export default function Footer() {
                       rel: 'noopener noreferrer'
                     })}
                   >
-                    {link.icon}
+                    {link.iconName && renderIcon(link.iconName, "w-4 h-4")}
                   </Link>
                 </Button>
               ))}
@@ -142,7 +158,7 @@ export default function Footer() {
           {/* Footer Sections */}
           {footerSections.map((section) => (
             <div key={section.title} className="">
-              <Typography variant="h6" className="mb-4 text-gray-900 dark:text-gray-100 font-bold">
+              <Typography variant="h6" className="mb-4 text-grey-900 dark:text-grey-100 font-bold">
                 {section.title}
               </Typography>
               <ul className="space-y-3">
@@ -151,16 +167,16 @@ export default function Footer() {
                     <Link
                       href={link.href}
                       className={cn(
-                        "flex items-center space-x-2 text-sm transition-colors",
-                        "text-gray-700 dark:text-gray-300 font-medium",
-                        "hover:text-gray-900 dark:hover:text-gray-100"
+                        "flex items-center space-x-2 text-sm transition-colours",
+                        "text-grey-700 dark:text-grey-300 font-medium",
+                        "hover:text-grey-900 dark:hover:text-grey-100"
                       )}
                       {...(link.external && {
                         target: '_blank',
                         rel: 'noopener noreferrer'
                       })}
                     >
-                      {link.icon}
+                      {link.iconName && renderIcon(link.iconName, "w-3 h-3")}
                       <span>{link.name}</span>
                     </Link>
                   </li>
@@ -176,12 +192,12 @@ export default function Footer() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm text-stone-500 dark:text-stone-400">
-              <Typography variant="small" className="text-center md:text-left text-gray-700 dark:text-gray-300 font-semibold">
+              <Typography variant="small" className="text-center md:text-left text-grey-700 dark:text-grey-300 font-semibold">
                 © {currentYear} Empathy Ledger. Built with respect for Indigenous cultures.
               </Typography>
             </div>
 
-            <div className="flex items-center space-x-4 text-xs text-gray-600 dark:text-gray-400 font-medium">
+            <div className="flex items-center space-x-4 text-xs text-grey-600 dark:text-grey-400 font-medium">
               <span className="flex items-center space-x-1">
                 <Heart className="w-3 h-3 text-clay-500" />
                 <span>Made with cultural respect</span>
@@ -197,12 +213,12 @@ export default function Footer() {
       <div className="bg-sage-100/50 dark:bg-sage-950/20 border-t border-sage-200/50 dark:border-sage-800/50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-6 text-center">
-            <Typography variant="caption" className="text-gray-800 dark:text-gray-200 font-bold">
+            <Typography variant="caption" className="text-grey-800 dark:text-grey-200 font-bold">
               Cultural Content Advisory:
             </Typography>
             <Typography variant="caption" className="text-sage-600 dark:text-sage-400">
               This platform contains cultural content that may be subject to cultural protocols. 
-              Please engage respectfully and honor the wisdom shared.
+              Please engage respectfully and honour the wisdom shared.
             </Typography>
           </div>
         </div>

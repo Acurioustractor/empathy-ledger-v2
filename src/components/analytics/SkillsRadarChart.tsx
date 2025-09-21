@@ -47,12 +47,12 @@ export function SkillsRadarChart({
       return (
         <div className="bg-white p-3 border rounded-lg shadow-lg">
           <p className="font-semibold">{payload[0]?.payload?.fullSkill}</p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-grey-600">
             Level: {payload[0]?.value === 4 ? 'Expert' : 
                     payload[0]?.value === 3 ? 'Advanced' : 
                     payload[0]?.value === 2 ? 'Intermediate' : 'Beginner'}
           </p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-grey-600">
             Market Value: {payload[0]?.payload?.marketValue}/10
           </p>
         </div>
@@ -66,13 +66,13 @@ export function SkillsRadarChart({
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Eye className="h-5 w-5 text-gray-400" />
+            <Eye className="h-5 w-5 text-grey-400" />
             {title}
           </CardTitle>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-80 flex items-center justify-center text-gray-500">
+          <div className="h-80 flex items-center justify-center text-grey-500">
             <p>No skills data available</p>
           </div>
         </CardContent>
@@ -97,13 +97,13 @@ export function SkillsRadarChart({
               <PolarAngleAxis 
                 dataKey="skill" 
                 tick={{ fontSize: 10 }} 
-                className="fill-gray-600"
+                className="fill-grey-600"
               />
               <PolarRadiusAxis 
                 angle={0} 
                 domain={[0, 4]} 
                 tick={{ fontSize: 8 }} 
-                className="fill-gray-500"
+                className="fill-grey-500"
               />
               <Radar
                 name="Skill Level"
@@ -120,7 +120,7 @@ export function SkillsRadarChart({
         
         {competencies.length > maxSkills && (
           <div className="mt-3 text-center">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-grey-500">
               Showing top {maxSkills} skills. Total: {competencies.length}
             </p>
           </div>

@@ -125,7 +125,7 @@ const MediaGalleryManagement: React.FC = () => {
         visibility: visibilityFilter,
         consent: consentFilter,
         sensitivity: sensitivityFilter,
-        organization: organizationFilter
+        organisation: organizationFilter
       })
       
       const response = await fetch(`/api/admin/media?${params}`)
@@ -237,7 +237,7 @@ const MediaGalleryManagement: React.FC = () => {
             <div className="flex items-center">
               <Image className="h-8 w-8 text-blue-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-500">Total Media</p>
+                <p className="text-sm font-medium text-grey-500">Total Media</p>
                 <p className="text-lg font-semibold">{summary.total}</p>
               </div>
             </div>
@@ -247,7 +247,7 @@ const MediaGalleryManagement: React.FC = () => {
             <div className="flex items-center">
               <CheckCircle className="h-8 w-8 text-green-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-500">Active</p>
+                <p className="text-sm font-medium text-grey-500">Active</p>
                 <p className="text-lg font-semibold">{summary.active}</p>
               </div>
             </div>
@@ -257,7 +257,7 @@ const MediaGalleryManagement: React.FC = () => {
             <div className="flex items-center">
               <Flag className="h-8 w-8 text-red-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-500">Flagged</p>
+                <p className="text-sm font-medium text-grey-500">Flagged</p>
                 <p className="text-lg font-semibold">{summary.flagged}</p>
               </div>
             </div>
@@ -267,7 +267,7 @@ const MediaGalleryManagement: React.FC = () => {
             <div className="flex items-center">
               <HardDrive className="h-8 w-8 text-purple-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-500">Storage</p>
+                <p className="text-sm font-medium text-grey-500">Storage</p>
                 <p className="text-lg font-semibold">{summary.totalSize} MB</p>
               </div>
             </div>
@@ -277,7 +277,7 @@ const MediaGalleryManagement: React.FC = () => {
             <div className="flex items-center">
               <Globe className="h-8 w-8 text-indigo-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-500">Public</p>
+                <p className="text-sm font-medium text-grey-500">Public</p>
                 <p className="text-lg font-semibold">{summary.publicMedia}</p>
               </div>
             </div>
@@ -285,9 +285,9 @@ const MediaGalleryManagement: React.FC = () => {
           
           <div className="bg-white p-4 rounded-lg shadow">
             <div className="flex items-center">
-              <Lock className="h-8 w-8 text-gray-500" />
+              <Lock className="h-8 w-8 text-grey-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-500">Private</p>
+                <p className="text-sm font-medium text-grey-500">Private</p>
                 <p className="text-lg font-semibold">{summary.privateMedia}</p>
               </div>
             </div>
@@ -297,7 +297,7 @@ const MediaGalleryManagement: React.FC = () => {
             <div className="flex items-center">
               <Eye className="h-8 w-8 text-pink-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-500">Views</p>
+                <p className="text-sm font-medium text-grey-500">Views</p>
                 <p className="text-lg font-semibold">{summary.totalViews.toLocaleString()}</p>
               </div>
             </div>
@@ -307,7 +307,7 @@ const MediaGalleryManagement: React.FC = () => {
             <div className="flex items-center">
               <Clock className="h-8 w-8 text-yellow-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-500">Pending</p>
+                <p className="text-sm font-medium text-grey-500">Pending</p>
                 <p className="text-lg font-semibold">{summary.pendingConsent}</p>
               </div>
             </div>
@@ -317,7 +317,7 @@ const MediaGalleryManagement: React.FC = () => {
             <div className="flex items-center">
               <Shield className="h-8 w-8 text-red-600" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-500">High Sensitive</p>
+                <p className="text-sm font-medium text-grey-500">High Sensitive</p>
                 <p className="text-lg font-semibold">{summary.highSensitivity}</p>
               </div>
             </div>
@@ -325,9 +325,9 @@ const MediaGalleryManagement: React.FC = () => {
           
           <div className="bg-white p-4 rounded-lg shadow">
             <div className="flex items-center">
-              <EyeOff className="h-8 w-8 text-gray-600" />
+              <EyeOff className="h-8 w-8 text-grey-600" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-500">Hidden</p>
+                <p className="text-sm font-medium text-grey-500">Hidden</p>
                 <p className="text-lg font-semibold">{summary.hidden}</p>
               </div>
             </div>
@@ -388,13 +388,13 @@ const MediaGalleryManagement: React.FC = () => {
           {/* Search */}
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400 h-4 w-4" />
               <input
                 type="text"
                 placeholder="Search media files..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md"
+                className="w-full pl-10 pr-4 py-2 border border-grey-300 rounded-md"
               />
             </div>
           </div>
@@ -404,7 +404,7 @@ const MediaGalleryManagement: React.FC = () => {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md"
+              className="px-3 py-2 border border-grey-300 rounded-md"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -415,7 +415,7 @@ const MediaGalleryManagement: React.FC = () => {
             <select
               value={visibilityFilter}
               onChange={(e) => setVisibilityFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md"
+              className="px-3 py-2 border border-grey-300 rounded-md"
             >
               <option value="all">All Visibility</option>
               <option value="public">Public</option>
@@ -426,7 +426,7 @@ const MediaGalleryManagement: React.FC = () => {
             <select
               value={consentFilter}
               onChange={(e) => setConsentFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md"
+              className="px-3 py-2 border border-grey-300 rounded-md"
             >
               <option value="all">All Consent</option>
               <option value="granted">Granted</option>
@@ -437,7 +437,7 @@ const MediaGalleryManagement: React.FC = () => {
             <select
               value={sensitivityFilter}
               onChange={(e) => setSensitivityFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md"
+              className="px-3 py-2 border border-grey-300 rounded-md"
             >
               <option value="all">All Sensitivity</option>
               <option value="low">Low</option>
@@ -448,7 +448,7 @@ const MediaGalleryManagement: React.FC = () => {
             <select
               value={organizationFilter}
               onChange={(e) => setOrganizationFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md"
+              className="px-3 py-2 border border-grey-300 rounded-md"
             >
               <option value="all">All Organizations</option>
               <option value="snow-foundation">Snow Foundation</option>
@@ -461,7 +461,7 @@ const MediaGalleryManagement: React.FC = () => {
           <div className="flex gap-2">
             <button
               onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 flex items-center gap-2"
+              className="px-4 py-2 bg-grey-100 text-grey-700 rounded-md hover:bg-grey-200 flex items-center gap-2"
             >
               {viewMode === 'grid' ? <div className="w-4 h-4 grid grid-cols-2 gap-0.5"><div className="bg-current"></div><div className="bg-current"></div><div className="bg-current"></div><div className="bg-current"></div></div> : <div className="w-4 h-4 flex flex-col gap-0.5"><div className="bg-current h-1"></div><div className="bg-current h-1"></div><div className="bg-current h-1"></div></div>}
               {viewMode === 'grid' ? 'Grid' : 'List'}
@@ -469,7 +469,7 @@ const MediaGalleryManagement: React.FC = () => {
             
             <button
               onClick={fetchMedia}
-              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 flex items-center gap-2"
+              className="px-4 py-2 bg-grey-100 text-grey-700 rounded-md hover:bg-grey-200 flex items-center gap-2"
             >
               <RefreshCw className="h-4 w-4" />
               Refresh
@@ -489,7 +489,7 @@ const MediaGalleryManagement: React.FC = () => {
           {media.map((asset) => (
             <div key={asset.id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow">
               {/* Media Preview */}
-              <div className="relative aspect-video bg-gray-100 rounded-t-lg overflow-hidden">
+              <div className="relative aspect-video bg-grey-100 rounded-t-lg overflow-hidden">
                 {asset.mimeType.startsWith('image/') ? (
                   <img
                     src={asset.thumbnailUrl || asset.publicUrl}
@@ -501,7 +501,7 @@ const MediaGalleryManagement: React.FC = () => {
                     }}
                   />
                 ) : asset.mimeType.startsWith('video/') ? (
-                  <div className="flex items-center justify-center h-full bg-gray-800 cursor-pointer"
+                  <div className="flex items-center justify-center h-full bg-grey-800 cursor-pointer"
                        onClick={() => {
                          setPreviewMedia(asset)
                          setShowPreview(true)
@@ -517,8 +517,8 @@ const MediaGalleryManagement: React.FC = () => {
                     <Volume2 className="h-12 w-12 text-blue-600" />
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center h-full bg-gray-200">
-                    <FileText className="h-12 w-12 text-gray-500" />
+                  <div className="flex items-center justify-center h-full bg-grey-200">
+                    <FileText className="h-12 w-12 text-grey-500" />
                   </div>
                 )}
                 
@@ -557,15 +557,15 @@ const MediaGalleryManagement: React.FC = () => {
                 <h3 className="font-medium text-sm truncate" title={asset.title}>
                   {asset.title}
                 </h3>
-                <p className="text-xs text-gray-500 truncate" title={asset.uploaderName}>
+                <p className="text-xs text-grey-500 truncate" title={asset.uploaderName}>
                   by {asset.uploaderName}
                 </p>
                 
                 <div className="flex items-center justify-between mt-2 text-xs">
-                  <span className="text-gray-500">
+                  <span className="text-grey-500">
                     {formatFileSize(asset.fileSize)}
                   </span>
-                  <span className="text-gray-500">
+                  <span className="text-grey-500">
                     {asset.accessCount} views
                   </span>
                 </div>
@@ -586,29 +586,29 @@ const MediaGalleryManagement: React.FC = () => {
         /* List View */
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-grey-200">
+              <thead className="bg-grey-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider">
                     Media
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider">
                     Uploader
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider">
                     Details
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-grey-200">
                 {media.map((asset) => (
-                  <tr key={asset.id} className="hover:bg-gray-50">
+                  <tr key={asset.id} className="hover:bg-grey-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-12 w-12">
@@ -623,16 +623,16 @@ const MediaGalleryManagement: React.FC = () => {
                               }}
                             />
                           ) : (
-                            <div className="h-12 w-12 rounded bg-gray-200 flex items-center justify-center">
+                            <div className="h-12 w-12 rounded bg-grey-200 flex items-center justify-center">
                               {getMediaTypeIcon(asset.mimeType)}
                             </div>
                           )}
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900 truncate max-w-xs">
+                          <div className="text-sm font-medium text-grey-900 truncate max-w-xs">
                             {asset.title}
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-grey-500">
                             {asset.filename}
                           </div>
                         </div>
@@ -640,15 +640,15 @@ const MediaGalleryManagement: React.FC = () => {
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{asset.uploaderName}</div>
-                      <div className="text-sm text-gray-500">{asset.organizationName}</div>
+                      <div className="text-sm text-grey-900">{asset.uploaderName}</div>
+                      <div className="text-sm text-grey-500">{asset.organizationName}</div>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
+                      <div className="text-sm text-grey-900">
                         {formatFileSize(asset.fileSize)}
                       </div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-grey-500">
                         {asset.accessCount} views
                       </div>
                     </td>
@@ -658,7 +658,7 @@ const MediaGalleryManagement: React.FC = () => {
                         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded ${
                           asset.status === 'active' ? 'bg-green-100 text-green-800' :
                           asset.status === 'flagged' ? 'bg-red-100 text-red-800' :
-                          'bg-gray-100 text-gray-800'
+                          'bg-grey-100 text-grey-800'
                         }`}>
                           {asset.status}
                         </span>
@@ -720,9 +720,9 @@ const MediaGalleryManagement: React.FC = () => {
 
       {media.length === 0 && (
         <div className="text-center py-8">
-          <Image className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-2 text-sm font-medium text-gray-900">No media assets found</h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <Image className="mx-auto h-12 w-12 text-grey-400" />
+          <h3 className="mt-2 text-sm font-medium text-grey-900">No media assets found</h3>
+          <p className="mt-1 text-sm text-grey-500">
             Try adjusting your search or filters.
           </p>
         </div>
@@ -730,13 +730,13 @@ const MediaGalleryManagement: React.FC = () => {
 
       {/* Edit Modal */}
       {showEditModal && editingMedia && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-grey-600 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Edit Media Asset</h2>
               <button
                 onClick={() => setShowEditModal(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-grey-400 hover:text-grey-600"
               >
                 ×
               </button>
@@ -758,22 +758,22 @@ const MediaGalleryManagement: React.FC = () => {
             }}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                  <label className="block text-sm font-medium text-grey-700 mb-1">Title</label>
                   <input
                     type="text"
                     name="title"
                     defaultValue={editingMedia.title}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-grey-300 rounded-md"
                     required
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Visibility</label>
+                  <label className="block text-sm font-medium text-grey-700 mb-1">Visibility</label>
                   <select
                     name="visibility"
                     defaultValue={editingMedia.visibility}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-grey-300 rounded-md"
                   >
                     <option value="public">Public</option>
                     <option value="community">Community</option>
@@ -782,11 +782,11 @@ const MediaGalleryManagement: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Consent Status</label>
+                  <label className="block text-sm font-medium text-grey-700 mb-1">Consent Status</label>
                   <select
                     name="consentStatus"
                     defaultValue={editingMedia.consentStatus}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-grey-300 rounded-md"
                   >
                     <option value="pending">Pending</option>
                     <option value="granted">Granted</option>
@@ -795,11 +795,11 @@ const MediaGalleryManagement: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Cultural Sensitivity</label>
+                  <label className="block text-sm font-medium text-grey-700 mb-1">Cultural Sensitivity</label>
                   <select
                     name="culturalSensitivityLevel"
                     defaultValue={editingMedia.culturalSensitivityLevel}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-grey-300 rounded-md"
                   >
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -808,11 +808,11 @@ const MediaGalleryManagement: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                  <label className="block text-sm font-medium text-grey-700 mb-1">Status</label>
                   <select
                     name="status"
                     defaultValue={editingMedia.status}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-grey-300 rounded-md"
                   >
                     <option value="active">Active</option>
                     <option value="hidden">Hidden</option>
@@ -821,22 +821,22 @@ const MediaGalleryManagement: React.FC = () => {
                 </div>
                 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                  <label className="block text-sm font-medium text-grey-700 mb-1">Description</label>
                   <textarea
                     name="description"
                     defaultValue={editingMedia.description}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-grey-300 rounded-md"
                   />
                 </div>
                 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Alt Text</label>
+                  <label className="block text-sm font-medium text-grey-700 mb-1">Alt Text</label>
                   <input
                     type="text"
                     name="altText"
                     defaultValue={editingMedia.title}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-grey-300 rounded-md"
                   />
                 </div>
               </div>
@@ -845,7 +845,7 @@ const MediaGalleryManagement: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowEditModal(false)}
-                  className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+                  className="px-4 py-2 text-grey-700 bg-grey-100 rounded-md hover:bg-grey-200"
                 >
                   Cancel
                 </button>
@@ -869,7 +869,7 @@ const MediaGalleryManagement: React.FC = () => {
               <h2 className="text-xl font-semibold text-white">{previewMedia.title}</h2>
               <button
                 onClick={() => setShowPreview(false)}
-                className="text-white hover:text-gray-300 text-2xl"
+                className="text-white hover:text-grey-300 text-2xl"
               >
                 ×
               </button>
@@ -903,8 +903,8 @@ const MediaGalleryManagement: React.FC = () => {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <FileText className="mx-auto h-16 w-16 text-gray-400" />
-                  <p className="mt-2 text-gray-600">Preview not available for this file type</p>
+                  <FileText className="mx-auto h-16 w-16 text-grey-400" />
+                  <p className="mt-2 text-grey-600">Preview not available for this file type</p>
                   <a
                     href={previewMedia.publicUrl}
                     target="_blank"
@@ -916,7 +916,7 @@ const MediaGalleryManagement: React.FC = () => {
                 </div>
               )}
               
-              <div className="mt-4 text-sm text-gray-600">
+              <div className="mt-4 text-sm text-grey-600">
                 <p><strong>Filename:</strong> {previewMedia.filename}</p>
                 <p><strong>Size:</strong> {formatFileSize(previewMedia.fileSize)}</p>
                 <p><strong>Dimensions:</strong> {previewMedia.width} × {previewMedia.height}</p>
@@ -962,9 +962,9 @@ const getVisibilityIcon = (visibility: string) => {
     case 'community':
       return <Users className="h-4 w-4 text-blue-500" />
     case 'private':
-      return <Lock className="h-4 w-4 text-gray-500" />
+      return <Lock className="h-4 w-4 text-grey-500" />
     default:
-      return <Lock className="h-4 w-4 text-gray-500" />
+      return <Lock className="h-4 w-4 text-grey-500" />
   }
 }
 
@@ -977,7 +977,7 @@ const getConsentStatusColor = (status: string) => {
     case 'denied':
       return 'bg-red-100 text-red-800'
     default:
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-grey-100 text-grey-800'
   }
 }
 
@@ -990,7 +990,7 @@ const getSensitivityColor = (level: string) => {
     case 'high':
       return 'bg-red-100 text-red-800'
     default:
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-grey-100 text-grey-800'
   }
 }
 

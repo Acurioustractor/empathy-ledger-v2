@@ -23,7 +23,7 @@ import {
 
 interface CareerRecommendation {
   title: string;
-  organization: string;
+  organisation: string;
   match_score: number;
   required_skills: string[];
   storyteller_skills: string[];
@@ -37,7 +37,7 @@ interface CareerRecommendation {
 
 interface GrantOpportunity {
   title: string;
-  organization: string;
+  organisation: string;
   funding_amount: string;
   match_score: number;
   required_criteria: string[];
@@ -100,7 +100,7 @@ export function OpportunityMatchCard({
               ) : (
                 <Globe className="h-3 w-3" />
               )}
-              {opportunity.organization}
+              {opportunity.organisation}
             </CardDescription>
           </div>
           <div className="flex flex-col items-end gap-2">
@@ -132,7 +132,7 @@ export function OpportunityMatchCard({
           <div>
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium">Match Quality</span>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-grey-500">
                 {getMatchScoreLabel(opportunity.match_score)}
               </span>
             </div>
@@ -175,7 +175,7 @@ export function OpportunityMatchCard({
                     {opportunity.gap_analysis.slice(0, 3).map((gap, i) => (
                       <div key={i} className="flex items-start gap-2">
                         <Lightbulb className="h-3 w-3 text-yellow-500 mt-1 flex-shrink-0" />
-                        <span className="text-xs text-gray-600">{gap}</span>
+                        <span className="text-xs text-grey-600">{gap}</span>
                       </div>
                     ))}
                   </div>
@@ -189,7 +189,7 @@ export function OpportunityMatchCard({
                     <Target className="h-3 w-3 text-blue-500" />
                     Application Strategy
                   </h4>
-                  <p className="text-xs text-gray-600 bg-blue-50 p-3 rounded border-l-2 border-blue-500">
+                  <p className="text-xs text-grey-600 bg-blue-50 p-3 rounded border-l-2 border-blue-500">
                     {opportunity.application_strategy}
                   </p>
                 </div>
@@ -202,7 +202,7 @@ export function OpportunityMatchCard({
                     <Lightbulb className="h-3 w-3 text-blue-500" />
                     Suggested Project Approach
                   </h4>
-                  <p className="text-xs text-gray-600 bg-blue-50 p-3 rounded border-l-2 border-blue-500">
+                  <p className="text-xs text-grey-600 bg-blue-50 p-3 rounded border-l-2 border-blue-500">
                     {opportunity.suggested_project}
                   </p>
                 </div>
@@ -215,7 +215,7 @@ export function OpportunityMatchCard({
                     <Heart className="h-3 w-3 text-purple-500" />
                     Cultural Alignment
                   </h4>
-                  <p className="text-xs text-gray-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
+                  <p className="text-xs text-grey-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
                     {opportunity.cultural_fit}
                   </p>
                 </div>
@@ -228,7 +228,7 @@ export function OpportunityMatchCard({
                     <Users className="h-3 w-3 text-purple-500" />
                     Community Impact Potential
                   </h4>
-                  <p className="text-xs text-gray-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
+                  <p className="text-xs text-grey-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
                     {opportunity.community_impact_potential}
                   </p>
                 </div>
@@ -238,7 +238,7 @@ export function OpportunityMatchCard({
 
           {/* Footer with deadline and actions */}
           <div className="flex items-center justify-between pt-2 border-t">
-            <div className="flex items-center gap-4 text-xs text-gray-500">
+            <div className="flex items-center gap-4 text-xs text-grey-500">
               {isCareer(opportunity) && opportunity.salary_range && (
                 <div className="flex items-center gap-1">
                   <DollarSign className="h-3 w-3" />

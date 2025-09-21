@@ -164,7 +164,7 @@ export class StoryConnectionAnalysisSystem {
       content: `Analyze connections for story ${request.focal_story_id}`,
       user_id: request.user_id,
       context_type: 'story',
-      operation: 'analyze'
+      operation: 'analyse'
     }, async () => {
       
       // Get the focal story
@@ -251,7 +251,7 @@ export class StoryConnectionAnalysisSystem {
       content: `Find narrative threads for theme: ${themeOrTeaching}`,
       user_id: userId,
       context_type: 'story',
-      operation: 'analyze'
+      operation: 'analyse'
     }, async () => {
       
       // Search for stories related to the theme
@@ -457,7 +457,7 @@ CONNECTION ANALYSIS REQUIREMENTS:
 1. Identify direct thematic and cultural connections to the focal story
 2. Group stories into meaningful thematic clusters that support learning and healing
 3. Discover narrative threads that create teaching progressions or healing journeys  
-4. Recognize cultural patterns that honor Indigenous knowledge systems
+4. Recognize cultural patterns that honour Indigenous knowledge systems
 5. Consider appropriate sequencing for different audiences (children, youth, adults, elders)
 6. Respect sacred knowledge and ceremonial content protocols
 
@@ -521,7 +521,7 @@ JOURNEY DESIGN PRINCIPLES:
 For ${journeyType} journey:
 ${this.getJourneyTypeGuidance(journeyType)}
 
-Create a thoughtful journey path that serves the user's needs while honoring Indigenous wisdom traditions.`
+Create a thoughtful journey path that serves the user's needs while honouring Indigenous wisdom traditions.`
 
     const result = await generateObject({
       model: this.model,

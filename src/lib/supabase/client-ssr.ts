@@ -14,9 +14,9 @@ if (!supabaseAnonKey) {
 }
 
 // Server-side Supabase client for App Router
-export const createSupabaseServerClient = async () => {
-  const cookieStore = await cookies()
-  
+export const createSupabaseServerClient = () => {
+  const cookieStore = cookies()
+
   return createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
     cookies: {
       getAll() {
@@ -52,7 +52,7 @@ export const createSupabaseServerClient = async () => {
 
 // For middleware usage
 export const createSupabaseMiddlewareClient = (request: Request) => {
-  let supabaseResponse = new Response()
+  const supabaseResponse = new Response()
 
   const supabase = createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
     cookies: {

@@ -41,7 +41,7 @@ export interface AIRequest {
   user_id: string
   context_type: 'story' | 'profile' | 'media' | 'search'
   cultural_metadata?: CulturalContext
-  operation: 'analyze' | 'generate' | 'enhance' | 'recommend'
+  operation: 'analyse' | 'generate' | 'enhance' | 'recommend'
 }
 
 export class CulturalSafetyAI {
@@ -210,7 +210,7 @@ User Cultural Affiliations: ${userContext.cultural_affiliations?.join(', ') || '
 User is Elder: ${userContext.is_elder ? 'Yes' : 'No'}
 User is Traditional Knowledge Keeper: ${userContext.traditional_knowledge_keeper ? 'Yes' : 'No'}
 
-Content to analyze:
+Content to analyse:
 "${request.content.substring(0, 2000)}${request.content.length > 2000 ? '...' : ''}"
 
 Provide analysis in this exact JSON format:
@@ -338,7 +338,7 @@ Focus on:
         return permissions.allow_ai_enhancement !== false
       case 'generate':
         return permissions.allow_ai_generation !== false
-      case 'analyze':
+      case 'analyse':
         return permissions.allow_ai_analysis !== false
       default:
         return true

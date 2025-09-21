@@ -1,7 +1,7 @@
 /**
  * Content Enhancement System for Empathy Ledger
  * 
- * Uses AI SDK v5 to analyze and enhance story content while
+ * Uses AI SDK v5 to analyse and enhance story content while
  * maintaining strict cultural safety protocols and Indigenous
  * data sovereignty principles.
  * 
@@ -264,7 +264,7 @@ CULTURAL SENSITIVITY GUIDELINES:
 - Avoid Western-centric categorizations
 - Honor traditional storytelling purposes (teaching, healing, ceremony, entertainment)
 - Consider community vs. individual themes appropriately
-- Recognize land-based and relationship-centered themes
+- Recognize land-based and relationship-centred themes
 
 Extract themes that would help community members find stories relevant to their experiences and cultural needs.`
 
@@ -285,7 +285,7 @@ TITLE: ${request.title}
 CONTENT: ${request.content.substring(0, 3000)}${request.content.length > 3000 ? '...' : ''}
 
 METADATA REQUIREMENTS:
-1. Create a respectful, engaging summary that honors the storyteller's voice
+1. Create a respectful, engaging summary that honours the storyteller's voice
 2. Identify key messages and teachings within the story
 3. Determine appropriate emotional tone using culturally sensitive categories
 4. Assess cultural significance level with respect for sacred content
@@ -366,7 +366,7 @@ CONTENT PREVIEW: ${request.content.substring(0, 1000)}
 
 SEO REQUIREMENTS:
 1. Suggest title variations that are search-friendly while maintaining cultural respect
-2. Create meta descriptions that honor the storyteller and story purpose
+2. Create meta descriptions that honour the storyteller and story purpose
 3. Identify keywords that help appropriate audiences find this content
 4. Suggest alt text that provides meaningful descriptions for accessibility
 5. Create social media snippets that respectfully represent the content

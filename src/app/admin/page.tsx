@@ -1,7 +1,5 @@
 import { Metadata } from 'next'
-import AdminDashboard from '@/components/admin/AdminDashboard'
-import Header from '@/components/layout/header'
-import Footer from '@/components/layout/footer'
+import AdminDashboard from '@/components/admin/AdminDashboard-simple'
 
 export const metadata: Metadata = {
   title: 'Admin Dashboard | Empathy Ledger',
@@ -9,15 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function AdminPage() {
-  return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
-      <div className="container mx-auto px-4 py-8">
-        <AdminDashboard />
-      </div>
-
-      <Footer />
-    </div>
-  )
+  return <AdminDashboard />
 }

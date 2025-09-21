@@ -161,9 +161,9 @@ const ContentModeration: React.FC = () => {
     switch (status) {
       case 'review': return <Clock className="w-4 h-4 text-yellow-500" />
       case 'published': return <CheckCircle className="w-4 h-4 text-green-500" />
-      case 'draft': return <XCircle className="w-4 h-4 text-gray-500" />
+      case 'draft': return <XCircle className="w-4 h-4 text-grey-500" />
       case 'archived': return <XCircle className="w-4 h-4 text-red-500" />
-      default: return <Clock className="w-4 h-4 text-gray-500" />
+      default: return <Clock className="w-4 h-4 text-grey-500" />
     }
   }
 
@@ -171,9 +171,9 @@ const ContentModeration: React.FC = () => {
     switch (status) {
       case 'review': return 'bg-yellow-100 text-yellow-800'
       case 'published': return 'bg-green-100 text-green-800'
-      case 'draft': return 'bg-gray-100 text-gray-800'
+      case 'draft': return 'bg-grey-100 text-grey-800'
       case 'archived': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
+      default: return 'bg-grey-100 text-grey-800'
     }
   }
 
@@ -182,7 +182,7 @@ const ContentModeration: React.FC = () => {
       case 'high': return 'text-red-600'
       case 'medium': return 'text-yellow-600'
       case 'low': return 'text-green-600'
-      default: return 'text-gray-600'
+      default: return 'text-grey-600'
     }
   }
 
@@ -191,7 +191,7 @@ const ContentModeration: React.FC = () => {
       case 'high': return 'bg-red-100 text-red-800'
       case 'medium': return 'bg-yellow-100 text-yellow-800'
       case 'low': return 'bg-green-100 text-green-800'
-      default: return 'bg-gray-100 text-gray-800'
+      default: return 'bg-grey-100 text-grey-800'
     }
   }
 

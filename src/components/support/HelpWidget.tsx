@@ -135,7 +135,7 @@ export default function HelpWidget() {
     if (lowerMessage.includes('story') || lowerMessage.includes('publish')) {
       return "I can help with story publishing! To publish a story: 1) Go to Stories > Create, 2) Write your story, 3) Select visibility settings, 4) Click Publish. Need help with a specific step?"
     } else if (lowerMessage.includes('media') || lowerMessage.includes('photo') || lowerMessage.includes('video')) {
-      return "For media management, visit your Media Hub from the storyteller dashboard. You can upload, organize, and control visibility of all your photos and videos there. Would you like a walkthrough?"
+      return "For media management, visit your Media Hub from the storyteller dashboard. You can upload, organise, and control visibility of all your photos and videos there. Would you like a walkthrough?"
     } else if (lowerMessage.includes('profile') || lowerMessage.includes('edit')) {
       return "To edit your profile: 1) Click your name/avatar, 2) Select 'Edit Profile', 3) Update your information, 4) Save changes. You can also access this from your storyteller dashboard."
     } else if (lowerMessage.includes('help') || lowerMessage.includes('support')) {
@@ -204,7 +204,7 @@ export default function HelpWidget() {
 
   if (!isOpen) {
     return (
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-8 right-8 z-40">
         <Button
           size="lg"
           onClick={() => setIsOpen(true)}
@@ -217,7 +217,7 @@ export default function HelpWidget() {
   }
 
   return (
-    <div className={`fixed bottom-6 right-6 z-50 transition-all duration-300 ${
+    <div className={`fixed bottom-8 right-8 z-40 transition-all duration-300 ${
       isMinimized ? 'w-80 h-16' : 'w-96 h-[600px]'
     }`}>
       <Card className="h-full flex flex-col shadow-2xl border-2 border-orange-200">
@@ -225,7 +225,7 @@ export default function HelpWidget() {
         <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-orange-50 to-orange-100">
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <h3 className="font-semibold text-gray-900">Support & Help</h3>
+            <h3 className="font-semibold text-grey-900">Support & Help</h3>
           </div>
           <div className="flex items-center gap-1">
             <Button
@@ -277,13 +277,13 @@ export default function HelpWidget() {
                           message.type === 'user' 
                             ? 'bg-orange-600 text-white rounded-l-lg rounded-tr-lg' 
                             : message.type === 'bot'
-                            ? 'bg-blue-50 text-gray-900 border rounded-r-lg rounded-tl-lg'
-                            : 'bg-green-50 text-gray-900 border rounded-r-lg rounded-tl-lg'
+                            ? 'bg-blue-50 text-grey-900 border rounded-r-lg rounded-tl-lg'
+                            : 'bg-green-50 text-grey-900 border rounded-r-lg rounded-tl-lg'
                         } p-3`}>
                           <div className="flex items-start gap-2">
                             {message.type !== 'user' && (
                               <Avatar className="w-6 h-6">
-                                <AvatarFallback className="bg-gray-100 text-xs">
+                                <AvatarFallback className="bg-grey-100 text-xs">
                                   {message.type === 'bot' ? <Bot className="w-3 h-3" /> : <User className="w-3 h-3" />}
                                 </AvatarFallback>
                               </Avatar>
@@ -308,11 +308,11 @@ export default function HelpWidget() {
                     
                     {isTyping && (
                       <div className="flex justify-start">
-                        <div className="bg-gray-100 rounded-r-lg rounded-tl-lg p-3">
+                        <div className="bg-grey-100 rounded-r-lg rounded-tl-lg p-3">
                           <div className="flex items-center gap-1">
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                            <div className="w-2 h-2 bg-grey-400 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-grey-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-2 h-2 bg-grey-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                           </div>
                         </div>
                       </div>
@@ -380,7 +380,7 @@ export default function HelpWidget() {
                             {ticket.status}
                           </Badge>
                         </div>
-                        <div className="flex items-center justify-between text-xs text-gray-500">
+                        <div className="flex items-center justify-between text-xs text-grey-500">
                           <span>#{ticket.id} • {ticket.category}</span>
                           <span>{ticket.message_count} messages</span>
                         </div>
@@ -397,53 +397,53 @@ export default function HelpWidget() {
                     <div className="text-center py-4">
                       <BookOpen className="w-12 h-12 text-orange-600 mx-auto mb-3" />
                       <h3 className="font-semibold mb-2">How can we help?</h3>
-                      <p className="text-sm text-gray-600">Quick answers to common questions</p>
+                      <p className="text-sm text-grey-600">Quick answers to common questions</p>
                     </div>
 
                     <div className="space-y-3">
-                      <Card className="p-3 cursor-pointer hover:bg-gray-50">
+                      <Card className="p-3 cursor-pointer hover:bg-grey-50">
                         <div className="flex items-start gap-3">
                           <FileText className="w-5 h-5 text-blue-600 mt-0.5" />
                           <div>
                             <h4 className="font-medium text-sm">How to publish a story</h4>
-                            <p className="text-xs text-gray-600">Step-by-step guide for story creation</p>
+                            <p className="text-xs text-grey-600">Step-by-step guide for story creation</p>
                           </div>
                         </div>
                       </Card>
 
-                      <Card className="p-3 cursor-pointer hover:bg-gray-50">
+                      <Card className="p-3 cursor-pointer hover:bg-grey-50">
                         <div className="flex items-start gap-3">
                           <Video className="w-5 h-5 text-purple-600 mt-0.5" />
                           <div>
                             <h4 className="font-medium text-sm">Managing your media</h4>
-                            <p className="text-xs text-gray-600">Upload and organize photos and videos</p>
+                            <p className="text-xs text-grey-600">Upload and organise photos and videos</p>
                           </div>
                         </div>
                       </Card>
 
-                      <Card className="p-3 cursor-pointer hover:bg-gray-50">
+                      <Card className="p-3 cursor-pointer hover:bg-grey-50">
                         <div className="flex items-start gap-3">
                           <User className="w-5 h-5 text-green-600 mt-0.5" />
                           <div>
                             <h4 className="font-medium text-sm">Profile settings</h4>
-                            <p className="text-xs text-gray-600">Update your information and preferences</p>
+                            <p className="text-xs text-grey-600">Update your information and preferences</p>
                           </div>
                         </div>
                       </Card>
 
-                      <Card className="p-3 cursor-pointer hover:bg-gray-50">
+                      <Card className="p-3 cursor-pointer hover:bg-grey-50">
                         <div className="flex items-start gap-3">
                           <Zap className="w-5 h-5 text-orange-600 mt-0.5" />
                           <div>
                             <h4 className="font-medium text-sm">AI Story Creator</h4>
-                            <p className="text-xs text-gray-600">Using AI to help write your stories</p>
+                            <p className="text-xs text-grey-600">Using AI to help write your stories</p>
                           </div>
                         </div>
                       </Card>
 
                       <div className="border-t pt-3 mt-4">
                         <div className="text-center">
-                          <p className="text-xs text-gray-600 mb-3">Still need help?</p>
+                          <p className="text-xs text-grey-600 mb-3">Still need help?</p>
                           <div className="grid grid-cols-2 gap-2">
                             <Button size="sm" variant="outline" className="text-xs">
                               <Mail className="w-3 h-3 mr-1" />

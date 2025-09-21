@@ -95,8 +95,8 @@ export default function StorytellerInsightsPage() {
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
               <Brain className="h-12 w-12 text-purple-600 mx-auto mb-4 animate-pulse" />
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading Insights...</h2>
-              <p className="text-gray-600">Analyzing your personal narrative patterns</p>
+              <h2 className="text-xl font-semibold text-grey-900 mb-2">Loading Insights...</h2>
+              <p className="text-grey-600">Analyzing your personal narrative patterns</p>
             </div>
           </div>
         </div>
@@ -178,10 +178,10 @@ export default function StorytellerInsightsPage() {
           
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-3xl font-bold text-grey-900 mb-2">
                 Personal Insights
               </h1>
-              <p className="text-gray-600">
+              <p className="text-grey-600">
                 Deep understanding from {storyteller?.display_name}'s life stories
               </p>
             </div>
@@ -231,7 +231,7 @@ export default function StorytellerInsightsPage() {
                   <div key={index} className="p-4 bg-gradient-to-r from-red-50 to-pink-50 rounded-lg border border-red-100">
                     <div className="flex items-center gap-3">
                       <div className="w-3 h-3 bg-red-500 rounded-full flex-shrink-0"></div>
-                      <span className="font-medium text-gray-900">{value}</span>
+                      <span className="font-medium text-grey-900">{value}</span>
                     </div>
                   </div>
                 ))}
@@ -257,8 +257,8 @@ export default function StorytellerInsightsPage() {
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
                       <div>
-                        <h3 className="font-semibold text-gray-900 mb-2">{theme}</h3>
-                        <p className="text-sm text-gray-600">
+                        <h3 className="font-semibold text-grey-900 mb-2">{theme}</h3>
+                        <p className="text-sm text-grey-600">
                           A central theme woven throughout your life experiences
                         </p>
                       </div>
@@ -287,7 +287,7 @@ export default function StorytellerInsightsPage() {
                   {insights.strengths.map((strength, index) => (
                     <div key={index} className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
                       <Sparkles className="h-4 w-4 text-yellow-600 flex-shrink-0" />
-                      <span className="text-sm font-medium text-gray-900">{strength}</span>
+                      <span className="text-sm font-medium text-grey-900">{strength}</span>
                     </div>
                   ))}
                 </div>
@@ -310,7 +310,7 @@ export default function StorytellerInsightsPage() {
                   {insights.growth_areas.map((area, index) => (
                     <div key={index} className="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
                       <Lightbulb className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm font-medium text-gray-900">{area}</span>
+                      <span className="text-sm font-medium text-grey-900">{area}</span>
                     </div>
                   ))}
                 </div>
@@ -336,7 +336,7 @@ export default function StorytellerInsightsPage() {
                     <div key={index} className="p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg border border-purple-100">
                       <div className="flex items-center gap-3">
                         <div className="w-3 h-3 bg-purple-500 rounded-full flex-shrink-0"></div>
-                        <span className="text-sm font-medium text-gray-900">{marker}</span>
+                        <span className="text-sm font-medium text-grey-900">{marker}</span>
                       </div>
                     </div>
                   ))}
@@ -362,7 +362,7 @@ export default function StorytellerInsightsPage() {
                   <div key={index} className="p-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg border border-indigo-100">
                     <div className="flex items-start gap-3">
                       <MessageCircle className="h-4 w-4 text-indigo-500 flex-shrink-0 mt-1" />
-                      <span className="text-sm text-gray-900">{contribution}</span>
+                      <span className="text-sm text-grey-900">{contribution}</span>
                     </div>
                   </div>
                 ))}
@@ -394,7 +394,7 @@ export default function StorytellerInsightsPage() {
 
           {/* Generation Timestamp */}
           <div className="text-center py-4">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-grey-500">
               Insights generated on {new Date(insights.generated_at).toLocaleDateString()} at {new Date(insights.generated_at).toLocaleTimeString()}
             </p>
           </div>

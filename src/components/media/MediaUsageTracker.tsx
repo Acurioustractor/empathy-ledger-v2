@@ -111,8 +111,8 @@ export default function MediaUsageTracker({ mediaId, className = '' }: MediaUsag
     switch (role) {
       case 'cover': return 'bg-purple-100 text-purple-800'
       case 'primary': return 'bg-blue-100 text-blue-800'
-      case 'supporting': return 'bg-gray-100 text-gray-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'supporting': return 'bg-grey-100 text-grey-800'
+      default: return 'bg-grey-100 text-grey-800'
     }
   }
 
@@ -149,8 +149,8 @@ export default function MediaUsageTracker({ mediaId, className = '' }: MediaUsag
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
-            <RefreshCw className="w-6 h-6 animate-spin text-gray-400 mr-2" />
-            <span className="text-gray-600">Loading usage data...</span>
+            <RefreshCw className="w-6 h-6 animate-spin text-grey-400 mr-2" />
+            <span className="text-grey-600">Loading usage data...</span>
           </div>
         </CardContent>
       </Card>
@@ -211,30 +211,30 @@ export default function MediaUsageTracker({ mediaId, className = '' }: MediaUsag
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="text-center">
             <div className="text-2xl font-bold text-orange-600">{data.summary.total_usage}</div>
-            <div className="text-sm text-gray-600">Total Uses</div>
+            <div className="text-sm text-grey-600">Total Uses</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-blue-600">{data.summary.total_views}</div>
-            <div className="text-sm text-gray-600">Total Views</div>
+            <div className="text-sm text-grey-600">Total Views</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-green-600">
               {Object.keys(data.summary.usage_by_type).length}
             </div>
-            <div className="text-sm text-gray-600">Content Types</div>
+            <div className="text-sm text-grey-600">Content Types</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-purple-600">
               {data.summary.last_used ? new Date(data.summary.last_used).toLocaleDateString() : 'Never'}
             </div>
-            <div className="text-sm text-gray-600">Last Used</div>
+            <div className="text-sm text-grey-600">Last Used</div>
           </div>
         </div>
 
         {/* Usage by Type */}
         {Object.keys(data.summary.usage_by_type).length > 0 && (
           <div className="mb-6">
-            <h4 className="text-sm font-medium text-gray-700 mb-3">Usage by Content Type</h4>
+            <h4 className="text-sm font-medium text-grey-700 mb-3">Usage by Content Type</h4>
             <div className="flex flex-wrap gap-2">
               {Object.entries(data.summary.usage_by_type).map(([type, count]) => (
                 <Badge key={type} variant="outline" className="capitalize">
@@ -249,18 +249,18 @@ export default function MediaUsageTracker({ mediaId, className = '' }: MediaUsag
         {/* Detailed Usage List */}
         {data.usage.length === 0 ? (
           <div className="text-center py-8">
-            <FileImage className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-            <h3 className="text-lg font-medium text-gray-900 mb-1">No Usage Found</h3>
-            <p className="text-gray-500">This media asset is not currently used in any content.</p>
+            <FileImage className="w-12 h-12 text-grey-300 mx-auto mb-3" />
+            <h3 className="text-lg font-medium text-grey-900 mb-1">No Usage Found</h3>
+            <p className="text-grey-500">This media asset is not currently used in any content.</p>
           </div>
         ) : (
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-3">Where This Media is Used</h4>
+            <h4 className="text-sm font-medium text-grey-700 mb-3">Where This Media is Used</h4>
             <div className="space-y-3">
               {data.usage.map((usage) => (
                 <div 
                   key={usage.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="flex items-center justify-between p-3 bg-grey-50 rounded-lg hover:bg-grey-100 transition-colours"
                 >
                   <div className="flex items-center space-x-3 flex-1 min-w-0">
                     <div className="flex-shrink-0">
@@ -271,7 +271,7 @@ export default function MediaUsageTracker({ mediaId, className = '' }: MediaUsag
                       <div className="flex items-center space-x-2">
                         <Link 
                           href={getContentLink(usage)}
-                          className="text-sm font-medium text-gray-900 hover:text-orange-600 truncate"
+                          className="text-sm font-medium text-grey-900 hover:text-orange-600 truncate"
                         >
                           {getContentTitle(usage)}
                         </Link>
@@ -281,10 +281,10 @@ export default function MediaUsageTracker({ mediaId, className = '' }: MediaUsag
                       </div>
                       
                       {usage.usage_context && (
-                        <p className="text-xs text-gray-600 truncate">{usage.usage_context}</p>
+                        <p className="text-xs text-grey-600 truncate">{usage.usage_context}</p>
                       )}
                       
-                      <div className="flex items-center space-x-3 text-xs text-gray-500 mt-1">
+                      <div className="flex items-center space-x-3 text-xs text-grey-500 mt-1">
                         <span className="capitalize">{getUsageTypeLabel(usage.used_in_type)}</span>
                         <span>•</span>
                         <span className="flex items-center">
@@ -312,8 +312,8 @@ export default function MediaUsageTracker({ mediaId, className = '' }: MediaUsag
         )}
 
         {/* Media Info */}
-        <div className="mt-6 pt-4 border-t border-gray-200">
-          <div className="text-xs text-gray-500">
+        <div className="mt-6 pt-4 border-t border-grey-200">
+          <div className="text-xs text-grey-500">
             Tracking usage for: <span className="font-medium">{data.media_asset.title || data.media_asset.filename}</span>
           </div>
         </div>

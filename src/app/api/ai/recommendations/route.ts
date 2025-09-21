@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Verify user exists and get their context
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { data: user, error: userError } = await supabase
       .from('profiles')
       .select('id, display_name, cultural_affiliations, is_elder')
@@ -42,6 +42,88 @@ export async function GET(request: NextRequest) {
     let context = {}
 
     switch (type) {
+      case 'similar_storytellers':
+        // Get similar storytellers based on profile
+        const { data: currentUser } = await supabase
+          .from('profiles')
+          .select('cultural_background, specialties, cultural_affiliations')
+          .eq('id', userId)
+          .single()
+
+        if (currentUser) {
+          const { data: similarStorytellers } = await supabase
+            .from('profiles')
+            .select(`
+              id,
+              display_name,
+              bio,
+              cultural_background,
+              specialties,
+              story_count:stories(count),
+              profile:profiles(avatar_url),
+              projects:project_participants(
+                role,
+                project:projects(id, name)
+              ),
+              organisations:organization_members(
+                role,
+                organisation:organisations(id, name)
+              )
+            `)
+            .neq('id', userId)
+            .not('display_name', 'is', null)
+            .limit(maxResults * 2)
+
+          // Simple similarity scoring based on cultural background and specialties
+          const scored = (similarStorytellers || []).map(storyteller => {
+            let score = 0
+
+            // Cultural background match
+            if (storyteller.cultural_background === currentUser.cultural_background) {
+              score += 3
+            }
+
+            // Specialty overlap
+            const userSpecialties = currentUser.specialties || []
+            const storytellerSpecialties = storyteller.specialties || []
+            const overlap = userSpecialties.filter(s => storytellerSpecialties.includes(s)).length
+            score += overlap * 2
+
+            // Random factor for diversity
+            score += Math.random()
+
+            return { ...storyteller, similarity_score: score }
+          })
+
+          recommendations = scored
+            .sort((a, b) => b.similarity_score - a.similarity_score)
+            .slice(0, maxResults)
+            .map(s => ({
+              id: s.id,
+              display_name: s.display_name,
+              bio: s.bio,
+              cultural_background: s.cultural_background,
+              specialties: s.specialties,
+              story_count: Array.isArray(s.story_count) ? s.story_count.length : 0,
+              profile: s.profile,
+              projects: s.projects || [],
+              organisations: s.organisations || [],
+              featured: false,
+              elder_status: false,
+              status: 'active'
+            }))
+        }
+
+        context = {
+          type: 'similar_storytellers',
+          description: 'Storytellers with similar backgrounds and expertise',
+          user_context: {
+            cultural_background: currentUser?.cultural_background,
+            specialties: currentUser?.specialties
+          }
+        }
+        break
+
       case 'personalized':
         recommendations = await getPersonalizedRecommendations(userId, maxResults)
         context = {
@@ -139,7 +221,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify user exists
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServerClient()
     const { data: user, error: userError } = await supabase
       .from('profiles')
       .select('id, display_name, cultural_affiliations, is_elder')
