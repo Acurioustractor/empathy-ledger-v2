@@ -10,11 +10,9 @@
  * - Make it relevant to the actual work being done
  */
 
-import OpenAI from 'openai'
+import { createLLMClient } from './llm-client'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-})
+const llm = createLLMClient()
 
 export interface ProjectOutcome {
   category: string // e.g., "Sleep Quality", "Manufacturing Capacity"
@@ -127,18 +125,17 @@ Return JSON:
 }`
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+    const response = await llm.createChatCompletion({
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
       ],
       temperature: 0.3,
-      max_tokens: 4000,
-      response_format: { type: 'json_object' }
+      maxTokens: 4000,
+      responseFormat: 'json'
     })
 
-    const result = JSON.parse(completion.choices[0].message.content || '{}')
+    const result = JSON.parse(response)
 
     return {
       project_name: projectName,

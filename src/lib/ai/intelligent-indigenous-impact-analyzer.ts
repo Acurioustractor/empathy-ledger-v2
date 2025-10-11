@@ -11,11 +11,9 @@
  * - System Transformation
  */
 
-import OpenAI from 'openai'
+import { createLLMClient } from './llm-client'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-})
+const llm = createLLMClient()
 
 export interface ContextualImpactAssessment {
   dimension: 'relationship_strengthening' | 'cultural_continuity' | 'community_empowerment' | 'system_transformation'
@@ -119,18 +117,17 @@ Return JSON:
 }`
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini', // Temporarily using mini to avoid rate limits (still much better than keyword matching!)
+    const response = await llm.createChatCompletion({
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
       ],
       temperature: 0.3,
-      max_tokens: 2500,
-      response_format: { type: 'json_object' }
+      maxTokens: 2500,
+      responseFormat: 'json'
     })
 
-    const result = JSON.parse(completion.choices[0].message.content || '{}')
+    const result = JSON.parse(response)
 
     return {
       assessments: result.assessments || [],

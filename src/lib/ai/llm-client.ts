@@ -20,29 +20,51 @@ interface LLMOptions {
 }
 
 /**
- * Call Ollama API (FREE, UNLIMITED, runs locally in Docker)
- * Docker endpoint: http://localhost:11434
+ * Call Ollama API (FREE, UNLIMITED, runs locally)
+ * Local endpoint: http://localhost:11434
  */
 async function callOllama(
   messages: LLMMessage[],
   options: LLMOptions = {}
 ): Promise<LLMResponse> {
   const {
-    model = 'llama3.1:8b', // 8B model - fast, good quality
+    model = process.env.OLLAMA_MODEL || 'llama3.1:8b',
     temperature = 0.7,
+    response_format
   } = options
 
-  const response = await fetch('http://localhost:11434/api/chat', {
+  // For JSON requests, add explicit JSON format instruction to system message
+  let modifiedMessages = [...messages]
+  if (response_format?.type === 'json_object') {
+    const systemMessage = modifiedMessages.find(m => m.role === 'system')
+    if (systemMessage) {
+      systemMessage.content += '\n\nIMPORTANT: You MUST respond with valid JSON only. No explanatory text before or after the JSON. Just pure JSON.'
+    } else {
+      modifiedMessages.unshift({
+        role: 'system',
+        content: 'You MUST respond with valid JSON only. No explanatory text before or after the JSON. Just pure JSON.'
+      })
+    }
+
+    // Also add to last user message as reinforcement
+    const lastUserMsg = [...modifiedMessages].reverse().find(m => m.role === 'user')
+    if (lastUserMsg) {
+      lastUserMsg.content += '\n\nRespond with ONLY valid JSON. No other text.'
+    }
+  }
+
+  const response = await fetch(`${process.env.OLLAMA_BASE_URL || 'http://localhost:11434'}/api/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model,
-      messages,
+      messages: modifiedMessages,
       stream: false,
       options: {
         temperature,
         num_predict: options.max_tokens
-      }
+      },
+      format: response_format?.type === 'json_object' ? 'json' : undefined
     })
   })
 
@@ -51,9 +73,15 @@ async function callOllama(
   }
 
   const data = await response.json()
+  let content = data.message.content
+
+  // Clean up response if it has markdown code blocks
+  if (response_format?.type === 'json_object') {
+    content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+  }
 
   return {
-    content: data.message.content,
+    content,
     model: data.model,
     tokens_used: data.eval_count || 0
   }
@@ -194,5 +222,42 @@ export async function getOllamaModels(): Promise<string[]> {
     return data.models?.map((m: any) => m.name) || []
   } catch {
     return []
+  }
+}
+
+/**
+ * Create an LLM client with OpenAI-compatible interface
+ * This allows easy migration from OpenAI to Ollama
+ */
+export function createLLMClient() {
+  return {
+    async createChatCompletion(options: {
+      messages: Array<{ role: string; content: string }>
+      temperature?: number
+      maxTokens?: number
+      responseFormat?: 'json' | 'text'
+    }): Promise<string> {
+      const provider = process.env.LLM_PROVIDER || 'openai'
+
+      if (provider === 'ollama') {
+        console.log('🦙 Using Ollama (FREE, unlimited)')
+      } else {
+        console.log('🔑 Using OpenAI (paid, rate-limited)')
+      }
+
+      const llmMessages: LLMMessage[] = options.messages.map(m => ({
+        role: m.role as 'system' | 'user' | 'assistant',
+        content: m.content
+      }))
+
+      const llmOptions: LLMOptions = {
+        temperature: options.temperature || 0.7,
+        max_tokens: options.maxTokens,
+        response_format: options.responseFormat === 'json' ? { type: 'json_object' } : undefined
+      }
+
+      const response = await callLLM(llmMessages, llmOptions)
+      return response.content
+    }
   }
 }

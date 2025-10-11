@@ -9,11 +9,9 @@
  * 5. Extracts complete, coherent thoughts
  */
 
-import OpenAI from 'openai'
+import { createLLMClient } from './llm-client'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-})
+const llm = createLLMClient()
 
 export interface IntelligentQuote {
   text: string
@@ -161,18 +159,17 @@ Return a JSON object with:
 Extract up to ${maxQuotes} of the BEST quotes. Quality over quantity.`
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini', // Temporarily using mini to avoid rate limits (still much better than regex!)
+    const response = await llm.createChatCompletion({
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
       ],
       temperature: 0.3,
-      max_tokens: 2000,
-      response_format: { type: 'json_object' }
+      maxTokens: 2000,
+      responseFormat: 'json'
     })
 
-    const result = JSON.parse(completion.choices[0].message.content || '{}')
+    const result = JSON.parse(response)
 
     // Transform to our interface
     const powerfulQuotes: IntelligentQuote[] = (result.quotes || []).map((q: any) => ({
@@ -253,17 +250,17 @@ Return JSON:
 }`
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
+    const response = await llm.createChatCompletion({
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
       ],
       temperature: 0.3,
-      response_format: { type: 'json_object' }
+      maxTokens: 2000,
+      responseFormat: 'json'
     })
 
-    return JSON.parse(completion.choices[0].message.content || '{}')
+    return JSON.parse(response)
   } catch (error) {
     console.error('Theme extraction error:', error)
     throw error
@@ -306,14 +303,14 @@ Return JSON:
 }`
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
+    const response = await llm.createChatCompletion({
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.4,
-      response_format: { type: 'json_object' }
+      maxTokens: 1500,
+      responseFormat: 'json'
     })
 
-    return JSON.parse(completion.choices[0].message.content || '{}')
+    return JSON.parse(response)
   } catch (error) {
     console.error('Summary generation error:', error)
     throw error

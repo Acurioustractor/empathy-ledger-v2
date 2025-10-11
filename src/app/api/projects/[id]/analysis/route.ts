@@ -462,14 +462,25 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             // Build theme map with frequency and storytellers
             const themeMap = new Map<string, { theme: string; frequency: number; storytellers: Set<string> }>()
 
-            allIntelligentQuotes.forEach(q => {
-              q.themes?.forEach(theme => {
-                if (!themeMap.has(theme)) {
-                  themeMap.set(theme, { theme, frequency: 0, storytellers: new Set() })
+            allIntelligentQuotes.forEach((q, index) => {
+              // Safety check for quote structure
+              if (!q || typeof q !== 'object') {
+                console.warn(`⚠️  Invalid quote at index ${index}:`, q)
+                return
+              }
+
+              const themes = Array.isArray(q.themes) ? q.themes : []
+              const storyteller = q.storyteller || 'Unknown'
+
+              themes.forEach(theme => {
+                if (theme && typeof theme === 'string') {
+                  if (!themeMap.has(theme)) {
+                    themeMap.set(theme, { theme, frequency: 0, storytellers: new Set() })
+                  }
+                  const themeData = themeMap.get(theme)!
+                  themeData.frequency++
+                  themeData.storytellers.add(storyteller)
                 }
-                const themeData = themeMap.get(theme)!
-                themeData.frequency++
-                themeData.storytellers.add(q.storyteller)
               })
             })
 

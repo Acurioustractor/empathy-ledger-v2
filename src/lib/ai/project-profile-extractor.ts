@@ -1,8 +1,6 @@
-import OpenAI from 'openai'
+import { createLLMClient } from './llm-client'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+const llm = createLLMClient()
 
 export interface ProjectProfile {
   // Core Purpose
@@ -100,24 +98,17 @@ For success indicators, identify what the COMMUNITY sees as success, not just wh
 Assign a completeness_score (0-100) based on how much information you were able to extract.`
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+    const response = await llm.createChatCompletion({
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
       ],
       temperature: 0.3,
-      max_tokens: 4000,
-      response_format: { type: 'json_object' }
+      maxTokens: 4000,
+      responseFormat: 'json'
     })
 
-    const content = completion.choices[0].message.content
-    if (!content) {
-      throw new Error('No content returned from OpenAI')
-    }
-
-    const profile = JSON.parse(content) as ProjectProfile
-    return profile
+    return JSON.parse(response) as ProjectProfile
   } catch (error: any) {
     console.error('Error extracting project profile:', error)
     throw error
@@ -142,23 +133,17 @@ This is a brief project description. Extract key elements to help AI analysis:
 Return as JSON with fields: mission, primary_goals, outcome_categories (with category, examples, keywords), positive_language, target_population.`
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+    const response = await llm.createChatCompletion({
       messages: [
         { role: 'system', content: 'Extract project context from description to guide AI analysis.' },
         { role: 'user', content: userPrompt }
       ],
       temperature: 0.3,
-      max_tokens: 1500,
-      response_format: { type: 'json_object' }
+      maxTokens: 1500,
+      responseFormat: 'json'
     })
 
-    const content = completion.choices[0].message.content
-    if (!content) {
-      throw new Error('No content returned from OpenAI')
-    }
-
-    return JSON.parse(content)
+    return JSON.parse(response)
   } catch (error: any) {
     console.error('Error extracting quick profile:', error)
     throw error
