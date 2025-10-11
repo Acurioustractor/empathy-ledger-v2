@@ -83,6 +83,13 @@ export default function ProjectContextManager({
   const [showDocumentImport, setShowDocumentImport] = useState(false)
 
   useEffect(() => {
+    console.log('🔑 ProjectContextManager - canEdit:', canEdit)
+    console.log('🔑 ProjectContextManager - context:', context)
+    console.log('🔑 ProjectContextManager - showSeedInterview:', showSeedInterview)
+    console.log('🔑 ProjectContextManager - showDocumentImport:', showDocumentImport)
+  }, [canEdit, context, showSeedInterview, showDocumentImport])
+
+  useEffect(() => {
     fetchContext()
   }, [projectId])
 
@@ -188,15 +195,24 @@ export default function ProjectContextManager({
           </div>
           {canEdit && (
             <div className="flex gap-2 justify-center">
-              <Button onClick={() => setEditing(true)}>
+              <Button onClick={() => {
+                console.log('🖊️ Create Manually clicked')
+                setEditing(true)
+              }}>
                 <Edit className="h-4 w-4 mr-2" />
                 Create Manually
               </Button>
-              <Button variant="outline" onClick={() => setShowSeedInterview(true)}>
+              <Button variant="outline" onClick={() => {
+                console.log('✨ Seed Interview clicked')
+                setShowSeedInterview(true)
+              }}>
                 <MessageSquare className="h-4 w-4 mr-2" />
                 Seed Interview
               </Button>
-              <Button variant="outline" onClick={() => setShowDocumentImport(true)}>
+              <Button variant="outline" onClick={() => {
+                console.log('📄 Import Document clicked')
+                setShowDocumentImport(true)
+              }}>
                 <FileText className="h-4 w-4 mr-2" />
                 Import Document
               </Button>

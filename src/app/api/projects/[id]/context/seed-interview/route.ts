@@ -12,6 +12,125 @@ interface SeedInterviewResponse {
 }
 
 /**
+ * GET /api/projects/[id]/context/seed-interview
+ * Retrieve the seed interview template (14 questions)
+ */
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    // Return the standard 14-question seed interview template
+    return NextResponse.json({
+      template_type: 'project_full_setup',
+      questions: [
+        {
+          id: 'project_overview',
+          text: 'What is this project trying to achieve? What are the main goals?',
+          section: 'Overview',
+          required: true,
+          help_text: 'Describe the overall purpose and primary objectives of the project.'
+        },
+        {
+          id: 'community_need',
+          text: 'What community need or opportunity does this project address?',
+          section: 'Context',
+          required: true,
+          help_text: 'Explain why this project exists and what gap it fills.'
+        },
+        {
+          id: 'target_population',
+          text: 'Who are you working with? Describe the communities and individuals involved.',
+          section: 'Who',
+          required: true,
+          help_text: 'Be specific about the people, communities, or groups this project serves.'
+        },
+        {
+          id: 'expected_outcomes',
+          text: 'What specific outcomes do you expect to see? (e.g., "Improved sleep quality", "Stronger family connections")',
+          section: 'Outcomes',
+          required: true,
+          help_text: 'List concrete, measurable outcomes you hope to achieve.'
+        },
+        {
+          id: 'success_indicators',
+          text: 'How will you know if the project is successful? What will you see or hear?',
+          section: 'Success',
+          required: true,
+          help_text: 'Describe observable indicators that show the project is working.'
+        },
+        {
+          id: 'timeframe',
+          text: 'What is the timeframe for this project? When do you expect to see results?',
+          section: 'Timeline',
+          required: false,
+          help_text: 'Include short-term (months), medium-term (1-2 years), and long-term (3+ years) outcomes if applicable.'
+        },
+        {
+          id: 'program_model',
+          text: 'How does the project work? What is your approach or methodology?',
+          section: 'Approach',
+          required: true,
+          help_text: 'Describe the key activities, methods, or strategies you use.'
+        },
+        {
+          id: 'cultural_approaches',
+          text: 'Are there specific cultural practices, protocols, or approaches you use?',
+          section: 'Cultural Context',
+          required: false,
+          help_text: 'Describe any cultural frameworks, ceremonies, or community protocols integral to the work.'
+        },
+        {
+          id: 'key_activities',
+          text: 'What are the main activities or services you provide?',
+          section: 'Activities',
+          required: true,
+          help_text: 'List the core activities that make up this project.'
+        },
+        {
+          id: 'community_involvement',
+          text: 'How are community members involved in decision-making and leadership?',
+          section: 'Community Voice',
+          required: false,
+          help_text: 'Describe how the community shapes and guides the project.'
+        },
+        {
+          id: 'unique_aspects',
+          text: 'What makes this project unique or different from other similar initiatives?',
+          section: 'Uniqueness',
+          required: false,
+          help_text: 'Highlight what sets this project apart.'
+        },
+        {
+          id: 'challenges',
+          text: 'What are the main challenges or barriers you face?',
+          section: 'Challenges',
+          required: false,
+          help_text: 'Describe obstacles that might affect project outcomes.'
+        },
+        {
+          id: 'support_needed',
+          text: 'What support or resources would help this project succeed?',
+          section: 'Support',
+          required: false,
+          help_text: 'Identify gaps in funding, staffing, equipment, or other resources.'
+        },
+        {
+          id: 'long_term_vision',
+          text: 'What is your long-term vision? Where do you see this project in 5-10 years?',
+          section: 'Vision',
+          required: false,
+          help_text: 'Describe your aspirational goals and the lasting change you hope to create.'
+        }
+      ]
+    })
+  } catch (error) {
+    console.error('Error in GET /api/projects/[id]/context/seed-interview:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}
+
+/**
  * POST /api/projects/[id]/context/seed-interview
  * Process seed interview responses and extract context
  */
