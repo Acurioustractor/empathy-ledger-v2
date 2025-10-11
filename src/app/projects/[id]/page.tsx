@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import { ProjectDetails } from '@/components/projects/ProjectDetails'
-import { ProjectContextManager } from '@/components/projects/ProjectContextManager'
+import ProjectContextManager from '@/components/projects/ProjectContextManager'
 import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
 
@@ -98,7 +98,8 @@ async function getProjectRelationships(projectId: string) {
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { id } = await params
-  
+  const supabase = createSupabaseServerClient()
+
   const [project, relationships] = await Promise.all([
     getProject(id),
     getProjectRelationships(id)
@@ -106,6 +107,21 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   if (!project) {
     notFound()
+  }
+
+  // Check user permissions for editing
+  const { data: { user } } = await supabase.auth.getUser()
+  let canEdit = false
+
+  if (user && project.organisation?.id) {
+    const { data: membership } = await supabase
+      .from('organization_members')
+      .select('role')
+      .eq('organization_id', project.organisation.id)
+      .eq('profile_id', user.id)
+      .single()
+
+    canEdit = membership?.role === 'admin' || membership?.role === 'project_manager'
   }
 
   return (
@@ -116,12 +132,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         {/* AI Context Setup */}
         <ProjectContextManager
           projectId={id}
-          projectName={project.name}
-          currentContext={{
-            model: project.context_model as 'none' | 'quick' | 'full',
-            description: project.context_description,
-            updatedAt: project.context_updated_at
-          }}
+          canEdit={canEdit}
         />
 
         {/* Project Details */}

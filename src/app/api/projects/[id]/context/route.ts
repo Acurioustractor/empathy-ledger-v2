@@ -2,7 +2,7 @@
 // Manages project-specific context: purpose, outcomes, success criteria
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/supabase/server'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 /**
  * GET /api/projects/[id]/context
@@ -14,7 +14,7 @@ export async function GET(
 ) {
   try {
     const { id: projectId } = await params
-    const supabase = await createServerClient()
+    const supabase = createSupabaseServerClient()
 
     // Get current user
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -101,7 +101,7 @@ export async function POST(
 ) {
   try {
     const { id: projectId } = await params
-    const supabase = await createServerClient()
+    const supabase = createSupabaseServerClient()
 
     // Get current user
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -218,7 +218,7 @@ export async function PATCH(
 ) {
   try {
     const { id: projectId } = await params
-    const supabase = await createServerClient()
+    const supabase = createSupabaseServerClient()
 
     // Get current user
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -310,7 +310,7 @@ export async function DELETE(
 ) {
   try {
     const { id: projectId } = await params
-    const supabase = await createServerClient()
+    const supabase = createSupabaseServerClient()
 
     // Get current user
     const { data: { user }, error: authError } = await supabase.auth.getUser()
