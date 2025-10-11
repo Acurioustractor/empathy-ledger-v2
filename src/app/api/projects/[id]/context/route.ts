@@ -18,7 +18,13 @@ export async function GET(
 
     // Get current user
     const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+
+    // Development bypass for super admin
+    const isDevelopment = process.env.NODE_ENV === 'development'
+    const devBypassEmail = process.env.NEXT_PUBLIC_DEV_SUPER_ADMIN_EMAIL
+    const isSuperAdmin = isDevelopment && user?.email === devBypassEmail
+
+    if (!isSuperAdmin && (authError || !user)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -33,17 +39,19 @@ export async function GET(
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
     }
 
-    // Verify user is member of organization
-    const { data: membership, error: memberError } = await supabase
-      .from('profile_organizations')
-      .select('role')
-      .eq('profile_id', user.id)
-      .eq('organization_id', project.organization_id)
-      .eq('is_active', true)
-      .single()
+    // Verify user is member of organization (skip for super admin)
+    if (!isSuperAdmin) {
+      const { data: membership, error: memberError } = await supabase
+        .from('profile_organizations')
+        .select('role')
+        .eq('profile_id', user!.id)
+        .eq('organization_id', project.organization_id)
+        .eq('is_active', true)
+        .single()
 
-    if (memberError || !membership) {
-      return NextResponse.json({ error: 'Not a member of this organization' }, { status: 403 })
+      if (memberError || !membership) {
+        return NextResponse.json({ error: 'Not a member of this organization' }, { status: 403 })
+      }
     }
 
     // Get project context
