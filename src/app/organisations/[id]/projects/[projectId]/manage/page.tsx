@@ -40,8 +40,16 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
   // Check user role for edit permissions
   const { data: { user } } = await supabase.auth.getUser()
 
+  // Development mode bypass - grant edit access if super admin email is set
+  const isDevelopment = process.env.NODE_ENV === 'development'
+  const devBypass = isDevelopment && process.env.NEXT_PUBLIC_DEV_SUPER_ADMIN_EMAIL
+
   let canEdit = false
-  if (user) {
+
+  if (devBypass) {
+    console.log('🔓 DEV MODE: Granting edit access for project management')
+    canEdit = true
+  } else if (user) {
     const { data: membership } = await supabase
       .from('organization_members')
       .select('role')
