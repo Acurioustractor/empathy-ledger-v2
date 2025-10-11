@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, redirect } from 'next/navigation'
 import Link from 'next/link'
+import { useAuth } from '@/lib/context/auth.context'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Typography } from '@/components/ui/typography'
@@ -108,6 +109,14 @@ interface Transcript {
 export default function EnhancedStorytellerProfilePage() {
   const params = useParams()
   const storytellerId = params.id as string
+  const { isSuperAdmin, isAdmin } = useAuth()
+
+  // Admin-only access
+  useEffect(() => {
+    if (!isSuperAdmin && !isAdmin) {
+      redirect(`/storytellers/${storytellerId}`)
+    }
+  }, [isSuperAdmin, isAdmin, storytellerId])
 
   const [storyteller, setStoryteller] = useState<StorytellerProfile | null>(null)
   const [stories, setStories] = useState<Story[]>([])

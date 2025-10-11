@@ -1,0 +1,55 @@
+name: Validate Build & Spelling
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run type checking
+        run: npm run type-check
+        continue-on-error: false
+
+      - name: Run linting
+        run: npm run lint
+        continue-on-error: false
+
+      - name: Check Australian spelling
+        run: |
+          echo "🇦🇺 Checking for American spelling..."
+          node australian-spelling-audit.js || true
+          echo "Note: Spelling warnings won't fail the build but should be reviewed"
+
+      - name: Build application
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+      - name: Report status
+        if: always()
+        run: |
+          echo "## Build Validation Report"
+          echo "- Type Check: ${{ steps.type-check.outcome }}"
+          echo "- Linting: ${{ steps.lint.outcome }}"
+          echo "- Build: ${{ steps.build.outcome }}"
+          echo ""
+          echo "✅ If all checks pass, your code is ready to merge!"
+          echo "⚠️  Fix any failures before merging to main branch."

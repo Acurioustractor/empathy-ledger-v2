@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
     // Fetch all organisations with additional details
     const { data: organisations, error } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select(`
         id,
         name,

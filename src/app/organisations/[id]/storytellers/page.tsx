@@ -9,6 +9,8 @@ import { Input } from '@/components/ui/input'
 import { ElegantStorytellerCard, transformToElegantCard } from '@/components/storyteller/elegant-storyteller-card'
 import { StorytellerCardAdapter } from '@/lib/adapters/storyteller-card-adapter'
 import { adaptStorytellerArray, APIStorytellerData } from '@/lib/adapters/storyteller-data-adapter'
+import { StorytellerCreationWizard } from '@/components/storyteller/StorytellerCreationWizard'
+import { TranscriptCreationDialog } from '@/components/transcripts/TranscriptCreationDialog'
 import {
   Users,
   FileText,
@@ -44,6 +46,12 @@ export default function EnhancedStorytellerPage() {
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [showAddDialog, setShowAddDialog] = useState(false)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [deleteConfirm, setDeleteConfirm] = useState<{storytellerId: string, name: string} | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [showAddTranscriptDialog, setShowAddTranscriptDialog] = useState(false)
+  const [selectedStorytellerForTranscript, setSelectedStorytellerForTranscript] = useState<string | null>(null)
 
   useEffect(() => {
     fetchStorytellers()
@@ -70,6 +78,73 @@ export default function EnhancedStorytellerPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleStorytellerCreated = async (storytellerId: string) => {
+    // Show success message
+    setSuccessMessage('Storyteller has been added successfully')
+    setTimeout(() => setSuccessMessage(null), 5000)
+
+    // Close wizard
+    setShowAddDialog(false)
+
+    // Refresh the storytellers list
+    await fetchStorytellers()
+  }
+
+  const handleDeleteRequest = (storytellerId: string) => {
+    const storyteller = storytellers.find(s => s.id === storytellerId)
+    if (storyteller) {
+      setDeleteConfirm({
+        storytellerId,
+        name: storyteller.displayName || storyteller.fullName || 'this storyteller'
+      })
+    }
+  }
+
+  const handleConfirmDelete = async () => {
+    if (!deleteConfirm) return
+
+    setIsDeleting(true)
+    try {
+      const response = await fetch(
+        `/api/organisations/${organizationId}/storytellers/${deleteConfirm.storytellerId}`,
+        { method: 'DELETE' }
+      )
+
+      const data = await response.json()
+
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to delete storyteller')
+      }
+
+      setSuccessMessage(data.message || 'Storyteller has been removed successfully')
+      setTimeout(() => setSuccessMessage(null), 5000)
+
+      // Refresh the storytellers list
+      await fetchStorytellers()
+    } catch (error) {
+      console.error('Error deleting storyteller:', error)
+      setError(error instanceof Error ? error.message : 'Failed to delete storyteller')
+      setTimeout(() => setError(null), 5000)
+    } finally {
+      setIsDeleting(false)
+      setDeleteConfirm(null)
+    }
+  }
+
+  const handleAddTranscript = (storytellerId: string) => {
+    setSelectedStorytellerForTranscript(storytellerId)
+    setShowAddTranscriptDialog(true)
+  }
+
+  const handleTranscriptCreated = (transcriptId: string) => {
+    setSuccessMessage('Transcript has been added successfully')
+    setTimeout(() => setSuccessMessage(null), 5000)
+    setShowAddTranscriptDialog(false)
+    setSelectedStorytellerForTranscript(null)
+    // Optionally refresh storytellers to update transcript counts
+    fetchStorytellers()
   }
 
   const filteredStorytellers = storytellers.filter(storyteller =>
@@ -111,6 +186,13 @@ export default function EnhancedStorytellerPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-6">
+      {/* Success Message */}
+      {successMessage && (
+        <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
+          {successMessage}
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -122,7 +204,11 @@ export default function EnhancedStorytellerPage() {
           </p>
         </div>
 
-        <Button variant="outline" className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          className="flex items-center gap-2"
+          onClick={() => setShowAddDialog(true)}
+        >
           <UserPlus className="w-4 h-4" />
           Add Storyteller
         </Button>
@@ -201,6 +287,10 @@ export default function EnhancedStorytellerPage() {
               key={storyteller.id}
               storyteller={elegantData}
               variant="default"
+              showDelete={true}
+              onDelete={handleDeleteRequest}
+              showAddTranscript={true}
+              onAddTranscript={handleAddTranscript}
             />
           )
         })}
@@ -221,13 +311,75 @@ export default function EnhancedStorytellerPage() {
               }
             </p>
             {!searchQuery && (
-              <Button variant="outline" className="flex items-center gap-2 mx-auto">
+              <Button
+                variant="outline"
+                className="flex items-center gap-2 mx-auto"
+                onClick={() => setShowAddDialog(true)}
+              >
                 <UserPlus className="w-4 h-4" />
                 Add First Storyteller
               </Button>
             )}
           </CardContent>
         </Card>
+      )}
+
+      {/* Add Storyteller Wizard */}
+      {showAddDialog && (
+        <StorytellerCreationWizard
+          organizationId={organizationId}
+          onComplete={handleStorytellerCreated}
+          onCancel={() => setShowAddDialog(false)}
+        />
+      )}
+
+      {/* Add Transcript Dialog */}
+      {showAddTranscriptDialog && selectedStorytellerForTranscript && (
+        <TranscriptCreationDialog
+          organizationId={organizationId}
+          preselectedStorytellerId={selectedStorytellerForTranscript}
+          onSuccess={handleTranscriptCreated}
+          onCancel={() => {
+            setShowAddTranscriptDialog(false)
+            setSelectedStorytellerForTranscript(null)
+          }}
+        />
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      {deleteConfirm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <Card className="max-w-md w-full mx-4">
+            <CardHeader>
+              <CardTitle className="text-xl">Confirm Deletion</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-grey-700">
+                Are you sure you want to remove <strong>{deleteConfirm.name}</strong> from this organisation?
+              </p>
+              <p className="text-sm text-grey-600">
+                This will remove their storyteller role from this organisation. This action can be undone by re-adding them.
+              </p>
+              <div className="flex gap-3 justify-end">
+                <Button
+                  variant="outline"
+                  onClick={() => setDeleteConfirm(null)}
+                  disabled={isDeleting}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={handleConfirmDelete}
+                  disabled={isDeleting}
+                  className="bg-red-600 hover:bg-red-700"
+                >
+                  {isDeleting ? 'Removing...' : 'Remove Storyteller'}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   )

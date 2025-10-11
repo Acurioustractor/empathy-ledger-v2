@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Trash2, Plus, Building, Users, Image, ExternalLink } from 'lucide-react'
+import { Trash2, Plus, Building, Users, Image, ExternalLink, FileText } from 'lucide-react'
 
 interface Organization {
   id: string
@@ -31,6 +31,20 @@ interface Gallery {
   photoCount: number
 }
 
+interface Transcript {
+  id: string
+  title: string
+  status: string
+  createdAt: string
+  wordCount: number
+  characterCount: number
+  storyteller?: {
+    id: string
+    displayName: string
+    avatarUrl?: string | null
+  } | null
+}
+
 interface ProjectRelationshipManagerProps {
   projectId: string
   projectName: string
@@ -41,6 +55,7 @@ export function ProjectRelationshipManager({ projectId, projectName, organizatio
   const [organisations, setOrganizations] = useState<Organization[]>([])
   const [storytellers, setStorytellers] = useState<Storyteller[]>([])
   const [galleries, setGalleries] = useState<Gallery[]>([])
+  const [transcripts, setTranscripts] = useState<Transcript[]>([])
   const [availableOrgs, setAvailableOrgs] = useState<{ id: string, name: string }[]>([])
   const [availableStorytellers, setAvailableStorytellers] = useState<{ id: string, displayName: string }[]>([])
   const [loading, setLoading] = useState(false)
@@ -54,22 +69,25 @@ export function ProjectRelationshipManager({ projectId, projectName, organizatio
   const loadProjectData = async () => {
     try {
       console.log('🔍 Loading project data for project:', projectId)
-  console.log('🔗 API URLs that will be called:', {
-    orgs: `/api/projects/${projectId}/organisations`,
-    storytellers: `/api/projects/${projectId}/storytellers`,
-    galleries: `/api/projects/${projectId}/galleries`
-  })
+      console.log('🔗 API URLs that will be called:', {
+        orgs: `/api/projects/${projectId}/organisations`,
+        storytellers: `/api/projects/${projectId}/storytellers`,
+        galleries: `/api/projects/${projectId}/galleries`,
+        transcripts: `/api/projects/${projectId}/transcripts`
+      })
 
-      const [orgsRes, storytellersRes, galleriesRes] = await Promise.all([
+      const [orgsRes, storytellersRes, galleriesRes, transcriptsRes] = await Promise.all([
         fetch(`/api/projects/${projectId}/organisations`),
         fetch(`/api/projects/${projectId}/storytellers`),
-        fetch(`/api/projects/${projectId}/galleries`)
+        fetch(`/api/projects/${projectId}/galleries`),
+        fetch(`/api/projects/${projectId}/transcripts`)
       ])
 
       console.log('📊 API Response status:', {
         orgs: orgsRes.status,
         storytellers: storytellersRes.status,
-        galleries: galleriesRes.status
+        galleries: galleriesRes.status,
+        transcripts: transcriptsRes.status
       })
 
       if (orgsRes.ok) {
@@ -94,6 +112,14 @@ export function ProjectRelationshipManager({ projectId, projectName, organizatio
         setGalleries(galleriesData.galleries || [])
       } else {
         console.error('Galleries API error:', await galleriesRes.text())
+      }
+
+      if (transcriptsRes.ok) {
+        const transcriptsData = await transcriptsRes.json()
+        console.log('📝 Transcripts data:', transcriptsData)
+        setTranscripts(transcriptsData.transcripts || [])
+      } else {
+        console.error('Transcripts API error:', await transcriptsRes.text())
       }
     } catch (error) {
       console.error('Error loading project data:', error)
@@ -394,6 +420,78 @@ export function ProjectRelationshipManager({ projectId, projectName, organizatio
                 No galleries linked to this project yet
               </div>
             )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Transcripts */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="w-5 h-5" />
+            Transcripts ({transcripts.length})
+          </CardTitle>
+          <CardDescription>
+            Transcripts explicitly linked to this project. Manage transcript content from the transcripts dashboard.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {transcripts.map(transcript => (
+              <div key={transcript.id} className="p-3 border rounded-lg space-y-2">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium text-sm truncate">
+                      {transcript.title}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      Added {new Date(transcript.createdAt).toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric'
+                      })}
+                    </div>
+                  </div>
+                  <Badge variant={transcript.status === 'approved' ? 'default' : 'secondary'} className="text-xs capitalize">
+                    {transcript.status.replace('_', ' ')}
+                  </Badge>
+                </div>
+
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  {transcript.storyteller && (
+                    <div className="flex items-center gap-2">
+                      <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center text-muted-foreground font-semibold">
+                        {transcript.storyteller.displayName
+                          .split(' ')
+                          .map(n => n[0])
+                          .join('')
+                          .toUpperCase()
+                          .slice(0, 2)}
+                      </div>
+                      <span>{transcript.storyteller.displayName}</span>
+                    </div>
+                  )}
+
+                  <div className="flex items-center gap-2">
+                    <span>{transcript.wordCount} words</span>
+                    <span>•</span>
+                    <span>{transcript.characterCount} characters</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {transcripts.length === 0 && (
+              <div className="text-center py-6 text-sm text-muted-foreground">
+                No transcripts linked to this project yet
+              </div>
+            )}
+
+            <Button variant="outline" className="w-full" asChild>
+              <Link href={`/projects/${projectId}/transcripts`}>
+                Manage transcripts
+              </Link>
+            </Button>
           </div>
         </CardContent>
       </Card>

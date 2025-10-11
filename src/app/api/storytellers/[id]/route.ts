@@ -267,6 +267,22 @@ export async function GET(
     const engagementMetrics = calculateEngagementMetrics()
     const latestInsights = getLatestAnalysisInsights()
 
+    let resolvedAvatarUrl = profile.profile_image_url || profile.avatar_url || null
+
+    if (!resolvedAvatarUrl && profile.avatar_media_id) {
+      const { data: avatarMedia, error: avatarError } = await supabase
+        .from('media_assets')
+        .select('cdn_url')
+        .eq('id', profile.avatar_media_id)
+        .single()
+
+      if (avatarError) {
+        console.error('⚠️  Failed to resolve avatar media asset:', avatarError)
+      } else if (avatarMedia?.cdn_url) {
+        resolvedAvatarUrl = avatarMedia.cdn_url
+      }
+    }
+
     const comprehensiveStorytellerProfile = {
       // Core profile information
       id: profile.id,
@@ -281,10 +297,12 @@ export async function GET(
       status: 'active' as const,
       elder_status: false, // Could be derived from age or community recognition
       featured: stories.length > 0 || impactMetrics?.community_engagement_score > 70,
+      avatar_url: resolvedAvatarUrl,
 
       // Enhanced profile data
       profile: {
-        avatar_url: profile.profile_image_url,
+        avatar_url: resolvedAvatarUrl,
+        profile_image_url: resolvedAvatarUrl,
         pronouns: profile.preferred_pronouns,
         phone: profile.phone_number,
         social_links: profile.social_links,

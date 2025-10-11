@@ -2,7 +2,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import { ProjectsCollection } from '@/components/organization/ProjectsCollection'
 
 interface ProjectsPageProps {
-  params: Promise<{ id: string }>
+  params: { id: string }
 }
 
 async function getOrganizationProjects(organizationId: string) {
@@ -10,7 +10,7 @@ async function getOrganizationProjects(organizationId: string) {
   
   // Get organisation to get tenant_id
   const { data: organisation } = await supabase
-    .from('organisations')
+    .from('organizations')
     .select('tenant_id')
     .eq('id', organizationId)
     .single()
@@ -36,7 +36,7 @@ async function getOrganizationProjects(organizationId: string) {
 }
 
 export default async function ProjectsPage({ params }: ProjectsPageProps) {
-  const { id } = await params
+  const { id } = params
   const projects = await getOrganizationProjects(id)
 
   return (

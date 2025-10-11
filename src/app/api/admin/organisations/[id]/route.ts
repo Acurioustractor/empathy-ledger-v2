@@ -19,7 +19,7 @@ export async function GET(
     
     // Get specific organisation with details
     const { data: organisation, error } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select(`
         id,
         name,
@@ -111,7 +111,7 @@ export async function DELETE(
 
     // Get the organisation to find its tenant_id
     const { data: org } = await serviceSupabase
-      .from('organisations')
+      .from('organizations')
       .select('tenant_id, name')
       .eq('id', id)
       .single()
@@ -125,7 +125,7 @@ export async function DELETE(
 
     // Delete the organisation
     const { error: orgError } = await serviceSupabase
-      .from('organisations')
+      .from('organizations')
       .delete()
       .eq('id', id)
 
@@ -139,14 +139,14 @@ export async function DELETE(
 
     // Check if this tenant is used by any other organisations
     const { count: otherOrgsCount } = await serviceSupabase
-      .from('organisations')
+      .from('organizations')
       .select('*', { count: 'exact', head: true })
       .eq('tenant_id', org.tenant_id)
 
     // If no other organisations use this tenant, delete it too
     if (otherOrgsCount === 0) {
       await serviceSupabase
-        .from('tenants')
+        .from('organizations')
         .delete()
         .eq('id', org.tenant_id)
     }
@@ -193,7 +193,7 @@ export async function PUT(
       const baseSlug = body.name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').trim('-')
       const slug = `${baseSlug}-${Date.now()}` // Add timestamp to ensure uniqueness
       const { data: newTenant, error: tenantError } = await serviceSupabase
-        .from('tenants')
+        .from('organizations')
         .insert({
           name: body.name,
           slug: slug,
@@ -212,7 +212,7 @@ export async function PUT(
 
       // Update the organisation to use the new tenant
       const { error: updateError } = await serviceSupabase
-        .from('organisations')
+        .from('organizations')
         .update({ tenant_id: newTenant.id })
         .eq('id', id)
 
@@ -233,7 +233,7 @@ export async function PUT(
 
     // Regular organisation update
     const { data: organisation, error } = await serviceSupabase
-      .from('organisations')
+      .from('organizations')
       .update({
         name: body.name,
         type: body.type,

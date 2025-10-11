@@ -81,13 +81,12 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
   const [localMembers, setLocalMembers] = useState(members)
   
-  // Debug log to see what image URLs we're getting
+  // Debug log to see what we're receiving
   useEffect(() => {
-    console.log('MemberDirectory received members:', members.map(m => ({
-      name: m.display_name || m.full_name,
-      profile_image_url: m.profile_image_url,
-      avatar_url: m.avatar_url
-    })))
+    console.log('👥 MemberDirectory received', members.length, 'members')
+    console.log('👥 Member names:', members.map(m => m.display_name || m.full_name))
+    console.log('👥 Full member data:', members)
+    setLocalMembers(members)
   }, [members])
   const [storytellers, setStorytellers] = useState<Profile[]>([])
   const [isStorytellersDialogOpen, setIsStorytellersDialogOpen] = useState(false)
@@ -112,16 +111,31 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
     try {
       const response = await fetch('/api/storytellers?limit=100')
       const data = await response.json()
+      console.log('📋 Loaded storytellers data:', data.storytellers)
       if (data.storytellers) {
         // Filter out storytellers who are already members
         const currentMemberIds = localMembers.map(m => m.id)
+        console.log('👥 Current member IDs:', currentMemberIds)
+        console.log('👥 Current member names:', localMembers.map(m => m.display_name || m.full_name))
+
         const availableStorytellers = data.storytellers
-          .filter((s: any) => !currentMemberIds.includes(s.id))
+          .filter((s: any) => {
+            const isAlreadyMember = currentMemberIds.includes(s.id)
+            if ((s.display_name || s.fullName || '').toLowerCase().includes('kristy')) {
+              console.log('🔍 Kristy check:', {
+                name: s.display_name || s.fullName,
+                id: s.id,
+                isAlreadyMember,
+                willBeFiltered: isAlreadyMember
+              })
+            }
+            return !isAlreadyMember
+          })
           .map((s: any) => ({
             id: s.id,
-            display_name: s.display_name,
-            full_name: s.display_name, // Use display_name as full_name
-            email: s.profile?.email || 'No email',
+            display_name: s.display_name || s.fullName || s.full_name,
+            full_name: s.fullName || s.full_name || s.display_name,
+            email: s.profile?.email || s.email || 'No email',
             current_role: 'Storyteller',
             cultural_background: s.cultural_background,
             location: s.location,
@@ -130,11 +144,12 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
             interests: s.preferred_topics || [],
             mentoring_availability: null,
             created_at: new Date().toISOString(),
-            profile_image_url: s.profile?.avatar_url,
-            avatar_url: s.profile?.avatar_url,
+            profile_image_url: s.profile?.avatar_url || s.avatarUrl,
+            avatar_url: s.profile?.avatar_url || s.avatarUrl,
             bio: s.bio,
             story_count: s.story_count || 0
           }))
+        console.log('✅ Available storytellers after mapping:', availableStorytellers)
         setStorytellers(availableStorytellers)
       }
     } catch (error) {
@@ -255,20 +270,72 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
     }
   }
 
+  const makeStoryteller = async (memberId: string) => {
+    try {
+      const response = await fetch(`/api/organisations/${organizationId}/storytellers/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ profileId: memberId })
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        setMessage({ type: 'success', text: 'Member promoted to storyteller!' })
+        // Update local state to show storyteller badge
+        setLocalMembers(prev => prev.map(m =>
+          m.id === memberId
+            ? { ...m, tenant_roles: [...(m.tenant_roles || []), 'storyteller'] }
+            : m
+        ))
+        setTimeout(() => setMessage(null), 3000)
+      } else {
+        setMessage({ type: 'error', text: result.error || 'Failed to create storyteller profile' })
+      }
+    } catch (error) {
+      console.error('Error making storyteller:', error)
+      setMessage({ type: 'error', text: 'Failed to promote to storyteller. Please try again.' })
+    }
+  }
+
   // Filter storytellers based on search term
   const filteredStorytellers = storytellers.filter(storyteller => {
     const name = storyteller.display_name || storyteller.full_name || ''
     const email = storyteller.email || ''
     const role = storyteller.current_role || ''
     const background = storyteller.cultural_background || ''
-    
-    const searchLower = storytellerSearchTerm.toLowerCase()
-    
-    return name.toLowerCase().includes(searchLower) ||
+
+    const searchLower = storytellerSearchTerm.toLowerCase().trim()
+
+    // If no search term, return all
+    if (!searchLower) return true
+
+    const matches = name.toLowerCase().includes(searchLower) ||
            email.toLowerCase().includes(searchLower) ||
            role.toLowerCase().includes(searchLower) ||
            background.toLowerCase().includes(searchLower)
+
+    if (searchLower === 'k' || searchLower.startsWith('kr')) {
+      console.log('🔍 Testing storyteller:', {
+        name,
+        searchTerm: searchLower,
+        matches,
+        nameMatches: name.toLowerCase().includes(searchLower)
+      })
+    }
+
+    return matches
   })
+
+  // Debug logging
+  console.log('🔍 Search term:', storytellerSearchTerm)
+  console.log('🔍 Total storytellers:', storytellers.length)
+  console.log('🔍 Filtered storytellers:', filteredStorytellers.length)
+  if (storytellerSearchTerm) {
+    console.log('🔍 Storyteller names:', storytellers.map(s => s.display_name || s.full_name))
+  }
 
   const filteredMembers = localMembers.filter(member => {
     const name = member.display_name || member.full_name || ''
@@ -696,12 +763,25 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
                   })}
                 </div>
 
-                <Link href={`/storytellers/${member.id}`}>
-                  <Button variant="ghost" size="sm" className="text-earth-600 hover:text-earth-700 h-7 px-2 text-xs">
-                    <ExternalLink className="h-3 w-3 mr-1" />
-                    View
-                  </Button>
-                </Link>
+                <div className="flex gap-1">
+                  {(canManage || isSuperAdmin) && !member.tenant_roles?.includes('storyteller') && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => makeStoryteller(member.id)}
+                      className="text-earth-600 hover:text-earth-700 h-7 px-2 text-xs"
+                    >
+                      <UserPlus className="h-3 w-3 mr-1" />
+                      Make Storyteller
+                    </Button>
+                  )}
+                  <Link href={`/storytellers/${member.id}`}>
+                    <Button variant="ghost" size="sm" className="text-earth-600 hover:text-earth-700 h-7 px-2 text-xs">
+                      <ExternalLink className="h-3 w-3 mr-1" />
+                      View
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </CardContent>
           </Card>

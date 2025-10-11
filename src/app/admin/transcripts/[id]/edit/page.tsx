@@ -204,7 +204,20 @@ export default function AdminTranscriptEditPage() {
           </Button>
           <div>
             <h1 className="text-3xl font-bold text-grey-900">Edit Transcript</h1>
-            <p className="text-grey-600">Update transcript content and details</p>
+            <p className="text-grey-600">
+              Update transcript content and details
+              {transcript?.storyteller_id && (
+                <>
+                  {' · '}
+                  <a
+                    href={`/admin/storytellers/${transcript.storyteller_id}/edit`}
+                    className="text-blue-600 hover:underline"
+                  >
+                    View {transcript?.profiles?.display_name || transcript?.profiles?.full_name || 'Storyteller'}'s Profile
+                  </a>
+                </>
+              )}
+            </p>
           </div>
         </div>
         <div className="flex gap-2">

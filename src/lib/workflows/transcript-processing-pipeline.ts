@@ -131,8 +131,8 @@ export class TranscriptProcessingPipeline {
       .from('transcripts')
       .select(`
         *,
-        storyteller:profiles!storyteller_id(id, display_name, organization_id),
-        organisation:organisations(id, name, type)
+        storyteller:profiles!storyteller_id(id, display_name, tenant_id),
+        organisation:organizations(id, name, type)
       `)
       .eq('id', transcriptId)
       .single()
@@ -464,12 +464,12 @@ export class TranscriptProcessingPipeline {
       // Get storyteller and organisation names for events
       const { data: storyteller } = await this.supabase
         .from('profiles')
-        .select('display_name, organization_id, organisations(name)')
+        .select('display_name, organization_id, organizations(name)')
         .eq('id', result.storytellerId)
         .single()
 
       const storytellerName = storyteller?.display_name || 'Unknown Storyteller'
-      const organizationName = storyteller?.organisations?.name || null
+      const organizationName = storyteller?.organizations?.name || null
 
       // Emit events for each insight created
       if (result.insightsExtracted > 0) {

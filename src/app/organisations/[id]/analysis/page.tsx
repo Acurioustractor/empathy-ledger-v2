@@ -7,16 +7,16 @@ import { Button } from '@/components/ui/button'
 import { Activity, Users, FileText, Calendar, ChevronRight } from 'lucide-react'
 
 interface OrganizationAnalysisPageProps {
-  params: Promise<{ id: string }>
+  params: { id: string }
 }
 
 export default async function OrganizationAnalysisPage({ params }: OrganizationAnalysisPageProps) {
-  const { id: organizationId } = await params
+  const { id: organizationId } = params
   const supabase = createSupabaseServerClient()
 
   // Get organisation details
   const { data: organisation } = await supabase
-    .from('organisations')
+    .from('organizations')
     .select('id, name, type, description')
     .eq('id', organizationId)
     .single()
@@ -221,11 +221,11 @@ export default async function OrganizationAnalysisPage({ params }: OrganizationA
 }
 
 export async function generateMetadata({ params }: OrganizationAnalysisPageProps) {
-  const { id: organizationId } = await params
+  const { id: organizationId } = params
   const supabase = createSupabaseServerClient()
 
   const { data: organisation } = await supabase
-    .from('organisations')
+    .from('organizations')
     .select('name')
     .eq('id', organizationId)
     .single()

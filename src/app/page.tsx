@@ -1,5 +1,7 @@
+'use client'
+
 import Link from 'next/link'
-import { ArrowRight, Heart, BookOpen, Users, Map, Shield, Sparkles, Building2 } from 'lucide-react'
+import { ArrowRight, Heart, BookOpen, Users, Map, Shield, Sparkles, Building2, Rocket, Target } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -8,6 +10,7 @@ import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
 import { NetworkGraph } from '@/components/ui/network-graph'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/lib/context/auth.context'
 
 // Helper function to render icons
 const renderIcon = (iconName: string, className: string) => {
@@ -60,12 +63,14 @@ const stats = [
 ]
 
 export default function Home() {
+  const { user, isSuperAdmin } = useAuth()
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-background to-green-50/30 dark:from-blue-950/20 dark:via-background dark:to-green-950/10">        
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-background to-green-50/30 dark:from-blue-950/20 dark:via-background dark:to-green-950/10">
         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 lg:py-32">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Hero Content */}
@@ -75,14 +80,14 @@ export default function Home() {
                   <Sparkles className="w-3 h-3 mr-1" />
                   Stories That Connect & Inspire
                 </Badge>
-                
+
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
                   Every Story Matters:{" "}
                   <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
                     Share, Preserve, Connect
                   </span>
                 </h1>
-                
+
                 <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
                   A welcoming platform for everyone to share their stories - from personal memories and family histories to cultural traditions and life experiences. Your story matters.
                 </p>
@@ -95,11 +100,21 @@ export default function Home() {
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="lg" asChild>
-                  <Link href="/organisations/4a1c31e8-89b7-476d-a74b-0c8b37efc850/dashboard">
-                    View Organization Dashboard
-                  </Link>
-                </Button>
+                {isSuperAdmin ? (
+                  <Button variant="outline" size="lg" asChild>
+                    <Link href="/admin/projects" className="group">
+                      <Rocket className="w-4 h-4 mr-2" />
+                      Manage Projects
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button variant="outline" size="lg" asChild>
+                    <Link href="/organisations/4a1c31e8-89b7-476d-a74b-0c8b37efc850/dashboard">
+                      View Organization Dashboard
+                    </Link>
+                  </Button>
+                )}
               </div>
 
               {/* Stats */}
@@ -182,22 +197,41 @@ export default function Home() {
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
-              <Card className="group hover:shadow-md transition-all">
-                <CardHeader>
-                  <Building2 className="w-8 h-8 text-primary mb-2" />
-                  <CardTitle>Snow Foundation</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="mb-4">
-                    Nonprofit organisation with 5 members, 1 project, and analytics dashboard
-                  </CardDescription>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link href="/organisations/4a1c31e8-89b7-476d-a74b-0c8b37efc850/dashboard">
-                      View Dashboard
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
+              {isSuperAdmin ? (
+                <Card className="group hover:shadow-md transition-all border-primary/20">
+                  <CardHeader>
+                    <Rocket className="w-8 h-8 text-primary mb-2" />
+                    <CardTitle>Project Management</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="mb-4">
+                      Manage projects, storytellers, and track impact across organisations
+                    </CardDescription>
+                    <Button asChild variant="outline" className="w-full">
+                      <Link href="/admin/projects">
+                        Manage Projects
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card className="group hover:shadow-md transition-all">
+                  <CardHeader>
+                    <Building2 className="w-8 h-8 text-primary mb-2" />
+                    <CardTitle>Snow Foundation</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="mb-4">
+                      Nonprofit organisation with 5 members, 1 project, and analytics dashboard
+                    </CardDescription>
+                    <Button asChild variant="outline" className="w-full">
+                      <Link href="/organisations/4a1c31e8-89b7-476d-a74b-0c8b37efc850/dashboard">
+                        View Dashboard
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              )}
 
               <Card className="group hover:shadow-md transition-all">
                 <CardHeader>

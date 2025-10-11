@@ -1,10 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { createClient } from '@supabase/supabase-js'
 import OpenAI from 'openai'
+import { extractIntelligentQuotes } from '@/lib/ai/intelligent-quote-extractor'
+import { assessIndigenousImpact, aggregateIndigenousImpact } from '@/lib/ai/intelligent-indigenous-impact-analyzer'
+import { extractQuotesWithClaude } from '@/lib/ai/claude-quote-extractor'
+import { assessImpactWithClaude, aggregateClaudeImpact } from '@/lib/ai/claude-impact-analyzer'
+import crypto from 'crypto'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
+
+// Helper: Calculate hash of transcript content for cache invalidation
+function calculateContentHash(transcriptTexts: string[]): string {
+  const combined = transcriptTexts.sort().join('|||')
+  return crypto.createHash('sha256').update(combined).digest('hex')
+}
 
 // Server-side interface definitions
 interface IndigenousImpactInsight {
@@ -92,7 +104,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const { id: projectId } = await params
     const supabase = createSupabaseServerClient()
 
-    console.log('🔍 Analyzing project:', projectId)
+    // Check which AI model to use
+    const { searchParams } = new URL(request.url)
+    const useIntelligentAI = searchParams.get('intelligent') === 'true'
+    const aiModel = searchParams.get('model') || 'gpt-4o-mini' // gpt-4o-mini (default, fast & good), claude (best quality, slower), gpt-4o, legacy
+
+    console.log('🔍 Analyzing project:', projectId, useIntelligentAI ? `(Intelligent AI - ${aiModel})` : '(Legacy)')
 
     // Get project details with organisation
     const { data: project, error: projectError } = await supabase
@@ -190,6 +207,350 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const storytellers = Array.from(storytellerMap.values())
     console.log(`👥 Analyzing ${storytellers.length} storytellers`)
 
+    // ========================================================================
+    // CACHE CHECK - Only regenerate if content has changed
+    // ========================================================================
+    const contentHash = calculateContentHash(allTranscriptTexts)
+    const forceRegenerate = searchParams.get('regenerate') === 'true'
+
+    if (useIntelligentAI && !forceRegenerate) {
+      console.log(`🔍 Checking cache for project ${projectId} with model ${aiModel}...`)
+
+      // Use service role client for database operations
+      const supabaseAdmin = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!
+      )
+
+      const { data: cachedAnalysis, error: cacheError } = await supabaseAdmin
+        .from('project_analyses')
+        .select('*')
+        .eq('project_id', projectId)
+        .eq('model_used', aiModel)
+        .eq('content_hash', contentHash)
+        .order('analyzed_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+
+      if (cachedAnalysis && !cacheError) {
+        console.log(`✅ Cache HIT! Returning cached analysis from ${cachedAnalysis.analyzed_at}`)
+        return NextResponse.json({
+          success: true,
+          analysis_type: 'intelligent_ai',
+          model_used: aiModel,
+          cached: true,
+          cached_at: cachedAnalysis.analyzed_at,
+          intelligentAnalysis: cachedAnalysis.analysis_data
+        })
+      } else {
+        console.log(`❌ Cache MISS. Generating new analysis...`)
+      }
+    }
+
+    // ========================================================================
+    // INTELLIGENT AI ANALYSIS (Flag-based)
+    // ========================================================================
+    if (useIntelligentAI) {
+      console.log(`🧠 Using Intelligent AI for analysis (Model: ${aiModel})...`)
+
+      // Fetch project context for context-aware analysis
+      let projectContext: any = null
+      try {
+        const { data: projectData } = await supabase
+          .from('projects')
+          .select('context_model, context_description')
+          .eq('id', projectId)
+          .single()
+
+        if (projectData?.context_model === 'quick' && projectData.context_description) {
+          console.log('📋 Using quick project context for analysis')
+          // Use quick extractor to get structured context
+          const { extractQuickProfile } = await import('@/lib/ai/project-profile-extractor')
+          projectContext = await extractQuickProfile(projectData.context_description, project.name)
+          projectContext.model = 'quick'
+          projectContext.description = projectData.context_description // Add original description for outcomes analysis
+        } else if (projectData?.context_model === 'full') {
+          console.log('📋 Using full project profile for analysis')
+          const { data: profile } = await supabase
+            .from('project_profiles')
+            .select('*')
+            .eq('project_id', projectId)
+            .single()
+
+          if (profile) {
+            projectContext = {
+              model: 'full',
+              mission: profile.mission,
+              primary_goals: profile.primary_goals,
+              outcome_categories: profile.outcome_categories,
+              positive_language: profile.positive_language,
+              cultural_values: profile.cultural_values
+            }
+          }
+        }
+
+        if (projectContext) {
+          console.log(`✅ Project context loaded - will extract project-aligned quotes`)
+        }
+      } catch (error: any) {
+        console.warn('⚠️  Could not load project context:', error.message)
+        // Continue without context
+      }
+
+      // Process all transcripts with intelligent AI in parallel
+      const transcriptsWithText = transcripts?.filter(t =>
+        t.text || t.transcript_content || t.formatted_text
+      ) || []
+
+      console.log(`📝 Analyzing ${transcriptsWithText.length} transcripts with ${aiModel}...`)
+
+      // Process transcripts - use batching for Claude to avoid concurrent connection limits
+      let intelligentResults: any[] = []
+
+      if (aiModel === 'claude') {
+        // Claude: Process in small batches with delays to respect rate limits
+        const BATCH_SIZE = 2 // Small batches to avoid usage acceleration limits
+        const DELAY_MS = 2000 // 2 second delay between batches
+        console.log(`🔄 Processing in batches of ${BATCH_SIZE} for Claude (with ${DELAY_MS}ms delays)...`)
+
+        for (let i = 0; i < transcriptsWithText.length; i += BATCH_SIZE) {
+          const batch = transcriptsWithText.slice(i, i + BATCH_SIZE)
+          const batchNum = Math.floor(i / BATCH_SIZE) + 1
+          const totalBatches = Math.ceil(transcriptsWithText.length / BATCH_SIZE)
+          console.log(`   Batch ${batchNum}/${totalBatches}: Processing ${batch.length} transcripts...`)
+
+          const batchResults = await Promise.all(
+            batch.map(async (t) => {
+              const text = t.text || t.transcript_content || t.formatted_text
+              const storytellerName = t.profiles?.display_name || t.profiles?.full_name || 'Unknown'
+
+              const [quotes, impact] = await Promise.all([
+                extractQuotesWithClaude(text!, storytellerName, 5),
+                assessImpactWithClaude(text!, storytellerName)
+              ])
+
+              return {
+                transcript_id: t.id,
+                storyteller_id: t.storyteller_id,
+                storyteller_name: storytellerName,
+                quotes,
+                impact
+              }
+            })
+          )
+
+          intelligentResults.push(...batchResults)
+
+          // Add delay between batches (except after last batch)
+          if (i + BATCH_SIZE < transcriptsWithText.length) {
+            console.log(`   ⏱️  Waiting ${DELAY_MS}ms before next batch...`)
+            await new Promise(resolve => setTimeout(resolve, DELAY_MS))
+          }
+        }
+      } else {
+        // GPT models: Process all at once (higher concurrent limits)
+        intelligentResults = await Promise.all(
+          transcriptsWithText.map(async (t) => {
+            const text = t.text || t.transcript_content || t.formatted_text
+            const storytellerName = t.profiles?.display_name || t.profiles?.full_name || 'Unknown'
+
+            const [quotes, impact] = await Promise.all([
+              extractIntelligentQuotes(text!, storytellerName, 5, projectContext),
+              assessIndigenousImpact(text!, storytellerName)
+            ])
+
+            return {
+              transcript_id: t.id,
+              storyteller_id: t.storyteller_id,
+              storyteller_name: storytellerName,
+              quotes,
+              impact
+            }
+          })
+        )
+      }
+
+      console.log('✅ Intelligent analysis complete')
+
+      // Aggregate impact across all transcripts - use appropriate aggregation function
+      const aggregatedImpact = aiModel === 'claude'
+        ? aggregateClaudeImpact(intelligentResults.map(r => r.impact))
+        : aggregateIndigenousImpact(intelligentResults.map(r => r.impact))
+
+      // Collect all quotes
+      const allIntelligentQuotes = intelligentResults.flatMap(r =>
+        r.quotes.powerful_quotes.map(q => ({
+          ...q,
+          storyteller: r.storyteller_name,
+          transcript_id: r.transcript_id
+        }))
+      ).sort((a, b) => b.confidence_score - a.confidence_score)
+
+      // Analyze project-specific outcomes if context exists
+      let projectOutcomes = null
+      if (projectContext && projectContext.description) {
+        try {
+          console.log('📊 Analyzing project-specific outcomes...')
+          const { analyzeProjectOutcomes } = await import('@/lib/ai/project-outcomes-tracker')
+
+          projectOutcomes = await analyzeProjectOutcomes(
+            project.name,
+            projectContext.description,
+            transcriptsWithText.map(t => ({
+              text: t.text || '',
+              storyteller: storytellerMap.get(t.storyteller_id!)?.displayName || 'Unknown'
+            }))
+          )
+
+          console.log(`✅ Project outcomes analyzed: ${projectOutcomes.outcomes.length} outcomes tracked`)
+        } catch (error: any) {
+          console.error('⚠️  Could not analyze project outcomes:', error.message)
+        }
+      }
+
+      // Return intelligent analysis results
+      const projectInfo = {
+        id: project.id,
+        name: project.name,
+        description: project.description,
+        organizationName: project.organisations?.name,
+        storytellerCount: storytellers.length,
+        transcriptCount: transcripts?.length || 0
+      }
+
+      // Prepare the analysis data
+      const intelligentAnalysisData = {
+        projectInfo, // Include here too for compatibility
+        storyteller_results: intelligentResults.map(r => ({
+          storyteller_id: r.storyteller_id,
+          storyteller_name: r.storyteller_name,
+          transcript_count: 1, // Per transcript
+          quotes: {
+            total: r.quotes.powerful_quotes.length,
+            average_quality: r.quotes.powerful_quotes.reduce((sum, q) => sum + q.confidence_score, 0) / r.quotes.powerful_quotes.length || 0,
+            top_quotes: r.quotes.powerful_quotes.slice(0, 3)
+          },
+          impact: {
+            assessments: r.impact.assessments,
+            overall_summary: r.impact.overall_impact_summary,
+            key_strengths: r.impact.key_strengths
+          }
+        })),
+        aggregated_impact: aggregatedImpact,
+        all_quotes: allIntelligentQuotes.slice(0, 20), // Top 20 quotes
+        processing_metadata: {
+          total_transcripts: transcriptsWithText.length,
+          total_quotes: allIntelligentQuotes.length,
+          average_quote_quality: allIntelligentQuotes.reduce((sum, q) => sum + q.confidence_score, 0) / allIntelligentQuotes.length || 0
+        },
+        // Legacy UI compatibility fields
+        storytellers: intelligentResults.map(r => {
+          const storytellerProfile = storytellerMap.get(r.storyteller_id) || {}
+          return {
+            id: r.storyteller_id,
+            name: r.storyteller_name,
+            displayName: r.storyteller_name,
+            transcriptCount: 1,
+            profileImageUrl: storytellerProfile.profileImageUrl || null,
+            themes: Array.from(new Set(r.quotes.powerful_quotes?.flatMap(q => q.themes) || [])),
+            culturalBackground: storytellerProfile.culturalBackground || null,
+            impactInsights: r.impact?.assessments || []
+          }
+        }),
+        aggregatedInsights: {
+          overallThemes: (() => {
+            // Build theme map with frequency and storytellers
+            const themeMap = new Map<string, { theme: string; frequency: number; storytellers: Set<string> }>()
+
+            allIntelligentQuotes.forEach(q => {
+              q.themes?.forEach(theme => {
+                if (!themeMap.has(theme)) {
+                  themeMap.set(theme, { theme, frequency: 0, storytellers: new Set() })
+                }
+                const themeData = themeMap.get(theme)!
+                themeData.frequency++
+                themeData.storytellers.add(q.storyteller)
+              })
+            })
+
+            return Array.from(themeMap.values())
+              .map(t => ({ ...t, storytellers: Array.from(t.storytellers) }))
+              .sort((a, b) => b.frequency - a.frequency)
+          })(),
+          impactFramework: aggregatedImpact.average_scores || {},
+          projectOutcomes: projectOutcomes, // Project-specific outcomes tracker
+          powerfulQuotes: allIntelligentQuotes.slice(0, 10).map(q => ({
+            quote: q.text,
+            speaker: q.storyteller,
+            impactType: q.category,
+            confidence: q.confidence_score / 100 // Convert to 0-1 range
+          })),
+          humanStoryExtracts: {
+            transformationMoments: allIntelligentQuotes
+              .filter(q => q.category === 'transformation')
+              .slice(0, 5)
+              .map(q => q.text),
+            wisdomShared: allIntelligentQuotes
+              .filter(q => q.category === 'wisdom')
+              .slice(0, 5)
+              .map(q => q.text),
+            challengesOvercome: allIntelligentQuotes
+              .filter(q => q.category === 'challenge')
+              .slice(0, 5)
+              .map(q => q.text),
+            communityImpact: allIntelligentQuotes
+              .filter(q => q.category === 'impact' || q.category === 'cultural_insight')
+              .slice(0, 5)
+              .map(q => q.text)
+          }
+        }
+      }
+
+      // Save analysis to cache for future requests
+      try {
+        const supabaseAdmin = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.SUPABASE_SERVICE_ROLE_KEY!
+        )
+
+        const { error: cacheError } = await supabaseAdmin
+          .from('project_analyses')
+          .upsert({
+            project_id: projectId,
+            model_used: aiModel,
+            analysis_type: 'intelligent_ai',
+            content_hash: contentHash,
+            analysis_data: intelligentAnalysisData,
+            analyzed_at: new Date().toISOString()
+          }, {
+            onConflict: 'project_id,model_used,content_hash'
+          })
+
+        if (cacheError) {
+          console.warn('⚠️  Failed to cache analysis (non-critical):', cacheError.message)
+        } else {
+          console.log('💾 Analysis cached successfully for future requests')
+        }
+      } catch (cacheError) {
+        console.warn('⚠️  Cache save error (non-critical):', cacheError)
+      }
+
+      return NextResponse.json({
+        success: true,
+        analysis_type: 'intelligent_ai',
+        model_used: aiModel,
+        cached: false,
+        projectInfo,
+        intelligentAnalysis: intelligentAnalysisData,
+        generatedAt: new Date().toISOString()
+      })
+    }
+
+    // ========================================================================
+    // LEGACY ANALYSIS (Original keyword-based system)
+    // ========================================================================
+    console.log('📊 Using legacy keyword-based analysis...')
+
     // Analyze each storyteller's contributions using server-side pattern matching
     for (const storyteller of storytellers) {
       const combinedText = storyteller.transcripts.map((t: any) => t.text).join('\n\n')
@@ -212,6 +573,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     return NextResponse.json({
       success: true,
+      analysis_type: 'legacy',
       analysis: analysisResult,
       generatedAt: new Date().toISOString()
     })

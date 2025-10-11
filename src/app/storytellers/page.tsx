@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Typography } from '@/components/ui/typography'
-import { ElegantStorytellerCard, transformToElegantCard } from '@/components/storyteller/elegant-storyteller-card'
+import { StorytellerCard } from '@/components/storyteller/storyteller-card'
 import { StorytellerCardAdapter } from '@/lib/adapters/storyteller-card-adapter'
 import { StorytellerProfileCardSkeleton } from '@/components/ui/storyteller-profile-card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -757,7 +757,7 @@ export default function StorytellerDirectoryPage() {
           <div className={cn(
             "transition-all duration-300",
             viewMode === 'grid'
-              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
               : "space-y-4"
           )}>
             {filteredStorytellers.map((storyteller) => {
@@ -770,12 +770,11 @@ export default function StorytellerDirectoryPage() {
                 )
               }
 
-              // Grid view - Transform API data directly to elegant card format
-              const elegantData = transformToElegantCard(storyteller)
+              // Grid view - Use refined storyteller card
               return (
-                <ElegantStorytellerCard
+                <StorytellerCard
                   key={storyteller.id}
-                  storyteller={elegantData}
+                  storyteller={storyteller}
                   variant="default"
                 />
               )

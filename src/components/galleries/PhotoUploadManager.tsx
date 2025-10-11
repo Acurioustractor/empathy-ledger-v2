@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Image from 'next/image'
 import { useDropzone } from 'react-dropzone'
 import type { MediaAsset, CulturalTag } from '@/types/database'
@@ -57,11 +57,6 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
     capture_date: ''
   }
 
-  // Fetch cultural tags on component mount
-  useState(() => {
-    fetchCulturalTags()
-  })
-
   const fetchCulturalTags = async () => {
     try {
       const response = await fetch('/api/cultural-tags')
@@ -73,6 +68,11 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
       console.error('Failed to fetch cultural tags:', error)
     }
   }
+
+  // Fetch cultural tags on component mount
+  useEffect(() => {
+    fetchCulturalTags()
+  }, [])
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const newUploads: UploadProgress[] = acceptedFiles.map(file => ({
@@ -145,7 +145,7 @@ export default function PhotoUploadManager({ galleryId, onPhotosUploaded }: Phot
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          media_asset_id: result.asset.id,
+          mediaAssetId: result.asset.id,
           caption: photoForm.caption,
           cultural_context: photoForm.cultural_context,
           location_in_ceremony: photoForm.location_in_ceremony,

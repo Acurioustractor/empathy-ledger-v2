@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useAuth } from '@/lib/context/auth.context'
 import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
+import PhotoUploadManager from '@/components/galleries/PhotoUploadManager'
 import type { Gallery, MediaAsset, GalleryMediaAssociation } from '@/types/database'
 
 interface GalleryWithMedia extends Gallery {
@@ -136,11 +137,13 @@ function PhotoModal({ photo, onClose, onPrevious, onNext, hasPrevious, hasNext }
 export default function GalleryPage() {
   const params = useParams()
   const router = useRouter()
-  const { user } = useAuth()
+  const { user, isSuperAdmin } = useAuth()
   const [gallery, setGallery] = useState<GalleryWithMedia | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null)
+  const [showUploadManager, setShowUploadManager] = useState(false)
+  const [deletingPhoto, setDeletingPhoto] = useState<string | null>(null)
 
   const fetchGallery = async () => {
     try {
@@ -205,6 +208,36 @@ export default function GalleryPage() {
     setSelectedPhotoIndex(index)
   }
 
+  const handleDeletePhoto = async (photo: any) => {
+    if (!gallery || !photo.galleryItemId) return
+
+    const confirmDelete = window.confirm(
+      `Are you sure you want to remove "${photo.title || 'this photo'}" from the gallery?`
+    )
+
+    if (!confirmDelete) return
+
+    setDeletingPhoto(photo.id)
+
+    try {
+      const response = await fetch(`/api/galleries/${gallery.id}/media?association_id=${photo.galleryItemId}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to delete photo')
+      }
+
+      // Refresh the gallery to update the photo list
+      await fetchGallery()
+    } catch (error) {
+      console.error('Error deleting photo:', error)
+      alert('Failed to delete photo. Please try again.')
+    } finally {
+      setDeletingPhoto(null)
+    }
+  }
+
   const closeModal = () => {
     setSelectedPhotoIndex(null)
   }
@@ -220,6 +253,15 @@ export default function GalleryPage() {
       setSelectedPhotoIndex(selectedPhotoIndex + 1)
     }
   }
+
+  const handlePhotosUploaded = (photos: any[]) => {
+    // Refresh the gallery to show new photos
+    fetchGallery()
+    setShowUploadManager(false)
+  }
+
+  // Determine if user can upload photos (gallery creator or super admin)
+  const canUploadPhotos = gallery && (gallery.created_by === user?.id || isSuperAdmin)
 
   if (loading) {
     return (
@@ -281,7 +323,7 @@ export default function GalleryPage() {
             <div className="flex-1 lg:mr-8">
               <div className="flex items-start justify-between mb-4">
                 <h1 className="text-3xl font-bold text-grey-900">{gallery.title}</h1>
-                {gallery.created_by === user?.id && (
+                {canUploadPhotos && (
                   <Link
                     href={`/galleries/${gallery.id}/edit`}
                     className="inline-flex items-center px-3 py-2 border border-grey-300 shadow-sm text-sm leading-4 font-medium rounded-md text-grey-700 bg-white hover:bg-grey-50"
@@ -294,32 +336,34 @@ export default function GalleryPage() {
                 )}
               </div>
 
-              {gallery.description && (
+              {gallery.description && gallery.description.trim() !== '' && (
                 <p className="text-grey-700 text-lg mb-6">{gallery.description}</p>
               )}
 
-              {/* Cultural Context */}
-              <div className="flex flex-wrap items-center gap-3 mb-6">
-                {gallery.cultural_theme && (
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-amber-100 text-amber-800">
-                    {getCulturalThemeDisplay(gallery.cultural_theme)}
-                  </span>
-                )}
-                
-                {getSensitivityBadge(gallery.cultural_sensitivity_level)}
+              {/* Cultural Context - only show if there are badges to display */}
+              {(gallery.cultural_theme || gallery.cultural_sensitivity_level || gallery.ceremonial_content || gallery.traditional_knowledge_content) && (
+                <div className="flex flex-wrap items-center gap-3 mb-6">
+                  {gallery.cultural_theme && (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-amber-100 text-amber-800">
+                      {getCulturalThemeDisplay(gallery.cultural_theme)}
+                    </span>
+                  )}
 
-                {gallery.ceremonial_content && (
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-800">
-                    Ceremonial Content
-                  </span>
-                )}
+                  {getSensitivityBadge(gallery.cultural_sensitivity_level)}
 
-                {gallery.traditional_knowledge_content && (
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">
-                    Traditional Knowledge
-                  </span>
-                )}
-              </div>
+                  {gallery.ceremonial_content && (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-800">
+                      Ceremonial Content
+                    </span>
+                  )}
+
+                  {gallery.traditional_knowledge_content && (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">
+                      Traditional Knowledge
+                    </span>
+                  )}
+                </div>
+              )}
 
               {/* Gallery Info */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-grey-600">
@@ -359,11 +403,15 @@ export default function GalleryPage() {
                       className="rounded-full mr-3"
                     />
                   ) : (
-                    <div className="w-10 h-10 bg-grey-300 rounded-full mr-3" />
+                    <div className="w-10 h-10 bg-grey-300 rounded-full mr-3 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-grey-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
                   )}
                   <div>
                     <p className="text-sm font-medium text-grey-900">
-                      {gallery.created_by_profile?.display_name || 'Unknown'}
+                      {gallery.created_by_profile?.display_name || 'Unknown User'}
                     </p>
                     {gallery.created_by_profile?.is_elder && (
                       <p className="text-xs text-purple-600">Community Elder</p>
@@ -405,24 +453,39 @@ export default function GalleryPage() {
             </svg>
             <h3 className="mt-4 text-lg font-medium text-grey-900">No photos yet</h3>
             <p className="mt-2 text-grey-500">
-              {gallery.created_by === user?.id 
-                ? 'Add some photos to get started!' 
+              {canUploadPhotos
+                ? 'Add some photos to get started!'
                 : 'This gallery is waiting for photos to be added.'
               }
             </p>
-            {gallery.created_by === user?.id && (
+            {canUploadPhotos && (
               <div className="mt-4">
-                <Link
-                  href={`/galleries/${gallery.id}/manage`}
+                <button
+                  onClick={() => setShowUploadManager(true)}
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700"
                 >
                   Add Photos
-                </Link>
+                </button>
               </div>
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <>
+            {canUploadPhotos && (
+              <div className="mb-6 flex justify-between items-center">
+                <h2 className="text-xl font-semibold text-grey-900">Photos ({gallery.photo_count})</h2>
+                <button
+                  onClick={() => setShowUploadManager(true)}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700"
+                >
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  Add More Photos
+                </button>
+              </div>
+            )}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {photos.map((photo, index) => (
               <div
                 key={photo.id}
@@ -455,6 +518,36 @@ export default function GalleryPage() {
                     </div>
                   )}
 
+                  {/* Delete button for gallery owners/admins */}
+                  {canUploadPhotos && (
+                    <div
+                      className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          handleDeletePhoto(photo)
+                        }}
+                        disabled={deletingPhoto === photo.id}
+                        className="bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full shadow-lg transition-colors duration-200 disabled:opacity-50 relative z-10"
+                        title="Remove photo from gallery"
+                      >
+                        {deletingPhoto === photo.id ? (
+                          <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                        ) : (
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        )}
+                      </button>
+                    </div>
+                  )}
+
                   {/* Overlay on hover */}
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-opacity duration-200" />
                 </div>
@@ -466,6 +559,32 @@ export default function GalleryPage() {
                 )}
               </div>
             ))}
+            </div>
+          </>
+        )}
+
+        {/* Photo Upload Manager */}
+        {showUploadManager && gallery && canUploadPhotos && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden">
+              <div className="flex justify-between items-center p-6 border-b">
+                <h2 className="text-xl font-semibold">Add Photos to Gallery</h2>
+                <button
+                  onClick={() => setShowUploadManager(false)}
+                  className="text-grey-400 hover:text-grey-600"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 140px)' }}>
+                <PhotoUploadManager
+                  galleryId={gallery.id}
+                  onPhotosUploaded={handlePhotosUploaded}
+                />
+              </div>
+            </div>
           </div>
         )}
 

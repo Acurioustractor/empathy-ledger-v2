@@ -151,7 +151,7 @@ export async function GET(request: NextRequest) {
     if (organisation && organisation !== 'all') {
       // Find the tenant_id for the selected organization
       const { data: orgData } = await supabase
-        .from('organisations')
+        .from('organizations')
         .select('tenant_id')
         .eq('name', organisation)
         .single()
@@ -179,12 +179,10 @@ export async function GET(request: NextRequest) {
         is_elder,
         is_featured,
         profile_visibility,
-        tenant_id,
-        tenant:tenants!left(
-          organisation:organizations!left(
-            id,
-            name
-          )
+        primary_organization_id,
+        primary_organization:organizations!primary_organization_id(
+          id,
+          name
         ),
         profile_organizations!left(
           organisation:organizations(
@@ -193,12 +191,14 @@ export async function GET(request: NextRequest) {
           ),
           role
         ),
-        project_participants!left(
-          project:projects(
+        project_storytellers!left(
+          project_id,
+          role,
+          status,
+          projects!inner(
             id,
             name
-          ),
-          role
+          )
         ),
         profile_locations!left(
           location:locations(
@@ -352,21 +352,27 @@ export async function GET(request: NextRequest) {
               parts.push(loc.name)
             }
 
-            // Add city only if it's different from name
-            if (loc.city && loc.city !== loc.name) {
+            // Add city only if it's different from name and not already in name
+            if (loc.city &&
+                loc.city !== loc.name &&
+                !loc.name?.includes(loc.city)) {
               parts.push(loc.city)
             }
 
-            // Add state only if it's different from name and city
-            if (loc.state && loc.state !== loc.name && loc.state !== loc.city) {
+            // Add state only if it's different and not already included
+            if (loc.state &&
+                loc.state !== loc.name &&
+                loc.state !== loc.city &&
+                !loc.name?.includes(loc.state)) {
               parts.push(loc.state)
             }
 
-            // Add country only if it's different from everything else
+            // Add country only if it's not already included in the name
             if (loc.country &&
                 loc.country !== loc.name &&
                 loc.country !== loc.city &&
-                loc.country !== loc.state) {
+                loc.country !== loc.state &&
+                !loc.name?.includes(loc.country)) {
               parts.push(loc.country)
             }
 
@@ -495,18 +501,18 @@ export async function GET(request: NextRequest) {
           return currentOrgs
         })(),
         project_relationships: (() => {
-          console.log(`🔍 Profile projects for ${profile.display_name}:`, JSON.stringify(profile.project_participants, null, 2))
+          console.log(`🔍 Profile projects for ${profile.display_name}:`, JSON.stringify(profile.project_storytellers, null, 2))
 
-          // If junction table has data, use it
-          if (profile.project_participants && profile.project_participants.length > 0) {
-            return profile.project_participants.map((proj: any) => ({
-              project_id: proj.project?.id,
-              project_name: proj.project?.name,
-              role: proj.role
+          // Use project_storytellers junction table
+          if (profile.project_storytellers && profile.project_storytellers.length > 0) {
+            return profile.project_storytellers.map((proj: any) => ({
+              project_id: proj.projects?.id,
+              project_name: proj.projects?.name,
+              role: proj.role,
+              status: proj.status
             }))
           }
 
-          // For now, return empty array - we'll populate projects separately
           return []
         })(),
         transcriptCount: transcripts.length,

@@ -74,7 +74,7 @@ export async function PUT(
 
         // Get the tenant_id for this organisation
         const { data: orgData } = await supabase
-          .from('organisations')
+          .from('organizations')
           .select('tenant_id')
           .eq('id', primaryOrg.organization_id)
           .single()
@@ -101,20 +101,21 @@ export async function PUT(
 
       // First, remove all existing project relationships for this storyteller
       await supabase
-        .from('profile_projects')
+        .from('project_storytellers')
         .delete()
-        .eq('profile_id', storytellerId)
+        .eq('storyteller_id', storytellerId)
 
       // Then, insert the new relationships
       if (projectRelationships.length > 0) {
         const insertData = projectRelationships.map(rel => ({
-          profile_id: storytellerId,
+          storyteller_id: storytellerId,
           project_id: rel.project_id,
-          role: rel.role
+          role: rel.role,
+          status: 'active'
         }))
 
         const { error: insertError } = await supabase
-          .from('profile_projects')
+          .from('project_storytellers')
           .insert(insertData)
 
         if (insertError) {
@@ -155,7 +156,7 @@ export async function GET(
         organization_id,
         role,
         is_active,
-        organisation:organisations(
+        organisation:organizations(
           id,
           name
         )
@@ -169,16 +170,17 @@ export async function GET(
 
     // Get current project relationships
     const { data: projectRelationships, error: projectError } = await supabase
-      .from('profile_projects')
+      .from('project_storytellers')
       .select(`
         project_id,
         role,
-        project:projects(
+        status,
+        projects!inner(
           id,
           name
         )
       `)
-      .eq('profile_id', storytellerId)
+      .eq('storyteller_id', storytellerId)
 
     if (projectError) {
       console.error('Error fetching project relationships:', projectError)
@@ -193,8 +195,9 @@ export async function GET(
 
     const projects = (projectRelationships || []).map(rel => ({
       project_id: rel.project_id,
-      project_name: rel.project?.name || 'Unknown',
-      role: rel.role
+      project_name: rel.projects?.name || 'Unknown',
+      role: rel.role,
+      status: rel.status
     }))
 
     return NextResponse.json({

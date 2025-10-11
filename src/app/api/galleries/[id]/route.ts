@@ -13,119 +13,156 @@ export async function GET(
   try {
     const supabase = createSupabaseServerClient()
     const { id } = await params
-    
+
+    console.log('🔍 Fetching standalone gallery:', id)
+
     // Get current user for permission checks
     const { data: { user } } = await supabase.auth.getUser()
-    
-    // Fetch gallery with basic data first (avoiding foreign key issues)
-    const { data: gallery, error } = await supabase
-      .from('photo_galleries')
+
+    // Check if this is development mode (bypass authentication)
+    const isDevelopmentBypass = process.env.NODE_ENV === 'development'
+
+    // Try to get the gallery from the main galleries table first
+    let { data: gallery, error: galleriesError } = await supabase
+      .from('galleries')
       .select('*')
       .eq('id', id)
       .single()
 
-    if (error) {
-      if (error.code === 'PGRST116') {
+    if (galleriesError && galleriesError.code === 'PGRST116') {
+      console.log('📋 Gallery not found in main galleries table, checking photo_galleries...')
+
+      // If not found in galleries, check photo_galleries table
+      const { data: photoGallery, error: photoGalleriesError } = await supabase
+        .from('photo_galleries')
+        .select('*')
+        .eq('id', id)
+        .single()
+
+      if (photoGalleriesError || !photoGallery) {
         return NextResponse.json({ error: 'Gallery not found' }, { status: 404 })
       }
-      console.error('Error fetching gallery:', error)
-      return NextResponse.json({ error: 'Failed to fetch gallery' }, { status: 500 })
+
+      // Convert photo_galleries format to galleries format
+      gallery = {
+        id: photoGallery.id,
+        title: photoGallery.title,
+        description: photoGallery.description || '',
+        created_by: photoGallery.created_by,
+        created_at: photoGallery.created_at,
+        updated_at: photoGallery.updated_at,
+        privacy_level: photoGallery.privacy_level,
+        cultural_sensitivity_level: 'standard',
+        photo_count: 0, // Will be calculated from associations
+        view_count: photoGallery.view_count || 0
+      }
     }
 
     if (!gallery) {
       return NextResponse.json({ error: 'Gallery not found' }, { status: 404 })
     }
 
-    // Check user permissions
-    let canView = false
-    let isSuperAdmin = false
-    let isOrganizationMember = false
-    let hasProjectAccess = false
+    console.log('Found gallery:', gallery.title)
 
-    if (user) {
-      // Check if user is super admin
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('is_super_admin')
-        .eq('id', user.id)
-        .single()
-
-      isSuperAdmin = profile?.is_super_admin || false
-
-      // Check if user is a member of the gallery's organisation (if gallery belongs to one)
-      let isOrganizationMember = false
-      if (gallery.organization_id) {
-        const { data: membership } = await supabase
-          .from('profile_organizations')
-          .select('id')
-          .eq('profile_id', user.id)
-          .eq('organization_id', gallery.organization_id)
-          .eq('is_active', true)
-          .single()
-
-        isOrganizationMember = !!membership
-      }
-
-      // Check if user has access to the project this gallery belongs to (if any)
-      let hasProjectAccess = false
-      if (gallery.project_id) {
-        // Check if user is organisation member of the project's organisation
-        const { data: project } = await supabase
-          .from('projects')
-          .select('organization_id')
-          .eq('id', gallery.project_id)
-          .single()
-
-        if (project?.organization_id) {
-          const { data: projectOrgMembership } = await supabase
-            .from('profile_organizations')
-            .select('id')
-            .eq('profile_id', user.id)
-            .eq('organization_id', project.organization_id)
-            .eq('is_active', true)
-            .single()
-
-          hasProjectAccess = !!projectOrgMembership
-        }
-      }
-
-      // Determine view permissions
-      canView =
-        gallery.privacy_level === 'public' ||
-        isSuperAdmin ||
-        (gallery.created_by === user.id) ||
-        (gallery.privacy_level === 'organisation' && isOrganizationMember) ||
-        hasProjectAccess
-    } else {
-      // No user - only public galleries
-      canView = gallery.privacy_level === 'public'
-    }
-
-    console.log('🔐 Gallery access check:', {
-      galleryId: id,
-      privacyLevel: gallery.privacy_level,
-      hasUser: !!user,
-      isSuperAdmin,
-      isOrganizationMember,
-      hasProjectAccess,
-      canView
-    })
+    // Check permissions with development bypass
+    const canView = isDevelopmentBypass ||
+                   gallery.privacy_level === 'public' ||
+                   gallery.created_by === user?.id
 
     if (!canView) {
       return NextResponse.json({ error: 'Access denied' }, { status: 403 })
     }
 
-    // Basic gallery data is returned (media associations will be handled separately when needed)
+    // Get media associations for this gallery (same logic as organization galleries)
+    console.log(`📸 Fetching photos for gallery: ${gallery.title}`)
+
+    const { data: mediaAssociations, error: associationsError } = await supabase
+      .from('gallery_media_associations')
+      .select('*')
+      .eq('gallery_id', gallery.id)
+      .order('sort_order', { ascending: true })
+
+    let galleryWithPhotos = { ...gallery, media_associations: [] }
+
+    if (mediaAssociations && mediaAssociations.length > 0) {
+      const mediaIds = mediaAssociations.map(assoc => assoc.media_asset_id)
+
+      const { data: mediaAssets, error: mediaError } = await supabase
+        .from('media_assets')
+        .select(`
+          id,
+          filename,
+          file_type,
+          title,
+          description,
+          storage_path,
+          thumbnail_url,
+          file_size,
+          mime_type,
+          created_at,
+          uploaded_by
+        `)
+        .in('id', mediaIds)
+
+      if (!mediaError && mediaAssets) {
+        // Create the photo objects with the same structure as organization galleries
+        const photos = mediaAssociations.map(association => {
+          const mediaAsset = mediaAssets.find(asset => asset.id === association.media_asset_id)
+
+          if (!mediaAsset) return null
+
+          return {
+            id: mediaAsset.id,
+            filename: mediaAsset.filename,
+            originalFilename: mediaAsset.filename,
+            type: 'image',
+            url: mediaAsset.thumbnail_url ||
+                 (mediaAsset.storage_path
+                   ? `https://yvnuayzslukamizrlhwb.supabase.co/storage/v1/object/public/media/${mediaAsset.storage_path}`
+                   : `https://via.placeholder.com/400x300/6366f1/ffffff?text=${encodeURIComponent(mediaAsset.title || mediaAsset.filename || 'Photo')}`),
+            title: mediaAsset.title || mediaAsset.filename,
+            description: mediaAsset.description || '',
+            size: mediaAsset.file_size,
+            mimeType: mediaAsset.mime_type,
+            createdAt: mediaAsset.created_at,
+            addedAt: association.created_at,
+            uploader: {
+              id: mediaAsset.uploaded_by,
+              name: 'Unknown User',
+              avatarUrl: null
+            },
+            tags: [`gallery-${gallery.id}`, 'gallery'],
+            galleryItemId: association.id,
+            media_asset: {
+              id: mediaAsset.id,
+              public_url: mediaAsset.thumbnail_url ||
+                         (mediaAsset.storage_path
+                           ? `https://yvnuayzslukamizrlhwb.supabase.co/storage/v1/object/public/media/${mediaAsset.storage_path}`
+                           : null),
+              thumbnail_url: mediaAsset.thumbnail_url,
+              alt_text: mediaAsset.description,
+              title: mediaAsset.title,
+              cultural_sensitivity_level: 'standard'
+            }
+          }
+        }).filter(Boolean)
+
+        galleryWithPhotos.media_associations = photos
+        galleryWithPhotos.photo_count = photos.length
+      }
+    }
+
+    console.log(`✅ Found ${galleryWithPhotos.media_associations?.length || 0} photos for ${gallery.title}`)
 
     // Increment view count if this is a public view (not the owner)
     if (gallery.created_by !== user?.id) {
       await supabase
-        .from('photo_galleries')
+        .from('galleries')
         .update({ view_count: (gallery.view_count || 0) + 1 })
         .eq('id', id)
     }
 
-    return NextResponse.json({ gallery })
+    return NextResponse.json({ gallery: galleryWithPhotos })
   } catch (error) {
     console.error('Error in gallery API:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -139,7 +176,7 @@ export async function PUT(
   try {
     const supabase = createSupabaseServerClient()
     const { id } = await params
-    
+
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
@@ -147,44 +184,37 @@ export async function PUT(
     }
 
     // Check if user owns this gallery
-    const { data: existingGallery, error: fetchError } = await supabase
-      .from('photo_galleries')
+    const { data: gallery, error: galleryError } = await supabase
+      .from('galleries')
       .select('created_by')
       .eq('id', id)
       .single()
 
-    if (fetchError) {
+    if (galleryError) {
       return NextResponse.json({ error: 'Gallery not found' }, { status: 404 })
     }
 
-    if (existingGallery.created_by !== user.id) {
+    if (gallery.created_by !== user.id) {
       return NextResponse.json({ error: 'Access denied' }, { status: 403 })
     }
 
     const body = await request.json()
-    const updateData: GalleryUpdate = {
-      ...body,
-      updated_at: new Date().toISOString()
-    }
+    const updateData: GalleryUpdate = body
 
-    // Don't allow changing the owner or ID
-    delete (updateData as any).id
-    delete (updateData as any).created_by
-
-    // Update gallery
-    const { data: gallery, error } = await supabase
-      .from('photo_galleries')
+    // Update the gallery
+    const { data: updatedGallery, error: updateError } = await supabase
+      .from('galleries')
       .update(updateData)
       .eq('id', id)
-      .select('*')
+      .select()
       .single()
 
-    if (error) {
-      console.error('Error updating gallery:', error)
+    if (updateError) {
+      console.error('Error updating gallery:', updateError)
       return NextResponse.json({ error: 'Failed to update gallery' }, { status: 500 })
     }
 
-    return NextResponse.json({ gallery })
+    return NextResponse.json({ gallery: updatedGallery })
   } catch (error) {
     console.error('Error in gallery update:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -198,7 +228,7 @@ export async function DELETE(
   try {
     const supabase = createSupabaseServerClient()
     const { id } = await params
-    
+
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
@@ -206,35 +236,34 @@ export async function DELETE(
     }
 
     // Check if user owns this gallery
-    const { data: existingGallery, error: fetchError } = await supabase
-      .from('photo_galleries')
-      .select('created_by, photo_count')
+    const { data: gallery, error: galleryError } = await supabase
+      .from('galleries')
+      .select('created_by')
       .eq('id', id)
       .single()
 
-    if (fetchError) {
+    if (galleryError) {
       return NextResponse.json({ error: 'Gallery not found' }, { status: 404 })
     }
 
-    if (existingGallery.created_by !== user.id) {
+    if (gallery.created_by !== user.id) {
       return NextResponse.json({ error: 'Access denied' }, { status: 403 })
     }
 
-    // Check if gallery has photos - prevent deletion if it does
-    if (existingGallery.photo_count > 0) {
-      return NextResponse.json({ 
-        error: 'Cannot delete gallery with photos. Please remove all photos first.' 
-      }, { status: 400 })
-    }
+    // Delete all media associations first
+    await supabase
+      .from('gallery_media_associations')
+      .delete()
+      .eq('gallery_id', id)
 
-    // Delete gallery
-    const { error } = await supabase
-      .from('photo_galleries')
+    // Delete the gallery
+    const { error: deleteError } = await supabase
+      .from('galleries')
       .delete()
       .eq('id', id)
 
-    if (error) {
-      console.error('Error deleting gallery:', error)
+    if (deleteError) {
+      console.error('Error deleting gallery:', deleteError)
       return NextResponse.json({ error: 'Failed to delete gallery' }, { status: 500 })
     }
 

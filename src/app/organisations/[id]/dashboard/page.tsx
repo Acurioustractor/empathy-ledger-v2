@@ -6,7 +6,7 @@ import { RecentProjects } from '@/components/organization/RecentProjects'
 import { DashboardQuickActions } from '@/components/organization/DashboardQuickActions'
 
 interface OrganizationDashboardProps {
-  params: Promise<{ id: string }>
+  params: { id: string }
 }
 
 async function getOrganizationData(organizationId: string) {
@@ -14,7 +14,7 @@ async function getOrganizationData(organizationId: string) {
   
   // Get organisation details
   const { data: organisation } = await supabase
-    .from('organisations')
+    .from('organizations')
     .select('*')
     .eq('id', organizationId)
     .single()
@@ -98,7 +98,7 @@ async function getOrganizationData(organizationId: string) {
 export default async function OrganizationDashboard({
   params,
 }: OrganizationDashboardProps) {
-  const { id } = await params
+  const { id } = params
   const data = await getOrganizationData(id)
 
   return (

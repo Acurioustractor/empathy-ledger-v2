@@ -20,7 +20,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
     }
 
-    // Get all storytellers (profiles) in the same tenant as this project
+    // Get all storytellers (profiles) - ALLOW CROSS-TENANT for super admin
+    // This allows storytellers from any organization to be assigned to projects
     const { data: profiles, error: profilesError } = await supabase
       .from('profiles')
       .select(`
@@ -34,7 +35,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         is_elder,
         tenant_id
       `)
-      .eq('tenant_id', project.tenant_id)
       .eq('is_storyteller', true)
 
     if (profilesError) {
@@ -157,25 +157,25 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
     }
 
-    // Verify the storyteller exists and is in the same tenant
+    // Verify the storyteller exists - ALLOW CROSS-TENANT for super admin
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('id, display_name, tenant_id')
       .eq('id', body.storytellerId)
-      .eq('tenant_id', project.tenant_id)
       .single()
 
     if (profileError) {
-      return NextResponse.json({ error: 'Storyteller not found or not in same organisation' }, { status: 404 })
+      return NextResponse.json({ error: 'Storyteller not found' }, { status: 404 })
     }
 
-    // Create the project participant record
+    // Create the project storyteller record (use project_storytellers table)
     const { data: participant, error: insertError } = await supabase
-      .from('project_participants')
+      .from('project_storytellers')
       .insert({
         project_id: projectId,
         storyteller_id: body.storytellerId,
-        role: 'participant'
+        role: 'participant',
+        status: 'active'
       })
       .select()
       .single()
@@ -183,17 +183,45 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     if (insertError) {
       // Handle duplicate key error (storyteller already assigned)
       if (insertError.code === '23505') {
-        return NextResponse.json({ 
-          error: 'Storyteller is already assigned to this project' 
+        return NextResponse.json({
+          error: 'Storyteller is already assigned to this project'
         }, { status: 409 })
       }
-      
+
       console.error('Error creating participant record:', insertError)
-      return NextResponse.json({ 
-        error: 'Failed to assign storyteller to project' 
+      return NextResponse.json({
+        error: 'Failed to assign storyteller to project'
       }, { status: 500 })
     }
-    
+
+    // AUTOMATICALLY LINK ALL TRANSCRIPTS TO THIS PROJECT
+    // This ensures ALL transcripts from this storyteller are linked to the project
+    // Get all transcripts for this storyteller (regardless of current project_id)
+    const { data: allTranscripts } = await supabase
+      .from('transcripts')
+      .select('id, project_id')
+      .eq('storyteller_id', body.storytellerId)
+
+    let linkedCount = 0
+    let updatedCount = 0
+
+    if (allTranscripts && allTranscripts.length > 0) {
+      // Update ALL transcripts to link them to this project
+      const { error: updateError } = await supabase
+        .from('transcripts')
+        .update({ project_id: projectId })
+        .eq('storyteller_id', body.storytellerId)
+
+      if (updateError) {
+        console.error('Error linking transcripts to project:', updateError)
+        // Don't fail the whole operation, just log the error
+      } else {
+        linkedCount = allTranscripts.length
+        updatedCount = allTranscripts.filter(t => t.project_id !== projectId).length
+        console.log(`Linked ${linkedCount} transcripts to project ${projectId} (${updatedCount} updated, ${linkedCount - updatedCount} already linked)`)
+      }
+    }
+
     return NextResponse.json({
       message: 'Storyteller added to project successfully',
       project: {
@@ -204,7 +232,9 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         id: profile.id,
         name: profile.display_name
       },
-      participant
+      participant,
+      linkedTranscripts: linkedCount,
+      updatedTranscripts: updatedCount
     })
 
   } catch (error) {
@@ -226,9 +256,9 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
       return NextResponse.json({ error: 'Storyteller ID is required' }, { status: 400 })
     }
 
-    // Remove the participant record
+    // Remove the storyteller record (use project_storytellers table)
     const { error: deleteError } = await supabase
-      .from('project_participants')
+      .from('project_storytellers')
       .delete()
       .eq('project_id', projectId)
       .eq('storyteller_id', storytellerId)

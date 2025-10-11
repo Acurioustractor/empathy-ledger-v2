@@ -20,7 +20,7 @@ export async function POST(
 
     // Get organisation to find tenant_id
     const { data: organisation } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('tenant_id, name')
       .eq('id', organizationId)
       .single()

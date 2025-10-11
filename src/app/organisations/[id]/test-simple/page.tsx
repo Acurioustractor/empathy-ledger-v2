@@ -1,7 +1,7 @@
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 interface SimpleTestProps {
-  params: Promise<{ id: string }>
+  params: { id: string }
 }
 
 async function getBasicOrganizationData(organizationId: string) {
@@ -9,7 +9,7 @@ async function getBasicOrganizationData(organizationId: string) {
   
   // Get organisation details - basic test
   const { data: organisation, error } = await supabase
-    .from('organisations')
+    .from('organizations')
     .select('id, name, tenant_id')
     .eq('id', organizationId)
     .single()
@@ -23,7 +23,7 @@ async function getBasicOrganizationData(organizationId: string) {
 }
 
 export default async function SimpleTestPage({ params }: SimpleTestProps) {
-  const { id } = await params
+  const { id } = params
   const { organisation, error } = await getBasicOrganizationData(id)
 
   if (error) {

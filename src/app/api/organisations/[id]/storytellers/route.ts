@@ -81,7 +81,7 @@ export async function GET(
 
     // Get organisation details first
     const { data: organisation, error: orgError } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('id, name, tenant_id')
       .eq('id', organizationId)
       .single()
@@ -101,30 +101,7 @@ export async function GET(
     
     const { data: allProfiles, error: profilesError } = await supabase
       .from('profiles')
-      .select(`
-        id,
-        full_name,
-        display_name,
-        bio,
-        avatar_url,
-        profile_image_url,
-        video_introduction_url,
-        featured_video_url,
-        is_storyteller,
-        is_elder,
-        is_featured,
-        tenant_id,
-        tenant_roles,
-        impact_focus_areas,
-        expertise_areas,
-        storytelling_methods,
-        community_roles,
-        change_maker_type,
-        geographic_scope,
-        years_of_community_work,
-        mentor_availability,
-        speaking_availability
-      `)
+      .select('*')
       .eq('tenant_id', organisation.tenant_id)
       .contains('tenant_roles', ['storyteller'])
       .order('full_name', { ascending: true })
@@ -132,6 +109,35 @@ export async function GET(
     if (profilesError) {
       console.error('❌ Error fetching profiles:', profilesError)
       throw profilesError
+    }
+
+    console.log('🔍 Found profiles with storyteller role:', allProfiles?.map(p => ({
+      id: p.id.substring(0, 8),
+      name: p.display_name || p.full_name,
+      tenant_roles: p.tenant_roles
+    })))
+
+    const avatarMediaIds = Array.from(new Set((allProfiles || [])
+      .filter(profile => !profile.profile_image_url && !profile.avatar_url && profile.avatar_media_id)
+      .map(profile => profile.avatar_media_id)))
+
+    const avatarUrlMap: Record<string, string> = {}
+
+    if (avatarMediaIds.length > 0) {
+      const { data: avatarMedia, error: avatarError } = await supabase
+        .from('media_assets')
+        .select('id, cdn_url')
+        .in('id', avatarMediaIds)
+
+      if (avatarError) {
+        console.error('⚠️  Failed to resolve avatar media assets for organisation storytellers:', avatarError)
+      } else {
+        avatarMedia?.forEach(media => {
+          if (media.cdn_url) {
+            avatarUrlMap[media.id] = media.cdn_url
+          }
+        })
+      }
     }
 
 
@@ -288,14 +294,16 @@ export async function GET(
       ].filter(Boolean)
       const lastActive = allDates.length > 0 ? allDates.sort().reverse()[0] : undefined
 
+      const resolvedAvatarUrl = profile.profile_image_url || profile.avatar_url || (profile.avatar_media_id ? avatarUrlMap[profile.avatar_media_id] : null)
+
       storytellers.push({
         id: profile.id,
         fullName: profile.full_name || '',
         displayName: profile.display_name || '',
         bio: profile.bio,
-        avatarUrl: profile.profile_image_url || profile.avatar_url,
-        location: profile.location || profile.current_location,
-        culturalBackground: profile.cultural_background,
+        avatarUrl: resolvedAvatarUrl || null,
+        location: undefined,
+        culturalBackground: undefined,
         isElder: profile.is_elder || false,
         isFeatured: profile.is_featured || false,
         videoIntroductionUrl: profile.video_introduction_url,
@@ -305,7 +313,7 @@ export async function GET(
         stats,
         aiInsights: topThemes.length > 0 ? {
           topThemes,
-          culturalMarkers: profile.cultural_background ? [profile.cultural_background] : [],
+          culturalMarkers: [],
           lastAnalyzed: analyzedCount > 0 ? new Date().toISOString() : undefined
         } : undefined,
         primaryProject,
@@ -386,7 +394,7 @@ export async function POST(
 
     // Get organisation details
     const { data: organisation, error: orgError } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('id, name, tenant_id')
       .eq('id', organizationId)
       .single()
@@ -419,10 +427,12 @@ export async function POST(
     // Check if user is already a storyteller for this organisation
     const currentRoles = user.tenant_roles || []
     if (currentRoles.includes('storyteller') && user.tenant_id === organisation.tenant_id) {
-      return NextResponse.json(
-        { success: false, error: `${userName} is already a storyteller for ${organisation.name}` },
-        { status: 400 }
-      )
+      console.log('✅ User already has storyteller role for this organization - returning success')
+      return NextResponse.json({
+        success: true,
+        message: `${userName} is already a storyteller for ${organisation.name}`,
+        alreadyExists: true
+      })
     }
 
     // Add 'storyteller' to tenant_roles array

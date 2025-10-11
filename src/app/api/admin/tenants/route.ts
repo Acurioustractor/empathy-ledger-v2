@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
 
     // Query tenants
     let query = supabase
-      .from('tenants')
+      .from('organizations')
       .select('*')
       .order('name')
 
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
 
     // Create tenant in database
     const { data: newTenant, error } = await supabase
-      .from('tenants')
+      .from('organizations')
       .insert([{
         name: tenantData.name,
         description: tenantData.description || '',
@@ -144,7 +144,7 @@ export async function PUT(request: NextRequest) {
 
     // Update tenant in database
     const { data: updatedTenant, error } = await supabase
-      .from('tenants')
+      .from('organizations')
       .update({
         name: updateData.name,
         description: updateData.description,
@@ -189,7 +189,7 @@ export async function DELETE(request: NextRequest) {
 
     // Delete tenant
     const { error } = await supabase
-      .from('tenants')
+      .from('organizations')
       .delete()
       .eq('id', id)
 

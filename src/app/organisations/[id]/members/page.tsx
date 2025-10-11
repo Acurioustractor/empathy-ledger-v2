@@ -12,7 +12,7 @@ async function getOrganizationData(organizationId: string) {
 
   // Get organisation details including slug
   const { data: organisation } = await supabase
-    .from('organisations')
+    .from('organizations')
     .select('id, name, slug, tenant_id')
     .eq('id', organizationId)
     .single()
@@ -97,7 +97,6 @@ async function getOrganizationData(organizationId: string) {
         tenant_roles,
         created_at,
         profile_image_url,
-        avatar_url,
         bio
       )
     `)
@@ -106,15 +105,18 @@ async function getOrganizationData(organizationId: string) {
     .order('joined_at', { ascending: false })
 
   console.log('🔍 Member relations found:', memberRelations?.length || 0)
+  if (memberRelations && memberRelations.length > 0) {
+    console.log('🔍 First member relation:', JSON.stringify(memberRelations[0], null, 2))
+  }
 
   if (error) {
-    console.error('Error fetching organisation members:', error)
+    console.error('❌ Error fetching organisation members:', error)
     return { organisation, members: [], canManage, isSuperAdmin }
   }
 
   // If no formal organisation members, fall back to tenant members (storytellers, etc.)
   if (!memberRelations || memberRelations.length === 0) {
-    console.log('🔍 No formal org members, fetching tenant members...')
+    console.log('⚠️ No formal org members, fetching tenant members...')
 
     const { data: tenantProfiles, error: tenantError } = await supabase
       .from('profiles')
@@ -215,12 +217,18 @@ async function getOrganizationData(organizationId: string) {
     })
   )
 
+  console.log('✅ getOrganizationData returning', enhancedMembers.length, 'enhanced members')
+  console.log('✅ Enhanced member names:', enhancedMembers.map(m => m.display_name || m.full_name))
+
   return { organisation, members: enhancedMembers, canManage, isSuperAdmin }
 }
 
 export default async function MembersPage({ params }: MembersPageProps) {
   const { id } = await params
+  console.log('🎯 MembersPage - Organization ID:', id)
   const { organisation, members, canManage, isSuperAdmin } = await getOrganizationData(id)
+  console.log('🎯 MembersPage - Got', members.length, 'members from getOrganizationData')
+  console.log('🎯 MembersPage - Member names:', members.map(m => m.display_name || m.full_name))
 
   return (
     <div className="space-y-8">

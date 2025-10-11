@@ -19,34 +19,23 @@ export async function GET(request: Request) {
     const { data: { user } } = await supabase.auth.getUser()
     
     let query = supabase
-      .from('photo_galleries')
+      .from('galleries')
       .select(`
-        *,
-        cover_image:media_assets!photo_galleries_cover_image_id_fkey(
-          id,
-          public_url,
-          thumbnail_url,
-          alt_text,
-          cultural_sensitivity_level
-        ),
-        created_by_profile:profiles!photo_galleries_created_by_fkey(
-          display_name,
-          avatar_url
-        ),
-        organisation:organisations(
-          name,
-          slug,
-          logo_url
-        )
+        *
       `)
       .order('created_at', { ascending: false })
 
     // Apply visibility filters based on user authentication
-    if (!user) {
+    const isDevelopmentMode = process.env.NODE_ENV === 'development'
+
+    if (!user && !isDevelopmentMode) {
       query = query.eq('privacy_level', 'public')
+    } else if (isDevelopmentMode) {
+      // In development mode, show all galleries regardless of privacy level
+      console.log('🔧 Development mode: Showing all galleries')
     } else {
-      // Authenticated users can see public and community galleries
-      query = query.in('privacy_level', ['public', 'organisation'])
+      // Authenticated users can see public and organization galleries
+      query = query.in('privacy_level', ['public', 'organization'])
     }
 
     // Apply filters
@@ -81,7 +70,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Failed to fetch galleries' }, { status: 500 })
     }
 
-    // Add photo count to each gallery
+    // Add photo count and first photo thumbnail to each gallery
     const galleriesWithCounts = await Promise.all(
       (galleries || []).map(async (gallery) => {
         const { count: photoCount } = await supabase
@@ -89,17 +78,64 @@ export async function GET(request: Request) {
           .select('*', { count: 'exact', head: true })
           .eq('gallery_id', gallery.id)
 
+        // If no cover image is set, get the first photo as thumbnail
+        let coverImage = gallery.cover_image
+        let coverImageData = null
+
+        if (!coverImage && photoCount && photoCount > 0) {
+          console.log(`🖼️ Looking for first photo for gallery: ${gallery.title} (${gallery.id}) with ${photoCount} photos`)
+
+          // Get first association
+          const { data: firstAssociation, error: associationError } = await supabase
+            .from('gallery_media_associations')
+            .select('id, media_asset_id')
+            .eq('gallery_id', gallery.id)
+            .order('sort_order', { ascending: true })
+            .limit(1)
+            .single()
+
+          if (associationError) {
+            console.log(`❌ Error fetching first association for ${gallery.title}:`, associationError)
+          } else if (firstAssociation) {
+            // Get the media asset separately
+            const { data: mediaAsset, error: mediaError } = await supabase
+              .from('media_assets')
+              .select('id, cdn_url, thumbnail_url, storage_path, title, description, cultural_sensitivity_level')
+              .eq('id', firstAssociation.media_asset_id)
+              .single()
+
+            if (mediaError) {
+              console.log(`❌ Error fetching media asset for ${gallery.title}:`, mediaError)
+            } else if (mediaAsset) {
+              console.log(`✅ Found first photo for ${gallery.title}:`, mediaAsset.id)
+              const assetData = mediaAsset as any
+
+              // Create cover image data for frontend
+              coverImageData = {
+                id: assetData.id,
+                public_url: assetData.cdn_url || assetData.thumbnail_url || (assetData.storage_path ? `https://yvnuayzslukamizrlhwb.supabase.co/storage/v1/object/public/media/${assetData.storage_path}` : null),
+                thumbnail_url: assetData.thumbnail_url || assetData.cdn_url,
+                alt_text: assetData.description || assetData.title,
+                cultural_sensitivity_level: assetData.cultural_sensitivity_level || 'standard'
+              }
+            }
+          }
+        }
+
         return {
           ...gallery,
-          photo_count: photoCount || 0
+          photo_count: photoCount || 0,
+          cover_image: coverImageData || gallery.cover_image
         }
       })
     )
 
     // Get total count for pagination
     const { count: totalCount } = await supabase
-      .from('photo_galleries')
+      .from('galleries')
       .select('*', { count: 'exact', head: true })
+
+    console.log(`📊 Returning ${galleriesWithCounts.length} galleries to frontend`)
 
     return NextResponse.json({
       galleries: galleriesWithCounts,
@@ -127,37 +163,26 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json()
-    const { 
-      title, 
-      slug,
-      description, 
-      cultural_theme,
-      cultural_context,
+    const {
+      title,
+      description,
       cultural_sensitivity_level,
-      ceremony_type,
-      ceremony_date,
-      ceremony_location,
-      seasonal_context,
-      traditional_knowledge_content,
-      requires_elder_approval,
-      visibility,
-      access_restrictions,
-      organization_id,
-      cover_image_id
+      privacy_level,
+      organization_id
     } = body
 
     // Validate required fields
-    if (!title || !slug) {
-      return NextResponse.json({ 
-        error: 'Title and slug are required' 
+    if (!title) {
+      return NextResponse.json({
+        error: 'Title is required'
       }, { status: 400 })
     }
 
     // Check if slug is unique
     const { data: existingGallery } = await supabase
-      .from('photo_galleries')
+      .from('galleries')
       .select('id')
-      .eq('slug', slug)
+      .eq('title', title)
       .single()
 
     if (existingGallery) {
@@ -167,53 +192,22 @@ export async function POST(request: Request) {
     }
 
     // Prepare gallery data
-    const galleryData: GalleryInsert = {
+    const galleryData: any = {
       title,
-      slug,
-      description,
+      description: description || '',
       created_by: user.id,
-      cultural_theme,
-      cultural_context: cultural_context || {},
-      cultural_sensitivity_level: cultural_sensitivity_level || 'medium',
-      ceremony_type,
-      ceremony_date,
-      ceremony_location,
-      seasonal_context,
-      traditional_knowledge_content: traditional_knowledge_content || false,
-      requires_elder_approval: requires_elder_approval || false,
-      privacy_level: visibility || 'private',
-      access_restrictions: access_restrictions || {},
+      cultural_sensitivity_level: cultural_sensitivity_level || 'standard',
+      privacy_level: privacy_level || 'private',
       organization_id,
-      cover_image_id,
-      status: 'active'
-    }
-
-    // Set elder approval status based on requirements
-    if (requires_elder_approval) {
-      galleryData.elder_approval_status = 'pending'
-    } else {
-      galleryData.elder_approval_status = 'not_required'
+      photo_count: 0,
+      view_count: 0
     }
 
     // Create gallery
     const { data: gallery, error } = await supabase
-      .from('photo_galleries')
+      .from('galleries')
       .insert(galleryData)
-      .select(`
-        *,
-        cover_image:media_assets!photo_galleries_cover_image_id_fkey(
-          id,
-          filename,
-          public_url,
-          thumbnail_url,
-          alt_text
-        ),
-        created_by_profile:profiles!photo_galleries_created_by_fkey(
-          id,
-          display_name,
-          avatar_url
-        )
-      `)
+      .select('*')
       .single()
 
     if (error) {

@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X, User, Heart, Map, BookOpen, Users, BarChart3, Info, Layout, Settings, ChevronDown, FolderOpen, LogOut, MoreHorizontal } from 'lucide-react'
+import { Menu, X, User, Heart, Map, BookOpen, Users, BarChart3, Info, Layout, Settings, ChevronDown, FolderOpen, LogOut, MoreHorizontal, Rocket } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
@@ -380,6 +380,7 @@ export default function Header() {
                         </Link>
                       )}
 
+
                       {/* Admin Link */}
                       {(isAdmin || isSuperAdmin) && (
                         <Link
@@ -532,9 +533,9 @@ export default function Header() {
                   )}
                   
                   {actualIsStoryteller && actualUser?.id && (
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
+                    <Button
+                      variant="outline"
+                      size="sm"
                       asChild
                       className="w-full justify-start border-grey-300 text-grey-700 hover:bg-grey-50 font-semibold mb-2"
                     >
@@ -544,7 +545,8 @@ export default function Header() {
                       </Link>
                     </Button>
                   )}
-                  
+
+
                   {(isAdmin || isSuperAdmin) && (
                     <Button 
                       size="sm" 

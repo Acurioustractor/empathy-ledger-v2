@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Save, X, Mic, Plus, Upload, FileAudio, Eye, Edit, Trash2, Calendar, Clock } from 'lucide-react'
+import { ArrowLeft, Save, X, Mic, Plus, Upload, FileAudio, Eye, Edit, Trash2, Calendar, Clock, Sparkles, ChevronDown, ChevronUp, Pencil, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -14,6 +14,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Link from 'next/link'
 import ConnectionManager from '@/components/admin/ConnectionManager'
+import { AvatarUpload } from '@/components/profile/AvatarUpload'
+
+interface ProjectAssignment {
+  id: string
+  name: string
+  status: string
+  role: string
+  assignmentStatus: string
+  organization: {
+    id: string
+    name: string
+  } | null
+  joinedAt: string
+}
 
 interface StorytellerEditData {
   id: string
@@ -29,6 +43,7 @@ interface StorytellerEditData {
   profile_image_url?: string
   story_count: number
   created_at: string
+  projects?: ProjectAssignment[]
 }
 
 interface Transcript {
@@ -40,6 +55,10 @@ interface Transcript {
   duration: number
   created_at: string
   updated_at: string
+  ai_processing_status?: string | null
+  themes?: string[] | null
+  key_quotes?: string[] | null
+  ai_summary?: string | null
 }
 
 interface PageProps {
@@ -80,6 +99,15 @@ export default function EditStorytellerPage({ params }: PageProps) {
   const [audioUploading, setAudioUploading] = useState(false)
   const [audioUrl, setAudioUrl] = useState<string>('')
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // AI Analysis state
+  const [analyzingTranscript, setAnalyzingTranscript] = useState<string | null>(null)
+  const [expandedSummaries, setExpandedSummaries] = useState<Set<string>>(new Set())
+  const [editingTranscript, setEditingTranscript] = useState<string | null>(null)
+  const [editedSummary, setEditedSummary] = useState<string>('')
+  const [editedQuotes, setEditedQuotes] = useState<string[]>([])
+  const [savingEdit, setSavingEdit] = useState(false)
+  const [uploadingAvatar, setUploadingAvatar] = useState(false)
 
   useEffect(() => {
     fetchStoryteller()
@@ -126,6 +154,176 @@ export default function EditStorytellerPage({ params }: PageProps) {
     }
   }
 
+  const handleAnalyzeTranscript = async (transcriptId: string) => {
+    try {
+      setAnalyzingTranscript(transcriptId)
+
+      const response = await fetch(`/api/transcripts/${transcriptId}/analyze`, {
+        method: 'POST'
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to start analysis')
+      }
+
+      const result = await response.json()
+
+      setTranscriptSuccess(`Analysis started! This will take 2-5 minutes. The page will update automatically.`)
+      setTimeout(() => setTranscriptSuccess(''), 5000)
+
+      // Poll for updates
+      const pollInterval = setInterval(async () => {
+        const statusRes = await fetch(`/api/transcripts/${transcriptId}/analyze`)
+        const status = await statusRes.json()
+
+        if (status.complete) {
+          clearInterval(pollInterval)
+          setAnalyzingTranscript(null)
+          fetchTranscripts() // Refresh to show results
+          setTranscriptSuccess('Analysis complete! Themes and quotes extracted.')
+          setTimeout(() => setTranscriptSuccess(''), 5000)
+        }
+      }, 10000) // Check every 10 seconds
+
+      // Stop polling after 10 minutes
+      setTimeout(() => clearInterval(pollInterval), 600000)
+
+    } catch (error) {
+      console.error('Error analyzing transcript:', error)
+      setError(error instanceof Error ? error.message : 'Failed to analyze transcript')
+      setAnalyzingTranscript(null)
+    }
+  }
+
+  const toggleSummary = (transcriptId: string) => {
+    setExpandedSummaries(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(transcriptId)) {
+        newSet.delete(transcriptId)
+      } else {
+        newSet.add(transcriptId)
+      }
+      return newSet
+    })
+  }
+
+  const handleEditAnalysis = (transcript: Transcript) => {
+    setEditingTranscript(transcript.id)
+    setEditedSummary(transcript.ai_summary || '')
+    setEditedQuotes(transcript.key_quotes || [])
+  }
+
+  const handleCancelEdit = () => {
+    setEditingTranscript(null)
+    setEditedSummary('')
+    setEditedQuotes([])
+  }
+
+  const handleSaveAnalysis = async (transcriptId: string) => {
+    try {
+      setSavingEdit(true)
+
+      const response = await fetch(`/api/transcripts/${transcriptId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ai_summary: editedSummary,
+          key_quotes: editedQuotes.filter(q => q.trim() !== '')
+        })
+      })
+
+      if (!response.ok) throw new Error('Failed to save changes')
+
+      setTranscriptSuccess('Analysis updated successfully!')
+      setEditingTranscript(null)
+      fetchTranscripts()
+    } catch (error) {
+      console.error('Error saving analysis:', error)
+      setTranscriptError('Failed to save changes')
+    } finally {
+      setSavingEdit(false)
+    }
+  }
+
+  const handleQuoteChange = (index: number, value: string) => {
+    setEditedQuotes(prev => {
+      const newQuotes = [...prev]
+      newQuotes[index] = value
+      return newQuotes
+    })
+  }
+
+  const handleAddQuote = () => {
+    setEditedQuotes(prev => [...prev, ''])
+  }
+
+  const handleRemoveQuote = (index: number) => {
+    setEditedQuotes(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const handleAvatarUpload = async (file: File): Promise<string | null> => {
+    setUploadingAvatar(true)
+    try {
+      // Upload to media API
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('title', `Avatar for ${storyteller?.display_name || 'storyteller'}`)
+
+      const uploadResponse = await fetch('/api/media', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!uploadResponse.ok) {
+        const errorData = await uploadResponse.json()
+        throw new Error(errorData.error || 'Failed to upload avatar')
+      }
+
+      const uploadResult = await uploadResponse.json()
+      console.log('Upload result:', uploadResult)
+
+      // Get both the media ID and CDN URL from the upload
+      const mediaId = uploadResult.mediaId
+      const avatarUrl = uploadResult.asset?.cdn_url
+
+      if (!mediaId || !avatarUrl) {
+        throw new Error('Failed to get avatar data from upload response')
+      }
+
+      console.log('Avatar uploaded:', { mediaId, avatarUrl })
+
+      // Update the storyteller profile with media_id
+      const updateResponse = await fetch(`/api/admin/storytellers/${params.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ avatar_media_id: mediaId })
+      })
+
+      if (!updateResponse.ok) {
+        const errorData = await updateResponse.json()
+        console.error('Update error:', errorData)
+        throw new Error(errorData.error || 'Failed to update profile with new avatar')
+      }
+
+      console.log('Profile updated successfully')
+
+      // Update local state
+      setStoryteller(prev => prev ? { ...prev, profile_image_url: avatarUrl } : null)
+
+      // Clear error if successful
+      setError('')
+
+      return avatarUrl
+    } catch (error) {
+      console.error('Error uploading avatar:', error)
+      setError(error instanceof Error ? error.message : 'Failed to upload avatar')
+      return null
+    } finally {
+      setUploadingAvatar(false)
+    }
+  }
+
   const handleSave = async () => {
     try {
       setSaving(true)
@@ -141,8 +339,15 @@ export default function EditStorytellerPage({ params }: PageProps) {
 
       if (!response.ok) throw new Error('Failed to update storyteller')
 
-      // Redirect back to admin storytellers page
-      router.push('/admin/storytellers')
+      // Refresh the data to show updated values
+      await fetchStoryteller()
+
+      // Show success message instead of redirecting
+      setError('')
+      setSaving(false)
+
+      // Optional: Show a success toast/message
+      alert('Storyteller profile updated successfully!')
     } catch (error) {
       console.error('Error updating storyteller:', error)
       setError('Failed to update storyteller')
@@ -423,8 +628,9 @@ export default function EditStorytellerPage({ params }: PageProps) {
 
       {/* Tabbed Content */}
       <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="projects">Projects ({storyteller?.projects?.length || 0})</TabsTrigger>
           <TabsTrigger value="transcripts">Transcripts</TabsTrigger>
           <TabsTrigger value="connections">Connections</TabsTrigger>
         </TabsList>
@@ -478,6 +684,22 @@ export default function EditStorytellerPage({ params }: PageProps) {
 
             {/* Sidebar */}
             <div className="space-y-6">
+              {/* Avatar Upload */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Profile Picture</CardTitle>
+                  <CardDescription>Upload or change the storyteller's avatar</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <AvatarUpload
+                    currentAvatarUrl={storyteller?.profile_image_url}
+                    userName={storyteller?.display_name || storyteller?.full_name || 'Storyteller'}
+                    onUpload={handleAvatarUpload}
+                    isEditing={true}
+                  />
+                </CardContent>
+              </Card>
+
               {/* Status & Settings */}
               <Card>
             <CardHeader>
@@ -551,6 +773,61 @@ export default function EditStorytellerPage({ params }: PageProps) {
           </div>
         </TabsContent>
 
+        {/* Projects Tab */}
+        <TabsContent value="projects">
+          <Card>
+            <CardHeader>
+              <CardTitle>Project Assignments</CardTitle>
+              <CardDescription>
+                Projects where {storyteller?.display_name || 'this storyteller'} is assigned
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {!storyteller?.projects || storyteller.projects.length === 0 ? (
+                <div className="text-center py-8 text-grey-500">
+                  No project assignments yet.
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {storyteller.projects.map((project) => (
+                    <div
+                      key={project.id}
+                      className="flex items-center justify-between p-4 border rounded-lg hover:bg-grey-50"
+                    >
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3">
+                          <h3 className="font-semibold">{project.name}</h3>
+                          <Badge variant={project.assignmentStatus === 'active' ? 'default' : 'secondary'}>
+                            {project.assignmentStatus}
+                          </Badge>
+                          <Badge variant="outline">{project.role}</Badge>
+                        </div>
+                        {project.organization && (
+                          <p className="text-sm text-grey-600 mt-1">
+                            Organization: {project.organization.name}
+                          </p>
+                        )}
+                        <p className="text-xs text-grey-500 mt-1">
+                          Joined: {new Date(project.joinedAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        asChild
+                      >
+                        <Link href={`/admin/projects/${project.id}/storytellers`}>
+                          View Project
+                        </Link>
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
         {/* Transcripts Tab */}
         <TabsContent value="transcripts">
           <div className="space-y-6">
@@ -581,60 +858,237 @@ export default function EditStorytellerPage({ params }: PageProps) {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {transcripts.map((transcript) => (
-                      <div key={transcript.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-grey-50">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3">
-                            <h3 className="font-medium">{transcript.title}</h3>
-                            <Badge variant={transcript.status === 'completed' ? 'default' : 'secondary'}>
-                              {transcript.status}
-                            </Badge>
-                          </div>
-                          <div className="flex items-center gap-4 mt-2 text-sm text-grey-500">
-                            <div className="flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
-                              {Math.floor(transcript.duration / 60)}:{(transcript.duration % 60).toString().padStart(2, '0')}
+                    {transcripts.map((transcript) => {
+                      const hasAIAnalysis = transcript.ai_processing_status === 'completed' && (transcript.themes || transcript.key_quotes || transcript.ai_summary)
+                      const isAnalyzing = analyzingTranscript === transcript.id || transcript.ai_processing_status === 'processing' || transcript.ai_processing_status === 'queued'
+                      const isExpanded = expandedSummaries.has(transcript.id)
+
+                      return (
+                        <div key={transcript.id} className="border rounded-lg">
+                          <div className="flex items-center justify-between p-4 hover:bg-grey-50">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3">
+                                <h3 className="font-medium">{transcript.title}</h3>
+                                <Badge variant={transcript.status === 'completed' ? 'default' : 'secondary'}>
+                                  {transcript.status}
+                                </Badge>
+                                {isAnalyzing && (
+                                  <Badge variant="outline" className="bg-blue-50 text-blue-700">
+                                    <Sparkles className="w-3 h-3 mr-1 animate-spin" />
+                                    Analyzing...
+                                  </Badge>
+                                )}
+                                {hasAIAnalysis && (
+                                  <Badge variant="outline" className="bg-green-50 text-green-700">
+                                    <Sparkles className="w-3 h-3 mr-1" />
+                                    AI Analyzed
+                                  </Badge>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-4 mt-2 text-sm text-grey-500">
+                                <div className="flex items-center gap-1">
+                                  <Clock className="w-3 h-3" />
+                                  {Math.floor(transcript.duration / 60)}:{(transcript.duration % 60).toString().padStart(2, '0')}
+                                </div>
+                                <div>{transcript.word_count || 0} words</div>
+                                <div className="flex items-center gap-1">
+                                  <Calendar className="w-3 h-3" />
+                                  {new Date(transcript.created_at).toLocaleDateString()}
+                                </div>
+                              </div>
+
+                              {/* Theme badges */}
+                              {transcript.themes && transcript.themes.length > 0 && (
+                                <div className="flex flex-wrap gap-2 mt-3">
+                                  {transcript.themes.slice(0, 4).map((theme, idx) => (
+                                    <Badge key={idx} variant="secondary" className="text-xs">
+                                      {theme}
+                                    </Badge>
+                                  ))}
+                                  {transcript.themes.length > 4 && (
+                                    <Badge variant="outline" className="text-xs">
+                                      +{transcript.themes.length - 4} more
+                                    </Badge>
+                                  )}
+                                </div>
+                              )}
                             </div>
-                            <div>{transcript.word_count || 0} words</div>
-                            <div className="flex items-center gap-1">
-                              <Calendar className="w-3 h-3" />
-                              {new Date(transcript.created_at).toLocaleDateString()}
+
+                            <div className="flex items-center gap-2">
+                              {/* Analyze button */}
+                              {!hasAIAnalysis && !isAnalyzing && (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleAnalyzeTranscript(transcript.id)}
+                                  className="text-blue-600 hover:text-blue-700"
+                                >
+                                  <Sparkles className="w-4 h-4 mr-1" />
+                                  Analyze
+                                </Button>
+                              )}
+
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => window.open(`/admin/transcripts/${transcript.id}`, '_blank')}
+                              >
+                                <Eye className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => window.open(`/admin/transcripts/${transcript.id}/edit`, '_blank')}
+                              >
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => window.open(`/stories/create?transcript_id=${transcript.id}`, '_blank')}
+                              >
+                                <Plus className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleDeleteTranscript(transcript.id)}
+                                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
                             </div>
                           </div>
+
+                          {/* Expandable summary section */}
+                          {hasAIAnalysis && (
+                            <div className="border-t">
+                              <button
+                                onClick={() => toggleSummary(transcript.id)}
+                                className="w-full px-4 py-2 text-left text-sm font-medium text-grey-700 hover:bg-grey-50 flex items-center justify-between"
+                              >
+                                <span className="flex items-center gap-2">
+                                  {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                                  Summary & Key Quotes
+                                </span>
+                                {isExpanded && editingTranscript !== transcript.id && (
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      handleEditAnalysis(transcript)
+                                    }}
+                                  >
+                                    <Pencil className="w-3 h-3 mr-1" />
+                                    Edit
+                                  </Button>
+                                )}
+                              </button>
+
+                              {isExpanded && (
+                                <div className="px-4 pb-4 space-y-3">
+                                  {editingTranscript === transcript.id ? (
+                                    /* Edit Mode */
+                                    <div className="space-y-4">
+                                      {/* Editable Summary */}
+                                      <div>
+                                        <Label className="text-sm font-medium text-grey-700 mb-2 block">📝 AI Summary:</Label>
+                                        <Textarea
+                                          value={editedSummary}
+                                          onChange={(e) => setEditedSummary(e.target.value)}
+                                          className="min-h-[100px]"
+                                          placeholder="Enter summary..."
+                                        />
+                                      </div>
+
+                                      {/* Editable Quotes */}
+                                      <div>
+                                        <div className="flex items-center justify-between mb-2">
+                                          <Label className="text-sm font-medium text-grey-700">💬 Key Quotes:</Label>
+                                          <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={handleAddQuote}
+                                          >
+                                            <Plus className="w-3 h-3 mr-1" />
+                                            Add Quote
+                                          </Button>
+                                        </div>
+                                        <div className="space-y-2">
+                                          {editedQuotes.map((quote, idx) => (
+                                            <div key={idx} className="flex gap-2">
+                                              <Textarea
+                                                value={quote}
+                                                onChange={(e) => handleQuoteChange(idx, e.target.value)}
+                                                className="flex-1 min-h-[60px]"
+                                                placeholder={`Quote ${idx + 1}...`}
+                                              />
+                                              <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => handleRemoveQuote(idx)}
+                                                className="text-red-600 hover:text-red-700"
+                                              >
+                                                <X className="w-4 h-4" />
+                                              </Button>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </div>
+
+                                      {/* Save/Cancel Buttons */}
+                                      <div className="flex gap-2 justify-end pt-2">
+                                        <Button
+                                          variant="outline"
+                                          size="sm"
+                                          onClick={handleCancelEdit}
+                                          disabled={savingEdit}
+                                        >
+                                          <X className="w-3 h-3 mr-1" />
+                                          Cancel
+                                        </Button>
+                                        <Button
+                                          size="sm"
+                                          onClick={() => handleSaveAnalysis(transcript.id)}
+                                          disabled={savingEdit}
+                                        >
+                                          <Check className="w-3 h-3 mr-1" />
+                                          {savingEdit ? 'Saving...' : 'Save Changes'}
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    /* View Mode */
+                                    <>
+                                      {transcript.ai_summary && (
+                                        <div>
+                                          <p className="text-sm font-medium text-grey-700 mb-1">📝 AI Summary:</p>
+                                          <p className="text-sm text-grey-600">{transcript.ai_summary}</p>
+                                        </div>
+                                      )}
+
+                                      {transcript.key_quotes && transcript.key_quotes.length > 0 && (
+                                        <div>
+                                          <p className="text-sm font-medium text-grey-700 mb-2">💬 Key Quotes ({transcript.key_quotes.length}):</p>
+                                          <div className="space-y-2">
+                                            {transcript.key_quotes.map((quote, idx) => (
+                                              <div key={idx} className="border-l-2 border-blue-400 pl-3 py-1">
+                                                <p className="text-sm text-grey-700 italic">"{quote}"</p>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      )}
+                                    </>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          )}
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => window.open(`/admin/transcripts/${transcript.id}`, '_blank')}
-                          >
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => window.open(`/admin/transcripts/${transcript.id}/edit`, '_blank')}
-                          >
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => window.open(`/stories/create?transcript_id=${transcript.id}`, '_blank')}
-                          >
-                            <Plus className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleDeleteTranscript(transcript.id)}
-                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </div>
                 )}
               </CardContent>

@@ -116,7 +116,7 @@ export async function GET(request: NextRequest) {
 
     // Get organisations for context
     const { data: organisations, error: orgsError } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('id, name')
 
     if (orgsError) {

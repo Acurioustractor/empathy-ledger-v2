@@ -99,7 +99,7 @@ export async function POST(
 
     // Check if organisation exists
     const { data: organisation, error: orgError } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('id, name, slug')
       .eq('id', organizationId)
       .single()

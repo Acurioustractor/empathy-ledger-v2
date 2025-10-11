@@ -49,6 +49,51 @@ export async function GET(
   }
 }
 
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id: transcriptId } = await params
+    const body = await request.json()
+    const { ai_summary, key_quotes } = body
+
+    console.log('📝 Updating AI analysis for transcript:', transcriptId)
+
+    const { data, error } = await supabase
+      .from('transcripts')
+      .update({
+        ai_summary,
+        key_quotes,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', transcriptId)
+      .select()
+      .single()
+
+    if (error) {
+      console.error('❌ Error updating AI analysis:', error)
+      return NextResponse.json(
+        { success: false, error: 'Failed to update AI analysis' },
+        { status: 500 }
+      )
+    }
+
+    console.log('✅ AI analysis updated successfully')
+
+    return NextResponse.json({
+      success: true,
+      transcript: data
+    })
+  } catch (error) {
+    console.error('❌ Error in transcript PATCH:', error)
+    return NextResponse.json(
+      { success: false, error: 'Failed to update AI analysis' },
+      { status: 500 }
+    )
+  }
+}
+
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

@@ -28,7 +28,7 @@ export async function GET(
           avatar_url,
           is_elder
         ),
-        organisation:organisations(
+        organisation:organizations(
           id,
           name,
           slug,

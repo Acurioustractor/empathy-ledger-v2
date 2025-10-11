@@ -9,14 +9,14 @@ import { adminConfig } from '@/lib/config/admin-config'
 
 interface OrganizationLayoutProps {
   children: React.ReactNode
-  params: Promise<{ id: string }>
+  params: { id: string }
 }
 
 async function getOrganization(organizationId: string) {
   const supabase = createSupabaseServerClient()
 
   const { data: organisation, error } = await supabase
-    .from('organisations')
+    .from('organizations')
     .select('*')
     .eq('id', organizationId)
     .single()
@@ -123,7 +123,7 @@ export default async function OrganizationLayout({
   children,
   params,
 }: OrganizationLayoutProps) {
-  const { id: organizationId } = await params
+  const { id: organizationId } = params
 
   // Check organisation access
   const accessCheck = await verifyOrganizationAccess(organizationId)

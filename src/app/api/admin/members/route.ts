@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
       console.log('🔍 Admin API - Looking for organisation:', organisation)
 
       const { data: orgData, error: orgError } = await supabase
-        .from('organisations')
+        .from('organizations')
         .select('id')
         .eq('name', organisation)
         .single()
@@ -126,7 +126,7 @@ export async function GET(request: NextRequest) {
 
     if (organisation !== 'all') {
       const { data: orgData } = await supabase
-        .from('organisations')
+        .from('organizations')
         .select('id')
         .eq('name', organisation)
         .single()
@@ -183,7 +183,7 @@ export async function DELETE(request: NextRequest) {
         .eq('id', memberId)
         .single(),
       supabase
-        .from('organisations')
+        .from('organizations')
         .select('name')
         .eq('id', organizationId)
         .single()
@@ -303,7 +303,7 @@ export async function POST(request: NextRequest) {
 
     // Update profile tenant_id to match organisation
     const { data: orgData } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('name')
       .eq('id', organizationId)
       .single()

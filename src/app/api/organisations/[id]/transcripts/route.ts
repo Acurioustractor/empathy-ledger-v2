@@ -37,7 +37,7 @@ export async function GET(
 
     // Get organisation details first
     const { data: organisation, error: orgError } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('id, name, tenant_id')
       .eq('id', organizationId)
       .single()
@@ -59,7 +59,8 @@ export async function GET(
       .select(`
         id,
         full_name,
-        avatar_url,
+        profile_image_url,
+        avatar_media_id,
         is_storyteller,
         tenant_roles
       `)
@@ -216,13 +217,15 @@ export async function GET(
       const hasGeneratedStory = generatedStories.some(s => s.transcript_id === transcript.id)
       const analysis = transcript.metadata?.analysis
 
+      const avatarUrl = storyteller?.profile_image_url || null
+
       return {
         id: transcript.id,
         title: transcript.title || 'Untitled Transcript',
         storyteller: {
           id: storyteller?.id || transcript.storyteller_id || '',
           name: storyteller?.full_name || extractNameFromTitle(transcript.title) || 'Unknown Storyteller',
-          avatarUrl: storyteller?.avatar_url
+          avatarUrl: avatarUrl
         },
         wordCount: transcript.word_count || 0,
         characterCount: transcript.character_count || 0,

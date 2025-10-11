@@ -71,7 +71,7 @@ export async function GET(
 
     // Get organisation members who don't have explicit roles
     const { data: organisation } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('tenant_id')
       .eq('id', organizationId)
       .single()
@@ -172,7 +172,7 @@ export async function POST(
     }
 
     const { data: organisation } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('tenant_id')
       .eq('id', organizationId)
       .single()

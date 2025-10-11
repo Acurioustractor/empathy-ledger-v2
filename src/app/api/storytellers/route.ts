@@ -122,6 +122,30 @@ export async function GET(request: NextRequest) {
       return bio
     }
 
+    // Resolve avatar URLs for profiles that only have media references
+    const profilesNeedingAvatars = (profiles || [])
+      .filter(profile => !profile.profile_image_url && !profile.avatar_url && profile.avatar_media_id)
+      .map(profile => profile.avatar_media_id)
+
+    const avatarUrlMap: Record<string, string> = {}
+
+    if (profilesNeedingAvatars.length > 0) {
+      const { data: avatarMedia, error: avatarError } = await supabase
+        .from('media_assets')
+        .select('id, cdn_url')
+        .in('id', profilesNeedingAvatars)
+
+      if (avatarError) {
+        console.error('⚠️  Failed to resolve avatar media assets:', avatarError)
+      } else {
+        avatarMedia?.forEach(media => {
+          if (media.cdn_url) {
+            avatarUrlMap[media.id] = media.cdn_url
+          }
+        })
+      }
+    }
+
     // Transform profiles to storyteller format
     const storytellers = await Promise.all((profiles || []).map(async profile => {
       const rawBio = profile.bio || ''
@@ -129,24 +153,31 @@ export async function GET(request: NextRequest) {
       const themes = extractThemesFromBio(rawBio)
       const storyCount = profile.stories ? profile.stories.length : 0
 
-      // Get real organisation data for this profile
-      const { data: orgMembers } = await supabase
-        .from('organization_members')
-        .select(`
-          profile_id,
-          role,
-          organisation:organisations (
-            id,
-            name
-          )
-        `)
-        .eq('profile_id', profile.id)
+      // Get organization data from profile's current_organization field
+      let organisations = []
+      if (profile.current_organization) {
+        // Try to find the organization by name first
+        const { data: org } = await supabase
+          .from('tenants')
+          .select('id, name')
+          .eq('name', profile.current_organization)
+          .single()
 
-      const organisations = orgMembers?.map(om => ({
-        id: om.organisation.id,
-        name: om.organisation.name,
-        role: om.role
-      })) || []
+        if (org) {
+          organisations = [{
+            id: org.id,
+            name: org.name,
+            role: 'Member' // Default role since we don't have specific role data
+          }]
+        } else {
+          // If no organization found by name, just use the text as organization name
+          organisations = [{
+            id: null,
+            name: profile.current_organization,
+            role: 'Member'
+          }]
+        }
+      }
 
       // Get real project data for this profile (try both tables)
       const { data: projectParticipants } = await supabase
@@ -171,6 +202,8 @@ export async function GET(request: NextRequest) {
       const primaryLocation = profile.profile_locations?.find(pl => pl.is_primary)
       const locationString = primaryLocation?.location?.name || null
 
+      const resolvedAvatarUrl = profile.profile_image_url || profile.avatar_url || (profile.avatar_media_id ? avatarUrlMap[profile.avatar_media_id] : null)
+
       return {
         id: profile.id,
         display_name: profile.display_name || profile.preferred_name || 'Unknown Storyteller',
@@ -190,12 +223,14 @@ export async function GET(request: NextRequest) {
         organisations: organisations,
         projects: projects,
         profile: {
-          avatar_url: profile.profile_image_url,
+          avatar_url: resolvedAvatarUrl || null,
+          profile_image_url: resolvedAvatarUrl || null,
           cultural_affiliations: profile.cultural_affiliations,
           pronouns: profile.preferred_pronouns,
           display_name: profile.display_name,
           bio: profile.bio
-        }
+        },
+        avatar_url: resolvedAvatarUrl || null
       }
     }))
 

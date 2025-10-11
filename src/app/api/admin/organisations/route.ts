@@ -7,16 +7,10 @@ export async function GET(request: NextRequest) {
     
     // Get all organizations with basic stats
     const { data: organisations, error } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select(`
         id,
         name,
-        type,
-        location,
-        description,
-        website_url,
-        contact_email,
-        cultural_significance,
         created_at
       `)
       .order('created_at', { ascending: false })
@@ -91,20 +85,9 @@ export async function POST(request: NextRequest) {
     const slug = body.name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '')
 
     const { data: organisation, error } = await supabase
-      .from('organisations')
+      .from('organizations')
       .insert({
-        name: body.name,
-        slug: slug,
-        type: body.type || 'community',
-        organization_type: body.type || 'community',
-        location: body.location,
-        description: body.description,
-        website_url: body.website_url,
-        contact_email: body.contact_email,
-        contact_person: body.contact_person,
-        contact_phone: body.contact_phone,
-        cultural_significance: body.cultural_significance,
-        status: 'active'
+        name: body.name
       })
       .select()
       .single()

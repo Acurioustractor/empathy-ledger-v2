@@ -8,7 +8,7 @@ export async function GET() {
 
     // Fetch organizations from database
     const { data: organisations, error } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('*')
       .order('created_at', { ascending: false })
 
@@ -129,7 +129,7 @@ export async function DELETE(request: Request) {
 
     // Finally, remove the organization
     const { error } = await supabase
-      .from('organisations')
+      .from('organizations')
       .delete()
       .eq('id', organizationId)
 

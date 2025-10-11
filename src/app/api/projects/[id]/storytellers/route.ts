@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { createSupabaseServerClient, createSupabaseServiceClient } from '@/lib/supabase/client-ssr'
 
 // GET /api/projects/[id]/storytellers - Get all storytellers for a project
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
@@ -21,6 +21,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
           full_name,
           bio,
           profile_image_url,
+          avatar_media_id,
           cultural_background,
           is_elder,
           is_featured
@@ -54,12 +55,28 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
       return NextResponse.json({ error: 'Failed to fetch storytellers' }, { status: 500 })
     }
 
+    const avatarMediaIds = Array.from(new Set(uniqueStorytellers
+      .map(ps => ps.profiles?.avatar_media_id)
+      .filter(Boolean)))
+
+    let avatarUrlMap: Record<string, string> = {}
+
+    if (avatarMediaIds.length > 0) {
+      const serviceSupabase = createSupabaseServiceClient()
+      const { data: mediaAssets } = await serviceSupabase
+        .from('media_assets')
+        .select('id, cdn_url')
+        .in('id', avatarMediaIds as string[])
+
+      avatarUrlMap = Object.fromEntries((mediaAssets || []).map(asset => [asset.id, asset.cdn_url]))
+    }
+
     return NextResponse.json({
       storytellers: uniqueStorytellers.map(ps => ({
         id: ps.profiles?.id,
         displayName: ps.profiles?.display_name || ps.profiles?.full_name,
         bio: ps.profiles?.bio,
-        profileImageUrl: ps.profiles?.profile_image_url,
+        profileImageUrl: ps.profiles?.profile_image_url || (ps.profiles?.avatar_media_id ? avatarUrlMap[ps.profiles.avatar_media_id] || null : null),
         culturalBackground: ps.profiles?.cultural_background,
         isElder: ps.profiles?.is_elder || false,
         isFeatured: ps.profiles?.is_featured || false,
@@ -126,7 +143,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
           id,
           display_name,
           full_name,
-          profile_image_url
+          profile_image_url,
+          avatar_media_id
         )
       `)
       .single()
@@ -139,12 +157,27 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       return NextResponse.json({ error: 'Failed to link storyteller' }, { status: 500 })
     }
 
+    let profileImageUrl = link.profiles?.profile_image_url || null
+
+    if (!profileImageUrl && link.profiles?.avatar_media_id) {
+      const serviceSupabase = createSupabaseServiceClient()
+      const { data: mediaAsset } = await serviceSupabase
+        .from('media_assets')
+        .select('cdn_url')
+        .eq('id', link.profiles.avatar_media_id)
+        .maybeSingle()
+
+      if (mediaAsset?.cdn_url) {
+        profileImageUrl = mediaAsset.cdn_url
+      }
+    }
+
     return NextResponse.json({
       message: `${storyteller.display_name || storyteller.full_name} linked to ${project.name} as ${role}`,
       link: {
         id: link.profiles?.id,
         displayName: link.profiles?.display_name || link.profiles?.full_name,
-        profileImageUrl: link.profiles?.profile_image_url,
+        profileImageUrl,
         role: link.role,
         status: 'active',
         joinedAt: link.created_at,

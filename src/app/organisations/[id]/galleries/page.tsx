@@ -6,13 +6,21 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { 
-  Images, 
-  Video, 
-  Play, 
-  Download, 
-  Calendar, 
-  User, 
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Switch } from '@/components/ui/switch'
+import { useRouter } from 'next/navigation'
+import {
+  Images,
+  Video,
+  Play,
+  Download,
+  Calendar,
+  User,
   Search,
   Filter,
   Grid3X3,
@@ -21,11 +29,23 @@ import {
   FileText,
   Heart,
   MapPin,
-  Clock
+  Clock,
+  Plus,
+  Loader2,
+  Tag,
+  Users,
+  Folder,
+  Camera,
+  Shield,
+  ChevronDown,
+  Check,
+  X,
+  Trash2
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { VideoThumbnail } from '@/components/media/VideoThumbnail'
 import { VideoPlayerModal } from '@/components/media/VideoPlayerModal'
+import PhotoUploadManager from '@/components/galleries/PhotoUploadManager'
 
 interface MediaAsset {
   id: string
@@ -117,6 +137,35 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
   const [showVideoPlayer, setShowVideoPlayer] = useState(false)
   const [selectedVideo, setSelectedVideo] = useState<MediaAsset | null>(null)
 
+  // Create Gallery Modal State
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
+  const [isCreating, setIsCreating] = useState(false)
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false)
+  const [projects, setProjects] = useState([])
+  const [storytellers, setStorytellers] = useState([])
+
+  // Searchable storyteller dropdown state
+  const [storytellerSearch, setStorytellerSearch] = useState('')
+  const [isStorytellerDropdownOpen, setIsStorytellerDropdownOpen] = useState(false)
+  const [selectedStorytellers, setSelectedStorytellers] = useState<any[]>([])
+
+  const router = useRouter()
+
+  // Form state for gallery creation
+  const [galleryForm, setGalleryForm] = useState({
+    title: '',
+    description: '',
+    galleryType: 'organization',
+    privacyLevel: 'organization',
+    culturalSensitivityLevel: 'standard',
+    projectId: 'none',
+    storytellerIds: [] as string[],
+    requiresElderApproval: false,
+    autoOrganizeEnabled: true,
+    faceGroupingEnabled: false,
+    locationGroupingEnabled: false
+  })
+
   useEffect(() => {
     const initParams = async () => {
       const resolvedParams = await params
@@ -128,8 +177,158 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
   useEffect(() => {
     if (organizationId) {
       fetchGalleries()
+      fetchProjectsAndStorytellers()
     }
   }, [organizationId])
+
+  const fetchProjectsAndStorytellers = async () => {
+    try {
+      // Fetch projects
+      const projectsResponse = await fetch(`/api/organisations/${organizationId}/projects`)
+      if (projectsResponse.ok) {
+        const projectsData = await projectsResponse.json()
+        console.log('📋 Projects data:', projectsData)
+        setProjects(Array.isArray(projectsData) ? projectsData : [])
+      }
+
+      // Fetch storytellers
+      const storytellersResponse = await fetch(`/api/organisations/${organizationId}/storytellers`)
+      if (storytellersResponse.ok) {
+        const storytellersData = await storytellersResponse.json()
+        console.log('👥 Storytellers data:', storytellersData)
+        // Handle different response formats
+        if (Array.isArray(storytellersData)) {
+          setStorytellers(storytellersData)
+        } else if (storytellersData && Array.isArray(storytellersData.storytellers)) {
+          setStorytellers(storytellersData.storytellers)
+        } else if (storytellersData && Array.isArray(storytellersData.data)) {
+          setStorytellers(storytellersData.data)
+        } else {
+          console.warn('Unexpected storytellers response format:', storytellersData)
+          setStorytellers([])
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching projects and storytellers:', error)
+      setProjects([])
+      setStorytellers([])
+    }
+  }
+
+  const handleCreateGallery = async () => {
+    if (!galleryForm.title.trim()) {
+      alert('Gallery title is required')
+      return
+    }
+
+    setIsCreating(true)
+    try {
+      const response = await fetch(`/api/organisations/${organizationId}/galleries`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: galleryForm.title,
+          description: galleryForm.description,
+          galleryType: galleryForm.galleryType,
+          privacyLevel: galleryForm.privacyLevel,
+          culturalSensitivityLevel: galleryForm.culturalSensitivityLevel,
+          projectId: galleryForm.projectId === 'none' ? null : galleryForm.projectId,
+          storytellerIds: galleryForm.storytellerIds,
+          requiresElderApproval: galleryForm.requiresElderApproval,
+          autoOrganizeEnabled: galleryForm.autoOrganizeEnabled,
+          faceGroupingEnabled: galleryForm.faceGroupingEnabled,
+          locationGroupingEnabled: galleryForm.locationGroupingEnabled
+        })
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to create gallery')
+      }
+
+      // Success - close dialog and refresh
+      setIsCreateDialogOpen(false)
+      resetGalleryForm()
+      fetchGalleries()
+
+      alert(result.message || 'Gallery created successfully!')
+
+    } catch (error) {
+      console.error('Error creating gallery:', error)
+      alert(error instanceof Error ? error.message : 'Failed to create gallery')
+    } finally {
+      setIsCreating(false)
+    }
+  }
+
+  const handleFormChange = (field: string, value: any) => {
+    setGalleryForm(prev => ({ ...prev, [field]: value }))
+  }
+
+  // Storyteller search and selection functions
+  const filteredStorytellers = storytellers.filter((storyteller: any) => {
+    const name = storyteller.displayName || storyteller.fullName || ''
+    return name.toLowerCase().includes(storytellerSearch.toLowerCase())
+  })
+
+  const handleStorytellerSelect = (storyteller: any) => {
+    const isSelected = selectedStorytellers.some(s => s.id === storyteller.id)
+
+    if (isSelected) {
+      // Remove storyteller
+      const newSelected = selectedStorytellers.filter(s => s.id !== storyteller.id)
+      setSelectedStorytellers(newSelected)
+      setGalleryForm(prev => ({
+        ...prev,
+        storytellerIds: newSelected.map(s => s.id)
+      }))
+    } else {
+      // Add storyteller
+      const newSelected = [...selectedStorytellers, storyteller]
+      setSelectedStorytellers(newSelected)
+      setGalleryForm(prev => ({
+        ...prev,
+        storytellerIds: newSelected.map(s => s.id)
+      }))
+    }
+    setStorytellerSearch('')
+  }
+
+  const handleStorytellerClear = () => {
+    setSelectedStorytellers([])
+    setGalleryForm(prev => ({ ...prev, storytellerIds: [] }))
+    setStorytellerSearch('')
+  }
+
+  const removeStoryteller = (storytellerId: string) => {
+    const newSelected = selectedStorytellers.filter(s => s.id !== storytellerId)
+    setSelectedStorytellers(newSelected)
+    setGalleryForm(prev => ({
+      ...prev,
+      storytellerIds: newSelected.map(s => s.id)
+    }))
+  }
+
+  const resetGalleryForm = () => {
+    setGalleryForm({
+      title: '',
+      description: '',
+      galleryType: 'organization',
+      privacyLevel: 'organization',
+      culturalSensitivityLevel: 'standard',
+      projectId: 'none',
+      storytellerIds: [],
+      requiresElderApproval: false,
+      autoOrganizeEnabled: true,
+      faceGroupingEnabled: false,
+      locationGroupingEnabled: false
+    })
+    setSelectedStorytellers([])
+    setStorytellerSearch('')
+  }
 
   const fetchGalleries = async () => {
     try {
@@ -146,6 +345,7 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
       console.log('✅ Fetched galleries:', data.galleries.length)
       console.log('📺 Fetched storyteller videos:', data.storytellerVideos?.length || 0)
       console.log('📊 Stats:', data.stats)
+      console.log('🔍 Gallery data:', data.galleries.map(g => ({ id: g.id, title: g.title, photoCount: g.photoCount })))
 
       setGalleries(data.galleries)
       setStorytellerVideos(data.storytellerVideos || [])
@@ -243,6 +443,89 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
     setSelectedVideo(null)
   }
 
+  const handleDeletePhoto = async (photo: MediaAsset) => {
+    if (!confirm(`Are you sure you want to delete "${photo.title}"?`)) {
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/galleries/${selectedGallery?.id}/media?association_id=${photo.galleryItemId}`, {
+        method: 'DELETE',
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete photo')
+      }
+
+      // Remove the photo from the allPhotos state
+      setAllPhotos(prev => prev.filter(p => p.galleryItemId !== photo.galleryItemId))
+
+      // Also remove from the selected gallery if it's currently selected
+      if (selectedGallery) {
+        setSelectedGallery(prev => prev ? {
+          ...prev,
+          media_associations: (prev.media_associations || []).filter(p => p.galleryItemId !== photo.galleryItemId),
+          photo_count: Math.max(0, prev.photo_count - 1)
+        } : null)
+      }
+
+      console.log(`✅ Successfully deleted photo: ${photo.title}`)
+    } catch (error) {
+      console.error('Error deleting photo:', error)
+      alert('Failed to delete photo. Please try again.')
+    }
+  }
+
+  const handlePhotosUploaded = (newPhotos: any[]) => {
+    // Refresh the page data to show new photos
+    fetchGalleries()
+    setIsUploadDialogOpen(false)
+    console.log(`✅ Successfully uploaded ${newPhotos.length} photos`)
+  }
+
+  const handleDownloadPhoto = async (photo: MediaAsset) => {
+    try {
+      const response = await fetch(photo.url)
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = photo.originalFilename || photo.filename || 'photo.jpg'
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+    } catch (error) {
+      console.error('Error downloading photo:', error)
+      alert('Failed to download photo. Please try again.')
+    }
+  }
+
+  const handleDownloadGallery = async (gallery: PhotoGallery) => {
+    if (gallery.photos.length === 0) {
+      alert('This gallery has no photos to download')
+      return
+    }
+
+    if (!confirm(`Download all ${gallery.photos.length} photos from "${gallery.title}"?`)) {
+      return
+    }
+
+    try {
+      // Download each photo
+      for (const photo of gallery.photos) {
+        await handleDownloadPhoto(photo)
+        // Small delay to avoid overwhelming the browser
+        await new Promise(resolve => setTimeout(resolve, 200))
+      }
+      alert(`Successfully downloaded ${gallery.photos.length} photos!`)
+    } catch (error) {
+      console.error('Error downloading gallery:', error)
+      alert('Failed to download some photos. Please try again.')
+    }
+  }
+
   const displayStats = stats || {
     totalGalleries: 0,
     totalPhotos: 0,
@@ -298,14 +581,336 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
         </div>
         
         <div className="flex items-center gap-2">
+          {selectedGallery && (
+            <>
+              {selectedGallery.photoCount > 0 && (
+                <Button
+                  variant="outline"
+                  onClick={() => handleDownloadGallery(selectedGallery)}
+                  className="border-blue-200 text-blue-700 hover:bg-blue-50"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download All ({selectedGallery.photoCount})
+                </Button>
+              )}
+              <Button
+                onClick={() => setIsUploadDialogOpen(true)}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Photos
+              </Button>
+            </>
+          )}
           {!selectedGallery && (
-            <Button
-              variant={viewMode === 'galleries' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('galleries')}
-            >
-              📁 Galleries
-            </Button>
+            <>
+              <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="gap-2">
+                    <Plus className="h-4 w-4" />
+                    Create Gallery
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center gap-2">
+                      <Camera className="h-5 w-5" />
+                      Create Photo Gallery
+                    </DialogTitle>
+                    <DialogDescription>
+                      Create a new photo gallery for your organization. Photos added to this gallery will be automatically tagged with your organization.
+                    </DialogDescription>
+                  </DialogHeader>
+
+                  <div className="grid gap-6 py-4">
+                    {/* Basic Information */}
+                    <div className="space-y-4">
+                      <h4 className="text-sm font-medium text-slate-700 flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        Basic Information
+                      </h4>
+                      <div className="grid gap-4">
+                        <div className="grid gap-2">
+                          <Label htmlFor="gallery-title">Gallery Title *</Label>
+                          <Input
+                            id="gallery-title"
+                            value={galleryForm.title}
+                            onChange={(e) => handleFormChange('title', e.target.value)}
+                            placeholder="Enter gallery title..."
+                          />
+                        </div>
+
+                        <div className="grid gap-2">
+                          <Label htmlFor="gallery-description">Description</Label>
+                          <Textarea
+                            id="gallery-description"
+                            value={galleryForm.description}
+                            onChange={(e) => handleFormChange('description', e.target.value)}
+                            placeholder="Describe what this gallery contains..."
+                            rows={3}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Project & Storyteller Association */}
+                    <div className="space-y-4">
+                      <h4 className="text-sm font-medium text-slate-700 flex items-center gap-2">
+                        <Tag className="h-4 w-4" />
+                        Project & Storyteller Tagging
+                      </h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="grid gap-2">
+                          <Label htmlFor="project">Associate with Project (Optional)</Label>
+                          <Select value={galleryForm.projectId} onValueChange={(value) => handleFormChange('projectId', value)}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Choose a project..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="none">No Project</SelectItem>
+                              {Array.isArray(projects) ? projects.map((project: any) => (
+                                <SelectItem key={project.id} value={project.id}>
+                                  {project.name}
+                                </SelectItem>
+                              )) : null}
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="grid gap-2">
+                          <Label htmlFor="storyteller">Featured Storytellers (Optional)</Label>
+
+                          {/* Selected storytellers display */}
+                          {selectedStorytellers.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mb-2">
+                              {selectedStorytellers.map((storyteller) => (
+                                <Badge
+                                  key={storyteller.id}
+                                  variant="secondary"
+                                  className="flex items-center gap-1 pr-1"
+                                >
+                                  <span>{storyteller.displayName || storyteller.fullName}</span>
+                                  <button
+                                    type="button"
+                                    onClick={() => removeStoryteller(storyteller.id)}
+                                    className="ml-1 rounded-full hover:bg-background/50 p-0.5"
+                                  >
+                                    <X className="h-3 w-3" />
+                                  </button>
+                                </Badge>
+                              ))}
+                            </div>
+                          )}
+
+                          <Popover open={isStorytellerDropdownOpen} onOpenChange={setIsStorytellerDropdownOpen}>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={isStorytellerDropdownOpen}
+                                className="w-full justify-between"
+                              >
+                                {selectedStorytellers.length === 0
+                                  ? "Choose storytellers..."
+                                  : `${selectedStorytellers.length} storyteller${selectedStorytellers.length === 1 ? '' : 's'} selected`
+                                }
+                                <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-full p-0" align="start">
+                              <div className="p-4 border-b">
+                                <Input
+                                  placeholder="Search storytellers..."
+                                  value={storytellerSearch}
+                                  onChange={(e) => setStorytellerSearch(e.target.value)}
+                                  className="mb-2"
+                                />
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={handleStorytellerClear}
+                                  className="w-full"
+                                >
+                                  Clear Selection
+                                </Button>
+                              </div>
+                              <div className="max-h-60 overflow-auto">
+                                {filteredStorytellers.length === 0 ? (
+                                  <div className="p-4 text-sm text-muted-foreground">
+                                    No storytellers found.
+                                  </div>
+                                ) : (
+                                  filteredStorytellers.map((storyteller: any) => {
+                                    const isSelected = selectedStorytellers.some(s => s.id === storyteller.id)
+                                    return (
+                                      <Button
+                                        key={storyteller.id}
+                                        variant="ghost"
+                                        className={cn(
+                                          "w-full justify-start p-3 h-auto",
+                                          isSelected && "bg-accent"
+                                        )}
+                                        onClick={() => handleStorytellerSelect(storyteller)}
+                                      >
+                                        <div className="flex items-center gap-2 w-full">
+                                          <div className="flex items-center justify-center w-4 h-4">
+                                            {isSelected && <Check className="h-4 w-4 text-primary" />}
+                                          </div>
+                                          <div className="text-left flex-1">
+                                            <div className="font-medium">
+                                              {storyteller.displayName || storyteller.fullName}
+                                            </div>
+                                            {storyteller.organisation && (
+                                              <div className="text-xs text-muted-foreground">
+                                                {storyteller.organisation}
+                                              </div>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </Button>
+                                    )
+                                  })
+                                )}
+                              </div>
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+                      </div>
+                      <div className="text-xs text-slate-500 bg-blue-50 p-3 rounded border border-blue-200">
+                        <Tag className="h-3 w-3 inline mr-1" />
+                        All photos added to this gallery will be automatically tagged with your organization name and tenant.
+                        {galleryForm.projectId && galleryForm.projectId !== 'none' && " They will also be tagged with the selected project."}
+                      </div>
+                    </div>
+
+                    {/* Privacy & Cultural Settings */}
+                    <div className="space-y-4">
+                      <h4 className="text-sm font-medium text-slate-700 flex items-center gap-2">
+                        <Shield className="h-4 w-4" />
+                        Privacy & Cultural Settings
+                      </h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="grid gap-2">
+                          <Label htmlFor="privacy">Privacy Level</Label>
+                          <Select value={galleryForm.privacyLevel} onValueChange={(value) => handleFormChange('privacyLevel', value)}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="public">Public - Anyone can view</SelectItem>
+                              <SelectItem value="organization">Organization - Members only</SelectItem>
+                              <SelectItem value="private">Private - Invited users only</SelectItem>
+                              <SelectItem value="restricted">Restricted - Elder approval required</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="grid gap-2">
+                          <Label htmlFor="cultural">Cultural Sensitivity</Label>
+                          <Select value={galleryForm.culturalSensitivityLevel} onValueChange={(value) => handleFormChange('culturalSensitivityLevel', value)}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="standard">Standard Content</SelectItem>
+                              <SelectItem value="medium">Medium Sensitivity</SelectItem>
+                              <SelectItem value="high">High Sensitivity</SelectItem>
+                              <SelectItem value="restricted">Restricted/Sacred Content</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Advanced Features */}
+                    <div className="space-y-4">
+                      <h4 className="text-sm font-medium text-slate-700 flex items-center gap-2">
+                        <Users className="h-4 w-4" />
+                        Organization Features
+                      </h4>
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-0.5">
+                            <Label className="text-sm font-medium">Requires Elder Approval</Label>
+                            <div className="text-xs text-slate-500">
+                              Photos in this gallery require elder review before being visible
+                            </div>
+                          </div>
+                          <Switch
+                            checked={galleryForm.requiresElderApproval}
+                            onCheckedChange={(checked) => handleFormChange('requiresElderApproval', checked)}
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-0.5">
+                            <Label className="text-sm font-medium">Auto-Organization</Label>
+                            <div className="text-xs text-slate-500">
+                              Automatically organize photos by date and event
+                            </div>
+                          </div>
+                          <Switch
+                            checked={galleryForm.autoOrganizeEnabled}
+                            onCheckedChange={(checked) => handleFormChange('autoOrganizeEnabled', checked)}
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-0.5">
+                            <Label className="text-sm font-medium">Face Grouping</Label>
+                            <div className="text-xs text-slate-500">
+                              Group photos by people (requires privacy consent)
+                            </div>
+                          </div>
+                          <Switch
+                            checked={galleryForm.faceGroupingEnabled}
+                            onCheckedChange={(checked) => handleFormChange('faceGroupingEnabled', checked)}
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-0.5">
+                            <Label className="text-sm font-medium">Location Grouping</Label>
+                            <div className="text-xs text-slate-500">
+                              Group photos by geographic location
+                            </div>
+                          </div>
+                          <Switch
+                            checked={galleryForm.locationGroupingEnabled}
+                            onCheckedChange={(checked) => handleFormChange('locationGroupingEnabled', checked)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <DialogFooter>
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsCreateDialogOpen(false)}
+                      disabled={isCreating}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleCreateGallery}
+                      disabled={isCreating || !galleryForm.title.trim()}
+                    >
+                      {isCreating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                      Create Gallery
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
+              <Button
+                variant={viewMode === 'galleries' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('galleries')}
+              >
+                📁 Galleries
+              </Button>
+            </>
           )}
           <Button
             variant={viewMode === 'grid' ? 'default' : 'outline'}
@@ -502,6 +1107,20 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
                       {gallery.photoCount}
                     </div>
 
+                    {/* Download button */}
+                    {gallery.photoCount > 0 && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleDownloadGallery(gallery)
+                        }}
+                        className="absolute bottom-3 left-3 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
+                        title="Download all photos"
+                      >
+                        <Download className="w-4 h-4" />
+                      </button>
+                    )}
+
                     {/* Project badge if exists */}
                     {gallery.project && (
                       <div className="absolute top-3 right-3">
@@ -548,8 +1167,8 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
                           {formatFileSize(gallery.totalSizeBytes)}
                         </div>
                         <div className="text-xs text-slate-500">
-                          {gallery.stats.images} images
-                          {gallery.stats.videos > 0 && ` • ${gallery.stats.videos} videos`}
+                          {gallery.stats?.images || 0} images
+                          {(gallery.stats?.videos || 0) > 0 && ` • ${gallery.stats.videos} videos`}
                         </div>
                       </div>
                     </div>
@@ -572,7 +1191,7 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
       ) : viewMode === 'grid' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPhotos.map((photo) => (
-            <Card key={photo.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
+            <Card key={photo.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
               <div className="aspect-video bg-muted relative">
                 {photo.type === 'video' ? (
                   <VideoThumbnail
@@ -593,6 +1212,38 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
                     {getTypeIcon(photo.type)}
                   </div>
                 )}
+
+                {/* Action buttons overlay */}
+                <div
+                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex gap-2"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      handleDownloadPhoto(photo)
+                    }}
+                    title="Download photo"
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="h-8 w-8 p-0"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      handleDeletePhoto(photo)
+                    }}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
               
               <CardContent className="p-4">
@@ -706,6 +1357,22 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
                         <Eye className="w-4 h-4 mr-1" />
                         View
                       </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleDownloadPhoto(photo)}
+                      >
+                        <Download className="w-4 h-4 mr-1" />
+                        Download
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => handleDeletePhoto(photo)}
+                      >
+                        <Trash2 className="w-4 h-4 mr-1" />
+                        Delete
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -735,6 +1402,24 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
           </p>
         </Card>
       )}
+
+      {/* Upload Photos Dialog */}
+      <Dialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Add Photos to {selectedGallery?.title}</DialogTitle>
+            <DialogDescription>
+              Upload new photos to this gallery. Photos will be available immediately after upload.
+            </DialogDescription>
+          </DialogHeader>
+          {selectedGallery && (
+            <PhotoUploadManager
+              galleryId={selectedGallery.id}
+              onPhotosUploaded={handlePhotosUploaded}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* Video Player Modal */}
       {selectedVideo && (

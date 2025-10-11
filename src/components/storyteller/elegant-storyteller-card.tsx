@@ -16,7 +16,9 @@ import {
   Building2,
   Target,
   Sparkles,
-  Calendar
+  Calendar,
+  Trash2,
+  FileText
 } from 'lucide-react'
 import { getCardDisplayBio } from '@/lib/utils/bio-extractors'
 
@@ -34,6 +36,7 @@ export interface ElegantStorytellerCardProps {
 
     // Essential metrics
     story_count: number
+    transcript_count?: number
     last_active?: string
 
     // Location (simplified)
@@ -59,14 +62,21 @@ export interface ElegantStorytellerCardProps {
   }
   variant?: 'default' | 'featured' | 'compact'
   className?: string
+  onDelete?: (storytellerId: string) => void
+  showDelete?: boolean
+  onAddTranscript?: (storytellerId: string) => void
+  showAddTranscript?: boolean
 }
 
 export function ElegantStorytellerCard({
   storyteller,
   variant = 'default',
-  className
+  className,
+  onDelete,
+  showDelete = false,
+  onAddTranscript,
+  showAddTranscript = false
 }: ElegantStorytellerCardProps) {
-  console.log('ElegantStorytellerCard received:', storyteller)
   const isCompact = variant === 'compact'
   const isFeatured = storyteller.featured
   const isElder = storyteller.elder_status
@@ -112,18 +122,35 @@ export function ElegantStorytellerCard({
     }
   }
 
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (onDelete) {
+      onDelete(storyteller.id)
+    }
+  }
+
+  const handleAddTranscriptClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (onAddTranscript) {
+      onAddTranscript(storyteller.id)
+    }
+  }
+
   return (
-    <Link href={`/storytellers/${storyteller.id}`}>
-      <Card
-        className={cn(
-          'group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1',
-          'bg-white border-0 shadow-lg rounded-2xl overflow-hidden relative',
-          'min-h-[400px]',
-          isFeatured && 'ring-2 ring-amber-300/50',
-          isElder && 'ring-2 ring-purple-300/50',
-          className
-        )}
-      >
+    <div className="relative">
+      <Link href={`/storytellers/${storyteller.id}`}>
+        <Card
+          className={cn(
+            'group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1',
+            'bg-white border-0 shadow-lg rounded-2xl overflow-hidden relative',
+            'min-h-[400px]',
+            isFeatured && 'ring-2 ring-amber-300/50',
+            isElder && 'ring-2 ring-purple-300/50',
+            className
+          )}
+        >
         {/* Large Portrait Section */}
         <div className="relative h-64 bg-gradient-to-br from-warm-50 via-earth-50 to-sage-50">
           {storyteller.avatar_url ? (
@@ -197,7 +224,7 @@ export function ElegantStorytellerCard({
 
           {/* Bio */}
           {storyteller.bio && (
-            <Typography variant="body" className="text-grey-700 leading-relaxed text-sm">
+            <Typography variant="p" className="text-grey-700 leading-relaxed text-sm">
               {getCardDisplayBio(storyteller.bio, 150)}
             </Typography>
           )}
@@ -241,7 +268,18 @@ export function ElegantStorytellerCard({
 
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 border-t border-grey-100">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 flex-wrap">
+              {/* Transcript Count */}
+              {storyteller.transcript_count !== undefined && storyteller.transcript_count > 0 && (
+                <div className="flex items-center gap-1">
+                  <FileText className="w-4 h-4 text-blue-600" />
+                  <Typography variant="small" className="text-grey-700 font-medium">
+                    {storyteller.transcript_count} {storyteller.transcript_count === 1 ? 'transcript' : 'transcripts'}
+                  </Typography>
+                </div>
+              )}
+
+              {/* Story Count */}
               <div className="flex items-center gap-1">
                 <Heart className="w-4 h-4 text-earth-600" />
                 <Typography variant="small" className="text-grey-700 font-medium">
@@ -264,13 +302,34 @@ export function ElegantStorytellerCard({
         </div>
       </Card>
     </Link>
+
+    {/* Action Buttons */}
+    <div className="absolute top-2 right-2 z-10 flex gap-2">
+      {showAddTranscript && onAddTranscript && (
+        <button
+          onClick={handleAddTranscriptClick}
+          className="bg-earth-500 hover:bg-earth-600 text-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110"
+          title="Add transcript for this storyteller"
+        >
+          <FileText className="w-4 h-4" />
+        </button>
+      )}
+      {showDelete && onDelete && (
+        <button
+          onClick={handleDeleteClick}
+          className="bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110"
+          title="Delete storyteller"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      )}
+    </div>
+  </div>
   )
 }
 
 // Simplified data transformer for elegant cards
 export function transformToElegantCard(storyteller: any): ElegantStorytellerCardProps['storyteller'] {
-  console.log('Transforming storyteller:', storyteller)
-
   // Extract primary organisation
   const primaryOrg = storyteller.organisations?.[0]
 
@@ -291,25 +350,25 @@ export function transformToElegantCard(storyteller: any): ElegantStorytellerCard
     featured: storyteller.featured || storyteller.isFeatured || false,
     elder_status: storyteller.elder_status || storyteller.isElder || false,
     status: storyteller.status || 'active',
-    story_count: storyteller.story_count || storyteller.storyCount || 0,
+    story_count: storyteller.story_count || storyteller.storyCount || storyteller.stats?.totalStories || 0,
+    transcript_count: storyteller.transcript_count || storyteller.transcriptCount || storyteller.stats?.totalTranscripts || 0,
     last_active: storyteller.last_active || storyteller.lastActive,
     location,
     traditional_territory: storyteller.traditional_territory || storyteller.culturalBackground,
     primary_organization: primaryOrg ? {
       name: primaryOrg.name,
       role: primaryOrg.role,
-      type: 'community'
+      type: 'community' as const
     } : undefined,
     primary_project: primaryProject ? {
       name: primaryProject.name,
       role: primaryProject.role,
-      type: 'community'
+      type: 'community' as const
     } : undefined,
     profile_completeness: storyteller.profile_completeness,
     top_theme: themes[0],
     top_themes: themes
   }
 
-  console.log('Transformed result:', result)
   return result
 }

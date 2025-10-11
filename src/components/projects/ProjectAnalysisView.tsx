@@ -16,6 +16,7 @@ import {
   Quote, TrendingUp, Network, MessageCircle, ArrowRight,
   Star, Eye, Compass, Building, Sprout
 } from 'lucide-react'
+import { ProjectOutcomesView } from './ProjectOutcomesView'
 
 interface ProjectAnalysisViewProps {
   projectId: string
@@ -53,6 +54,20 @@ interface AnalysisData {
       healingProgression: number
       knowledgePreservation: number
     }
+    projectOutcomes?: {
+      project_name: string
+      outcomes: Array<{
+        category: string
+        description: string
+        evidence_found: string[]
+        storytellers_mentioning: string[]
+        strength: 'not_mentioned' | 'mentioned' | 'described' | 'demonstrated'
+        score: number
+      }>
+      overall_progress_summary: string
+      key_wins: string[]
+      gaps_or_opportunities: string[]
+    }
     powerfulQuotes: Array<{
       quote: string
       speaker: string
@@ -87,14 +102,21 @@ export function ProjectAnalysisView({ projectId, organizationId, projectName, or
   const loadProjectAnalysis = async () => {
     try {
       setLoading(true)
-      const response = await fetch(`/api/projects/${projectId}/analysis`)
+      // Use intelligent AI by default for professional-quality analysis
+      const response = await fetch(`/api/projects/${projectId}/analysis?intelligent=true`)
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`)
       }
 
       const data = await response.json()
-      setAnalysis(data.analysis)
+
+      // Handle intelligent AI response structure
+      if (data.analysis_type === 'intelligent_ai') {
+        setAnalysis(data.intelligentAnalysis)
+      } else {
+        setAnalysis(data.analysis)
+      }
     } catch (err) {
       console.error('Error loading project analysis:', err)
       setError(err instanceof Error ? err.message : 'Failed to load analysis')
@@ -202,7 +224,7 @@ export function ProjectAnalysisView({ projectId, organizationId, projectName, or
           </TabsTrigger>
           <TabsTrigger value="impact" className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4" />
-            Impact Framework
+            {analysis?.aggregatedInsights?.projectOutcomes ? 'Project Outcomes' : 'Impact Framework'}
           </TabsTrigger>
           <TabsTrigger value="voices" className="flex items-center gap-2">
             <Quote className="w-4 h-4" />
@@ -223,7 +245,11 @@ export function ProjectAnalysisView({ projectId, organizationId, projectName, or
         </TabsContent>
 
         <TabsContent value="impact" className="space-y-6">
-          <ImpactFrameworkTab analysis={analysis} />
+          {analysis?.aggregatedInsights?.projectOutcomes ? (
+            <ProjectOutcomesView outcomes={analysis.aggregatedInsights.projectOutcomes} />
+          ) : (
+            <ImpactFrameworkTab analysis={analysis} />
+          )}
         </TabsContent>
 
         <TabsContent value="voices" className="space-y-6">
@@ -246,7 +272,13 @@ function OverviewTab({ analysis }: { analysis: AnalysisData }) {
   const impactColors = ['#8B5CF6', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#6366F1']
 
   const impactData = Object.entries(analysis.aggregatedInsights.impactFramework).map(([key, value], index) => ({
-    name: key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()),
+    name: key
+      .replace(/_/g, ' ') // Replace underscores with spaces
+      .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+      .trim() // Remove leading/trailing spaces
+      .split(' ') // Split into words
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+      .join(' '), // Join back together
     value: Math.round(value * 100),
     colour: impactColors[index]
   }))
@@ -389,8 +421,14 @@ function ImpactFrameworkTab({ analysis }: { analysis: AnalysisData }) {
   }
 
   const impactData = Object.entries(analysis.aggregatedInsights.impactFramework).map(([key, value]) => ({
-    name: key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()),
-    value: Math.round(value * 100),
+    name: key
+      .replace(/_/g, ' ') // Replace underscores with spaces
+      .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+      .trim() // Remove leading/trailing spaces
+      .split(' ') // Split into words
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+      .join(' '), // Join back together
+    value: Math.round(value), // Value is already 0-100, don't multiply by 100
     fullValue: value
   }))
 
@@ -436,7 +474,7 @@ function ImpactFrameworkTab({ analysis }: { analysis: AnalysisData }) {
                   <CardContent>
                     <p className="text-sm text-grey-600">{impactDescriptions[descKey]}</p>
                     <div className="mt-3 p-2 bg-grey-50 rounded text-xs text-grey-500">
-                      Impact Score: {impact.fullValue.toFixed(2)} / 1.0
+                      Impact Score: {impact.value} / 100
                     </div>
                   </CardContent>
                 </Card>

@@ -13,14 +13,14 @@ import {
 } from 'lucide-react'
 
 interface SettingsPageProps {
-  params: Promise<{ id: string }>
+  params: { id: string }
 }
 
 async function getOrganizationSettings(organizationId: string) {
   const supabase = createSupabaseServerClient()
   
   const { data: organisation, error } = await supabase
-    .from('organisations')
+    .from('organizations')
     .select('*')
     .eq('id', organizationId)
     .single()
@@ -42,7 +42,7 @@ async function getOrganizationSettings(organizationId: string) {
 }
 
 export default async function SettingsPage({ params }: SettingsPageProps) {
-  const { id } = await params
+  const { id } = params
   const { organisation, memberCount } = await getOrganizationSettings(id)
 
   return (

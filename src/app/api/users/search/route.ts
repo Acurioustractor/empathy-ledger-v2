@@ -30,7 +30,6 @@ export async function GET(request: NextRequest) {
         email,
         bio,
         profile_image_url,
-        avatar_url,
         tenant_roles,
         tenant_id
       `)
@@ -51,7 +50,7 @@ export async function GET(request: NextRequest) {
     if (excludeOrganization) {
       // Get organisation details to find its tenant_id
       const { data: org } = await supabase
-        .from('organisations')
+        .from('tenants')
         .select('tenant_id')
         .eq('id', excludeOrganization)
         .single()
@@ -73,7 +72,7 @@ export async function GET(request: NextRequest) {
       displayName: user.display_name,
       email: user.email,
       bio: user.bio,
-      avatarUrl: user.profile_image_url || user.avatar_url,
+      avatarUrl: user.profile_image_url,
       isStoryteller: (user.tenant_roles || []).includes('storyteller')
     }))
 

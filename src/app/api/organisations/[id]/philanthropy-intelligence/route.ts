@@ -16,7 +16,7 @@ export async function GET(
 
     // Get organisation details and storytellers
     const { data: organisation, error: orgError } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('*')
       .eq('id', organizationId)
       .single()

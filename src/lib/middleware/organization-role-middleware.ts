@@ -72,7 +72,7 @@ export async function withOrganizationRole(
 
     // Get organisation and validate it exists
     const { data: organisation, error: orgError } = await supabase
-      .from('organisations')
+      .from('tenants')
       .select('id, name, tenant_id')
       .eq('id', organizationId)
       .single()
@@ -241,7 +241,7 @@ export async function getOrganizationContext(
     const supabase = createSupabaseServerClient()
     
     const { data: organisation, error } = await supabase
-      .from('organisations')
+      .from('tenants')
       .select('id, name, tenant_id, cultural_identity, governance_structure')
       .eq('id', organizationId)
       .single()

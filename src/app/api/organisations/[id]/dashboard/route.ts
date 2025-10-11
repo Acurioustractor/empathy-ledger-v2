@@ -27,7 +27,7 @@ export async function GET(
 
     // Get organisation details using direct query (works despite cache issues)
     const { data: organisation, error: orgError } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('id, name, tenant_id, created_at')
       .eq('id', organizationId)
       .single()

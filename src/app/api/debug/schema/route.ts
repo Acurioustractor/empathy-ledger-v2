@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
     // Get organisations table structure
     const { data: organizationsData, error: organizationsError } = await supabase
-      .from('organisations')
+      .from('tenants')
       .select('*')
       .limit(1)
 

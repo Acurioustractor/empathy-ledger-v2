@@ -13,7 +13,7 @@ export async function DELETE(
 
     // Get organisation details
     const { data: organisation, error: orgError } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('id, name, tenant_id')
       .eq('id', organizationId)
       .single()

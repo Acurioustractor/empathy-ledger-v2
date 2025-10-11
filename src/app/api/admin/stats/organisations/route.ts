@@ -12,15 +12,15 @@ export async function GET(request: NextRequest) {
 
     // Query real organisations and tenants from database
     const { count: totalOrganizations } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('*', { count: 'exact', head: true })
 
     const { count: totalTenants } = await supabase
-      .from('tenants')
+      .from('organizations')
       .select('*', { count: 'exact', head: true })
 
     const { count: activeTenants } = await supabase
-      .from('tenants')
+      .from('organizations')
       .select('*', { count: 'exact', head: true })
       .eq('status', 'active')
 

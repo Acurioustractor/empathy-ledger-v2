@@ -154,7 +154,7 @@ export async function GET(
     let organizationContext
     if (organizationId) {
       const { data: org } = await supabase
-        .from('organisations')
+        .from('tenants')
         .select('id, name')
         .eq('id', organizationId)
         .single()

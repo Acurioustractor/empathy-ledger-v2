@@ -1,156 +1,59 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  
-  /* Earth Color Theme for Cultural Storytelling Platform */
-  --color-earth-50: #fefefe;
-  --color-earth-100: #f7f5f3;
-  --color-earth-200: #e6ddd6;
-  --color-earth-300: #d4c4b9;
-  --color-earth-400: #c1aa9c;
-  --color-earth-500: #a8927e;
-  --color-earth-600: #8f7961;
-  --color-earth-700: #6b5a4a;
-  --color-earth-800: #4a3f33;
-  --color-earth-900: #2c241c;
-
-  /* Clay Color Palette */
-  --color-clay-50: #fdf8f6;
-  --color-clay-100: #f2e8e0;
-  --color-clay-200: #e3d1c5;
-  --color-clay-300: #d3b9aa;
-  --color-clay-400: #c1a08f;
-  --color-clay-500: #a8866e;
-  --color-clay-600: #8f6d54;
-  --color-clay-700: #75583f;
-  --color-clay-800: #5c442b;
-  --color-clay-900: #3d2d1c;
-  --color-clay-950: #2a1f12;
-
-  /* Sage Color Palette */
-  --color-sage-50: #f7f8f6;
-  --color-sage-100: #e8ebe5;
-  --color-sage-200: #d2d7ca;
-  --color-sage-300: #b7c2ae;
-  --color-sage-400: #9cad92;
-  --color-sage-500: #7e9774;
-  --color-sage-600: #67805c;
-  --color-sage-700: #526946;
-  --color-sage-800: #3e5131;
-  --color-sage-900: #2a3620;
-  --color-sage-950: #1d2416;
-
-  /* Sky Color Palette */
-  --color-sky-50: #f0f9ff;
-  --color-sky-100: #e0f2fe;
-  --color-sky-200: #bae6fd;
-  --color-sky-300: #7dd3fc;
-  --color-sky-400: #38bdf8;
-  --color-sky-500: #0ea5e9;
-  --color-sky-600: #0284c7;
-  --color-sky-700: #0369a1;
-  --color-sky-800: #075985;
-  --color-sky-900: #0c4a6e;
-  --color-sky-950: #082f49;
-}
-
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Simple fallback styles without complex utilities */
-.btn-earth-primary {
-  background-color: rgb(107, 90, 74);
-  color: white;
-}
-
-.btn-earth-primary:hover {
-  background-color: rgb(74, 63, 51);
-}
-
-.btn-earth-secondary {
-  background-color: rgb(247, 245, 243);
-  color: rgb(107, 90, 74);
-}
-
-.btn-clay-primary {
-  background-color: rgb(143, 109, 84);
-  color: white;
-}
-
-.btn-clay-secondary {
-  background-color: rgb(242, 232, 224);
-  color: rgb(143, 109, 84);
-}
-
-.btn-sage-primary {
-  background-color: rgb(103, 128, 92);
-  color: white;
-}
-
-.btn-sage-secondary {
-  background-color: rgb(232, 235, 229);
-  color: rgb(103, 128, 92);
-}
-
-.shadow-cultural {
-  box-shadow: 0 4px 6px -1px rgba(107, 90, 74, 0.1), 0 2px 4px -2px rgba(107, 90, 74, 0.1);
-}
-
-/* Line clamp utilities */
-.line-clamp-1 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-}
-
-.line-clamp-2 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.line-clamp-3 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-}
-
-/* Scrollbar styles */
-.scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: hsl(var(--muted)) transparent;
-}
-
-.scrollbar-thin::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: hsl(var(--muted));
-  border-radius: 4px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background-color: hsl(var(--muted-foreground));
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

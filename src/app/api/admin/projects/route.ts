@@ -167,7 +167,7 @@ export async function POST(request: NextRequest) {
     
     if (projectData.organizationId && !tenant_id) {
       const { data: organisation, error: orgError } = await supabase
-        .from('organisations')
+        .from('organizations')
         .select('tenant_id')
         .eq('id', projectData.organizationId)
         .single()

@@ -13,7 +13,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         title,
         description,
         created_at,
-        organisation:organisations(id, name)
+        organisation:organizations(id, name)
       `)
       .eq('project_id', projectId)
 

@@ -47,7 +47,11 @@ export function RecentProjects({ projects, organizationId }: RecentProjectsProps
               )}
               <div className="flex items-center gap-4 mt-2">
                 <p className="text-sm text-grey-500">
-                  {new Date(project.created_at).toLocaleDateString()}
+                  {new Date(project.created_at).toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                  })}
                 </p>
                 {project.location && (
                   <p className="text-sm text-grey-500">{project.location}</p>

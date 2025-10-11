@@ -42,7 +42,7 @@ export class OrganizationService {
   async getOrganization(organizationId: string): Promise<Organization | null> {
     try {
       const { data, error } = await this.supabase
-        .from('organisations')
+        .from('tenants')
         .select('*')
         .eq('id', organizationId)
         .single()
@@ -315,7 +315,7 @@ export class OrganizationService {
 
       // Get organisation tenant ID
       const { data: organisation } = await this.supabase
-        .from('organisations')
+        .from('tenants')
         .select('tenant_id')
         .eq('id', organizationId)
         .single()

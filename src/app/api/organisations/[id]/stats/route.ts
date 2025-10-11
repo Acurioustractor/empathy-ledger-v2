@@ -7,59 +7,43 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id: organizationId } = await params
+    const { id: organizationId } = params
 
-    // First get the organisation to get tenant_id
-    const { data: organisation, error: orgError } = await supabase
-      .from('organisations')
-      .select('tenant_id')
-      .eq('id', organizationId)
-      .single()
-
-    if (orgError || !organisation) {
-      console.error('❌ Error fetching organisation:', orgError)
-      return NextResponse.json(
-        { success: false, error: 'Organization not found' },
-        { status: 404 }
-      )
-    }
-
-    const tenantId = organisation.tenant_id
-
-    // Get organisation members count (using profiles with matching tenant_id)
+    // Get organisation members count from junction table
     const { count: membersCount, error: membersError } = await supabase
-      .from('profiles')
+      .from('profile_organizations')
       .select('*', { count: 'exact', head: true })
-      .eq('tenant_id', tenantId)
+      .eq('organization_id', organizationId)
+      .eq('is_active', true)
 
     if (membersError) {
       console.error('❌ Error counting members:', membersError)
     }
 
-    // Get stories count by tenant_id
+    // Get stories count by organization_id
     const { count: storiesCount, error: storiesError } = await supabase
       .from('stories')
       .select('*', { count: 'exact', head: true })
-      .eq('tenant_id', tenantId)
+      .eq('organization_id', organizationId)
 
     if (storiesError) {
       console.error('❌ Error counting stories:', storiesError)
     }
 
-    // Get photos count from media_assets (using tenant_id)
+    // Get photos count from media_assets by organization_id
     const { count: photosCount, error: photosError } = await supabase
       .from('media_assets')
       .select('*', { count: 'exact', head: true })
-      .eq('tenant_id', tenantId)
+      .eq('organization_id', organizationId)
 
     if (photosError) {
       console.error('❌ Error counting photos:', photosError)
     }
 
-    // Get projects count for this organisation specifically
+    // Get projects count for this organisation
     const { count: projectsCount, error: projectsError } = await supabase
       .from('projects')
       .select('*', { count: 'exact', head: true })
@@ -69,11 +53,11 @@ export async function GET(
       console.error('❌ Error counting projects:', projectsError)
     }
 
-    // Get photo galleries count (using tenant_id)
+    // Get photo galleries count by organization_id
     const { count: galleriesCount, error: galleriesError } = await supabase
       .from('photo_galleries')
       .select('*', { count: 'exact', head: true })
-      .eq('tenant_id', tenantId)
+      .eq('organization_id', organizationId)
 
     if (galleriesError) {
       console.error('❌ Error counting galleries:', galleriesError)

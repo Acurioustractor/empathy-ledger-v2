@@ -71,9 +71,9 @@ export async function GET(request: Request) {
 
     // Get real media counts and creator info for each gallery
     const transformedGalleries = await Promise.all(galleries?.map(async gallery => {
-      // Get real media count for this specific gallery using photo_gallery_items junction table
+      // Get real media count for this specific gallery using gallery_media_associations table
       const { count: mediaCount } = await supabase
-        .from('photo_gallery_items')
+        .from('gallery_media_associations')
         .select('*', { count: 'exact', head: true })
         .eq('gallery_id', gallery.id)
 
@@ -157,7 +157,7 @@ export async function POST(request: Request) {
 
     // Get organisation details
     const { data: organisation, error: orgError } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('name')
       .eq('id', galleryData.organizationId)
       .single()

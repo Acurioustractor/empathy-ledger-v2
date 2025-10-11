@@ -27,17 +27,12 @@ import {
   Users,
   Award,
   Globe,
+  Globe2,
   Phone,
   Mail,
   Clock,
   Heart,
   Share2,
-  Camera,
-  Mic,
-  Video,
-  FileText,
-  Music,
-  Palette,
   Languages,
   Shield,
   CheckCircle,
@@ -45,203 +40,20 @@ import {
   Edit,
   TrendingUp,
   Target,
-  Compass,
-  Lightbulb,
-  HandHeart,
-  Smile,
-  Building2,
-  Route,
   Sparkles,
-  Quote
+  Quote,
+  Landmark,
+  HandHeart,
+  Route,
+  Palette
 } from 'lucide-react'
-
-interface StorytellerProfile {
-  id: string
-  display_name: string
-  bio: string | null
-  cultural_background: string | null
-  specialties: string[] | null
-  years_of_experience: number | null
-  preferred_topics: string[] | null
-  story_count: number
-  featured: boolean
-  status: 'active' | 'inactive' | 'pending'
-  elder_status: boolean
-  storytelling_style: string[] | null
-  availability: any | null
-  cultural_protocols: any | null
-  community_recognition: any | null
-  performance_preferences: any | null
-  compensation_preferences: any | null
-  travel_availability: any | null
-  technical_requirements: any | null
-  profile?: {
-    avatar_url?: string
-    cultural_affiliations?: string[]
-    pronouns?: string
-    display_name?: string
-    bio?: string
-    phone?: string
-    social_links?: any
-    languages_spoken?: string[]
-    interests?: string[]
-    preferred_communication?: string[]
-    occupation?: string
-    timezone?: string
-  }
-}
-
-interface Story {
-  id: string
-  title: string
-  content: string
-  status: 'draft' | 'review' | 'published' | 'archived'
-  featured: boolean
-  story_type: 'traditional' | 'personal' | 'historical' | 'educational' | 'healing'
-  audience: 'children' | 'youth' | 'adults' | 'elders' | 'all'
-  cultural_sensitivity_level: 'low' | 'medium' | 'high'
-  elder_approval: boolean | null
-  cultural_review_status: 'pending' | 'approved' | 'rejected' | 'needs_changes'
-  views_count: number
-  likes_count: number
-  shares_count: number
-  reading_time_minutes: number | null
-  tags: string[] | null
-  location: string | null
-  created_at: string
-}
-
-const getExperienceLevel = (years: number | null) => {
-  if (!years) return { label: 'New Storyteller', colour: 'bg-blue-100 text-blue-800' }
-  if (years < 2) return { label: 'New Storyteller', colour: 'bg-blue-100 text-blue-800' }
-  if (years < 5) return { label: 'Emerging Voice', colour: 'bg-green-100 text-green-800' }
-  if (years < 10) return { label: 'Experienced Storyteller', colour: 'bg-purple-100 text-purple-800' }
-  if (years < 20) return { label: 'Veteran Storyteller', colour: 'bg-orange-100 text-orange-800' }
-  return { label: 'Master Storyteller', colour: 'bg-amber-100 text-amber-800' }
-}
-
-const getStorytellingStyleIcon = (style: string): React.ReactNode => {
-  switch (style) {
-    case 'Oral Tradition':
-      return <Mic className="w-4 h-4" />
-    case 'Digital Storytelling':
-      return <Video className="w-4 h-4" />
-    case 'Performance':
-      return <Users className="w-4 h-4" />
-    case 'Written Narrative':
-      return <FileText className="w-4 h-4" />
-    case 'Visual Storytelling':
-      return <Camera className="w-4 h-4" />
-    case 'Song & Music':
-      return <Music className="w-4 h-4" />
-    case 'Dance & Movement':
-      return <User className="w-4 h-4" />
-    case 'Interactive':
-      return <Palette className="w-4 h-4" />
-    default:
-      return <User className="w-4 h-4" />
-  }
-}
-
-const extractStoryThemes = (bio: string | null): Array<{ theme: string; icon: React.ReactNode; description: string }> => {
-  if (!bio) return []
-
-  const themes = []
-  const lowerBio = bio.toLowerCase()
-
-  if (lowerBio.includes('volunteer') || lowerBio.includes('service') || lowerBio.includes('community')) {
-    themes.push({
-      theme: 'Community Service',
-      icon: <HandHeart className="w-5 h-5" />,
-      description: 'Dedicated to serving and supporting community members'
-    })
-  }
-
-  if (lowerBio.includes('purpose') || lowerBio.includes('calling') || lowerBio.includes('found') || lowerBio.includes('journey')) {
-    themes.push({
-      theme: 'Finding Purpose',
-      icon: <Compass className="w-5 h-5" />,
-      description: 'Discovering meaning and direction in life transitions'
-    })
-  }
-
-  if (lowerBio.includes('connection') || lowerBio.includes('human') || lowerBio.includes('together') || lowerBio.includes('team')) {
-    themes.push({
-      theme: 'Human Connection',
-      icon: <Users className="w-5 h-5" />,
-      description: 'Building meaningful relationships and bonds with others'
-    })
-  }
-
-  if (lowerBio.includes('humor') || lowerBio.includes('empathy') || lowerBio.includes('uplifting') || lowerBio.includes('camaraderie')) {
-    themes.push({
-      theme: 'Joy & Empathy',
-      icon: <Smile className="w-5 h-5" />,
-      description: 'Using humor and understanding to uplift spirits'
-    })
-  }
-
-  if (lowerBio.includes('retired') || lowerBio.includes('professional') || lowerBio.includes('transition') || lowerBio.includes('newfound')) {
-    themes.push({
-      theme: 'Life Transitions',
-      icon: <Route className="w-5 h-5" />,
-      description: 'Navigating changes and new chapters in life'
-    })
-  }
-
-  if (lowerBio.includes('humanity') || lowerBio.includes('shared') || lowerBio.includes('moments') || lowerBio.includes('remind')) {
-    themes.push({
-      theme: 'Shared Humanity',
-      icon: <Heart className="w-5 h-5" />,
-      description: 'Recognizing our common bonds and experiences'
-    })
-  }
-
-  return themes.slice(0, 4) // Limit to 4 main themes
-}
-
-const createJourneySteps = (storyteller: StorytellerProfile): Array<{ title: string; description: string; icon: React.ReactNode; timeframe?: string }> => {
-  const steps = []
-  const bio = storyteller.bio || ''
-
-  if (bio.includes('retired') || bio.includes('professional')) {
-    steps.push({
-      title: 'Professional Career',
-      description: 'Building expertise and experience in professional life',
-      icon: <Building2 className="w-5 h-5" />,
-      timeframe: 'Career Years'
-    })
-  }
-
-  if (bio.includes('newfound') || bio.includes('found') || bio.includes('calling')) {
-    steps.push({
-      title: 'Discovering Purpose',
-      description: 'Finding new meaning and direction after retirement',
-      icon: <Lightbulb className="w-5 h-5" />,
-      timeframe: 'Transition'
-    })
-  }
-
-  if (bio.includes('volunteer') || bio.includes('Orange Sky')) {
-    steps.push({
-      title: 'Community Service',
-      description: 'Joining Orange Sky to provide essential services with human connection',
-      icon: <HandHeart className="w-5 h-5" />,
-      timeframe: 'Present'
-    })
-  }
-
-  if (bio.includes('team') || bio.includes('camaraderie') || bio.includes('second home')) {
-    steps.push({
-      title: 'Building Community',
-      description: 'Creating lasting bonds and a sense of belonging through service',
-      icon: <Users className="w-5 h-5" />,
-      timeframe: 'Ongoing'
-    })
-  }
-
-  return steps
-}
+import type { StorytellerProfile, Story } from '@/types/storyteller'
+import {
+  getExperienceLevel,
+  getStorytellingStyleIcon,
+  extractStoryThemes,
+  createJourneySteps
+} from '@/lib/storyteller-utils.tsx'
 
 export default function StorytellerProfilePage() {
   const params = useParams()
@@ -365,25 +177,25 @@ export default function StorytellerProfilePage() {
               </Button>
             </Link>
 
-            {/* Profile View Toggle */}
+            {/* Admin Actions - Only visible to super admins */}
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" asChild>
-                <Link href={`/storytellers/${storytellerId}/enhanced`}>
-                  Enhanced View
-                </Link>
-              </Button>
-              <Button variant="outline" size="sm" asChild>
-                <Link href={`/storytellers/${storytellerId}/immersive`}>
-                  Immersive View
-                </Link>
-              </Button>
-
-              {/* Admin Status Indicator */}
-              {isAuthenticated && (isSuperAdmin || isAdmin) && (
-                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                  <Shield className="w-3 h-3 mr-1" />
-                  {isSuperAdmin ? 'Super Admin' : 'Admin'}
-                </Badge>
+              {(isSuperAdmin || isAdmin) && (
+                <>
+                  <Button variant="outline" size="sm" asChild>
+                    <Link href={`/storytellers/${storytellerId}/enhanced`}>
+                      Enhanced View
+                    </Link>
+                  </Button>
+                  <Button variant="outline" size="sm" asChild>
+                    <Link href={`/storytellers/${storytellerId}/analytics`}>
+                      Analytics
+                    </Link>
+                  </Button>
+                  <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                    <Shield className="w-3 h-3 mr-1" />
+                    {isSuperAdmin ? 'Super Admin' : 'Admin'}
+                  </Badge>
+                </>
               )}
             </div>
           </div>
@@ -436,43 +248,128 @@ export default function StorytellerProfilePage() {
                 <div className="flex-1">
                   <div className="mb-6">
                     <div className="flex flex-wrap items-center gap-3 mb-4">
-                      <Typography variant="h1" className="text-slate-800">
+                      <Typography
+                        variant="h1"
+                        className="text-slate-800"
+                        role="heading"
+                        aria-level={1}
+                      >
                         {storyteller.display_name}
                       </Typography>
-                      
+
                       {/* Status Badges */}
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2" role="list" aria-label="Storyteller status badges">
                         {isFeatured && (
-                          <Badge className="bg-amber-100 text-amber-800">
-                            <Star className="w-3 h-3 mr-1" />
+                          <Badge
+                            className="bg-amber-100 text-amber-800"
+                            role="listitem"
+                            aria-label="Featured storyteller"
+                          >
+                            <Star className="w-3 h-3 mr-1" aria-hidden="true" />
                             Featured
                           </Badge>
                         )}
                         {isElder && (
-                          <Badge className="bg-purple-100 text-purple-800">
-                            <Crown className="w-3 h-3 mr-1" />
+                          <Badge
+                            className="bg-purple-100 text-purple-800"
+                            role="listitem"
+                            aria-label="Recognized Elder"
+                          >
+                            <Crown className="w-3 h-3 mr-1" aria-hidden="true" />
                             Elder Storyteller
                           </Badge>
                         )}
-                        <Badge className={cn('text-xs', experienceLevel.colour)}>
-                          <Award className="w-3 h-3 mr-1" />
+                        <Badge
+                          className={cn('text-xs', experienceLevel.colour)}
+                          role="listitem"
+                          aria-label={`Experience level: ${experienceLevel.label}`}
+                        >
+                          <Award className="w-3 h-3 mr-1" aria-hidden="true" />
                           {experienceLevel.label}
                         </Badge>
                       </div>
                     </div>
 
                     {storyteller.profile?.pronouns && (
-                      <Typography variant="body" className="text-grey-600 mb-2">
+                      <Typography variant="body" className="text-grey-600 mb-3">
                         {storyteller.profile.pronouns}
                       </Typography>
                     )}
 
-                    {storyteller.cultural_background && (
-                      <div className="flex items-center gap-2 mb-4">
-                        <MapPin className="w-4 h-4 text-grey-400" />
-                        <Typography variant="body" className="text-grey-600">
-                          {storyteller.cultural_background}
-                        </Typography>
+                    {/* Enhanced Location & Cultural Context */}
+                    <div className="mb-4 space-y-2">
+                      {(storyteller as any).location && (
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4 text-earth-500 flex-shrink-0" aria-hidden="true" />
+                          <Typography variant="body" className="text-grey-700">
+                            {(storyteller as any).location}
+                          </Typography>
+                          {(storyteller as any).geographic_scope && (
+                            <Badge variant="secondary" className="text-xs ml-2">
+                              {(storyteller as any).geographic_scope}
+                            </Badge>
+                          )}
+                        </div>
+                      )}
+
+                      {(storyteller as any).traditional_territory && (
+                        <div className="flex items-center gap-2">
+                          <Landmark className="w-4 h-4 text-amber-600 flex-shrink-0" aria-hidden="true" />
+                          <Typography variant="body" className="text-grey-600 italic text-sm">
+                            {(storyteller as any).traditional_territory}
+                          </Typography>
+                        </div>
+                      )}
+
+                      {storyteller.cultural_background && (
+                        <div className="flex items-center gap-2">
+                          <Globe2 className="w-4 h-4 text-sage-500 flex-shrink-0" aria-hidden="true" />
+                          <Typography variant="body" className="text-grey-700">
+                            {storyteller.cultural_background}
+                          </Typography>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Cultural Markers */}
+                    {(storyteller.profile?.languages_spoken?.length ||
+                      (storyteller as any).traditional_knowledge_keeper ||
+                      storyteller.profile?.cultural_affiliations?.length) && (
+                      <div className="mb-4 flex flex-wrap gap-2">
+                        {storyteller.profile?.languages_spoken && storyteller.profile.languages_spoken.length > 0 && (
+                          <Badge
+                            variant="outline"
+                            className="bg-indigo-50 text-indigo-700 border-indigo-200 flex items-center gap-1.5"
+                          >
+                            <Languages className="w-3.5 h-3.5" aria-hidden="true" />
+                            <span>{storyteller.profile.languages_spoken.slice(0, 2).join(', ')}</span>
+                            {storyteller.profile.languages_spoken.length > 2 && (
+                              <span>+{storyteller.profile.languages_spoken.length - 2}</span>
+                            )}
+                          </Badge>
+                        )}
+
+                        {(storyteller as any).traditional_knowledge_keeper && (
+                          <Badge
+                            variant="outline"
+                            className="bg-amber-50 text-amber-700 border-amber-200 flex items-center gap-1.5"
+                          >
+                            <Shield className="w-3.5 h-3.5" aria-hidden="true" />
+                            <span>Knowledge Keeper</span>
+                          </Badge>
+                        )}
+
+                        {storyteller.profile?.cultural_affiliations && storyteller.profile.cultural_affiliations.length > 0 && (
+                          storyteller.profile.cultural_affiliations.slice(0, 2).map((affiliation, idx) => (
+                            <Badge
+                              key={idx}
+                              variant="outline"
+                              className="bg-earth-50 text-earth-700 border-earth-200"
+                            >
+                              {affiliation}
+                            </Badge>
+                          ))
+                        )}
                       </div>
                     )}
 
@@ -642,50 +539,62 @@ export default function StorytellerProfilePage() {
                 Community Impact
               </Typography>
               <Typography variant="body" className="text-grey-600 mb-6">
-                {storyteller.display_name}'s contributions to community wellbeing
+                {storyteller.display_name}'s contributions through storytelling
               </Typography>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
                   <HandHeart className="w-8 h-8 text-green-600 mx-auto mb-3" />
                   <Typography variant="h3" className="text-green-800 font-bold">
-                    {storyteller.story_count || 'Many'}
+                    {storyteller.story_count || '0'}
                   </Typography>
                   <Typography variant="small" className="text-green-700">
-                    Stories of Service
+                    {storyteller.story_count === 1 ? 'Story Shared' : 'Stories Shared'}
                   </Typography>
                 </div>
 
                 <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
                   <Users className="w-8 h-8 text-blue-600 mx-auto mb-3" />
                   <Typography variant="h3" className="text-blue-800 font-bold">
-                    Team
+                    {storyteller.organisations && storyteller.organisations.length > 0
+                      ? storyteller.organisations[0].role || 'Member'
+                      : 'Independent'}
                   </Typography>
                   <Typography variant="small" className="text-blue-700">
-                    Orange Sky Volunteer
+                    {storyteller.organisations && storyteller.organisations.length > 0
+                      ? storyteller.organisations[0].name
+                      : 'Community Member'}
                   </Typography>
                 </div>
 
                 <div className="text-center p-4 bg-purple-50 rounded-lg border border-purple-200">
                   <Heart className="w-8 h-8 text-purple-600 mx-auto mb-3" />
                   <Typography variant="h3" className="text-purple-800 font-bold">
-                    Connection
+                    {storyteller.specialties && storyteller.specialties.length > 0
+                      ? storyteller.specialties.length
+                      : 'Various'}
                   </Typography>
                   <Typography variant="small" className="text-purple-700">
-                    Building Community
+                    {storyteller.specialties && storyteller.specialties.length > 0
+                      ? (storyteller.specialties.length === 1 ? 'Specialty Area' : 'Specialty Areas')
+                      : 'Interests'}
                   </Typography>
                 </div>
               </div>
 
               {/* Additional Impact Details */}
-              <div className="mt-6 p-4 bg-slate-50 rounded-lg border">
-                <Typography variant="h4" className="font-semibold text-slate-800 mb-2 flex items-center">
-                  <Target className="w-4 h-4 mr-2" />
-                  Making a Difference
-                </Typography>
-                <Typography variant="body" className="text-slate-700">
-                  Through Orange Sky's essential services, {storyteller.display_name} helps provide more than just laundry—creating genuine human connections that remind everyone of their shared humanity and worth.
-                </Typography>
-              </div>
+              {storyteller.bio && (
+                <div className="mt-6 p-4 bg-slate-50 rounded-lg border">
+                  <Typography variant="h4" className="font-semibold text-slate-800 mb-2 flex items-center">
+                    <Target className="w-4 h-4 mr-2" />
+                    About {storyteller.display_name}
+                  </Typography>
+                  <Typography variant="body" className="text-slate-700">
+                    {storyteller.bio.length > 200
+                      ? `${storyteller.bio.substring(0, 200)}...`
+                      : storyteller.bio}
+                  </Typography>
+                </div>
+              )}
             </Card>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

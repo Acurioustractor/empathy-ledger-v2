@@ -32,6 +32,7 @@ import {
   Plus
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { TranscriptCreationDialog } from '@/components/transcripts/TranscriptCreationDialog'
 
 interface TranscriptData {
   id: string
@@ -95,6 +96,7 @@ export default function OrganizationTranscripts() {
   const [availableProjects, setAvailableProjects] = useState<Array<{ id: string; name: string }>>([])
   const [projectAssignments, setProjectAssignments] = useState<{ [transcriptId: string]: string }>({})
   const [loadingAssignments, setLoadingAssignments] = useState<{ [transcriptId: string]: boolean }>({})
+  const [showAddTranscriptDialog, setShowAddTranscriptDialog] = useState(false)
 
   useEffect(() => {
     const fetchTranscripts = async () => {
@@ -172,9 +174,53 @@ export default function OrganizationTranscripts() {
       .substring(0, 2)
   }
 
+  const getDisplayTitle = (transcript: TranscriptData): string => {
+    // If we have AI-suggested title, use it
+    if (transcript.analysis?.suggestedTitle && transcript.analysis.suggestedTitle.trim()) {
+      return transcript.analysis.suggestedTitle
+    }
+
+    // If title is generic or empty, create a better one
+    const title = transcript.title?.trim() || ''
+    const storytellerName = transcript.storyteller.name?.trim() || ''
+
+    // Check if title is generic
+    const isGenericTitle = !title ||
+      title.toLowerCase() === 'untitled transcript' ||
+      title.toLowerCase() === 'transcript' ||
+      title === storytellerName.split(' ')[0] || // Just first name
+      title === storytellerName || // Just full name
+      title.toLowerCase().includes('untitled')
+
+    if (isGenericTitle) {
+      // Create a descriptive title based on storyteller and context
+      const projectSuffix = transcript.project ? ` - ${transcript.project.name}` : ''
+      const dateSuffix = ` (${formatDate(transcript.createdAt)})`
+      return `${storytellerName} Interview${projectSuffix}${dateSuffix}`
+    }
+
+    // Return the original title if it seems reasonable
+    return title
+  }
+
+  const getSuggestedTitlePreview = (transcript: TranscriptData): string | null => {
+    // Show AI suggestion as a preview if it's different from current display
+    if (transcript.analysis?.suggestedTitle) {
+      const current = getDisplayTitle(transcript)
+      const suggested = transcript.analysis.suggestedTitle
+      if (suggested !== current && suggested.trim()) {
+        return suggested
+      }
+    }
+    return null
+  }
+
   const filteredTranscripts = data?.transcripts.filter(transcript => {
-    const matchesSearch = transcript.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      transcript.storyteller.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const displayTitle = getDisplayTitle(transcript)
+    const matchesSearch = displayTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      transcript.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      transcript.storyteller.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (transcript.analysis?.suggestedTitle?.toLowerCase().includes(searchQuery.toLowerCase()) || false)
     const matchesStatus = statusFilter === 'all' || transcript.status === statusFilter
     const matchesProject = projectFilter === 'all' ||
       (projectFilter === 'no-project' && !transcript.project) ||
@@ -301,6 +347,38 @@ export default function OrganizationTranscripts() {
     }
   }
 
+  const handleGenerateBetterTitles = async () => {
+    const transcriptsNeedingTitles = data?.transcripts.filter(t => {
+      const title = t.title?.trim() || ''
+      return !title ||
+        title.toLowerCase() === 'untitled transcript' ||
+        title.toLowerCase() === 'transcript' ||
+        title === t.storyteller.name.split(' ')[0] ||
+        title === t.storyteller.name ||
+        title.toLowerCase().includes('untitled')
+    }) || []
+
+    if (transcriptsNeedingTitles.length === 0) {
+      alert('All transcripts already have good titles!')
+      return
+    }
+
+    if (!confirm(`Generate better titles for ${transcriptsNeedingTitles.length} transcripts using AI?`)) {
+      return
+    }
+
+    try {
+      for (const transcript of transcriptsNeedingTitles) {
+        await handleAnalyzeTranscript(transcript.id, transcript.title)
+        // Small delay to avoid overwhelming the API
+        await new Promise(resolve => setTimeout(resolve, 1000))
+      }
+    } catch (error) {
+      console.error('Bulk title generation failed:', error)
+      alert('Some titles may not have been generated. Please try again.')
+    }
+  }
+
   const handleGenerateStory = async (transcriptId: string, title: string) => {
     if (!confirm(`Generate a story from "${title}" using AI?`)) {
       return
@@ -391,6 +469,16 @@ export default function OrganizationTranscripts() {
     }
   }
 
+  const handleTranscriptCreated = async (transcriptId: string) => {
+    setShowAddTranscriptDialog(false)
+    // Refresh the transcripts list
+    const response = await fetch(`/api/organisations/${organizationId}/transcripts`)
+    const result = await response.json()
+    if (result && !result.error) {
+      setData(result)
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-6">
@@ -424,6 +512,23 @@ export default function OrganizationTranscripts() {
           <p className="text-muted-foreground">
             Review and manage all storyteller transcripts for {data.organisation.name}
           </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            onClick={handleGenerateBetterTitles}
+            className="text-blue-600 hover:text-blue-700 border-blue-200 hover:bg-blue-50"
+          >
+            <Sparkles className="h-4 w-4 mr-2" />
+            Improve Titles
+          </Button>
+          <Button
+            onClick={() => setShowAddTranscriptDialog(true)}
+            className="bg-earth-600 hover:bg-earth-700"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Add Transcript
+          </Button>
         </div>
       </div>
 
@@ -528,9 +633,22 @@ export default function OrganizationTranscripts() {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-start gap-2 mb-2">
-                          <h3 className="text-lg font-semibold flex-1">
-                            {transcript.title}
-                          </h3>
+                          <div className="flex-1">
+                            <h3 className="text-lg font-semibold">
+                              {getDisplayTitle(transcript)}
+                            </h3>
+                            {getSuggestedTitlePreview(transcript) && (
+                              <div className="mt-1 p-2 bg-blue-50 border border-blue-200 rounded text-sm">
+                                <div className="flex items-center gap-1 text-blue-600 mb-1">
+                                  <Sparkles className="h-3 w-3" />
+                                  <span className="font-medium">AI Suggested Title:</span>
+                                </div>
+                                <div className="text-blue-700 italic">
+                                  "{getSuggestedTitlePreview(transcript)}"
+                                </div>
+                              </div>
+                            )}
+                          </div>
                           <div className="flex items-center gap-2">
                             {transcript.isAnalyzed && (
                               <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">
@@ -688,11 +806,11 @@ export default function OrganizationTranscripts() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => handleAnalyzeTranscript(transcript.id, transcript.title)}
+                            onClick={() => handleAnalyzeTranscript(transcript.id, getDisplayTitle(transcript))}
                             className="text-green-600 hover:text-green-700 border-green-200 hover:bg-green-50"
                           >
                             <Brain className="h-4 w-4 mr-1" />
-                            Analyze with AI
+                            Analyze & Get Title
                           </Button>
                         ) : (
                           <Button
@@ -805,6 +923,15 @@ export default function OrganizationTranscripts() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Add Transcript Dialog */}
+      {showAddTranscriptDialog && (
+        <TranscriptCreationDialog
+          organizationId={organizationId}
+          onSuccess={handleTranscriptCreated}
+          onCancel={() => setShowAddTranscriptDialog(false)}
+        />
       )}
     </div>
   )

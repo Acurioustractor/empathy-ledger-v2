@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
               ),
               organisations:organization_members(
                 role,
-                organisation:organisations(id, name)
+                organisation:organizations(id, name)
               )
             `)
             .neq('id', userId)

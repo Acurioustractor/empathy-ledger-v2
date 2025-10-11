@@ -8,7 +8,7 @@ interface ProjectAnalysisPageProps {
 }
 
 export default async function ProjectAnalysisPage({ params }: ProjectAnalysisPageProps) {
-  const { id: organizationId, projectId } = await params
+  const { id: organizationId, projectId } = params
   const supabase = createSupabaseServerClient()
 
   // Get project details
@@ -37,7 +37,7 @@ export default async function ProjectAnalysisPage({ params }: ProjectAnalysisPag
 
   // Get organisation details for context
   const { data: organisation } = await supabase
-    .from('organisations')
+    .from('organizations')
     .select('id, name, type, description')
     .eq('id', organizationId)
     .single()

@@ -142,7 +142,7 @@ async function createOrganizationConnection(supabase: any, data: ConnectionReque
     .select(`
       *,
       profile:profiles(id, display_name),
-      organisation:organisations(id, name, type)
+      organisation:organizations(id, name, type)
     `)
     .single()
 
@@ -157,7 +157,7 @@ async function createOrganizationConnection(supabase: any, data: ConnectionReque
   // Update primary tenant if this is an admin role
   if (data.role === 'admin') {
     const { data: org } = await supabase
-      .from('organisations')
+      .from('organizations')
       .select('tenant_id')
       .eq('id', data.targetId)
       .single()
@@ -194,7 +194,7 @@ async function createProjectConnection(supabase: any, data: ConnectionRequest) {
     .select(`
       *,
       profile:profiles(id, display_name, cultural_background),
-      project:projects(id, name, status, organisation:organisations(name))
+      project:projects(id, name, status, organisation:organizations(name))
     `)
     .single()
 
@@ -232,7 +232,7 @@ export async function GET(request: NextRequest) {
         .from('profile_organizations')
         .select(`
           *,
-          organisation:organisations(
+          organisation:organizations(
             id,
             name,
             type,
@@ -252,7 +252,7 @@ export async function GET(request: NextRequest) {
             name,
             status,
             description,
-            organisation:organisations(name, type)
+            organisation:organizations(name, type)
           )
         `)
         .eq('profile_id', storytellerId)

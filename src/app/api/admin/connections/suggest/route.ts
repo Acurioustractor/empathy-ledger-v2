@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
           location:locations(name, city, state, country)
         ),
         profile_organizations!left(
-          organisation:organisations(id, name)
+          organisation:organizations(id, name)
         ),
         profile_projects!left(
           project:projects(id, name)
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
     // Get all available organisations and projects
     const [organisations, projects] = await Promise.all([
       supabase
-        .from('organisations')
+        .from('organizations')
         .select(`
           id,
           name,
@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
           status,
           description,
           organization_id,
-          organisation:organisations(name, type, cultural_significance)
+          organisation:organizations(name, type, cultural_significance)
         `)
         .eq('status', 'active')
     ])

@@ -11,6 +11,11 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ProfilePersonalTab } from './tabs/ProfilePersonalTab'
+import { ProfileLocationsTab } from './tabs/ProfileLocationsTab'
+import { ProfileStorytellerTab } from './tabs/ProfileStorytellerTab'
+import { ProfileOrganizationsTab } from './tabs/ProfileOrganizationsTab'
+import { ProfilePrivacyTab } from './tabs/ProfilePrivacyTab'
+import { AddLocationDialog } from './AddLocationDialog'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Switch } from '@/components/ui/switch'
 import { 
@@ -20,12 +25,12 @@ import {
   SelectTrigger, 
   SelectValue 
 } from '@/components/ui/select'
-import { 
-  User, 
-  Mail, 
-  Shield, 
-  BookOpen, 
-  Settings, 
+import {
+  User,
+  Mail,
+  Shield,
+  BookOpen,
+  Settings,
   Heart,
   Crown,
   Edit3,
@@ -43,7 +48,10 @@ import {
   Bell,
   Lock,
   Plus,
-  Trash2
+  Trash2,
+  Building2,
+  FolderKanban,
+  Landmark
 } from 'lucide-react'
 
 // Type definitions for profile data
@@ -105,7 +113,17 @@ export function ProfileDashboard() {
   const [isEditing, setIsEditing] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [message, setMessage] = useState('')
-  
+
+  // Relationship data
+  const [organizations, setOrganizations] = useState<any[]>([])
+  const [projects, setProjects] = useState<any[]>([])
+  const [locations, setLocations] = useState<any[]>([])
+  const [storyCount, setStoryCount] = useState(0)
+  const [isLoadingRelationships, setIsLoadingRelationships] = useState(false)
+
+  // Location dialog
+  const [showLocationDialog, setShowLocationDialog] = useState(false)
+
   // Initialize form data with all profile fields
   const [editData, setEditData] = useState<ProfileFormData>({
     // Personal Info
@@ -213,6 +231,31 @@ export function ProfileDashboard() {
       })
     }
   }, [profile, user])
+
+  // Fetch organizations, projects, and locations
+  useEffect(() => {
+    const fetchRelationships = async () => {
+      if (!user) return
+
+      setIsLoadingRelationships(true)
+      try {
+        const response = await fetch('/api/profiles/me')
+        if (response.ok) {
+          const data = await response.json()
+          setOrganizations(data.organizations || [])
+          setProjects(data.projects || [])
+          setLocations(data.locations || [])
+          setStoryCount(data.storyCount || 0)
+        }
+      } catch (error) {
+        console.error('Error fetching relationships:', error)
+      } finally {
+        setIsLoadingRelationships(false)
+      }
+    }
+
+    fetchRelationships()
+  }, [user])
 
   // Add timeout loading state to prevent infinite hanging
   const [showLoadingTimeout, setShowLoadingTimeout] = useState(false)
@@ -344,6 +387,76 @@ export function ProfileDashboard() {
     }))
   }
 
+  // Location management functions
+  const handleAddLocation = async (locationData: any) => {
+    try {
+      const response = await fetch('/api/profiles/me/locations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(locationData)
+      })
+
+      if (response.ok) {
+        const newLocation = await response.json()
+        setLocations(prev => [...prev, newLocation])
+        setMessage('Location added successfully!')
+      } else {
+        setMessage('Failed to add location')
+      }
+    } catch (error) {
+      console.error('Error adding location:', error)
+      setMessage('Error adding location')
+    }
+  }
+
+  const handleRemoveLocation = async (id: string) => {
+    try {
+      const response = await fetch(`/api/profiles/me/locations?id=${id}`, {
+        method: 'DELETE'
+      })
+
+      if (response.ok) {
+        setLocations(prev => prev.filter(loc => loc.id !== id))
+        setMessage('Location removed successfully!')
+      } else {
+        setMessage('Failed to remove location')
+      }
+    } catch (error) {
+      console.error('Error removing location:', error)
+      setMessage('Error removing location')
+    }
+  }
+
+  const handleToggleLocationVisibility = async (id: string) => {
+    const location = locations.find(loc => loc.id === id)
+    if (!location) return
+
+    try {
+      const response = await fetch('/api/profiles/me/locations', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id,
+          is_public: !location.isPublic
+        })
+      })
+
+      if (response.ok) {
+        setLocations(prev =>
+          prev.map(loc =>
+            loc.id === id ? { ...loc, isPublic: !loc.isPublic } : loc
+          )
+        )
+        setMessage('Location visibility updated!')
+      } else {
+        setMessage('Failed to update visibility')
+      }
+    } catch (error) {
+      console.error('Error updating visibility:', error)
+      setMessage('Error updating visibility')
+    }
+  }
+
   // Helper component for array field management
   const ArrayFieldEditor = ({ 
     field, 
@@ -415,13 +528,30 @@ export function ProfileDashboard() {
       )}
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-7">
+        <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10 gap-1">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="personal">Personal</TabsTrigger>
           <TabsTrigger value="cultural">Cultural</TabsTrigger>
+          <TabsTrigger value="locations">
+            <MapPin className="w-3 h-3 mr-1" />
+            Locations
+          </TabsTrigger>
+          {profile?.is_storyteller && (
+            <TabsTrigger value="storyteller">
+              <BookOpen className="w-3 h-3 mr-1" />
+              Storyteller
+            </TabsTrigger>
+          )}
+          <TabsTrigger value="organizations">
+            <Building2 className="w-3 h-3 mr-1" />
+            Orgs
+          </TabsTrigger>
           <TabsTrigger value="contact">Contact</TabsTrigger>
           <TabsTrigger value="accessibility">Access</TabsTrigger>
-          <TabsTrigger value="privacy">Privacy</TabsTrigger>
+          <TabsTrigger value="privacy">
+            <Shield className="w-3 h-3 mr-1" />
+            Privacy
+          </TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
 
@@ -468,21 +598,26 @@ export function ProfileDashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-muted/50 rounded-lg">
-                  <BookOpen className="w-8 h-8 mx-auto mb-2 text-clay-600" />
-                  <div className="text-2xl font-bold">0</div>
-                  <div className="text-sm text-muted-foreground">Stories Created</div>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="text-center p-4 bg-earth-50 rounded-lg border border-earth-200">
+                  <BookOpen className="w-8 h-8 mx-auto mb-2 text-earth-600" />
+                  <div className="text-2xl font-bold">{storyCount}</div>
+                  <div className="text-sm text-grey-600">Stories Created</div>
                 </div>
-                <div className="text-center p-4 bg-muted/50 rounded-lg">
-                  <Heart className="w-8 h-8 mx-auto mb-2 text-red-500" />
-                  <div className="text-2xl font-bold">0</div>
-                  <div className="text-sm text-muted-foreground">Stories Liked</div>
+                <div className="text-center p-4 bg-sage-50 rounded-lg border border-sage-200">
+                  <Building2 className="w-8 h-8 mx-auto mb-2 text-sage-600" />
+                  <div className="text-2xl font-bold">{organizations.length}</div>
+                  <div className="text-sm text-grey-600">Organizations</div>
                 </div>
-                <div className="text-center p-4 bg-muted/50 rounded-lg">
-                  <Users className="w-8 h-8 mx-auto mb-2 text-blue-600" />
-                  <div className="text-2xl font-bold">{editData.profile_visibility}</div>
-                  <div className="text-sm text-muted-foreground">Profile Visibility</div>
+                <div className="text-center p-4 bg-clay-50 rounded-lg border border-clay-200">
+                  <FolderKanban className="w-8 h-8 mx-auto mb-2 text-clay-600" />
+                  <div className="text-2xl font-bold">{projects.length}</div>
+                  <div className="text-sm text-grey-600">Projects</div>
+                </div>
+                <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <MapPin className="w-8 h-8 mx-auto mb-2 text-blue-600" />
+                  <div className="text-2xl font-bold">{locations.length}</div>
+                  <div className="text-sm text-grey-600">Locations</div>
                 </div>
               </div>
             </CardContent>
@@ -939,85 +1074,37 @@ export function ProfileDashboard() {
 
         {/* Privacy Tab */}
         <TabsContent value="privacy" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle>Privacy & Consent</CardTitle>
-                  <CardDescription>Profile visibility and consent preferences</CardDescription>
-                </div>
-                {!isEditing ? (
-                  <Button onClick={() => setIsEditing(true)} variant="outline" size="sm">
-                    <Edit3 className="w-4 h-4 mr-2" />
-                    Edit
-                  </Button>
-                ) : (
-                  <div className="space-x-2">
-                    <Button onClick={handleSave} size="sm" disabled={isSaving}>
-                      <Save className="w-4 h-4 mr-2" />
-                      Save
-                    </Button>
-                    <Button onClick={handleCancel} variant="outline" size="sm">
-                      <X className="w-4 h-4 mr-2" />
-                      Cancel
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div>
-                <Label>Profile Visibility</Label>
-                <p className="text-sm text-muted-foreground mb-3">Control who can see your profile information</p>
-                {isEditing ? (
-                  <Select value={editData.profile_visibility} onValueChange={(value: 'public' | 'community' | 'private') => setEditData({...editData, profile_visibility: value})}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="public">
-                        <div className="flex items-center">
-                          <Globe className="w-4 h-4 mr-2" />
-                          Public - Visible to everyone
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="community">
-                        <div className="flex items-center">
-                          <Users className="w-4 h-4 mr-2" />
-                          Community - Visible to registered members
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="private">
-                        <div className="flex items-center">
-                          <Lock className="w-4 h-4 mr-2" />
-                          Private - Only visible to you
-                        </div>
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                ) : (
-                  <div className="p-3 bg-muted/50 rounded-md flex items-center">
-                    {editData.profile_visibility === 'public' && <Globe className="w-4 h-4 mr-2" />}
-                    {editData.profile_visibility === 'community' && <Users className="w-4 h-4 mr-2" />}
-                    {editData.profile_visibility === 'private' && <Lock className="w-4 h-4 mr-2" />}
-                    {editData.profile_visibility === 'public' && 'Public - Visible to everyone'}
-                    {editData.profile_visibility === 'community' && 'Community - Visible to registered members'}
-                    {editData.profile_visibility === 'private' && 'Private - Only visible to you'}
-                  </div>
-                )}
-              </div>
-
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div>
-                  <Label>Onboarding Completed</Label>
-                  <p className="text-sm text-muted-foreground">Profile setup and onboarding status</p>
-                </div>
-                <Badge variant={editData.onboarding_completed ? "default" : "secondary"}>
-                  {editData.onboarding_completed ? 'Completed' : 'Pending'}
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
+          <ProfilePrivacyTab
+            isEditing={isEditing}
+            privacySettings={{
+              profile_visibility: editData.profile_visibility,
+              show_email: false,
+              show_phone: false,
+              show_location: true,
+              show_cultural_background: true,
+              show_languages: true,
+              show_organizations: true,
+              show_projects: true,
+              allow_messages: true,
+              allow_story_requests: editData.is_storyteller,
+              show_in_storyteller_directory: editData.is_storyteller
+            }}
+            consentPreferences={{
+              data_collection: true,
+              analytics: true,
+              cultural_data_sharing: false,
+              third_party_sharing: false,
+              marketing_communications: false
+            }}
+            onPrivacyChange={(field, value) => setEditData({...editData, [field]: value})}
+            onConsentChange={(field, value) => {
+              const consent = editData.consent_preferences as Record<string, any> || {}
+              setEditData({
+                ...editData,
+                consent_preferences: { ...consent, [field]: value }
+              })
+            }}
+          />
         </TabsContent>
 
         {/* Settings Tab */}
@@ -1052,7 +1139,54 @@ export function ProfileDashboard() {
             </CardContent>
           </Card>
         </TabsContent>
+
+        {/* Locations Tab */}
+        <TabsContent value="locations" className="space-y-6">
+          <ProfileLocationsTab
+            isEditing={isEditing}
+            locations={locations}
+            onAddLocation={() => setShowLocationDialog(true)}
+            onRemoveLocation={handleRemoveLocation}
+            onToggleVisibility={handleToggleLocationVisibility}
+          />
+        </TabsContent>
+
+        {/* Storyteller Tab */}
+        {profile?.is_storyteller && (
+          <TabsContent value="storyteller" className="space-y-6">
+            <ProfileStorytellerTab
+              isEditing={isEditing}
+              isStoryteller={editData.is_storyteller}
+              isElder={editData.is_elder}
+              traditionalKnowledgeKeeper={editData.traditional_knowledge_keeper}
+              storytellingExperience={editData.storytelling_experience}
+              specialties={[]}
+              preferredTopics={[]}
+              storytellingStyle={[]}
+              availabilityStatus=""
+              yearsOfExperience={0}
+              onFieldChange={(field, value) => setEditData({...editData, [field]: value})}
+            />
+          </TabsContent>
+        )}
+
+        {/* Organizations Tab */}
+        <TabsContent value="organizations" className="space-y-6">
+          <ProfileOrganizationsTab
+            organizations={organizations}
+            projects={projects}
+            onViewOrganization={(id) => router.push(`/organisations/${id}`)}
+            onViewProject={(id) => router.push(`/projects/${id}`)}
+          />
+        </TabsContent>
       </Tabs>
+
+      {/* Location Dialog */}
+      <AddLocationDialog
+        open={showLocationDialog}
+        onOpenChange={setShowLocationDialog}
+        onAdd={handleAddLocation}
+      />
     </div>
   )
 }

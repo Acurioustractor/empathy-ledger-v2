@@ -10,7 +10,7 @@ async function getAllProjects() {
     .from('projects')
     .select(`
       *,
-      organisation:organisations(id, name, type),
+      organisation:organizations(id, name, type),
       created_by_profile:profiles!projects_created_by_fkey(id, display_name, full_name)
     `)
     .order('created_at', { ascending: false })

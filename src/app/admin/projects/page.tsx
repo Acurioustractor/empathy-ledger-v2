@@ -450,11 +450,11 @@ export default function AdminProjectsPage() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => router.push(`/projects/${project.id}`)}>
                               <Eye className="w-4 h-4 mr-2" />
                               View Details
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => router.push(`/admin/projects/${project.id}/edit`)}>
                               <Edit className="w-4 h-4 mr-2" />
                               Edit Project
                             </DropdownMenuItem>
@@ -463,13 +463,19 @@ export default function AdminProjectsPage() {
                               onClick={() => handleManageParticipants(project.id)}
                             >
                               <Users className="w-4 h-4 mr-2" />
-                              Manage Participants
+                              Manage Storytellers
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              View Stories
+                            <DropdownMenuItem onClick={() => router.push(`/projects/${project.id}#transcripts`)}>
+                              <BookOpen className="w-4 h-4 mr-2" />
+                              View Transcripts
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-red-600">
+                            <DropdownMenuItem className="text-red-600" onClick={() => {
+                              if (confirm(`Are you sure you want to archive "${project.name}"?`)) {
+                                // TODO: Implement archive functionality
+                                console.log('Archive project:', project.id)
+                              }
+                            }}>
                               Archive Project
                             </DropdownMenuItem>
                           </DropdownMenuContent>

@@ -3,7 +3,7 @@ export * from './base'
 
 // Import all domain table interfaces
 import { UserProfileTables } from './user-profile'
-import { OrganizationTenantTables } from './organisation-tenant'
+import { OrganizationTenantTables } from './organization-tenant'
 import { ProjectManagementTables } from './project-management'
 import { ContentMediaTables } from './content-media'
 import { GalleryPhotoTables } from './gallery-photos'
