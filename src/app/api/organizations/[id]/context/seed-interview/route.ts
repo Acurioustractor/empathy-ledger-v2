@@ -1,4 +1,4 @@
-// Project Seed Interview API
+// Organization Seed Interview API
 // Processes seed interview responses and extracts structured context using AI
 
 import { NextRequest, NextResponse } from 'next/server'
@@ -12,7 +12,7 @@ interface SeedInterviewResponse {
 }
 
 /**
- * POST /api/projects/[id]/context/seed-interview
+ * POST /api/organizations/[id]/context/seed-interview
  * Process seed interview responses and extract context
  */
 export async function POST(
@@ -20,7 +20,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: projectId } = await params
+    const { id: organizationId } = await params
     const supabase = await createServerClient()
 
     // Get current user
@@ -29,28 +29,17 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Get project to check organization membership
-    const { data: project, error: projectError } = await supabase
-      .from('projects')
-      .select('organization_id, name')
-      .eq('id', projectId)
-      .single()
-
-    if (projectError || !project) {
-      return NextResponse.json({ error: 'Project not found' }, { status: 404 })
-    }
-
-    // Verify user is admin or project manager
+    // Verify user is admin
     const { data: membership, error: memberError } = await supabase
       .from('profile_organizations')
       .select('role')
       .eq('profile_id', user.id)
-      .eq('organization_id', project.organization_id)
+      .eq('organization_id', organizationId)
       .eq('is_active', true)
       .single()
 
-    if (memberError || !membership || !['admin', 'project_manager'].includes(membership.role)) {
-      return NextResponse.json({ error: 'Must be admin or project manager' }, { status: 403 })
+    if (memberError || !membership || membership.role !== 'admin') {
+      return NextResponse.json({ error: 'Must be organization admin' }, { status: 403 })
     }
 
     // Parse request body
@@ -68,34 +57,25 @@ export async function POST(
     // Use AI to extract structured context
     const llm = createLLMClient()
 
-    const systemPrompt = `You are an expert at analyzing project descriptions and extracting structured context.
+    const systemPrompt = `You are an expert at analyzing organization descriptions and extracting structured context.
 Extract the following information from the seed interview responses:
 
-1. Purpose: What the project is trying to achieve (1-2 sentences)
-2. Context: Why the project exists - community need, opportunity (2-3 sentences)
-3. Target Population: Who they're working with (1-2 sentences)
-4. Expected Outcomes: JSONB array with structure:
-   [
-     {
-       "category": "Sleep Quality",
-       "description": "Improved sleep and dignity for families",
-       "indicators": ["Fewer people sleeping on floors", "Reduced health issues"],
-       "timeframe": "short_term" | "medium_term" | "long_term"
-     }
-   ]
-5. Success Criteria: Array of strings - how they'll know they succeeded
-6. Timeframe: Project duration/phases (string)
-7. Program Model: How the project works (2-3 paragraphs)
-8. Cultural Approaches: Array of cultural practices/protocols mentioned
-9. Key Activities: Array of main activities/services
+1. Mission: The organization's core purpose (1-2 sentences)
+2. Vision: The world they're working toward (1-2 sentences)
+3. Values: Array of core values (3-5 items)
+4. Approach Description: How they work and what makes them unique (2-3 paragraphs)
+5. Cultural Frameworks: Array of cultural practices/protocols mentioned (e.g., "Dadirri", "Two-way learning", "OCAP principles")
+6. Key Principles: Array of operating principles
+7. Impact Philosophy: Their theory of change (2-3 paragraphs)
+8. Impact Domains: Object with keys for individual, family, community, systems - each with array of focus areas
+9. Measurement Approach: How they know they're making a difference (1-2 paragraphs)
 
-Be culturally sensitive and preserve Indigenous terminology exactly as stated.
-Extract outcomes from Q2 (success definition) and Q5 (how you'll know) - these are CRITICAL for outcomes tracking.
-Return ONLY valid JSON with these exact keys: purpose, context, target_population, expected_outcomes, success_criteria, timeframe, program_model, cultural_approaches, key_activities, extraction_quality_score (0-100 based on completeness)`
+Be culturally sensitive and preserve Indigenous terminology and concepts exactly as stated.
+Return ONLY valid JSON with these exact keys: mission, vision, values, approach_description, cultural_frameworks, key_principles, impact_philosophy, impact_domains, measurement_approach, extraction_quality_score (0-100 based on completeness)`
 
-    const userPrompt = `Project Name: ${project.name}\n\nExtract structured context from this project seed interview:\n\n${interviewText}`
+    const userPrompt = `Extract structured context from this organization seed interview:\n\n${interviewText}`
 
-    console.log(`🧠 Extracting project context from seed interview for: ${project.name}`)
+    console.log('🧠 Extracting organization context from seed interview...')
 
     const response = await llm.createChatCompletion({
       messages: [
@@ -111,20 +91,18 @@ Return ONLY valid JSON with these exact keys: purpose, context, target_populatio
 
     // Store the context in database
     const contextData = {
-      project_id: projectId,
-      organization_id: project.organization_id,
-      purpose: extracted.purpose,
-      context: extracted.context,
-      target_population: extracted.target_population,
-      expected_outcomes: extracted.expected_outcomes,
-      success_criteria: extracted.success_criteria,
-      timeframe: extracted.timeframe,
-      program_model: extracted.program_model,
-      cultural_approaches: extracted.cultural_approaches,
-      key_activities: extracted.key_activities,
-      seed_interview_text: interviewText, // Store raw responses for reference
-      context_type: 'full',
-      ai_extracted: true,
+      organization_id: organizationId,
+      mission: extracted.mission,
+      vision: extracted.vision,
+      values: extracted.values,
+      approach_description: extracted.approach_description,
+      cultural_frameworks: extracted.cultural_frameworks,
+      key_principles: extracted.key_principles,
+      impact_philosophy: extracted.impact_philosophy,
+      impact_domains: extracted.impact_domains,
+      measurement_approach: extracted.measurement_approach,
+      seed_interview_responses: responses, // Store raw responses for reference
+      context_type: 'seed_interview',
       extraction_quality_score: extracted.extraction_quality_score,
       ai_model_used: process.env.LLM_PROVIDER === 'ollama' ? 'ollama-llama3.1:8b' : 'openai-gpt-4o-mini',
       created_by: user.id,
@@ -133,18 +111,18 @@ Return ONLY valid JSON with these exact keys: purpose, context, target_populatio
 
     // Check if context already exists
     const { data: existing } = await supabase
-      .from('project_contexts')
+      .from('organization_contexts')
       .select('id')
-      .eq('project_id', projectId)
+      .eq('organization_id', organizationId)
       .single()
 
     let context
     if (existing) {
       // Update existing
       const { data, error } = await supabase
-        .from('project_contexts')
+        .from('organization_contexts')
         .update(contextData)
-        .eq('project_id', projectId)
+        .eq('organization_id', organizationId)
         .select()
         .single()
 
@@ -155,7 +133,7 @@ Return ONLY valid JSON with these exact keys: purpose, context, target_populatio
     } else {
       // Create new
       const { data, error } = await supabase
-        .from('project_contexts')
+        .from('organization_contexts')
         .insert(contextData)
         .select()
         .single()
@@ -174,7 +152,7 @@ Return ONLY valid JSON with these exact keys: purpose, context, target_populatio
     }, { status: existing ? 200 : 201 })
 
   } catch (error) {
-    console.error('Error processing project seed interview:', error)
+    console.error('Error processing organization seed interview:', error)
     return NextResponse.json({
       error: 'Failed to process seed interview',
       details: error instanceof Error ? error.message : 'Unknown error'
@@ -183,7 +161,7 @@ Return ONLY valid JSON with these exact keys: purpose, context, target_populatio
 }
 
 /**
- * GET /api/projects/[id]/context/seed-interview/template
+ * GET /api/organizations/[id]/context/seed-interview/template
  * Get the default seed interview template
  */
 export async function GET(
@@ -191,7 +169,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: projectId } = await params
+    const { id: organizationId } = await params
     const supabase = await createServerClient()
 
     // Get current user
@@ -200,23 +178,12 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Get project to check organization membership
-    const { data: project, error: projectError } = await supabase
-      .from('projects')
-      .select('organization_id')
-      .eq('id', projectId)
-      .single()
-
-    if (projectError || !project) {
-      return NextResponse.json({ error: 'Project not found' }, { status: 404 })
-    }
-
     // Verify user is member
     const { data: membership, error: memberError } = await supabase
       .from('profile_organizations')
       .select('role')
       .eq('profile_id', user.id)
-      .eq('organization_id', project.organization_id)
+      .eq('organization_id', organizationId)
       .eq('is_active', true)
       .single()
 
@@ -224,11 +191,11 @@ export async function GET(
       return NextResponse.json({ error: 'Not a member of this organization' }, { status: 403 })
     }
 
-    // Get default project template
+    // Get default organization template
     const { data: template, error: templateError } = await supabase
       .from('seed_interview_templates')
       .select('*')
-      .eq('template_type', 'project')
+      .eq('template_type', 'organization')
       .eq('is_default', true)
       .eq('is_active', true)
       .single()
@@ -243,7 +210,7 @@ export async function GET(
     })
 
   } catch (error) {
-    console.error('Error in GET /api/projects/[id]/context/seed-interview:', error)
+    console.error('Error in GET /api/organizations/[id]/context/seed-interview:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

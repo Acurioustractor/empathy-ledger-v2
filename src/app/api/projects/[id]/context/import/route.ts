@@ -1,19 +1,13 @@
-// Project Seed Interview API
-// Processes seed interview responses and extracts structured context using AI
+// Project Context Import API
+// Import context from existing documents (Project Plans, Logic Models, etc.)
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { createLLMClient } from '@/lib/ai/llm-client'
 
-interface SeedInterviewResponse {
-  question_id: string
-  question: string
-  answer: string
-}
-
 /**
- * POST /api/projects/[id]/context/seed-interview
- * Process seed interview responses and extract context
+ * POST /api/projects/[id]/context/import
+ * Import project context from existing document text
  */
 export async function POST(
   request: NextRequest,
@@ -54,22 +48,27 @@ export async function POST(
     }
 
     // Parse request body
-    const { responses } = await request.json() as { responses: SeedInterviewResponse[] }
+    const { document_text, document_type } = await request.json()
 
-    if (!responses || !Array.isArray(responses) || responses.length === 0) {
-      return NextResponse.json({ error: 'Interview responses are required' }, { status: 400 })
+    if (!document_text || typeof document_text !== 'string') {
+      return NextResponse.json({ error: 'Document text is required' }, { status: 400 })
     }
 
-    // Format responses as text for AI
-    const interviewText = responses.map(r =>
-      `Q: ${r.question}\nA: ${r.answer}`
-    ).join('\n\n')
+    if (document_text.length < 100) {
+      return NextResponse.json({ error: 'Document text too short (minimum 100 characters)' }, { status: 400 })
+    }
 
-    // Use AI to extract structured context
+    if (document_text.length > 50000) {
+      return NextResponse.json({ error: 'Document text too long (maximum 50,000 characters)' }, { status: 400 })
+    }
+
+    // Use AI to extract structured context from document
     const llm = createLLMClient()
 
-    const systemPrompt = `You are an expert at analyzing project descriptions and extracting structured context.
-Extract the following information from the seed interview responses:
+    const systemPrompt = `You are an expert at analyzing project documents and extracting structured context.
+
+The user will provide a project document (Logic Model, Theory of Change, Project Plan, etc.).
+Extract the following information:
 
 1. Purpose: What the project is trying to achieve (1-2 sentences)
 2. Context: Why the project exists - community need, opportunity (2-3 sentences)
@@ -89,20 +88,25 @@ Extract the following information from the seed interview responses:
 8. Cultural Approaches: Array of cultural practices/protocols mentioned
 9. Key Activities: Array of main activities/services
 
-Be culturally sensitive and preserve Indigenous terminology exactly as stated.
-Extract outcomes from Q2 (success definition) and Q5 (how you'll know) - these are CRITICAL for outcomes tracking.
-Return ONLY valid JSON with these exact keys: purpose, context, target_population, expected_outcomes, success_criteria, timeframe, program_model, cultural_approaches, key_activities, extraction_quality_score (0-100 based on completeness)`
+Guidelines:
+- Only extract information that is explicitly stated or clearly implied
+- Preserve Indigenous terminology exactly as written
+- If a field cannot be determined, return null or empty array
+- Be culturally sensitive and respectful
+- Focus on EXPECTED outcomes (what they hope to achieve), not past achievements
 
-    const userPrompt = `Project Name: ${project.name}\n\nExtract structured context from this project seed interview:\n\n${interviewText}`
+Return ONLY valid JSON with these exact keys: purpose, context, target_population, expected_outcomes, success_criteria, timeframe, program_model, cultural_approaches, key_activities, extraction_quality_score (0-100 based on completeness and confidence)`
 
-    console.log(`🧠 Extracting project context from seed interview for: ${project.name}`)
+    const userPrompt = `Project Name: ${project.name}\nDocument Type: ${document_type || 'Unknown'}\n\nExtract structured context from this project document:\n\n${document_text}`
+
+    console.log(`🧠 Extracting project context from ${document_type || 'document'} for: ${project.name}`)
 
     const response = await llm.createChatCompletion({
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
       ],
-      temperature: 0.3,
+      temperature: 0.2, // Lower temperature for more faithful extraction
       maxTokens: 3000,
       responseFormat: 'json'
     })
@@ -122,8 +126,8 @@ Return ONLY valid JSON with these exact keys: purpose, context, target_populatio
       program_model: extracted.program_model,
       cultural_approaches: extracted.cultural_approaches,
       key_activities: extracted.key_activities,
-      seed_interview_text: interviewText, // Store raw responses for reference
-      context_type: 'full',
+      existing_documents: document_text, // Store original for reference
+      context_type: 'imported',
       ai_extracted: true,
       extraction_quality_score: extracted.extraction_quality_score,
       ai_model_used: process.env.LLM_PROVIDER === 'ollama' ? 'ollama-llama3.1:8b' : 'openai-gpt-4o-mini',
@@ -170,80 +174,15 @@ Return ONLY valid JSON with these exact keys: purpose, context, target_populatio
       success: true,
       context,
       extracted,
-      message: existing ? 'Context updated from seed interview' : 'Context created from seed interview'
+      message: existing ? 'Context updated from document import' : 'Context created from document import',
+      warnings: extracted.extraction_quality_score < 60 ? ['Low extraction quality - please review and edit'] : []
     }, { status: existing ? 200 : 201 })
 
   } catch (error) {
-    console.error('Error processing project seed interview:', error)
+    console.error('Error importing project context:', error)
     return NextResponse.json({
-      error: 'Failed to process seed interview',
+      error: 'Failed to import document',
       details: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 })
-  }
-}
-
-/**
- * GET /api/projects/[id]/context/seed-interview/template
- * Get the default seed interview template
- */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id: projectId } = await params
-    const supabase = await createServerClient()
-
-    // Get current user
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    // Get project to check organization membership
-    const { data: project, error: projectError } = await supabase
-      .from('projects')
-      .select('organization_id')
-      .eq('id', projectId)
-      .single()
-
-    if (projectError || !project) {
-      return NextResponse.json({ error: 'Project not found' }, { status: 404 })
-    }
-
-    // Verify user is member
-    const { data: membership, error: memberError } = await supabase
-      .from('profile_organizations')
-      .select('role')
-      .eq('profile_id', user.id)
-      .eq('organization_id', project.organization_id)
-      .eq('is_active', true)
-      .single()
-
-    if (memberError || !membership) {
-      return NextResponse.json({ error: 'Not a member of this organization' }, { status: 403 })
-    }
-
-    // Get default project template
-    const { data: template, error: templateError } = await supabase
-      .from('seed_interview_templates')
-      .select('*')
-      .eq('template_type', 'project')
-      .eq('is_default', true)
-      .eq('is_active', true)
-      .single()
-
-    if (templateError) {
-      console.error('Error fetching seed interview template:', templateError)
-      return NextResponse.json({ error: 'Template not found' }, { status: 404 })
-    }
-
-    return NextResponse.json({
-      template
-    })
-
-  } catch (error) {
-    console.error('Error in GET /api/projects/[id]/context/seed-interview:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
