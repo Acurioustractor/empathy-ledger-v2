@@ -75,9 +75,50 @@ async function callOllama(
   const data = await response.json()
   let content = data.message.content
 
-  // Clean up response if it has markdown code blocks
+  // Aggressive JSON cleaning for Ollama responses
   if (response_format?.type === 'json_object') {
-    content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+    // Strip markdown code blocks
+    content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '')
+
+    // Remove common prefixes that LLMs add
+    content = content.replace(/^Here is the JSON:?\s*/i, '')
+    content = content.replace(/^Here's the JSON:?\s*/i, '')
+    content = content.replace(/^After analysis:?\s*/i, '')
+    content = content.replace(/^Based on .*?:?\s*/i, '')
+    content = content.replace(/^The JSON response is:?\s*/i, '')
+
+    // Try to extract JSON object/array from text
+    const jsonMatch = content.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
+    if (jsonMatch) {
+      content = jsonMatch[1]
+    }
+
+    content = content.trim()
+
+    // Validate and attempt to fix common issues
+    try {
+      JSON.parse(content)
+    } catch (e) {
+      console.warn('⚠️  Ollama returned invalid JSON, attempting aggressive extraction...')
+
+      // Last resort: find everything between first { and last }
+      const firstBrace = content.indexOf('{')
+      const lastBrace = content.lastIndexOf('}')
+
+      if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+        content = content.substring(firstBrace, lastBrace + 1)
+
+        try {
+          JSON.parse(content)
+          console.log('✅ Successfully extracted valid JSON')
+        } catch (e2) {
+          console.error('❌ Could not extract valid JSON:', e2.message)
+          throw new Error(`Ollama returned unparseable JSON: ${content.substring(0, 100)}...`)
+        }
+      } else {
+        throw new Error(`No JSON structure found in Ollama response: ${content.substring(0, 100)}...`)
+      }
+    }
   }
 
   return {
