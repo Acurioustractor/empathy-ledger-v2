@@ -2,7 +2,7 @@
 // Import context from existing documents (Theory of Change, Impact Reports, etc.)
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { createLLMClient } from '@/lib/ai/llm-client'
 
 /**
@@ -15,7 +15,7 @@ export async function POST(
 ) {
   try {
     const { id: organizationId } = await params
-    const supabase = await createServerClient()
+    const supabase = await createClient()
 
     // Get current user
     const { data: { user }, error: authError } = await supabase.auth.getUser()

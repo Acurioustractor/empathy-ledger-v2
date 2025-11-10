@@ -2,7 +2,7 @@
 // Processes seed interview responses and extracts structured context using AI
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { createLLMClient } from '@/lib/ai/llm-client'
 
 interface SeedInterviewResponse {
@@ -21,7 +21,7 @@ export async function POST(
 ) {
   try {
     const { id: organizationId } = await params
-    const supabase = await createServerClient()
+    const supabase = await createClient()
 
     // Get current user
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -170,7 +170,7 @@ export async function GET(
 ) {
   try {
     const { id: organizationId } = await params
-    const supabase = await createServerClient()
+    const supabase = await createClient()
 
     // Get current user
     const { data: { user }, error: authError } = await supabase.auth.getUser()
