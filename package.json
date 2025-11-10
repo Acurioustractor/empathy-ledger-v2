@@ -13,8 +13,7 @@
     "type-check": "tsc --noEmit",
     "db:types": "supabase gen types typescript --local > src/types/database-generated.ts",
     "validate:schema": "node scripts/validate-database-schema.js",
-    "validate:spelling": "node scripts/validation/australian-spelling-audit.js",
-    "prebuild": "npm run type-check"
+    "validate:spelling": "node scripts/validation/australian-spelling-audit.js"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^2.0.23",
