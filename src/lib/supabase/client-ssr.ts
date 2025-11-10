@@ -2,20 +2,26 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import type { Database } from '@/types/database'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+// Get environment variables - validation deferred to runtime
+const getSupabaseEnv = () => {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-if (!supabaseUrl) {
-  throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL environment variable')
-}
+  if (!supabaseUrl) {
+    throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL environment variable')
+  }
 
-if (!supabaseAnonKey) {
-  throw new Error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable')
+  if (!supabaseAnonKey) {
+    throw new Error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable')
+  }
+
+  return { supabaseUrl, supabaseAnonKey, supabaseServiceKey }
 }
 
 // Server-side Supabase client for App Router
 export const createSupabaseServerClient = () => {
+  const { supabaseUrl, supabaseAnonKey } = getSupabaseEnv()
   const cookieStore = cookies()
 
   return createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
@@ -53,6 +59,7 @@ export const createSupabaseServerClient = () => {
 
 // For middleware usage
 export const createSupabaseMiddlewareClient = (request: Request) => {
+  const { supabaseUrl, supabaseAnonKey } = getSupabaseEnv()
   const supabaseResponse = new Response()
 
   const supabase = createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
@@ -95,6 +102,8 @@ export const createSupabaseMiddlewareClient = (request: Request) => {
 
 // Service client for development uploads (bypasses RLS)
 export const createSupabaseServiceClient = () => {
+  const { supabaseUrl, supabaseServiceKey } = getSupabaseEnv()
+
   if (!supabaseServiceKey) {
     throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable')
   }
