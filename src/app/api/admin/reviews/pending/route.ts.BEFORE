@@ -1,0 +1,19 @@
+// BEFORE: This was returning ALL stories from ALL organizations
+// This is the bug that caused "11 stories in review" to show wrong data
+
+import { NextRequest, NextResponse } from 'next/server'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+
+export async function GET(request: NextRequest) {
+  const supabase = createSupabaseServerClient()
+
+  // ❌ BUG: No organization_id filter - returns ALL organizations!
+  const { data: pendingStories } = await supabase
+    .from('stories')
+    .select('*')
+    .in('status', ['pending', 'draft'])
+    .order('created_at', { ascending: false })
+    .limit(10)
+
+  return NextResponse.json({ reviews: pendingStories })
+}
