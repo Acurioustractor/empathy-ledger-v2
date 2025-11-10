@@ -65,7 +65,9 @@ async function callOllama(
         num_predict: options.max_tokens
       },
       format: response_format?.type === 'json_object' ? 'json' : undefined
-    })
+    }),
+    // Add 5-minute timeout for long transcript analysis with batching
+    signal: AbortSignal.timeout(300000)
   })
 
   if (!response.ok) {
@@ -207,11 +209,12 @@ export async function callLLM(
       throw new Error(`Unknown LLM provider: ${preferredProvider}`)
     }
   } catch (error: any) {
-    // If Ollama fails, fall back to OpenAI
-    if (preferredProvider === 'ollama') {
+    // Only fall back to OpenAI if Ollama was tried as default, not explicitly requested
+    if (preferredProvider === 'ollama' && !process.env.LLM_PROVIDER) {
       console.warn(`⚠️  Ollama failed (${error.message}), falling back to OpenAI...`)
       return await callOpenAI(messages, { ...options, model: 'gpt-4o-mini' })
     }
+    // If Ollama was explicitly requested via LLM_PROVIDER, don't fall back
     throw error
   }
 }

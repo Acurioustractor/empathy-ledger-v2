@@ -6,6 +6,9 @@ import { extractIntelligentQuotes } from '@/lib/ai/intelligent-quote-extractor'
 import { assessIndigenousImpact, aggregateIndigenousImpact } from '@/lib/ai/intelligent-indigenous-impact-analyzer'
 import { extractQuotesWithClaude } from '@/lib/ai/claude-quote-extractor'
 import { assessImpactWithClaude, aggregateClaudeImpact } from '@/lib/ai/claude-impact-analyzer'
+import { tagAllQuotes, type OutcomeMatcher } from '@/lib/ai/outcome-matcher'
+import { tagAllQuotesWithAI } from '@/lib/ai/intelligent-outcome-matcher'
+import { aggregateOutcomes } from '@/lib/ai/outcomes-aggregator'
 import crypto from 'crypto'
 
 const openai = new OpenAI({
@@ -256,35 +259,69 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       // Fetch project context for context-aware analysis
       let projectContext: any = null
       try {
-        const { data: projectData } = await supabase
-          .from('projects')
-          .select('context_model, context_description')
-          .eq('id', projectId)
+        // First try to load from new project_contexts table (preferred)
+        // Use service role client to bypass RLS for project_contexts table
+        const serviceSupabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.SUPABASE_SERVICE_ROLE_KEY!
+        )
+
+        const { data: contextData } = await serviceSupabase
+          .from('project_contexts')
+          .select('*')
+          .eq('project_id', projectId)
           .single()
 
-        if (projectData?.context_model === 'quick' && projectData.context_description) {
-          console.log('📋 Using quick project context for analysis')
-          // Use quick extractor to get structured context
-          const { extractQuickProfile } = await import('@/lib/ai/project-profile-extractor')
-          projectContext = await extractQuickProfile(projectData.context_description, project.name)
-          projectContext.model = 'quick'
-          projectContext.description = projectData.context_description // Add original description for outcomes analysis
-        } else if (projectData?.context_model === 'full') {
-          console.log('📋 Using full project profile for analysis')
-          const { data: profile } = await supabase
-            .from('project_profiles')
-            .select('*')
-            .eq('project_id', projectId)
+        if (contextData) {
+          console.log(`📋 Using ${contextData.context_type} project context from seed interview`)
+
+          // Map expected_outcomes to the format intelligent-quote-extractor expects
+          const mappedOutcomes = (contextData.expected_outcomes || []).map((outcome: any) => ({
+            category: outcome.category || '',
+            examples: outcome.indicators || [],
+            keywords: outcome.indicators || []
+          }))
+
+          projectContext = {
+            model: contextData.context_type || 'full',
+            description: contextData.purpose || '',
+            outcome_categories: mappedOutcomes,
+            positive_language: contextData.success_criteria || [],
+            cultural_values: contextData.cultural_approaches || [],
+            key_activities: contextData.key_activities || []
+          }
+        } else {
+          // Fallback to legacy projects table context
+          const { data: projectData } = await supabase
+            .from('projects')
+            .select('context_model, context_description')
+            .eq('id', projectId)
             .single()
 
-          if (profile) {
-            projectContext = {
-              model: 'full',
-              mission: profile.mission,
-              primary_goals: profile.primary_goals,
-              outcome_categories: profile.outcome_categories,
-              positive_language: profile.positive_language,
-              cultural_values: profile.cultural_values
+          if (projectData?.context_model === 'quick' && projectData.context_description) {
+            console.log('📋 Using legacy quick project context for analysis')
+            // Use quick extractor to get structured context
+            const { extractQuickProfile } = await import('@/lib/ai/project-profile-extractor')
+            projectContext = await extractQuickProfile(projectData.context_description, project.name)
+            projectContext.model = 'quick'
+            projectContext.description = projectData.context_description
+          } else if (projectData?.context_model === 'full') {
+            console.log('📋 Using legacy full project profile for analysis')
+            const { data: profile } = await supabase
+              .from('project_profiles')
+              .select('*')
+              .eq('project_id', projectId)
+              .single()
+
+            if (profile) {
+              projectContext = {
+                model: 'full',
+                mission: profile.mission,
+                primary_goals: profile.primary_goals,
+                outcome_categories: profile.outcome_categories,
+                positive_language: profile.positive_language,
+                cultural_values: profile.cultural_values
+              }
             }
           }
         }
@@ -307,11 +344,37 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       // Process transcripts - use batching for Claude to avoid concurrent connection limits
       let intelligentResults: any[] = []
 
-      if (aiModel === 'claude') {
-        // Claude: Process in small batches with delays to respect rate limits
-        const BATCH_SIZE = 2 // Small batches to avoid usage acceleration limits
+      if (aiModel === 'claude' || process.env.LLM_PROVIDER === 'ollama') {
+        // Claude/Ollama: Process in small batches with delays to respect rate/performance limits
+        const BATCH_SIZE = 2 // Small batches to avoid usage acceleration limits and Ollama timeout issues
         const DELAY_MS = 2000 // 2 second delay between batches
-        console.log(`🔄 Processing in batches of ${BATCH_SIZE} for Claude (with ${DELAY_MS}ms delays)...`)
+        const modelName = aiModel === 'claude' ? 'Claude' : 'Ollama'
+        console.log(`🔄 Processing in batches of ${BATCH_SIZE} for ${modelName} (with ${DELAY_MS}ms delays)...`)
+
+        // Build project context for Claude V2
+        let claudeProjectContext: any = undefined
+        if (projectContext) {
+          // Extract outcome categories from structured outcomes
+          const outcomeCategories = (projectContext.outcome_categories || []).map((oc: any) => {
+            if (typeof oc === 'string') return oc
+            return oc.category || oc.description || ''
+          }).filter((cat: string) => cat.length > 0)
+
+          // Extract extract quotes phrases from success criteria
+          const extractQuotes = (projectContext.positive_language || []).map((pl: any) => {
+            if (typeof pl === 'string') return pl
+            return pl.phrase || pl.indicator || ''
+          }).filter((phrase: string) => phrase.length > 0)
+
+          claudeProjectContext = {
+            project_name: project.name,
+            project_purpose: projectContext.description || project.description || '',
+            primary_outcomes: outcomeCategories,
+            extract_quotes_that_demonstrate: extractQuotes,
+            cultural_approaches: projectContext.cultural_values || []
+          }
+          console.log(`📋 Claude V2 context: ${outcomeCategories.length} outcomes, ${extractQuotes.length} quote types, ${(projectContext.cultural_values || []).length} cultural approaches`)
+        }
 
         for (let i = 0; i < transcriptsWithText.length; i += BATCH_SIZE) {
           const batch = transcriptsWithText.slice(i, i + BATCH_SIZE)
@@ -324,10 +387,18 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
               const text = t.text || t.transcript_content || t.formatted_text
               const storytellerName = t.profiles?.display_name || t.profiles?.full_name || 'Unknown'
 
-              const [quotes, impact] = await Promise.all([
-                extractQuotesWithClaude(text!, storytellerName, 5),
-                assessImpactWithClaude(text!, storytellerName)
-              ])
+              // Use appropriate extraction functions based on model
+              const [quotes, impact] = await Promise.all(
+                aiModel === 'claude'
+                  ? [
+                      extractQuotesWithClaude(text!, storytellerName, 5, claudeProjectContext),
+                      assessImpactWithClaude(text!, storytellerName)
+                    ]
+                  : [
+                      extractIntelligentQuotes(text!, storytellerName, 5, projectContext),
+                      assessIndigenousImpact(text!, storytellerName)
+                    ]
+              )
 
               return {
                 transcript_id: t.id,
@@ -386,25 +457,42 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         }))
       ).sort((a, b) => b.confidence_score - a.confidence_score)
 
-      // Analyze project-specific outcomes if context exists
-      let projectOutcomes = null
-      if (projectContext && projectContext.description) {
+      // Tag quotes with outcome matches using the new world-class system
+      let aggregatedOutcomes = null
+      if (projectContext && projectContext.outcome_categories) {
         try {
-          console.log('📊 Analyzing project-specific outcomes...')
-          const { analyzeProjectOutcomes } = await import('@/lib/ai/project-outcomes-tracker')
+          console.log('📊 Tagging quotes with outcome matches...')
 
-          projectOutcomes = await analyzeProjectOutcomes(
-            project.name,
-            projectContext.description,
-            transcriptsWithText.map(t => ({
-              text: t.text || '',
-              storyteller: storytellerMap.get(t.storyteller_id!)?.displayName || 'Unknown'
-            }))
-          )
+          // Prepare outcome matcher from seed interview data
+          const structuredOutcomes = projectContext.outcome_categories?.map((outcome: any) => {
+            if (typeof outcome === 'string') {
+              return { category: outcome, keywords: [] }
+            }
+            return {
+              category: outcome.category || '',
+              description: outcome.description || '',
+              indicators: outcome.indicators || [],
+              keywords: outcome.keywords || outcome.indicators || []
+            }
+          }).filter((o: any) => o.category) || []
 
-          console.log(`✅ Project outcomes analyzed: ${projectOutcomes.outcomes.length} outcomes tracked`)
+          console.log(`📋 Using ${structuredOutcomes.length} outcomes from seed interview`)
+
+          const matcher: OutcomeMatcher = {
+            outcomes: structuredOutcomes,
+            successCriteria: projectContext.positive_language || [],
+            culturalValues: projectContext.cultural_values || []
+          }
+
+          // Tag all quotes with which outcomes they match (AI-based semantic matching)
+          const taggedQuotes = await tagAllQuotesWithAI(allIntelligentQuotes, matcher)
+
+          // Aggregate quotes by outcome category
+          aggregatedOutcomes = aggregateOutcomes(taggedQuotes, structuredOutcomes)
+
+          console.log(`✅ Outcomes aggregated: ${aggregatedOutcomes.outcomes_with_evidence}/${aggregatedOutcomes.total_outcomes} outcomes have evidence`)
         } catch (error: any) {
-          console.error('⚠️  Could not analyze project outcomes:', error.message)
+          console.error('⚠️  Could not aggregate outcomes:', error.message)
         }
       }
 
@@ -489,7 +577,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
               .sort((a, b) => b.frequency - a.frequency)
           })(),
           impactFramework: aggregatedImpact.average_scores || {},
-          projectOutcomes: projectOutcomes, // Project-specific outcomes tracker
+          projectOutcomes: aggregatedOutcomes?.outcomes || [], // World-class outcomes with evidence
+          outcomesSummary: aggregatedOutcomes ? {
+            total: aggregatedOutcomes.total_outcomes,
+            with_evidence: aggregatedOutcomes.outcomes_with_evidence,
+            overall_confidence: aggregatedOutcomes.overall_confidence
+          } : null,
           powerfulQuotes: allIntelligentQuotes.slice(0, 10).map(q => ({
             quote: q.text,
             speaker: q.storyteller,

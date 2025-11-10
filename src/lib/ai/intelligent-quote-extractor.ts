@@ -93,11 +93,22 @@ Cultural Values:
 ${projectContext.cultural_values.join(', ')}
 ` : ''}
 
-When extracting quotes, PRIORITIZE quotes that:
-1. Demonstrate the project outcomes listed above
-2. Use success language patterns
-3. Reflect cultural values
-4. Show evidence of project impact`
+CRITICAL EXTRACTION RULES - FOLLOW STRICTLY:
+
+1. PRIMARY FOCUS: Extract quotes that DIRECTLY relate to the project's expected outcomes listed above
+   - If a quote mentions the project outcomes/keywords → MUST extract it
+   - If a quote uses success language patterns → MUST extract it
+   - If a quote demonstrates project impact → MUST extract it
+
+2. SECONDARY FOCUS: Only after extracting ALL project-aligned quotes, consider general cultural insights
+
+3. REJECT generic cultural quotes that don't relate to project outcomes
+   - Generic community connection → REJECT unless related to project outcomes
+   - Generic cultural identity → REJECT unless related to project outcomes
+   - Generic tradition/family → REJECT unless related to project outcomes
+
+THIS IS A PROJECT-SPECIFIC ANALYSIS. Quotes MUST demonstrate the specific project outcomes listed above.
+PRIORITIZE PROJECT-ALIGNED QUOTES OVER GENERIC CULTURAL QUOTES.`
   }
 
   const systemPrompt = `You are an expert at analyzing oral history transcripts and extracting the most powerful, meaningful quotes.
@@ -135,7 +146,7 @@ Only return quotes scoring 60 or above.`
   const userPrompt = `Analyze this transcript from ${speakerName} and extract the most powerful quotes.
 
 TRANSCRIPT:
-${transcriptText}
+${transcriptText.substring(0, 8000)}
 
 Return a JSON object with:
 {
