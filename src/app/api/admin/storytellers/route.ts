@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
+
 import { createClient } from '@supabase/supabase-js'
+
 import { requireAdminAuth } from '@/lib/middleware/admin-auth'
+
 import { validateRequest, ValidationPatterns } from '@/lib/utils/validation'
+
 import { ApiErrors, createSuccessResponse } from '@/lib/utils/api-responses'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 // Helper function to calculate summary stats from the entire database
 async function calculateSummaryStats(supabase: any) {

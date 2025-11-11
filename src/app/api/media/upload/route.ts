@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
+
 import { createClient } from '@/lib/supabase/server'
+
 import { v4 as uuidv4 } from 'uuid'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024 // 500MB
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif']

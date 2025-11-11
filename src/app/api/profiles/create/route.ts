@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import { randomUUID } from 'crypto';
+
 import { createClient } from '@supabase/supabase-js';
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 export const runtime = 'nodejs';
 

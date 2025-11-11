@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server'
+
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+
 import type { GalleryUpdate } from '@/types/database'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 interface Params {
   id: string

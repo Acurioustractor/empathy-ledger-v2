@@ -2,8 +2,14 @@
 // Import context from existing documents (Theory of Change, Impact Reports, etc.)
 
 import { NextRequest, NextResponse } from 'next/server'
+
 import { createClient } from '@/lib/supabase/server'
+
 import { createLLMClient } from '@/lib/ai/llm-client'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 /**
  * POST /api/organizations/[id]/context/import

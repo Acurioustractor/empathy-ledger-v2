@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
+
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+
 import { requireAdminAuth } from '@/lib/middleware/admin-auth'
+
 import { ApiErrors, createSuccessResponse } from '@/lib/utils/api-responses'
+
 import { validateRequest, ValidationPatterns } from '@/lib/utils/validation'
+
 import { v4 as uuidv4 } from 'uuid'
+
 import { TranscriptProcessingPipeline } from '@/lib/workflows/transcript-processing-pipeline'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 export async function GET(request: NextRequest) {
   try {

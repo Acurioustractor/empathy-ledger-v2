@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
+
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+
 import { requireAdminAuth } from '@/lib/middleware/admin-auth'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 interface AdminMediaAsset {
   id: string

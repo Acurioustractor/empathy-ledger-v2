@@ -2,8 +2,14 @@
 // Import context from existing documents (Project Plans, Logic Models, etc.)
 
 import { NextRequest, NextResponse } from 'next/server'
+
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+
 import { createLLMClient } from '@/lib/ai/llm-client'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 /**
  * POST /api/projects/[id]/context/import

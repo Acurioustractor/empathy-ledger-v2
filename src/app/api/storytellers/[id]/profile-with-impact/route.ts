@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
+
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 // ENHANCED STORYTELLER PROFILE API WITH INDIGENOUS IMPACT DATA
 // Fetches all Supabase profile fields + new impact measurement data

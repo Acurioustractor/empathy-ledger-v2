@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
+
 import { createClient } from '@/lib/supabase/server'
+
 import OpenAI from 'openai'
+
 import { TranscriptProcessingPipeline } from '@/lib/workflows/transcript-processing-pipeline'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,

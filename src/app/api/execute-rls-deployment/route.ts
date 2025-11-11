@@ -1,5 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
+
 import { NextRequest, NextResponse } from 'next/server';
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 // URGENT RLS DEPLOYMENT API ENDPOINT
 // This endpoint will execute RLS policies directly on the database

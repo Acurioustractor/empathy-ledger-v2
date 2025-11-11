@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
+
 import { requireSuperAdminAuth } from '@/lib/middleware/admin-auth'
+
 import { createServiceRoleClient } from '@/lib/supabase/service-role-client'
+
 import { getOrganizationDashboardStats } from '@/lib/multi-tenant/queries'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 /**
  * GET /api/admin/organizations/[orgId]/stats

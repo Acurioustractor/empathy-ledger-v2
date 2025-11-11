@@ -1,15 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
+
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+
 import { createClient } from '@supabase/supabase-js'
+
 import OpenAI from 'openai'
+
 import { extractIntelligentQuotes } from '@/lib/ai/intelligent-quote-extractor'
+
 import { assessIndigenousImpact, aggregateIndigenousImpact } from '@/lib/ai/intelligent-indigenous-impact-analyzer'
+
 import { extractQuotesWithClaude } from '@/lib/ai/claude-quote-extractor'
+
 import { assessImpactWithClaude, aggregateClaudeImpact } from '@/lib/ai/claude-impact-analyzer'
+
 import { tagAllQuotes, type OutcomeMatcher } from '@/lib/ai/outcome-matcher'
+
 import { tagAllQuotesWithAI } from '@/lib/ai/intelligent-outcome-matcher'
+
 import { aggregateOutcomes } from '@/lib/ai/outcomes-aggregator'
+
 import crypto from 'crypto'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,

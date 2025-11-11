@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import { analyticsService } from '@/lib/services/analytics.service';
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 
 export async function GET(request: NextRequest) {
   try {
