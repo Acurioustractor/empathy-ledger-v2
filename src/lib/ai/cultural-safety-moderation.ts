@@ -97,7 +97,7 @@ export interface ElderReviewItem {
 }
 
 export class CulturalSafetyModerationSystem {
-  private supabase = createSupabaseServerClient()
+  private get supabase() { return createSupabaseServerClient() }
   private model = openai('gpt-4o') // Using most capable model for nuanced moderation
 
   /**

@@ -106,7 +106,7 @@ export interface SearchInsights {
 }
 
 export class IntelligentSearchSystem {
-  private supabase = createSupabaseServerClient()
+  private get supabase() { return createSupabaseServerClient() }
   private model = openai('gpt-4o')
 
   /**

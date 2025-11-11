@@ -45,7 +45,7 @@ export interface AIRequest {
 }
 
 export class CulturalSafetyAI {
-  private supabase = createSupabaseServerClient()
+  private get supabase() { return createSupabaseServerClient() }
   private model = openai('gpt-4o-mini') // Using more cost-effective model for safety checks
 
   /**

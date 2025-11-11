@@ -73,7 +73,7 @@ export interface StoryRecommendation {
 }
 
 export class StoryRecommendationsEngine {
-  private supabase = createSupabaseServerClient()
+  private get supabase() { return createSupabaseServerClient() }
   private model = openai('gpt-4o') // Using more capable model for nuanced cultural understanding
 
   /**

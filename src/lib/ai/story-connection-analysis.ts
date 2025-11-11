@@ -152,7 +152,7 @@ export interface CommunityJourney {
 }
 
 export class StoryConnectionAnalysisSystem {
-  private supabase = createSupabaseServerClient()
+  private get supabase() { return createSupabaseServerClient() }
   private model = openai('gpt-4o') // Using most capable model for nuanced cultural analysis
 
   /**

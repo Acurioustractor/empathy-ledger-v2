@@ -105,7 +105,7 @@ export interface EnhancementResult {
 }
 
 export class ContentEnhancementSystem {
-  private supabase = createSupabaseServerClient()
+  private get supabase() { return createSupabaseServerClient() }
   private model = openai('gpt-4o') // Using most capable model for nuanced cultural understanding
 
   /**
