@@ -1,3 +1,6 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 // Project Context API - CRUD operations
 // Manages project-specific context: purpose, outcomes, success criteria
 
@@ -5,8 +8,6 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 /**

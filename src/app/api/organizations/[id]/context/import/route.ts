@@ -1,3 +1,6 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 // Organization Context Import API
 // Import context from existing documents (Theory of Change, Impact Reports, etc.)
 
@@ -7,8 +10,6 @@ import { createClient } from '@/lib/supabase/server'
 
 import { createLLMClient } from '@/lib/ai/llm-client'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 /**

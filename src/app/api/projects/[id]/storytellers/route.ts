@@ -1,9 +1,10 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient, createSupabaseServiceClient } from '@/lib/supabase/client-ssr'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 // GET /api/projects/[id]/storytellers - Get all storytellers for a project

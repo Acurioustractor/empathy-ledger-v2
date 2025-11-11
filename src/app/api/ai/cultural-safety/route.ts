@@ -4,14 +4,15 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 import { 
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
   culturalSafetyModerationSystem,
   moderateStory,
   getElderReviewQueue,
   submitElderReview
 } from '@/lib/ai/cultural-safety-moderation'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {

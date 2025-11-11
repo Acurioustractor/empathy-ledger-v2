@@ -1,11 +1,12 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createClient } from '@supabase/supabase-js'
 
 import { inngest } from '@/lib/inngest/client'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 /**

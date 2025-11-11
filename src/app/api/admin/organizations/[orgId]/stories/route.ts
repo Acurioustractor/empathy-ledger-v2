@@ -1,3 +1,6 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 
 import { requireSuperAdminAuth } from '@/lib/middleware/admin-auth'
@@ -6,8 +9,6 @@ import { createServiceRoleClient } from '@/lib/supabase/service-role-client'
 
 import { getOrganizationStories } from '@/lib/multi-tenant/queries'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 /**

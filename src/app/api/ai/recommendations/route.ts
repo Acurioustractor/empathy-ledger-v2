@@ -4,14 +4,15 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 import { 
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
   storyRecommendationsEngine, 
   getPersonalizedRecommendations, 
   getSimilarStories, 
   getSeasonalRecommendations 
 } from '@/lib/ai/story-recommendations-engine'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
   try {

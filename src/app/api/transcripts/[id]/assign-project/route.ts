@@ -1,9 +1,10 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 import { NextRequest, NextResponse } from 'next/server'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 export async function PATCH(

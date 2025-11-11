@@ -1,9 +1,10 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { NextResponse } from 'next/server'
 
 import { researchTopic, researchCulturalContext, factCheck } from '@/lib/ai/research-helper'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 export async function GET() {

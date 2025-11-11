@@ -1,11 +1,12 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 import { ContentQualityAnalyzer } from '@/lib/ai/content-quality-analyzer'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 export async function POST(request: NextRequest) {

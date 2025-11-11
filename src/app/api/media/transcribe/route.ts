@@ -4,10 +4,11 @@ import { createClient } from '@/lib/supabase/server'
 
 import OpenAI from 'openai'
 
-import { TranscriptProcessingPipeline } from '@/lib/workflows/transcript-processing-pipeline'
-
 // Force dynamic rendering for API routes
 export const dynamic = 'force-dynamic'
+
+import { TranscriptProcessingPipeline } from '@/lib/workflows/transcript-processing-pipeline'
+
 
 
 const openai = new OpenAI({

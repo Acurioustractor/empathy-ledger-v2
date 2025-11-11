@@ -1,3 +1,6 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
@@ -8,8 +11,6 @@ import { ApiErrors, createSuccessResponse } from '@/lib/utils/api-responses'
 
 import { validateRequest, ValidationPatterns } from '@/lib/utils/validation'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 export async function POST(request: NextRequest) {

@@ -4,8 +4,6 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 import { 
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
   requireOrganizationAdmin, 
   ORGANIZATION_ROLES, 
@@ -13,6 +11,9 @@ export const dynamic = 'force-dynamic'
   checkRoleHierarchy,
   requiresElderApproval
 } from '@/lib/middleware/organization-role-middleware'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
 
 // GET: List all roles in organisation
 export async function GET(

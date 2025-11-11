@@ -1,3 +1,6 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
@@ -12,8 +15,6 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { TranscriptProcessingPipeline } from '@/lib/workflows/transcript-processing-pipeline'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 export async function GET(request: NextRequest) {

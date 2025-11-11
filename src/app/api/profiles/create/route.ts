@@ -8,6 +8,7 @@ import { createClient } from '@supabase/supabase-js';
 export const dynamic = 'force-dynamic'
 
 
+
 export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {

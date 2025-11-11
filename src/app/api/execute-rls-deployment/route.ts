@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic'
 
 
+
 // URGENT RLS DEPLOYMENT API ENDPOINT
 // This endpoint will execute RLS policies directly on the database
 // to protect cultural data immediately

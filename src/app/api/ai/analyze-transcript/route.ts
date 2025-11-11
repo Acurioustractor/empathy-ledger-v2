@@ -8,13 +8,14 @@ import { z } from 'zod'
 
 import {
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
   extractAndStoreThemes,
   extractAndStorePowerfulQuotes,
   updateStorytellerAnalytics
 } from '@/lib/analytics/storyteller-analytics'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
 
 // Initialize OpenAI client
 const openai = new OpenAI({

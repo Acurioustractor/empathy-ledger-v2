@@ -1,3 +1,6 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 // Organization Seed Interview API
 // Processes seed interview responses and extracts structured context using AI
 
@@ -7,8 +10,6 @@ import { createClient } from '@/lib/supabase/server'
 
 import { createLLMClient } from '@/lib/ai/llm-client'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 interface SeedInterviewResponse {

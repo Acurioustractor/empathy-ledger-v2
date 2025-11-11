@@ -1,3 +1,6 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 // Organization Context API - CRUD operations
 // Manages organization-level context: mission, vision, values, impact methodology
 
@@ -5,8 +8,6 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { createClient } from '@/lib/supabase/server'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 /**

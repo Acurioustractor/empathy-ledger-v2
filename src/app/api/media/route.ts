@@ -1,11 +1,12 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { NextResponse } from 'next/server'
 
 import { createSupabaseServerClient, createSupabaseServiceClient } from '@/lib/supabase/client-ssr'
 
 import type { MediaAssetInsert } from '@/types/database'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 export async function GET(request: Request) {

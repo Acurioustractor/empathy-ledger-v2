@@ -4,13 +4,14 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 import { 
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
   contentEnhancementSystem,
   enhanceStoryThemes,
   generateStoryMetadata
 } from '@/lib/ai/content-enhancement-system'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {

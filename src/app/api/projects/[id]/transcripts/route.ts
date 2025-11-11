@@ -1,9 +1,10 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServiceClient } from '@/lib/supabase/client-ssr'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 export const runtime = 'nodejs'

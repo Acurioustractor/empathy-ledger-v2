@@ -4,14 +4,15 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 import { 
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
   intelligentSearchSystem,
   searchContent,
   getSearchSuggestions,
   findSimilarStories
 } from '@/lib/ai/intelligent-search-system'
+
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
   try {

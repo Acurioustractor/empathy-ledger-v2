@@ -1,11 +1,12 @@
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createClient } from '@supabase/supabase-js'
 
 import { ProfileEnhancementAnalyzer } from '@/lib/ai/profile-enhancement-analyzer'
 
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
 
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
