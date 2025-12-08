@@ -32,29 +32,24 @@ export async function POST(
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
 
-    // Check if this is development mode (bypass authentication)
-    const isDevelopmentBypass = process.env.NODE_ENV === 'development'
-
-    if (!isDevelopmentBypass && (authError || !user)) {
+    if (authError || !user) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
     }
 
-    // Check if user owns this gallery (unless development bypass)
-    if (!isDevelopmentBypass) {
-      const { data: gallery, error: galleryError } = await supabase
-        .from('galleries')
-        .select('created_by')
-        .eq('id', galleryId)
-        .single()
+    // Check if user owns this gallery
+    const { data: gallery, error: galleryError } = await supabase
+      .from('galleries')
+      .select('created_by')
+      .eq('id', galleryId)
+      .single()
 
-      if (galleryError) {
-        console.error('Gallery not found:', galleryError)
-        return NextResponse.json({ error: 'Gallery not found' }, { status: 404 })
-      }
+    if (galleryError) {
+      console.error('Gallery not found:', galleryError)
+      return NextResponse.json({ error: 'Gallery not found' }, { status: 404 })
+    }
 
-      if (gallery.created_by !== user.id) {
-        return NextResponse.json({ error: 'Access denied' }, { status: 403 })
-      }
+    if (gallery.created_by !== user.id) {
+      return NextResponse.json({ error: 'Access denied' }, { status: 403 })
     }
 
     // Verify the media asset exists

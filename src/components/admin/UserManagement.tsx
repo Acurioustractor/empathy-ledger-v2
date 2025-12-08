@@ -293,7 +293,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ adminLevel, tenantId })
             </SelectContent>
           </Select>
 
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size="icon" aria-label="Filter users">
             <Filter className="w-4 h-4" />
           </Button>
           

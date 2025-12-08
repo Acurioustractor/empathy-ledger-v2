@@ -1,0 +1,23 @@
+# Empathy Ledger Code Owners
+# These owners will be requested for review on PRs
+
+# Default owners for everything in the repo
+* @benknight
+
+# Cultural safety and OCAP-related code requires cultural review
+/src/lib/cultural-safety/ @benknight
+/src/components/cultural/ @benknight
+/docs/cultural/ @benknight
+
+# Database changes require careful review
+/migrations/ @benknight
+/database/ @benknight
+
+# Design system changes
+/src/components/ui/ @benknight
+/docs/design/ @benknight
+
+# Security-sensitive areas
+/src/lib/auth/ @benknight
+/src/app/api/ @benknight
+/src/lib/middleware/ @benknight

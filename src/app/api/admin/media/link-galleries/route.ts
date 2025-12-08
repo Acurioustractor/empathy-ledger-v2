@@ -15,10 +15,16 @@ import { validateRequest, ValidationPatterns } from '@/lib/utils/validation'
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    // Require admin authentication
+    const authResult = await requireAdminAuth()
+    if (authResult.error) {
+      return NextResponse.json(
+        { error: authResult.error },
+        { status: authResult.status }
+      )
+    }
 
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin media gallery linking')
+    const supabase = createSupabaseServerClient()
 
     const requestData = await request.json()
 

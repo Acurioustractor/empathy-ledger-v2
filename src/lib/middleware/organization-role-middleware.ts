@@ -87,10 +87,11 @@ export async function withOrganizationRole(
       }
     }
 
-    // Get user's role in this organisation using SQL execution (bypasses PostgREST cache)
-    const { data: roleResult, error: roleError } = await supabase
-      .rpc('exec_sql', {
-        sql: `SELECT get_user_organization_role('${organizationId}', '${user.id}') as user_role;`
+    // Get user's role in this organisation using parameterized RPC call
+    const { data: userRole, error: roleError } = await supabase
+      .rpc('get_user_organization_role', {
+        org_id: organizationId,
+        user_id: user.id
       })
 
     if (roleError) {
@@ -104,10 +105,11 @@ export async function withOrganizationRole(
       }
     }
 
-    const userRole = roleResult?.[0]?.user_role as OrganizationRole | null
+    // Cast the RPC result to the expected type
+    const roleResult = userRole as OrganizationRole | null
 
     // Check if user has access to this organisation (either through role or tenant)
-    if (!userRole) {
+    if (!roleResult) {
       // Check if user is in the same tenant (fallback access)
       const { data: userProfile } = await supabase
         .from('profiles')
@@ -127,8 +129,8 @@ export async function withOrganizationRole(
     }
 
     // Check required role if specified
-    if (requiredRole && userRole) {
-      const hasRequiredRole = checkRoleHierarchy(userRole, requiredRole)
+    if (requiredRole && roleResult) {
+      const hasRequiredRole = checkRoleHierarchy(roleResult, requiredRole)
       if (!hasRequiredRole) {
         return {
           context: null,
@@ -144,18 +146,18 @@ export async function withOrganizationRole(
     const context: OrganizationRoleContext = {
       userId: user.id,
       organizationId,
-      userRole,
+      userRole: roleResult,
       tenantId: organisation.tenant_id,
       hasRole: (role: OrganizationRole) => {
-        if (!userRole) return false
-        return checkRoleHierarchy(userRole, role)
+        if (!roleResult) return false
+        return checkRoleHierarchy(roleResult, role)
       },
-      isAdmin: userRole === 'admin' || userRole === 'elder' || userRole === 'cultural_keeper',
-      isElder: userRole === 'elder',
-      isCulturalKeeper: userRole === 'cultural_keeper' || userRole === 'elder',
-      canManageUsers: ['elder', 'cultural_keeper', 'admin', 'project_leader'].includes(userRole || ''),
-      canManageContent: ['elder', 'cultural_keeper', 'admin', 'project_leader', 'storyteller'].includes(userRole || ''),
-      canManageProjects: ['elder', 'cultural_keeper', 'admin', 'project_leader'].includes(userRole || '')
+      isAdmin: roleResult === 'admin' || roleResult === 'elder' || roleResult === 'cultural_keeper',
+      isElder: roleResult === 'elder',
+      isCulturalKeeper: roleResult === 'cultural_keeper' || roleResult === 'elder',
+      canManageUsers: ['elder', 'cultural_keeper', 'admin', 'project_leader'].includes(roleResult || ''),
+      canManageContent: ['elder', 'cultural_keeper', 'admin', 'project_leader', 'storyteller'].includes(roleResult || ''),
+      canManageProjects: ['elder', 'cultural_keeper', 'admin', 'project_leader'].includes(roleResult || '')
     }
 
     return { context, error: null }

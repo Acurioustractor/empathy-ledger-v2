@@ -10,6 +10,7 @@ import { GalleryPhotoTables } from './gallery-photos'
 import { CulturalSensitivityTables } from './cultural-sensitivity'
 import { LocationEventsTables } from './location-events'
 import { AnalysisSupportTables } from './analysis-support'
+import { StoryOwnershipTables } from './story-ownership'
 
 // Re-export all domain interfaces
 export type {
@@ -20,8 +21,12 @@ export type {
   GalleryPhotoTables,
   CulturalSensitivityTables,
   LocationEventsTables,
-  AnalysisSupportTables
+  AnalysisSupportTables,
+  StoryOwnershipTables
 }
+
+// Re-export story ownership types for convenience
+export * from './story-ownership'
 
 // Combined Database interface
 export type Database = {
@@ -38,7 +43,8 @@ export type Database = {
              GalleryPhotoTables &
              CulturalSensitivityTables &
              LocationEventsTables &
-             AnalysisSupportTables
+             AnalysisSupportTables &
+             StoryOwnershipTables
     Views: {
       tenant_analytics: {
         Row: {

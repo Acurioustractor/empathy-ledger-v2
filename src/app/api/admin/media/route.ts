@@ -75,10 +75,16 @@ interface MediaResponse {
 
 export async function GET(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth()
+    if (authResult.error) {
+      return NextResponse.json(
+        { error: authResult.error },
+        { status: authResult.status }
+      )
+    }
+
     const supabase = createSupabaseServerClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin media')
 
     const { searchParams } = new URL(request.url)
     const search = searchParams.get('search') || ''
@@ -342,10 +348,16 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth()
+    if (authResult.error) {
+      return NextResponse.json(
+        { error: authResult.error },
+        { status: authResult.status }
+      )
+    }
+
     const supabase = createSupabaseServerClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin media update')
 
     const { id, ...updateData } = await request.json()
 
@@ -392,10 +404,16 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth()
+    if (authResult.error) {
+      return NextResponse.json(
+        { error: authResult.error },
+        { status: authResult.status }
+      )
+    }
+
     const supabase = createSupabaseServerClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin media delete')
 
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')

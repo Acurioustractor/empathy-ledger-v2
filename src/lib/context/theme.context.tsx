@@ -19,7 +19,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Get system preference
   const getSystemTheme = (): 'light' | 'dark' => {
     if (typeof window === 'undefined') return 'light'
-    return window.matchMedia('(prefers-colour-scheme: dark)').matches ? 'dark' : 'light'
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   }
 
   // Initialize theme from localStorage
@@ -48,7 +48,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     // Listen for system theme changes
     if (theme === 'system') {
-      const mediaQuery = window.matchMedia('(prefers-colour-scheme: dark)')
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
       
       const handler = () => updateResolvedTheme()
       

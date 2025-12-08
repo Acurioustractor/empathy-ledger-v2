@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { AuthProvider } from "@/lib/context/auth.context";
 import { ThemeProvider } from "@/lib/context/theme.context";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import GlobalProviders from "@/components/providers/GlobalProviders";
 import "./globals.css";
 
@@ -44,9 +45,11 @@ export default function RootLayout({
       <body className="min-h-screen bg-background font-sans antialiased" suppressHydrationWarning>
         <ThemeProvider>
           <AuthProvider>
-            <GlobalProviders>
-              {children}
-            </GlobalProviders>
+            <TooltipProvider>
+              <GlobalProviders>
+                {children}
+              </GlobalProviders>
+            </TooltipProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

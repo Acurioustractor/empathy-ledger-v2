@@ -206,7 +206,7 @@ export default function NotificationCenter() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative">
+        <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
           <Bell className="h-5 w-5" />
           <AnimatePresence>
             {unreadCount > 0 && (
@@ -243,13 +243,14 @@ export default function NotificationCenter() {
                 size="icon"
                 onClick={markAllAsRead}
                 title="Mark all as read"
+                aria-label="Mark all notifications as read"
               >
                 <CheckCheck className="h-4 w-4" />
               </Button>
             )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" aria-label="More notification options">
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>

@@ -11,10 +11,16 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function GET(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth()
+    if (authResult.error) {
+      return NextResponse.json(
+        { error: authResult.error },
+        { status: authResult.status }
+      )
+    }
+
     const supabase = createSupabaseServerClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin users')
 
     // Get all users with their profiles
     const { data: profiles, error } = await supabase
@@ -49,10 +55,8 @@ export async function GET(request: NextRequest) {
       joinedAt: profile.created_at,
       lastActive: profile.updated_at,
       status: 'active',
-      roles: [
-        'user',
-        ...(profile.email === 'benjamin@act.place' ? ['admin', 'super_admin'] : [])
-      ],
+      // TODO: Roles should come from database (is_admin, is_super_admin fields on profiles)
+      roles: ['user'],
       stats: {
         storiesShared: 0, // Would need to query stories table
         storiesRead: 0,   // Would need to query reading history

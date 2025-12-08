@@ -2,8 +2,11 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { getAuditService } from '@/lib/services/audit.service'
 
 import type { Story, StoryInsert } from '@/types/database'
 
@@ -115,22 +118,36 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Authenticate user
+    const authSupabase = createRouteHandlerClient({ cookies })
+    const { data: { user }, error: authError } = await authSupabase.auth.getUser()
+
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: 'Authentication required', code: 'UNAUTHORIZED' },
+        { status: 401 }
+      )
+    }
+
     const supabase = createSupabaseServerClient()
     const body = await request.json()
 
     // Validate required fields
-    if (!body.title || !body.content || !body.author_id) {
+    if (!body.title || !body.content) {
       return NextResponse.json(
-        { error: 'Missing required fields: title, content, author_id' },
+        { error: 'Missing required fields: title, content' },
         { status: 400 }
       )
     }
+
+    // Use authenticated user as author
+    const authorId = user.id
 
     // Get tenant_id from the author's profile
     const { data: userProfile } = await supabase
       .from('profiles')
       .select('tenant_id')
-      .eq('id', body.author_id)
+      .eq('id', authorId)
       .single()
 
     const tenantId = body.tenant_id || userProfile?.tenant_id || null
@@ -143,8 +160,8 @@ export async function POST(request: NextRequest) {
     const storyData = {
       title: body.title,
       content: body.content,
-      storyteller_id: body.author_id,
-      author_id: body.author_id,  // Both fields are required!
+      storyteller_id: authorId,
+      author_id: authorId,
       tenant_id: tenantId,
       status: body.status || 'draft',
       // Add optional fields that work
@@ -175,6 +192,32 @@ export async function POST(request: NextRequest) {
         { error: 'Failed to create story' },
         { status: 500 }
       )
+    }
+
+    // GDPR: Create audit log for story creation
+    try {
+      const auditService = getAuditService()
+      await auditService.log({
+        tenant_id: tenantId,
+        entity_type: 'story',
+        entity_id: story.id,
+        action: 'create',
+        action_category: 'content',
+        actor_id: authorId,
+        actor_type: 'user',
+        new_state: {
+          title: story.title,
+          status: story.status,
+          cultural_sensitivity_level: story.cultural_sensitivity_level,
+          privacy_level: story.privacy_level
+        },
+        change_summary: `Story "${story.title}" created`,
+        ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || null,
+        user_agent: request.headers.get('user-agent') || null
+      })
+    } catch (auditError) {
+      // Don't fail the request if audit logging fails
+      console.error('Audit log creation failed:', auditError)
     }
 
     return NextResponse.json(story, { status: 201 })

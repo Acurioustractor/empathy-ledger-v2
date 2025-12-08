@@ -182,22 +182,24 @@ export async function DELETE(
 
     const supabase = createSupabaseServerClient()
 
-    // Check if current user is super admin (bypass for development)
-    const { data: { user } } = await supabase.auth.getUser()
-    let isSuperAdmin = false
+    // Check authentication
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
 
-    if (user) {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('is_super_admin')
-        .eq('id', user.id)
-        .single()
-
-      isSuperAdmin = profile?.is_super_admin || false
-    } else {
-      // Development bypass
-      isSuperAdmin = true
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      )
     }
+
+    // Check if current user is super admin
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('is_super_admin')
+      .eq('id', user.id)
+      .single()
+
+    const isSuperAdmin = profile?.is_super_admin || false
 
     if (!isSuperAdmin) {
       // Check if user is organisation admin
@@ -205,7 +207,7 @@ export async function DELETE(
         .from('profile_organizations')
         .select('role')
         .eq('organization_id', organizationId)
-        .eq('profile_id', user?.id)
+        .eq('profile_id', user.id)
         .single()
 
       const canRemove = membership?.role === 'admin' || membership?.role === 'owner'

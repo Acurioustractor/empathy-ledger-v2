@@ -4,48 +4,104 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    /* Background & Foreground */
+    --background: 30 14% 99%;           /* earth-50 warm white */
+    --foreground: 28 35% 14%;           /* earth-900 */
+
+    /* Card surfaces */
+    --card: 0 0% 100%;                  /* pure white for contrast */
+    --card-foreground: 28 35% 14%;      /* earth-900 */
+
+    /* Popover surfaces */
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --popover-foreground: 28 35% 14%;   /* earth-900 */
+
+    /* Primary - Earth 600 */
+    --primary: 27 30% 47%;              /* earth-600 #8f7961 */
+    --primary-foreground: 30 14% 99%;   /* earth-50 */
+
+    /* Secondary - Earth 100/200 */
+    --secondary: 30 14% 96%;            /* earth-100 */
+    --secondary-foreground: 28 31% 36%; /* earth-700 */
+
+    /* Muted - Earth 200 */
+    --muted: 28 22% 87%;                /* earth-200 */
+    --muted-foreground: 27 28% 58%;     /* earth-500 */
+
+    /* Accent - Clay 600 for cultural elements */
+    --accent: 20 40% 95%;               /* clay-50 */
+    --accent-foreground: 20 40% 35%;    /* clay-700 */
+
+    /* Destructive - Keep red for clarity */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders & Inputs */
+    --border: 28 22% 87%;               /* earth-200 */
+    --input: 28 22% 87%;                /* earth-200 */
+    --ring: 27 30% 47%;                 /* earth-600 */
+
+    /* Radius */
     --radius: 0.5rem;
+
+    /* Cultural Status Colors */
+    --cultural-standard: 30 14% 96%;
+    --cultural-sensitive: 38 92% 50%;   /* amber */
+    --cultural-high: 25 95% 53%;        /* orange */
+    --cultural-sacred: 0 84% 60%;       /* red */
+
+    /* Success - Sage */
+    --success: 93 25% 43%;              /* sage-600 */
+    --success-foreground: 93 8% 97%;    /* sage-50 */
+
+    /* Warning - Amber */
+    --warning: 38 92% 50%;
+    --warning-foreground: 28 35% 14%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    /* Dark mode with earth tones */
+    --background: 30 38% 8%;            /* earth-950 */
+    --foreground: 30 14% 96%;           /* earth-100 */
+
+    --card: 28 35% 14%;                 /* earth-900 */
+    --card-foreground: 30 14% 96%;      /* earth-100 */
+
+    --popover: 28 35% 14%;              /* earth-900 */
+    --popover-foreground: 30 14% 96%;   /* earth-100 */
+
+    /* Primary - Earth 400 for dark mode */
+    --primary: 26 29% 68%;              /* earth-400 */
+    --primary-foreground: 30 38% 8%;    /* earth-950 */
+
+    /* Secondary */
+    --secondary: 28 31% 25%;            /* earth-800 */
+    --secondary-foreground: 30 14% 96%; /* earth-100 */
+
+    /* Muted */
+    --muted: 28 31% 25%;                /* earth-800 */
+    --muted-foreground: 26 29% 68%;     /* earth-400 */
+
+    /* Accent */
+    --accent: 28 31% 25%;               /* earth-800 */
+    --accent-foreground: 30 14% 96%;    /* earth-100 */
+
+    /* Destructive */
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders & Inputs */
+    --border: 28 31% 25%;               /* earth-800 */
+    --input: 28 31% 25%;                /* earth-800 */
+    --ring: 26 29% 68%;                 /* earth-400 */
+
+    /* Success - Sage dark */
+    --success: 93 25% 53%;              /* sage-500 */
+    --success-foreground: 30 38% 8%;
+
+    /* Warning */
+    --warning: 38 92% 50%;
+    --warning-foreground: 30 38% 8%;
   }
 }
 
@@ -53,7 +109,115 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus visible styles for accessibility */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Selection color */
+  ::selection {
+    @apply bg-earth-200 text-earth-900;
+  }
+
+  .dark ::selection {
+    @apply bg-earth-700 text-earth-100;
+  }
+}
+
+/* Custom scrollbar for webkit browsers */
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Custom scrollbar styling */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-earth-100 rounded-full;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-earth-300 rounded-full hover:bg-earth-400;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-earth-800;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-earth-600 hover:bg-earth-500;
+  }
+}
+
+/* Cultural sensitivity level backgrounds */
+@layer components {
+  .cultural-standard {
+    @apply bg-earth-50 border-earth-200 text-earth-700;
+  }
+
+  .cultural-sensitive {
+    @apply bg-amber-50 border-amber-200 text-amber-800;
+  }
+
+  .cultural-high {
+    @apply bg-orange-50 border-orange-200 text-orange-800;
+  }
+
+  .cultural-sacred {
+    @apply bg-red-50 border-red-200 text-red-800;
+  }
+
+  /* Elder/verified badge style */
+  .badge-elder {
+    @apply bg-sage-100 text-sage-700 border border-sage-300;
+  }
+
+  /* Story card cultural shadow */
+  .shadow-cultural {
+    box-shadow: 0 4px 6px -1px rgba(107, 90, 74, 0.1),
+                0 2px 4px -2px rgba(107, 90, 74, 0.1);
+  }
+
+  /* Soft card shadow */
+  .shadow-soft {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+}
+
+/* Animation utilities */
+@layer utilities {
+  .animate-in {
+    animation: fade-in 0.2s ease-out;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

@@ -19,14 +19,16 @@ import { TranscriptProcessingPipeline } from '@/lib/workflows/transcript-process
 
 export async function GET(request: NextRequest) {
   try {
-    console.log('🔓 Bypassing auth check for transcripts API')
-    const supabase = createSupabaseServerClient()
+    // Require admin authentication
+    const authResult = await requireAdminAuth()
+    if (authResult.error) {
+      return NextResponse.json(
+        { error: authResult.error },
+        { status: authResult.status }
+      )
+    }
 
-    // Skip auth in development
-    // const authResult = await requireAdminAuth(request)
-    // if (authResult instanceof NextResponse) {
-    //   return authResult
-    // }
+    const supabase = createSupabaseServerClient()
 
     console.log('🔍 Fetching transcripts with storyteller and organisation data...')
 
@@ -103,17 +105,17 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth()
+    if (authResult.error) {
+      return NextResponse.json(
+        { error: authResult.error },
+        { status: authResult.status }
+      )
+    }
+    const { user } = authResult
+
     const supabase = createSupabaseServerClient()
-
-    // Skip auth in development for storyteller creation wizard
-    console.log('🔓 Bypassing auth check for transcript creation')
-    // const authResult = await requireAdminAuth(request)
-    // if (authResult instanceof NextResponse) {
-    //   return authResult
-    // }
-    // const { user } = authResult
-    const user = { id: 'd0a162d2-282e-4653-9d12-aa934c9dfa4e' } // Dev super admin
-
     const requestData = await request.json()
 
     console.log('📝 Transcript creation request:', JSON.stringify(requestData, null, 2));

@@ -11,23 +11,31 @@ export interface AuthenticatedUser {
   is_super_admin: boolean
 }
 
-export async function requireAdminAuth(request: NextRequest): Promise<{ user: AuthenticatedUser } | NextResponse> {
-  console.log('🔐 Admin auth middleware called for:', request.url)
+export interface AdminAuthResult {
+  user: AuthenticatedUser
+  error?: undefined
+  status?: undefined
+}
+
+export interface AdminAuthError {
+  user?: undefined
+  error: string
+  status: number
+}
+
+export async function requireAdminAuth(): Promise<AdminAuthResult | AdminAuthError> {
+  console.log('🔐 Admin auth middleware called')
 
   try {
     const supabase = createSupabaseServerClient()
     console.log('📱 Supabase client created')
-
-    // Debug: Check if cookies are present
-    const cookies = request.headers.get('cookie')
-    console.log('🍪 Request cookies present:', cookies ? 'Yes' : 'No')
 
     // Get user from session
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     console.log('👤 Auth user check:', user ? user.email : 'No user', authError ? authError.message : 'No error')
 
     if (authError || !user) {
-      return ApiErrors.Unauthorized('Authentication required')
+      return { error: 'Authentication required', status: 401 }
     }
 
     // Get user profile with tenant roles
@@ -41,19 +49,19 @@ export async function requireAdminAuth(request: NextRequest): Promise<{ user: Au
 
     if (profileError || !profile) {
       console.log('❌ Profile error:', profileError)
-      return ApiErrors.NotFound('User profile not found')
+      return { error: 'User profile not found', status: 404 }
     }
 
     // Check if user has admin privileges via tenant_roles
     const roles = profile.tenant_roles || []
-    const is_admin = roles.includes('admin')
-    const is_super_admin = profile.email === 'benjamin@act.place' // Temporary super admin check
+    const is_admin = roles.includes('admin') || roles.includes('super_admin')
+    const is_super_admin = roles.includes('super_admin')
 
     console.log('👤 User roles check:', { roles, is_admin, is_super_admin })
 
     if (!is_admin && !is_super_admin) {
       console.log('❌ User lacks admin privileges')
-      return ApiErrors.AdminRequired()
+      return { error: 'Admin privileges required', status: 403 }
     }
 
     console.log('✅ Admin authentication successful')
@@ -71,19 +79,19 @@ export async function requireAdminAuth(request: NextRequest): Promise<{ user: Au
 
   } catch (error) {
     console.error('Admin auth error:', error)
-    return ApiErrors.InternalError('Authentication error')
+    return { error: 'Authentication error', status: 500 }
   }
 }
 
-export async function requireSuperAdminAuth(request: NextRequest): Promise<{ user: AuthenticatedUser } | NextResponse> {
-  const authResult = await requireAdminAuth(request)
+export async function requireSuperAdminAuth(): Promise<AdminAuthResult | AdminAuthError> {
+  const authResult = await requireAdminAuth()
 
-  if (authResult instanceof NextResponse) {
+  if (authResult.error) {
     return authResult
   }
 
   if (!authResult.user.is_super_admin) {
-    return ApiErrors.Forbidden('Super admin privileges required')
+    return { error: 'Super admin privileges required', status: 403 }
   }
 
   return authResult
