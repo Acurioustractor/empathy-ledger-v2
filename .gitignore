@@ -1,6 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# ===================
+# Dependencies
+# ===================
 /node_modules
 /.pnp
 .pnp.*
@@ -10,33 +12,82 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
-
-# next.js
+# ===================
+# Build outputs
+# ===================
 /.next/
 /out/
-
-# production
 /build
+*.tsbuildinfo
 
-# misc
+# ===================
+# Environment files
+# ===================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+!.env.local.example
+
+# ===================
+# Testing
+# ===================
+/coverage
+/test-results
+*.lcov
+
+# ===================
+# IDE and Editor
+# ===================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ===================
+# OS files
+# ===================
 .DS_Store
+Thumbs.db
 *.pem
 
-# debug
+# ===================
+# Debug logs
+# ===================
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
+# ===================
+# Vercel
+# ===================
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# ===================
+# Temporary files
+# ===================
+*.tmp
+*.temp
 comparison-results.txt
+
+# ===================
+# Archive (keep in repo but could be large)
+# ===================
+# Uncomment to exclude archive from version control:
+# /archive/legacy-scripts/
+# /archive/old-migrations/
+# /archive/database-backups/
+
+# ===================
+# Supabase
+# ===================
+.supabase/
+
+# ===================
+# TypeScript
+# ===================
+next-env.d.ts

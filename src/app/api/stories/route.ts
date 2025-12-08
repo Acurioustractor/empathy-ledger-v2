@@ -2,9 +2,6 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
-
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import { getAuditService } from '@/lib/services/audit.service'
 
@@ -119,7 +116,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     // Authenticate user
-    const authSupabase = createRouteHandlerClient({ cookies })
+    const authSupabase = createSupabaseServerClient()
     const { data: { user }, error: authError } = await authSupabase.auth.getUser()
 
     if (authError || !user) {

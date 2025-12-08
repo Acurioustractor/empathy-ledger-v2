@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import { getRevocationService } from '@/lib/services/revocation.service'
 import { RevocationOptions } from '@/types/database/story-ownership'
 
@@ -27,7 +26,7 @@ export async function POST(
     const { id: storyId } = params
 
     // Authenticate user
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = createSupabaseServerClient()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
 
     if (authError || !user) {
@@ -156,7 +155,7 @@ export async function GET(
     const scope = (request.nextUrl.searchParams.get('scope') || 'all') as 'all' | 'embeds' | 'distributions'
 
     // Authenticate user
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = createSupabaseServerClient()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
 
     if (authError || !user) {

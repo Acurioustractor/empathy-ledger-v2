@@ -2,9 +2,6 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
-
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import { getAuditService } from '@/lib/services/audit.service'
 
@@ -70,7 +67,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const { id } = params
 
     // Authenticate user
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = createSupabaseServerClient()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
 
     if (authError || !user) {
@@ -188,7 +185,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     const { id } = params
 
     // Authenticate user
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = createSupabaseServerClient()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
 
     if (authError || !user) {
