@@ -1,10 +1,25 @@
 {
   "git": {
     "deploymentEnabled": {
-      "main": false,
+      "main": true,
       "develop": true
     }
   },
+  "github": {
+    "autoAlias": true,
+    "enabled": true,
+    "silent": false
+  },
   "buildCommand": "npm run build",
-  "installCommand": "npm install --legacy-peer-deps --include=dev"
+  "installCommand": "npm install --legacy-peer-deps --include=dev",
+  "framework": "nextjs",
+  "regions": ["syd1"],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, max-age=0" }
+      ]
+    }
+  ]
 }
