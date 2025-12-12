@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { AuthProvider } from "@/lib/context/auth.context";
-import { ThemeProvider } from "@/lib/context/theme.context";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import GlobalProviders from "@/components/providers/GlobalProviders";
+import { ClientProviders } from "@/components/providers/ClientProviders";
 import "./globals.css";
+
+// Force all routes to be dynamically rendered to avoid SSG issues with React contexts
+export const dynamic = 'force-dynamic';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -43,15 +43,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased" suppressHydrationWarning>
-        <ThemeProvider>
-          <AuthProvider>
-            <TooltipProvider>
-              <GlobalProviders>
-                {children}
-              </GlobalProviders>
-            </TooltipProvider>
-          </AuthProvider>
-        </ThemeProvider>
+        <ClientProviders>
+          {children}
+        </ClientProviders>
       </body>
     </html>
   );

@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import React, { useEffect, useState } from 'react'
 import { UnifiedStorytellerCard } from '@/components/storyteller/unified-storyteller-card'
 import { ElegantStorytellerCard, transformToElegantCard } from '@/components/storyteller/elegant-storyteller-card'

@@ -1,0 +1,42 @@
+/* Minimal embed styles - most styling is inline for isolation */
+
+/* Scrollbar styling for embed */
+.embed-body ::-webkit-scrollbar {
+  width: 6px;
+}
+
+.embed-body ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.embed-body ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.embed-body ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Dark theme scrollbar */
+body.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+body.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Focus styles for accessibility */
+a:focus-visible {
+  outline: 2px solid #d97706;
+  outline-offset: 2px;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

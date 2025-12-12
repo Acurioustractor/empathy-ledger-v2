@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { ImmersiveStorytellerProfile } from '@/components/profile/ImmersiveStorytellerProfile'
 import { useParams } from 'next/navigation'
 

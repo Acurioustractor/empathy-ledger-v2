@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Save, X, Mic, Plus, Upload, FileAudio, Eye, Edit, Trash2, Calendar, Clock, Sparkles, ChevronDown, ChevronUp, Pencil, Check } from 'lucide-react'

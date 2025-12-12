@@ -381,12 +381,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider')
+// Default SSR-safe values for when context is not available during static generation
+const defaultAuthContext: AuthContextType = {
+  user: null,
+  session: null,
+  profile: null,
+  isLoading: true,
+  isAuthenticated: false,
+  isAdmin: false,
+  isSuperAdmin: false,
+  signOut: async () => {},
+  updateProfile: async () => null,
+  refreshProfile: async () => {},
+  hasCompletedOnboarding: false,
+  isStoryteller: false,
+  isElder: false,
+  consentPreferences: null,
+  privacySettings: null,
+  updateConsentPreferences: async () => {},
+  updatePrivacySettings: async () => {},
+}
+
+export function useAuth(): AuthContextType {
+  // During SSG, return default values to prevent useContext errors
+  if (typeof window === 'undefined') {
+    return defaultAuthContext
   }
-  return context
+
+  try {
+    const context = useContext(AuthContext)
+    // Return default during SSR/SSG when provider isn't mounted
+    if (context === undefined) {
+      return defaultAuthContext
+    }
+    return context
+  } catch {
+    // Return default when React context dispatcher is null (SSG)
+    return defaultAuthContext
+  }
 }
 
 export function useProfile() {

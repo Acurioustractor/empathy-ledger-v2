@@ -18,10 +18,22 @@ export const OrganizationContext = createContext<OrganizationContextType>({
   selectedOrgId: 'all'
 })
 
+// Default SSR-safe values for when context is not available during static generation
+const defaultOrgContext: OrganizationContextType = {
+  selectedOrgId: 'all',
+  setSelectedOrgId: () => {},
+}
+
 export function useOrganizationContext() {
-  const context = useContext(OrganizationContext)
-  if (!context) {
-    throw new Error('useOrganizationContext must be used within OrganizationContext.Provider')
+  try {
+    const context = useContext(OrganizationContext)
+    // Return default during SSR/SSG when provider isn't mounted
+    if (!context) {
+      return defaultOrgContext
+    }
+    return context
+  } catch {
+    // Return default when React context dispatcher is null (SSG)
+    return defaultOrgContext
   }
-  return context
 }

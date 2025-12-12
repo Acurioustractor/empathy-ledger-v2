@@ -32,6 +32,7 @@ interface QuickCaptureFormProps {
   projectId?: string
   projectName?: string
   organizationId?: string
+  guestSessionId?: string // For guest/field worker mode
   onSuccess?: (data: CaptureResult) => void
   onCancel?: () => void
 }
@@ -56,6 +57,7 @@ export function QuickCaptureForm({
   projectId,
   projectName,
   organizationId,
+  guestSessionId,
   onSuccess,
   onCancel
 }: QuickCaptureFormProps) {
@@ -132,6 +134,7 @@ export function QuickCaptureForm({
       if (projectId) storyFormData.append('project_id', projectId)
       if (organizationId) storyFormData.append('organization_id', organizationId)
       if (photo) storyFormData.append('featured_image', photo)
+      if (guestSessionId) storyFormData.append('guest_session_id', guestSessionId)
 
       const storyRes = await fetch('/api/stories/quick-create', {
         method: 'POST',

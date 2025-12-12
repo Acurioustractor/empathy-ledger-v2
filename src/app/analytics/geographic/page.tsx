@@ -1,7 +1,9 @@
-'use client';
+'use client'
+
+export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
+import nextDynamic from 'next/dynamic';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -20,10 +22,10 @@ import {
 import { analyticsService, GeographicInsight } from '@/lib/services/analytics.service';
 
 // Dynamically import Leaflet map to avoid SSR issues
-const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
-const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
-const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
+const MapContainer = nextDynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
+const TileLayer = nextDynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
+const Marker = nextDynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
+const Popup = nextDynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
 
 interface StoryLocation {
   id: string;

@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import AdminLayout from '@/components/features/admin/AdminLayout'
 import VirtualizedStorytellerTable from '@/components/features/admin/StorytellerTable/VirtualizedStorytellerTable'
 import StorytellerFilters from '@/components/features/admin/StorytellerTable/StorytellerFilters'

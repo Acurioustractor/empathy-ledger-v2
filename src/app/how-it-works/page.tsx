@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import Link from 'next/link'
 import { ArrowRight, BookOpen, Users, Shield, Heart, Upload, Eye, Share2, Lock, Globe } from 'lucide-react'
 

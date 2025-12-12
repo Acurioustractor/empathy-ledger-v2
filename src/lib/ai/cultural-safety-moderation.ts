@@ -19,6 +19,7 @@ import { generateObject, generateText } from 'ai'
 import { z } from 'zod'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import { culturalSafetyAI } from './cultural-safety-middleware'
+import { notificationService } from '@/lib/services/notification.service'
 import type { Database } from '@/types/database'
 
 // Moderation schemas
@@ -505,9 +506,41 @@ Select the most appropriate elders for this review, considering cultural protoco
   }
 
   private async sendModerationNotifications(result: ModerationResult) {
-    // Implementation for sending notifications to authors, elders, etc.
-    // This would integrate with your notification system
-    console.log(`Moderation notification: ${result.content_id} - ${result.status}`)
+    try {
+      // Get content details for the notification
+      const { data: content } = await this.supabase
+        .from('stories')
+        .select('title, author_id, storyteller_id')
+        .eq('id', result.content_id)
+        .single()
+
+      if (!content) return
+
+      const authorId = content.author_id || content.storyteller_id
+      if (!authorId) return
+
+      // Notify author about moderation result
+      await notificationService.notifyModerationResult(
+        authorId,
+        result.content_id,
+        content.title || 'Untitled',
+        result.status
+      )
+
+      // If elder review required, notify assigned elder
+      if (result.status === 'elder_review_required' && result.elder_assignment?.recommended_elders?.[0]) {
+        const assignedElder = result.elder_assignment.recommended_elders[0]
+        await notificationService.notifyElderReviewAssigned(
+          assignedElder.elder_id,
+          result.content_id,
+          content.title || 'Untitled',
+          result.moderation_details.elder_review_priority as 'low' | 'medium' | 'high' | 'urgent',
+          result.review_deadline || new Date().toISOString()
+        )
+      }
+    } catch (error) {
+      console.error('Error sending moderation notifications:', error)
+    }
   }
 
   private async sendElderDecisionNotifications(
@@ -515,8 +548,30 @@ Select the most appropriate elders for this review, considering cultural protoco
     decision: string,
     elderId: string
   ) {
-    // Implementation for notifying authors about elder decisions
-    console.log(`Elder decision notification: ${reviewItem.content_id} - ${decision} by ${elderId}`)
+    try {
+      // Get content details
+      const { data: content } = await this.supabase
+        .from('stories')
+        .select('title, author_id, storyteller_id')
+        .eq('id', reviewItem.content_id)
+        .single()
+
+      if (!content) return
+
+      const authorId = content.author_id || content.storyteller_id
+      if (!authorId) return
+
+      // Notify author about elder decision
+      await notificationService.notifyElderDecision(
+        authorId,
+        reviewItem.content_id,
+        content.title || 'Untitled',
+        decision as 'approved' | 'rejected' | 'needs_consultation',
+        reviewItem.review_notes
+      )
+    } catch (error) {
+      console.error('Error sending elder decision notification:', error)
+    }
   }
 
   private async updateContentAfterElderReview(

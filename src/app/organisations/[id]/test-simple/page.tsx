@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 interface SimpleTestProps {

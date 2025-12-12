@@ -76,10 +76,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
+// Default SSR-safe values for when context is not available during static generation
+const defaultThemeContext: ThemeContextType = {
+  theme: 'system',
+  resolvedTheme: 'light',
+  setTheme: () => {},
+}
+
 export function useTheme() {
-  const context = useContext(ThemeContext)
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider')
+  try {
+    const context = useContext(ThemeContext)
+    // Return default during SSR/SSG when provider isn't mounted
+    if (!context) {
+      return defaultThemeContext
+    }
+    return context
+  } catch {
+    // Return default when React context dispatcher is null (SSG)
+    return defaultThemeContext
   }
-  return context
 }

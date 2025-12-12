@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { Metadata } from 'next'
 import StorytellerDashboard from '@/components/storyteller/StorytellerDashboard'
 import Header from '@/components/layout/header'

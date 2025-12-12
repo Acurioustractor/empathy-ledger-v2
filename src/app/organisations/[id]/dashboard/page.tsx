@@ -1,105 +1,119 @@
+export const dynamic = 'force-dynamic'
+
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
-import { OrganizationMetrics } from '@/components/organization/OrganizationMetrics'
-import { RecentActivity } from '@/components/organization/RecentActivity'
-import { MemberHighlights } from '@/components/organization/MemberHighlights'
-import { RecentProjects } from '@/components/organization/RecentProjects'
+import { getDashboardAnalytics } from '@/lib/services/organization-dashboard.service'
+import { EnhancedOrganizationMetrics } from '@/components/organization/EnhancedOrganizationMetrics'
+import { TrendingThemesWidget } from '@/components/organization/widgets/TrendingThemesWidget'
+import { StoryPipelineWidget } from '@/components/organization/widgets/StoryPipelineWidget'
+import { TopContributorsWidget } from '@/components/organization/widgets/TopContributorsWidget'
+import { ProjectHealthWidget } from '@/components/organization/widgets/ProjectHealthWidget'
+import { MultiOrgSummary } from '@/components/organization/MultiOrgSummary'
 import { DashboardQuickActions } from '@/components/organization/DashboardQuickActions'
 
 interface OrganizationDashboardProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyClient = any
+
+interface OrganizationRecord {
+  id: string
+  name: string
+  tenant_id: string
+  [key: string]: unknown
 }
 
 async function getOrganizationData(organizationId: string) {
   const supabase = createSupabaseServerClient()
-  
+
   // Get organisation details
-  const { data: organisation } = await supabase
+  const { data, error } = await (supabase as AnyClient)
     .from('organizations')
     .select('*')
     .eq('id', organizationId)
     .single()
 
-  if (!organisation) {
+  const organisation = data as OrganizationRecord | null
+
+  if (error || !organisation) {
     throw new Error('Organization not found')
   }
 
-  // Get member count from profile_organizations junction table
-  const { count: memberCount } = await supabase
-    .from('profile_organizations')
-    .select('*', { count: 'exact', head: true })
-    .eq('organization_id', organizationId)
-    .eq('is_active', true)
+  // Get enhanced analytics data
+  const analytics = await getDashboardAnalytics(organizationId, organisation.tenant_id)
 
-  // Get story count from stories in organisation
-  const { count: storyCount } = await supabase
-    .from('stories')
-    .select('*', { count: 'exact', head: true })
-    .eq('organization_id', organizationId)
+  // Get user's other organizations for multi-org summary
+  const { data: { user } } = await supabase.auth.getUser()
+  let userOrganizations: Array<{
+    id: string
+    name: string
+    memberCount: number
+    storyCount: number
+    projectCount: number
+  }> = []
 
-  // Get project count for this specific organisation
-  const { count: projectCount } = await supabase
-    .from('projects')
-    .select('*', { count: 'exact', head: true })
-    .eq('organization_id', organizationId)
+  if (user) {
+    // Get all organizations the user is a member of
+    const { data: memberOrgs } = await (supabase as AnyClient)
+      .from('profile_organizations')
+      .select(`
+        organization_id,
+        organizations (
+          id,
+          name
+        )
+      `)
+      .eq('profile_id', user.id)
+      .eq('is_active', true)
 
-  // Get analytics count
-  const { count: analyticsCount } = await supabase
-    .from('personal_insights')
-    .select('*, profiles!inner(tenant_id)', { count: 'exact', head: true })
-    .eq('profiles.tenant_id', organisation.tenant_id)
+    if (memberOrgs && memberOrgs.length > 0) {
+      // Get stats for each org
+      userOrganizations = await Promise.all(
+        memberOrgs.map(async (membership: { organization_id: string; organizations: { id: string; name: string } | null }) => {
+          const orgId = membership.organization_id
+          const orgName = membership.organizations?.name || 'Unknown'
 
-  // Get recent members (last 5) from organisation
-  const { data: recentMembers } = await supabase
-    .from('profile_organizations')
-    .select(`
-      profiles!inner(
-        id,
-        display_name,
-        full_name,
-        current_role,
-        created_at
+          const { count: memberCount } = await supabase
+            .from('profile_organizations')
+            .select('*', { count: 'exact', head: true })
+            .eq('organization_id', orgId)
+            .eq('is_active', true)
+
+          const { count: storyCount } = await supabase
+            .from('stories')
+            .select('*', { count: 'exact', head: true })
+            .eq('organization_id', orgId)
+
+          const { count: projectCount } = await supabase
+            .from('projects')
+            .select('*', { count: 'exact', head: true })
+            .eq('organization_id', orgId)
+
+          return {
+            id: orgId,
+            name: orgName,
+            memberCount: memberCount || 0,
+            storyCount: storyCount || 0,
+            projectCount: projectCount || 0
+          }
+        })
       )
-    `)
-    .eq('organization_id', organizationId)
-    .eq('is_active', true)
-    .order('created_at', { ascending: false })
-    .limit(5)
-
-  // Get recent stories (last 5) from organisation
-  const { data: recentStories } = await supabase
-    .from('stories')
-    .select('id, title, author_id, created_at')
-    .eq('organization_id', organizationId)
-    .order('created_at', { ascending: false })
-    .limit(5)
-
-  // Get recent projects (last 5) for this organisation
-  const { data: recentProjects } = await supabase
-    .from('projects')
-    .select('id, name, description, status, location, organization_id, created_at')
-    .eq('organization_id', organizationId)
-    .order('created_at', { ascending: false })
-    .limit(5)
+    }
+  }
 
   return {
     organisation,
-    metrics: {
-      memberCount: memberCount || 0,
-      storyCount: storyCount || 0,
-      analyticsCount: analyticsCount || 0,
-      projectCount: projectCount || 0,
-    },
-    recentMembers: recentMembers?.map(m => m.profiles) || [],
-    recentStories: recentStories || [],
-    recentProjects: recentProjects || [],
+    analytics,
+    userOrganizations
   }
 }
 
 export default async function OrganizationDashboard({
   params,
 }: OrganizationDashboardProps) {
-  const { id } = params
-  const data = await getOrganizationData(id)
+  const { id } = await params
+  const { organisation, analytics, userOrganizations } = await getOrganizationData(id)
 
   return (
     <div className="space-y-8">
@@ -109,7 +123,7 @@ export default async function OrganizationDashboard({
           <div className="flex items-start justify-between">
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-earth-900">
-                Welcome back to {data.organisation.name}
+                Welcome back to {organisation.name}
               </h1>
               <p className="text-earth-600 mt-2 text-lg">
                 Your community overview and insights dashboard
@@ -123,34 +137,57 @@ export default async function OrganizationDashboard({
       </div>
 
       <div className="px-6 space-y-8">
-        {/* Metrics Overview */}
+        {/* Enhanced Metrics Overview */}
         <div>
           <h2 className="text-xl font-semibold text-grey-900 mb-6">Community Metrics</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            <OrganizationMetrics metrics={data.metrics} />
+            <EnhancedOrganizationMetrics
+              metrics={analytics.metrics}
+              organizationId={id}
+            />
           </div>
         </div>
 
-        {/* Recent Activity Grid */}
+        {/* Analytics Insights Row */}
         <div>
-          <h2 className="text-xl font-semibold text-grey-900 mb-6">Recent Activity</h2>
-          <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
-            <RecentActivity
-              stories={data.recentStories}
+          <h2 className="text-xl font-semibold text-grey-900 mb-6">Analytics Insights</h2>
+          <div className="grid gap-6 lg:grid-cols-2">
+            <TrendingThemesWidget
+              themes={analytics.themes}
               organizationId={id}
             />
-
-            <RecentProjects
-              projects={data.recentProjects}
-              organizationId={id}
-            />
-
-            <MemberHighlights
-              members={data.recentMembers}
+            <StoryPipelineWidget
+              pipeline={analytics.pipeline}
               organizationId={id}
             />
           </div>
         </div>
+
+        {/* Activity Grid */}
+        <div>
+          <h2 className="text-xl font-semibold text-grey-900 mb-6">Activity & Health</h2>
+          <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+            <TopContributorsWidget
+              contributors={analytics.contributors}
+              organizationId={id}
+            />
+            <ProjectHealthWidget
+              projects={analytics.projectHealth}
+              organizationId={id}
+            />
+          </div>
+        </div>
+
+        {/* Multi-Organization Summary (only shows if user has multiple orgs) */}
+        {userOrganizations.length > 1 && (
+          <div>
+            <h2 className="text-xl font-semibold text-grey-900 mb-6">Organization Overview</h2>
+            <MultiOrgSummary
+              organizations={userOrganizations}
+              currentOrgId={id}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

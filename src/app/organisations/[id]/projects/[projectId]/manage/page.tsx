@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import { ProjectRelationshipManager } from '@/components/organization/ProjectRelationshipManager'

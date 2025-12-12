@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { Metadata } from 'next';
 import AnalyticsDashboard from '@/components/analytics/AnalyticsDashboard';
 import Header from '@/components/layout/header';

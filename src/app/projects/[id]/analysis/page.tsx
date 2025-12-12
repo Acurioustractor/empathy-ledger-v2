@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import { notFound } from 'next/navigation'
 import { ProjectAnalysisView } from '@/components/projects/ProjectAnalysisView'

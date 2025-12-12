@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState, useEffect } from 'react'
 import { LocationPicker } from '@/components/ui/location-picker'
 import { Button } from '@/components/ui/button'

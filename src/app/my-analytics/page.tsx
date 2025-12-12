@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import React from 'react'
 import PersonalAnalyticsDashboard from '@/components/analytics/PersonalAnalyticsDashboard'
 import { useAuth } from '@/lib/context/auth.context'

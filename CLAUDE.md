@@ -6,8 +6,8 @@ Multi-tenant storytelling platform for Indigenous communities and organizations 
 ## Current Focus
 - ✅ Component modularization completed (ProjectManagement.tsx split)
 - ✅ Database types organization completed
-- 🔄 Context optimization implementation
-- 📋 Next: ProfileDashboard.tsx optimization (targeted approach, not file splitting)
+- ✅ ProfileDashboard.tsx optimized (1,191 → 657 lines, 45% reduction)
+- ✅ Context optimization strategy implemented
 
 ## Key Architecture
 - **Database**: Supabase with multi-tenant architecture
@@ -16,10 +16,41 @@ Multi-tenant storytelling platform for Indigenous communities and organizations 
 - **Components**: Modular tab-based structure for complex management interfaces
 
 ## Context Management Strategy
-1. Use `/clear` frequently between major tasks
-2. Use grep/search instead of reading large files
-3. Target specific sections rather than full file reads
-4. Manual `/compact` at strategic breakpoints
+
+### Commands
+- `/clear` - Reset context between major tasks
+- `/compact` - Summarize conversation to free context space
+
+### Best Practices
+1. **Prefer search over full reads** - Use grep/glob to find specific code
+2. **Target line ranges** - Read specific sections with `offset` and `limit`
+3. **Use Task agents** - Delegate exploration to subagents to preserve main context
+4. **Clear between tasks** - Use `/clear` when switching focus areas
+
+### Large Files to Avoid Reading Fully
+| File | Lines | Approach |
+|------|-------|----------|
+| `src/lib/database/types/*.ts` | 300-500 each | Search for specific types |
+| `src/components/*/tabs/*.tsx` | 200-400 each | Target specific tab |
+| API routes | varies | Read only the route you need |
+
+### Codebase Navigation
+```bash
+# Find files by pattern
+glob "src/**/*Dashboard*.tsx"
+
+# Search for code
+grep "function handleSubmit" --type ts
+
+# Check component structure
+ls src/components/profile/tabs/
+```
+
+### When to Use /clear
+- After completing a Beads task
+- Before starting unrelated work
+- When context feels cluttered
+- After large refactoring operations
 
 ## Database Schema Highlights
 - **Multi-tenant**: All tables have tenant_id for isolation
@@ -33,6 +64,45 @@ Multi-tenant storytelling platform for Indigenous communities and organizations 
 - All components maintain full functionality with improved maintainability
 
 ## Next Actions
-- Apply targeted optimization to ProfileDashboard.tsx (1,221 lines)
-- Focus on specific component extraction rather than wholesale splitting
-- Maintain context efficiency through strategic command usage
+Use `bd ready` to see current tasks. Priority items:
+- Review cultural safety moderation system (el-qdo)
+- Enhance multi-tenant organization dashboard (el-b8e)
+
+## Task Management with Beads
+
+This project uses [Beads](https://github.com/steveyegge/beads) for AI-native task tracking. Beads is a graph-based issue tracker designed for coding agents.
+
+### Commands (binaries in ~/bin/)
+```bash
+# View tasks
+~/bin/bd list              # List all issues
+~/bin/bd ready             # Show unblocked work ready to start
+~/bin/bd show el-1         # Show specific issue details
+
+# Create tasks
+~/bin/bd create "Task description" -p 1 -t feature
+# Priority: 0=critical, 1=high, 2=medium, 3=low, 4=backlog
+
+# Manage dependencies
+~/bin/bd dep add el-2 el-1   # el-1 blocks el-2
+~/bin/bd dep tree el-1       # Visualize dependency tree
+
+# Update status
+~/bin/bd update el-1 --status in_progress
+~/bin/bd close el-1 --reason "Completed in commit abc123"
+
+# Visualization (TUI)
+~/bin/bv                   # Interactive terminal viewer
+~/bin/bv --robot-plan      # JSON output for AI consumption
+~/bin/bv --robot-priority  # Priority-sorted JSON
+```
+
+### Workflow Guidelines
+1. **Before starting work**: Run `~/bin/bd ready` to see available tasks
+2. **When discovering new work**: Create tasks with `~/bin/bd create`
+3. **Track dependencies**: Use `~/bin/bd dep add` when tasks block each other
+4. **Update status**: Mark tasks `in_progress` when starting, `close` when done
+5. **Graph analysis**: Use `~/bin/bv` for visual dependency exploration
+
+### Issue Prefix
+All issues use the `el-` prefix (Empathy Ledger): el-1, el-2, etc.

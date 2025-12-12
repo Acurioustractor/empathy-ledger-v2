@@ -103,9 +103,9 @@ export default function MagicAuthPage() {
 
       if (res.ok && data.success) {
         setState('success')
-        // Redirect to story after short delay
+        // Redirect to storyteller's own story view after short delay
         setTimeout(() => {
-          router.push(`/stories/${data.storyId}`)
+          router.push(`/my-story/${data.storyId}`)
         }, 2000)
       } else {
         setState('error')
