@@ -158,7 +158,8 @@ export function QuickCaptureForm({
           storytellerEmail: storytellerEmail || undefined,
           storytellerPhone: storytellerPhone || undefined,
           sendEmail: false, // Don't send email yet
-          expiresInDays: 7
+          expiresInDays: 7,
+          guestSessionId: guestSessionId || undefined // Pass guest session for auth
         })
       })
 

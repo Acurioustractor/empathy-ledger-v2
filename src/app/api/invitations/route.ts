@@ -16,6 +16,10 @@ import { createSupabaseServerClient, createSupabaseServiceClient } from '@/lib/s
  *
  * Create a new invitation for a storyteller
  *
+ * Supports multiple auth modes:
+ * 1. Full auth - logged in user
+ * 2. Guest session - field worker with organization PIN
+ *
  * Body: {
  *   storyId: string
  *   storytellerName: string
@@ -23,23 +27,13 @@ import { createSupabaseServerClient, createSupabaseServiceClient } from '@/lib/s
  *   storytellerPhone?: string
  *   sendEmail?: boolean
  *   expiresInDays?: number
+ *   guestSessionId?: string  // For guest mode
  * }
  */
 export async function POST(request: NextRequest) {
   try {
-    // Get authenticated user
-    const supabase = createSupabaseServerClient()
-    const { data: { user } } = await supabase.auth.getUser()
-
-    if (!user) {
-      return NextResponse.json(
-        { error: 'Not authenticated' },
-        { status: 401 }
-      )
-    }
-
     const body = await request.json()
-    const { storyId, storytellerName, storytellerEmail, storytellerPhone, sendEmail, expiresInDays } = body
+    const { storyId, storytellerName, storytellerEmail, storytellerPhone, sendEmail, expiresInDays, guestSessionId } = body
 
     // Validate required fields
     if (!storyId) {
@@ -56,12 +50,52 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Verify user has permission to create invitations for this story
+    let userId: string | null = null
+    let authMode: 'full' | 'guest' = 'full'
+
+    // Check authentication mode
+    if (guestSessionId) {
+      // Guest session mode - validate the session
+      const origin = process.env.NEXT_PUBLIC_APP_URL || request.nextUrl.origin
+      const validateRes = await fetch(
+        `${origin}/api/auth/guest-session?session=${guestSessionId}`,
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+
+      if (validateRes.ok) {
+        const sessionData = await validateRes.json()
+        if (sessionData.valid) {
+          authMode = 'guest'
+        }
+      }
+
+      if (authMode !== 'guest') {
+        return NextResponse.json(
+          { error: 'Invalid or expired guest session' },
+          { status: 401 }
+        )
+      }
+    } else {
+      // Full auth mode - check user session
+      const supabase = createSupabaseServerClient()
+      const { data: { user } } = await supabase.auth.getUser()
+
+      if (!user) {
+        return NextResponse.json(
+          { error: 'Not authenticated' },
+          { status: 401 }
+        )
+      }
+
+      userId = user.id
+    }
+
+    // Verify story exists and user has permission
     const serviceClient = createSupabaseServiceClient()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: story, error: storyError } = await (serviceClient as any)
       .from('stories')
-      .select('id, author_id, title')
+      .select('id, author_id, title, capture_metadata')
       .eq('id', storyId)
       .single()
 
@@ -72,9 +106,21 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (story.author_id !== user.id) {
+    // Permission check: user owns story OR story was created in guest mode
+    const isOwner = userId && story.author_id === userId
+    const isGuestCaptured = story.capture_metadata?.auth_mode === 'guest'
+
+    if (authMode === 'full' && !isOwner) {
       return NextResponse.json(
         { error: 'You do not have permission to create invitations for this story' },
+        { status: 403 }
+      )
+    }
+
+    // For guest mode, allow if the story was captured in guest mode (no author)
+    if (authMode === 'guest' && story.author_id && !isGuestCaptured) {
+      return NextResponse.json(
+        { error: 'Cannot create invitation for this story in guest mode' },
         { status: 403 }
       )
     }
@@ -85,7 +131,7 @@ export async function POST(request: NextRequest) {
       storytellerName,
       storytellerEmail: storytellerEmail || undefined,
       storytellerPhone: storytellerPhone || undefined,
-      createdBy: user.id,
+      createdBy: userId || 'guest',
       sendEmail: sendEmail || false,
       expiresInDays: expiresInDays || 7
     }

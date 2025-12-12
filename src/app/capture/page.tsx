@@ -49,6 +49,7 @@ export default function CapturePage() {
   const [showHelp, setShowHelp] = useState(false)
   const [guestPin, setGuestPin] = useState('')
   const [guestSessionId, setGuestSessionId] = useState<string | null>(null)
+  const [guestOrgId, setGuestOrgId] = useState<string | null>(null)
   const [guestOrgName, setGuestOrgName] = useState<string | null>(null)
   const [pinError, setPinError] = useState<string | null>(null)
 
@@ -132,7 +133,9 @@ export default function CapturePage() {
 
       if (res.ok && result.success) {
         setGuestSessionId(result.session.id)
+        setGuestOrgId(result.session.organization_id)
         setGuestOrgName(result.session.organization_name)
+        setSelectedOrgId(result.session.organization_id) // Set for the form
         setCaptureMode('guest')
       } else {
         setPinError(result.error || 'Invalid PIN')
@@ -302,7 +305,9 @@ export default function CapturePage() {
               <button
                 onClick={() => {
                   setGuestSessionId(null)
+                  setGuestOrgId(null)
                   setGuestOrgName(null)
+                  setSelectedOrgId('')
                   setCaptureMode('select')
                 }}
                 className="text-sm text-amber-700 dark:text-amber-300 font-medium"
@@ -465,7 +470,7 @@ export default function CapturePage() {
             <QuickCaptureForm
               projectId={selectedProjectId || undefined}
               projectName={selectedProject?.name}
-              organizationId={captureMode === 'guest' ? guestOrgName || undefined : selectedOrgId || undefined}
+              organizationId={selectedOrgId || undefined}
               guestSessionId={guestSessionId || undefined}
               onSuccess={(result) => {
                 console.log('Story captured:', result)
