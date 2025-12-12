@@ -240,14 +240,15 @@ class MagicLinkService {
         })
         .eq('id', invitation.id)
 
-      // Link story to this user if not already linked
+      // Get story details including tenant/org for profile creation
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { data: story } = await (supabase as any)
         .from('stories')
-        .select('storyteller_id')
+        .select('storyteller_id, tenant_id, organization_id')
         .eq('id', invitation.storyId)
         .single()
 
+      // Link story to this user if not already linked
       if (story && !story.storyteller_id) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         await (supabase as any)
@@ -256,15 +257,38 @@ class MagicLinkService {
           .eq('id', invitation.storyId)
       }
 
-      // Update user profile with name if not set
+      // Check if user profile exists
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { data: profile } = await (supabase as any)
         .from('profiles')
-        .select('display_name, is_storyteller')
+        .select('id, display_name, is_storyteller')
         .eq('id', userId)
         .single()
 
-      if (profile) {
+      if (!profile) {
+        // CREATE new profile for this user
+        // This is critical for new users who sign up via magic link
+        console.log('Creating new profile for storyteller:', userId, invitation.storytellerName)
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { error: createError } = await (supabase as any)
+          .from('profiles')
+          .insert({
+            id: userId,
+            email: invitation.storytellerEmail,
+            display_name: invitation.storytellerName,
+            is_storyteller: true,
+            tenant_id: story?.tenant_id || null,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+
+        if (createError) {
+          console.error('Error creating profile:', createError)
+          // Don't fail the invitation acceptance, just log the error
+        }
+      } else {
+        // UPDATE existing profile if needed
         const updates: AnyRecord = {}
         if (!profile.display_name && invitation.storytellerName) {
           updates.display_name = invitation.storytellerName
