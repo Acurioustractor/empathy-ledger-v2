@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     
     const { searchParams, origin } = new URL(request.url)
     const code = searchParams.get('code')
-    const next = searchParams.get('redirect') || '/storytellers/d0a162d2-282e-4653-9d12-aa934c9dfa4e/dashboard'
+    const next = searchParams.get('redirect') || '/'
     
     if (code) {
       const supabase = createSupabaseServerClient()

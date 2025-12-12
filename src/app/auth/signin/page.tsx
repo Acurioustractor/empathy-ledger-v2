@@ -42,7 +42,7 @@ export default function SignInPage() {
             </CardHeader>
             
             <CardContent cultural>
-              <SimpleSignInForm redirectTo="/storytellers/d0a162d2-282e-4653-9d12-aa934c9dfa4e/dashboard" />
+              <SimpleSignInForm redirectTo="/" />
 
               {/* Divider */}
               <div className="relative my-6">
