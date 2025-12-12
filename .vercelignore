@@ -1,0 +1,21 @@
+# Beads task management (local only)
+.beads/
+
+# Local development
+.plan/
+
+# Test files
+tests/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Development docs
+docs/
+
+# Scripts
+scripts/
+
+# Git
+.git/
