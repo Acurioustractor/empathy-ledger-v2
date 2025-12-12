@@ -22,14 +22,12 @@ export async function GET(
 ) {
   try {
     const { id: organizationId } = await params
-    
-    // Temporarily bypass auth for testing - TODO: Re-enable after PostgREST cache fixes
-    console.log('⚠️ TEMPORARILY BYPASSING AUTH FOR TESTING')
-    const context = {
-      userId: 'test-user-id',
-      userRole: 'admin' as const,
-      canManageUsers: true,
-      isElder: false
+
+    // Verify user has admin access to this organization
+    const { context, error } = await requireOrganizationAdmin(request, organizationId)
+
+    if (error) {
+      return error
     }
 
     const supabase = createSupabaseServerClient()
@@ -95,9 +93,9 @@ export async function GET(
       membersWithoutRoles: membersWithoutRoles || [],
       availableRoles: Object.values(ORGANIZATION_ROLES),
       adminContext: {
-        userRole: context!.userRole,
-        canAssignRoles: context!.canManageUsers,
-        isElder: context!.isElder
+        userRole: context?.userRole,
+        canAssignRoles: context?.canManageUsers,
+        isElder: context?.isElder
       }
     })
 
@@ -118,14 +116,12 @@ export async function POST(
   try {
     const { id: organizationId } = await params
     const body = await request.json()
-    
-    // Temporarily bypass auth for testing - TODO: Re-enable after PostgREST cache fixes
-    console.log('⚠️ TEMPORARILY BYPASSING AUTH FOR TESTING - POST')
-    const context = {
-      userId: 'test-user-id',
-      userRole: 'admin' as const,
-      canManageUsers: true,
-      isElder: false
+
+    // Verify user has admin access to this organization
+    const { context, error } = await requireOrganizationAdmin(request, organizationId)
+
+    if (error) {
+      return error
     }
 
     const { profileId, role, reason } = body
@@ -148,7 +144,7 @@ export async function POST(
     const supabase = createSupabaseServerClient()
 
     // Check if assigner has authority to assign this role
-    const assignerRole = context!.userRole as OrganizationRole
+    const assignerRole = context?.userRole as OrganizationRole
     if (!assignerRole || !checkRoleHierarchy(assignerRole, role)) {
       return NextResponse.json(
         { error: 'Insufficient authority to assign this role' },
@@ -157,7 +153,7 @@ export async function POST(
     }
 
     // Check if elder approval is required
-    if (requiresElderApproval('assign_role', role) && !context!.isElder) {
+    if (requiresElderApproval('assign_role', role) && !context?.isElder) {
       return NextResponse.json(
         { error: 'Elder approval required for this role assignment' },
         { status: 403 }
@@ -263,14 +259,12 @@ export async function PUT(
   try {
     const { id: organizationId } = await params
     const body = await request.json()
-    
-    // Temporarily bypass auth for testing - TODO: Re-enable after PostgREST cache fixes
-    console.log('⚠️ TEMPORARILY BYPASSING AUTH FOR TESTING - PUT')
-    const context = {
-      userId: 'test-user-id',
-      userRole: 'admin' as const,
-      canManageUsers: true,
-      isElder: false
+
+    // Verify user has admin access to this organization
+    const { context, error } = await requireOrganizationAdmin(request, organizationId)
+
+    if (error) {
+      return error
     }
 
     const { roleId, action, reason } = body // action: 'revoke' or 'reactivate'
@@ -306,7 +300,7 @@ export async function PUT(
     }
 
     // Check authority to modify this role
-    const assignerRole = context!.userRole as OrganizationRole
+    const assignerRole = context?.userRole as OrganizationRole
     if (!assignerRole || !checkRoleHierarchy(assignerRole, roleAssignment.role as OrganizationRole)) {
       return NextResponse.json(
         { error: 'Insufficient authority to modify this role' },
@@ -315,7 +309,7 @@ export async function PUT(
     }
 
     // Check if elder approval is required
-    if (requiresElderApproval('modify_role', roleAssignment.role) && !context!.isElder) {
+    if (requiresElderApproval('modify_role', roleAssignment.role) && !context?.isElder) {
       return NextResponse.json(
         { error: 'Elder approval required for this role modification' },
         { status: 403 }

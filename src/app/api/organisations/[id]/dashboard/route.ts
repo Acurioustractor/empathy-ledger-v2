@@ -15,17 +15,12 @@ export async function GET(
 ) {
   try {
     const { id: organizationId } = await params
-    
-    // Temporarily bypass auth for testing - TODO: Re-enable after PostgREST cache fixes
-    console.log('⚠️ TEMPORARILY BYPASSING AUTH FOR TESTING')
-    const context = {
-      userId: 'test-user-id',
-      userRole: 'admin' as const,
-      canManageUsers: true,
-      canManageContent: true,
-      canManageProjects: true,
-      isAdmin: true,
-      isElder: false
+
+    // Verify user has admin access to this organization
+    const { context, error } = await requireOrganizationAdmin(request, organizationId)
+
+    if (error) {
+      return error
     }
 
     const supabase = createSupabaseServerClient()
@@ -204,14 +199,14 @@ export async function GET(
       projects: projects || [],
       recentActivity,
       adminContext: {
-        userId: context!.userId,
-        userRole: context!.userRole,
+        userId: context?.userId,
+        userRole: context?.userRole,
         permissions: {
-          canManageUsers: context!.canManageUsers,
-          canManageContent: context!.canManageContent,
-          canManageProjects: context!.canManageProjects,
-          isAdmin: context!.isAdmin,
-          isElder: context!.isElder
+          canManageUsers: context?.canManageUsers,
+          canManageContent: context?.canManageContent,
+          canManageProjects: context?.canManageProjects,
+          isAdmin: context?.isAdmin,
+          isElder: context?.isElder
         }
       }
     })
