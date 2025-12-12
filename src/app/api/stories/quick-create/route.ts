@@ -27,6 +27,8 @@ import { createSupabaseServerClient, createSupabaseServiceClient } from '@/lib/s
  *   - self_record_token: string (optional - for self-recording mode)
  */
 export async function POST(request: NextRequest) {
+  console.log('📥 Quick-create API called')
+
   try {
     const supabase = createSupabaseServerClient()
     const serviceClient = createSupabaseServiceClient()
@@ -35,6 +37,13 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData()
     const guestSessionId = formData.get('guest_session_id') as string | null
     const selfRecordToken = formData.get('self_record_token') as string | null
+
+    console.log('📋 Form data:', {
+      guestSessionId,
+      selfRecordToken,
+      hasTitle: !!formData.get('title'),
+      hasStorytellerName: !!formData.get('storyteller_name')
+    })
 
     let userId: string | null = null
     let authMode: 'full' | 'guest' | 'self' = 'full'
@@ -86,9 +95,17 @@ export async function POST(request: NextRequest) {
       guestOrgId = invitation.organization_id
     } else {
       // Full auth mode - check user session
-      const { data: { user } } = await supabase.auth.getUser()
+      const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+      console.log('🔐 Auth check result:', {
+        hasUser: !!user,
+        userId: user?.id,
+        email: user?.email,
+        authError: authError?.message
+      })
 
       if (!user) {
+        console.log('❌ No user found in session')
         return NextResponse.json(
           { error: 'Not authenticated', code: 'AUTH_REQUIRED' },
           { status: 401 }
@@ -138,7 +155,21 @@ export async function POST(request: NextRequest) {
         .eq('id', userId)
         .single()
 
+      console.log('📋 Profile for tenant context:', {
+        profileTenantId: profile?.tenant_id,
+        profileOrgId: profile?.organization_id,
+        formOrgId: organizationId
+      })
+
       tenantId = profile?.tenant_id || organizationId || profile?.organization_id
+    }
+
+    // If still no tenant_id, use the default "personal stories" tenant
+    // This allows users to capture stories without belonging to an organization
+    if (!tenantId) {
+      // Default tenant for personal/unaffiliated stories
+      tenantId = '8891e1a9-92ae-423f-928b-cec602660011'
+      console.log('📋 Using default personal stories tenant:', tenantId)
     }
 
     // Handle featured image upload if provided
@@ -177,30 +208,30 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Create the story
+    // Create the story - only these 3 fields are required (NOT NULL):
+    // - title, content, tenant_id
+    // Everything else has database defaults
+    const storyData: Record<string, unknown> = {
+      title,
+      content: notes || `Quick capture by ${storytellerName}`,
+      tenant_id: tenantId,
+    }
+
+    // Add optional fields only if they have values
+    if (userId) storyData.author_id = userId
+    if (projectId) storyData.project_id = projectId
+    if (organizationId) storyData.organization_id = organizationId
+    if (featuredImageUrl) storyData.story_image_url = featuredImageUrl
+    if (status && status !== 'draft') storyData.status = status
+    if (isPublic) storyData.is_public = true
+    storyData.summary = `[Quick capture: ${storytellerName}]`
+
+    console.log('📝 Creating story with data:', Object.keys(storyData))
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: story, error: storyError } = await (serviceClient as any)
       .from('stories')
-      .insert({
-        title,
-        status,
-        is_public: isPublic,
-        summary: notes || null,
-        featured_image: featuredImageUrl,
-        author_id: userId, // Will be null for guest/self modes
-        project_id: projectId || null,
-        tenant_id: tenantId || null,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        // Metadata about the quick capture
-        capture_metadata: {
-          quick_capture: true,
-          captured_by: userId,
-          auth_mode: authMode,
-          storyteller_name: storytellerName,
-          captured_at: new Date().toISOString()
-        }
-      })
+      .insert(storyData)
       .select()
       .single()
 
@@ -240,7 +271,7 @@ export async function POST(request: NextRequest) {
         id: story.id,
         title: story.title,
         status: story.status,
-        featured_image: story.featured_image
+        story_image_url: story.story_image_url
       },
       storyteller: storytellerProfile ? {
         id: storytellerProfile.id,

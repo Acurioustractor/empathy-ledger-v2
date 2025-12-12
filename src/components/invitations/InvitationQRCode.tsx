@@ -143,8 +143,7 @@ export function InvitationQRCode({
                 <ol className="list-decimal list-inside mt-1 space-y-1 text-stone-500 dark:text-stone-400">
                   <li>Show this QR code to {invitation.storytellerName}</li>
                   <li>They scan with their phone camera</li>
-                  <li>They sign in with their email</li>
-                  <li>They can now view and manage their story</li>
+                  <li>They can view and manage their story</li>
                 </ol>
               </div>
             </div>

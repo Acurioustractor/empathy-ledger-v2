@@ -38,9 +38,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Derived state - computed once per render
   const baseIsAuthenticated = Boolean(user && session)
 
-  // Development mode bypass for authentication - more aggressive bypass
-  const isDevelopmentBypass = process.env.NODE_ENV === 'development' && !baseIsAuthenticated
-  const isAuthenticated = baseIsAuthenticated || isDevelopmentBypass
+  // Development mode bypass DISABLED - use real authentication
+  // To re-enable: const isDevelopmentBypass = process.env.NODE_ENV === 'development' && !baseIsAuthenticated
+  const isDevelopmentBypass = false
+  const isAuthenticated = baseIsAuthenticated
 
   // Debug logging for development
   if (process.env.NODE_ENV === 'development') {
@@ -331,37 +332,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [initialized, fetchProfile])
 
-  // Create development user and profile if in development mode (regardless of loading state)
-  const shouldUseDevelopmentMode = process.env.NODE_ENV === 'development' && !baseIsAuthenticated
+  // Development mode bypass DISABLED - use real authentication only
+  // To re-enable development mode, uncomment the following:
+  // const shouldUseDevelopmentMode = process.env.NODE_ENV === 'development' && !baseIsAuthenticated
+  const shouldUseDevelopmentMode = false
 
-  const developmentUser = shouldUseDevelopmentMode ? {
-    id: 'd0a162d2-282e-4653-9d12-aa934c9dfa4e',
-    email: 'benjamin@act.place',
-    aud: 'authenticated',
-    role: 'authenticated',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    app_metadata: {},
-    user_metadata: {},
-    identities: []
-  } as any : null
-
-  const developmentProfile = shouldUseDevelopmentMode ? {
-    id: 'd0a162d2-282e-4653-9d12-aa934c9dfa4e',
-    email: 'benjamin@act.place',
-    display_name: 'Development Super Admin',
-    tenant_roles: ['super_admin', 'admin', 'storyteller'],
-    is_storyteller: true,
-    is_elder: false,
-    onboarding_completed: true,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  } as Profile : null
+  const developmentUser = null
+  const developmentProfile = null
 
   const value: AuthContextType = {
-    user: user || developmentUser,
-    session: session || (shouldUseDevelopmentMode ? { user: developmentUser } as any : null),
-    profile: profile || developmentProfile,
+    user: user,
+    session: session,
+    profile: profile,
     isLoading,
     isAuthenticated,
     isAdmin,

@@ -56,11 +56,15 @@ export async function POST(request: NextRequest) {
     const arrayBuffer = await audioFile.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
 
+    // Normalize content type - Supabase doesn't accept codec suffixes like "audio/webm;codecs=opus"
+    // Strip everything after semicolon to get base mime type
+    const contentType = audioFile.type.split(';')[0] || 'audio/webm'
+
     // Upload to Supabase Storage
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('media')
       .upload(filename, buffer, {
-        contentType: audioFile.type,
+        contentType,
         upsert: false
       })
 

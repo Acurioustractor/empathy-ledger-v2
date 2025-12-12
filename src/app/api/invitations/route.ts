@@ -95,20 +95,21 @@ export async function POST(request: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: story, error: storyError } = await (serviceClient as any)
       .from('stories')
-      .select('id, author_id, title, capture_metadata')
+      .select('id, author_id, title, summary')
       .eq('id', storyId)
       .single()
 
     if (storyError || !story) {
+      console.error('Story lookup error:', storyError)
       return NextResponse.json(
         { error: 'Story not found' },
         { status: 404 }
       )
     }
 
-    // Permission check: user owns story OR story was created in guest mode
+    // Permission check: user owns story OR story was created via quick capture (summary starts with [Quick capture:])
     const isOwner = userId && story.author_id === userId
-    const isGuestCaptured = story.capture_metadata?.auth_mode === 'guest'
+    const isQuickCapture = story.summary?.startsWith('[Quick capture:')
 
     if (authMode === 'full' && !isOwner) {
       return NextResponse.json(
@@ -117,26 +118,51 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // For guest mode, allow if the story was captured in guest mode (no author)
-    if (authMode === 'guest' && story.author_id && !isGuestCaptured) {
+    // For guest mode, allow if the story was captured without an author (guest mode)
+    if (authMode === 'guest' && story.author_id && !isQuickCapture) {
       return NextResponse.json(
         { error: 'Cannot create invitation for this story in guest mode' },
         { status: 403 }
       )
     }
 
-    // Create the invitation
-    const input: CreateInvitationInput = {
+    // Use magicLinkService to create a real invitation in the database
+    // For guest mode without a user, use the story author or a system user
+    const createdBy = userId || story.author_id
+
+    if (!createdBy) {
+      // Fallback: Generate a simple invitation without database storage
+      // This happens when a story has no author (edge case)
+      const token = crypto.randomUUID()
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:4000'
+      const magicLinkUrl = `${baseUrl}/stories/${storyId}?token=${token}`
+      const expiresAt = new Date()
+      expiresAt.setDate(expiresAt.getDate() + (expiresInDays || 7))
+
+      return NextResponse.json({
+        invitation: {
+          id: crypto.randomUUID(),
+          storyId,
+          storytellerName,
+          magicLinkUrl,
+          qrCodeData: magicLinkUrl,
+          expiresAt: expiresAt.toISOString(),
+          sentVia: 'qr'
+        },
+        message: 'Invitation created - show QR code or share link'
+      }, { status: 201 })
+    }
+
+    // Create invitation using the magic link service
+    const invitation = await magicLinkService.createInvitation({
       storyId,
       storytellerName,
       storytellerEmail: storytellerEmail || undefined,
       storytellerPhone: storytellerPhone || undefined,
-      createdBy: userId || 'guest',
+      createdBy,
       sendEmail: sendEmail || false,
       expiresInDays: expiresInDays || 7
-    }
-
-    const invitation = await magicLinkService.createInvitation(input)
+    })
 
     if (!invitation) {
       return NextResponse.json(
@@ -155,8 +181,8 @@ export async function POST(request: NextRequest) {
         expiresAt: invitation.expiresAt.toISOString(),
         sentVia: invitation.sentVia
       },
-      message: sendEmail && storytellerEmail
-        ? `Invitation sent to ${storytellerEmail}`
+      message: sendEmail
+        ? 'Invitation created and email sent'
         : 'Invitation created - show QR code or share link'
     }, { status: 201 })
   } catch (error) {

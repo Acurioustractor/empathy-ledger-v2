@@ -68,7 +68,7 @@ export default function CapturePage() {
           const orgData = await orgRes.json()
           setOrganizations(orgData.organizations || [])
 
-          // Auto-select first org if only one
+          // Auto-select first org if only one (optional convenience)
           if (orgData.organizations?.length === 1 && !preSelectedOrgId) {
             setSelectedOrgId(orgData.organizations[0].id)
           }
