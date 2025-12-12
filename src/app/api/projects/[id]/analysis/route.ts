@@ -25,11 +25,14 @@ import crypto from 'crypto'
 // Force dynamic rendering for API routes
 export const dynamic = 'force-dynamic'
 
-
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Lazy initialization to avoid build-time errors
+function getOpenAIClient(): OpenAI {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) {
+    throw new Error('Missing OPENAI_API_KEY environment variable')
+  }
+  return new OpenAI({ apiKey })
+}
 
 // Helper: Calculate hash of transcript content for cache invalidation
 function calculateContentHash(transcriptTexts: string[]): string {
@@ -892,6 +895,7 @@ Focus on:
 Return your response as a JSON object with these keys: continuationSuggestions, keyConnections, systemChangeOpportunities, communityEngagementStrategy`
 
   try {
+    const openai = getOpenAIClient()
     const completion = await openai.chat.completions.create({
       model: 'gpt-4-turbo-preview',
       messages: [

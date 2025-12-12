@@ -9,11 +9,14 @@ export const dynamic = 'force-dynamic'
 
 import { TranscriptProcessingPipeline } from '@/lib/workflows/transcript-processing-pipeline'
 
-
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Lazy initialization to avoid build-time errors
+function getOpenAIClient(): OpenAI {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) {
+    throw new Error('Missing OPENAI_API_KEY environment variable')
+  }
+  return new OpenAI({ apiKey })
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -84,6 +87,7 @@ export async function POST(request: NextRequest) {
       const file = new File([fileData], mediaAsset.filename, { type: mediaAsset.mime_type })
 
       // Transcribe with OpenAI Whisper
+      const openai = getOpenAIClient()
       const transcription = await openai.audio.transcriptions.create({
         file,
         model: 'whisper-1',

@@ -5,14 +5,18 @@ import OpenAI from 'openai'
 // Force dynamic rendering for API routes
 export const dynamic = 'force-dynamic'
 
-
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || ''
-})
+// Lazy initialization to avoid build-time errors
+function getOpenAIClient(): OpenAI {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) {
+    throw new Error('Missing OPENAI_API_KEY environment variable')
+  }
+  return new OpenAI({ apiKey })
+}
 
 export async function POST(request: Request) {
   try {
+    const openai = getOpenAIClient()
     const formData = await request.formData()
     const audioFile = formData.get('audio') as File
     const type = formData.get('type') as 'project' | 'organization'

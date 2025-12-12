@@ -17,10 +17,14 @@ import {
 // Force dynamic rendering for API routes
 export const dynamic = 'force-dynamic'
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Lazy initialization to avoid build-time errors
+function getOpenAIClient(): OpenAI {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) {
+    throw new Error('Missing OPENAI_API_KEY environment variable')
+  }
+  return new OpenAI({ apiKey })
+}
 
 // Request validation schema
 const AnalyzeTranscriptSchema = z.object({
@@ -362,6 +366,7 @@ Return your analysis in JSON format with these exact keys:
 }`
 
   try {
+    const openai = getOpenAIClient()
     const completion = await openai.chat.completions.create({
       model: 'gpt-4-turbo-preview',
       messages: [
@@ -469,6 +474,7 @@ Format the story with:
 - Authentic dialogue where appropriate`
 
   try {
+    const openai = getOpenAIClient()
     const completion = await openai.chat.completions.create({
       model: 'gpt-4-turbo-preview',
       messages: [
