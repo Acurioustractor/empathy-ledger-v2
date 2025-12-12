@@ -2,15 +2,19 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
-import { createClient } from '@supabase/supabase-js'
+// Lazy initialization to avoid build-time errors
+function getSupabaseAdmin(): SupabaseClient {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw new Error('Missing Supabase configuration')
+  }
 
-
-// Use service role to bypass RLS for admin seeding/testing
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+  return createClient(supabaseUrl, supabaseServiceKey)
+}
 
 type CreateTranscriptBody = {
   storyteller_id: string
@@ -34,6 +38,7 @@ function detectVideoPlatform(url?: string | null): string | null {
 
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseAdmin()
     const { searchParams } = new URL(request.url)
     const storytellerId = searchParams.get('storyteller_id')
     const page = parseInt(searchParams.get('page') || '1')
@@ -142,6 +147,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseAdmin()
     const body = (await request.json()) as CreateTranscriptBody
     const {
       storyteller_id,
