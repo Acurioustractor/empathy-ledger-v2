@@ -134,7 +134,7 @@ export async function POST(request: NextRequest) {
       // Fallback: Generate a simple invitation without database storage
       // This happens when a story has no author (edge case)
       const token = crypto.randomUUID()
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:4000'
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://empathyledger.com')
       const magicLinkUrl = `${baseUrl}/stories/${storyId}?token=${token}`
       const expiresAt = new Date()
       expiresAt.setDate(expiresAt.getDate() + (expiresInDays || 7))
