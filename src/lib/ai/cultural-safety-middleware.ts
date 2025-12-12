@@ -235,7 +235,7 @@ Focus on:
       model: this.model,
       prompt: analysisPrompt,
       temperature: 0.1, // Very low temperature for consistent safety analysis
-      maxTokens: 1000
+      maxOutputTokens: 1000
     })
 
     try {

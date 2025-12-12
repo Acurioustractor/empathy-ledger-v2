@@ -335,9 +335,9 @@ const StorytellerDashboard: React.FC = () => {
                       </div>
                       <div className="flex gap-2">
                         <Button variant="outline" size="sm" asChild>
-                          <Link href={`/stories/${story.id}`}>
+                          <Link href={`/my-story/${story.id}`}>
                             <Eye className="w-4 h-4 mr-1" />
-                            View
+                            Manage
                           </Link>
                         </Button>
                         <Button variant="outline" size="sm" asChild>
