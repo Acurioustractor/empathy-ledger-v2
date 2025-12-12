@@ -75,12 +75,14 @@ yarn-error.log*
 comparison-results.txt
 
 # ===================
-# Archive (keep in repo but could be large)
+# Archive - EXCLUDED due to exposed credentials
 # ===================
-# Uncomment to exclude archive from version control:
-# /archive/legacy-scripts/
-# /archive/old-migrations/
-# /archive/database-backups/
+# SECURITY: These folders contained hardcoded API keys
+# They have been removed from git tracking
+/archive/legacy-scripts/
+/archive/old-migrations/
+/archive/database-backups/
+/archive/
 
 # ===================
 # Supabase
