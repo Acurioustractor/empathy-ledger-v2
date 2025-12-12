@@ -8,10 +8,11 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
-import { ArrowLeft, Mic, FolderOpen, Loader2, Building2, Heart, ChevronDown, HelpCircle, X } from 'lucide-react'
+import { ArrowLeft, Mic, FolderOpen, Loader2, Building2, Heart, ChevronDown, HelpCircle, X, LogIn, User } from 'lucide-react'
 import { QuickCaptureForm } from '@/components/stories/QuickCaptureForm'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/lib/context/auth.context'
 
 interface Project {
   id: string
@@ -28,6 +29,7 @@ interface Organization {
 export default function CapturePage() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth()
 
   const preSelectedProjectId = searchParams?.get('project') ?? null
   const preSelectedOrgId = searchParams?.get('org') ?? null
@@ -40,9 +42,14 @@ export default function CapturePage() {
   const [showSettings, setShowSettings] = useState(false)
   const [showHelp, setShowHelp] = useState(false)
 
-  // Load user's projects and organizations
+  // Load user's projects and organizations (only if authenticated)
   useEffect(() => {
     async function loadData() {
+      if (!isAuthenticated) {
+        setIsLoading(false)
+        return
+      }
+
       try {
         // Load organizations
         const orgRes = await fetch('/api/organisations')
@@ -56,16 +63,21 @@ export default function CapturePage() {
           }
         }
 
-        // Load projects
-        const projectRes = await fetch('/api/projects')
-        if (projectRes.ok) {
-          const projectData = await projectRes.json()
-          setProjects(projectData.projects || [])
+        // Load projects - this endpoint may not exist, so handle gracefully
+        try {
+          const projectRes = await fetch('/api/projects')
+          if (projectRes.ok) {
+            const projectData = await projectRes.json()
+            setProjects(projectData.projects || [])
 
-          // Auto-select project if pre-selected
-          if (preSelectedProjectId) {
-            setSelectedProjectId(preSelectedProjectId)
+            // Auto-select project if pre-selected
+            if (preSelectedProjectId) {
+              setSelectedProjectId(preSelectedProjectId)
+            }
           }
+        } catch (e) {
+          // Projects endpoint might not exist, that's fine
+          console.log('Projects endpoint not available')
         }
       } catch (error) {
         console.error('Error loading data:', error)
@@ -74,8 +86,11 @@ export default function CapturePage() {
       }
     }
 
-    loadData()
-  }, [preSelectedProjectId, preSelectedOrgId])
+    // Wait for auth to finish loading before fetching data
+    if (!authLoading) {
+      loadData()
+    }
+  }, [preSelectedProjectId, preSelectedOrgId, isAuthenticated, authLoading])
 
   // Filter projects by selected org
   const filteredProjects = selectedOrgId
@@ -244,51 +259,110 @@ export default function CapturePage() {
           </div>
         )}
 
-        {/* Quick Capture Form */}
-        <div className="mobile-card p-6">
-          <QuickCaptureForm
-            projectId={selectedProjectId || undefined}
-            projectName={selectedProject?.name}
-            organizationId={selectedOrgId || undefined}
-            onSuccess={(result) => {
-              console.log('Story captured:', result)
-            }}
-            onCancel={() => router.back()}
-          />
-        </div>
-
-        {/* Quick Tips */}
-        <div className="mt-6 space-y-3">
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-primary/5 border border-primary/10">
-            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-              <span className="text-sm font-bold text-primary">1</span>
+        {/* Sign In Required - Show when not authenticated */}
+        {!isAuthenticated && !authLoading && (
+          <div className="mobile-card p-6 text-center">
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+              <LogIn className="w-8 h-8 text-primary" />
             </div>
-            <div>
-              <p className="text-sm font-medium text-foreground">Take a photo</p>
-              <p className="text-sm text-muted-foreground">Capture the storyteller's face or moment</p>
+            <h2 className="text-xl font-bold text-foreground mb-2">Sign In Required</h2>
+            <p className="text-muted-foreground mb-6">
+              To capture and save stories, you need to be signed in to your account.
+            </p>
+            <div className="space-y-3">
+              <Link href="/auth/signin?redirect=/capture" className="block">
+                <Button className="w-full btn-mobile">
+                  <LogIn className="w-5 h-5 mr-2" />
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/auth/signup?redirect=/capture" className="block">
+                <Button variant="outline" className="w-full btn-mobile">
+                  <User className="w-5 h-5 mr-2" />
+                  Create Account
+                </Button>
+              </Link>
+            </div>
+            <p className="text-sm text-muted-foreground mt-6">
+              Already have an account with an organization? Ask your admin for an invite link.
+            </p>
+          </div>
+        )}
+
+        {/* Quick Capture Form - Only show when authenticated */}
+        {isAuthenticated && (
+          <div className="mobile-card p-6">
+            <QuickCaptureForm
+              projectId={selectedProjectId || undefined}
+              projectName={selectedProject?.name}
+              organizationId={selectedOrgId || undefined}
+              onSuccess={(result) => {
+                console.log('Story captured:', result)
+              }}
+              onCancel={() => router.back()}
+            />
+          </div>
+        )}
+
+        {/* Quick Tips - Show when authenticated */}
+        {isAuthenticated && (
+          <div className="mt-6 space-y-3">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-primary/5 border border-primary/10">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-sm font-bold text-primary">1</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-foreground">Take a photo</p>
+                <p className="text-sm text-muted-foreground">Capture the storyteller's face or moment</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-primary/5 border border-primary/10">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-sm font-bold text-primary">2</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-foreground">Record the interview</p>
+                <p className="text-sm text-muted-foreground">Press record and let them share their story</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-primary/5 border border-primary/10">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-sm font-bold text-primary">3</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-foreground">Share the QR code</p>
+                <p className="text-sm text-muted-foreground">They scan it to access and manage their story</p>
+              </div>
             </div>
           </div>
+        )}
 
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-primary/5 border border-primary/10">
-            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-              <span className="text-sm font-bold text-primary">2</span>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-foreground">Record the interview</p>
-              <p className="text-sm text-muted-foreground">Press record and let them share their story</p>
+        {/* About Capture - Show when not authenticated */}
+        {!isAuthenticated && !authLoading && (
+          <div className="mt-6 space-y-4">
+            <h3 className="font-semibold text-foreground">What is Story Capture?</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Empathy Ledger helps you capture, preserve, and share stories from your community.
+              Record audio interviews, add photos, and let storytellers maintain control over their narratives.
+            </p>
+            <div className="grid grid-cols-3 gap-3 pt-2">
+              <div className="text-center p-3 rounded-xl bg-secondary/50">
+                <Mic className="w-6 h-6 text-primary mx-auto mb-2" />
+                <p className="text-xs text-muted-foreground">Record</p>
+              </div>
+              <div className="text-center p-3 rounded-xl bg-secondary/50">
+                <Heart className="w-6 h-6 text-primary mx-auto mb-2" />
+                <p className="text-xs text-muted-foreground">Preserve</p>
+              </div>
+              <div className="text-center p-3 rounded-xl bg-secondary/50">
+                <Building2 className="w-6 h-6 text-primary mx-auto mb-2" />
+                <p className="text-xs text-muted-foreground">Share</p>
+              </div>
             </div>
           </div>
-
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-primary/5 border border-primary/10">
-            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-              <span className="text-sm font-bold text-primary">3</span>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-foreground">Share the QR code</p>
-              <p className="text-sm text-muted-foreground">They scan it to access and manage their story</p>
-            </div>
-          </div>
-        </div>
+        )}
       </main>
 
       {/* Help Modal */}
