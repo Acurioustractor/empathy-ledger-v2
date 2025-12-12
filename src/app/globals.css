@@ -4,104 +4,114 @@
 
 @layer base {
   :root {
-    /* Background & Foreground */
-    --background: 30 14% 99%;           /* earth-50 warm white */
-    --foreground: 28 35% 14%;           /* earth-900 */
+    /*
+     * Empathy Ledger 2025 Design System
+     * Mobile-first, warm earth tones for storytelling
+     */
 
-    /* Card surfaces */
-    --card: 0 0% 100%;                  /* pure white for contrast */
-    --card-foreground: 28 35% 14%;      /* earth-900 */
+    /* Background & Foreground - Warm whites */
+    --background: 30 20% 99%;
+    --foreground: 25 30% 12%;
+
+    /* Card surfaces - Pure white for contrast */
+    --card: 0 0% 100%;
+    --card-foreground: 25 30% 12%;
 
     /* Popover surfaces */
     --popover: 0 0% 100%;
-    --popover-foreground: 28 35% 14%;   /* earth-900 */
+    --popover-foreground: 25 30% 12%;
 
-    /* Primary - Earth 600 */
-    --primary: 27 30% 47%;              /* earth-600 #8f7961 */
-    --primary-foreground: 30 14% 99%;   /* earth-50 */
+    /* Primary - Warm Earth Brown */
+    --primary: 25 35% 40%;
+    --primary-foreground: 30 20% 98%;
 
-    /* Secondary - Earth 100/200 */
-    --secondary: 30 14% 96%;            /* earth-100 */
-    --secondary-foreground: 28 31% 36%; /* earth-700 */
+    /* Secondary - Light Earth */
+    --secondary: 30 20% 96%;
+    --secondary-foreground: 25 30% 25%;
 
-    /* Muted - Earth 200 */
-    --muted: 28 22% 87%;                /* earth-200 */
-    --muted-foreground: 27 28% 58%;     /* earth-500 */
+    /* Muted - Soft Earth */
+    --muted: 30 15% 92%;
+    --muted-foreground: 25 20% 45%;
 
-    /* Accent - Clay 600 for cultural elements */
-    --accent: 20 40% 95%;               /* clay-50 */
-    --accent-foreground: 20 40% 35%;    /* clay-700 */
+    /* Accent - Sage Green for positive actions */
+    --accent: 120 20% 94%;
+    --accent-foreground: 120 25% 30%;
 
-    /* Destructive - Keep red for clarity */
-    --destructive: 0 84% 60%;
+    /* Destructive - Warm Red */
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
     /* Borders & Inputs */
-    --border: 28 22% 87%;               /* earth-200 */
-    --input: 28 22% 87%;                /* earth-200 */
-    --ring: 27 30% 47%;                 /* earth-600 */
+    --border: 30 15% 88%;
+    --input: 30 15% 88%;
+    --ring: 25 35% 40%;
 
-    /* Radius */
-    --radius: 0.5rem;
+    /* Radius - Larger for mobile touch targets */
+    --radius: 0.75rem;
 
-    /* Cultural Status Colors */
-    --cultural-standard: 30 14% 96%;
-    --cultural-sensitive: 38 92% 50%;   /* amber */
-    --cultural-high: 25 95% 53%;        /* orange */
-    --cultural-sacred: 0 84% 60%;       /* red */
+    /* Success - Sage Green */
+    --success: 142 50% 40%;
+    --success-foreground: 142 20% 98%;
 
-    /* Success - Sage */
-    --success: 93 25% 43%;              /* sage-600 */
-    --success-foreground: 93 8% 97%;    /* sage-50 */
-
-    /* Warning - Amber */
+    /* Warning - Warm Amber */
     --warning: 38 92% 50%;
-    --warning-foreground: 28 35% 14%;
+    --warning-foreground: 25 30% 12%;
+
+    /* Cultural Sensitivity Levels */
+    --cultural-standard: 30 20% 96%;
+    --cultural-sensitive: 38 92% 50%;
+    --cultural-high: 25 95% 53%;
+    --cultural-sacred: 0 72% 51%;
+
+    /* Mobile-first spacing */
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --bottom-nav-height: 5rem;
   }
 
   .dark {
-    /* Dark mode with earth tones */
-    --background: 30 38% 8%;            /* earth-950 */
-    --foreground: 30 14% 96%;           /* earth-100 */
+    /* Dark mode - Deep earth tones */
+    --background: 25 25% 7%;
+    --foreground: 30 15% 92%;
 
-    --card: 28 35% 14%;                 /* earth-900 */
-    --card-foreground: 30 14% 96%;      /* earth-100 */
+    --card: 25 25% 10%;
+    --card-foreground: 30 15% 92%;
 
-    --popover: 28 35% 14%;              /* earth-900 */
-    --popover-foreground: 30 14% 96%;   /* earth-100 */
+    --popover: 25 25% 10%;
+    --popover-foreground: 30 15% 92%;
 
-    /* Primary - Earth 400 for dark mode */
-    --primary: 26 29% 68%;              /* earth-400 */
-    --primary-foreground: 30 38% 8%;    /* earth-950 */
+    /* Primary - Lighter earth for dark mode */
+    --primary: 25 30% 60%;
+    --primary-foreground: 25 25% 7%;
 
     /* Secondary */
-    --secondary: 28 31% 25%;            /* earth-800 */
-    --secondary-foreground: 30 14% 96%; /* earth-100 */
+    --secondary: 25 20% 18%;
+    --secondary-foreground: 30 15% 88%;
 
     /* Muted */
-    --muted: 28 31% 25%;                /* earth-800 */
-    --muted-foreground: 26 29% 68%;     /* earth-400 */
+    --muted: 25 20% 15%;
+    --muted-foreground: 30 15% 60%;
 
     /* Accent */
-    --accent: 28 31% 25%;               /* earth-800 */
-    --accent-foreground: 30 14% 96%;    /* earth-100 */
+    --accent: 120 15% 18%;
+    --accent-foreground: 120 20% 75%;
 
     /* Destructive */
-    --destructive: 0 63% 31%;
+    --destructive: 0 63% 40%;
     --destructive-foreground: 0 0% 100%;
 
     /* Borders & Inputs */
-    --border: 28 31% 25%;               /* earth-800 */
-    --input: 28 31% 25%;                /* earth-800 */
-    --ring: 26 29% 68%;                 /* earth-400 */
+    --border: 25 20% 18%;
+    --input: 25 20% 18%;
+    --ring: 25 30% 60%;
 
-    /* Success - Sage dark */
-    --success: 93 25% 53%;              /* sage-500 */
-    --success-foreground: 30 38% 8%;
+    /* Success */
+    --success: 142 40% 45%;
+    --success-foreground: 25 25% 7%;
 
     /* Warning */
-    --warning: 38 92% 50%;
-    --warning-foreground: 30 38% 8%;
+    --warning: 38 80% 55%;
+    --warning-foreground: 25 25% 7%;
   }
 }
 
@@ -110,14 +120,23 @@
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+  html {
+    /* Prevent text size adjustment on orientation change */
+    -webkit-text-size-adjust: 100%;
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+    /* Safe area padding for notched devices */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
 
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    /* Prevent pull-to-refresh on mobile */
+    overscroll-behavior-y: contain;
+    /* Mobile-friendly text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Focus visible styles for accessibility */
@@ -127,16 +146,40 @@
 
   /* Selection color */
   ::selection {
-    @apply bg-earth-200 text-earth-900;
+    @apply bg-primary/20 text-foreground;
   }
 
-  .dark ::selection {
-    @apply bg-earth-700 text-earth-100;
+  /* Larger touch targets for mobile */
+  button, a, [role="button"] {
+    @apply touch-manipulation;
   }
 }
 
-/* Custom scrollbar for webkit browsers */
+/* Mobile-first utilities */
 @layer utilities {
+  /* Touch-friendly minimum sizes */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  .touch-target-lg {
+    @apply min-h-[56px] min-w-[56px];
+  }
+
+  /* Safe area padding */
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  .pt-safe {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  .mb-bottom-nav {
+    margin-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Hide scrollbar but keep functionality */
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
@@ -146,71 +189,193 @@
     scrollbar-width: none;
   }
 
-  /* Custom scrollbar styling */
+  /* Horizontal scroll snap for carousels */
+  .scroll-snap-x {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scroll-snap-item {
+    scroll-snap-align: start;
+  }
+
+  /* Glass morphism effect */
+  .glass {
+    @apply bg-white/80 dark:bg-black/50 backdrop-blur-lg;
+  }
+
+  /* Soft shadow for cards */
+  .shadow-soft {
+    box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.08),
+                0 4px 16px -4px rgba(0, 0, 0, 0.04);
+  }
+
+  .shadow-soft-lg {
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1),
+                0 8px 24px -4px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Pressed state for buttons */
+  .press-effect {
+    @apply transition-transform active:scale-[0.98] active:opacity-90;
+  }
+
+  /* Haptic-style feedback animation */
+  .haptic {
+    @apply transition-all duration-75;
+  }
+
+  .haptic:active {
+    transform: scale(0.97);
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent;
+  }
+
+  /* Thumb zone indicator (for development) */
+  .thumb-zone {
+    @apply relative;
+  }
+
+  /* Custom scrollbar */
   .custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-earth-100 rounded-full;
+    @apply bg-muted rounded-full;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-earth-300 rounded-full hover:bg-earth-400;
-  }
-
-  .dark .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-earth-800;
-  }
-
-  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-earth-600 hover:bg-earth-500;
+    @apply bg-muted-foreground/30 rounded-full hover:bg-muted-foreground/50;
   }
 }
 
-/* Cultural sensitivity level backgrounds */
+/* Component styles */
 @layer components {
+  /* Bottom Navigation */
+  .bottom-nav {
+    @apply fixed bottom-0 left-0 right-0 z-50 glass border-t border-border;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .bottom-nav-item {
+    @apply flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl transition-all duration-200;
+    @apply text-muted-foreground hover:text-foreground;
+    @apply touch-target haptic;
+  }
+
+  .bottom-nav-item.active {
+    @apply text-primary bg-primary/10;
+  }
+
+  .bottom-nav-item-icon {
+    @apply w-6 h-6;
+  }
+
+  .bottom-nav-item-label {
+    @apply text-xs font-medium;
+  }
+
+  /* Floating Action Button */
+  .fab {
+    @apply fixed z-50 rounded-full shadow-lg press-effect;
+    @apply bg-primary text-primary-foreground;
+    @apply touch-target-lg flex items-center justify-center;
+    right: 1rem;
+    bottom: calc(var(--bottom-nav-height) + 1rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .fab-extended {
+    @apply px-6 gap-2;
+  }
+
+  /* Mobile Card */
+  .mobile-card {
+    @apply bg-card rounded-2xl shadow-soft p-4 border border-border/50;
+    @apply transition-all duration-200 active:shadow-soft-lg active:scale-[0.99];
+  }
+
+  /* Cultural sensitivity badges */
   .cultural-standard {
-    @apply bg-earth-50 border-earth-200 text-earth-700;
+    @apply bg-secondary border-border text-secondary-foreground;
   }
 
   .cultural-sensitive {
-    @apply bg-amber-50 border-amber-200 text-amber-800;
+    @apply bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-200;
   }
 
   .cultural-high {
-    @apply bg-orange-50 border-orange-200 text-orange-800;
+    @apply bg-orange-50 dark:bg-orange-950/30 border-orange-200 dark:border-orange-800 text-orange-800 dark:text-orange-200;
   }
 
   .cultural-sacred {
-    @apply bg-red-50 border-red-200 text-red-800;
+    @apply bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800 text-red-800 dark:text-red-200;
   }
 
-  /* Elder/verified badge style */
+  /* Elder badge */
   .badge-elder {
-    @apply bg-sage-100 text-sage-700 border border-sage-300;
+    @apply bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800;
   }
 
-  /* Story card cultural shadow */
-  .shadow-cultural {
-    box-shadow: 0 4px 6px -1px rgba(107, 90, 74, 0.1),
-                0 2px 4px -2px rgba(107, 90, 74, 0.1);
+  /* Hero section mobile-first */
+  .hero-mobile {
+    @apply min-h-[85vh] flex flex-col justify-center px-4 py-8;
+    @apply md:min-h-[70vh] md:px-8;
   }
 
-  /* Soft card shadow */
-  .shadow-soft {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  /* Section spacing mobile-first */
+  .section-mobile {
+    @apply py-12 px-4;
+    @apply md:py-16 md:px-8;
+    @apply lg:py-24;
+  }
+
+  /* Input fields - larger for mobile */
+  .input-mobile {
+    @apply h-14 text-base rounded-xl px-4;
+    @apply md:h-12 md:text-sm;
+  }
+
+  /* Button sizes for mobile */
+  .btn-mobile {
+    @apply h-14 px-6 text-base font-semibold rounded-xl;
+    @apply md:h-11 md:px-5 md:text-sm;
+  }
+
+  .btn-mobile-lg {
+    @apply h-16 px-8 text-lg font-bold rounded-2xl;
+    @apply md:h-14 md:px-6 md:text-base;
   }
 }
 
-/* Animation utilities */
+/* Animations */
 @layer utilities {
   .animate-in {
-    animation: fade-in 0.2s ease-out;
+    animation: animate-in 0.2s ease-out;
   }
 
-  @keyframes fade-in {
+  .animate-fade-up {
+    animation: fade-up 0.4s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.2s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+
+  .animate-bounce-subtle {
+    animation: bounce-subtle 0.6s ease-out;
+  }
+
+  @keyframes animate-in {
     from {
       opacity: 0;
       transform: translateY(-4px);
@@ -219,5 +384,60 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bounce-subtle {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+}
+
+/* Print styles */
+@media print {
+  .bottom-nav,
+  .fab,
+  header {
+    display: none !important;
+  }
+
+  body {
+    padding: 0 !important;
   }
 }
