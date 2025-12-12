@@ -10,47 +10,76 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Primary Brand Colors - Warm Earth Tones
-        earth: {
-          50: '#fefefe',
-          100: '#f7f5f3',
-          200: '#e6ddd6',
-          300: '#d4c4b9',
-          400: '#c1aa9c',
-          500: '#a8927e',
-          600: '#8f7961',
-          700: '#6b5a4a',
-          800: '#4a3f33',
-          900: '#2c241c',
-          950: '#1a1511',
+        // ========================================
+        // EMPATHY LEDGER - "Editorial Warmth" Design System
+        // Inspired by: Haus of Words, NITV, Charity: Water
+        // ========================================
+
+        // Ink - Rich blacks for depth and sophistication
+        ink: {
+          50: '#f7f7f7',
+          100: '#e3e3e3',
+          200: '#c8c8c8',
+          300: '#a4a4a4',
+          400: '#818181',
+          500: '#666666',
+          600: '#515151',
+          700: '#434343',
+          800: '#383838',
+          900: '#1a1a1a',  // Primary black
+          950: '#0d0d0d',
         },
-        // Secondary - Clay Tones
-        clay: {
-          50: '#fdf8f6',
-          100: '#f2e8e0',
-          200: '#e3d1c5',
-          300: '#d3b9aa',
-          400: '#c1a08f',
-          500: '#a8866e',
-          600: '#8f6d54',
-          700: '#75583f',
-          800: '#5c442b',
-          900: '#3d2d1c',
-          950: '#2a1f12',
+        // Cream - Warm whites for backgrounds
+        cream: {
+          50: '#ffffff',
+          100: '#fdfcfb',
+          200: '#faf8f5',  // Primary background
+          300: '#f5f2ed',
+          400: '#ebe5dc',
+          500: '#ddd4c7',
+          600: '#c4b8a8',
+          700: '#a89a86',
+          800: '#8a7d6b',
+          900: '#6e6455',
         },
-        // Accent - Sage Green
-        sage: {
-          50: '#f7f8f6',
-          100: '#e8ebe5',
-          200: '#d2d7ca',
-          300: '#b7c2ae',
-          400: '#9cad92',
-          500: '#7e9774',
-          600: '#67805c',
-          700: '#526946',
-          800: '#3e5131',
-          900: '#2a3620',
-          950: '#1d2416',
+        // Sunshine - Yellow accent for energy and optimism
+        sunshine: {
+          50: '#fffef5',
+          100: '#fffbe6',
+          200: '#fff5c2',
+          300: '#ffed8a',
+          400: '#ffda48',  // Primary accent
+          500: '#f5c800',
+          600: '#d4a300',
+          700: '#a87a00',
+          800: '#7a5800',
+          900: '#4d3700',
+        },
+        // Terracotta - Warm earth accent
+        terracotta: {
+          50: '#fdf6f4',
+          100: '#faeae6',
+          200: '#f5d4cc',
+          300: '#e8b5a6',
+          400: '#d88f7a',
+          500: '#c4634f',  // Primary terracotta
+          600: '#a84d3a',
+          700: '#8a3d2e',
+          800: '#6e3125',
+          900: '#4a211a',
+        },
+        // Stone - Warm grays for muted elements
+        stone: {
+          50: '#faf9f8',
+          100: '#f2f0ed',
+          200: '#e6e2dd',
+          300: '#d4cec6',
+          400: '#b8b0a5',
+          500: '#9a938a',  // Primary muted
+          600: '#7d776e',
+          700: '#635e57',
+          800: '#4a4641',
+          900: '#2c2420',  // Deep brown text
         },
         // Design System Colors
         border: 'hsl(var(--border))',
@@ -109,6 +138,17 @@ const config: Config = {
           900: '#18181b',
         },
       },
+      // Playful rotations for editorial feel
+      rotate: {
+        '-4': '-4deg',
+        '-3': '-3deg',
+        '-2': '-2deg',
+        '-1': '-1deg',
+        '1': '1deg',
+        '2': '2deg',
+        '3': '3deg',
+        '4': '4deg',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -116,6 +156,8 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-fraunces)', 'Fraunces', 'Georgia', 'Cambria', 'Times New Roman', 'serif'],
+        display: ['var(--font-fraunces)', 'Fraunces', 'Georgia', 'serif'],
       },
       fontSize: {
         // Display sizes

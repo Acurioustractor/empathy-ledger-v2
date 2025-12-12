@@ -25,35 +25,35 @@ import Footer from '@/components/layout/footer'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/lib/context/auth.context'
 
-// Feature cards data
+// Feature cards data - Using Editorial Warmth palette
 const features = [
   {
     icon: BookOpen,
     title: "Share Your Story",
     description: "Record personal memories, family histories, and life experiences.",
-    color: "text-amber-600 dark:text-amber-400",
-    bgColor: "bg-amber-50 dark:bg-amber-950/30"
+    color: "text-terracotta-600 dark:text-terracotta-400",
+    bgColor: "bg-terracotta-50 dark:bg-terracotta-950/30"
   },
   {
     icon: Users,
     title: "Build Community",
     description: "Connect with storytellers sharing unique perspectives.",
-    color: "text-emerald-600 dark:text-emerald-400",
-    bgColor: "bg-emerald-50 dark:bg-emerald-950/30"
+    color: "text-ink-700 dark:text-cream-300",
+    bgColor: "bg-cream-300 dark:bg-ink-800"
   },
   {
     icon: Shield,
     title: "Stay Protected",
     description: "Control your privacy with flexible sharing options.",
-    color: "text-blue-600 dark:text-blue-400",
-    bgColor: "bg-blue-50 dark:bg-blue-950/30"
+    color: "text-stone-700 dark:text-stone-300",
+    bgColor: "bg-stone-100 dark:bg-stone-800/30"
   },
   {
     icon: Globe,
     title: "Cultural Respect",
     description: "Built with Indigenous protocols and OCAP principles.",
-    color: "text-purple-600 dark:text-purple-400",
-    bgColor: "bg-purple-50 dark:bg-purple-950/30"
+    color: "text-sunshine-700 dark:text-sunshine-400",
+    bgColor: "bg-sunshine-50 dark:bg-sunshine-900/30"
   }
 ]
 
@@ -140,22 +140,23 @@ export default function Home() {
 
               {/* Content */}
               <div className="space-y-6 md:space-y-8">
-                {/* Badge */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium animate-fade-up">
+                {/* Badge - Sunshine yellow accent */}
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sunshine-400 text-ink-900 text-sm font-medium animate-fade-up shadow-sm">
                   <Sparkles className="w-4 h-4" />
                   <span>Every Story Matters</span>
                 </div>
 
-                {/* Headline - Large and bold for mobile */}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight animate-fade-up" style={{ animationDelay: '0.1s' }}>
+                {/* Headline - Editorial serif typography */}
+                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight animate-fade-up" style={{ animationDelay: '0.1s' }}>
                   Share Your Story,{' '}
-                  <span className="text-primary">
-                    Preserve Your Voice
+                  <span className="relative">
+                    <span className="relative z-10">Preserve Your Voice</span>
+                    <span className="absolute bottom-2 left-0 w-full h-3 bg-sunshine-400/40 -z-0" />
                   </span>
                 </h1>
 
                 {/* Subheadline */}
-                <p className="text-lg md:text-xl text-muted-foreground max-w-md mx-auto md:mx-0 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+                <p className="text-lg md:text-xl text-stone-600 dark:text-stone-400 max-w-md mx-auto md:mx-0 animate-fade-up" style={{ animationDelay: '0.2s' }}>
                   A welcoming space for personal memories, family histories, and cultural traditions.
                 </p>
 
@@ -164,7 +165,7 @@ export default function Home() {
                   <Button
                     size="lg"
                     asChild
-                    className="btn-mobile-lg w-full sm:w-auto press-effect bg-primary hover:bg-primary/90"
+                    className="btn-mobile-lg w-full sm:w-auto press-effect bg-ink-900 hover:bg-ink-800 text-cream-100"
                   >
                     <Link href="/capture" className="flex items-center justify-center gap-3">
                       <Mic className="w-5 h-5" />
@@ -175,7 +176,7 @@ export default function Home() {
                     variant="outline"
                     size="lg"
                     asChild
-                    className="btn-mobile w-full sm:w-auto press-effect"
+                    className="btn-mobile w-full sm:w-auto press-effect border-ink-900 text-ink-900 hover:bg-ink-900 hover:text-cream-100"
                   >
                     <Link href="/stories" className="flex items-center justify-center gap-2">
                       <Play className="w-4 h-4" />
@@ -185,13 +186,13 @@ export default function Home() {
                 </div>
 
                 {/* Stats - Horizontal scroll on mobile */}
-                <div className="flex justify-center md:justify-start gap-8 pt-6 border-t border-border/50 animate-fade-up" style={{ animationDelay: '0.4s' }}>
+                <div className="flex justify-center md:justify-start gap-8 pt-6 border-t border-stone-200 dark:border-stone-800 animate-fade-up" style={{ animationDelay: '0.4s' }}>
                   {stats.map((stat, index) => (
                     <div key={index} className="text-center">
-                      <div className="text-2xl md:text-3xl font-bold text-primary">
+                      <div className="text-2xl md:text-3xl font-display font-bold text-ink-900 dark:text-cream-100">
                         {stat.number}
                       </div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-sm text-stone-500">
                         {stat.label}
                       </div>
                     </div>
@@ -283,13 +284,13 @@ export default function Home() {
           <div className="container mx-auto max-w-lg md:max-w-4xl lg:max-w-6xl">
             {/* Section header */}
             <div className="text-center mb-8 md:mb-12">
-              <Badge variant="outline" className="mb-4">
+              <Badge variant="outline" className="mb-4 border-sunshine-400 text-sunshine-700 dark:text-sunshine-400">
                 Why Empathy Ledger
               </Badge>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
-                Built for Everyone's Stories
+              <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
+                Built for Everyone&apos;s Stories
               </h2>
-              <p className="text-muted-foreground mt-3 max-w-lg mx-auto">
+              <p className="text-stone-600 dark:text-stone-400 mt-3 max-w-lg mx-auto">
                 From casual sharing to cultural preservation, with respect at the core.
               </p>
             </div>
@@ -320,27 +321,27 @@ export default function Home() {
         </section>
 
         {/* Trust Section */}
-        <section className="section-mobile bg-secondary/30">
+        <section className="section-mobile bg-cream-300 dark:bg-ink-800">
           <div className="container mx-auto max-w-lg md:max-w-2xl text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6">
-              <Lock className="w-8 h-8 text-primary" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sunshine-400 mb-6">
+              <Lock className="w-8 h-8 text-ink-900" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4">
               Your Stories, Your Control
             </h2>
-            <p className="text-muted-foreground mb-8">
+            <p className="text-stone-600 dark:text-stone-400 mb-8">
               We believe in consent-first storytelling. You decide who sees your stories,
-              when they're shared, and how they're used. Built with Indigenous data
+              when they&apos;re shared, and how they&apos;re used. Built with Indigenous data
               sovereignty principles at the core.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild className="btn-mobile press-effect">
+              <Button asChild className="btn-mobile press-effect bg-ink-900 hover:bg-ink-800 text-cream-100">
                 <Link href="/how-it-works">
                   Learn How It Works
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </Button>
-              <Button variant="outline" asChild className="btn-mobile press-effect">
+              <Button variant="outline" asChild className="btn-mobile press-effect border-ink-900 text-ink-900 hover:bg-ink-900 hover:text-cream-100">
                 <Link href="/guidelines">
                   View Guidelines
                 </Link>
@@ -352,17 +353,17 @@ export default function Home() {
         {/* Final CTA - Strong call to action */}
         <section className="section-mobile">
           <div className="container mx-auto max-w-lg">
-            <div className="mobile-card p-8 text-center bg-gradient-to-br from-primary/5 via-background to-accent/5 border-primary/20">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary mb-6">
-                <Heart className="w-8 h-8 text-primary-foreground" />
+            <div className="mobile-card p-8 text-center bg-ink-900 dark:bg-ink-800 border-ink-800">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sunshine-400 mb-6">
+                <Heart className="w-8 h-8 text-ink-900" />
               </div>
-              <h2 className="text-2xl font-bold text-foreground mb-3">
+              <h2 className="font-display text-2xl font-bold text-cream-100 mb-3">
                 Ready to Share Your Story?
               </h2>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-stone-400 mb-6">
                 Join hundreds of storytellers preserving their voices for future generations.
               </p>
-              <Button size="lg" asChild className="btn-mobile-lg w-full press-effect">
+              <Button size="lg" asChild className="btn-mobile-lg w-full press-effect bg-sunshine-400 hover:bg-sunshine-500 text-ink-900">
                 <Link href="/capture" className="flex items-center justify-center gap-2">
                   <Mic className="w-5 h-5" />
                   Start Capturing

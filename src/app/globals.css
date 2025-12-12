@@ -5,63 +5,64 @@
 @layer base {
   :root {
     /*
-     * Empathy Ledger 2025 Design System
-     * Mobile-first, warm earth tones for storytelling
+     * Empathy Ledger - "Editorial Warmth" Design System
+     * Inspired by: Haus of Words, NITV, Charity: Water
+     * Warm cream backgrounds, rich black text, sunshine yellow accents
      */
 
-    /* Background & Foreground - Warm whites */
-    --background: 30 20% 99%;
-    --foreground: 25 30% 12%;
+    /* Background & Foreground - Warm cream */
+    --background: 36 33% 97%;        /* cream-200: #faf8f5 */
+    --foreground: 24 16% 15%;        /* stone-900: #2c2420 */
 
     /* Card surfaces - Pure white for contrast */
     --card: 0 0% 100%;
-    --card-foreground: 25 30% 12%;
+    --card-foreground: 24 16% 15%;
 
     /* Popover surfaces */
     --popover: 0 0% 100%;
-    --popover-foreground: 25 30% 12%;
+    --popover-foreground: 24 16% 15%;
 
-    /* Primary - Warm Earth Brown */
-    --primary: 25 35% 40%;
-    --primary-foreground: 30 20% 98%;
+    /* Primary - Rich Black (editorial) */
+    --primary: 0 0% 10%;             /* ink-900: #1a1a1a */
+    --primary-foreground: 36 33% 97%;
 
-    /* Secondary - Light Earth */
-    --secondary: 30 20% 96%;
-    --secondary-foreground: 25 30% 25%;
+    /* Secondary - Warm cream */
+    --secondary: 36 25% 94%;         /* cream-300: #f5f2ed */
+    --secondary-foreground: 24 16% 15%;
 
-    /* Muted - Soft Earth */
-    --muted: 30 15% 92%;
-    --muted-foreground: 25 20% 45%;
+    /* Muted - Stone tones */
+    --muted: 30 12% 91%;             /* stone-200: #e6e2dd */
+    --muted-foreground: 27 8% 44%;   /* stone-500: #9a938a */
 
-    /* Accent - Sage Green for positive actions */
-    --accent: 120 20% 94%;
-    --accent-foreground: 120 25% 30%;
+    /* Accent - Sunshine Yellow for CTAs and energy */
+    --accent: 47 100% 64%;           /* sunshine-400: #ffda48 */
+    --accent-foreground: 0 0% 10%;   /* ink-900 */
 
-    /* Destructive - Warm Red */
-    --destructive: 0 72% 51%;
+    /* Destructive - Terracotta for errors/warnings */
+    --destructive: 11 52% 54%;       /* terracotta-500: #c4634f */
     --destructive-foreground: 0 0% 100%;
 
     /* Borders & Inputs */
-    --border: 30 15% 88%;
-    --input: 30 15% 88%;
-    --ring: 25 35% 40%;
+    --border: 33 18% 87%;            /* cream-400: #ebe5dc */
+    --input: 33 18% 87%;
+    --ring: 47 100% 64%;             /* sunshine-400 for focus */
 
-    /* Radius - Larger for mobile touch targets */
+    /* Radius - Larger for friendly feel */
     --radius: 0.75rem;
 
-    /* Success - Sage Green */
+    /* Success - Terracotta (warm success) */
     --success: 142 50% 40%;
     --success-foreground: 142 20% 98%;
 
-    /* Warning - Warm Amber */
-    --warning: 38 92% 50%;
-    --warning-foreground: 25 30% 12%;
+    /* Warning - Sunshine darker */
+    --warning: 47 100% 48%;          /* sunshine-500 */
+    --warning-foreground: 0 0% 10%;
 
     /* Cultural Sensitivity Levels */
-    --cultural-standard: 30 20% 96%;
-    --cultural-sensitive: 38 92% 50%;
-    --cultural-high: 25 95% 53%;
-    --cultural-sacred: 0 72% 51%;
+    --cultural-standard: 36 25% 94%;
+    --cultural-sensitive: 47 100% 64%;
+    --cultural-high: 25 68% 54%;
+    --cultural-sacred: 11 52% 54%;
 
     /* Mobile-first spacing */
     --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -70,48 +71,48 @@
   }
 
   .dark {
-    /* Dark mode - Deep earth tones */
-    --background: 25 25% 7%;
-    --foreground: 30 15% 92%;
+    /* Dark mode - Rich ink with warm accents */
+    --background: 0 0% 7%;           /* ink-950 area */
+    --foreground: 36 25% 94%;        /* cream-300 */
 
-    --card: 25 25% 10%;
-    --card-foreground: 30 15% 92%;
+    --card: 0 0% 10%;                /* ink-900 */
+    --card-foreground: 36 25% 94%;
 
-    --popover: 25 25% 10%;
-    --popover-foreground: 30 15% 92%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 36 25% 94%;
 
-    /* Primary - Lighter earth for dark mode */
-    --primary: 25 30% 60%;
-    --primary-foreground: 25 25% 7%;
+    /* Primary - Cream for dark mode */
+    --primary: 36 33% 97%;           /* cream-200 */
+    --primary-foreground: 0 0% 7%;
 
     /* Secondary */
-    --secondary: 25 20% 18%;
-    --secondary-foreground: 30 15% 88%;
+    --secondary: 0 0% 14%;           /* ink-800 area */
+    --secondary-foreground: 36 20% 85%;
 
     /* Muted */
-    --muted: 25 20% 15%;
-    --muted-foreground: 30 15% 60%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 27 8% 60%;
 
-    /* Accent */
-    --accent: 120 15% 18%;
-    --accent-foreground: 120 20% 75%;
+    /* Accent - Sunshine Yellow (same in dark mode) */
+    --accent: 47 100% 64%;           /* sunshine-400 */
+    --accent-foreground: 0 0% 7%;
 
     /* Destructive */
-    --destructive: 0 63% 40%;
+    --destructive: 11 52% 45%;       /* terracotta darker */
     --destructive-foreground: 0 0% 100%;
 
     /* Borders & Inputs */
-    --border: 25 20% 18%;
-    --input: 25 20% 18%;
-    --ring: 25 30% 60%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 47 100% 64%;             /* sunshine-400 */
 
     /* Success */
     --success: 142 40% 45%;
-    --success-foreground: 25 25% 7%;
+    --success-foreground: 0 0% 7%;
 
     /* Warning */
-    --warning: 38 80% 55%;
-    --warning-foreground: 25 25% 7%;
+    --warning: 47 100% 55%;
+    --warning-foreground: 0 0% 7%;
   }
 }
 
@@ -202,6 +203,111 @@
   /* Glass morphism effect */
   .glass {
     @apply bg-white/80 dark:bg-black/50 backdrop-blur-lg;
+  }
+
+  /* Editorial typography utilities */
+  .headline {
+    @apply font-display font-bold tracking-tight;
+  }
+
+  .headline-editorial {
+    @apply font-display font-bold tracking-tight;
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+  }
+
+  /* Playful rotations for cards/images */
+  .rotate-playful {
+    @apply transition-transform duration-300;
+  }
+
+  .rotate-playful:hover {
+    @apply rotate-1;
+  }
+
+  .rotate-playful-reverse:hover {
+    @apply -rotate-1;
+  }
+
+  /* Accent highlight (like Haus of Words yellow) */
+  .accent-highlight {
+    @apply bg-sunshine-400 text-ink-900 px-2 py-0.5 rounded;
+  }
+
+  .accent-underline {
+    @apply relative;
+  }
+
+  .accent-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-1 bg-sunshine-400 -z-10;
+  }
+
+  /* Full-screen hero with text overlay (Sage East inspired) */
+  .hero-fullscreen {
+    @apply relative min-h-screen w-full overflow-hidden;
+  }
+
+  .hero-fullscreen-image {
+    @apply absolute inset-0 w-full h-full object-cover;
+  }
+
+  .hero-fullscreen-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-ink-900/80 via-ink-900/40 to-transparent;
+  }
+
+  .hero-fullscreen-content {
+    @apply relative z-10 flex flex-col justify-end min-h-screen p-6 md:p-12 lg:p-16;
+  }
+
+  /* Text blend mode for dramatic effect over images */
+  .text-blend-difference {
+    mix-blend-mode: difference;
+    @apply text-cream-100;
+  }
+
+  .text-blend-overlay {
+    mix-blend-mode: overlay;
+  }
+
+  /* Story card with full-bleed image */
+  .story-card-immersive {
+    @apply relative overflow-hidden rounded-2xl;
+    aspect-ratio: 3/4;
+  }
+
+  .story-card-immersive img {
+    @apply absolute inset-0 w-full h-full object-cover transition-transform duration-700;
+  }
+
+  .story-card-immersive:hover img {
+    @apply scale-105;
+  }
+
+  .story-card-immersive-content {
+    @apply absolute inset-0 flex flex-col justify-end p-6;
+    @apply bg-gradient-to-t from-ink-900/90 via-ink-900/40 to-transparent;
+  }
+
+  /* Editorial quote block */
+  .quote-editorial {
+    @apply relative pl-6 md:pl-8 border-l-4 border-sunshine-400;
+    @apply font-display text-2xl md:text-3xl lg:text-4xl italic;
+    @apply text-stone-800 dark:text-cream-200;
+  }
+
+  .quote-attribution {
+    @apply mt-4 text-base font-sans not-italic text-stone-500;
+  }
+
+  /* Fade mask for text edges */
+  .fade-mask-bottom {
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  }
+
+  .fade-mask-top {
+    mask-image: linear-gradient(to top, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, black 70%, transparent 100%);
   }
 
   /* Soft shadow for cards */
