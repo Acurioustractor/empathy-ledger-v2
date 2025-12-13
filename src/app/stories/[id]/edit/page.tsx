@@ -16,10 +16,10 @@ import { Switch } from '@/components/ui/switch'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import type { Story, StoryUpdate, Storyteller } from '@/types/database'
 import { cn } from '@/lib/utils'
-import { 
-  Save, 
-  Send, 
-  ArrowLeft, 
+import {
+  Save,
+  Send,
+  ArrowLeft,
   BookOpen,
   Shield,
   Crown,
@@ -27,9 +27,15 @@ import {
   Info,
   Trash2,
   Eye,
-  Loader2
+  Loader2,
+  Image,
+  Video,
+  Music,
+  FileText,
+  Plus
 } from 'lucide-react'
 import Link from 'next/link'
+import { AddMediaToStory } from '@/components/stories/AddMediaToStory'
 
 const STORY_TYPES = [
   { value: 'traditional', label: 'Traditional Story' },
@@ -105,6 +111,7 @@ export default function EditStoryPage({ params }: { params: { id: string } }) {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [showMediaPanel, setShowMediaPanel] = useState(false)
   const [formData, setFormData] = useState<FormData>({
     title: '',
     content: '',
@@ -483,6 +490,51 @@ export default function EditStoryPage({ params }: { params: { id: string } }) {
                 </div>
               </div>
             </div>
+          </Card>
+
+          {/* Media & Attachments */}
+          <Card className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <Typography variant="h3" className="flex items-center gap-2">
+                <Image className="h-5 w-5" />
+                Media & Attachments
+              </Typography>
+              <Button
+                type="button"
+                variant={showMediaPanel ? "secondary" : "outline"}
+                size="sm"
+                onClick={() => setShowMediaPanel(!showMediaPanel)}
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                {showMediaPanel ? 'Hide Uploader' : 'Add Media'}
+              </Button>
+            </div>
+
+            {showMediaPanel ? (
+              <AddMediaToStory
+                storyId={params.id}
+                storyTitle={story?.title}
+                onMediaAdded={() => {
+                  // Optionally refresh or show success
+                }}
+                onClose={() => setShowMediaPanel(false)}
+              />
+            ) : (
+              <div className="text-center py-8 text-muted-foreground border-2 border-dashed rounded-lg">
+                <div className="flex justify-center gap-4 mb-3">
+                  <Video className="h-8 w-8 opacity-50" />
+                  <Music className="h-8 w-8 opacity-50" />
+                  <Image className="h-8 w-8 opacity-50" />
+                  <FileText className="h-8 w-8 opacity-50" />
+                </div>
+                <p className="text-sm">
+                  Add videos, audio recordings, photos, or transcript files
+                </p>
+                <p className="text-xs mt-1">
+                  Click "Add Media" to upload files or attach existing media
+                </p>
+              </div>
+            )}
           </Card>
 
           {/* Cultural Information */}
