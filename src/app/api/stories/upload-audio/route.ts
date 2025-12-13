@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
       // Verify user has access to this story
       const { data: story, error: storyError } = await supabase
         .from('stories')
-        .select('id, author_id, organization_id')
+        .select('id, author_id, storyteller_id, organization_id')
         .eq('id', storyId)
         .single()
 
@@ -100,13 +100,19 @@ export async function POST(request: NextRequest) {
         console.error('Story not found:', storyError)
         // Still return success - audio uploaded, just not linked
       } else {
+        // Get storyteller info from story
+        const storytellerId = story.storyteller_id || story.author_id || user.id
+
         // Create transcript record for transcription processing
         const { data: transcript, error: transcriptError } = await supabase
           .from('transcripts')
           .insert({
             story_id: storyId,
+            storyteller_id: storytellerId,
+            title: `Recording for story ${storyId.slice(0, 8)}`,
             audio_url: audioUrl,
-            duration_seconds: duration,
+            duration: duration, // Use 'duration' to match schema
+            duration_seconds: duration, // Also set duration_seconds for new column
             status: 'pending', // Will be processed by transcription service
             created_by: user.id,
             organization_id: story.organization_id

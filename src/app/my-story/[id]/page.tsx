@@ -53,9 +53,11 @@ interface StoryData {
 
 interface TranscriptData {
   id: string
-  content: string
+  content: string | null
+  transcript_text: string | null
   status: 'pending' | 'processing' | 'completed' | 'failed'
   audio_url?: string
+  duration?: number
   duration_seconds?: number
   created_at: string
 }
@@ -419,9 +421,9 @@ export default function MyStoryPage({ params }: { params: Promise<{ id: string }
                             </Button>
                             <div className="flex-1">
                               <p className="text-sm font-medium">Audio Recording</p>
-                              {transcript.duration_seconds && (
+                              {(transcript.duration_seconds || transcript.duration) && (
                                 <p className="text-xs text-stone-500">
-                                  {formatDuration(transcript.duration_seconds)}
+                                  {formatDuration(transcript.duration_seconds || transcript.duration || 0)}
                                 </p>
                               )}
                             </div>
@@ -447,10 +449,10 @@ export default function MyStoryPage({ params }: { params: Promise<{ id: string }
                       )}
 
                       {/* Transcript Text */}
-                      {transcript.content && transcript.status === 'completed' && (
+                      {(transcript.content || transcript.transcript_text) && transcript.status === 'completed' && (
                         <div className="prose prose-stone dark:prose-invert max-w-none">
                           <p className="text-stone-700 dark:text-stone-300 whitespace-pre-wrap">
-                            {transcript.content}
+                            {transcript.content || transcript.transcript_text}
                           </p>
                         </div>
                       )}
