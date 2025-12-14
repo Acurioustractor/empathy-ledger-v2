@@ -109,6 +109,19 @@ export async function GET(request: NextRequest) {
 
     console.log(`Found ${mediaAssets?.length || 0} media assets`)
 
+    // Debug: Log first media asset's URL fields
+    if (mediaAssets && mediaAssets.length > 0) {
+      const sample = mediaAssets[0]
+      console.log('Sample media asset URL fields:', {
+        id: sample.id,
+        cdn_url: sample.cdn_url,
+        public_url: sample.public_url,
+        storage_path: sample.storage_path,
+        thumbnail_url: sample.thumbnail_url,
+        storage_bucket: sample.storage_bucket
+      })
+    }
+
     // Get gallery associations for each media asset
     const { data: galleryAssociations, error: galleriesError } = await supabase
       .from('gallery_media_associations')
@@ -225,7 +238,7 @@ export async function GET(request: NextRequest) {
           mimeType: asset.file_type || 'application/octet-stream',
           width: asset.width || 0,
           height: asset.height || 0,
-          publicUrl: asset.cdn_url || (asset.storage_path ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/media/${asset.storage_path}` : ''),
+          publicUrl: asset.cdn_url || asset.public_url || (asset.storage_path ? `${process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://yvnuayzslukamizrlhwb.supabase.co'}/storage/v1/object/public/media/${asset.storage_path}` : ''),
           thumbnailUrl: asset.thumbnail_url || undefined,
           optimizedUrl: asset.medium_url || undefined,
           uploadedBy: asset.uploader_id,
