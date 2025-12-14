@@ -52,17 +52,10 @@ export async function POST(request: NextRequest) {
       fullVideoUrl
     })
 
-    // Validation
-    if (!projectId) {
+    // Validation - only transcript is truly required now
+    if (!transcriptText) {
       return NextResponse.json(
-        { error: 'Missing required field: project_id' },
-        { status: 400 }
-      )
-    }
-
-    if (!transcriptText && !videoUrl) {
-      return NextResponse.json(
-        { error: 'Either transcript_text or video_url is required' },
+        { error: 'Transcript text is required' },
         { status: 400 }
       )
     }
@@ -81,11 +74,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Get tenant_id from organization if provided
+    // Get tenant_id from organization if provided, or use default community tenant
     let tenantId: string | null = null
     if (organizationId) {
       const { data: org, error: orgError } = await supabase
-        .from('organizations')
+        .from('organisations')
         .select('tenant_id')
         .eq('id', organizationId)
         .single()
@@ -95,17 +88,40 @@ export async function POST(request: NextRequest) {
         console.log(`✅ Found tenant_id: ${tenantId} for organization: ${organizationId}`)
       } else {
         console.error('Error fetching organization tenant_id:', orgError)
-        return NextResponse.json(
-          { error: 'Failed to fetch organization details. Organization may not exist.' },
-          { status: 400 }
-        )
+        // Continue without tenant_id - this is now optional
       }
-    } else {
-      // If no organization provided, we cannot proceed as tenant_id is required
-      return NextResponse.json(
-        { error: 'Organization is required to create a storyteller' },
-        { status: 400 }
-      )
+    }
+
+    // If no tenant_id, try to get the default/community tenant
+    if (!tenantId) {
+      const { data: defaultTenant } = await supabase
+        .from('tenants')
+        .select('id')
+        .or('slug.eq.community,slug.eq.default,is_default.eq.true')
+        .limit(1)
+        .single()
+
+      if (defaultTenant) {
+        tenantId = defaultTenant.id
+        console.log(`✅ Using default tenant: ${tenantId}`)
+      } else {
+        // Get any tenant as fallback
+        const { data: anyTenant } = await supabase
+          .from('tenants')
+          .select('id')
+          .limit(1)
+          .single()
+
+        if (anyTenant) {
+          tenantId = anyTenant.id
+          console.log(`✅ Using fallback tenant: ${tenantId}`)
+        } else {
+          return NextResponse.json(
+            { error: 'No tenant available. Please create a tenant first.' },
+            { status: 400 }
+          )
+        }
+      }
     }
 
     // Get or create storyteller
@@ -247,46 +263,53 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Link storyteller to project
-    const { error: projectLinkError } = await supabase
-      .from('project_storytellers')
-      .insert({
-        project_id: projectId,
-        storyteller_id: finalStorytellerId
-      })
+    // Link storyteller to project (if project provided)
+    if (projectId) {
+      const { error: projectLinkError } = await supabase
+        .from('project_storytellers')
+        .insert({
+          project_id: projectId,
+          storyteller_id: finalStorytellerId
+        })
 
-    if (projectLinkError && !projectLinkError.message.includes('duplicate')) {
-      console.error('Error linking to project:', projectLinkError)
-      // Don't fail - continue anyway
+      if (projectLinkError && !projectLinkError.message.includes('duplicate')) {
+        console.error('Error linking to project:', projectLinkError)
+        // Don't fail - continue anyway
+      } else {
+        console.log(`✅ Linked storyteller to project: ${projectId}`)
+      }
     } else {
-      console.log(`✅ Linked storyteller to project: ${projectId}`)
+      console.log('ℹ️ No project specified - storyteller added to community')
     }
 
     // Create transcript
     const autoTitle = transcriptTitle || `${storytellerName || 'Story'} - ${new Date().toLocaleDateString()}`
 
+    const transcriptData: any = {
+      title: autoTitle,
+      text: transcriptText,
+      transcript_content: transcriptText,
+      storyteller_id: finalStorytellerId,
+      tenant_id: tenantId,
+      word_count: transcriptText.split(/\s+/).length,
+      character_count: transcriptText.length,
+      status: 'pending',
+      metadata: {
+        type: 'quick_add',
+        created_via: 'admin_quick_add',
+        has_video: !!videoUrl
+      },
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }
+    // Add optional fields only if they have values
+    if (videoUrl) transcriptData.video_url = videoUrl
+    if (projectId) transcriptData.project_id = projectId
+    if (organizationId) transcriptData.organization_id = organizationId
+
     const { data: transcript, error: transcriptError } = await supabase
       .from('transcripts')
-      .insert({
-        title: autoTitle,
-        text: transcriptText,
-        transcript_content: transcriptText,
-        video_url: videoUrl,
-        storyteller_id: finalStorytellerId,
-        project_id: projectId,
-        organization_id: organizationId,
-        tenant_id: tenantId,
-        word_count: transcriptText.split(/\s+/).length,
-        character_count: transcriptText.length,
-        status: 'pending',
-        metadata: {
-          type: 'quick_add',
-          created_via: 'admin_quick_add',
-          has_video: !!videoUrl
-        },
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })
+      .insert(transcriptData)
       .select()
       .single()
 
@@ -301,20 +324,23 @@ export async function POST(request: NextRequest) {
     console.log(`✅ Created transcript: ${transcript.id}`)
 
     // Create story from transcript (optional - can be done later)
+    const storyData: any = {
+      title: autoTitle,
+      content: transcriptText,
+      storyteller_id: finalStorytellerId,
+      author_id: finalStorytellerId,
+      tenant_id: tenantId,
+      status: 'published',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }
+    // Add optional fields only if they have values
+    if (projectId) storyData.project_id = projectId
+    if (organizationId) storyData.organization_id = organizationId
+
     const { data: story, error: storyError } = await supabase
       .from('stories')
-      .insert({
-        title: autoTitle,
-        content: transcriptText,
-        storyteller_id: finalStorytellerId,
-        author_id: finalStorytellerId,
-        project_id: projectId,
-        organization_id: organizationId,
-        tenant_id: tenantId,
-        status: 'published',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })
+      .insert(storyData)
       .select()
       .single()
 

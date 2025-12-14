@@ -63,16 +63,11 @@ export default function QuickAddPage() {
     }
   }, [urlOrgId])
 
-  // Load storytellers and projects
+  // Load storytellers and projects (always load, org is optional)
   useEffect(() => {
-    if (effectiveOrgId) {
-      fetchStorytellers()
+    fetchStorytellers()
+    if (effectiveOrgId && effectiveOrgId !== 'all') {
       fetchProjects()
-
-      // Auto-select first project if only one exists and none selected
-      if (projects.length === 1 && !selectedProject) {
-        setSelectedProject(projects[0].id)
-      }
     }
   }, [effectiveOrgId])
 
@@ -91,9 +86,10 @@ export default function QuickAddPage() {
         sort: 'name'
       })
 
-      const url = effectiveOrgId === 'all'
-        ? `/api/admin/storytellers?${params}`
-        : `/api/admin/storytellers?organization_id=${effectiveOrgId}&${params}`
+      // Always fetch all storytellers (for existing storyteller selection)
+      const url = (effectiveOrgId && effectiveOrgId !== 'all')
+        ? `/api/admin/storytellers?organization_id=${effectiveOrgId}&${params}`
+        : `/api/admin/storytellers?${params}`
 
       const response = await fetch(url)
       if (!response.ok) throw new Error('Failed to fetch storytellers')
@@ -127,11 +123,7 @@ export default function QuickAddPage() {
   }
 
   const handleSubmit = async (saveAndAddAnother: boolean = false) => {
-    // Validation
-    if (!effectiveOrgId || effectiveOrgId === 'all') {
-      alert('⚠️ Please select an organization from the dropdown at the top of the page before adding a storyteller')
-      return
-    }
+    // Validation - only name and transcript are truly required
     if (storytellerMode === 'new' && !newStorytellerName.trim()) {
       alert('Please enter storyteller name')
       return
@@ -144,14 +136,9 @@ export default function QuickAddPage() {
       alert('Please paste the transcript')
       return
     }
-    if (!videoUrl.trim()) {
-      alert('Please paste the Descript video link')
-      return
-    }
-    if (!selectedProject) {
-      alert('Please select a project')
-      return
-    }
+    // Video URL is now optional
+    // Organization is now optional - storytellers can exist independently
+    // Project is now optional
 
     try {
       setSaving(true)
@@ -171,11 +158,11 @@ export default function QuickAddPage() {
 
       // Transcript data
       formData.append('transcript_text', transcriptText)
-      formData.append('video_url', videoUrl)
+      if (videoUrl) formData.append('video_url', videoUrl)
       if (transcriptTitle) formData.append('transcript_title', transcriptTitle)
 
-      // Project
-      formData.append('project_id', selectedProject)
+      // Project (optional)
+      if (selectedProject) formData.append('project_id', selectedProject)
 
       // Organization (if specific org selected)
       if (effectiveOrgId !== 'all') {
@@ -304,12 +291,12 @@ export default function QuickAddPage() {
         )}
 
         {(!effectiveOrgId || effectiveOrgId === 'all') && (
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-            <p className="text-sm text-amber-800">
-              <strong>⚠️ No organization selected</strong>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <p className="text-sm text-blue-800">
+              <strong>Adding as Community Storyteller</strong>
             </p>
-            <p className="text-xs text-amber-600 mt-1">
-              Please select an organization from the dropdown at the top to continue
+            <p className="text-xs text-blue-600 mt-1">
+              This storyteller will be added to the community. You can optionally link them to an organization later.
             </p>
           </div>
         )}
@@ -450,23 +437,22 @@ export default function QuickAddPage() {
           </CardContent>
         </Card>
 
-        {/* 3. Video Section */}
+        {/* 3. Video Section (Optional) */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Video className="w-5 h-5" />
-              3. Descript Video Link (Required)
+              3. Descript Video Link (Optional)
             </CardTitle>
-            <CardDescription>Paste the share link from Descript</CardDescription>
+            <CardDescription>Paste the share link from Descript if you have one</CardDescription>
           </CardHeader>
           <CardContent>
-            <Label htmlFor="video">Video URL *</Label>
+            <Label htmlFor="video">Video URL</Label>
             <Input
               id="video"
               value={videoUrl}
               onChange={(e) => setVideoUrl(e.target.value)}
               placeholder="https://share.descript.com/view/..."
-              required
             />
             {videoUrl && (
               <div className="mt-2 text-sm">
@@ -475,8 +461,8 @@ export default function QuickAddPage() {
                     ✓ Valid Descript link
                   </Badge>
                 ) : (
-                  <Badge variant="destructive">
-                    ⚠ Not a Descript link - are you sure?
+                  <Badge variant="secondary">
+                    Other video link detected
                   </Badge>
                 )}
               </div>
@@ -484,30 +470,34 @@ export default function QuickAddPage() {
           </CardContent>
         </Card>
 
-        {/* 4. Project Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FolderOpen className="w-5 h-5" />
-              4. Project (Required)
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Label htmlFor="project">Select Project *</Label>
-            <Select value={selectedProject} onValueChange={setSelectedProject} required>
-              <SelectTrigger>
-                <SelectValue placeholder="Choose a project..." />
-              </SelectTrigger>
-              <SelectContent>
-                {projects.map((project) => (
-                  <SelectItem key={project.id} value={project.id}>
-                    {project.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </CardContent>
-        </Card>
+        {/* 4. Project Section (Optional - only show if org selected) */}
+        {effectiveOrgId && effectiveOrgId !== 'all' && projects.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FolderOpen className="w-5 h-5" />
+                4. Project (Optional)
+              </CardTitle>
+              <CardDescription>Link this story to a specific project</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Label htmlFor="project">Select Project</Label>
+              <Select value={selectedProject} onValueChange={setSelectedProject}>
+                <SelectTrigger>
+                  <SelectValue placeholder="No project (community story)" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">No project (community story)</SelectItem>
+                  {projects.map((project) => (
+                    <SelectItem key={project.id} value={project.id}>
+                      {project.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </CardContent>
+          </Card>
+        )}
 
         {/* 5. Optional Details */}
         <Card>
