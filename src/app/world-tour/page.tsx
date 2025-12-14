@@ -1,7 +1,5 @@
 'use client'
 
-export const dynamic = 'force-dynamic'
-
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
@@ -23,7 +21,12 @@ import { DreamOrganizations } from './components/DreamOrganizations'
 import { DreamStoryTypes } from './components/DreamStoryTypes'
 
 // Story types we're seeking
-const storyTypes = [
+const storyTypes: Array<{
+  icon: typeof UserCircle
+  title: string
+  description: string
+  color: 'clay' | 'sage' | 'sky'
+}> = [
   {
     icon: UserCircle,
     title: "Elder Wisdom",
