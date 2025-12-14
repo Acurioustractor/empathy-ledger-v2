@@ -2,9 +2,9 @@
 
 export const dynamic = 'force-dynamic'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ArrowLeft, User, FileText, Video, FolderOpen, Upload, Plus, X } from 'lucide-react'
+import { ArrowLeft, User, FileText, Video, FolderOpen, Upload, Plus, X, Check, ChevronsUpDown, Search } from 'lucide-react'
 import { useOrganizationContext } from '@/lib/contexts/OrganizationContext'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -14,6 +14,9 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { cn } from '@/lib/utils'
 
 export default function QuickAddPage() {
   const router = useRouter()
@@ -51,6 +54,29 @@ export default function QuickAddPage() {
   const [projects, setProjects] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
+
+  // Combobox state for storyteller search
+  const [storytellerSearchOpen, setStorytellerSearchOpen] = useState(false)
+  const [storytellerSearch, setStorytellerSearch] = useState('')
+
+  // Get selected storyteller name for display
+  const selectedStorytellerName = useMemo(() => {
+    if (!selectedStoryteller) return ''
+    const st = storytellers.find(s => s.id === selectedStoryteller)
+    return st?.display_name || st?.full_name || st?.email || ''
+  }, [selectedStoryteller, storytellers])
+
+  // Filter storytellers based on search
+  const filteredStorytellers = useMemo(() => {
+    if (!storytellerSearch) return storytellers
+    const search = storytellerSearch.toLowerCase()
+    return storytellers.filter(st => {
+      const name = (st.display_name || st.full_name || '').toLowerCase()
+      const email = (st.email || '').toLowerCase()
+      const location = (st.location || '').toLowerCase()
+      return name.includes(search) || email.includes(search) || location.includes(search)
+    })
+  }, [storytellers, storytellerSearch])
 
   // Success state
   const [success, setSuccess] = useState(false)
@@ -322,20 +348,115 @@ export default function QuickAddPage() {
             </RadioGroup>
 
             {storytellerMode === 'existing' ? (
-              <div>
-                <Label>Select Storyteller</Label>
-                <Select value={selectedStoryteller} onValueChange={setSelectedStoryteller}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choose a storyteller..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {storytellers.map((st) => (
-                      <SelectItem key={st.id} value={st.id}>
-                        {st.display_name || st.full_name || st.email}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="space-y-2">
+                <Label>Search & Select Storyteller</Label>
+                <Popover open={storytellerSearchOpen} onOpenChange={setStorytellerSearchOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={storytellerSearchOpen}
+                      className="w-full justify-between h-11 text-left font-normal"
+                    >
+                      {selectedStoryteller ? (
+                        <span className="flex items-center gap-2">
+                          <User className="w-4 h-4 text-muted-foreground" />
+                          {selectedStorytellerName}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground">Search storytellers...</span>
+                      )}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[400px] p-0" align="start">
+                    <Command shouldFilter={false}>
+                      <CommandInput
+                        placeholder="Type to search by name, email, or location..."
+                        value={storytellerSearch}
+                        onValueChange={setStorytellerSearch}
+                      />
+                      <CommandList className="max-h-[300px]">
+                        <CommandEmpty>
+                          {storytellerSearch ? (
+                            <div className="py-6 text-center">
+                              <p className="text-sm text-muted-foreground">No storytellers found for "{storytellerSearch}"</p>
+                              <Button
+                                variant="link"
+                                className="mt-2"
+                                onClick={() => {
+                                  setStorytellerMode('new')
+                                  setNewStorytellerName(storytellerSearch)
+                                  setStorytellerSearchOpen(false)
+                                }}
+                              >
+                                + Create new storyteller "{storytellerSearch}"
+                              </Button>
+                            </div>
+                          ) : (
+                            <p className="py-6 text-center text-sm text-muted-foreground">Start typing to search...</p>
+                          )}
+                        </CommandEmpty>
+                        <CommandGroup heading={`${filteredStorytellers.length} storyteller${filteredStorytellers.length === 1 ? '' : 's'}`}>
+                          {filteredStorytellers.slice(0, 50).map((st) => (
+                            <CommandItem
+                              key={st.id}
+                              value={st.id}
+                              onSelect={() => {
+                                setSelectedStoryteller(st.id)
+                                setStorytellerSearchOpen(false)
+                                setStorytellerSearch('')
+                              }}
+                              className="flex items-center gap-3 py-3"
+                            >
+                              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                <span className="text-sm font-medium text-primary">
+                                  {(st.display_name || st.full_name || 'S').charAt(0).toUpperCase()}
+                                </span>
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="font-medium truncate">
+                                  {st.display_name || st.full_name || 'Unnamed'}
+                                </p>
+                                <p className="text-xs text-muted-foreground truncate">
+                                  {st.email || st.location || 'No details'}
+                                </p>
+                              </div>
+                              <Check
+                                className={cn(
+                                  "h-4 w-4 flex-shrink-0",
+                                  selectedStoryteller === st.id ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
+                          {filteredStorytellers.length > 50 && (
+                            <p className="py-2 px-3 text-xs text-muted-foreground text-center">
+                              Showing first 50 results. Type to narrow search.
+                            </p>
+                          )}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                {selectedStoryteller && (
+                  <div className="flex items-center gap-2 mt-2">
+                    <Badge variant="secondary" className="gap-1">
+                      <User className="w-3 h-3" />
+                      {selectedStorytellerName}
+                    </Badge>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 px-2 text-xs"
+                      onClick={() => setSelectedStoryteller('')}
+                    >
+                      <X className="w-3 h-3 mr-1" /> Clear
+                    </Button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="space-y-3">
