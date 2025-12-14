@@ -14,7 +14,6 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 
@@ -370,74 +369,98 @@ export default function QuickAddPage() {
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[400px] p-0" align="start">
-                    <Command shouldFilter={false}>
-                      <CommandInput
-                        placeholder="Type to search by name, email, or location..."
-                        value={storytellerSearch}
-                        onValueChange={setStorytellerSearch}
-                      />
-                      <CommandList className="max-h-[300px]">
-                        <CommandEmpty>
-                          {storytellerSearch ? (
-                            <div className="py-6 text-center">
-                              <p className="text-sm text-muted-foreground">No storytellers found for "{storytellerSearch}"</p>
-                              <Button
-                                variant="link"
-                                className="mt-2"
-                                onClick={() => {
-                                  setStorytellerMode('new')
-                                  setNewStorytellerName(storytellerSearch)
-                                  setStorytellerSearchOpen(false)
-                                }}
-                              >
-                                + Create new storyteller "{storytellerSearch}"
-                              </Button>
+                    <div className="flex flex-col">
+                      {/* Search input */}
+                      <div className="flex items-center border-b px-3 py-2">
+                        <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+                        <input
+                          type="text"
+                          placeholder="Type to search by name, email, or location..."
+                          value={storytellerSearch}
+                          onChange={(e) => setStorytellerSearch(e.target.value)}
+                          className="flex h-9 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                          autoFocus
+                        />
+                        {storytellerSearch && (
+                          <button
+                            type="button"
+                            onClick={() => setStorytellerSearch('')}
+                            className="ml-2 p-1 hover:bg-muted rounded"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Results list */}
+                      <div className="max-h-[300px] overflow-y-auto">
+                        {filteredStorytellers.length === 0 ? (
+                          <div className="py-6 text-center">
+                            {storytellerSearch ? (
+                              <>
+                                <p className="text-sm text-muted-foreground">No storytellers found for "{storytellerSearch}"</p>
+                                <Button
+                                  variant="link"
+                                  className="mt-2"
+                                  onClick={() => {
+                                    setStorytellerMode('new')
+                                    setNewStorytellerName(storytellerSearch)
+                                    setStorytellerSearchOpen(false)
+                                  }}
+                                >
+                                  + Create new storyteller "{storytellerSearch}"
+                                </Button>
+                              </>
+                            ) : (
+                              <p className="text-sm text-muted-foreground">No storytellers available</p>
+                            )}
+                          </div>
+                        ) : (
+                          <>
+                            <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
+                              {filteredStorytellers.length} storyteller{filteredStorytellers.length === 1 ? '' : 's'}
                             </div>
-                          ) : (
-                            <p className="py-6 text-center text-sm text-muted-foreground">Start typing to search...</p>
-                          )}
-                        </CommandEmpty>
-                        <CommandGroup heading={`${filteredStorytellers.length} storyteller${filteredStorytellers.length === 1 ? '' : 's'}`}>
-                          {filteredStorytellers.slice(0, 50).map((st) => (
-                            <CommandItem
-                              key={st.id}
-                              value={st.id}
-                              onSelect={() => {
-                                setSelectedStoryteller(st.id)
-                                setStorytellerSearchOpen(false)
-                                setStorytellerSearch('')
-                              }}
-                              className="flex items-center gap-3 py-3"
-                            >
-                              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                                <span className="text-sm font-medium text-primary">
-                                  {(st.display_name || st.full_name || 'S').charAt(0).toUpperCase()}
-                                </span>
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <p className="font-medium truncate">
-                                  {st.display_name || st.full_name || 'Unnamed'}
-                                </p>
-                                <p className="text-xs text-muted-foreground truncate">
-                                  {st.email || st.location || 'No details'}
-                                </p>
-                              </div>
-                              <Check
+                            {filteredStorytellers.slice(0, 50).map((st) => (
+                              <button
+                                key={st.id}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedStoryteller(st.id)
+                                  setStorytellerSearchOpen(false)
+                                  setStorytellerSearch('')
+                                }}
                                 className={cn(
-                                  "h-4 w-4 flex-shrink-0",
-                                  selectedStoryteller === st.id ? "opacity-100" : "opacity-0"
+                                  "w-full flex items-center gap-3 px-2 py-3 text-left hover:bg-muted transition-colors",
+                                  selectedStoryteller === st.id && "bg-muted"
                                 )}
-                              />
-                            </CommandItem>
-                          ))}
-                          {filteredStorytellers.length > 50 && (
-                            <p className="py-2 px-3 text-xs text-muted-foreground text-center">
-                              Showing first 50 results. Type to narrow search.
-                            </p>
-                          )}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
+                              >
+                                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                  <span className="text-sm font-medium text-primary">
+                                    {(st.display_name || st.full_name || 'S').charAt(0).toUpperCase()}
+                                  </span>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="font-medium truncate">
+                                    {st.display_name || st.full_name || 'Unnamed'}
+                                  </p>
+                                  <p className="text-xs text-muted-foreground truncate">
+                                    {st.email || st.location || 'No details'}
+                                  </p>
+                                </div>
+                                {selectedStoryteller === st.id && (
+                                  <Check className="h-4 w-4 flex-shrink-0 text-primary" />
+                                )}
+                              </button>
+                            ))}
+                            {filteredStorytellers.length > 50 && (
+                              <p className="py-2 px-3 text-xs text-muted-foreground text-center border-t">
+                                Showing first 50 results. Type to narrow search.
+                              </p>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </div>
                   </PopoverContent>
                 </Popover>
                 {selectedStoryteller && (
