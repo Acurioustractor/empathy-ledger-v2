@@ -72,14 +72,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const consentPreferences = profile?.consent_preferences as ConsentPreferences | null
   const privacySettings = profile?.privacy_settings as PrivacySettings | null
 
-  // Fetch user profile with error handling
+  // Fetch user profile with error handling and timeout
   const fetchProfile = useCallback(async (userId: string): Promise<Profile | null> => {
     try {
-      const { data, error } = await supabase
+      const profilePromise = supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single()
+
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Profile fetch timeout')), 5000)
+      )
+
+      const { data, error } = await Promise.race([
+        profilePromise,
+        timeoutPromise
+      ]).catch((err) => {
+        console.error('Profile fetch timeout/error:', err?.message || err)
+        return { data: null, error: err }
+      }) as any
 
       if (error) {
         console.error('Error fetching profile:', error)
@@ -182,12 +194,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const initializeAuth = async () => {
       try {
         console.log('🚀 Initializing authentication system...')
-        
-        // Get session with longer timeout and better error handling
-        const { data: { session }, error } = await supabase.auth.getSession().catch((err) => {
-          console.log('⏰ Auth session error, retrying...', err)
+
+        // Add timeout to prevent hanging
+        const sessionPromise = supabase.auth.getSession()
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Session timeout')), 5000)
+        )
+
+        // Get session with timeout and error handling
+        const { data: { session }, error } = await Promise.race([
+          sessionPromise,
+          timeoutPromise
+        ]).catch((err) => {
+          console.log('⏰ Auth session error/timeout:', err?.message || err)
           return { data: { session: null }, error: err }
-        })
+        }) as any
         
         if (!isMounted) return
 
