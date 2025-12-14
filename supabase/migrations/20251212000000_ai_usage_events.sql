@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS ai_usage_events (
 
   -- Context
   tenant_id UUID REFERENCES tenants(id) ON DELETE CASCADE,
-  organization_id UUID REFERENCES organisations(id) ON DELETE SET NULL,
+  organization_id UUID REFERENCES organizations(id) ON DELETE SET NULL,
   user_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
 
   -- Agent identification
@@ -71,7 +71,7 @@ CREATE INDEX idx_ai_usage_model ON ai_usage_events(model, created_at DESC);
 CREATE INDEX idx_ai_usage_status ON ai_usage_events(status, created_at DESC);
 CREATE INDEX idx_ai_usage_request ON ai_usage_events(request_id);
 CREATE INDEX idx_ai_usage_parent ON ai_usage_events(parent_request_id) WHERE parent_request_id IS NOT NULL;
-CREATE INDEX idx_ai_usage_date ON ai_usage_events(DATE(created_at), tenant_id);
+-- Note: Date-based index removed because DATE() function is not immutable with timestamptz
 
 -- ============================================================================
 -- Tenant AI Policy Configuration
@@ -195,7 +195,7 @@ CREATE TABLE IF NOT EXISTS ai_usage_daily (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   date DATE NOT NULL,
   tenant_id UUID REFERENCES tenants(id) ON DELETE CASCADE,
-  organization_id UUID REFERENCES organisations(id) ON DELETE SET NULL,
+  organization_id UUID REFERENCES organizations(id) ON DELETE SET NULL,
   agent_name TEXT NOT NULL,
   model TEXT NOT NULL,
 
@@ -277,6 +277,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Trigger to update daily aggregates on insert
+DROP TRIGGER IF EXISTS trigger_update_ai_usage_daily ON ai_usage_events;
 CREATE TRIGGER trigger_update_ai_usage_daily
 AFTER INSERT ON ai_usage_events
 FOR EACH ROW
@@ -306,6 +307,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Trigger to update tenant usage on completed events
+DROP TRIGGER IF EXISTS trigger_update_tenant_ai_usage ON ai_usage_events;
 CREATE TRIGGER trigger_update_tenant_ai_usage
 AFTER INSERT ON ai_usage_events
 FOR EACH ROW
@@ -322,6 +324,7 @@ ALTER TABLE ai_agent_registry ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ai_usage_daily ENABLE ROW LEVEL SECURITY;
 
 -- Usage events: users can see their own org's events
+DROP POLICY IF EXISTS "Users can view their organization's AI usage" ON ai_usage_events;
 CREATE POLICY "Users can view their organization's AI usage"
   ON ai_usage_events FOR SELECT
   USING (
@@ -332,23 +335,26 @@ CREATE POLICY "Users can view their organization's AI usage"
   );
 
 -- Policies: admins can view and update
+DROP POLICY IF EXISTS "Org admins can view AI policies" ON tenant_ai_policies;
 CREATE POLICY "Org admins can view AI policies"
   ON tenant_ai_policies FOR SELECT
   USING (
-    tenant_id IN (
-      SELECT t.id FROM tenants t
-      JOIN organisations o ON o.id = t.organization_id
-      JOIN profile_organizations po ON po.organization_id = o.id
-      WHERE po.profile_id = auth.uid() AND po.role IN ('admin', 'owner')
+    EXISTS (
+      SELECT 1 FROM profile_organizations po
+      WHERE po.profile_id = auth.uid()
+      AND po.role IN ('admin', 'owner')
+      AND po.is_active = true
     )
   );
 
 -- Agent registry: public read
+DROP POLICY IF EXISTS "Anyone can view agent registry" ON ai_agent_registry;
 CREATE POLICY "Anyone can view agent registry"
   ON ai_agent_registry FOR SELECT
   USING (is_active = true);
 
 -- Daily aggregates: org members can view
+DROP POLICY IF EXISTS "Users can view their organization's daily usage" ON ai_usage_daily;
 CREATE POLICY "Users can view their organization's daily usage"
   ON ai_usage_daily FOR SELECT
   USING (
@@ -359,18 +365,22 @@ CREATE POLICY "Users can view their organization's daily usage"
   );
 
 -- Service role bypass for all tables
+DROP POLICY IF EXISTS "Service role has full access to ai_usage_events" ON ai_usage_events;
 CREATE POLICY "Service role has full access to ai_usage_events"
   ON ai_usage_events FOR ALL
   USING (auth.jwt() ->> 'role' = 'service_role');
 
+DROP POLICY IF EXISTS "Service role has full access to tenant_ai_policies" ON tenant_ai_policies;
 CREATE POLICY "Service role has full access to tenant_ai_policies"
   ON tenant_ai_policies FOR ALL
   USING (auth.jwt() ->> 'role' = 'service_role');
 
+DROP POLICY IF EXISTS "Service role has full access to ai_agent_registry" ON ai_agent_registry;
 CREATE POLICY "Service role has full access to ai_agent_registry"
   ON ai_agent_registry FOR ALL
   USING (auth.jwt() ->> 'role' = 'service_role');
 
+DROP POLICY IF EXISTS "Service role has full access to ai_usage_daily" ON ai_usage_daily;
 CREATE POLICY "Service role has full access to ai_usage_daily"
   ON ai_usage_daily FOR ALL
   USING (auth.jwt() ->> 'role' = 'service_role');

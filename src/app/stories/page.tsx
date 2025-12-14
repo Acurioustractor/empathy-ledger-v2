@@ -14,18 +14,22 @@ import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
 import type { Story } from '@/types/database'
 import { cn } from '@/lib/utils'
-import { 
-  Search, 
-  Filter, 
-  BookOpen, 
-  Users, 
-  Crown, 
+import {
+  Search,
+  Filter,
+  BookOpen,
+  Users,
+  Crown,
   MapPin,
   Star,
   Grid3X3,
   List,
-  Loader2
+  Loader2,
+  Mic,
+  Heart
 } from 'lucide-react'
+import { BottomNav } from '@/components/layout/BottomNav'
+import Link from 'next/link'
 
 interface StoryWithRelations extends Story {
   storyteller?: {
@@ -168,33 +172,50 @@ export default function StoriesPage() {
     <div className="min-h-screen bg-gradient-to-br from-stone-50 via-sage-50/20 to-clay-50/10">
       <Header />
       
-      {/* Hero Section */}
-      <div className="bg-gradient-to-br from-earth-800 via-earth-700 to-clay-800 text-white py-20">
+      {/* Hero Section - Mobile First */}
+      <div className="bg-gradient-to-br from-earth-800 via-earth-700 to-clay-800 text-white py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="flex justify-center mb-6">
-              <BookOpen className="h-16 w-16 text-earth-200" />
+            <div className="flex justify-center mb-4 md:mb-6">
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10 flex items-center justify-center">
+                <Heart className="h-8 w-8 md:h-10 md:w-10 text-earth-200" />
+              </div>
             </div>
-            <Typography variant="cultural-hero" className="text-white mb-6">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-6">
               Stories That Shape Us
-            </Typography>
-            <Typography variant="cultural-subtitle" className="text-earth-200 max-w-3xl mx-auto mb-8">
-              Discover the rich tapestry of human experience through personal journeys, family histories, 
+            </h1>
+            <p className="text-earth-200 max-w-3xl mx-auto mb-6 md:mb-8 text-sm md:text-base lg:text-lg">
+              Discover the rich tapestry of human experience through personal journeys, family histories,
               community tales, and cultural wisdom from storytellers around the world.
-            </Typography>
-            <div className="flex justify-center mt-8 gap-8 text-earth-200">
-              <div className="flex items-center gap-3 text-body-lg">
-                <BookOpen className="h-6 w-6" />
-                <span>{pagination.total} Stories</span>
+            </p>
+
+            {/* Stats - Responsive Grid */}
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-earth-200">
+              <div className="flex items-center gap-2 text-sm md:text-base">
+                <BookOpen className="h-4 w-4 md:h-5 md:w-5" />
+                <span className="font-semibold">{pagination.total}</span>
+                <span className="hidden sm:inline">Stories</span>
               </div>
-              <div className="flex items-center gap-3 text-body-lg">
-                <Users className="h-6 w-6" />
-                <span>Global Contributors</span>
+              <div className="flex items-center gap-2 text-sm md:text-base">
+                <Users className="h-4 w-4 md:h-5 md:w-5" />
+                <span className="hidden sm:inline">Global Contributors</span>
+                <span className="sm:hidden">Contributors</span>
               </div>
-              <div className="flex items-center gap-3 text-body-lg">
-                <Star className="h-6 w-6" />
-                <span>Featured Stories</span>
+              <div className="flex items-center gap-2 text-sm md:text-base">
+                <Star className="h-4 w-4 md:h-5 md:w-5" />
+                <span className="hidden sm:inline">Featured Stories</span>
+                <span className="sm:hidden">Featured</span>
               </div>
+            </div>
+
+            {/* Mobile CTA */}
+            <div className="mt-6 md:hidden">
+              <Link href="/capture">
+                <Button className="bg-white/20 hover:bg-white/30 text-white border-0">
+                  <Mic className="w-4 h-4 mr-2" />
+                  Share Your Story
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -413,6 +434,12 @@ export default function StoriesPage() {
       </div>
 
       <Footer />
+
+      {/* Mobile Bottom Navigation */}
+      <BottomNav />
+
+      {/* Mobile spacer */}
+      <div className="h-20 md:hidden" />
     </div>
   )
 }

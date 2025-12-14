@@ -3,22 +3,22 @@ CREATE TABLE IF NOT EXISTS organization_roles (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id UUID NOT NULL,
   profile_id UUID NOT NULL,
-  role organization_role NOT NULL DEFAULT 'member',
+  role organization_role NOT NULL DEFAULT 'community_member',
   granted_by UUID NULL,
   granted_at TIMESTAMPTZ DEFAULT NOW(),
   revoked_at TIMESTAMPTZ NULL,
   is_active BOOLEAN GENERATED ALWAYS AS (revoked_at IS NULL) STORED,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
-  
+
   -- Foreign key constraints
-  CONSTRAINT fk_organization_roles_organization 
+  CONSTRAINT fk_organization_roles_organization
     FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE,
-  CONSTRAINT fk_organization_roles_profile 
+  CONSTRAINT fk_organization_roles_profile
     FOREIGN KEY (profile_id) REFERENCES profiles(id) ON DELETE CASCADE,
-  CONSTRAINT fk_organization_roles_granted_by 
+  CONSTRAINT fk_organization_roles_granted_by
     FOREIGN KEY (granted_by) REFERENCES profiles(id) ON DELETE SET NULL,
-    
+
   -- Ensure unique active role per user per organization
   UNIQUE (organization_id, profile_id, is_active) DEFERRABLE INITIALLY DEFERRED
 );
@@ -33,6 +33,11 @@ CREATE INDEX idx_organization_roles_granted_at ON organization_roles(granted_at)
 -- Enable RLS
 ALTER TABLE organization_roles ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Users can view their own organization roles" ON organization_roles;
+DROP POLICY IF EXISTS "Organization admins can view all roles for their organization" ON organization_roles;
+DROP POLICY IF EXISTS "Organization admins can manage roles in their organization" ON organization_roles;
+
 -- Create RLS policies
 CREATE POLICY "Users can view their own organization roles" ON organization_roles
   FOR SELECT USING (profile_id = auth.uid());
@@ -40,10 +45,10 @@ CREATE POLICY "Users can view their own organization roles" ON organization_role
 CREATE POLICY "Organization admins can view all roles for their organization" ON organization_roles
   FOR SELECT USING (
     organization_id IN (
-      SELECT organization_id 
-      FROM organization_roles 
-      WHERE profile_id = auth.uid() 
-        AND role IN ('admin', 'super_admin') 
+      SELECT organization_id
+      FROM organization_roles
+      WHERE profile_id = auth.uid()
+        AND role IN ('admin', 'elder', 'cultural_keeper')
         AND is_active = true
     )
   );
@@ -51,10 +56,10 @@ CREATE POLICY "Organization admins can view all roles for their organization" ON
 CREATE POLICY "Organization admins can manage roles in their organization" ON organization_roles
   FOR ALL USING (
     organization_id IN (
-      SELECT organization_id 
-      FROM organization_roles 
-      WHERE profile_id = auth.uid() 
-        AND role IN ('admin', 'super_admin') 
+      SELECT organization_id
+      FROM organization_roles
+      WHERE profile_id = auth.uid()
+        AND role IN ('admin', 'elder', 'cultural_keeper')
         AND is_active = true
     )
   );
@@ -97,8 +102,9 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Create function to check if user has role in organization
+-- Using indigenous governance hierarchy: elder > cultural_keeper > knowledge_holder > admin > project_leader > storyteller > community_member > guest
 CREATE OR REPLACE FUNCTION user_has_organization_role(
-  org_id UUID, 
+  org_id UUID,
   required_role organization_role,
   user_id UUID DEFAULT auth.uid()
 )
@@ -107,14 +113,17 @@ DECLARE
   user_role organization_role;
 BEGIN
   user_role := get_user_organization_role(org_id, user_id);
-  
-  -- Check role hierarchy: super_admin > admin > moderator > contributor > member
+
+  -- Check role hierarchy based on indigenous governance principles
   RETURN CASE
-    WHEN required_role = 'member' THEN user_role IS NOT NULL
-    WHEN required_role = 'contributor' THEN user_role IN ('contributor', 'moderator', 'admin', 'super_admin')
-    WHEN required_role = 'moderator' THEN user_role IN ('moderator', 'admin', 'super_admin')
-    WHEN required_role = 'admin' THEN user_role IN ('admin', 'super_admin')
-    WHEN required_role = 'super_admin' THEN user_role = 'super_admin'
+    WHEN required_role = 'guest' THEN user_role IS NOT NULL
+    WHEN required_role = 'community_member' THEN user_role IN ('community_member', 'storyteller', 'project_leader', 'archivist', 'cultural_liaison', 'knowledge_holder', 'cultural_keeper', 'admin', 'elder')
+    WHEN required_role = 'storyteller' THEN user_role IN ('storyteller', 'project_leader', 'archivist', 'knowledge_holder', 'cultural_keeper', 'admin', 'elder')
+    WHEN required_role = 'project_leader' THEN user_role IN ('project_leader', 'knowledge_holder', 'cultural_keeper', 'admin', 'elder')
+    WHEN required_role = 'admin' THEN user_role IN ('admin', 'cultural_keeper', 'elder')
+    WHEN required_role = 'knowledge_holder' THEN user_role IN ('knowledge_holder', 'cultural_keeper', 'elder')
+    WHEN required_role = 'cultural_keeper' THEN user_role IN ('cultural_keeper', 'elder')
+    WHEN required_role = 'elder' THEN user_role = 'elder'
     ELSE false
   END;
 END;

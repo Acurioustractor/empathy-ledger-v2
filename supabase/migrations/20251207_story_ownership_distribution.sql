@@ -289,7 +289,7 @@ CREATE POLICY "Admins can manage all distributions"
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
-      WHERE id = auth.uid() AND role IN ('platform_admin', 'organization_admin')
+      WHERE id = auth.uid() AND 'admin' = ANY(tenant_roles) OR 'super_admin' = ANY(tenant_roles)
     )
   );
 
@@ -327,7 +327,7 @@ CREATE POLICY "Admins can view all audit logs"
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
-      WHERE id = auth.uid() AND role IN ('platform_admin', 'organization_admin')
+      WHERE id = auth.uid() AND 'admin' = ANY(tenant_roles) OR 'super_admin' = ANY(tenant_roles)
     )
   );
 
@@ -345,7 +345,7 @@ CREATE POLICY "Admins can manage all deletion requests"
   USING (
     EXISTS (
       SELECT 1 FROM public.profiles
-      WHERE id = auth.uid() AND role = 'platform_admin'
+      WHERE id = auth.uid() AND 'admin' = ANY(tenant_roles) OR 'super_admin' = ANY(tenant_roles)
     )
   );
 

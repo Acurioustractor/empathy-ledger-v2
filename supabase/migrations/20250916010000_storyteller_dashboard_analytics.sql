@@ -355,6 +355,13 @@ ALTER TABLE storyteller_impact_metrics ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storyteller_dashboard_config ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storyteller_milestones ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies first (idempotent)
+DROP POLICY IF EXISTS "Storytellers can view their own engagement" ON storyteller_engagement;
+DROP POLICY IF EXISTS "Admins can view platform analytics" ON platform_analytics;
+DROP POLICY IF EXISTS "Impact metrics respect sharing settings" ON storyteller_impact_metrics;
+DROP POLICY IF EXISTS "Storytellers can manage their own dashboard config" ON storyteller_dashboard_config;
+DROP POLICY IF EXISTS "Public milestones are viewable" ON storyteller_milestones;
+
 -- Storyteller Engagement Policies
 CREATE POLICY "Storytellers can view their own engagement" ON storyteller_engagement
     FOR SELECT USING (
@@ -362,7 +369,7 @@ CREATE POLICY "Storytellers can view their own engagement" ON storyteller_engage
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
@@ -372,7 +379,7 @@ CREATE POLICY "Admins can view platform analytics" ON platform_analytics
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
@@ -394,7 +401,7 @@ CREATE POLICY "Impact metrics respect sharing settings" ON storyteller_impact_me
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
@@ -410,7 +417,7 @@ CREATE POLICY "Public milestones are viewable" ON storyteller_milestones
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
@@ -524,7 +531,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Apply the trigger to profiles table
+-- Apply the trigger to profiles table (drop first if exists)
+DROP TRIGGER IF EXISTS trigger_create_dashboard_config ON profiles;
 CREATE TRIGGER trigger_create_dashboard_config
     AFTER UPDATE ON profiles
     FOR EACH ROW

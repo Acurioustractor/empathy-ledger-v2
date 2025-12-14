@@ -33,11 +33,11 @@ CREATE TABLE IF NOT EXISTS story_review_invitations (
 );
 
 -- Create indexes for efficient lookups
-CREATE INDEX idx_invitations_token ON story_review_invitations(token);
-CREATE INDEX idx_invitations_story_id ON story_review_invitations(story_id);
-CREATE INDEX idx_invitations_storyteller_id ON story_review_invitations(storyteller_id) WHERE storyteller_id IS NOT NULL;
-CREATE INDEX idx_invitations_expires_at ON story_review_invitations(expires_at);
-CREATE INDEX idx_invitations_email ON story_review_invitations(storyteller_email) WHERE storyteller_email IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_invitations_token ON story_review_invitations(token);
+CREATE INDEX IF NOT EXISTS idx_invitations_story_id ON story_review_invitations(story_id);
+CREATE INDEX IF NOT EXISTS idx_invitations_storyteller_id ON story_review_invitations(storyteller_id) WHERE storyteller_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_invitations_expires_at ON story_review_invitations(expires_at);
+CREATE INDEX IF NOT EXISTS idx_invitations_email ON story_review_invitations(storyteller_email) WHERE storyteller_email IS NOT NULL;
 
 -- Add updated_at trigger
 CREATE OR REPLACE FUNCTION update_invitation_updated_at()
@@ -48,6 +48,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS invitation_updated_at ON story_review_invitations;
 CREATE TRIGGER invitation_updated_at
   BEFORE UPDATE ON story_review_invitations
   FOR EACH ROW
@@ -57,12 +58,14 @@ CREATE TRIGGER invitation_updated_at
 ALTER TABLE story_review_invitations ENABLE ROW LEVEL SECURITY;
 
 -- Policy: Users can view invitations they created
+DROP POLICY IF EXISTS "Users can view invitations they created" ON story_review_invitations;
 CREATE POLICY "Users can view invitations they created"
   ON story_review_invitations
   FOR SELECT
   USING (auth.uid() = created_by);
 
 -- Policy: Users can view invitations for stories they own
+DROP POLICY IF EXISTS "Story owners can view invitations" ON story_review_invitations;
 CREATE POLICY "Story owners can view invitations"
   ON story_review_invitations
   FOR SELECT
@@ -75,6 +78,7 @@ CREATE POLICY "Story owners can view invitations"
   );
 
 -- Policy: Users can create invitations for stories they own
+DROP POLICY IF EXISTS "Story owners can create invitations" ON story_review_invitations;
 CREATE POLICY "Story owners can create invitations"
   ON story_review_invitations
   FOR INSERT
@@ -87,6 +91,7 @@ CREATE POLICY "Story owners can create invitations"
   );
 
 -- Policy: Service role bypass for API operations
+DROP POLICY IF EXISTS "Service role full access" ON story_review_invitations;
 CREATE POLICY "Service role full access"
   ON story_review_invitations
   FOR ALL

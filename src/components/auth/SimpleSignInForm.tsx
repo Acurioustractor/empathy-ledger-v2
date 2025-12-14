@@ -1,19 +1,30 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 
+// Known admin emails - check profile for admin status after login
+const ADMIN_EMAILS = [
+  'benjamin@act.place',
+  'knighttss@gmail.com',
+  'ben@empathyledger.com',
+]
+
 interface SimpleSignInFormProps {
   redirectTo?: string
 }
 
-export function SimpleSignInForm({ redirectTo = '/storytellers/d0a162d2-282e-4653-9d12-aa934c9dfa4e/dashboard' }: SimpleSignInFormProps) {
-  const [email, setEmail] = useState('benjamin@act.place')
-  const [password, setPassword] = useState('benjamin123')
+export function SimpleSignInForm({ redirectTo: propRedirectTo }: SimpleSignInFormProps) {
+  const searchParams = useSearchParams()
+  const urlRedirect = searchParams?.get('redirect')
+  const defaultRedirect = propRedirectTo || urlRedirect || '/'
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
@@ -29,6 +40,7 @@ export function SimpleSignInForm({ redirectTo = '/storytellers/d0a162d2-282e-465
     try {
       if (!email || !password) {
         setError('Please enter both email and password')
+        setIsLoading(false)
         return
       }
 
@@ -41,26 +53,49 @@ export function SimpleSignInForm({ redirectTo = '/storytellers/d0a162d2-282e-465
       if (error) {
         console.error('🔐 Authentication failed:', error.message)
         setError(error.message)
+        setIsLoading(false)
         return
       }
 
       if (data.user && data.session) {
         console.log('🔐 Authentication successful!')
         setSuccess(true)
-        
-        // Give more time for the auth context to update and prevent loops
+
+        // Check if user is admin and determine redirect
+        const userEmail = data.user.email?.toLowerCase() || ''
+        const isLikelyAdmin = ADMIN_EMAILS.some(e => e.toLowerCase() === userEmail)
+
+        // Also check profile for admin status
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('tenant_roles, super_admin')
+          .eq('id', data.user.id)
+          .single()
+
+        const hasAdminRole = profile?.tenant_roles?.includes('admin') ||
+                           profile?.tenant_roles?.includes('super_admin') ||
+                           profile?.super_admin === true
+
+        // Determine final redirect
+        let finalRedirect = defaultRedirect
+        if ((isLikelyAdmin || hasAdminRole) && !urlRedirect) {
+          // Admin without specific redirect → send to admin panel
+          finalRedirect = '/admin'
+        }
+
+        console.log('🔐 Redirecting to:', finalRedirect)
+
+        // Shorter delay for better UX
         setTimeout(() => {
-          console.log('🔐 Redirecting to:', redirectTo)
-          // Force a complete page refresh to ensure clean state
-          window.location.replace(redirectTo)
-        }, 2000)
+          window.location.replace(finalRedirect)
+        }, 1000)
       } else {
         setError('Authentication failed - no user data received')
+        setIsLoading(false)
       }
     } catch (error) {
       console.error('🔐 Signin exception:', error)
       setError('An unexpected error occurred. Please try again.')
-    } finally {
       setIsLoading(false)
     }
   }
@@ -185,8 +220,7 @@ export function SimpleSignInForm({ redirectTo = '/storytellers/d0a162d2-282e-465
       </form>
 
       <div className="text-center text-sm text-grey-600">
-        <p>Test Account Pre-filled</p>
-        <p className="text-xs">benjamin@act.place / benjamin123</p>
+        <p className="text-xs text-gray-400">Enter your credentials to sign in</p>
       </div>
     </div>
   )

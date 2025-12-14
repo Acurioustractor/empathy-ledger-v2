@@ -9,19 +9,21 @@ import {
   Users,
   BookOpen,
   Shield,
-  Settings,
-  BarChart3,
-  Eye,
   Building2,
   Clock,
   CheckCircle,
   XCircle,
   Flag,
+  PlusCircle,
+  ArrowRight,
+  AlertTriangle,
+  FileText,
+  Activity,
+  TrendingUp,
+  RefreshCw,
 } from 'lucide-react'
 
 const AdminDashboard: React.FC = () => {
-  console.log('🔧 AdminDashboard: Component rendering...')
-
   const [stats, setStats] = useState({
     totalUsers: 0,
     activeUsers: 0,
@@ -30,37 +32,32 @@ const AdminDashboard: React.FC = () => {
     totalOrganizations: 0,
     flaggedContent: 0,
     elderApprovals: 0,
-    recentActivity: 0
+    recentActivity: 0,
+    totalTranscripts: 0,
+    storiesThisWeek: 0,
   })
   const [isLoadingStats, setIsLoadingStats] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [lastRefresh, setLastRefresh] = useState<Date>(new Date())
 
-  // Fetch real admin statistics
   const fetchAdminStats = async () => {
-    console.log('🔧 AdminDashboard: Fetching admin stats...')
     try {
       setIsLoadingStats(true)
       setError(null)
 
-      // Fetch users count
-      const usersResponse = await fetch('/api/admin/stats/users')
-      if (!usersResponse.ok) throw new Error('Failed to fetch users stats')
-      const usersData = await usersResponse.json()
+      const [usersRes, storiesRes, reviewsRes, orgsRes] = await Promise.all([
+        fetch('/api/admin/stats/users'),
+        fetch('/api/admin/stats/stories'),
+        fetch('/api/admin/stats/reviews'),
+        fetch('/api/admin/stats/organisations'),
+      ])
 
-      // Fetch stories count
-      const storiesResponse = await fetch('/api/admin/stats/stories')
-      if (!storiesResponse.ok) throw new Error('Failed to fetch stories stats')
-      const storiesData = await storiesResponse.json()
-
-      // Fetch pending reviews count
-      const reviewsResponse = await fetch('/api/admin/stats/reviews')
-      if (!reviewsResponse.ok) throw new Error('Failed to fetch reviews stats')
-      const reviewsData = await reviewsResponse.json()
-
-      // Fetch organisations count
-      const orgsResponse = await fetch('/api/admin/stats/organisations')
-      if (!orgsResponse.ok) throw new Error('Failed to fetch organisations stats')
-      const orgsData = await orgsResponse.json()
+      const [usersData, storiesData, reviewsData, orgsData] = await Promise.all([
+        usersRes.ok ? usersRes.json() : { total: 0, active: 0 },
+        storiesRes.ok ? storiesRes.json() : { total: 0 },
+        reviewsRes.ok ? reviewsRes.json() : { pending: 0, flagged: 0 },
+        orgsRes.ok ? orgsRes.json() : { total: 0 },
+      ])
 
       setStats({
         totalUsers: usersData.total || 0,
@@ -70,8 +67,11 @@ const AdminDashboard: React.FC = () => {
         totalOrganizations: orgsData.total || 0,
         flaggedContent: reviewsData.flagged || 0,
         elderApprovals: reviewsData.elderApprovals || 0,
-        recentActivity: usersData.recentActivity || 0
+        recentActivity: usersData.recentActivity || 0,
+        totalTranscripts: storiesData.transcripts || 0,
+        storiesThisWeek: storiesData.thisWeek || 0,
       })
+      setLastRefresh(new Date())
     } catch (err) {
       console.error('Failed to fetch admin stats:', err)
       setError(err instanceof Error ? err.message : 'Failed to load statistics')
@@ -80,231 +80,286 @@ const AdminDashboard: React.FC = () => {
     }
   }
 
-  // Load data on mount
   useEffect(() => {
-    console.log('🔧 AdminDashboard: Component mounted, fetching data...')
     fetchAdminStats()
   }, [])
 
+  const StatCard = ({ title, value, icon: Icon, color, subtitle }: {
+    title: string
+    value: number | string
+    icon: React.ElementType
+    color: string
+    subtitle?: string
+  }) => (
+    <Card>
+      <CardContent className="p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-gray-500">{title}</p>
+            <p className="text-3xl font-bold mt-1">
+              {isLoadingStats ? (
+                <span className="inline-block w-16 h-8 bg-gray-200 animate-pulse rounded" />
+              ) : (
+                typeof value === 'number' ? value.toLocaleString() : value
+              )}
+            </p>
+            {subtitle && <p className="text-xs text-gray-400 mt-1">{subtitle}</p>}
+          </div>
+          <div className={`p-3 rounded-full ${color}`}>
+            <Icon className="w-6 h-6 text-white" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+
+  const ActionCard = ({ title, description, href, icon: Icon, color, count, urgent }: {
+    title: string
+    description: string
+    href: string
+    icon: React.ElementType
+    color: string
+    count?: number
+    urgent?: boolean
+  }) => (
+    <Link href={href}>
+      <Card className={`hover:shadow-md transition-shadow cursor-pointer ${urgent ? 'border-orange-300 bg-orange-50' : ''}`}>
+        <CardContent className="p-5">
+          <div className="flex items-start justify-between">
+            <div className={`p-2 rounded-lg ${color}`}>
+              <Icon className="w-5 h-5 text-white" />
+            </div>
+            {count !== undefined && count > 0 && (
+              <Badge variant={urgent ? "destructive" : "secondary"} className="text-xs">
+                {count}
+              </Badge>
+            )}
+          </div>
+          <h3 className="font-semibold mt-3">{title}</h3>
+          <p className="text-sm text-gray-500 mt-1">{description}</p>
+          <div className="flex items-center mt-3 text-sm font-medium text-indigo-600">
+            Go to {title.toLowerCase()} <ArrowRight className="w-4 h-4 ml-1" />
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
+  )
+
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-grey-900">Dashboard</h1>
-          <p className="text-grey-600">Overview and platform management</p>
+          <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+          <p className="text-gray-500 text-sm mt-1">
+            Welcome back! Here's what's happening.
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={fetchAdminStats}
+            disabled={isLoadingStats}
+          >
+            <RefreshCw className={`w-4 h-4 mr-2 ${isLoadingStats ? 'animate-spin' : ''}`} />
+            Refresh
+          </Button>
+          <Link href="/admin/quick-add">
+            <Button className="bg-green-600 hover:bg-green-700">
+              <PlusCircle className="w-4 h-4 mr-2" />
+              Quick Add
+            </Button>
+          </Link>
         </div>
       </div>
 
       {/* Error Display */}
       {error && (
         <Card className="border-red-200 bg-red-50">
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-2 text-red-600">
-              <XCircle className="h-4 w-4" />
-              <span>Error: {error}</span>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <XCircle className="h-5 w-5 text-red-600" />
+              <div className="flex-1">
+                <p className="font-medium text-red-800">Error loading data</p>
+                <p className="text-sm text-red-600">{error}</p>
+              </div>
+              <Button variant="outline" size="sm" onClick={fetchAdminStats}>
+                Retry
+              </Button>
             </div>
-            <Button variant="outline" size="sm" className="mt-2" onClick={fetchAdminStats}>
-              Retry
-            </Button>
           </CardContent>
         </Card>
       )}
 
-      {/* Stats Cards */}
-      <div className="grid gap-6 md:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+      {/* Urgent Actions */}
+      {(stats.pendingReviews > 0 || stats.flaggedContent > 0 || stats.elderApprovals > 0) && (
+        <Card className="border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg flex items-center gap-2 text-orange-800">
+              <AlertTriangle className="w-5 h-5" />
+              Action Required
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {isLoadingStats ? '...' : stats.totalUsers?.toLocaleString() || '0'}
+            <div className="flex flex-wrap gap-3">
+              {stats.pendingReviews > 0 && (
+                <Link href="/admin/reviews">
+                  <Badge variant="outline" className="py-2 px-3 text-sm bg-white cursor-pointer hover:bg-gray-50">
+                    <Clock className="w-4 h-4 mr-2 text-orange-500" />
+                    {stats.pendingReviews} pending reviews
+                  </Badge>
+                </Link>
+              )}
+              {stats.flaggedContent > 0 && (
+                <Link href="/admin/reviews?filter=flagged">
+                  <Badge variant="outline" className="py-2 px-3 text-sm bg-white cursor-pointer hover:bg-gray-50">
+                    <Flag className="w-4 h-4 mr-2 text-red-500" />
+                    {stats.flaggedContent} flagged content
+                  </Badge>
+                </Link>
+              )}
+              {stats.elderApprovals > 0 && (
+                <Link href="/admin/reviews?filter=elder">
+                  <Badge variant="outline" className="py-2 px-3 text-sm bg-white cursor-pointer hover:bg-gray-50">
+                    <Shield className="w-4 h-4 mr-2 text-purple-500" />
+                    {stats.elderApprovals} elder approvals
+                  </Badge>
+                </Link>
+              )}
             </div>
-            <p className="text-xs text-muted-foreground">Active community members</p>
           </CardContent>
         </Card>
+      )}
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Stories</CardTitle>
-            <BookOpen className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {isLoadingStats ? '...' : stats.totalStories?.toLocaleString() || '0'}
-            </div>
-            <p className="text-xs text-muted-foreground">Published content</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Reviews</CardTitle>
-            <Shield className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {isLoadingStats ? '...' : stats.pendingReviews?.toLocaleString() || '0'}
-            </div>
-            <p className="text-xs text-muted-foreground">Awaiting moderation</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Organizations</CardTitle>
-            <BarChart3 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {isLoadingStats ? '...' : stats.totalOrganizations?.toLocaleString() || '0'}
-            </div>
-            <p className="text-xs text-muted-foreground">Active tenants</p>
-          </CardContent>
-        </Card>
+      {/* Stats Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard
+          title="Total Storytellers"
+          value={stats.totalUsers}
+          icon={Users}
+          color="bg-blue-500"
+          subtitle={`${stats.activeUsers} active`}
+        />
+        <StatCard
+          title="Total Stories"
+          value={stats.totalStories}
+          icon={BookOpen}
+          color="bg-green-500"
+          subtitle={stats.storiesThisWeek > 0 ? `+${stats.storiesThisWeek} this week` : undefined}
+        />
+        <StatCard
+          title="Organizations"
+          value={stats.totalOrganizations}
+          icon={Building2}
+          color="bg-purple-500"
+        />
+        <StatCard
+          title="Transcripts"
+          value={stats.totalTranscripts}
+          icon={FileText}
+          color="bg-indigo-500"
+        />
       </div>
 
-      {/* Storytelling Workflow Highlight */}
-      <Card className="border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-blue-900">
-            <BookOpen className="h-5 w-5" />
-            Storytelling Workflow Guide
-          </CardTitle>
-          <CardDescription>
-            Follow our step-by-step guide to create stories from transcripts to publication
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <p className="text-sm text-blue-700">Complete guided workflow including:</p>
-              <ul className="text-xs text-blue-600 space-y-1">
-                <li>• Setup storytellers and organisations</li>
-                <li>• Upload and manage transcripts</li>
-                <li>• AI-powered story generation</li>
-                <li>• Gallery creation and linking</li>
-                <li>• Review, edit, and publish</li>
-              </ul>
-            </div>
-            <Link href="/admin/workflow">
-              <Button className="bg-blue-600 hover:bg-blue-700">
-                Start Workflow Guide
-                <BookOpen className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Quick Actions Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-sm font-medium text-grey-600">Manage Users</h3>
-                <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.totalUsers}</p>
-              </div>
-              <Users className="h-8 w-8 text-blue-600" />
-            </div>
-            <Link href="/admin/storytellers">
-              <Button className="w-full">
-                <Users className="w-4 h-4 mr-2" />
-                Storytellers
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <ActionCard
+            title="Quick Add"
+            description="Add storyteller with transcript"
+            href="/admin/quick-add"
+            icon={PlusCircle}
+            color="bg-green-500"
+          />
+          <ActionCard
+            title="Storytellers"
+            description="Manage all storytellers"
+            href="/admin/storytellers"
+            icon={Users}
+            color="bg-blue-500"
+            count={stats.totalUsers}
+          />
+          <ActionCard
+            title="Reviews"
+            description="Content moderation queue"
+            href="/admin/reviews"
+            icon={Shield}
+            color="bg-orange-500"
+            count={stats.pendingReviews}
+            urgent={stats.pendingReviews > 0}
+          />
+          <ActionCard
+            title="Transcripts"
+            description="Manage transcripts"
+            href="/admin/transcripts"
+            icon={FileText}
+            color="bg-indigo-500"
+            count={stats.totalTranscripts}
+          />
+        </div>
+      </div>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-sm font-medium text-grey-600">Content</h3>
-                <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.totalStories}</p>
-              </div>
-              <BookOpen className="h-8 w-8 text-green-600" />
-            </div>
-            <Link href="/admin/stories">
-              <Button className="w-full">
-                <BookOpen className="w-4 h-4 mr-2" />
-                Stories
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-sm font-medium text-grey-600">Organizations</h3>
-                <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.totalOrganizations}</p>
-              </div>
-              <Building2 className="h-8 w-8 text-purple-600" />
-            </div>
-            <Link href="/admin/organisations">
-              <Button className="w-full">
-                <Building2 className="w-4 h-4 mr-2" />
-                Organizations
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-sm font-medium text-grey-600">Reviews</h3>
-                <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.pendingReviews}</p>
-              </div>
-              <Flag className="h-8 w-8 text-orange-600" />
-            </div>
-            <Link href="/admin/reviews">
-              <Button className="w-full">
-                <Eye className="w-4 h-4 mr-2" />
-                Reviews
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
+      {/* Secondary Actions */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <ActionCard
+          title="Stories"
+          description="View and manage all stories"
+          href="/admin/stories"
+          icon={BookOpen}
+          color="bg-emerald-500"
+          count={stats.totalStories}
+        />
+        <ActionCard
+          title="Organizations"
+          description="Manage organizations"
+          href="/admin/organisations"
+          icon={Building2}
+          color="bg-purple-500"
+          count={stats.totalOrganizations}
+        />
+        <ActionCard
+          title="Activity Log"
+          description="View platform activity"
+          href="/admin/audit-log"
+          icon={Activity}
+          color="bg-gray-600"
+        />
       </div>
 
       {/* System Status */}
       <Card>
-        <CardHeader>
-          <CardTitle>Platform Status</CardTitle>
-          <CardDescription>Current system status and quick actions</CardDescription>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg">System Status</CardTitle>
+          <CardDescription>
+            Last updated: {lastRefresh.toLocaleTimeString()}
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div className="flex items-center space-x-4">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center gap-3">
                 <CheckCircle className="w-5 h-5 text-green-500" />
                 <div>
-                  <p className="font-medium">System Status</p>
-                  <p className="text-sm text-grey-600">All services operational</p>
+                  <p className="font-medium">All Services</p>
+                  <p className="text-sm text-gray-500">Operational</p>
                 </div>
               </div>
-              <Badge variant="outline" className="text-green-600 border-green-200">
+              <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50">
                 Healthy
               </Badge>
             </div>
-
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div className="flex items-center space-x-4">
-                <Clock className="w-5 h-5 text-blue-500" />
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center gap-3">
+                <TrendingUp className="w-5 h-5 text-blue-500" />
                 <div>
                   <p className="font-medium">Data Status</p>
-                  <p className="text-sm text-grey-600">Statistics loaded</p>
+                  <p className="text-sm text-gray-500">{isLoadingStats ? 'Loading...' : 'Synced'}</p>
                 </div>
               </div>
-              <Badge variant="outline" className="text-blue-600 border-blue-200">
-                {isLoadingStats ? 'Loading...' : 'Ready'}
+              <Badge variant="outline" className="text-blue-600 border-blue-200 bg-blue-50">
+                {isLoadingStats ? 'Loading' : 'Ready'}
               </Badge>
             </div>
           </div>

@@ -319,6 +319,14 @@ ALTER TABLE storyteller_demographics ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storyteller_recommendations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE cross_narrative_insights ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies first (idempotent)
+DROP POLICY IF EXISTS "Users can view their own connections" ON storyteller_connections;
+DROP POLICY IF EXISTS "Users can manage their own connections" ON storyteller_connections;
+DROP POLICY IF EXISTS "Demographics respect privacy settings" ON storyteller_demographics;
+DROP POLICY IF EXISTS "Users can view their own recommendations" ON storyteller_recommendations;
+DROP POLICY IF EXISTS "Users can update their own recommendations" ON storyteller_recommendations;
+DROP POLICY IF EXISTS "Insights respect visibility levels" ON cross_narrative_insights;
+
 -- Storyteller Connections Policies
 CREATE POLICY "Users can view their own connections" ON storyteller_connections
     FOR SELECT USING (
@@ -327,7 +335,7 @@ CREATE POLICY "Users can view their own connections" ON storyteller_connections
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
@@ -350,7 +358,7 @@ CREATE POLICY "Demographics respect privacy settings" ON storyteller_demographic
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
@@ -361,7 +369,7 @@ CREATE POLICY "Users can view their own recommendations" ON storyteller_recommen
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
@@ -376,7 +384,7 @@ CREATE POLICY "Insights respect visibility levels" ON cross_narrative_insights
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 

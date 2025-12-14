@@ -322,6 +322,15 @@ ALTER TABLE storyteller_themes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storyteller_quotes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE analytics_processing_jobs ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies first (idempotent)
+DROP POLICY IF EXISTS "Storytellers can view their own analytics" ON storyteller_analytics;
+DROP POLICY IF EXISTS "System can manage analytics" ON storyteller_analytics;
+DROP POLICY IF EXISTS "Public themes are viewable" ON narrative_themes;
+DROP POLICY IF EXISTS "Admins can manage themes" ON narrative_themes;
+DROP POLICY IF EXISTS "Storytellers can view their own themes" ON storyteller_themes;
+DROP POLICY IF EXISTS "Public quotes are viewable" ON storyteller_quotes;
+DROP POLICY IF EXISTS "Users can view relevant jobs" ON analytics_processing_jobs;
+
 -- Storyteller Analytics Policies
 CREATE POLICY "Storytellers can view their own analytics" ON storyteller_analytics
     FOR SELECT USING (
@@ -329,7 +338,7 @@ CREATE POLICY "Storytellers can view their own analytics" ON storyteller_analyti
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
@@ -338,7 +347,7 @@ CREATE POLICY "System can manage analytics" ON storyteller_analytics
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
@@ -351,7 +360,7 @@ CREATE POLICY "Admins can manage themes" ON narrative_themes
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
@@ -362,7 +371,7 @@ CREATE POLICY "Storytellers can view their own themes" ON storyteller_themes
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
@@ -374,7 +383,7 @@ CREATE POLICY "Public quotes are viewable" ON storyteller_quotes
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
@@ -385,7 +394,7 @@ CREATE POLICY "Users can view relevant jobs" ON analytics_processing_jobs
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 

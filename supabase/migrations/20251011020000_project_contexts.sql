@@ -72,6 +72,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS project_contexts_updated_at ON project_contexts;
 CREATE TRIGGER project_contexts_updated_at
   BEFORE UPDATE ON project_contexts
   FOR EACH ROW

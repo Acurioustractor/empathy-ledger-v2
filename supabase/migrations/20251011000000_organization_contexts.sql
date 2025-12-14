@@ -58,6 +58,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS organization_contexts_updated_at ON organization_contexts;
 CREATE TRIGGER organization_contexts_updated_at
   BEFORE UPDATE ON organization_contexts
   FOR EACH ROW

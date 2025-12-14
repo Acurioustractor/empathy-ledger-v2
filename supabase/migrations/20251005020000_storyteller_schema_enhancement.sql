@@ -118,7 +118,7 @@ ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
 -- =============================================
 
 CREATE TABLE IF NOT EXISTS profile_organizations (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   profile_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
   role TEXT NOT NULL DEFAULT 'member',
@@ -147,12 +147,12 @@ CREATE INDEX IF NOT EXISTS idx_profile_organizations_active ON profile_organizat
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE TABLE IF NOT EXISTS organization_invitations (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
   email TEXT NOT NULL,
   role TEXT NOT NULL DEFAULT 'member',
   profile_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
-  invitation_code TEXT NOT NULL DEFAULT encode(gen_random_bytes(16), 'hex'),
+  invitation_code TEXT NOT NULL DEFAULT substr(md5(random()::text || clock_timestamp()::text), 1, 32),
   invited_by UUID REFERENCES profiles(id) ON DELETE SET NULL,
   status TEXT DEFAULT 'pending', -- pending, accepted, expired, cancelled
   expires_at TIMESTAMP WITH TIME ZONE NOT NULL,

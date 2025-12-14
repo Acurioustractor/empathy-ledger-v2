@@ -28,22 +28,26 @@ CREATE INDEX IF NOT EXISTS idx_notifications_expires ON notifications(expires_at
 ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
 
 -- Policies
+DROP POLICY IF EXISTS "Users can view their own notifications" ON notifications;
 CREATE POLICY "Users can view their own notifications"
   ON notifications FOR SELECT
   TO authenticated
   USING (recipient_id = auth.uid());
 
+DROP POLICY IF EXISTS "Users can update their own notifications" ON notifications;
 CREATE POLICY "Users can update their own notifications"
   ON notifications FOR UPDATE
   TO authenticated
   USING (recipient_id = auth.uid())
   WITH CHECK (recipient_id = auth.uid());
 
+DROP POLICY IF EXISTS "System can insert notifications" ON notifications;
 CREATE POLICY "System can insert notifications"
   ON notifications FOR INSERT
   TO authenticated
   WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Users can delete their own notifications" ON notifications;
 CREATE POLICY "Users can delete their own notifications"
   ON notifications FOR DELETE
   TO authenticated

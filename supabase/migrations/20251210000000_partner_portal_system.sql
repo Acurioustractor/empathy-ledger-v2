@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS partner_messages (
 
   -- Participants
   app_id UUID NOT NULL REFERENCES external_applications(id) ON DELETE CASCADE,
-  storyteller_id UUID NOT NULL REFERENCES storytellers(id) ON DELETE CASCADE,
+  storyteller_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
 
   -- Sender info
   sender_type TEXT NOT NULL CHECK (sender_type IN ('partner', 'storyteller')),
@@ -178,10 +178,12 @@ CREATE TABLE IF NOT EXISTS partner_analytics_daily (
   top_countries JSONB DEFAULT '[]', -- [{country, views}]
   top_cities JSONB DEFAULT '[]', -- [{city, country, views}]
 
-  created_at TIMESTAMPTZ DEFAULT now(),
-
-  UNIQUE(app_id, COALESCE(project_id, '00000000-0000-0000-0000-000000000000'::uuid), date)
+  created_at TIMESTAMPTZ DEFAULT now()
 );
+
+-- Create unique index with COALESCE to handle NULL project_id
+CREATE UNIQUE INDEX IF NOT EXISTS idx_partner_analytics_daily_unique
+ON partner_analytics_daily(app_id, COALESCE(project_id, '00000000-0000-0000-0000-000000000000'::uuid), date);
 
 -- ============================================
 -- MESSAGE TEMPLATES
@@ -265,11 +267,13 @@ ALTER TABLE partner_team_members ENABLE ROW LEVEL SECURITY;
 ALTER TABLE partner_analytics_daily ENABLE ROW LEVEL SECURITY;
 
 -- Partners can manage their own projects
+DROP POLICY IF EXISTS partner_projects_select ON partner_projects;
 CREATE POLICY partner_projects_select ON partner_projects
   FOR SELECT USING (
     app_id IN (SELECT app_id FROM partner_team_members WHERE user_id = auth.uid())
   );
 
+DROP POLICY IF EXISTS partner_projects_insert ON partner_projects;
 CREATE POLICY partner_projects_insert ON partner_projects
   FOR INSERT WITH CHECK (
     app_id IN (
@@ -279,6 +283,7 @@ CREATE POLICY partner_projects_insert ON partner_projects
     )
   );
 
+DROP POLICY IF EXISTS partner_projects_update ON partner_projects;
 CREATE POLICY partner_projects_update ON partner_projects
   FOR UPDATE USING (
     app_id IN (
@@ -289,32 +294,36 @@ CREATE POLICY partner_projects_update ON partner_projects
   );
 
 -- Story requests: partners and storytellers can see relevant requests
+DROP POLICY IF EXISTS story_requests_partner ON story_syndication_requests;
 CREATE POLICY story_requests_partner ON story_syndication_requests
   FOR ALL USING (
     app_id IN (SELECT app_id FROM partner_team_members WHERE user_id = auth.uid())
   );
 
+DROP POLICY IF EXISTS story_requests_storyteller ON story_syndication_requests;
 CREATE POLICY story_requests_storyteller ON story_syndication_requests
   FOR SELECT USING (
     story_id IN (
       SELECT s.id FROM stories s
-      JOIN storytellers st ON s.storyteller_id = st.id
-      WHERE st.user_id = auth.uid()
+      WHERE s.storyteller_id = auth.uid() OR s.author_id = auth.uid()
     )
   );
 
 -- Messages: partners and storytellers see their conversations
+DROP POLICY IF EXISTS partner_messages_partner ON partner_messages;
 CREATE POLICY partner_messages_partner ON partner_messages
   FOR ALL USING (
     app_id IN (SELECT app_id FROM partner_team_members WHERE user_id = auth.uid())
   );
 
+DROP POLICY IF EXISTS partner_messages_storyteller ON partner_messages;
 CREATE POLICY partner_messages_storyteller ON partner_messages
   FOR ALL USING (
-    storyteller_id IN (SELECT id FROM storytellers WHERE user_id = auth.uid())
+    storyteller_id = auth.uid()
   );
 
 -- Team members can see their team
+DROP POLICY IF EXISTS partner_team_select ON partner_team_members;
 CREATE POLICY partner_team_select ON partner_team_members
   FOR SELECT USING (
     app_id IN (SELECT app_id FROM partner_team_members WHERE user_id = auth.uid())
@@ -322,6 +331,7 @@ CREATE POLICY partner_team_select ON partner_team_members
   );
 
 -- Only owners/admins can manage team
+DROP POLICY IF EXISTS partner_team_manage ON partner_team_members;
 CREATE POLICY partner_team_manage ON partner_team_members
   FOR ALL USING (
     app_id IN (
@@ -332,6 +342,7 @@ CREATE POLICY partner_team_manage ON partner_team_members
   );
 
 -- Analytics: partners see their own data
+DROP POLICY IF EXISTS partner_analytics_select ON partner_analytics_daily;
 CREATE POLICY partner_analytics_select ON partner_analytics_daily
   FOR SELECT USING (
     app_id IN (SELECT app_id FROM partner_team_members WHERE user_id = auth.uid())
@@ -359,6 +370,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS trigger_update_project_stories_count ON story_syndication_requests;
 CREATE TRIGGER trigger_update_project_stories_count
 AFTER INSERT OR UPDATE OR DELETE ON story_syndication_requests
 FOR EACH ROW EXECUTE FUNCTION update_project_stories_count();
@@ -407,6 +419,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS trigger_handle_request_approval ON story_syndication_requests;
 CREATE TRIGGER trigger_handle_request_approval
 BEFORE UPDATE ON story_syndication_requests
 FOR EACH ROW EXECUTE FUNCTION handle_request_approval();

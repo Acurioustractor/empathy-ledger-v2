@@ -163,12 +163,14 @@ ALTER TABLE story_syndication_consent ENABLE ROW LEVEL SECURITY;
 ALTER TABLE story_access_log ENABLE ROW LEVEL SECURITY;
 
 -- External Applications: Only admins can manage, service role can read
+DROP POLICY IF EXISTS "Service role can read external_applications" ON external_applications;
 CREATE POLICY "Service role can read external_applications"
   ON external_applications
   FOR SELECT
   TO service_role
   USING (true);
 
+DROP POLICY IF EXISTS "Authenticated users can view active apps" ON external_applications;
 CREATE POLICY "Authenticated users can view active apps"
   ON external_applications
   FOR SELECT
@@ -176,12 +178,14 @@ CREATE POLICY "Authenticated users can view active apps"
   USING (is_active = true);
 
 -- Story Syndication Consent: Storytellers manage their own consent
+DROP POLICY IF EXISTS "Storytellers can view their consent records" ON story_syndication_consent;
 CREATE POLICY "Storytellers can view their consent records"
   ON story_syndication_consent
   FOR SELECT
   TO authenticated
   USING (storyteller_id = auth.uid());
 
+DROP POLICY IF EXISTS "Storytellers can insert consent for their stories" ON story_syndication_consent;
 CREATE POLICY "Storytellers can insert consent for their stories"
   ON story_syndication_consent
   FOR INSERT
@@ -195,6 +199,7 @@ CREATE POLICY "Storytellers can insert consent for their stories"
     )
   );
 
+DROP POLICY IF EXISTS "Storytellers can update their consent" ON story_syndication_consent;
 CREATE POLICY "Storytellers can update their consent"
   ON story_syndication_consent
   FOR UPDATE
@@ -202,12 +207,14 @@ CREATE POLICY "Storytellers can update their consent"
   USING (storyteller_id = auth.uid())
   WITH CHECK (storyteller_id = auth.uid());
 
+DROP POLICY IF EXISTS "Storytellers can delete their consent" ON story_syndication_consent;
 CREATE POLICY "Storytellers can delete their consent"
   ON story_syndication_consent
   FOR DELETE
   TO authenticated
   USING (storyteller_id = auth.uid());
 
+DROP POLICY IF EXISTS "Service role full access to consent" ON story_syndication_consent;
 CREATE POLICY "Service role full access to consent"
   ON story_syndication_consent
   FOR ALL
@@ -216,6 +223,7 @@ CREATE POLICY "Service role full access to consent"
   WITH CHECK (true);
 
 -- Story Access Log: Read-only for storytellers, service role can insert
+DROP POLICY IF EXISTS "Storytellers can view access logs for their stories" ON story_access_log;
 CREATE POLICY "Storytellers can view access logs for their stories"
   ON story_access_log
   FOR SELECT
@@ -228,12 +236,14 @@ CREATE POLICY "Storytellers can view access logs for their stories"
     )
   );
 
+DROP POLICY IF EXISTS "Service role can insert access logs" ON story_access_log;
 CREATE POLICY "Service role can insert access logs"
   ON story_access_log
   FOR INSERT
   TO service_role
   WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Service role can read access logs" ON story_access_log;
 CREATE POLICY "Service role can read access logs"
   ON story_access_log
   FOR SELECT

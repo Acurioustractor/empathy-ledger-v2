@@ -168,23 +168,27 @@ ALTER TABLE story_engagement_events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE story_engagement_daily ENABLE ROW LEVEL SECURITY;
 
 -- Service role can insert events (from tracking API)
+DROP POLICY IF EXISTS "Service role can insert events" ON story_engagement_events;
 CREATE POLICY "Service role can insert events"
   ON story_engagement_events
   FOR INSERT
   WITH CHECK (auth.jwt() ->> 'role' = 'service_role');
 
 -- Storytellers can view their own engagement
+DROP POLICY IF EXISTS "Storytellers can view their engagement" ON story_engagement_events;
 CREATE POLICY "Storytellers can view their engagement"
   ON story_engagement_events
   FOR SELECT
   USING (storyteller_id = auth.uid());
 
+DROP POLICY IF EXISTS "Storytellers can view their daily stats" ON story_engagement_daily;
 CREATE POLICY "Storytellers can view their daily stats"
   ON story_engagement_daily
   FOR SELECT
   USING (storyteller_id = auth.uid());
 
 -- Story authors can view engagement
+DROP POLICY IF EXISTS "Story authors can view engagement" ON story_engagement_events;
 CREATE POLICY "Story authors can view engagement"
   ON story_engagement_events
   FOR SELECT
@@ -196,6 +200,7 @@ CREATE POLICY "Story authors can view engagement"
     )
   );
 
+DROP POLICY IF EXISTS "Story authors can view daily stats" ON story_engagement_daily;
 CREATE POLICY "Story authors can view daily stats"
   ON story_engagement_daily
   FOR SELECT

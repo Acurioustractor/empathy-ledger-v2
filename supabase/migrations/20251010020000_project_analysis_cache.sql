@@ -36,17 +36,28 @@ CREATE INDEX IF NOT EXISTS idx_project_analyses_analyzed_at ON project_analyses(
 -- Enable Row Level Security
 ALTER TABLE project_analyses ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies first (idempotent)
+DROP POLICY IF EXISTS project_analyses_read ON project_analyses;
+DROP POLICY IF EXISTS project_analyses_service ON project_analyses;
+
 -- Policy: Users can read analysis for projects in their organization
 CREATE POLICY project_analyses_read ON project_analyses
   FOR SELECT
   USING (
     EXISTS (
       SELECT 1 FROM projects p
-      JOIN organization_projects op ON op.project_id = p.id
-      JOIN profile_organizations po ON po.organization_id = op.organization_id
       WHERE p.id = project_analyses.project_id
-        AND po.profile_id = auth.uid()
-        AND po.is_active = true
+        AND (
+          -- Project owner
+          p.created_by = auth.uid()
+          -- Or member of project's organization
+          OR EXISTS (
+            SELECT 1 FROM profile_organizations po
+            WHERE po.organization_id = p.organization_id
+              AND po.profile_id = auth.uid()
+              AND po.is_active = true
+          )
+        )
     )
   );
 
@@ -65,6 +76,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS update_project_analyses_updated_at ON project_analyses;
 CREATE TRIGGER update_project_analyses_updated_at
   BEFORE UPDATE ON project_analyses
   FOR EACH ROW

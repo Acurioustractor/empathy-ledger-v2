@@ -144,6 +144,98 @@ CREATE TABLE IF NOT EXISTS public.media_usage_tracking (
 ALTER TABLE public.profiles 
 ADD COLUMN IF NOT EXISTS avatar_url TEXT;
 
+-- Add missing columns if they don't exist (for idempotency)
+DO $$
+BEGIN
+  -- status column
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'media_assets' AND column_name = 'status'
+  ) THEN
+    ALTER TABLE public.media_assets ADD COLUMN status TEXT DEFAULT 'active';
+  END IF;
+
+  -- visibility column
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'media_assets' AND column_name = 'visibility'
+  ) THEN
+    ALTER TABLE public.media_assets ADD COLUMN visibility TEXT DEFAULT 'public';
+  END IF;
+
+  -- cultural_sensitivity column
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'media_assets' AND column_name = 'cultural_sensitivity'
+  ) THEN
+    ALTER TABLE public.media_assets ADD COLUMN cultural_sensitivity TEXT;
+  END IF;
+
+  -- elder_approved column
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'media_assets' AND column_name = 'elder_approved'
+  ) THEN
+    ALTER TABLE public.media_assets ADD COLUMN elder_approved BOOLEAN DEFAULT false;
+  END IF;
+
+  -- consent_obtained column
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'media_assets' AND column_name = 'consent_obtained'
+  ) THEN
+    ALTER TABLE public.media_assets ADD COLUMN consent_obtained BOOLEAN DEFAULT false;
+  END IF;
+
+  -- usage_rights column
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'media_assets' AND column_name = 'usage_rights'
+  ) THEN
+    ALTER TABLE public.media_assets ADD COLUMN usage_rights TEXT;
+  END IF;
+
+  -- views_count column
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'media_assets' AND column_name = 'views_count'
+  ) THEN
+    ALTER TABLE public.media_assets ADD COLUMN views_count INTEGER DEFAULT 0;
+  END IF;
+
+  -- downloads_count column
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'media_assets' AND column_name = 'downloads_count'
+  ) THEN
+    ALTER TABLE public.media_assets ADD COLUMN downloads_count INTEGER DEFAULT 0;
+  END IF;
+
+  -- width column
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'media_assets' AND column_name = 'width'
+  ) THEN
+    ALTER TABLE public.media_assets ADD COLUMN width INTEGER;
+  END IF;
+
+  -- height column
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'media_assets' AND column_name = 'height'
+  ) THEN
+    ALTER TABLE public.media_assets ADD COLUMN height INTEGER;
+  END IF;
+
+  -- duration column
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'media_assets' AND column_name = 'duration'
+  ) THEN
+    ALTER TABLE public.media_assets ADD COLUMN duration FLOAT;
+  END IF;
+END $$;
+
 -- Create indexes
 CREATE INDEX IF NOT EXISTS idx_media_assets_uploaded_by ON public.media_assets(uploaded_by);
 CREATE INDEX IF NOT EXISTS idx_media_assets_story_id ON public.media_assets(story_id);
@@ -169,64 +261,81 @@ ALTER TABLE public.transcripts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.transcription_jobs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.media_usage_tracking ENABLE ROW LEVEL SECURITY;
 
--- Media assets policies
-CREATE POLICY "Public media assets are viewable by everyone" 
-  ON public.media_assets FOR SELECT 
-  USING (visibility = 'public');
+-- Drop existing policies first to avoid conflicts
+DROP POLICY IF EXISTS "Public media assets are viewable by everyone" ON public.media_assets;
+DROP POLICY IF EXISTS "Users can view their own media assets" ON public.media_assets;
+DROP POLICY IF EXISTS "Users can upload media assets" ON public.media_assets;
+DROP POLICY IF EXISTS "Users can update their own media assets" ON public.media_assets;
+DROP POLICY IF EXISTS "Public transcripts are viewable by everyone" ON public.transcripts;
+DROP POLICY IF EXISTS "Users can view transcripts for their media" ON public.transcripts;
+DROP POLICY IF EXISTS "Users can create transcripts for their media" ON public.transcripts;
+DROP POLICY IF EXISTS "Users can view their own transcription jobs" ON public.transcription_jobs;
+DROP POLICY IF EXISTS "Users can create transcription jobs" ON public.transcription_jobs;
+DROP POLICY IF EXISTS "Media usage is viewable by everyone" ON public.media_usage_tracking;
+DROP POLICY IF EXISTS "Users can track media usage" ON public.media_usage_tracking;
+DROP POLICY IF EXISTS "Users can upload media files" ON storage.objects;
+DROP POLICY IF EXISTS "Users can update their own media files" ON storage.objects;
+DROP POLICY IF EXISTS "Users can delete their own media files" ON storage.objects;
+DROP POLICY IF EXISTS "Public media files are viewable by everyone" ON storage.objects;
 
-CREATE POLICY "Users can view their own media assets" 
-  ON public.media_assets FOR SELECT 
+-- Media assets policies
+CREATE POLICY "Public media assets are viewable by everyone"
+  ON public.media_assets FOR SELECT
+  USING (COALESCE(visibility, 'public') = 'public');
+
+CREATE POLICY "Users can view their own media assets"
+  ON public.media_assets FOR SELECT
   USING (uploaded_by = auth.uid());
 
-CREATE POLICY "Users can upload media assets" 
-  ON public.media_assets FOR INSERT 
+CREATE POLICY "Users can upload media assets"
+  ON public.media_assets FOR INSERT
   WITH CHECK (uploaded_by = auth.uid());
 
-CREATE POLICY "Users can update their own media assets" 
-  ON public.media_assets FOR UPDATE 
+CREATE POLICY "Users can update their own media assets"
+  ON public.media_assets FOR UPDATE
   USING (uploaded_by = auth.uid());
 
 -- Transcripts policies
-CREATE POLICY "Public transcripts are viewable by everyone" 
-  ON public.transcripts FOR SELECT 
+CREATE POLICY "Public transcripts are viewable by everyone"
+  ON public.transcripts FOR SELECT
   USING (
     EXISTS (
-      SELECT 1 FROM public.media_assets 
-      WHERE media_assets.id = transcripts.media_asset_id 
-      AND media_assets.visibility = 'public'
+      SELECT 1 FROM public.media_assets
+      WHERE media_assets.id = transcripts.media_asset_id
+      AND COALESCE(media_assets.visibility, 'public') = 'public'
     )
   );
 
-CREATE POLICY "Users can view transcripts for their media" 
-  ON public.transcripts FOR SELECT 
+CREATE POLICY "Users can view transcripts for their media"
+  ON public.transcripts FOR SELECT
   USING (
     EXISTS (
-      SELECT 1 FROM public.media_assets 
-      WHERE media_assets.id = transcripts.media_asset_id 
+      SELECT 1 FROM public.media_assets
+      WHERE media_assets.id = transcripts.media_asset_id
       AND media_assets.uploaded_by = auth.uid()
     )
   );
 
-CREATE POLICY "Users can create transcripts for their media" 
-  ON public.transcripts FOR INSERT 
+CREATE POLICY "Users can create transcripts for their media"
+  ON public.transcripts FOR INSERT
   WITH CHECK (created_by = auth.uid());
 
 -- Transcription jobs policies
-CREATE POLICY "Users can view their own transcription jobs" 
-  ON public.transcription_jobs FOR SELECT 
+CREATE POLICY "Users can view their own transcription jobs"
+  ON public.transcription_jobs FOR SELECT
   USING (created_by = auth.uid());
 
-CREATE POLICY "Users can create transcription jobs" 
-  ON public.transcription_jobs FOR INSERT 
+CREATE POLICY "Users can create transcription jobs"
+  ON public.transcription_jobs FOR INSERT
   WITH CHECK (created_by = auth.uid());
 
 -- Media usage tracking policies
-CREATE POLICY "Media usage is viewable by everyone" 
-  ON public.media_usage_tracking FOR SELECT 
+CREATE POLICY "Media usage is viewable by everyone"
+  ON public.media_usage_tracking FOR SELECT
   USING (true);
 
-CREATE POLICY "Users can track media usage" 
-  ON public.media_usage_tracking FOR INSERT 
+CREATE POLICY "Users can track media usage"
+  ON public.media_usage_tracking FOR INSERT
   WITH CHECK (added_by = auth.uid());
 
 -- Create storage bucket for media if it doesn't exist
@@ -235,20 +344,20 @@ VALUES ('media', 'media', true, NOW(), NOW())
 ON CONFLICT (id) DO NOTHING;
 
 -- Storage policies
-CREATE POLICY "Users can upload media files" 
-  ON storage.objects FOR INSERT 
+CREATE POLICY "Users can upload media files"
+  ON storage.objects FOR INSERT
   WITH CHECK (bucket_id = 'media' AND auth.uid() IS NOT NULL);
 
-CREATE POLICY "Users can update their own media files" 
-  ON storage.objects FOR UPDATE 
+CREATE POLICY "Users can update their own media files"
+  ON storage.objects FOR UPDATE
   USING (bucket_id = 'media' AND owner = auth.uid());
 
-CREATE POLICY "Users can delete their own media files" 
-  ON storage.objects FOR DELETE 
+CREATE POLICY "Users can delete their own media files"
+  ON storage.objects FOR DELETE
   USING (bucket_id = 'media' AND owner = auth.uid());
 
-CREATE POLICY "Public media files are viewable by everyone" 
-  ON storage.objects FOR SELECT 
+CREATE POLICY "Public media files are viewable by everyone"
+  ON storage.objects FOR SELECT
   USING (bucket_id = 'media');
 
 -- Update triggers

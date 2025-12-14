@@ -137,6 +137,7 @@ ALTER TABLE ai_moderation_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ai_safety_logs ENABLE ROW LEVEL SECURITY;
 
 -- Elder Review Queue Policies
+DROP POLICY IF EXISTS "Elders can view their assigned reviews" ON elder_review_queue;
 CREATE POLICY "Elders can view their assigned reviews"
   ON elder_review_queue FOR SELECT
   TO authenticated
@@ -146,11 +147,13 @@ CREATE POLICY "Elders can view their assigned reviews"
     OR EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_elder = true)
   );
 
+DROP POLICY IF EXISTS "System can insert review items" ON elder_review_queue;
 CREATE POLICY "System can insert review items"
   ON elder_review_queue FOR INSERT
   TO authenticated
   WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Elders can update their reviews" ON elder_review_queue;
 CREATE POLICY "Elders can update their reviews"
   ON elder_review_queue FOR UPDATE
   TO authenticated
@@ -160,6 +163,7 @@ CREATE POLICY "Elders can update their reviews"
   );
 
 -- Moderation Results Policies
+DROP POLICY IF EXISTS "Authors can view their content moderation" ON moderation_results;
 CREATE POLICY "Authors can view their content moderation"
   ON moderation_results FOR SELECT
   TO authenticated
@@ -170,28 +174,33 @@ CREATE POLICY "Authors can view their content moderation"
     OR EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_elder = true)
   );
 
+DROP POLICY IF EXISTS "System can insert moderation results" ON moderation_results;
 CREATE POLICY "System can insert moderation results"
   ON moderation_results FOR INSERT
   TO authenticated
   WITH CHECK (true);
 
 -- Moderation Appeals Policies
+DROP POLICY IF EXISTS "Users can view their own appeals" ON moderation_appeals;
 CREATE POLICY "Users can view their own appeals"
   ON moderation_appeals FOR SELECT
   TO authenticated
   USING (user_id = auth.uid() OR EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_elder = true));
 
+DROP POLICY IF EXISTS "Users can create appeals" ON moderation_appeals;
 CREATE POLICY "Users can create appeals"
   ON moderation_appeals FOR INSERT
   TO authenticated
   WITH CHECK (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Elders can update appeals" ON moderation_appeals;
 CREATE POLICY "Elders can update appeals"
   ON moderation_appeals FOR UPDATE
   TO authenticated
   USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_elder = true));
 
 -- AI Moderation Logs Policies (read-only for most users)
+DROP POLICY IF EXISTS "Elders and content authors can view logs" ON ai_moderation_logs;
 CREATE POLICY "Elders and content authors can view logs"
   ON ai_moderation_logs FOR SELECT
   TO authenticated
@@ -200,17 +209,20 @@ CREATE POLICY "Elders and content authors can view logs"
     OR EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_elder = true)
   );
 
+DROP POLICY IF EXISTS "System can insert logs" ON ai_moderation_logs;
 CREATE POLICY "System can insert logs"
   ON ai_moderation_logs FOR INSERT
   TO authenticated
   WITH CHECK (true);
 
 -- AI Safety Logs Policies
+DROP POLICY IF EXISTS "Users can view their own safety logs" ON ai_safety_logs;
 CREATE POLICY "Users can view their own safety logs"
   ON ai_safety_logs FOR SELECT
   TO authenticated
   USING (user_id = auth.uid() OR EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND is_elder = true));
 
+DROP POLICY IF EXISTS "System can insert safety logs" ON ai_safety_logs;
 CREATE POLICY "System can insert safety logs"
   ON ai_safety_logs FOR INSERT
   TO authenticated
@@ -261,6 +273,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS update_elder_review_queue_timestamp ON elder_review_queue;
 CREATE TRIGGER update_elder_review_queue_timestamp
   BEFORE UPDATE ON elder_review_queue
   FOR EACH ROW
@@ -281,6 +294,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS elder_review_assignment_notification ON elder_review_queue;
 CREATE TRIGGER elder_review_assignment_notification
   AFTER INSERT OR UPDATE ON elder_review_queue
   FOR EACH ROW

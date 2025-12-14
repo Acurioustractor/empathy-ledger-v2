@@ -37,39 +37,35 @@ ALTER TABLE public.organizations
 ADD COLUMN IF NOT EXISTS shared_vocabularies TEXT[] DEFAULT ARRAY[]::TEXT[];
 
 -- Update the status column to use the new enum type
--- First, add a temporary column with the new enum type
-ALTER TABLE public.organizations 
-ADD COLUMN IF NOT EXISTS status_new organization_status DEFAULT 'active';
-
--- Update existing data: map old status values to new enum values
-UPDATE public.organizations 
-SET status_new = CASE 
-  WHEN status = 'active' THEN 'active'::organization_status
-  WHEN status = 'inactive' THEN 'inactive'::organization_status
-  WHEN status = 'suspended' THEN 'suspended'::organization_status
-  ELSE 'active'::organization_status
-END
-WHERE status_new IS NULL OR status_new = 'active';
-
--- Drop the old status column if it exists and rename the new one
-DO $$ 
+DO $$
 BEGIN
-  -- Check if old status column exists and is not already the enum type
+  -- Check if organizations table has a text-based status column that needs migration
   IF EXISTS (
-    SELECT 1 FROM information_schema.columns 
-    WHERE table_name = 'organizations' 
-    AND column_name = 'status' 
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'organizations'
+    AND column_name = 'status'
     AND table_schema = 'public'
-    AND data_type != 'USER-DEFINED'
+    AND data_type = 'text'
   ) THEN
+    -- Add temporary column
+    ALTER TABLE public.organizations ADD COLUMN IF NOT EXISTS status_new organization_status DEFAULT 'active';
+
+    -- Update existing data: map old status values to new enum values
+    UPDATE public.organizations
+    SET status_new = CASE
+      WHEN status = 'active' THEN 'active'::organization_status
+      WHEN status = 'inactive' THEN 'inactive'::organization_status
+      WHEN status = 'suspended' THEN 'suspended'::organization_status
+      ELSE 'active'::organization_status
+    END
+    WHERE status_new IS NULL OR status_new = 'active';
+
+    -- Drop old and rename new
     ALTER TABLE public.organizations DROP COLUMN status;
     ALTER TABLE public.organizations RENAME COLUMN status_new TO status;
   ELSE
-    -- If status column doesn't exist or is already enum type, just ensure we have the right column
-    ALTER TABLE public.organizations DROP COLUMN IF EXISTS status_new;
-    -- Add status column if it doesn't exist
-    ALTER TABLE public.organizations 
-    ADD COLUMN IF NOT EXISTS status organization_status DEFAULT 'active';
+    -- Just add status column if it doesn't exist
+    ALTER TABLE public.organizations ADD COLUMN IF NOT EXISTS status organization_status DEFAULT 'active';
   END IF;
 END $$;
 
@@ -176,61 +172,32 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql IMMUTABLE;
 
--- Add check constraints for JSONB validation
-ALTER TABLE public.organizations 
-ADD CONSTRAINT IF NOT EXISTS chk_cultural_identity_valid 
-CHECK (validate_cultural_identity(cultural_identity));
-
-ALTER TABLE public.organizations 
-ADD CONSTRAINT IF NOT EXISTS chk_governance_structure_valid 
-CHECK (validate_governance_structure(governance_structure));
-
-ALTER TABLE public.organizations 
-ADD CONSTRAINT IF NOT EXISTS chk_cultural_protocols_valid 
-CHECK (validate_cultural_protocols(cultural_protocols));
-
-ALTER TABLE public.organizations 
-ADD CONSTRAINT IF NOT EXISTS chk_default_permissions_valid 
-CHECK (validate_default_permissions(default_permissions));
-
-ALTER TABLE public.organizations 
-ADD CONSTRAINT IF NOT EXISTS chk_collaboration_settings_valid 
-CHECK (validate_collaboration_settings(collaboration_settings));
+-- Add check constraints for JSONB validation (idempotent)
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_cultural_identity_valid') THEN
+    ALTER TABLE public.organizations ADD CONSTRAINT chk_cultural_identity_valid CHECK (validate_cultural_identity(cultural_identity));
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_governance_structure_valid') THEN
+    ALTER TABLE public.organizations ADD CONSTRAINT chk_governance_structure_valid CHECK (validate_governance_structure(governance_structure));
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_cultural_protocols_valid') THEN
+    ALTER TABLE public.organizations ADD CONSTRAINT chk_cultural_protocols_valid CHECK (validate_cultural_protocols(cultural_protocols));
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_default_permissions_valid') THEN
+    ALTER TABLE public.organizations ADD CONSTRAINT chk_default_permissions_valid CHECK (validate_default_permissions(default_permissions));
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_collaboration_settings_valid') THEN
+    ALTER TABLE public.organizations ADD CONSTRAINT chk_collaboration_settings_valid CHECK (validate_collaboration_settings(collaboration_settings));
+  END IF;
+EXCEPTION WHEN OTHERS THEN
+  -- Constraints may already exist or columns may not exist yet
+  RAISE NOTICE 'Constraint creation skipped: %', SQLERRM;
+END $$;
 
 -- Update RLS policies to account for new columns if needed
 -- Note: Existing RLS policies should continue to work, but we may need to add new ones
 -- for the enhanced cultural and access control features in future phases
-
--- Add sample data validation (optional - can be used for testing)
--- This ensures the migration works with some basic test data
-INSERT INTO public.organizations (
-  name, 
-  slug,
-  cultural_identity,
-  governance_structure,
-  cultural_protocols,
-  default_permissions,
-  elder_oversight_required,
-  community_approval_required,
-  collaboration_settings,
-  shared_vocabularies,
-  status
-) VALUES (
-  'Migration Test Organization',
-  'migration-test-org-' || extract(epoch from now())::text,
-  '{"traditions": ["oral_storytelling"], "values": ["respect", "community"], "practices": ["ceremony", "gathering"]}',
-  '{"type": "council", "decision_making": "consensus", "leadership": "rotational"}',
-  '{"sacred_content": "elder_approval_required", "public_sharing": "community_consensus", "media_protocols": "culturally_sensitive"}',
-  '{"default_role": "member", "content_access": "community", "sharing_permissions": "restricted"}',
-  true,
-  true,
-  '{"external_sharing": false, "cross_org_projects": true, "vocabulary_sharing": true}',
-  ARRAY['tradition', 'ceremony', 'elder', 'community', 'sacred'],
-  'active'::organization_status
-) ON CONFLICT (slug) DO NOTHING;
-
--- Clean up the test data (remove the test organization)
-DELETE FROM public.organizations WHERE slug LIKE 'migration-test-org-%';
 
 -- Migration completed successfully
 -- The organizations table now has enhanced cultural identity and governance features

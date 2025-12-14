@@ -180,34 +180,58 @@ ALTER TABLE cross_sector_insights ENABLE ROW LEVEL SECURITY;
 ALTER TABLE geographic_impact_patterns ENABLE ROW LEVEL SECURITY;
 ALTER TABLE theme_evolution_tracking ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies first (idempotent)
+DROP POLICY IF EXISTS storyteller_impact_metrics_tenant_isolation ON storyteller_impact_metrics;
+DROP POLICY IF EXISTS cross_sector_insights_tenant_isolation ON cross_sector_insights;
+DROP POLICY IF EXISTS geographic_impact_patterns_tenant_isolation ON geographic_impact_patterns;
+DROP POLICY IF EXISTS theme_evolution_tracking_tenant_isolation ON theme_evolution_tracking;
+
 -- RLS Policies for tenant isolation
 CREATE POLICY storyteller_impact_metrics_tenant_isolation ON storyteller_impact_metrics
-    FOR ALL USING (tenant_id = auth.jwt() ->> 'tenant_id');
+    FOR ALL USING (tenant_id = (auth.jwt() ->> 'tenant_id')::UUID);
 
 CREATE POLICY cross_sector_insights_tenant_isolation ON cross_sector_insights
-    FOR ALL USING (tenant_id = auth.jwt() ->> 'tenant_id');
+    FOR ALL USING (tenant_id = (auth.jwt() ->> 'tenant_id')::UUID);
 
 CREATE POLICY geographic_impact_patterns_tenant_isolation ON geographic_impact_patterns
-    FOR ALL USING (tenant_id = auth.jwt() ->> 'tenant_id');
+    FOR ALL USING (tenant_id = (auth.jwt() ->> 'tenant_id')::UUID);
 
 CREATE POLICY theme_evolution_tracking_tenant_isolation ON theme_evolution_tracking
-    FOR ALL USING (tenant_id = auth.jwt() ->> 'tenant_id');
+    FOR ALL USING (tenant_id = (auth.jwt() ->> 'tenant_id')::UUID);
 
--- Create indexes for performance
-CREATE INDEX idx_storyteller_impact_metrics_storyteller_id ON storyteller_impact_metrics(storyteller_id);
-CREATE INDEX idx_storyteller_impact_metrics_tenant_id ON storyteller_impact_metrics(tenant_id);
-CREATE INDEX idx_storyteller_impact_metrics_period ON storyteller_impact_metrics(measurement_period_start, measurement_period_end);
+-- Create indexes for performance (only if columns exist)
+CREATE INDEX IF NOT EXISTS idx_storyteller_impact_metrics_storyteller_id ON storyteller_impact_metrics(storyteller_id);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'storyteller_impact_metrics' AND column_name = 'tenant_id') THEN
+    CREATE INDEX IF NOT EXISTS idx_storyteller_impact_metrics_tenant_id ON storyteller_impact_metrics(tenant_id);
+  END IF;
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'storyteller_impact_metrics' AND column_name = 'measurement_period_start') THEN
+    CREATE INDEX IF NOT EXISTS idx_storyteller_impact_metrics_period ON storyteller_impact_metrics(measurement_period_start, measurement_period_end);
+  END IF;
+EXCEPTION WHEN OTHERS THEN NULL; END $$;
 
-CREATE INDEX idx_cross_sector_insights_tenant_id ON cross_sector_insights(tenant_id);
-CREATE INDEX idx_cross_sector_insights_sectors ON cross_sector_insights(primary_sector, secondary_sector);
-CREATE INDEX idx_cross_sector_insights_themes ON cross_sector_insights USING GIN (shared_themes);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'cross_sector_insights') THEN
+    CREATE INDEX IF NOT EXISTS idx_cross_sector_insights_tenant_id ON cross_sector_insights(tenant_id);
+    CREATE INDEX IF NOT EXISTS idx_cross_sector_insights_sectors ON cross_sector_insights(primary_sector, secondary_sector);
+    CREATE INDEX IF NOT EXISTS idx_cross_sector_insights_themes ON cross_sector_insights USING GIN (shared_themes);
+  END IF;
+EXCEPTION WHEN OTHERS THEN NULL; END $$;
 
-CREATE INDEX idx_geographic_impact_patterns_tenant_id ON geographic_impact_patterns(tenant_id);
-CREATE INDEX idx_geographic_impact_patterns_location ON geographic_impact_patterns(location_id);
-CREATE INDEX idx_geographic_impact_patterns_scope ON geographic_impact_patterns(geographic_scope);
-CREATE INDEX idx_geographic_impact_patterns_themes ON geographic_impact_patterns USING GIN (primary_themes);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'geographic_impact_patterns') THEN
+    CREATE INDEX IF NOT EXISTS idx_geographic_impact_patterns_tenant_id ON geographic_impact_patterns(tenant_id);
+    CREATE INDEX IF NOT EXISTS idx_geographic_impact_patterns_location ON geographic_impact_patterns(location_id);
+    CREATE INDEX IF NOT EXISTS idx_geographic_impact_patterns_scope ON geographic_impact_patterns(geographic_scope);
+    CREATE INDEX IF NOT EXISTS idx_geographic_impact_patterns_themes ON geographic_impact_patterns USING GIN (primary_themes);
+  END IF;
+EXCEPTION WHEN OTHERS THEN NULL; END $$;
 
-CREATE INDEX idx_theme_evolution_tracking_tenant_id ON theme_evolution_tracking(tenant_id);
-CREATE INDEX idx_theme_evolution_tracking_theme ON theme_evolution_tracking(theme_name);
-CREATE INDEX idx_theme_evolution_tracking_category ON theme_evolution_tracking(theme_category);
-CREATE INDEX idx_theme_evolution_tracking_trend ON theme_evolution_tracking(trend_direction);
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'theme_evolution_tracking') THEN
+    CREATE INDEX IF NOT EXISTS idx_theme_evolution_tracking_tenant_id ON theme_evolution_tracking(tenant_id);
+    CREATE INDEX IF NOT EXISTS idx_theme_evolution_tracking_theme ON theme_evolution_tracking(theme_name);
+    CREATE INDEX IF NOT EXISTS idx_theme_evolution_tracking_category ON theme_evolution_tracking(theme_category);
+    CREATE INDEX IF NOT EXISTS idx_theme_evolution_tracking_trend ON theme_evolution_tracking(trend_direction);
+  END IF;
+EXCEPTION WHEN OTHERS THEN NULL; END $$;

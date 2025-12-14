@@ -109,6 +109,7 @@ ALTER TABLE webhook_delivery_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE consent_change_log ENABLE ROW LEVEL SECURITY;
 
 -- Service role can manage all webhooks
+DROP POLICY IF EXISTS "Service role manages webhooks" ON webhook_subscriptions;
 CREATE POLICY "Service role manages webhooks"
   ON webhook_subscriptions
   FOR ALL
@@ -116,6 +117,7 @@ CREATE POLICY "Service role manages webhooks"
   USING (true)
   WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Service role manages delivery logs" ON webhook_delivery_log;
 CREATE POLICY "Service role manages delivery logs"
   ON webhook_delivery_log
   FOR ALL
@@ -123,6 +125,7 @@ CREATE POLICY "Service role manages delivery logs"
   USING (true)
   WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Service role manages consent logs" ON consent_change_log;
 CREATE POLICY "Service role manages consent logs"
   ON consent_change_log
   FOR ALL
