@@ -32,6 +32,8 @@ const renderIcon = (iconName: string, className: string) => {
       return <BarChart3 className={className} />
     case 'FolderOpen':
       return <FolderOpen className={className} />
+    case 'Map':
+      return <Map className={className} />
     default:
       return null
   }
@@ -57,6 +59,13 @@ const primaryNavigation: NavigationItem[] = [
 
 // Secondary navigation (goes into "More" menu on smaller screens)
 const secondaryNavigation: NavigationItem[] = [
+  {
+    name: 'World Tour',
+    href: '/world-tour',
+    iconName: 'Map',
+    description: 'Invite us to your community',
+    showFor: 'all'
+  },
   {
     name: 'Projects',
     href: '/projects',
