@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- V1: Classic - Two equal circles, medium stroke, clean overlap -->
+  <defs>
+    <linearGradient id="cv1grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <circle cx="18" cy="24" r="11" stroke="url(#cv1grad)" stroke-width="3" fill="none"/>
+  <circle cx="30" cy="24" r="11" stroke="url(#cv1grad)" stroke-width="3" fill="none"/>
+</svg>

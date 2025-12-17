@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Concept 5: Stylized Ear with Sound Waves - Active listening/empathy -->
+  <defs>
+    <linearGradient id="c5grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- Simplified ear shape -->
+  <path d="M30 8 C16 8 12 16 12 24 C12 32 16 38 22 40 L22 36 C18 34 16 30 16 24 C16 18 20 12 30 12 C36 12 38 18 38 24 C38 28 36 30 32 30 L32 26 C34 26 34 24 34 24 C34 20 32 16 28 16 C24 16 20 20 20 24 C20 26 21 28 23 29 L23 33 C19 32 16 28 16 24" fill="url(#c5grad)" fill-rule="evenodd"/>
+  <!-- Sound wave arcs -->
+  <path d="M36 16 Q42 20 42 24 Q42 28 36 32" stroke="url(#c5grad)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M40 18 Q44 22 44 24 Q44 28 40 30" stroke="url(#c5grad)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
+</svg>

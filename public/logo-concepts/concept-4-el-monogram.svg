@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Concept 4: E+L Monogram - Clean typography-based mark -->
+  <defs>
+    <linearGradient id="c4grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- E shape -->
+  <path d="M8 8 L8 40 L24 40 L24 36 L12 36 L12 26 L22 26 L22 22 L12 22 L12 12 L24 12 L24 8 Z" fill="url(#c4grad)"/>
+  <!-- L shape (integrated) -->
+  <path d="M26 8 L26 40 L40 40 L40 36 L30 36 L30 8 Z" fill="url(#c4grad)" opacity="0.75"/>
+</svg>

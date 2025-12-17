@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Embrace V7: Tight Embrace - Closer together, more intimate -->
+  <defs>
+    <linearGradient id="ev7grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <path
+    d="M19 14 A10 10 0 1 0 19 34"
+    stroke="url(#ev7grad)"
+    stroke-width="3"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <path
+    d="M29 34 A10 10 0 1 0 29 14"
+    stroke="url(#ev7grad)"
+    stroke-width="3"
+    fill="none"
+    stroke-linecap="round"
+  />
+</svg>

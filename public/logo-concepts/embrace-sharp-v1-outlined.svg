@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Sharp V1: Dark outline with gradient fill - crisp edge definition -->
+  <defs>
+    <linearGradient id="es1grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- Dark outline layer (behind) -->
+  <path
+    d="M17 13 A11 11 0 1 0 17 35"
+    stroke="#42291a"
+    stroke-width="4.5"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <path
+    d="M31 35 A11 11 0 1 0 31 13"
+    stroke="#42291a"
+    stroke-width="4.5"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <!-- Gradient fill layer (on top) -->
+  <path
+    d="M17 13 A11 11 0 1 0 17 35"
+    stroke="url(#es1grad)"
+    stroke-width="3"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <path
+    d="M31 35 A11 11 0 1 0 31 13"
+    stroke="url(#es1grad)"
+    stroke-width="3"
+    fill="none"
+    stroke-linecap="round"
+  />
+</svg>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empathy Ledger - Sharp Embrace Variations</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8f6f3;
+      color: #42291a;
+      padding: 40px 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 2rem;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+    }
+    .comparison {
+      max-width: 600px;
+      margin: 0 auto 50px;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .comparison h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #666;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .comparison-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+    .comparison-item {
+      text-align: center;
+    }
+    .comparison-item img {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 8px;
+    }
+    .comparison-item span {
+      font-size: 0.8rem;
+      color: #999;
+    }
+    .arrow {
+      font-size: 2rem;
+      color: #ccc;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    .logo-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      padding: 24px;
+      background: #faf8f5;
+      border-radius: 12px;
+    }
+    .logo-row img {
+      width: 90px;
+      height: 90px;
+    }
+    .dark-bg {
+      background: #42291a;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .dark-bg img {
+      filter: brightness(1.5) saturate(0.9);
+    }
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      color: #42291a;
+    }
+    .card p {
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+    .sizes {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid #eee;
+    }
+    .sizes span {
+      font-size: 0.65rem;
+      color: #999;
+      margin-left: auto;
+    }
+    .pick {
+      border: 3px solid #16a34a;
+      position: relative;
+    }
+    .pick::before {
+      content: "RECOMMENDED";
+      position: absolute;
+      top: -11px;
+      left: 16px;
+      background: #16a34a;
+      color: white;
+      padding: 3px 10px;
+      font-size: 0.65rem;
+      font-weight: bold;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .summary {
+      max-width: 800px;
+      margin: 50px auto 0;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      text-align: center;
+    }
+    .summary h2 {
+      margin-bottom: 16px;
+      color: #42291a;
+    }
+    .summary p {
+      color: #666;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sharp & Defined Embrace</h1>
+  <p class="subtitle">6 techniques to make the logo more crisp and professional</p>
+
+  <div class="comparison">
+    <h3>Before → After</h3>
+    <div class="comparison-row">
+      <div class="comparison-item">
+        <img src="embrace-v1-earth.svg" alt="Original">
+        <span>Original (soft)</span>
+      </div>
+      <div class="arrow">→</div>
+      <div class="comparison-item">
+        <img src="embrace-sharp-v5-filled-arcs.svg" alt="Sharp">
+        <span>Sharp (defined)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- Sharp V1: Outlined -->
+    <div class="card">
+      <span class="tag">Dark Outline</span>
+      <div class="logo-row">
+        <img src="embrace-sharp-v1-outlined.svg" alt="Outlined">
+        <div class="dark-bg">
+          <img src="embrace-sharp-v1-outlined.svg" width="60" height="60" alt="dark">
+        </div>
+      </div>
+      <h3>V1: Dark Edge Outline</h3>
+      <p>Gradient stroke with a dark outline behind it. Creates clear edge definition while keeping the warmth of the gradient.</p>
+      <div class="sizes">
+        <img src="embrace-sharp-v1-outlined.svg" width="48" height="48">
+        <img src="embrace-sharp-v1-outlined.svg" width="32" height="32">
+        <img src="embrace-sharp-v1-outlined.svg" width="24" height="24">
+        <img src="embrace-sharp-v1-outlined.svg" width="16" height="16">
+        <span>Size test</span>
+      </div>
+    </div>
+
+    <!-- Sharp V2: Bold -->
+    <div class="card">
+      <span class="tag">Thicker Stroke</span>
+      <div class="logo-row">
+        <img src="embrace-sharp-v2-bold.svg" alt="Bold">
+        <div class="dark-bg">
+          <img src="embrace-sharp-v2-bold.svg" width="60" height="60" alt="dark">
+        </div>
+      </div>
+      <h3>V2: Bold Weight</h3>
+      <p>Simply thicker strokes (4.5px vs 3px). More presence and authority. Reads clearly at small sizes.</p>
+      <div class="sizes">
+        <img src="embrace-sharp-v2-bold.svg" width="48" height="48">
+        <img src="embrace-sharp-v2-bold.svg" width="32" height="32">
+        <img src="embrace-sharp-v2-bold.svg" width="24" height="24">
+        <img src="embrace-sharp-v2-bold.svg" width="16" height="16">
+        <span>Size test</span>
+      </div>
+    </div>
+
+    <!-- Sharp V3: Solid -->
+    <div class="card pick">
+      <span class="tag">Solid Color</span>
+      <div class="logo-row">
+        <img src="embrace-sharp-v3-solid-gradient.svg" alt="Solid">
+        <div class="dark-bg">
+          <img src="embrace-sharp-v3-solid-gradient.svg" width="60" height="60" alt="dark">
+        </div>
+      </div>
+      <h3>V3: Solid Ochre</h3>
+      <p>Single solid color, thicker stroke. Maximum clarity and definition. The cleanest, most "logo-like" feel.</p>
+      <div class="sizes">
+        <img src="embrace-sharp-v3-solid-gradient.svg" width="48" height="48">
+        <img src="embrace-sharp-v3-solid-gradient.svg" width="32" height="32">
+        <img src="embrace-sharp-v3-solid-gradient.svg" width="24" height="24">
+        <img src="embrace-sharp-v3-solid-gradient.svg" width="16" height="16">
+        <span>Size test</span>
+      </div>
+    </div>
+
+    <!-- Sharp V4: Double Stroke -->
+    <div class="card">
+      <span class="tag">Inner Highlight</span>
+      <div class="logo-row">
+        <img src="embrace-sharp-v4-double-stroke.svg" alt="Double">
+        <div class="dark-bg">
+          <img src="embrace-sharp-v4-double-stroke.svg" width="60" height="60" alt="dark">
+        </div>
+      </div>
+      <h3>V4: Inner Highlight</h3>
+      <p>Thick gradient stroke with subtle white inner edge. Adds depth and dimension while maintaining crispness.</p>
+      <div class="sizes">
+        <img src="embrace-sharp-v4-double-stroke.svg" width="48" height="48">
+        <img src="embrace-sharp-v4-double-stroke.svg" width="32" height="32">
+        <img src="embrace-sharp-v4-double-stroke.svg" width="24" height="24">
+        <img src="embrace-sharp-v4-double-stroke.svg" width="16" height="16">
+        <span>Size test</span>
+      </div>
+    </div>
+
+    <!-- Sharp V5: Filled Arcs -->
+    <div class="card pick">
+      <span class="tag">Filled Shape</span>
+      <div class="logo-row">
+        <img src="embrace-sharp-v5-filled-arcs.svg" alt="Filled">
+        <div class="dark-bg">
+          <img src="embrace-sharp-v5-filled-arcs.svg" width="60" height="60" alt="dark">
+        </div>
+      </div>
+      <h3>V5: Filled Arcs</h3>
+      <p>Solid filled shapes instead of strokes. Most defined edges possible. Professional, bold, unmistakably a logo.</p>
+      <div class="sizes">
+        <img src="embrace-sharp-v5-filled-arcs.svg" width="48" height="48">
+        <img src="embrace-sharp-v5-filled-arcs.svg" width="32" height="32">
+        <img src="embrace-sharp-v5-filled-arcs.svg" width="24" height="24">
+        <img src="embrace-sharp-v5-filled-arcs.svg" width="16" height="16">
+        <span>Size test</span>
+      </div>
+    </div>
+
+    <!-- Sharp V6: High Contrast -->
+    <div class="card">
+      <span class="tag">High Contrast</span>
+      <div class="logo-row">
+        <img src="embrace-sharp-v6-high-contrast.svg" alt="High Contrast">
+        <div class="dark-bg">
+          <img src="embrace-sharp-v6-high-contrast.svg" width="60" height="60" alt="dark">
+        </div>
+      </div>
+      <h3>V6: High Contrast Gradient</h3>
+      <p>Deeper colors with sharper gradient transitions. More punch and definition while keeping the gradient feel.</p>
+      <div class="sizes">
+        <img src="embrace-sharp-v6-high-contrast.svg" width="48" height="48">
+        <img src="embrace-sharp-v6-high-contrast.svg" width="32" height="32">
+        <img src="embrace-sharp-v6-high-contrast.svg" width="24" height="24">
+        <img src="embrace-sharp-v6-high-contrast.svg" width="16" height="16">
+        <span>Size test</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <h2>My Recommendations</h2>
+    <p>
+      <strong>V5 Filled Arcs</strong> - Most logo-like. Solid filled shapes have the crispest edges possible. This is how major brands do it.<br><br>
+      <strong>V3 Solid Ochre</strong> - If you want to keep the stroke style but need maximum clarity. Single color, thicker weight.<br><br>
+      Both of these will look sharp and professional at any size, on any background.
+    </p>
+  </div>
+</body>
+</html>

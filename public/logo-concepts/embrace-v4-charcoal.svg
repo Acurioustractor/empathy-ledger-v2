@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Embrace V4: Charcoal - Sophisticated neutral -->
+  <path
+    d="M17 13 A11 11 0 1 0 17 35"
+    stroke="#42291a"
+    stroke-width="3"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <path
+    d="M31 35 A11 11 0 1 0 31 13"
+    stroke="#42291a"
+    stroke-width="3"
+    fill="none"
+    stroke-linecap="round"
+  />
+</svg>

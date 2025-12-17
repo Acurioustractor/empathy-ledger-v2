@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Sharp V4: Double stroke - white inner edge for crispness -->
+  <defs>
+    <linearGradient id="es4grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer color stroke -->
+  <path
+    d="M17 13 A11 11 0 1 0 17 35"
+    stroke="url(#es4grad)"
+    stroke-width="5"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <path
+    d="M31 35 A11 11 0 1 0 31 13"
+    stroke="url(#es4grad)"
+    stroke-width="5"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <!-- Inner white highlight -->
+  <path
+    d="M17 13 A11 11 0 1 0 17 35"
+    stroke="rgba(255,255,255,0.3)"
+    stroke-width="1.5"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <path
+    d="M31 35 A11 11 0 1 0 31 13"
+    stroke="rgba(255,255,255,0.3)"
+    stroke-width="1.5"
+    fill="none"
+    stroke-linecap="round"
+  />
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Embrace V5: Thin & Elegant - Lighter stroke, more refined -->
+  <defs>
+    <linearGradient id="ev5grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <path
+    d="M17 12 A12 12 0 1 0 17 36"
+    stroke="url(#ev5grad)"
+    stroke-width="2"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <path
+    d="M31 36 A12 12 0 1 0 31 12"
+    stroke="url(#ev5grad)"
+    stroke-width="2"
+    fill="none"
+    stroke-linecap="round"
+  />
+</svg>

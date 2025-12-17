@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Sharp V3: Solid base color + subtle gradient overlay for depth -->
+  <defs>
+    <linearGradient id="es3grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a06840"/>
+      <stop offset="100%" stop-color="#8a5a35"/>
+    </linearGradient>
+  </defs>
+  <!-- Solid ochre base -->
+  <path
+    d="M17 13 A11 11 0 1 0 17 35"
+    stroke="#96643a"
+    stroke-width="4"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <path
+    d="M31 35 A11 11 0 1 0 31 13"
+    stroke="#96643a"
+    stroke-width="4"
+    fill="none"
+    stroke-linecap="round"
+  />
+</svg>

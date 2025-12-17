@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Concept 2: Open Book with Heart - Stories shared with care -->
+  <defs>
+    <linearGradient id="c2grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- Left page -->
+  <path d="M6 12 L6 38 Q24 32 24 38 L24 12 Q24 18 6 12Z" fill="url(#c2grad)" opacity="0.85"/>
+  <!-- Right page -->
+  <path d="M42 12 L42 38 Q24 32 24 38 L24 12 Q24 18 42 12Z" fill="url(#c2grad)" opacity="0.65"/>
+  <!-- Small heart at center top -->
+  <path d="M24 18 C22 16 19 16 19 19 C19 22 24 26 24 26 C24 26 29 22 29 19 C29 16 26 16 24 18Z" fill="#faf6f1"/>
+</svg>

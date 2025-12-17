@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- V6: Vesica Piscis - Sacred geometry, the overlap itself is the focus -->
+  <defs>
+    <linearGradient id="cv6grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="100%" stop-color="#b84a32"/>
+    </linearGradient>
+    <linearGradient id="cv6grad2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#5c6d51"/>
+      <stop offset="100%" stop-color="#b84a32"/>
+    </linearGradient>
+    <clipPath id="cv6clip">
+      <circle cx="16" cy="24" r="12"/>
+    </clipPath>
+  </defs>
+  <!-- Left circle outline -->
+  <circle cx="16" cy="24" r="12" stroke="url(#cv6grad1)" stroke-width="2" fill="none"/>
+  <!-- Right circle outline -->
+  <circle cx="32" cy="24" r="12" stroke="url(#cv6grad2)" stroke-width="2" fill="none"/>
+  <!-- Vesica (intersection) filled -->
+  <circle cx="32" cy="24" r="12" fill="url(#cv6grad1)" opacity="0.25" clip-path="url(#cv6clip)"/>
+</svg>

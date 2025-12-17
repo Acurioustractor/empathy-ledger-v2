@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <linearGradient id="favGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="6" fill="#faf6f1"/>
+  <!-- Embrace: scaled for favicon -->
+  <path
+    d="M11 9 A7 7 0 1 0 11 23"
+    stroke="url(#favGradient)"
+    stroke-width="3"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <path
+    d="M21 23 A7 7 0 1 0 21 9"
+    stroke="url(#favGradient)"
+    stroke-width="3"
+    fill="none"
+    stroke-linecap="round"
+  />
+</svg>

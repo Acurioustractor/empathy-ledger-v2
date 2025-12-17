@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Concept 6: Two Hands Forming Heart - Care and human connection -->
+  <defs>
+    <linearGradient id="c6grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- Left curved hand/arm -->
+  <path d="M4 28 Q4 18 12 12 Q18 8 24 12" stroke="url(#c6grad)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- Right curved hand/arm -->
+  <path d="M44 28 Q44 18 36 12 Q30 8 24 12" stroke="url(#c6grad)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- Heart at center -->
+  <path d="M24 18 C20 14 14 14 14 20 C14 26 24 36 24 36 C24 36 34 26 34 20 C34 14 28 14 24 18Z" fill="url(#c6grad)"/>
+</svg>

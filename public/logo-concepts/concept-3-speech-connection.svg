@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Concept 3: Connected Speech Bubbles - Conversation and shared stories -->
+  <defs>
+    <linearGradient id="c3grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="100%" stop-color="#b84a32"/>
+    </linearGradient>
+    <linearGradient id="c3grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- Left speech bubble -->
+  <path d="M8 10 L26 10 Q30 10 30 14 L30 22 Q30 26 26 26 L16 26 L12 32 L12 26 L12 26 Q8 26 8 22 L8 14 Q8 10 12 10Z" fill="url(#c3grad1)"/>
+  <!-- Right speech bubble (overlapping) -->
+  <path d="M18 18 L36 18 Q40 18 40 22 L40 30 Q40 34 36 34 L36 34 L36 40 L30 34 L22 34 Q18 34 18 30 L18 22 Q18 18 22 18Z" fill="url(#c3grad2)"/>
+</svg>

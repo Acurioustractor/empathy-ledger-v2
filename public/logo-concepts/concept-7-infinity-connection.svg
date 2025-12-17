@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Concept 7: Infinity/Connection Loop - Continuous storytelling, eternal connection -->
+  <defs>
+    <linearGradient id="c7grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- Infinity symbol made of two connected loops -->
+  <path d="M12 24 C12 18 16 14 22 14 C26 14 28 16 24 24 C20 32 22 34 26 34 C32 34 36 30 36 24 C36 18 32 14 26 14 C22 14 20 16 24 24 C28 32 26 34 22 34 C16 34 12 30 12 24Z"
+        stroke="url(#c7grad)"
+        stroke-width="4"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+</svg>

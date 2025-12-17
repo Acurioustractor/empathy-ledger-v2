@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Sharp V6: High contrast gradient with sharp color stops -->
+  <defs>
+    <linearGradient id="es6grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5a30"/>
+      <stop offset="45%" stop-color="#c04a2f"/>
+      <stop offset="55%" stop-color="#c04a2f"/>
+      <stop offset="100%" stop-color="#4d5f45"/>
+    </linearGradient>
+  </defs>
+  <path
+    d="M17 13 A11 11 0 1 0 17 35"
+    stroke="url(#es6grad)"
+    stroke-width="4"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <path
+    d="M31 35 A11 11 0 1 0 31 13"
+    stroke="url(#es6grad)"
+    stroke-width="4"
+    fill="none"
+    stroke-linecap="round"
+  />
+</svg>

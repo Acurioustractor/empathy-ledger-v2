@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Sharp V5: Filled arc shapes instead of strokes - most defined -->
+  <defs>
+    <linearGradient id="es5grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- Left arc as filled shape -->
+  <path
+    d="M17 11 A13 13 0 1 0 17 37 L17 33 A9 9 0 1 1 17 15 Z"
+    fill="url(#es5grad)"
+  />
+  <!-- Right arc as filled shape -->
+  <path
+    d="M31 37 A13 13 0 1 0 31 11 L31 15 A9 9 0 1 1 31 33 Z"
+    fill="url(#es5grad)"
+  />
+</svg>

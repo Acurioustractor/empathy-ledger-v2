@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- V4: Nested Connection - Concentric circles suggesting depth of connection -->
+  <defs>
+    <linearGradient id="cv4grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer circles -->
+  <circle cx="17" cy="24" r="12" stroke="url(#cv4grad)" stroke-width="2" fill="none" opacity="0.5"/>
+  <circle cx="31" cy="24" r="12" stroke="url(#cv4grad)" stroke-width="2" fill="none" opacity="0.5"/>
+  <!-- Inner circles -->
+  <circle cx="17" cy="24" r="7" stroke="url(#cv4grad)" stroke-width="2.5" fill="none"/>
+  <circle cx="31" cy="24" r="7" stroke="url(#cv4grad)" stroke-width="2.5" fill="none"/>
+  <!-- Connection dot -->
+  <circle cx="24" cy="24" r="2" fill="#b84a32"/>
+</svg>

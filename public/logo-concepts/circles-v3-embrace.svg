@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- V3: Embrace - Circles that "hold" each other with broken lines -->
+  <defs>
+    <linearGradient id="cv3grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- Left circle - open on the right -->
+  <path
+    d="M18 13 A11 11 0 1 0 18 35"
+    stroke="url(#cv3grad)"
+    stroke-width="3.5"
+    fill="none"
+    stroke-linecap="round"
+  />
+  <!-- Right circle - open on the left -->
+  <path
+    d="M30 35 A11 11 0 1 0 30 13"
+    stroke="url(#cv3grad)"
+    stroke-width="3.5"
+    fill="none"
+    stroke-linecap="round"
+  />
+</svg>

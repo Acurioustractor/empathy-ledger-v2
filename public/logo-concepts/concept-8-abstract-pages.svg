@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Concept 8: Abstract Layered Pages - Ledger/record keeping, multiple stories -->
+  <defs>
+    <linearGradient id="c8grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="50%" stop-color="#b84a32"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- Back page -->
+  <rect x="12" y="8" width="28" height="36" rx="2" fill="#96643a" opacity="0.4"/>
+  <!-- Middle page -->
+  <rect x="10" y="6" width="28" height="36" rx="2" fill="#b84a32" opacity="0.6"/>
+  <!-- Front page -->
+  <rect x="8" y="4" width="28" height="36" rx="2" fill="url(#c8grad)"/>
+  <!-- Simple lines representing text/stories -->
+  <line x1="14" y1="14" x2="30" y2="14" stroke="#faf6f1" stroke-width="2" stroke-linecap="round"/>
+  <line x1="14" y1="20" x2="28" y2="20" stroke="#faf6f1" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  <line x1="14" y1="26" x2="26" y2="26" stroke="#faf6f1" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+</svg>

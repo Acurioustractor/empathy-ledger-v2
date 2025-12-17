@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Concept 1: Connected Circles - Representing human connection and shared stories -->
+  <defs>
+    <linearGradient id="c1grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#96643a"/>
+      <stop offset="100%" stop-color="#5c6d51"/>
+    </linearGradient>
+  </defs>
+  <!-- Left circle (person/story) -->
+  <circle cx="18" cy="24" r="10" fill="none" stroke="url(#c1grad)" stroke-width="3"/>
+  <!-- Right circle (person/story) - overlapping -->
+  <circle cx="30" cy="24" r="10" fill="none" stroke="url(#c1grad)" stroke-width="3"/>
+  <!-- Connection point highlighted -->
+  <circle cx="24" cy="24" r="2" fill="#b84a32"/>
+</svg>
