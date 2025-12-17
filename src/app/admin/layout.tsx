@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import {
   Home, Users, BookOpen, Building2, FolderOpen, Settings, BarChart,
   Image, Camera, FileText, Shield, Menu, X, LogOut, Zap,
-  Activity, Bell, PlusCircle, ChevronRight
+  Activity, Bell, PlusCircle, ChevronRight, Globe
 } from 'lucide-react'
 
 export default function AdminLayout({
@@ -84,6 +84,7 @@ export default function AdminLayout({
     { href: '/admin/command-center', icon: Activity, label: 'Command Center', superAdminOnly: true },
     { href: '/admin/audit-log', icon: BarChart, label: 'Audit Log', superAdminOnly: true },
     { href: '/admin/analytics', icon: BarChart, label: 'Analytics' },
+    { href: '/admin/world-tour/analytics', icon: Globe, label: 'World Tour' },
     { href: '/admin/settings', icon: Settings, label: 'Settings' },
   ]
 
