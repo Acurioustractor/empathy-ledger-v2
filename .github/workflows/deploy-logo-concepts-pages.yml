@@ -2,7 +2,7 @@ name: Deploy Logo Concepts (GitHub Pages)
 
 on:
   push:
-    branches: [main]
+    branches: [main, feature/partner-portal]
     paths:
       - "public/logo-concepts/**"
       - ".github/workflows/deploy-logo-concepts-pages.yml"
@@ -38,4 +38,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
