@@ -46,6 +46,8 @@
 *.swp
 *.swo
 *~
+.claude/
+.mcp.json
 
 # ===================
 # OS files
