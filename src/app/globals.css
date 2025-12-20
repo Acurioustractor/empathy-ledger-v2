@@ -1,9 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
+    /* Font variables (used by tailwind.config.ts) */
+    --font-inter: 'Inter';
+    --font-fraunces: 'Fraunces';
+
     /*
      * Empathy Ledger - "Editorial Warmth" Design System
      * Inspired by: Haus of Words, NITV, Charity: Water

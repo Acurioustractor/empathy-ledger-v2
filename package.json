@@ -10,7 +10,11 @@
     "start": "next start -p 3030",
     "start:custom": "next start -p 4000",
     "lint": "eslint",
+    "lint:ci": "eslint . --quiet",
     "type-check": "tsc --noEmit",
+    "type-check:baseline": "node scripts/ci/typecheck-baseline.mjs",
+    "type-check:baseline:write": "node scripts/ci/typecheck-baseline.mjs --write",
+    "test:e2e": "playwright test",
     "db:types": "supabase gen types typescript --local > src/types/database-generated.ts",
     "validate:schema": "node scripts/validate-database-schema.js",
     "validate:spelling": "node scripts/validation/australian-spelling-audit.js"

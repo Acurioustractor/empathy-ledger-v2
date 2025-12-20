@@ -328,7 +328,7 @@ function ThemeCard({
             value={percentage}
             className="h-1.5"
             style={{
-              // @ts-ignore - custom CSS variable
+              // @ts-expect-error - custom CSS variable
               '--progress-background': color
             } as any}
           />

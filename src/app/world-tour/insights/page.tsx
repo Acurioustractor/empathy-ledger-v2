@@ -536,8 +536,8 @@ export default function InsightsPage() {
                       <ResponsiveContainer width="100%" height="100%">
                         <RadarChart data={chartData.radarData} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
                           <PolarGrid stroke="#e5e5e5" />
-                          {/* @ts-ignore - recharts types issue */}
-                          <PolarAngleAxis dataKey="category" tick={{ fontSize: 11 }} />
+	                          {/* @ts-expect-error - recharts types issue */}
+	                          <PolarAngleAxis dataKey="category" tick={{ fontSize: 11 }} />
                           <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 10 }} />
                           <Radar
                             name="Themes"

@@ -164,7 +164,7 @@ export function ConsentDashboard({ data, loading }: ConsentDashboardProps) {
                     outerRadius={100}
                     paddingAngle={3}
                     dataKey="value"
-                    // @ts-ignore - recharts label type issue
+                    // @ts-expect-error - recharts label type issue
                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                     labelLine={false}
                   >

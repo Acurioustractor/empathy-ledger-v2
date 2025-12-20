@@ -70,7 +70,7 @@ export function HeatmapOverlay({
           if (heatData.length === 0) return
 
           // Create new heat layer
-          // @ts-ignore - leaflet.heat adds heatLayer to L
+          // @ts-expect-error - leaflet.heat adds heatLayer to L
           heatLayerRef.current = L.heatLayer(heatData, {
             radius: 25,
             blur: 15,

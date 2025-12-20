@@ -1,9 +1,10 @@
 name: Develop Branch Deployment
 
 on:
-  push:
-    branches:
-      - develop
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    branches: [develop]
+    types: [completed]
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -11,6 +12,7 @@ env:
 
 jobs:
   deploy-develop:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment:
       name: Staging
@@ -19,6 +21,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -27,10 +31,10 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install --legacy-peer-deps
+        run: npm ci --legacy-peer-deps
 
       - name: Type Check
-        run: npm run lint || true
+        run: npm run lint:ci
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest

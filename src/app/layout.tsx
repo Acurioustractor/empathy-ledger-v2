@@ -1,25 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Fraunces } from "next/font/google";
 import { ClientProviders } from "@/components/providers/ClientProviders";
 import "./globals.css";
 
 // Force all routes to be dynamically rendered to avoid SSG issues with React contexts
 export const dynamic = 'force-dynamic';
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
-
-// Fraunces - warm, editorial serif for headlines and display text
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-fraunces",
-  // Optical sizing and soft edges for warmth
-  axes: ["SOFT", "WONK", "opsz"],
-});
 
 export const metadata: Metadata = {
   title: "Empathy Ledger | Indigenous Stories & Cultural Wisdom",
@@ -50,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable}`} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased" suppressHydrationWarning>
         <ClientProviders>
           {children}

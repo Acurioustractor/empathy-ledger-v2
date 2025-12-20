@@ -1,10 +1,7 @@
 name: Validate Build & Spelling
 
 on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main, develop]
+  workflow_dispatch:
 
 jobs:
   validate:
@@ -21,23 +18,26 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm ci --legacy-peer-deps
 
       - name: Run type checking
+        id: type_check
         run: npm run type-check
         continue-on-error: true
 
       - name: Run linting
+        id: lint
         run: npm run lint
         continue-on-error: false
 
       - name: Check Australian spelling
         run: |
           echo "🇦🇺 Checking for American spelling..."
-          node australian-spelling-audit.js || true
+          node scripts/validation/australian-spelling-audit.js || true
           echo "Note: Spelling warnings won't fail the build but should be reviewed"
 
       - name: Build application
+        id: build
         run: npm run build
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
@@ -48,7 +48,7 @@ jobs:
         if: always()
         run: |
           echo "## Build Validation Report"
-          echo "- Type Check: ${{ steps.type-check.outcome }}"
+          echo "- Type Check: ${{ steps.type_check.outcome }}"
           echo "- Linting: ${{ steps.lint.outcome }}"
           echo "- Build: ${{ steps.build.outcome }}"
           echo ""

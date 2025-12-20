@@ -1,9 +1,10 @@
 name: Vercel Production Deployment
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    branches: [main]
+    types: [completed]
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -11,6 +12,7 @@ env:
 
 jobs:
   deploy-production:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment:
       name: Production
@@ -19,6 +21,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
