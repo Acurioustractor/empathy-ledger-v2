@@ -101,7 +101,7 @@ export default function AdminNavigation({ className }: AdminNavigationProps) {
     <div className={cn('space-y-6', className)}>
       {/* Public Navigation */}
       <div className="bg-white rounded-lg border p-4">
-        <h3 className="text-sm font-semibold text-grey-900 mb-3">Public Navigation</h3>
+        <h3 className="text-sm font-semibold text-stone-900 mb-3">Public Navigation</h3>
         <div className="flex flex-wrap gap-2">
           {publicNavItems.map((item) => (
             <Link key={item.href} href={item.href}>
@@ -116,23 +116,23 @@ export default function AdminNavigation({ className }: AdminNavigationProps) {
 
       {/* Admin Navigation */}
       <div className="bg-white rounded-lg border p-4">
-        <h3 className="text-sm font-semibold text-grey-900 mb-3">Admin Navigation</h3>
+        <h3 className="text-sm font-semibold text-stone-900 mb-3">Admin Navigation</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3">
           {navItems.map((item) => (
             <Link key={item.href} href={item.href}>
               <div
                 className={cn(
-                  'p-3 rounded-lg border transition-colours hover:bg-grey-50',
+                  'p-3 rounded-lg border transition-colours hover:bg-stone-50',
                   pathname === item.href 
                     ? 'bg-orange-50 border-orange-200 text-orange-800' 
-                    : 'bg-white border-grey-200 text-grey-700 hover:border-grey-300'
+                    : 'bg-white border-stone-200 text-stone-700 hover:border-stone-300'
                 )}
               >
                 <div className="flex items-start space-x-2 mb-1">
                   <item.icon className="w-4 h-4 flex-shrink-0 mt-0.5" />
                   <span className="font-medium text-sm break-words">{item.label}</span>
                 </div>
-                <p className="text-xs text-grey-500 break-words">{item.description}</p>
+                <p className="text-xs text-stone-500 break-words">{item.description}</p>
               </div>
             </Link>
           ))}
@@ -141,7 +141,7 @@ export default function AdminNavigation({ className }: AdminNavigationProps) {
 
       {/* Quick Actions */}
       <div className="bg-white rounded-lg border p-4">
-        <h3 className="text-sm font-semibold text-grey-900 mb-3">Quick Actions</h3>
+        <h3 className="text-sm font-semibold text-stone-900 mb-3">Quick Actions</h3>
         <div className="flex flex-wrap gap-2">
           <Link href="/admin/reviews">
             <Button size="sm" className="bg-orange-600 hover:bg-orange-700">

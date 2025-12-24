@@ -154,7 +154,7 @@ export default function SeedInterviewWizard({
       <Dialog open={open} onOpenChange={handleClose}>
         <DialogContent className="max-w-2xl">
           <div className="flex items-center justify-center p-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sage-600"></div>
           </div>
         </DialogContent>
       </Dialog>
@@ -197,7 +197,7 @@ export default function SeedInterviewWizard({
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-blue-600 animate-pulse" />
+              <Sparkles className="h-5 w-5 text-sage-600 animate-pulse" />
               <span className="text-sm">
                 Extracted {extractionResult.extracted?.extraction_quality_score || 0}% of possible context
               </span>
@@ -230,10 +230,10 @@ export default function SeedInterviewWizard({
         {/* Progress */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-600">
+            <span className="text-stone-600">
               Question {currentStep + 1} of {totalQuestions}
             </span>
-            <span className="text-gray-600">
+            <span className="text-stone-600">
               {answeredCount} answered • {requiredUnanswered} required remaining
             </span>
           </div>
@@ -254,7 +254,7 @@ export default function SeedInterviewWizard({
               {currentQuestion.question}
             </Label>
             {currentQuestion.help_text && (
-              <p className="text-sm text-gray-600">{currentQuestion.help_text}</p>
+              <p className="text-sm text-stone-600">{currentQuestion.help_text}</p>
             )}
             <Textarea
               id="answer"
@@ -264,7 +264,7 @@ export default function SeedInterviewWizard({
               className="min-h-[200px] text-base"
               autoFocus
             />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-stone-500">
               {responses[currentQuestion.id]?.length || 0} characters
             </p>
           </div>
@@ -318,7 +318,7 @@ export default function SeedInterviewWizard({
         {/* Question Overview Sidebar (Optional) */}
         {totalQuestions <= 15 && (
           <div className="mt-6 pt-4 border-t">
-            <p className="text-sm font-medium text-gray-700 mb-3">Question Progress</p>
+            <p className="text-sm font-medium text-stone-700 mb-3">Question Progress</p>
             <div className="flex flex-wrap gap-2">
               {template.questions.map((q, index) => (
                 <button
@@ -329,12 +329,12 @@ export default function SeedInterviewWizard({
                     w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
                     transition-all
                     ${index === currentStep
-                      ? 'bg-blue-600 text-white ring-2 ring-blue-300'
+                      ? 'bg-sage-600 text-white ring-2 ring-blue-300'
                       : responses[q.id]?.trim()
                         ? 'bg-green-100 text-green-700 hover:bg-green-200'
                         : q.required
-                          ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                          : 'bg-gray-50 text-gray-400 hover:bg-gray-100'
+                          ? 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                          : 'bg-stone-50 text-stone-400 hover:bg-stone-100'
                     }
                     ${processing ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}
                   `}

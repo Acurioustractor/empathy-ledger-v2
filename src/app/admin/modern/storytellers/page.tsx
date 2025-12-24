@@ -19,7 +19,7 @@ export default function ModernStorytellersPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Storytellers</h1>
-            <p className="text-grey-500">Manage and monitor all storyteller profiles</p>
+            <p className="text-stone-500">Manage and monitor all storyteller profiles</p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline">

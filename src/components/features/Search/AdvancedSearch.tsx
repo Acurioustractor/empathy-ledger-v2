@@ -164,7 +164,7 @@ export default function AdvancedSearch({
   
   const FilterSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
     <Collapsible defaultOpen className="space-y-2">
-      <CollapsibleTrigger className="flex items-center justify-between w-full p-2 hover:bg-grey-50 rounded">
+      <CollapsibleTrigger className="flex items-center justify-between w-full p-2 hover:bg-stone-50 rounded">
         <span className="font-medium text-sm">{title}</span>
         <ChevronDown className="h-4 w-4" />
       </CollapsibleTrigger>
@@ -179,7 +179,7 @@ export default function AdvancedSearch({
       {/* Search Bar */}
       <div className="flex gap-2">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-grey-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-stone-400" />
           <Input
             type="text"
             placeholder={placeholder}
@@ -192,7 +192,7 @@ export default function AdvancedSearch({
               onClick={() => updateFilter('query', '')}
               className="absolute right-3 top-1/2 transform -translate-y-1/2"
             >
-              <X className="h-4 w-4 text-grey-400 hover:text-grey-600" />
+              <X className="h-4 w-4 text-stone-400 hover:text-stone-600" />
             </button>
           )}
         </div>

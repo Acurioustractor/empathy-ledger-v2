@@ -247,7 +247,7 @@ export function StorytellerCardCollection({
         <Typography variant="h3" className="text-red-600 mb-2">
           Error Loading Storytellers
         </Typography>
-        <Typography variant="body" className="text-grey-600">
+        <Typography variant="body" className="text-stone-600">
           {error}
         </Typography>
       </div>
@@ -262,7 +262,7 @@ export function StorytellerCardCollection({
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <div className="flex-1 max-w-md">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-grey-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-stone-400" />
               <Input
                 type="text"
                 placeholder="Search storytellers..."
@@ -284,7 +284,7 @@ export function StorytellerCardCollection({
               <Filter className="w-4 h-4 mr-1" />
               Filters
               {getActiveFilterCount() > 0 && (
-                <Badge className="ml-2 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-blue-600 text-white text-xs">
+                <Badge className="ml-2 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-sage-600 text-white text-xs">
                   {getActiveFilterCount()}
                 </Badge>
               )}
@@ -336,11 +336,11 @@ export function StorytellerCardCollection({
 
         {/* Advanced Filters */}
         {state.showFilters && (
-          <div className="p-4 bg-grey-50 rounded-lg border border-grey-200">
+          <div className="p-4 bg-stone-50 rounded-lg border border-stone-200">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
               {/* Status Filter */}
               <div>
-                <label className="text-sm font-medium text-grey-700 mb-1 block">Status</label>
+                <label className="text-sm font-medium text-stone-700 mb-1 block">Status</label>
                 <Select
                   value={state.filter.status?.[0] || 'all'}
                   onValueChange={(value) =>
@@ -361,7 +361,7 @@ export function StorytellerCardCollection({
 
               {/* Special Status */}
               <div>
-                <label className="text-sm font-medium text-grey-700 mb-1 block">Special Status</label>
+                <label className="text-sm font-medium text-stone-700 mb-1 block">Special Status</label>
                 <div className="flex gap-2">
                   <Button
                     variant={state.filter.elder_status === true ? 'default' : 'outline'}
@@ -388,7 +388,7 @@ export function StorytellerCardCollection({
 
               {/* Geographic Scope */}
               <div>
-                <label className="text-sm font-medium text-grey-700 mb-1 block">Geographic Scope</label>
+                <label className="text-sm font-medium text-stone-700 mb-1 block">Geographic Scope</label>
                 <Select
                   value={state.filter.geographic_scope?.[0] || 'all'}
                   onValueChange={(value) =>
@@ -410,7 +410,7 @@ export function StorytellerCardCollection({
 
               {/* AI Insights */}
               <div>
-                <label className="text-sm font-medium text-grey-700 mb-1 block">AI Analysis</label>
+                <label className="text-sm font-medium text-stone-700 mb-1 block">AI Analysis</label>
                 <Button
                   variant={state.filter.has_ai_insights === true ? 'default' : 'outline'}
                   size="sm"
@@ -425,7 +425,7 @@ export function StorytellerCardCollection({
             </div>
 
             <div className="flex justify-between">
-              <Typography variant="small" className="text-grey-600">
+              <Typography variant="small" className="text-stone-600">
                 {sortedStorytellers.length} of {enhancedStorytellers.length} storytellers
               </Typography>
               <Button variant="ghost" size="sm" onClick={clearFilters}>
@@ -439,11 +439,11 @@ export function StorytellerCardCollection({
       {/* Results */}
       {sortedStorytellers.length === 0 ? (
         <div className="text-center py-12">
-          <Users className="w-12 h-12 text-grey-400 mx-auto mb-4" />
-          <Typography variant="h3" className="text-grey-600 mb-2">
+          <Users className="w-12 h-12 text-stone-400 mx-auto mb-4" />
+          <Typography variant="h3" className="text-stone-600 mb-2">
             No storytellers found
           </Typography>
-          <Typography variant="body" className="text-grey-500">
+          <Typography variant="body" className="text-stone-500">
             Try adjusting your search or filters
           </Typography>
         </div>
@@ -470,7 +470,7 @@ export function StorytellerCardCollection({
       {/* Pagination */}
       {pagination && (
         <div className="mt-8 flex items-center justify-between">
-          <Typography variant="small" className="text-grey-600">
+          <Typography variant="small" className="text-stone-600">
             Showing {((pagination.page - 1) * pagination.pageSize) + 1} to {Math.min(pagination.page * pagination.pageSize, pagination.total)} of {pagination.total} results
           </Typography>
           {/* Add pagination controls here */}
@@ -484,7 +484,7 @@ function StorytellerCardSkeleton({ variant }: { variant?: string }) {
   const isCompact = variant === 'compact'
 
   return (
-    <div className="bg-white border border-grey-200 rounded-lg p-6">
+    <div className="bg-white border border-stone-200 rounded-lg p-6">
       <div className="flex items-start gap-4 mb-4">
         <Skeleton className={`rounded-full ${isCompact ? 'w-12 h-12' : 'w-16 h-16'}`} />
         <div className="flex-1">
@@ -507,7 +507,7 @@ function StorytellerCardSkeleton({ variant }: { variant?: string }) {
         </>
       )}
 
-      <div className="flex items-center justify-between pt-4 border-t border-grey-200">
+      <div className="flex items-center justify-between pt-4 border-t border-stone-200">
         <Skeleton className="h-4 w-16" />
         <Skeleton className="h-8 w-20" />
       </div>

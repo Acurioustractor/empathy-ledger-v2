@@ -164,7 +164,7 @@ export default async function SettingsPage({ params }: SettingsPageProps) {
 
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Data Isolation</span>
-                  <Badge variant="outline" className="text-blue-600">
+                  <Badge variant="outline" className="text-sage-600">
                     Enabled
                   </Badge>
                 </div>
@@ -270,7 +270,7 @@ export default async function SettingsPage({ params }: SettingsPageProps) {
 
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Data Access Control</span>
-                  <Badge variant="outline" className="text-blue-600">
+                  <Badge variant="outline" className="text-sage-600">
                     Enforced
                   </Badge>
                 </div>

@@ -142,7 +142,7 @@ const StoryReviewModal: React.FC<StoryReviewModalProps> = ({ story, children, on
       case 'community': return 'bg-sage-100 text-sage-800 dark:bg-sage-900 dark:text-sage-200'
       case 'family': return 'bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200'
       case 'personal': return 'bg-stone-100 text-stone-800 dark:bg-stone-900 dark:text-stone-200'
-      default: return 'bg-grey-100 text-grey-800 dark:bg-grey-900 dark:text-grey-200'
+      default: return 'bg-stone-100 text-stone-800 dark:bg-stone-900 dark:text-stone-200'
     }
   }
 
@@ -152,7 +152,7 @@ const StoryReviewModal: React.FC<StoryReviewModalProps> = ({ story, children, on
       case 'high': return 'border-l-orange-500 bg-orange-50 dark:bg-orange-950/20'
       case 'medium': return 'border-l-yellow-500 bg-yellow-50 dark:bg-yellow-950/20'
       case 'low': return 'border-l-green-500 bg-green-50 dark:bg-green-950/20'
-      default: return 'border-l-grey-500 bg-grey-50 dark:bg-grey-950/20'
+      default: return 'border-l-grey-500 bg-stone-50 dark:bg-grey-950/20'
     }
   }
 
@@ -323,13 +323,13 @@ const StoryReviewModal: React.FC<StoryReviewModalProps> = ({ story, children, on
                   </div>
                   
                   <div>
-                    <Label className="text-sm font-medium text-blue-700 dark:text-blue-400">
+                    <Label className="text-sm font-medium text-sage-700 dark:text-sage-400">
                       Recommendations
                     </Label>
                     <ul className="text-sm text-stone-600 dark:text-stone-400 mt-1">
                       {mockStory.aiAnalysis.recommendedActions.map((action, index) => (
                         <li key={index} className="flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-blue-500 inline-block" />
+                          <span className="w-1 h-1 rounded-full bg-sage-500 inline-block" />
                           {action}
                         </li>
                       ))}

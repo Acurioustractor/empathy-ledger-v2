@@ -53,9 +53,9 @@ interface MetricCardProps {
 function MetricCard({ title, value, change, icon: Icon, colour = 'blue' }: MetricCardProps) {
   const isPositive = change && change > 0
   const colorClasses = {
-    blue: 'bg-blue-100 text-blue-600',
+    blue: 'bg-sage-100 text-sage-600',
     green: 'bg-green-100 text-green-600',
-    purple: 'bg-purple-100 text-purple-600',
+    purple: 'bg-clay-100 text-clay-600',
     orange: 'bg-orange-100 text-orange-600',
   }[colour]
 
@@ -64,7 +64,7 @@ function MetricCard({ title, value, change, icon: Icon, colour = 'blue' }: Metri
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-sm font-medium text-grey-500">{title}</p>
+            <p className="text-sm font-medium text-stone-500">{title}</p>
             <p className="text-2xl font-bold">{value}</p>
             {change !== undefined && (
               <div className="flex items-center gap-1 text-sm">
@@ -76,7 +76,7 @@ function MetricCard({ title, value, change, icon: Icon, colour = 'blue' }: Metri
                 <span className={isPositive ? 'text-green-600' : 'text-red-600'}>
                   {Math.abs(change)}%
                 </span>
-                <span className="text-grey-500">from last month</span>
+                <span className="text-stone-500">from last month</span>
               </div>
             )}
           </div>
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-grey-500">Welcome back! Here's what's happening with your platform.</p>
+          <p className="text-stone-500">Welcome back! Here's what's happening with your platform.</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={handleRefresh} disabled={refreshing}>
@@ -222,11 +222,11 @@ export default function AdminDashboard() {
               {/* Activity Items */}
               <div className="space-y-3">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="flex items-center gap-4 p-3 rounded-lg hover:bg-grey-50">
+                  <div key={i} className="flex items-center gap-4 p-3 rounded-lg hover:bg-stone-50">
                     <div className="h-2 w-2 bg-green-500 rounded-full" />
                     <div className="flex-1">
                       <p className="text-sm font-medium">New story published by Sarah Johnson</p>
-                      <p className="text-xs text-grey-500">2 minutes ago</p>
+                      <p className="text-xs text-stone-500">2 minutes ago</p>
                     </div>
                     <Button variant="ghost" size="sm">View</Button>
                   </div>
@@ -234,13 +234,13 @@ export default function AdminDashboard() {
               </div>
             </TabsContent>
             <TabsContent value="stories">
-              <p className="text-sm text-grey-500">No recent story activity</p>
+              <p className="text-sm text-stone-500">No recent story activity</p>
             </TabsContent>
             <TabsContent value="users">
-              <p className="text-sm text-grey-500">No recent user activity</p>
+              <p className="text-sm text-stone-500">No recent user activity</p>
             </TabsContent>
             <TabsContent value="system">
-              <p className="text-sm text-grey-500">No recent system activity</p>
+              <p className="text-sm text-stone-500">No recent system activity</p>
             </TabsContent>
           </Tabs>
         </CardContent>
@@ -251,12 +251,12 @@ export default function AdminDashboard() {
         <Card className="cursor-pointer hover:shadow-lg transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-blue-100 rounded-lg">
-                <Users className="h-6 w-6 text-blue-600" />
+              <div className="p-3 bg-sage-100 rounded-lg">
+                <Users className="h-6 w-6 text-sage-600" />
               </div>
               <div>
                 <p className="font-medium">Manage Storytellers</p>
-                <p className="text-sm text-grey-500">View and edit all storytellers</p>
+                <p className="text-sm text-stone-500">View and edit all storytellers</p>
               </div>
             </div>
           </CardContent>
@@ -270,7 +270,7 @@ export default function AdminDashboard() {
               </div>
               <div>
                 <p className="font-medium">Review Stories</p>
-                <p className="text-sm text-grey-500">Moderate and approve content</p>
+                <p className="text-sm text-stone-500">Moderate and approve content</p>
               </div>
             </div>
           </CardContent>
@@ -279,12 +279,12 @@ export default function AdminDashboard() {
         <Card className="cursor-pointer hover:shadow-lg transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-purple-100 rounded-lg">
-                <Activity className="h-6 w-6 text-purple-600" />
+              <div className="p-3 bg-clay-100 rounded-lg">
+                <Activity className="h-6 w-6 text-clay-600" />
               </div>
               <div>
                 <p className="font-medium">View Analytics</p>
-                <p className="text-sm text-grey-500">Detailed platform insights</p>
+                <p className="text-sm text-stone-500">Detailed platform insights</p>
               </div>
             </div>
           </CardContent>

@@ -312,7 +312,7 @@ export function StorytellerRelationshipManager({
                   variant={rel.role === 'member' ? 'default' : 'secondary'}
                   className={`text-xs cursor-pointer hover:opacity-80 ${
                     rel.role === 'member'
-                      ? 'bg-blue-100 text-blue-800 hover:bg-blue-200'
+                      ? 'bg-sage-100 text-sage-800 hover:bg-sage-200'
                       : 'bg-green-100 text-green-800 hover:bg-green-200'
                   }`}
                   onClick={() => setIsEditing(true)}
@@ -323,7 +323,7 @@ export function StorytellerRelationshipManager({
               ))
             ) : (
               <span
-                className="text-xs text-grey-400 hover:text-grey-600 cursor-pointer flex items-center gap-1"
+                className="text-xs text-stone-400 hover:text-stone-600 cursor-pointer flex items-center gap-1"
                 onClick={() => setIsEditing(true)}
               >
                 <Building2 className="w-3 h-3" />
@@ -331,7 +331,7 @@ export function StorytellerRelationshipManager({
               </span>
             )}
             {currentOrganizations.length > 1 && (
-              <span className="text-xs text-grey-400">+{currentOrganizations.length - 1}</span>
+              <span className="text-xs text-stone-400">+{currentOrganizations.length - 1}</span>
             )}
           </>
         ) : (
@@ -341,7 +341,7 @@ export function StorytellerRelationshipManager({
                 <Badge
                   key={rel.project_id}
                   variant="outline"
-                  className="text-xs cursor-pointer hover:bg-grey-50 border border-blue-300 bg-blue-50"
+                  className="text-xs cursor-pointer hover:bg-stone-50 border border-sage-300 bg-sage-50"
                   onClick={() => setIsEditing(true)}
                 >
                   <Briefcase className="w-3 h-3 mr-1" />
@@ -350,7 +350,7 @@ export function StorytellerRelationshipManager({
               ))
             ) : (
               <span
-                className="text-xs text-grey-400 hover:text-grey-600 cursor-pointer flex items-center gap-1"
+                className="text-xs text-stone-400 hover:text-stone-600 cursor-pointer flex items-center gap-1"
                 onClick={() => setIsEditing(true)}
               >
                 <Briefcase className="w-3 h-3" />
@@ -358,7 +358,7 @@ export function StorytellerRelationshipManager({
               </span>
             )}
             {currentProjects && currentProjects.length > 1 && (
-              <span className="text-xs text-grey-400">+{currentProjects.length - 1}</span>
+              <span className="text-xs text-stone-400">+{currentProjects.length - 1}</span>
             )}
           </>
         )}

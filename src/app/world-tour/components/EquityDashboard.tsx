@@ -156,7 +156,7 @@ export function EquityDashboard({ data, loading }: EquityDashboardProps) {
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <Scale className="w-8 h-8 text-purple-500" />
+              <Scale className="w-8 h-8 text-clay-500" />
               <div>
                 <h3 className="font-semibold text-lg">Diversity Index</h3>
                 <p className="text-sm text-muted-foreground">
@@ -341,7 +341,7 @@ export function EquityDashboard({ data, loading }: EquityDashboardProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Target className="w-5 h-5 text-purple-500" />
+              <Target className="w-5 h-5 text-clay-500" />
               Representation Goals
             </CardTitle>
             <CardDescription>
@@ -482,9 +482,9 @@ function DemographicCard({
   color: 'blue' | 'amber' | 'purple' | 'green'
 }) {
   const colorClasses = {
-    blue: 'bg-blue-50 dark:bg-blue-950/30 text-blue-600',
+    blue: 'bg-sage-50 dark:bg-sage-950/30 text-sage-600',
     amber: 'bg-amber-50 dark:bg-amber-950/30 text-amber-600',
-    purple: 'bg-purple-50 dark:bg-purple-950/30 text-purple-600',
+    purple: 'bg-clay-50 dark:bg-clay-950/30 text-clay-600',
     green: 'bg-green-50 dark:bg-green-950/30 text-green-600'
   }
 

@@ -21,7 +21,7 @@ export function RecentActivity({ stories, organizationId }: RecentActivityProps)
         <h3 className="text-lg font-semibold">Recent Stories</h3>
         <Link
           href={`/organisations/${organizationId}/stories`}
-          className="text-sm text-blue-600 hover:text-blue-800"
+          className="text-sm text-sage-600 hover:text-sage-800"
         >
           View All
         </Link>
@@ -30,21 +30,21 @@ export function RecentActivity({ stories, organizationId }: RecentActivityProps)
       {stories.length > 0 ? (
         <div className="space-y-4">
           {stories.map((story) => (
-            <div key={story.id} className="border-b border-grey-100 pb-4 last:border-b-0 last:pb-0">
+            <div key={story.id} className="border-b border-stone-100 pb-4 last:border-b-0 last:pb-0">
               <Link
                 href={`/stories/${story.id}`}
-                className="font-medium text-grey-900 hover:text-blue-600 block"
+                className="font-medium text-stone-900 hover:text-sage-600 block"
               >
                 {story.title}
               </Link>
-              <p className="text-sm text-grey-500 mt-1">
+              <p className="text-sm text-stone-500 mt-1">
                 {new Date(story.created_at).toLocaleDateString()}
               </p>
             </div>
           ))}
         </div>
       ) : (
-        <div className="text-center py-8 text-grey-500">
+        <div className="text-center py-8 text-stone-500">
           <p>No recent stories</p>
           <p className="text-sm mt-1">Stories will appear here as members share them</p>
         </div>

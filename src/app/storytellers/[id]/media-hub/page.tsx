@@ -133,7 +133,7 @@ export default function MediaHub() {
   const getVisibilityIcon = (visibility: string) => {
     switch (visibility) {
       case 'public': return <Globe className="w-4 h-4 text-green-600" />
-      case 'community': return <Users className="w-4 h-4 text-blue-600" />
+      case 'community': return <Users className="w-4 h-4 text-sage-600" />
       case 'private': return <Lock className="w-4 h-4 text-red-600" />
       case 'restricted': return <EyeOff className="w-4 h-4 text-orange-600" />
       default: return <Globe className="w-4 h-4" />
@@ -145,8 +145,8 @@ export default function MediaHub() {
       case 'sacred': return 'bg-red-100 text-red-800'
       case 'high': return 'bg-orange-100 text-orange-800'
       case 'medium': return 'bg-yellow-100 text-yellow-800'
-      case 'low': return 'bg-blue-100 text-blue-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'low': return 'bg-sage-100 text-sage-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -172,15 +172,15 @@ export default function MediaHub() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-purple-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-sage-50/50 via-white to-clay-50/30">
       <Header />
       
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-grey-900 mb-2">Media Control Center</h1>
-            <p className="text-grey-600">Complete control over your photos, videos, and media assets</p>
+            <h1 className="text-3xl font-bold text-stone-900 mb-2">Media Control Center</h1>
+            <p className="text-stone-600">Complete control over your photos, videos, and media assets</p>
           </div>
           <div className="flex gap-3">
             <Button variant="outline" asChild>
@@ -189,7 +189,7 @@ export default function MediaHub() {
                 Dashboard
               </Link>
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700">
+            <Button className="bg-sage-600 hover:bg-sage-700">
               <Upload className="w-4 h-4 mr-2" />
               Upload Media
             </Button>
@@ -201,10 +201,10 @@ export default function MediaHub() {
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center">
-                <ImageIcon className="w-8 h-8 text-blue-600" />
+                <ImageIcon className="w-8 h-8 text-sage-600" />
                 <div className="ml-4">
                   <p className="text-2xl font-bold">{mediaAssets.length}</p>
-                  <p className="text-grey-600">Total Assets</p>
+                  <p className="text-stone-600">Total Assets</p>
                 </div>
               </div>
             </CardContent>
@@ -216,7 +216,7 @@ export default function MediaHub() {
                 <HardDrive className="w-8 h-8 text-green-600" />
                 <div className="ml-4">
                   <p className="text-2xl font-bold">{formatFileSize(totalSize)}</p>
-                  <p className="text-grey-600">Storage Used</p>
+                  <p className="text-stone-600">Storage Used</p>
                 </div>
               </div>
             </CardContent>
@@ -225,10 +225,10 @@ export default function MediaHub() {
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center">
-                <Eye className="w-8 h-8 text-purple-600" />
+                <Eye className="w-8 h-8 text-clay-600" />
                 <div className="ml-4">
                   <p className="text-2xl font-bold">{totalViews.toLocaleString()}</p>
-                  <p className="text-grey-600">Total Views</p>
+                  <p className="text-stone-600">Total Views</p>
                 </div>
               </div>
             </CardContent>
@@ -240,7 +240,7 @@ export default function MediaHub() {
                 <Zap className="w-8 h-8 text-orange-600" />
                 <div className="ml-4">
                   <p className="text-2xl font-bold">{mediaAssets.filter(a => a.usage_locations.length > 0).length}</p>
-                  <p className="text-grey-600">In Use</p>
+                  <p className="text-stone-600">In Use</p>
                 </div>
               </div>
             </CardContent>
@@ -253,7 +253,7 @@ export default function MediaHub() {
             <div className="flex flex-wrap items-center gap-4">
               {/* Search */}
               <div className="relative flex-1 min-w-64">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-stone-400" />
                 <Input
                   placeholder="Search media by filename, tags..."
                   value={searchTerm}
@@ -329,7 +329,7 @@ export default function MediaHub() {
               <Dialog key={asset.id}>
                 <DialogTrigger asChild>
                   <Card className="cursor-pointer hover:shadow-lg transition-shadow group">
-                    <div className="relative aspect-video bg-grey-100 rounded-t-lg overflow-hidden">
+                    <div className="relative aspect-video bg-stone-100 rounded-t-lg overflow-hidden">
                       {asset.type === 'image' ? (
                         <img
                           src={asset.thumbnail_url || asset.url}
@@ -337,12 +337,12 @@ export default function MediaHub() {
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                         />
                       ) : asset.type === 'video' ? (
-                        <div className="w-full h-full bg-grey-200 flex items-center justify-center">
-                          <Video className="w-12 h-12 text-grey-400" />
+                        <div className="w-full h-full bg-stone-200 flex items-center justify-center">
+                          <Video className="w-12 h-12 text-stone-400" />
                         </div>
                       ) : (
-                        <div className="w-full h-full bg-grey-200 flex items-center justify-center">
-                          <FileType className="w-12 h-12 text-grey-400" />
+                        <div className="w-full h-full bg-stone-200 flex items-center justify-center">
+                          <FileType className="w-12 h-12 text-stone-400" />
                         </div>
                       )}
                       
@@ -359,7 +359,7 @@ export default function MediaHub() {
                     
                     <CardContent className="p-4">
                       <h3 className="font-medium truncate mb-2">{asset.filename}</h3>
-                      <div className="flex items-center justify-between text-sm text-grey-500 mb-2">
+                      <div className="flex items-center justify-between text-sm text-stone-500 mb-2">
                         <span>{formatFileSize(asset.size)}</span>
                         <span>{asset.upload_date}</span>
                       </div>
@@ -404,7 +404,7 @@ export default function MediaHub() {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Media Preview */}
                     <div className="space-y-4">
-                      <div className="aspect-video bg-grey-100 rounded-lg overflow-hidden">
+                      <div className="aspect-video bg-stone-100 rounded-lg overflow-hidden">
                         {asset.type === 'image' ? (
                           <img
                             src={asset.url}
@@ -412,8 +412,8 @@ export default function MediaHub() {
                             className="w-full h-full object-cover"
                           />
                         ) : (
-                          <div className="w-full h-full bg-grey-200 flex items-center justify-center">
-                            <Video className="w-16 h-16 text-grey-400" />
+                          <div className="w-full h-full bg-stone-200 flex items-center justify-center">
+                            <Video className="w-16 h-16 text-stone-400" />
                           </div>
                         )}
                       </div>
@@ -463,16 +463,16 @@ export default function MediaHub() {
                         <h4 className="font-semibold">Usage Analytics</h4>
                         <div className="grid grid-cols-3 gap-4 text-center">
                           <div>
-                            <p className="text-2xl font-bold text-blue-600">{asset.metadata.views}</p>
-                            <p className="text-sm text-grey-600">Views</p>
+                            <p className="text-2xl font-bold text-sage-600">{asset.metadata.views}</p>
+                            <p className="text-sm text-stone-600">Views</p>
                           </div>
                           <div>
                             <p className="text-2xl font-bold text-green-600">{asset.metadata.downloads}</p>
-                            <p className="text-sm text-grey-600">Downloads</p>
+                            <p className="text-sm text-stone-600">Downloads</p>
                           </div>
                           <div>
                             <p className="text-2xl font-bold text-orange-600">{asset.metadata.shares}</p>
-                            <p className="text-sm text-grey-600">Shares</p>
+                            <p className="text-sm text-stone-600">Shares</p>
                           </div>
                         </div>
                       </div>
@@ -483,10 +483,10 @@ export default function MediaHub() {
                           <h4 className="font-semibold">Used In</h4>
                           <div className="space-y-2">
                             {asset.usage_locations.map((location) => (
-                              <div key={location.id} className="flex items-center justify-between p-3 bg-grey-50 rounded-lg">
+                              <div key={location.id} className="flex items-center justify-between p-3 bg-stone-50 rounded-lg">
                                 <div>
                                   <p className="font-medium">{location.title}</p>
-                                  <p className="text-sm text-grey-600 capitalize">{location.type}</p>
+                                  <p className="text-sm text-stone-600 capitalize">{location.type}</p>
                                 </div>
                                 <div className="text-right">
                                   <p className="text-sm font-medium">{location.usage_count} views</p>
@@ -535,10 +535,10 @@ export default function MediaHub() {
             <CardContent className="p-0">
               <div className="divide-y">
                 {filteredAssets.map((asset) => (
-                  <div key={asset.id} className="p-4 hover:bg-grey-50 transition-colours">
+                  <div key={asset.id} className="p-4 hover:bg-stone-50 transition-colours">
                     <div className="flex items-center gap-4">
                       {/* Thumbnail */}
-                      <div className="w-16 h-16 bg-grey-100 rounded-lg overflow-hidden flex-shrink-0">
+                      <div className="w-16 h-16 bg-stone-100 rounded-lg overflow-hidden flex-shrink-0">
                         {asset.type === 'image' ? (
                           <img
                             src={asset.thumbnail_url || asset.url}
@@ -546,8 +546,8 @@ export default function MediaHub() {
                             className="w-full h-full object-cover"
                           />
                         ) : (
-                          <div className="w-full h-full bg-grey-200 flex items-center justify-center">
-                            <Video className="w-6 h-6 text-grey-400" />
+                          <div className="w-full h-full bg-stone-200 flex items-center justify-center">
+                            <Video className="w-6 h-6 text-stone-400" />
                           </div>
                         )}
                       </div>
@@ -555,7 +555,7 @@ export default function MediaHub() {
                       {/* Details */}
                       <div className="flex-1 min-w-0">
                         <h3 className="font-medium truncate">{asset.filename}</h3>
-                        <div className="flex items-center gap-4 mt-1 text-sm text-grey-500">
+                        <div className="flex items-center gap-4 mt-1 text-sm text-stone-500">
                           <span>{formatFileSize(asset.size)}</span>
                           <span>{asset.upload_date}</span>
                           <div className="flex items-center gap-1">
@@ -573,11 +573,11 @@ export default function MediaHub() {
                         <div className="flex items-center gap-6 text-sm">
                           <div className="text-center">
                             <p className="font-medium">{asset.metadata.views}</p>
-                            <p className="text-grey-500">Views</p>
+                            <p className="text-stone-500">Views</p>
                           </div>
                           <div className="text-center">
                             <p className="font-medium">{asset.usage_locations.length}</p>
-                            <p className="text-grey-500">Used</p>
+                            <p className="text-stone-500">Used</p>
                           </div>
                         </div>
                       )}
@@ -609,11 +609,11 @@ export default function MediaHub() {
         {filteredAssets.length === 0 && !loading && (
           <Card>
             <CardContent className="text-center py-12">
-              <ImageIcon className="w-16 h-16 text-grey-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-grey-900 mb-2">
+              <ImageIcon className="w-16 h-16 text-stone-300 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-stone-900 mb-2">
                 {mediaAssets.length === 0 ? 'No media uploaded yet' : 'No media found'}
               </h3>
-              <p className="text-grey-600 mb-4">
+              <p className="text-stone-600 mb-4">
                 {mediaAssets.length === 0 
                   ? 'Upload photos, videos, and documents to build your media library' 
                   : 'Try adjusting your search or filters'

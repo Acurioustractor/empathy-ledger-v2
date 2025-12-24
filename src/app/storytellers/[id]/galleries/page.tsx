@@ -141,7 +141,7 @@ export default function StorytellerGalleriesPage() {
             <Typography variant="h2" className="text-red-600 mb-4">
               Unable to Load Galleries
             </Typography>
-            <Typography variant="body" className="text-grey-600 mb-6">
+            <Typography variant="body" className="text-stone-600 mb-6">
               {error}
             </Typography>
             <Button asChild>
@@ -159,7 +159,7 @@ export default function StorytellerGalleriesPage() {
   const GalleryCard = ({ gallery, isCreated = true }: { gallery: Gallery, isCreated?: boolean }) => (
     <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300">
       {/* Cover Image */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-grey-100">
+      <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
         {gallery.cover_image?.public_url || gallery.cover_image?.thumbnail_url ? (
           <Image
             src={gallery.cover_image.thumbnail_url || gallery.cover_image.public_url || ''}
@@ -205,14 +205,14 @@ export default function StorytellerGalleriesPage() {
           </Link>
           
           {!isCreated && (
-            <Typography variant="small" className="text-purple-600 font-medium">
+            <Typography variant="small" className="text-clay-600 font-medium">
               Featured in this gallery
             </Typography>
           )}
         </div>
 
         {gallery.description && (
-          <Typography variant="small" className="text-grey-600 mb-3 line-clamp-2">
+          <Typography variant="small" className="text-stone-600 mb-3 line-clamp-2">
             {gallery.description}
           </Typography>
         )}
@@ -239,8 +239,8 @@ export default function StorytellerGalleriesPage() {
 
           {gallery.ceremony_date && (
             <div className="flex items-center gap-2">
-              <Calendar className="w-3 h-3 text-blue-500" />
-              <Typography variant="small" className="text-blue-700">
+              <Calendar className="w-3 h-3 text-sage-500" />
+              <Typography variant="small" className="text-sage-700">
                 {formatDate(gallery.ceremony_date)}
               </Typography>
             </div>
@@ -248,7 +248,7 @@ export default function StorytellerGalleriesPage() {
         </div>
 
         {/* Stats */}
-        <div className="flex items-center justify-between text-sm text-grey-500 mb-4">
+        <div className="flex items-center justify-between text-sm text-stone-500 mb-4">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1">
               <Eye className="w-3 h-3" />
@@ -259,7 +259,7 @@ export default function StorytellerGalleriesPage() {
               <span>{gallery.photo_count}</span>
             </div>
           </div>
-          <Typography variant="small" className="text-grey-400">
+          <Typography variant="small" className="text-stone-400">
             {formatDate(gallery.created_at)}
           </Typography>
         </div>
@@ -316,7 +316,7 @@ export default function StorytellerGalleriesPage() {
                       </Typography>
                     </div>
                     
-                    <div className="flex items-center gap-6 text-sm text-grey-600">
+                    <div className="flex items-center gap-6 text-sm text-stone-600">
                       <div className="flex items-center gap-1">
                         <Camera className="w-4 h-4" />
                         <span>{galleries.length} created galleries</span>
@@ -365,11 +365,11 @@ export default function StorytellerGalleriesPage() {
 
           {galleries.length === 0 ? (
             <Card className="p-12 text-center">
-              <Camera className="w-16 h-16 text-grey-300 mx-auto mb-4" />
-              <Typography variant="h3" className="text-grey-600 mb-2">
+              <Camera className="w-16 h-16 text-stone-300 mx-auto mb-4" />
+              <Typography variant="h3" className="text-stone-600 mb-2">
                 No Galleries Created Yet
               </Typography>
-              <Typography variant="body" className="text-grey-500 mb-6">
+              <Typography variant="body" className="text-stone-500 mb-6">
                 {storyteller?.display_name || 'This storyteller'} hasn't created any photo galleries yet.
               </Typography>
               <Button asChild>
@@ -397,7 +397,7 @@ export default function StorytellerGalleriesPage() {
               </Typography>
             </div>
 
-            <Typography variant="body" className="text-grey-600 mb-6">
+            <Typography variant="body" className="text-stone-600 mb-6">
               Photo galleries where {storyteller?.display_name || 'this storyteller'} appears in the photos.
             </Typography>
 
@@ -416,11 +416,11 @@ export default function StorytellerGalleriesPage() {
         {/* Empty State for No Content */}
         {galleries.length === 0 && featuredInGalleries.length === 0 && (
           <Card className="p-12 text-center">
-            <Camera className="w-20 h-20 text-grey-300 mx-auto mb-6" />
-            <Typography variant="h2" className="text-grey-600 mb-4">
+            <Camera className="w-20 h-20 text-stone-300 mx-auto mb-6" />
+            <Typography variant="h2" className="text-stone-600 mb-4">
               No Photo Galleries Yet
             </Typography>
-            <Typography variant="body" className="text-grey-500 mb-8 max-w-2xl mx-auto">
+            <Typography variant="body" className="text-stone-500 mb-8 max-w-2xl mx-auto">
               {storyteller?.display_name || 'This storyteller'} hasn't created any photo galleries 
               and doesn't appear in any existing galleries yet. Start building visual stories by 
               creating the first gallery.

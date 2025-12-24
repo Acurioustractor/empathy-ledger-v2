@@ -137,7 +137,7 @@ export default function StorytellerProfilePage() {
             <Typography variant="h2" className="text-red-600 mb-4">
               Storyteller Not Found
             </Typography>
-            <Typography variant="body" className="text-grey-600 mb-6">
+            <Typography variant="body" className="text-stone-600 mb-6">
               {error || "The storyteller you're looking for doesn't exist or may have been removed."}
             </Typography>
             <Button asChild>
@@ -193,7 +193,7 @@ export default function StorytellerProfilePage() {
                       Analytics
                     </Link>
                   </Button>
-                  <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                  <Badge variant="outline" className="bg-sage-50 text-sage-700 border-sage-200">
                     <Shield className="w-3 h-3 mr-1" />
                     {isSuperAdmin ? 'Super Admin' : 'Admin'}
                   </Badge>
@@ -214,29 +214,29 @@ export default function StorytellerProfilePage() {
                       alt={storyteller.display_name}
                       className="object-cover"
                     />
-                    <AvatarFallback className="bg-grey-100 text-grey-600 text-3xl font-bold">
+                    <AvatarFallback className="bg-stone-100 text-stone-600 text-3xl font-bold">
                       {getInitials(storyteller.display_name)}
                     </AvatarFallback>
                   </Avatar>
 
                   {/* Quick Stats */}
                   <div className="grid grid-cols-2 gap-4 lg:grid-cols-1 lg:w-48">
-                    <div className="text-center p-4 bg-grey-50 rounded-lg">
-                      <BookOpen className="w-6 h-6 text-grey-600 mx-auto mb-2" />
-                      <Typography variant="h3" className="text-grey-800">
+                    <div className="text-center p-4 bg-stone-50 rounded-lg">
+                      <BookOpen className="w-6 h-6 text-stone-600 mx-auto mb-2" />
+                      <Typography variant="h3" className="text-stone-800">
                         {storyteller.story_count}
                       </Typography>
-                      <Typography variant="small" className="text-grey-600">
+                      <Typography variant="small" className="text-stone-600">
                         {storyteller.story_count === 1 ? 'Story' : 'Stories'}
                       </Typography>
                     </div>
 
-                    <div className="text-center p-4 bg-grey-50 rounded-lg">
-                      <Calendar className="w-6 h-6 text-grey-600 mx-auto mb-2" />
-                      <Typography variant="h3" className="text-grey-800">
+                    <div className="text-center p-4 bg-stone-50 rounded-lg">
+                      <Calendar className="w-6 h-6 text-stone-600 mx-auto mb-2" />
+                      <Typography variant="h3" className="text-stone-800">
                         {storyteller.years_of_experience || 'New'}
                       </Typography>
-                      <Typography variant="small" className="text-grey-600">
+                      <Typography variant="small" className="text-stone-600">
                         {storyteller.years_of_experience ?
                           (storyteller.years_of_experience === 1 ? 'Year' : 'Years') :
                           'Member'
@@ -273,7 +273,7 @@ export default function StorytellerProfilePage() {
                         )}
                         {isElder && (
                           <Badge
-                            className="bg-purple-100 text-purple-800"
+                            className="bg-clay-100 text-clay-800"
                             role="listitem"
                             aria-label="Recognized Elder"
                           >
@@ -293,7 +293,7 @@ export default function StorytellerProfilePage() {
                     </div>
 
                     {storyteller.profile?.pronouns && (
-                      <Typography variant="body" className="text-grey-600 mb-3">
+                      <Typography variant="body" className="text-stone-600 mb-3">
                         {storyteller.profile.pronouns}
                       </Typography>
                     )}
@@ -303,7 +303,7 @@ export default function StorytellerProfilePage() {
                       {storyteller.location && (
                         <div className="flex items-center gap-2">
                           <MapPin className="w-4 h-4 text-earth-500 flex-shrink-0" aria-hidden="true" />
-                          <Typography variant="body" className="text-grey-700">
+                          <Typography variant="body" className="text-stone-700">
                             {storyteller.location}
                           </Typography>
                           {storyteller.geographic_scope && (
@@ -317,7 +317,7 @@ export default function StorytellerProfilePage() {
                       {storyteller.traditional_territory && (
                         <div className="flex items-center gap-2">
                           <Landmark className="w-4 h-4 text-amber-600 flex-shrink-0" aria-hidden="true" />
-                          <Typography variant="body" className="text-grey-600 italic text-sm">
+                          <Typography variant="body" className="text-stone-600 italic text-sm">
                             {storyteller.traditional_territory}
                           </Typography>
                         </div>
@@ -326,7 +326,7 @@ export default function StorytellerProfilePage() {
                       {storyteller.cultural_background && (
                         <div className="flex items-center gap-2">
                           <Globe2 className="w-4 h-4 text-sage-500 flex-shrink-0" aria-hidden="true" />
-                          <Typography variant="body" className="text-grey-700">
+                          <Typography variant="body" className="text-stone-700">
                             {storyteller.cultural_background}
                           </Typography>
                         </div>
@@ -341,7 +341,7 @@ export default function StorytellerProfilePage() {
                         {storyteller.profile?.languages_spoken && storyteller.profile.languages_spoken.length > 0 && (
                           <Badge
                             variant="outline"
-                            className="bg-indigo-50 text-indigo-700 border-indigo-200 flex items-center gap-1.5"
+                            className="bg-terracotta-50 text-terracotta-700 border-terracotta-200 flex items-center gap-1.5"
                           >
                             <Languages className="w-3.5 h-3.5" aria-hidden="true" />
                             <span>{storyteller.profile.languages_spoken.slice(0, 2).join(', ')}</span>
@@ -376,7 +376,7 @@ export default function StorytellerProfilePage() {
                     )}
 
                     {storyteller.bio && (
-                      <Typography variant="body" className="text-grey-700 leading-relaxed">
+                      <Typography variant="body" className="text-stone-700 leading-relaxed">
                         {storyteller.bio}
                       </Typography>
                     )}
@@ -452,7 +452,7 @@ export default function StorytellerProfilePage() {
                   <Sparkles className="w-5 h-5 mr-2 text-amber-600" />
                   Story Themes
                 </Typography>
-                <Typography variant="body" className="text-grey-600 mb-4">
+                <Typography variant="body" className="text-stone-600 mb-4">
                   The key themes that emerge from {storyteller.display_name}'s story
                 </Typography>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -465,7 +465,7 @@ export default function StorytellerProfilePage() {
                         <Typography variant="h4" className="font-semibold text-slate-800 mb-1">
                           {theme.theme}
                         </Typography>
-                        <Typography variant="small" className="text-grey-600">
+                        <Typography variant="small" className="text-stone-600">
                           {theme.description}
                         </Typography>
                       </div>
@@ -479,21 +479,21 @@ export default function StorytellerProfilePage() {
             {journeySteps.length > 0 && (
               <Card className="p-6">
                 <Typography variant="h3" className="mb-4 flex items-center">
-                  <Route className="w-5 h-5 mr-2 text-blue-600" />
+                  <Route className="w-5 h-5 mr-2 text-sage-600" />
                   Story Journey
                 </Typography>
-                <Typography variant="body" className="text-grey-600 mb-6">
+                <Typography variant="body" className="text-stone-600 mb-6">
                   The path that led {storyteller.display_name} to where they are today
                 </Typography>
                 <div className="space-y-4">
                   {journeySteps.map((step, index) => (
                     <div key={index} className="flex items-start gap-4">
                       <div className="flex flex-col items-center">
-                        <div className="flex-shrink-0 p-3 bg-blue-100 rounded-full border-2 border-blue-200">
+                        <div className="flex-shrink-0 p-3 bg-sage-100 rounded-full border-2 border-sage-200">
                           {step.icon}
                         </div>
                         {index < journeySteps.length - 1 && (
-                          <div className="w-0.5 h-12 bg-blue-200 mt-2"></div>
+                          <div className="w-0.5 h-12 bg-sage-200 mt-2"></div>
                         )}
                       </div>
                       <div className="flex-1 pt-2">
@@ -502,12 +502,12 @@ export default function StorytellerProfilePage() {
                             {step.title}
                           </Typography>
                           {step.timeframe && (
-                            <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700 border-blue-200">
+                            <Badge variant="outline" className="text-xs bg-sage-50 text-sage-700 border-sage-200">
                               {step.timeframe}
                             </Badge>
                           )}
                         </div>
-                        <Typography variant="body" className="text-grey-600">
+                        <Typography variant="body" className="text-stone-600">
                           {step.description}
                         </Typography>
                       </div>
@@ -519,14 +519,14 @@ export default function StorytellerProfilePage() {
 
             {/* Highlighted Quote from Bio */}
             {storyteller.bio && storyteller.bio.length > 100 && (
-              <Card className="p-6 bg-grey-50">
+              <Card className="p-6 bg-stone-50">
                 <div className="flex items-start gap-4">
-                  <Quote className="w-8 h-8 text-grey-600 flex-shrink-0 mt-1" />
+                  <Quote className="w-8 h-8 text-stone-600 flex-shrink-0 mt-1" />
                   <div>
-                    <Typography variant="body" className="text-grey-700 italic text-lg leading-relaxed mb-3">
+                    <Typography variant="body" className="text-stone-700 italic text-lg leading-relaxed mb-3">
                       "{storyteller.bio.split('.')[0]}..."
                     </Typography>
-                    <Typography variant="small" className="text-grey-600 font-medium">
+                    <Typography variant="small" className="text-stone-600 font-medium">
                       — {storyteller.display_name}
                     </Typography>
                   </div>
@@ -540,7 +540,7 @@ export default function StorytellerProfilePage() {
                 <TrendingUp className="w-5 h-5 mr-2 text-green-600" />
                 Community Impact
               </Typography>
-              <Typography variant="body" className="text-grey-600 mb-6">
+              <Typography variant="body" className="text-stone-600 mb-6">
                 {storyteller.display_name}'s contributions through storytelling
               </Typography>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -554,28 +554,28 @@ export default function StorytellerProfilePage() {
                   </Typography>
                 </div>
 
-                <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <Users className="w-8 h-8 text-blue-600 mx-auto mb-3" />
-                  <Typography variant="h3" className="text-blue-800 font-bold">
+                <div className="text-center p-4 bg-sage-50 rounded-lg border border-sage-200">
+                  <Users className="w-8 h-8 text-sage-600 mx-auto mb-3" />
+                  <Typography variant="h3" className="text-sage-800 font-bold">
                     {storyteller.organisations && storyteller.organisations.length > 0
                       ? storyteller.organisations[0].role || 'Member'
                       : 'Independent'}
                   </Typography>
-                  <Typography variant="small" className="text-blue-700">
+                  <Typography variant="small" className="text-sage-700">
                     {storyteller.organisations && storyteller.organisations.length > 0
                       ? storyteller.organisations[0].name
                       : 'Community Member'}
                   </Typography>
                 </div>
 
-                <div className="text-center p-4 bg-purple-50 rounded-lg border border-purple-200">
-                  <Heart className="w-8 h-8 text-purple-600 mx-auto mb-3" />
-                  <Typography variant="h3" className="text-purple-800 font-bold">
+                <div className="text-center p-4 bg-clay-50 rounded-lg border border-clay-200">
+                  <Heart className="w-8 h-8 text-clay-600 mx-auto mb-3" />
+                  <Typography variant="h3" className="text-clay-800 font-bold">
                     {storyteller.specialties && storyteller.specialties.length > 0
                       ? storyteller.specialties.length
                       : 'Various'}
                   </Typography>
-                  <Typography variant="small" className="text-purple-700">
+                  <Typography variant="small" className="text-clay-700">
                     {storyteller.specialties && storyteller.specialties.length > 0
                       ? (storyteller.specialties.length === 1 ? 'Specialty Area' : 'Specialty Areas')
                       : 'Interests'}
@@ -617,7 +617,7 @@ export default function StorytellerProfilePage() {
 
                 {storyteller.profile?.cultural_affiliations && (
                   <div>
-                    <Typography variant="small" className="text-grey-700 mb-2 font-medium">
+                    <Typography variant="small" className="text-stone-700 mb-2 font-medium">
                       Affiliations
                     </Typography>
                     <div className="flex flex-wrap gap-1">
@@ -648,7 +648,7 @@ export default function StorytellerProfilePage() {
                     ))}
                   </div>
                 ) : (
-                  <Typography variant="body" className="text-grey-500">
+                  <Typography variant="body" className="text-stone-500">
                     No styles listed
                   </Typography>
                 )}
@@ -730,11 +730,11 @@ export default function StorytellerProfilePage() {
 
             {stories.length === 0 ? (
               <Card className="p-12 text-center">
-                <BookOpen className="w-16 h-16 text-grey-300 mx-auto mb-4" />
-                <Typography variant="h3" className="text-grey-600 mb-2">
+                <BookOpen className="w-16 h-16 text-stone-300 mx-auto mb-4" />
+                <Typography variant="h3" className="text-stone-600 mb-2">
                   No Published Stories Yet
                 </Typography>
-                <Typography variant="body" className="text-grey-500">
+                <Typography variant="body" className="text-stone-500">
                   {storyteller.display_name} hasn't published any stories yet. Check back soon!
                 </Typography>
               </Card>
@@ -779,21 +779,21 @@ export default function StorytellerProfilePage() {
                     {experienceLevel.label}
                   </Badge>
                   {storyteller.years_of_experience && (
-                    <Typography variant="body" className="text-grey-600">
+                    <Typography variant="body" className="text-stone-600">
                       {storyteller.years_of_experience} years of storytelling
                     </Typography>
                   )}
                 </div>
 
                 {isElder && (
-                  <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
+                  <div className="p-4 bg-clay-50 border border-clay-200 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
-                      <Crown className="w-5 h-5 text-purple-600" />
-                      <Typography variant="h4" className="text-purple-800">
+                      <Crown className="w-5 h-5 text-clay-600" />
+                      <Typography variant="h4" className="text-clay-800">
                         Elder Recognition
                       </Typography>
                     </div>
-                    <Typography variant="small" className="text-purple-700">
+                    <Typography variant="small" className="text-clay-700">
                       Recognized as an Elder within the community, carrying traditional knowledge 
                       and cultural wisdom.
                     </Typography>
@@ -814,14 +814,14 @@ export default function StorytellerProfilePage() {
                       {storyteller.community_recognition.map((recognition: string, index: number) => (
                         <li key={index} className="flex items-start">
                           <Award className="w-4 h-4 mr-2 mt-1 text-earth-500 flex-shrink-0" />
-                          <Typography variant="body" className="text-grey-600">
+                          <Typography variant="body" className="text-stone-600">
                             {recognition}
                           </Typography>
                         </li>
                       ))}
                     </ul>
                   ) : typeof storyteller.community_recognition === 'string' ? (
-                    <Typography variant="body" className="text-grey-600">
+                    <Typography variant="body" className="text-stone-600">
                       {storyteller.community_recognition}
                     </Typography>
                   ) : (
@@ -833,7 +833,7 @@ export default function StorytellerProfilePage() {
                             <Typography variant="body" className="font-semibold text-earth-700">
                               {key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:
                             </Typography>
-                            <Typography variant="body" className="text-grey-600">
+                            <Typography variant="body" className="text-stone-600">
                               {String(value)}
                             </Typography>
                           </div>
@@ -852,7 +852,7 @@ export default function StorytellerProfilePage() {
                     Cultural Protocols
                   </Typography>
                   
-                  <Typography variant="body" className="text-grey-600">
+                  <Typography variant="body" className="text-stone-600">
                     This storyteller follows specific cultural protocols and practices in their storytelling.
                   </Typography>
                 </Card>
@@ -873,7 +873,7 @@ export default function StorytellerProfilePage() {
                 
                 {storyteller.profile?.preferred_communication && (
                   <div className="mb-4">
-                    <Typography variant="small" className="text-grey-700 mb-2 font-medium">
+                    <Typography variant="small" className="text-stone-700 mb-2 font-medium">
                       Preferred Communication
                     </Typography>
                     <div className="flex flex-wrap gap-2">
@@ -888,10 +888,10 @@ export default function StorytellerProfilePage() {
 
                 {storyteller.profile?.timezone && (
                   <div className="mb-4">
-                    <Typography variant="small" className="text-grey-700 mb-1 font-medium">
+                    <Typography variant="small" className="text-stone-700 mb-1 font-medium">
                       Timezone
                     </Typography>
-                    <Typography variant="body" className="text-grey-600">
+                    <Typography variant="body" className="text-stone-600">
                       {storyteller.profile.timezone}
                     </Typography>
                   </div>
@@ -911,7 +911,7 @@ export default function StorytellerProfilePage() {
                     Availability
                   </Typography>
                   
-                  <Typography variant="body" className="text-grey-600 mb-4">
+                  <Typography variant="body" className="text-stone-600 mb-4">
                     Information about storytelling availability and booking.
                   </Typography>
                   
@@ -930,7 +930,7 @@ export default function StorytellerProfilePage() {
                   Professional Background
                 </Typography>
                 
-                <Typography variant="body" className="text-grey-600">
+                <Typography variant="body" className="text-stone-600">
                   {storyteller.profile.occupation}
                 </Typography>
               </Card>

@@ -192,9 +192,9 @@ export default function StorytellerDashboard() {
     switch (status.toLowerCase()) {
       case 'published': return 'bg-green-100 text-green-800 border-green-200'
       case 'draft': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
-      case 'pending': return 'bg-blue-100 text-blue-800 border-blue-200'
-      case 'review': return 'bg-purple-100 text-purple-800 border-purple-200'
-      default: return 'bg-grey-100 text-grey-800 border-grey-200'
+      case 'pending': return 'bg-sage-100 text-sage-800 border-sage-200'
+      case 'review': return 'bg-clay-100 text-clay-800 border-clay-200'
+      default: return 'bg-stone-100 text-stone-800 border-stone-200'
     }
   }
 

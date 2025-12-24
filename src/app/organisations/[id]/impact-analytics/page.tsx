@@ -31,12 +31,12 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
       {/* Hero Section */}
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center space-x-2">
-          <Zap className="h-8 w-8 text-blue-600" />
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <Zap className="h-8 w-8 text-sage-600" />
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-sage-600 to-clay-600 bg-clip-text text-transparent">
             Advanced Impact Analytics
           </h1>
         </div>
-        <p className="text-xl text-grey-600 max-w-3xl mx-auto">
+        <p className="text-xl text-stone-600 max-w-3xl mx-auto">
           Comprehensive storyteller-centric analytics with real-time community impact scoring,
           cross-sector insights, and AI-powered philanthropy intelligence
         </p>
@@ -45,11 +45,11 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
             <Target className="h-3 w-3 mr-1" />
             Hub & Spoke Model
           </Badge>
-          <Badge className="bg-blue-100 text-blue-800">
+          <Badge className="bg-sage-100 text-sage-800">
             <BarChart3 className="h-3 w-3 mr-1" />
             Real-time Scoring
           </Badge>
-          <Badge className="bg-purple-100 text-purple-800">
+          <Badge className="bg-clay-100 text-clay-800">
             <Lightbulb className="h-3 w-3 mr-1" />
             AI Intelligence
           </Badge>
@@ -57,7 +57,7 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
       </div>
 
       {/* System Overview */}
-      <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50">
+      <Card className="border-2 border-sage-200 bg-gradient-to-r from-sage-50 to-clay-50">
         <CardHeader>
           <CardTitle className="flex items-center">
             <Network className="h-6 w-6 mr-2" />
@@ -67,17 +67,17 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center p-4 bg-white rounded-lg border">
-              <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+              <Users className="h-8 w-8 text-sage-600 mx-auto mb-2" />
               <h3 className="font-semibold mb-2">Storyteller Hub</h3>
-              <p className="text-sm text-grey-600">
+              <p className="text-sm text-stone-600">
                 Individual storytellers at the centre with comprehensive impact metrics,
                 network connections, and personal analytics dashboards
               </p>
             </div>
             <div className="text-center p-4 bg-white rounded-lg border">
-              <Network className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+              <Network className="h-8 w-8 text-clay-600 mx-auto mb-2" />
               <h3 className="font-semibold mb-2">Cross-Sector Spokes</h3>
-              <p className="text-sm text-grey-600">
+              <p className="text-sm text-stone-600">
                 Connections radiating outward showing collaboration opportunities,
                 sector bridges, and policy change potential
               </p>
@@ -85,7 +85,7 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
             <div className="text-center p-4 bg-white rounded-lg border">
               <Star className="h-8 w-8 text-orange-600 mx-auto mb-2" />
               <h3 className="font-semibold mb-2">Investment Intelligence</h3>
-              <p className="text-sm text-grey-600">
+              <p className="text-sm text-stone-600">
                 AI-powered philanthropy insights with opportunity identification,
                 risk assessment, and portfolio optimization
               </p>
@@ -118,13 +118,13 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
                 <Users className="h-5 w-5 mr-2" />
                 Individual Storyteller Impact Analytics
               </CardTitle>
-              <p className="text-sm text-grey-600">
+              <p className="text-sm text-stone-600">
                 Hub-centred view with 8 impact types, network connections, content analytics, and influence metrics
               </p>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="p-4 bg-blue-50 rounded-lg">
+                <div className="p-4 bg-sage-50 rounded-lg">
                   <h4 className="font-semibold mb-2">🎯 Impact Measurement Types</h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
                     <Badge variant="outline">Cultural Protocol</Badge>
@@ -139,8 +139,8 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
                 </div>
 
                 <div className="text-center py-4">
-                  <p className="text-grey-600 mb-4">Select a storyteller to view their comprehensive analytics dashboard</p>
-                  <Button disabled className="bg-grey-100 text-grey-500">
+                  <p className="text-stone-600 mb-4">Select a storyteller to view their comprehensive analytics dashboard</p>
+                  <Button disabled className="bg-stone-100 text-stone-500">
                     Demo: Select Storyteller Required
                   </Button>
                 </div>
@@ -156,7 +156,7 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
                 <Network className="h-5 w-5 mr-2" />
                 Cross-Sector Connection Analysis
               </CardTitle>
-              <p className="text-sm text-grey-600">
+              <p className="text-sm text-stone-600">
                 Visualization of how storytellers connect across different sectors and collaboration opportunities
               </p>
             </CardHeader>
@@ -164,7 +164,7 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
               <Suspense
                 fallback={
                   <div className="flex items-center justify-center h-64">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sage-600"></div>
                     <span className="ml-2">Loading cross-sector insights...</span>
                   </div>
                 }
@@ -182,7 +182,7 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
                 <TrendingUp className="h-5 w-5 mr-2" />
                 AI-Powered Philanthropy Intelligence
               </CardTitle>
-              <p className="text-sm text-grey-600">
+              <p className="text-sm text-stone-600">
                 Investment opportunity identification, portfolio performance tracking, and strategic recommendations
               </p>
             </CardHeader>
@@ -190,7 +190,7 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
               <Suspense
                 fallback={
                   <div className="flex items-center justify-center h-64">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-clay-600"></div>
                     <span className="ml-2">Loading philanthropy intelligence...</span>
                   </div>
                 }
@@ -206,9 +206,9 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="text-center">
           <CardContent className="p-6">
-            <Target className="h-8 w-8 text-blue-600 mx-auto mb-3" />
+            <Target className="h-8 w-8 text-sage-600 mx-auto mb-3" />
             <h3 className="font-semibold mb-2">Real-time Impact Scoring</h3>
-            <p className="text-sm text-grey-600">
+            <p className="text-sm text-stone-600">
               Live calculation of 8 community impact types with evidence-based confidence metrics
             </p>
           </CardContent>
@@ -216,9 +216,9 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
 
         <Card className="text-center">
           <CardContent className="p-6">
-            <Network className="h-8 w-8 text-purple-600 mx-auto mb-3" />
+            <Network className="h-8 w-8 text-clay-600 mx-auto mb-3" />
             <h3 className="font-semibold mb-2">Network Mapping</h3>
-            <p className="text-sm text-grey-600">
+            <p className="text-sm text-stone-600">
               AI-powered analysis of storyteller connections through shared themes and collaboration patterns
             </p>
           </CardContent>
@@ -228,7 +228,7 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
           <CardContent className="p-6">
             <BarChart3 className="h-8 w-8 text-green-600 mx-auto mb-3" />
             <h3 className="font-semibold mb-2">Content Analytics</h3>
-            <p className="text-sm text-grey-600">
+            <p className="text-sm text-stone-600">
               Theme extraction, velocity tracking, and impact measurement from stories and transcripts
             </p>
           </CardContent>
@@ -238,7 +238,7 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
           <CardContent className="p-6">
             <Lightbulb className="h-8 w-8 text-orange-600 mx-auto mb-3" />
             <h3 className="font-semibold mb-2">Investment Intelligence</h3>
-            <p className="text-sm text-grey-600">
+            <p className="text-sm text-stone-600">
               AI-generated opportunities with risk assessment, readiness scoring, and portfolio optimization
             </p>
           </CardContent>
@@ -254,7 +254,7 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
               <h4 className="font-semibold mb-2">🏗️ Architecture</h4>
-              <ul className="space-y-1 text-grey-600">
+              <ul className="space-y-1 text-stone-600">
                 <li>• Hub and spoke model with storytellers at centre</li>
                 <li>• Real-time API endpoints for analytics</li>
                 <li>• Supabase service role for comprehensive data access</li>
@@ -263,7 +263,7 @@ export default async function ImpactAnalyticsPage({ params }: ImpactAnalyticsPag
             </div>
             <div>
               <h4 className="font-semibold mb-2">🤖 AI Features</h4>
-              <ul className="space-y-1 text-grey-600">
+              <ul className="space-y-1 text-stone-600">
                 <li>• Theme extraction from transcript metadata</li>
                 <li>• Network connection discovery through shared themes</li>
                 <li>• Investment opportunity scoring and risk assessment</li>

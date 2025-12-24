@@ -574,7 +574,7 @@ function StorytellerContent({ data }: { data: any }) {
                 icon={<Users className="w-4 h-4" />}
                 label="Community"
                 value={metrics.communityEngagement}
-                color="text-blue-500"
+                color="text-sage-500"
               />
             )}
             {metrics.culturalPreservation > 0 && (
@@ -590,7 +590,7 @@ function StorytellerContent({ data }: { data: any }) {
                 icon={<Target className="w-4 h-4" />}
                 label="Influence"
                 value={metrics.systemChangeInfluence}
-                color="text-purple-500"
+                color="text-clay-500"
               />
             )}
             {metrics.mentorshipImpact > 0 && (
@@ -636,7 +636,7 @@ function StorytellerContent({ data }: { data: any }) {
           <h3 className="text-sm font-semibold text-muted-foreground mb-2">Expertise</h3>
           <div className="flex flex-wrap gap-2">
             {data.expertiseAreas.map((area: string, index: number) => (
-              <Badge key={index} variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
+              <Badge key={index} variant="outline" className="bg-clay-50 text-clay-700 border-clay-200">
                 {area}
               </Badge>
             ))}

@@ -41,7 +41,7 @@ export function OrganizationSelector({
 
   if (loading) {
     return (
-      <div className="w-[300px] h-10 bg-grey-100 animate-pulse rounded-md" />
+      <div className="w-[300px] h-10 bg-stone-100 animate-pulse rounded-md" />
     )
   }
 

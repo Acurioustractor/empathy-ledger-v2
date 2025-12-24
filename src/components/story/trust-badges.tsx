@@ -160,7 +160,7 @@ function RecentlyVerifiedBadge({ verifiedAt }: { verifiedAt: string }) {
         <TooltipTrigger asChild>
           <Badge
             variant="outline"
-            className="bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700 text-sm px-2.5 py-1"
+            className="bg-sage-100 text-sage-800 border-sage-200 dark:bg-sage-900/30 dark:text-sage-300 dark:border-sage-700 text-sm px-2.5 py-1"
           >
             <Clock className="w-3.5 h-3.5 mr-1" />
             Updated {daysAgo === 0 ? 'today' : `${daysAgo}d ago`}

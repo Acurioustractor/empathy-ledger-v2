@@ -40,7 +40,7 @@ const categories = [
 const statusColors: Record<string, string> = {
   dream: 'bg-sky-100 text-sky-700 border-sky-200',
   researching: 'bg-amber-100 text-amber-700 border-amber-200',
-  reached_out: 'bg-purple-100 text-purple-700 border-purple-200',
+  reached_out: 'bg-clay-100 text-clay-700 border-clay-200',
   in_conversation: 'bg-green-100 text-green-700 border-green-200',
   partnered: 'bg-clay-100 text-clay-700 border-clay-200'
 }

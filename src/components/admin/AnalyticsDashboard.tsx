@@ -86,13 +86,13 @@ const AnalyticsDashboard: React.FC = () => {
     } else if (percentage < 0) {
       return <TrendingDown className="w-4 h-4 text-red-500" />
     }
-    return <Activity className="w-4 h-4 text-grey-500" />
+    return <Activity className="w-4 h-4 text-stone-500" />
   }
 
   const getTrendColor = (percentage: number) => {
     if (percentage > 0) return 'text-green-600'
     if (percentage < 0) return 'text-red-600'
-    return 'text-grey-600'
+    return 'text-stone-600'
   }
 
   const formatPercentage = (num: number) => {
@@ -105,7 +105,7 @@ const AnalyticsDashboard: React.FC = () => {
       case 'high': return 'bg-red-100 text-red-800'
       case 'medium': return 'bg-yellow-100 text-yellow-800'
       case 'low': return 'bg-green-100 text-green-800'
-      default: return 'bg-grey-100 text-grey-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -218,7 +218,7 @@ const AnalyticsDashboard: React.FC = () => {
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm font-medium">Active Stories</CardTitle>
-              <Activity className="w-4 h-4 text-blue-600" />
+              <Activity className="w-4 h-4 text-sage-600" />
             </div>
           </CardHeader>
           <CardContent>

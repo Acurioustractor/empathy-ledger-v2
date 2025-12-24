@@ -298,7 +298,7 @@ export default function StorytellerRegistrationPage() {
       <div className="min-h-screen bg-gradient-to-br from-sage-50 to-earth-50 flex items-center justify-center">
         <div className="text-center">
           <Typography variant="h2" className="mb-4">Authentication Required</Typography>
-          <Typography variant="body" className="text-grey-600 mb-6">
+          <Typography variant="body" className="text-stone-600 mb-6">
             Please sign in to become a storyteller.
           </Typography>
           <Button asChild>
@@ -317,11 +317,11 @@ export default function StorytellerRegistrationPage() {
           <Typography variant="h2" className="text-green-700 mb-4">
             Application Submitted!
           </Typography>
-          <Typography variant="body" className="text-grey-600 mb-6">
+          <Typography variant="body" className="text-stone-600 mb-6">
             Your storyteller application has been submitted for review. You'll receive an email 
             once it's been approved by our cultural review team.
           </Typography>
-          <Typography variant="small" className="text-grey-500">
+          <Typography variant="small" className="text-stone-500">
             Redirecting you to your profile...
           </Typography>
         </Card>
@@ -349,7 +349,7 @@ export default function StorytellerRegistrationPage() {
           <Typography variant="h1" className="mb-4 text-earth-800">
             Become a Storyteller
           </Typography>
-          <Typography variant="body" className="text-grey-600 max-w-3xl mx-auto">
+          <Typography variant="body" className="text-stone-600 max-w-3xl mx-auto">
             Join our community of storytellers and share your cultural narratives with the world. 
             This application will help us understand your background and storytelling style.
           </Typography>
@@ -364,25 +364,25 @@ export default function StorytellerRegistrationPage() {
                   'w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-medium mb-2',
                   index <= currentStep 
                     ? 'bg-earth-600 border-earth-600 text-white'
-                    : 'border-grey-300 text-grey-400'
+                    : 'border-stone-300 text-stone-400'
                 )}>
                   {index + 1}
                 </div>
                 <div className="text-center">
                   <Typography variant="small" className={cn(
                     'font-medium mb-1',
-                    index <= currentStep ? 'text-earth-700' : 'text-grey-400'
+                    index <= currentStep ? 'text-earth-700' : 'text-stone-400'
                   )}>
                     {step.title}
                   </Typography>
-                  <Typography variant="small" className="text-grey-500 text-xs">
+                  <Typography variant="small" className="text-stone-500 text-xs">
                     {step.description}
                   </Typography>
                 </div>
                 {index < steps.length - 1 && (
                   <div className={cn(
                     'h-0.5 w-full mt-5 absolute',
-                    index < currentStep ? 'bg-earth-600' : 'bg-grey-300'
+                    index < currentStep ? 'bg-earth-600' : 'bg-stone-300'
                   )} />
                 )}
               </div>
@@ -407,14 +407,14 @@ export default function StorytellerRegistrationPage() {
                 <div className="text-center mb-8">
                   <User className="w-12 h-12 text-earth-600 mx-auto mb-4" />
                   <Typography variant="h2" className="mb-2">Basic Information</Typography>
-                  <Typography variant="body" className="text-grey-600">
+                  <Typography variant="body" className="text-stone-600">
                     Tell us about yourself and your storytelling background
                   </Typography>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-grey-700 mb-2">
+                    <label className="block text-sm font-medium text-stone-700 mb-2">
                       Display Name *
                     </label>
                     <Input
@@ -427,7 +427,7 @@ export default function StorytellerRegistrationPage() {
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-grey-700 mb-2">
+                    <label className="block text-sm font-medium text-stone-700 mb-2">
                       Bio / About You *
                     </label>
                     <Textarea
@@ -437,13 +437,13 @@ export default function StorytellerRegistrationPage() {
                       rows={4}
                       required
                     />
-                    <Typography variant="small" className="text-grey-500 mt-1">
+                    <Typography variant="small" className="text-stone-500 mt-1">
                       This will be displayed on your storyteller profile
                     </Typography>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-grey-700 mb-2">
+                    <label className="block text-sm font-medium text-stone-700 mb-2">
                       Years of Storytelling Experience
                     </label>
                     <Input
@@ -459,7 +459,7 @@ export default function StorytellerRegistrationPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-grey-700 mb-2">
+                    <label className="block text-sm font-medium text-stone-700 mb-2">
                       Elder Status
                     </label>
                     <div className="flex items-center space-x-3">
@@ -468,8 +468,8 @@ export default function StorytellerRegistrationPage() {
                         onCheckedChange={(checked) => updateFormData('elder_status', checked)}
                       />
                       <div className="flex items-center">
-                        <Crown className="w-4 h-4 text-purple-500 mr-2" />
-                        <Typography variant="small" className="text-grey-700">
+                        <Crown className="w-4 h-4 text-clay-500 mr-2" />
+                        <Typography variant="small" className="text-stone-700">
                           I am recognised as an Elder in my community
                         </Typography>
                       </div>
@@ -485,14 +485,14 @@ export default function StorytellerRegistrationPage() {
                 <div className="text-center mb-8">
                   <Users className="w-12 h-12 text-earth-600 mx-auto mb-4" />
                   <Typography variant="h2" className="mb-2">Cultural Background</Typography>
-                  <Typography variant="body" className="text-grey-600">
+                  <Typography variant="body" className="text-stone-600">
                     Help us understand your cultural identity and community connections
                   </Typography>
                 </div>
 
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-grey-700 mb-2">
+                    <label className="block text-sm font-medium text-stone-700 mb-2">
                       Primary Cultural Background *
                     </label>
                     <Select 
@@ -511,7 +511,7 @@ export default function StorytellerRegistrationPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-grey-700 mb-2">
+                    <label className="block text-sm font-medium text-stone-700 mb-2">
                       Community Recognition (Optional)
                     </label>
                     <Textarea
@@ -520,7 +520,7 @@ export default function StorytellerRegistrationPage() {
                       placeholder="Describe any formal or informal recognition you have within your cultural community..."
                       rows={3}
                     />
-                    <Typography variant="small" className="text-grey-500 mt-1">
+                    <Typography variant="small" className="text-stone-500 mt-1">
                       This information may be verified with community representatives
                     </Typography>
                   </div>
@@ -534,7 +534,7 @@ export default function StorytellerRegistrationPage() {
                 <div className="text-center mb-8">
                   <BookOpen className="w-12 h-12 text-earth-600 mx-auto mb-4" />
                   <Typography variant="h2" className="mb-2">Storytelling Expertise</Typography>
-                  <Typography variant="body" className="text-grey-600">
+                  <Typography variant="body" className="text-stone-600">
                     Tell us about your storytelling skills and areas of focus
                   </Typography>
                 </div>
@@ -542,7 +542,7 @@ export default function StorytellerRegistrationPage() {
                 <div className="space-y-8">
                   {/* Specialties */}
                   <div>
-                    <label className="block text-sm font-medium text-grey-700 mb-3">
+                    <label className="block text-sm font-medium text-stone-700 mb-3">
                       Specialties * (Select all that apply)
                     </label>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -556,7 +556,7 @@ export default function StorytellerRegistrationPage() {
                             'p-3 border rounded-lg cursor-pointer transition-all text-center',
                             formData.specialties.includes(specialty)
                               ? 'border-earth-500 bg-earth-50 text-earth-700'
-                              : 'border-grey-200 hover:border-grey-300'
+                              : 'border-stone-200 hover:border-stone-300'
                           )}
                         >
                           <Typography variant="small" className="font-medium">
@@ -569,7 +569,7 @@ export default function StorytellerRegistrationPage() {
 
                   {/* Storytelling Styles */}
                   <div>
-                    <label className="block text-sm font-medium text-grey-700 mb-3">
+                    <label className="block text-sm font-medium text-stone-700 mb-3">
                       Storytelling Styles * (Select all that apply)
                     </label>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -583,7 +583,7 @@ export default function StorytellerRegistrationPage() {
                             'p-4 border rounded-lg cursor-pointer transition-all text-center',
                             formData.storytelling_style.includes(style.name)
                               ? 'border-earth-500 bg-earth-50 text-earth-700'
-                              : 'border-grey-200 hover:border-grey-300'
+                              : 'border-stone-200 hover:border-stone-300'
                           )}
                         >
                           <div className="mb-2 flex justify-center">
@@ -599,7 +599,7 @@ export default function StorytellerRegistrationPage() {
 
                   {/* Preferred Topics */}
                   <div>
-                    <label className="block text-sm font-medium text-grey-700 mb-3">
+                    <label className="block text-sm font-medium text-stone-700 mb-3">
                       Preferred Topics (Optional)
                     </label>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -613,7 +613,7 @@ export default function StorytellerRegistrationPage() {
                             'p-2 border rounded-md cursor-pointer transition-all text-center text-sm',
                             formData.preferred_topics.includes(topic)
                               ? 'border-earth-400 bg-earth-25 text-earth-700'
-                              : 'border-grey-200 hover:border-grey-300'
+                              : 'border-stone-200 hover:border-stone-300'
                           )}
                         >
                           {topic}
@@ -631,15 +631,15 @@ export default function StorytellerRegistrationPage() {
                 <div className="text-center mb-8">
                   <Crown className="w-12 h-12 text-earth-600 mx-auto mb-4" />
                   <Typography variant="h2" className="mb-2">Cultural Protocols</Typography>
-                  <Typography variant="body" className="text-grey-600">
+                  <Typography variant="body" className="text-stone-600">
                     Help us respect your cultural practices and protocols
                   </Typography>
                 </div>
 
                 <div className="space-y-6">
-                  <Alert className="border-blue-200 bg-blue-50">
-                    <Info className="h-4 w-4 text-blue-600" />
-                    <AlertDescription className="text-blue-700">
+                  <Alert className="border-sage-200 bg-sage-50">
+                    <Info className="h-4 w-4 text-sage-600" />
+                    <AlertDescription className="text-sage-700">
                       These settings help ensure your storytelling follows appropriate cultural protocols 
                       and community guidelines.
                     </AlertDescription>
@@ -660,7 +660,7 @@ export default function StorytellerRegistrationPage() {
                         <Typography variant="body" className="font-medium">
                           Requires Proper Introduction
                         </Typography>
-                        <Typography variant="small" className="text-grey-600">
+                        <Typography variant="small" className="text-stone-600">
                           I prefer to be introduced by someone who knows me and my background
                         </Typography>
                       </div>
@@ -680,7 +680,7 @@ export default function StorytellerRegistrationPage() {
                         <Typography variant="body" className="font-medium">
                           Gender-Specific Content
                         </Typography>
-                        <Typography variant="small" className="text-grey-600">
+                        <Typography variant="small" className="text-stone-600">
                           Some of my stories are appropriate for specific genders only
                         </Typography>
                       </div>
@@ -700,7 +700,7 @@ export default function StorytellerRegistrationPage() {
                         <Typography variant="body" className="font-medium">
                           Age-Restricted Content
                         </Typography>
-                        <Typography variant="small" className="text-grey-600">
+                        <Typography variant="small" className="text-stone-600">
                           Some of my stories are appropriate for specific age groups only
                         </Typography>
                       </div>
@@ -720,7 +720,7 @@ export default function StorytellerRegistrationPage() {
                         <Typography variant="body" className="font-medium">
                           Requires Community Approval
                         </Typography>
-                        <Typography variant="small" className="text-grey-600">
+                        <Typography variant="small" className="text-stone-600">
                           I need approval from community members before sharing certain stories
                         </Typography>
                       </div>
@@ -736,7 +736,7 @@ export default function StorytellerRegistrationPage() {
                 <div className="text-center mb-8">
                   <CheckCircle className="w-12 h-12 text-earth-600 mx-auto mb-4" />
                   <Typography variant="h2" className="mb-2">Review & Submit</Typography>
-                  <Typography variant="body" className="text-grey-600">
+                  <Typography variant="body" className="text-stone-600">
                     Please review your information before submitting your application
                   </Typography>
                 </div>

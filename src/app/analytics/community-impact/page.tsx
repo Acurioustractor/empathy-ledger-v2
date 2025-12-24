@@ -122,21 +122,21 @@ export default function CommunityImpactPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-blue-200 bg-blue-50/30">
+        <Card className="border-sage-200 bg-sage-50/30">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center text-lg">
-              <Users className="w-5 h-5 mr-2 text-blue-600" />
+              <Users className="w-5 h-5 mr-2 text-sage-600" />
               Community Connections
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-blue-600 mb-2">
+            <div className="text-3xl font-bold text-sage-600 mb-2">
               {impactMetrics.intergenerationalConnections}
             </div>
             <p className="text-sm text-muted-foreground mb-3">
               New relationships formed through storytelling
             </p>
-            <Badge variant="outline" className="text-blue-700 border-blue-300">
+            <Badge variant="outline" className="text-sage-700 border-sage-300">
               <TrendingUp className="w-3 h-3 mr-1" />
               +31% this quarter
             </Badge>
@@ -176,7 +176,7 @@ export default function CommunityImpactPage() {
                   <span>Social Cohesion</span>
                   <span className="font-medium">82%</span>
                 </div>
-                <div className="w-full bg-grey-200 rounded-full h-2">
+                <div className="w-full bg-stone-200 rounded-full h-2">
                   <div className="bg-green-500 h-2 rounded-full" style={{ width: '82%' }} />
                 </div>
                 
@@ -184,15 +184,15 @@ export default function CommunityImpactPage() {
                   <span>Cultural Vitality</span>
                   <span className="font-medium">75%</span>
                 </div>
-                <div className="w-full bg-grey-200 rounded-full h-2">
-                  <div className="bg-blue-500 h-2 rounded-full" style={{ width: '75%' }} />
+                <div className="w-full bg-stone-200 rounded-full h-2">
+                  <div className="bg-sage-500 h-2 rounded-full" style={{ width: '75%' }} />
                 </div>
                 
                 <div className="flex justify-between text-sm">
                   <span>Healing Progress</span>
                   <span className="font-medium">78%</span>
                 </div>
-                <div className="w-full bg-grey-200 rounded-full h-2">
+                <div className="w-full bg-stone-200 rounded-full h-2">
                   <div className="bg-amber-500 h-2 rounded-full" style={{ width: '78%' }} />
                 </div>
               </div>
@@ -223,7 +223,7 @@ export default function CommunityImpactPage() {
                   </p>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600">
+                  <div className="text-3xl font-bold text-sage-600">
                     {impactMetrics.elderWisdomShared}
                   </div>
                   <p className="text-sm text-muted-foreground">
@@ -273,7 +273,7 @@ export default function CommunityImpactPage() {
                 <h3 className="text-lg font-semibold flex items-center">
                   {index === 0 && <Heart className="w-5 h-5 mr-2 text-green-500" />}
                   {index === 1 && <Globe className="w-5 h-5 mr-2 text-amber-500" />}
-                  {index === 2 && <Users className="w-5 h-5 mr-2 text-blue-500" />}
+                  {index === 2 && <Users className="w-5 h-5 mr-2 text-sage-500" />}
                   {category.category}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -332,7 +332,7 @@ export default function CommunityImpactPage() {
             </div>
             
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bg-sage-500 rounded-full mt-2"></div>
               <div>
                 <p className="font-medium">Intergenerational Dialogue Program</p>
                 <p className="text-sm text-muted-foreground">

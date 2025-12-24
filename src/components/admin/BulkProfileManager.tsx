@@ -161,7 +161,7 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
       <div className="space-y-6">
         <div className="flex items-center justify-center h-64">
           <div className="flex items-center space-x-3">
-            <Brain className="h-8 w-8 animate-pulse text-blue-600" />
+            <Brain className="h-8 w-8 animate-pulse text-sage-600" />
             <span className="text-lg">Analyzing profiles with AI...</span>
           </div>
         </div>
@@ -179,10 +179,10 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold flex items-center">
-            <Brain className="h-6 w-6 mr-2 text-blue-600" />
+            <Brain className="h-6 w-6 mr-2 text-sage-600" />
             AI-Powered Profile Enhancement
           </h2>
-          <p className="text-grey-600">Analyze and bulk update storyteller profiles using AI suggestions</p>
+          <p className="text-stone-600">Analyze and bulk update storyteller profiles using AI suggestions</p>
         </div>
         <div className="flex items-center space-x-3">
           <Button variant="outline" onClick={exportSuggestions}>
@@ -201,9 +201,9 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center">
-              <Users className="h-8 w-8 text-blue-600" />
+              <Users className="h-8 w-8 text-sage-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-grey-600">Total Profiles</p>
+                <p className="text-sm font-medium text-stone-600">Total Profiles</p>
                 <p className="text-2xl font-bold">{analysisData.summary.totalStorytellers}</p>
               </div>
             </div>
@@ -213,9 +213,9 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center">
-              <Sparkles className="h-8 w-8 text-purple-600" />
+              <Sparkles className="h-8 w-8 text-clay-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-grey-600">AI Suggestions</p>
+                <p className="text-sm font-medium text-stone-600">AI Suggestions</p>
                 <p className="text-2xl font-bold">{analysisData.summary.totalSuggestions}</p>
               </div>
             </div>
@@ -227,7 +227,7 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
             <div className="flex items-center">
               <Target className="h-8 w-8 text-green-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-grey-600">Avg Completeness</p>
+                <p className="text-sm font-medium text-stone-600">Avg Completeness</p>
                 <div className="flex items-center">
                   <p className="text-2xl font-bold">{analysisData.summary.avgCompleteness}%</p>
                   <Badge className="ml-2 bg-green-100 text-green-800">Good</Badge>
@@ -242,7 +242,7 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
             <div className="flex items-center">
               <AlertCircle className="h-8 w-8 text-orange-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-grey-600">Priority Profiles</p>
+                <p className="text-sm font-medium text-stone-600">Priority Profiles</p>
                 <p className="text-2xl font-bold">{analysisData.summary.priorityProfilesCount}</p>
               </div>
             </div>
@@ -273,11 +273,11 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
                 </div>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-grey-600">Profiles with suggestions</p>
+                    <p className="text-stone-600">Profiles with suggestions</p>
                     <p className="font-semibold text-lg">{analysisData.summary.priorityProfilesCount}</p>
                   </div>
                   <div>
-                    <p className="text-grey-600">Total AI suggestions</p>
+                    <p className="text-stone-600">Total AI suggestions</p>
                     <p className="font-semibold text-lg">{analysisData.summary.totalSuggestions}</p>
                   </div>
                 </div>
@@ -299,10 +299,10 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
                       />
                       <div>
                         <CardTitle className="text-lg">{profile.name}</CardTitle>
-                        <p className="text-sm text-grey-600">{profile.suggestionsCount} AI suggestions</p>
+                        <p className="text-sm text-stone-600">{profile.suggestionsCount} AI suggestions</p>
                       </div>
                     </div>
-                    <Badge className="bg-blue-100 text-blue-800">
+                    <Badge className="bg-sage-100 text-sage-800">
                       {profile.suggestionsCount} suggestions
                     </Badge>
                   </div>
@@ -310,7 +310,7 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
                 <CardContent>
                   <div className="space-y-3">
                     {profile.topSuggestions.map((suggestion, idx) => (
-                      <div key={idx} className="flex items-center justify-between p-3 bg-grey-50 rounded-lg">
+                      <div key={idx} className="flex items-center justify-between p-3 bg-stone-50 rounded-lg">
                         <div className="flex-1">
                           <div className="flex items-center space-x-2">
                             <Badge variant="outline" className="text-xs">
@@ -318,7 +318,7 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
                             </Badge>
                             <span className="font-medium">{suggestion.value}</span>
                           </div>
-                          <p className="text-sm text-grey-600 mt-1">{suggestion.reasoning}</p>
+                          <p className="text-sm text-stone-600 mt-1">{suggestion.reasoning}</p>
                         </div>
                         <div className="flex items-center space-x-2">
                           <Badge className="bg-green-100 text-green-800 text-xs">
@@ -345,15 +345,15 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
           <Card>
             <CardHeader>
               <CardTitle>Bulk Profile Actions</CardTitle>
-              <p className="text-sm text-grey-600">
+              <p className="text-sm text-stone-600">
                 Apply AI suggestions or perform bulk updates on selected profiles
               </p>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+              <div className="flex items-center justify-between p-4 bg-sage-50 rounded-lg">
                 <div>
                   <p className="font-medium">Selected Profiles</p>
-                  <p className="text-sm text-grey-600">{selectedProfiles.size} of {analysisData.priorityProfiles.length} profiles selected</p>
+                  <p className="text-sm text-stone-600">{selectedProfiles.size} of {analysisData.priorityProfiles.length} profiles selected</p>
                 </div>
                 <div className="flex space-x-2">
                   <Button variant="outline" size="sm" onClick={selectAllProfiles}>
@@ -366,7 +366,7 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-grey-700 mb-2">
+                <label className="block text-sm font-medium text-stone-700 mb-2">
                   Bulk Action Type
                 </label>
                 <Select value={bulkAction} onValueChange={setBulkAction}>
@@ -384,7 +384,7 @@ export function BulkProfileManager({ organizationId, tenantId }: BulkProfileMana
               </div>
 
               <div className="flex items-center justify-between pt-4 border-t">
-                <div className="text-sm text-grey-600">
+                <div className="text-sm text-stone-600">
                   This action will affect {selectedProfiles.size} profiles
                 </div>
                 <Button

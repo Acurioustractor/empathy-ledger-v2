@@ -116,7 +116,7 @@ const AdminStorytellingWorkflow: React.FC = () => {
     <Card className="mb-6">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <CirclePlay className="w-5 h-5 text-blue-600" />
+          <CirclePlay className="w-5 h-5 text-sage-600" />
           Quick Start Guide
         </CardTitle>
         <CardDescription>
@@ -179,15 +179,15 @@ const AdminStorytellingWorkflow: React.FC = () => {
                 <div className="flex items-center space-x-4">
                   <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
                     isCompleted ? 'bg-green-100 text-green-600' :
-                    isActive ? 'bg-blue-100 text-blue-600' :
-                    'bg-grey-100 text-grey-400'
+                    isActive ? 'bg-sage-100 text-sage-600' :
+                    'bg-stone-100 text-stone-400'
                   }`}>
                     {isCompleted ? <CheckCircle className="w-5 h-5" /> : step.icon}
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
-                      <h3 className={`text-sm font-medium ${isActive ? 'text-blue-900' : 'text-grey-900'}`}>
+                      <h3 className={`text-sm font-medium ${isActive ? 'text-sage-900' : 'text-stone-900'}`}>
                         {step.title}
                       </h3>
                       <Badge variant={
@@ -198,11 +198,11 @@ const AdminStorytellingWorkflow: React.FC = () => {
                         {step.estimatedTime}
                       </Badge>
                     </div>
-                    <p className="text-sm text-grey-500 mt-1">{step.description}</p>
+                    <p className="text-sm text-stone-500 mt-1">{step.description}</p>
 
                     {step.prerequisites && (
                       <div className="mt-2">
-                        <p className="text-xs text-grey-400">
+                        <p className="text-xs text-stone-400">
                           Prerequisites: {step.prerequisites.join(', ')}
                         </p>
                       </div>
@@ -223,7 +223,7 @@ const AdminStorytellingWorkflow: React.FC = () => {
                 </div>
 
                 {index < workflowSteps.length - 1 && (
-                  <div className="absolute left-8 top-16 w-0.5 h-6 bg-grey-200"></div>
+                  <div className="absolute left-8 top-16 w-0.5 h-6 bg-stone-200"></div>
                 )}
               </div>
             )
@@ -312,8 +312,8 @@ const AdminStorytellingWorkflow: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="border-b pb-4">
-        <h1 className="text-2xl font-bold text-grey-900">Admin Storytelling Workflow</h1>
-        <p className="text-grey-600">
+        <h1 className="text-2xl font-bold text-stone-900">Admin Storytelling Workflow</h1>
+        <p className="text-stone-600">
           A guided journey through the complete storytelling process - from content creation to publication
         </p>
       </div>

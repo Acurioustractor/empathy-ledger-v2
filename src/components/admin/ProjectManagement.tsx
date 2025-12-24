@@ -122,7 +122,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ adminLevel }) => 
       case 'active':
         return <Badge variant="outline" className="text-green-600 border-green-600">Active</Badge>
       case 'completed':
-        return <Badge variant="outline" className="text-blue-600 border-blue-600">Completed</Badge>
+        return <Badge variant="outline" className="text-sage-600 border-sage-600">Completed</Badge>
       case 'paused':
         return <Badge variant="outline" className="text-yellow-600 border-yellow-600">Paused</Badge>
       case 'cancelled':
@@ -219,10 +219,10 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ adminLevel }) => 
     return (
       <div className="space-y-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-grey-200 rounded w-64"></div>
+          <div className="h-8 bg-stone-200 rounded w-64"></div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-32 bg-grey-200 rounded"></div>
+              <div key={i} className="h-32 bg-stone-200 rounded"></div>
             ))}
           </div>
         </div>
@@ -235,7 +235,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ adminLevel }) => 
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-grey-900">Project Management</h2>
+          <h2 className="text-2xl font-bold text-stone-900">Project Management</h2>
           <p className="text-stone-600 dark:text-stone-400">
             Manage community projects and initiatives across organisations
           </p>
@@ -395,7 +395,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ adminLevel }) => 
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">{project.storyCount}</div>
+                  <div className="text-2xl font-bold text-sage-600">{project.storyCount}</div>
                   <div className="text-xs text-stone-600 dark:text-stone-400">Stories</div>
                 </div>
                 <div className="text-center">
@@ -403,7 +403,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ adminLevel }) => 
                   <div className="text-xs text-stone-600 dark:text-stone-400">Participants</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">{project.engagementRate}%</div>
+                  <div className="text-2xl font-bold text-clay-600">{project.engagementRate}%</div>
                   <div className="text-xs text-stone-600 dark:text-stone-400">Engagement</div>
                 </div>
                 <div className="text-center">
@@ -1171,7 +1171,7 @@ const ProjectStoriesTab: React.FC<{ projectId: string }> = ({ projectId }) => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600">{stats.totalStories}</div>
+              <div className="text-2xl font-bold text-sage-600">{stats.totalStories}</div>
               <div className="text-xs text-stone-600 dark:text-stone-400">Total Stories</div>
             </CardContent>
           </Card>
@@ -1189,7 +1189,7 @@ const ProjectStoriesTab: React.FC<{ projectId: string }> = ({ projectId }) => {
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600">{stats.elderApproved}</div>
+              <div className="text-2xl font-bold text-clay-600">{stats.elderApproved}</div>
               <div className="text-xs text-stone-600 dark:text-stone-400">Elder Approved</div>
             </CardContent>
           </Card>
@@ -1741,7 +1741,7 @@ const ProjectMediaTab: React.FC<{ projectId: string }> = ({ projectId }) => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600">{stats.totalFiles}</div>
+              <div className="text-2xl font-bold text-sage-600">{stats.totalFiles}</div>
               <div className="text-xs text-stone-600 dark:text-stone-400">Total Files</div>
             </CardContent>
           </Card>
@@ -1753,7 +1753,7 @@ const ProjectMediaTab: React.FC<{ projectId: string }> = ({ projectId }) => {
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600">{stats.videos}</div>
+              <div className="text-2xl font-bold text-clay-600">{stats.videos}</div>
               <div className="text-xs text-stone-600 dark:text-stone-400">Videos</div>
             </CardContent>
           </Card>
@@ -1930,7 +1930,7 @@ const MediaUploadForm: React.FC<{
         <div
           className={cn(
             "border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colours",
-            dragActive ? "border-blue-500 bg-blue-50" : "border-stone-300 hover:border-stone-400",
+            dragActive ? "border-sage-500 bg-sage-50" : "border-stone-300 hover:border-stone-400",
             file ? "border-green-500 bg-green-50" : ""
           )}
           onDragEnter={handleDrag}
@@ -2128,7 +2128,7 @@ const ProjectTranscriptsTab: React.FC<{ projectId: string }> = ({ projectId }) =
       case 'completed':
         return <Badge className="bg-green-100 text-green-700">Completed</Badge>
       case 'processing':
-        return <Badge className="bg-blue-100 text-blue-700">Processing</Badge>
+        return <Badge className="bg-sage-100 text-sage-700">Processing</Badge>
       case 'failed':
         return <Badge variant="destructive">Failed</Badge>
       default:
@@ -2200,7 +2200,7 @@ const ProjectTranscriptsTab: React.FC<{ projectId: string }> = ({ projectId }) =
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600">{stats.totalTranscripts}</div>
+              <div className="text-2xl font-bold text-sage-600">{stats.totalTranscripts}</div>
               <div className="text-xs text-stone-600 dark:text-stone-400">Total Transcripts</div>
             </CardContent>
           </Card>
@@ -2218,7 +2218,7 @@ const ProjectTranscriptsTab: React.FC<{ projectId: string }> = ({ projectId }) =
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600">{stats.elderReviewed}</div>
+              <div className="text-2xl font-bold text-clay-600">{stats.elderReviewed}</div>
               <div className="text-xs text-stone-600 dark:text-stone-400">Elder Reviewed</div>
             </CardContent>
           </Card>

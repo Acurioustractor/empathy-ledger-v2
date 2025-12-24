@@ -421,10 +421,10 @@ export default function StorytellerAnalyticsPage() {
 
   if (loading && !insights) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-sage-50 to-terracotta-100 py-12">
         <div className="container mx-auto px-6">
           <div className="mb-8">
-            <Link href={`/storytellers/${storytellerId}`} className="text-blue-600 hover:text-blue-800 flex items-center gap-2 mb-4">
+            <Link href={`/storytellers/${storytellerId}`} className="text-sage-600 hover:text-sage-800 flex items-center gap-2 mb-4">
               <ArrowLeft className="h-4 w-4" />
               Back to Profile
             </Link>
@@ -433,7 +433,7 @@ export default function StorytellerAnalyticsPage() {
           <Card className="max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Brain className="h-5 w-5 text-blue-600" />
+                <Brain className="h-5 w-5 text-sage-600" />
                 Analyzing Your Stories...
               </CardTitle>
               <CardDescription>
@@ -443,7 +443,7 @@ export default function StorytellerAnalyticsPage() {
             <CardContent>
               <div className="space-y-4">
                 <Progress value={analysisProgress} className="w-full" />
-                <p className="text-sm text-grey-600 text-center">
+                <p className="text-sm text-stone-600 text-center">
                   {analysisProgress < 30 && "Processing transcripts..."}
                   {analysisProgress >= 30 && analysisProgress < 70 && "Extracting insights..."}
                   {analysisProgress >= 70 && "Finalizing analysis..."}
@@ -458,7 +458,7 @@ export default function StorytellerAnalyticsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-sage-50 to-terracotta-100 py-12">
         <div className="container mx-auto px-6">
           <Card className="max-w-2xl mx-auto">
             <CardHeader>
@@ -468,7 +468,7 @@ export default function StorytellerAnalyticsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-grey-600 mb-4">{error}</p>
+              <p className="text-sm text-stone-600 mb-4">{error}</p>
               <Button onClick={generateNewAnalysis} className="w-full">
                 Try Again
               </Button>
@@ -481,7 +481,7 @@ export default function StorytellerAnalyticsPage() {
 
   if (!insights) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-sage-50 to-terracotta-100 py-12">
         <div className="container mx-auto px-6">
           <Card className="max-w-2xl mx-auto">
             <CardHeader>
@@ -503,21 +503,21 @@ export default function StorytellerAnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-sage-50 to-terracotta-100 py-12">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mb-8">
-          <Link href={`/storytellers/${storytellerId}`} className="text-blue-600 hover:text-blue-800 flex items-center gap-2 mb-4">
+          <Link href={`/storytellers/${storytellerId}`} className="text-sage-600 hover:text-sage-800 flex items-center gap-2 mb-4">
             <ArrowLeft className="h-4 w-4" />
             Back to Profile
           </Link>
           
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-grey-900 mb-2">
+              <h1 className="text-3xl font-bold text-stone-900 mb-2">
                 Personal Analytics
               </h1>
-              <p className="text-grey-600">
+              <p className="text-stone-600">
                 Insights from {storyteller?.display_name}'s life stories
               </p>
             </div>
@@ -551,14 +551,14 @@ export default function StorytellerAnalyticsPage() {
            insights.professional_competencies.length === 0 && 
            insights.impact_stories.length === 0 && (
             <div className="text-center py-12">
-              <div className="bg-white rounded-lg p-8 shadow-sm border border-grey-200">
-                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <BarChart3 className="h-8 w-8 text-blue-500" />
+              <div className="bg-white rounded-lg p-8 shadow-sm border border-stone-200">
+                <div className="w-16 h-16 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <BarChart3 className="h-8 w-8 text-sage-500" />
                 </div>
-                <h3 className="text-xl font-semibold text-grey-900 mb-2">
+                <h3 className="text-xl font-semibold text-stone-900 mb-2">
                   No Analytics Yet
                 </h3>
-                <p className="text-grey-600 mb-6 max-w-md mx-auto">
+                <p className="text-stone-600 mb-6 max-w-md mx-auto">
                   Share some stories to see personalized insights about your skills, 
                   impact, and growth areas. Your analytics will appear here as you create content.
                 </p>
@@ -606,11 +606,11 @@ export default function StorytellerAnalyticsPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Professional Skills</CardTitle>
-                  <Award className="h-4 w-4 text-blue-500" />
+                  <Award className="h-4 w-4 text-sage-500" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{insights.professional_competencies.length}</div>
-                  <div className="text-sm text-grey-500">
+                  <div className="text-sm text-stone-500">
                     {insights.professional_competencies.filter(c => c.level === 'expert' || c.level === 'advanced').length} advanced+
                   </div>
                 </CardContent>
@@ -623,7 +623,7 @@ export default function StorytellerAnalyticsPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{insights.impact_stories.length}</div>
-                  <div className="text-sm text-grey-500">
+                  <div className="text-sm text-stone-500">
                     Ready for professional use
                   </div>
                 </CardContent>
@@ -634,12 +634,12 @@ export default function StorytellerAnalyticsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Compass className="h-5 w-5 text-purple-600" />
+                  <Compass className="h-5 w-5 text-clay-600" />
                   Life Philosophy
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-grey-700 leading-relaxed">
+                <p className="text-stone-700 leading-relaxed">
                   {insights.life_philosophy}
                 </p>
               </CardContent>
@@ -669,7 +669,7 @@ export default function StorytellerAnalyticsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5 text-blue-600" />
+                    <TrendingUp className="h-5 w-5 text-sage-600" />
                     Growth Opportunities
                   </CardTitle>
                 </CardHeader>
@@ -677,7 +677,7 @@ export default function StorytellerAnalyticsPage() {
                   <div className="space-y-2">
                     {insights.growth_areas.map((area, index) => (
                       <div key={index} className="flex items-center gap-2">
-                        <Lightbulb className="h-4 w-4 text-blue-500" />
+                        <Lightbulb className="h-4 w-4 text-sage-500" />
                         <span className="text-sm">{area}</span>
                       </div>
                     ))}
@@ -696,7 +696,7 @@ export default function StorytellerAnalyticsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <PieChartIcon className="h-5 w-5 text-purple-600" />
+                    <PieChartIcon className="h-5 w-5 text-clay-600" />
                     Narrative Themes
                   </CardTitle>
                 </CardHeader>
@@ -734,9 +734,9 @@ export default function StorytellerAnalyticsPage() {
                 <CardContent>
                   <div className="space-y-3">
                     {insights.narrative_themes.map((theme, index) => (
-                      <div key={index} className="p-3 bg-grey-50 rounded-lg">
-                        <h4 className="font-medium text-grey-900 mb-1">{theme}</h4>
-                        <div className="flex items-center text-sm text-grey-500">
+                      <div key={index} className="p-3 bg-stone-50 rounded-lg">
+                        <h4 className="font-medium text-stone-900 mb-1">{theme}</h4>
+                        <div className="flex items-center text-sm text-stone-500">
                           <Eye className="h-3 w-3 mr-1" />
                           Core life pattern
                         </div>
@@ -751,7 +751,7 @@ export default function StorytellerAnalyticsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-indigo-600" />
+                  <Users className="h-5 w-5 text-terracotta-600" />
                   Community Contributions
                 </CardTitle>
               </CardHeader>
@@ -773,7 +773,7 @@ export default function StorytellerAnalyticsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <BarChart3 className="h-5 w-5 text-blue-600" />
+                  <BarChart3 className="h-5 w-5 text-sage-600" />
                   Skills Market Value
                 </CardTitle>
               </CardHeader>
@@ -815,14 +815,14 @@ export default function StorytellerAnalyticsPage() {
                       <div>
                         <h4 className="font-medium text-sm mb-1">Market Value</h4>
                         <Progress value={competency.market_value * 10} className="h-2" />
-                        <span className="text-xs text-grey-500">{competency.market_value}/10</span>
+                        <span className="text-xs text-stone-500">{competency.market_value}/10</span>
                       </div>
                       
                       <div>
                         <h4 className="font-medium text-sm mb-2">Evidence</h4>
                         <div className="space-y-1">
                           {competency.evidence.slice(0, 2).map((evidence, i) => (
-                            <p key={i} className="text-xs text-grey-600 bg-grey-50 p-2 rounded">
+                            <p key={i} className="text-xs text-stone-600 bg-stone-50 p-2 rounded">
                               {evidence}
                             </p>
                           ))}
@@ -835,7 +835,7 @@ export default function StorytellerAnalyticsPage() {
                           {competency.development_recommendations.slice(0, 2).map((rec, i) => (
                             <div key={i} className="flex items-start gap-2">
                               <Lightbulb className="h-3 w-3 text-yellow-500 mt-1 flex-shrink-0" />
-                              <p className="text-xs text-grey-600">{rec}</p>
+                              <p className="text-xs text-stone-600">{rec}</p>
                             </div>
                           ))}
                         </div>
@@ -882,7 +882,7 @@ export default function StorytellerAnalyticsPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <p className="text-sm text-grey-700">{story.description}</p>
+                      <p className="text-sm text-stone-700">{story.description}</p>
                       
                       <div>
                         <h4 className="font-medium text-sm mb-2">Measurable Outcomes</h4>
@@ -909,7 +909,7 @@ export default function StorytellerAnalyticsPage() {
 
                       <div>
                         <h4 className="font-medium text-sm mb-1">Cultural Significance</h4>
-                        <p className="text-xs text-grey-600 bg-blue-50 p-2 rounded">
+                        <p className="text-xs text-stone-600 bg-sage-50 p-2 rounded">
                           {story.cultural_significance}
                         </p>
                       </div>
@@ -927,7 +927,7 @@ export default function StorytellerAnalyticsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-blue-600" />
+                  <TrendingUp className="h-5 w-5 text-sage-600" />
                   Personal Development Insights
                 </CardTitle>
                 <CardDescription>
@@ -940,8 +940,8 @@ export default function StorytellerAnalyticsPage() {
                     <h4 className="font-medium mb-3">Recommended Focus Areas</h4>
                     <div className="space-y-2">
                       {insights.growth_areas.map((area, index) => (
-                        <div key={index} className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                          <Target className="h-4 w-4 text-blue-600" />
+                        <div key={index} className="flex items-center gap-3 p-3 bg-sage-50 rounded-lg">
+                          <Target className="h-4 w-4 text-sage-600" />
                           <span className="text-sm">{area}</span>
                         </div>
                       ))}
@@ -983,7 +983,7 @@ export default function StorytellerAnalyticsPage() {
 
         {/* Analysis Timestamp */}
         <div className="mt-8 text-center">
-          <p className="text-sm text-grey-500 flex items-center justify-center gap-2">
+          <p className="text-sm text-stone-500 flex items-center justify-center gap-2">
             <Clock className="h-4 w-4" />
             Analysis generated on {new Date(insights.generated_at).toLocaleDateString()}
           </p>

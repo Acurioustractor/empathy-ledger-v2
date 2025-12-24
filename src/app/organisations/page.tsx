@@ -110,11 +110,11 @@ export default function OrganizationsPage() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'nonprofit': return 'bg-blue-100 text-blue-800'
+      case 'nonprofit': return 'bg-sage-100 text-sage-800'
       case 'community': return 'bg-green-100 text-green-800'
-      case 'educational': return 'bg-purple-100 text-purple-800'
+      case 'educational': return 'bg-clay-100 text-clay-800'
       case 'cultural_center': return 'bg-orange-100 text-orange-800'
-      default: return 'bg-grey-100 text-grey-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -134,7 +134,7 @@ export default function OrganizationsPage() {
           <h1 className="text-4xl font-bold text-earth-800 mb-4">
             Partner Organizations
           </h1>
-          <p className="text-xl text-grey-600 max-w-3xl mx-auto">
+          <p className="text-xl text-stone-600 max-w-3xl mx-auto">
             Discover organisations preserving and sharing cultural stories across communities
           </p>
         </div>
@@ -143,7 +143,7 @@ export default function OrganizationsPage() {
         <div className="max-w-6xl mx-auto mb-8">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 w-5 h-5" />
               <Input
                 type="text"
                 placeholder="Search organisations..."
@@ -166,7 +166,7 @@ export default function OrganizationsPage() {
             </select>
 
             <Button 
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-sage-600 hover:bg-sage-700"
               onClick={() => router.push('/organisations/create')}
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -179,13 +179,13 @@ export default function OrganizationsPage() {
         {loading ? (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-earth-600 mx-auto"></div>
-            <p className="mt-4 text-grey-600">Loading organisations...</p>
+            <p className="mt-4 text-stone-600">Loading organisations...</p>
           </div>
         ) : filteredOrgs.length === 0 ? (
           <div className="text-center py-12">
-            <Building2 className="w-16 h-16 text-grey-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-grey-600 mb-2">No Organizations Found</h3>
-            <p className="text-grey-500">Try adjusting your search or filters</p>
+            <Building2 className="w-16 h-16 text-stone-300 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-stone-600 mb-2">No Organizations Found</h3>
+            <p className="text-stone-500">Try adjusting your search or filters</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
@@ -213,7 +213,7 @@ export default function OrganizationsPage() {
                   </CardTitle>
                   
                   {org.location && (
-                    <div className="flex items-center text-sm text-grey-500 mt-2">
+                    <div className="flex items-center text-sm text-stone-500 mt-2">
                       <MapPin className="w-4 h-4 mr-1" />
                       {org.location}
                     </div>
@@ -226,7 +226,7 @@ export default function OrganizationsPage() {
                   </CardDescription>
                   
                   {/* Stats */}
-                  <div className="flex justify-between text-sm text-grey-600 mb-4">
+                  <div className="flex justify-between text-sm text-stone-600 mb-4">
                     <div className="flex items-center gap-1">
                       <Users className="w-4 h-4" />
                       <span>{org.member_count || 0} members</span>
@@ -276,12 +276,12 @@ export default function OrganizationsPage() {
           <h2 className="text-2xl font-bold mb-4 text-earth-800">
             Is Your Organization Missing?
           </h2>
-          <p className="text-grey-600 mb-6">
+          <p className="text-stone-600 mb-6">
             Join our network of organisations dedicated to preserving cultural stories and heritage
           </p>
           <div className="flex justify-center gap-4">
             <Button 
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-sage-600 hover:bg-sage-700"
               onClick={() => router.push('/organisations/create')}
             >
               Register Your Organization

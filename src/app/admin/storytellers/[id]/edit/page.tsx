@@ -553,7 +553,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
-          <h1 className="text-3xl font-bold text-grey-900">Loading...</h1>
+          <h1 className="text-3xl font-bold text-stone-900">Loading...</h1>
         </div>
       </div>
     )
@@ -568,7 +568,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
-          <h1 className="text-3xl font-bold text-grey-900">Error</h1>
+          <h1 className="text-3xl font-bold text-stone-900">Error</h1>
         </div>
         <Card>
           <CardContent className="p-6">
@@ -590,10 +590,10 @@ export default function EditStorytellerPage({ params }: PageProps) {
             </Link>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-grey-900">
+            <h1 className="text-3xl font-bold text-stone-900">
               Edit Storyteller
             </h1>
-            <p className="text-grey-600">
+            <p className="text-stone-600">
               Update {storyteller?.display_name || storyteller?.full_name}'s profile information
             </p>
           </div>
@@ -732,7 +732,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
                   id="status"
                   value={formData.status}
                   onChange={(e) => handleInputChange('status', e.target.value)}
-                  className="w-full mt-1 rounded-md border border-grey-300 px-3 py-2 text-sm"
+                  className="w-full mt-1 rounded-md border border-stone-300 px-3 py-2 text-sm"
                 >
                   <option value="active">Active</option>
                   <option value="pending">Pending</option>
@@ -751,19 +751,19 @@ export default function EditStorytellerPage({ params }: PageProps) {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-sm text-grey-600">Stories</span>
+                  <span className="text-sm text-stone-600">Stories</span>
                   <Badge variant="secondary">{storyteller.story_count}</Badge>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-grey-600">Email</span>
+                  <span className="text-sm text-stone-600">Email</span>
                   <span className="text-sm">{storyteller.email || 'No email'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-grey-600">Location</span>
+                  <span className="text-sm text-stone-600">Location</span>
                   <span className="text-sm">{storyteller.location || 'Not specified'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-grey-600">Joined</span>
+                  <span className="text-sm text-stone-600">Joined</span>
                   <span className="text-sm">
                     {new Date(storyteller.created_at).toLocaleDateString()}
                   </span>
@@ -786,7 +786,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
             </CardHeader>
             <CardContent>
               {!storyteller?.projects || storyteller.projects.length === 0 ? (
-                <div className="text-center py-8 text-grey-500">
+                <div className="text-center py-8 text-stone-500">
                   No project assignments yet.
                 </div>
               ) : (
@@ -794,7 +794,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
                   {storyteller.projects.map((project) => (
                     <div
                       key={project.id}
-                      className="flex items-center justify-between p-4 border rounded-lg hover:bg-grey-50"
+                      className="flex items-center justify-between p-4 border rounded-lg hover:bg-stone-50"
                     >
                       <div className="flex-1">
                         <div className="flex items-center gap-3">
@@ -805,11 +805,11 @@ export default function EditStorytellerPage({ params }: PageProps) {
                           <Badge variant="outline">{project.role}</Badge>
                         </div>
                         {project.organization && (
-                          <p className="text-sm text-grey-600 mt-1">
+                          <p className="text-sm text-stone-600 mt-1">
                             Organization: {project.organization.name}
                           </p>
                         )}
-                        <p className="text-xs text-grey-500 mt-1">
+                        <p className="text-xs text-stone-500 mt-1">
                           Joined: {new Date(project.joinedAt).toLocaleDateString()}
                         </p>
                       </div>
@@ -842,7 +842,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
                     <span>Existing Transcripts ({transcripts.length})</span>
                   </div>
                   {transcriptsLoading && (
-                    <div className="text-sm text-grey-500">Loading...</div>
+                    <div className="text-sm text-stone-500">Loading...</div>
                   )}
                 </CardTitle>
                 <CardDescription>
@@ -853,8 +853,8 @@ export default function EditStorytellerPage({ params }: PageProps) {
                 {transcriptsLoading ? (
                   <div className="text-center py-4">Loading transcripts...</div>
                 ) : transcripts.length === 0 ? (
-                  <div className="text-center py-8 text-grey-500">
-                    <FileAudio className="w-12 h-12 mx-auto mb-4 text-grey-300" />
+                  <div className="text-center py-8 text-stone-500">
+                    <FileAudio className="w-12 h-12 mx-auto mb-4 text-stone-300" />
                     <p>No transcripts found</p>
                     <p className="text-sm">Create your first transcript below</p>
                   </div>
@@ -867,7 +867,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
 
                       return (
                         <div key={transcript.id} className="border rounded-lg">
-                          <div className="flex items-center justify-between p-4 hover:bg-grey-50">
+                          <div className="flex items-center justify-between p-4 hover:bg-stone-50">
                             <div className="flex-1">
                               <div className="flex items-center gap-3">
                                 <h3 className="font-medium">{transcript.title}</h3>
@@ -875,7 +875,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
                                   {transcript.status}
                                 </Badge>
                                 {isAnalyzing && (
-                                  <Badge variant="outline" className="bg-blue-50 text-blue-700">
+                                  <Badge variant="outline" className="bg-sage-50 text-sage-700">
                                     <Sparkles className="w-3 h-3 mr-1 animate-spin" />
                                     Analyzing...
                                   </Badge>
@@ -887,7 +887,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
                                   </Badge>
                                 )}
                               </div>
-                              <div className="flex items-center gap-4 mt-2 text-sm text-grey-500">
+                              <div className="flex items-center gap-4 mt-2 text-sm text-stone-500">
                                 <div className="flex items-center gap-1">
                                   <Clock className="w-3 h-3" />
                                   {Math.floor(transcript.duration / 60)}:{(transcript.duration % 60).toString().padStart(2, '0')}
@@ -923,7 +923,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
                                   variant="outline"
                                   size="sm"
                                   onClick={() => handleAnalyzeTranscript(transcript.id)}
-                                  className="text-blue-600 hover:text-blue-700"
+                                  className="text-sage-600 hover:text-sage-700"
                                 >
                                   <Sparkles className="w-4 h-4 mr-1" />
                                   Analyze
@@ -967,7 +967,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
                             <div className="border-t">
                               <button
                                 onClick={() => toggleSummary(transcript.id)}
-                                className="w-full px-4 py-2 text-left text-sm font-medium text-grey-700 hover:bg-grey-50 flex items-center justify-between"
+                                className="w-full px-4 py-2 text-left text-sm font-medium text-stone-700 hover:bg-stone-50 flex items-center justify-between"
                               >
                                 <span className="flex items-center gap-2">
                                   {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -995,7 +995,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
                                     <div className="space-y-4">
                                       {/* Editable Summary */}
                                       <div>
-                                        <Label className="text-sm font-medium text-grey-700 mb-2 block">📝 AI Summary:</Label>
+                                        <Label className="text-sm font-medium text-stone-700 mb-2 block">📝 AI Summary:</Label>
                                         <Textarea
                                           value={editedSummary}
                                           onChange={(e) => setEditedSummary(e.target.value)}
@@ -1007,7 +1007,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
                                       {/* Editable Quotes */}
                                       <div>
                                         <div className="flex items-center justify-between mb-2">
-                                          <Label className="text-sm font-medium text-grey-700">💬 Key Quotes:</Label>
+                                          <Label className="text-sm font-medium text-stone-700">💬 Key Quotes:</Label>
                                           <Button
                                             variant="outline"
                                             size="sm"
@@ -1065,18 +1065,18 @@ export default function EditStorytellerPage({ params }: PageProps) {
                                     <>
                                       {transcript.ai_summary && (
                                         <div>
-                                          <p className="text-sm font-medium text-grey-700 mb-1">📝 AI Summary:</p>
-                                          <p className="text-sm text-grey-600">{transcript.ai_summary}</p>
+                                          <p className="text-sm font-medium text-stone-700 mb-1">📝 AI Summary:</p>
+                                          <p className="text-sm text-stone-600">{transcript.ai_summary}</p>
                                         </div>
                                       )}
 
                                       {transcript.key_quotes && transcript.key_quotes.length > 0 && (
                                         <div>
-                                          <p className="text-sm font-medium text-grey-700 mb-2">💬 Key Quotes ({transcript.key_quotes.length}):</p>
+                                          <p className="text-sm font-medium text-stone-700 mb-2">💬 Key Quotes ({transcript.key_quotes.length}):</p>
                                           <div className="space-y-2">
                                             {transcript.key_quotes.map((quote, idx) => (
-                                              <div key={idx} className="border-l-2 border-blue-400 pl-3 py-1">
-                                                <p className="text-sm text-grey-700 italic">"{quote}"</p>
+                                              <div key={idx} className="border-l-2 border-sage-400 pl-3 py-1">
+                                                <p className="text-sm text-stone-700 italic">"{quote}"</p>
                                               </div>
                                             ))}
                                           </div>
@@ -1133,7 +1133,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
                     required
                     className="min-h-[300px]"
                   />
-                  <p className="text-xs text-grey-500 mt-1">
+                  <p className="text-xs text-stone-500 mt-1">
                     Word count: {transcriptData.content.split(/\s+/).filter(word => word.length > 0).length}
                   </p>
                 </div>
@@ -1174,18 +1174,18 @@ export default function EditStorytellerPage({ params }: PageProps) {
                     />
 
                     {audioFile && (
-                      <div className="text-sm text-grey-600 bg-grey-50 p-2 rounded">
+                      <div className="text-sm text-stone-600 bg-stone-50 p-2 rounded">
                         <div className="flex items-center gap-2">
                           <FileAudio className="w-4 h-4" />
                           <span>{audioFile.name}</span>
-                          <span className="text-grey-400">
+                          <span className="text-stone-400">
                             ({(audioFile.size / (1024 * 1024)).toFixed(1)} MB)
                           </span>
                         </div>
                       </div>
                     )}
 
-                    <p className="text-xs text-grey-500">
+                    <p className="text-xs text-stone-500">
                       Supports MP3, WAV, OGG, WEBM files up to 500MB
                     </p>
                   </div>

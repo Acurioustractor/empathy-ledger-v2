@@ -131,7 +131,7 @@ export default function MediaReviewPage() {
       case 'approved': return 'bg-green-100 text-green-800'
       case 'rejected': return 'bg-red-100 text-red-800'
       case 'needs_review': return 'bg-yellow-100 text-yellow-800'
-      default: return 'bg-grey-100 text-grey-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -172,10 +172,10 @@ export default function MediaReviewPage() {
       <AdminNavigation className="mb-8" />
 
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-grey-900 mb-2">
+        <h1 className="text-3xl font-bold text-stone-900 mb-2">
           Media Review & Approval Dashboard
         </h1>
-        <p className="text-grey-600">
+        <p className="text-stone-600">
           Review and approve media content with cultural sensitivity protocols
         </p>
       </div>
@@ -185,10 +185,10 @@ export default function MediaReviewPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center">
-              <Play className="w-8 h-8 text-blue-600" />
+              <Play className="w-8 h-8 text-sage-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">{videoAssets.length}</p>
-                <p className="text-grey-600">Video Assets</p>
+                <p className="text-stone-600">Video Assets</p>
               </div>
             </div>
           </CardContent>
@@ -200,7 +200,7 @@ export default function MediaReviewPage() {
               <Clock className="w-8 h-8 text-yellow-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">{pendingReview.length}</p>
-                <p className="text-grey-600">Pending Review</p>
+                <p className="text-stone-600">Pending Review</p>
               </div>
             </div>
           </CardContent>
@@ -212,7 +212,7 @@ export default function MediaReviewPage() {
               <AlertTriangle className="w-8 h-8 text-red-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">{highSensitivity.length}</p>
-                <p className="text-grey-600">High Sensitivity</p>
+                <p className="text-stone-600">High Sensitivity</p>
               </div>
             </div>
           </CardContent>
@@ -224,7 +224,7 @@ export default function MediaReviewPage() {
               <Eye className="w-8 h-8 text-green-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">{filteredAssets.length}</p>
-                <p className="text-grey-600">Total Assets</p>
+                <p className="text-stone-600">Total Assets</p>
               </div>
             </div>
           </CardContent>
@@ -237,13 +237,13 @@ export default function MediaReviewPage() {
           <div className="flex flex-wrap gap-4">
             <div className="flex-1 min-w-64">
               <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-grey-400" />
+                <Search className="absolute left-3 top-3 h-4 w-4 text-stone-400" />
                 <input
                   type="text"
                   placeholder="Search by filename, title, or description..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full pl-10 pr-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>
             </div>
@@ -251,7 +251,7 @@ export default function MediaReviewPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Status</option>
               <option value="pending">Pending</option>
@@ -263,7 +263,7 @@ export default function MediaReviewPage() {
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Types</option>
               <option value="video">Videos</option>
@@ -301,14 +301,14 @@ export default function MediaReviewPage() {
                   className="w-full h-32 object-cover rounded-md"
                 />
               ) : (
-                <div className="w-full h-32 bg-grey-200 rounded-md flex items-center justify-center">
-                  <Play className="w-8 h-8 text-grey-400" />
+                <div className="w-full h-32 bg-stone-200 rounded-md flex items-center justify-center">
+                  <Play className="w-8 h-8 text-stone-400" />
                 </div>
               )}
 
               {/* Details */}
               <div className="space-y-2 text-sm">
-                <div className="flex items-center text-grey-600">
+                <div className="flex items-center text-stone-600">
                   <User className="w-4 h-4 mr-2" />
                   <span className="capitalize">{asset.file_type}</span>
                   {asset.duration && (
@@ -319,7 +319,7 @@ export default function MediaReviewPage() {
                   )}
                 </div>
 
-                <div className="flex items-center text-grey-600">
+                <div className="flex items-center text-stone-600">
                   <Calendar className="w-4 h-4 mr-2" />
                   <span>{new Date(asset.created_at).toLocaleDateString()}</span>
                 </div>
@@ -330,13 +330,13 @@ export default function MediaReviewPage() {
                   </Badge>
                   
                   {asset.ceremonial_content && (
-                    <Badge variant="outline" className="border-purple-200 text-purple-800">
+                    <Badge variant="outline" className="border-clay-200 text-clay-800">
                       Ceremonial
                     </Badge>
                   )}
                   
                   {asset.traditional_knowledge && (
-                    <Badge variant="outline" className="border-blue-200 text-blue-800">
+                    <Badge variant="outline" className="border-sage-200 text-sage-800">
                       Traditional Knowledge
                     </Badge>
                   )}
@@ -345,10 +345,10 @@ export default function MediaReviewPage() {
 
               {/* Review Notes */}
               {asset.cultural_review_notes && (
-                <div className="p-3 bg-grey-50 rounded-md">
-                  <p className="text-sm text-grey-700">{asset.cultural_review_notes}</p>
+                <div className="p-3 bg-stone-50 rounded-md">
+                  <p className="text-sm text-stone-700">{asset.cultural_review_notes}</p>
                   {asset.cultural_review_date && (
-                    <p className="text-xs text-grey-500 mt-1">
+                    <p className="text-xs text-stone-500 mt-1">
                       Reviewed on {new Date(asset.cultural_review_date).toLocaleDateString()}
                     </p>
                   )}
@@ -373,9 +373,9 @@ export default function MediaReviewPage() {
 
       {filteredAssets.length === 0 && (
         <div className="text-center py-12">
-          <Filter className="w-12 h-12 text-grey-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-grey-900 mb-2">No assets found</h3>
-          <p className="text-grey-600">Try adjusting your search or filter criteria.</p>
+          <Filter className="w-12 h-12 text-stone-400 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-stone-900 mb-2">No assets found</h3>
+          <p className="text-stone-600">Try adjusting your search or filter criteria.</p>
         </div>
       )}
 

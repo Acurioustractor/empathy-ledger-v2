@@ -187,7 +187,7 @@ export function HeatmapOverlay({
             <div className="space-y-2">
               <Label className="text-xs text-muted-foreground">Density Scale</Label>
               <div className="h-3 rounded-full overflow-hidden flex">
-                <div className="flex-1 bg-blue-500" />
+                <div className="flex-1 bg-sage-500" />
                 <div className="flex-1 bg-green-500" />
                 <div className="flex-1 bg-yellow-500" />
                 <div className="flex-1 bg-orange-500" />

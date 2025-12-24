@@ -170,13 +170,13 @@ export default function StorytellerStoriesPage() {
 
   const getStoryTypeColor = (type: string) => {
     const colours = {
-      traditional: 'bg-purple-100 text-purple-800',
-      personal: 'bg-blue-100 text-blue-800',
-      historical: 'bg-indigo-100 text-indigo-800',
+      traditional: 'bg-clay-100 text-clay-800',
+      personal: 'bg-sage-100 text-sage-800',
+      historical: 'bg-terracotta-100 text-terracotta-800',
       educational: 'bg-green-100 text-green-800',
       healing: 'bg-rose-100 text-rose-800'
     }
-    return colours[type as keyof typeof colours] || 'bg-grey-100 text-grey-800'
+    return colours[type as keyof typeof colours] || 'bg-stone-100 text-stone-800'
   }
 
   if (loading) {
@@ -205,7 +205,7 @@ export default function StorytellerStoriesPage() {
             <Typography variant="h2" className="text-red-600 mb-4">
               Unable to Load Stories
             </Typography>
-            <Typography variant="body" className="text-grey-600 mb-6">
+            <Typography variant="body" className="text-stone-600 mb-6">
               {error}
             </Typography>
             <Button asChild>
@@ -255,11 +255,11 @@ export default function StorytellerStoriesPage() {
                         Stories by {storyteller.display_name}
                       </Typography>
                       {storyteller.elder_status && (
-                        <Crown className="w-6 h-6 text-purple-500" />
+                        <Crown className="w-6 h-6 text-clay-500" />
                       )}
                     </div>
                     
-                    <div className="flex items-center gap-6 text-sm text-grey-600">
+                    <div className="flex items-center gap-6 text-sm text-stone-600">
                       <div className="flex items-center gap-1">
                         <BookOpen className="w-4 h-4" />
                         <span>{storyteller.story_count} total stories</span>
@@ -299,7 +299,7 @@ export default function StorytellerStoriesPage() {
           <Card className="p-4">
             <div className="flex flex-col lg:flex-row gap-4">
               <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4 text-grey-400" />
+                <Filter className="w-4 h-4 text-stone-400" />
                 <Typography variant="small" className="font-medium">
                   Filter Stories:
                 </Typography>
@@ -369,7 +369,7 @@ export default function StorytellerStoriesPage() {
               <Typography variant="h3" className="text-earth-800 mb-1">
                 {filteredAndSortedStories.length}
               </Typography>
-              <Typography variant="small" className="text-grey-600">
+              <Typography variant="small" className="text-stone-600">
                 {filters.status} Stories
               </Typography>
             </Card>
@@ -378,16 +378,16 @@ export default function StorytellerStoriesPage() {
               <Typography variant="h3" className="text-green-600 mb-1">
                 {filteredAndSortedStories.filter(s => s.featured).length}
               </Typography>
-              <Typography variant="small" className="text-grey-600">
+              <Typography variant="small" className="text-stone-600">
                 Featured
               </Typography>
             </Card>
 
             <Card className="p-4 text-center">
-              <Typography variant="h3" className="text-blue-600 mb-1">
+              <Typography variant="h3" className="text-sage-600 mb-1">
                 {filteredAndSortedStories.reduce((sum, s) => sum + (s.views_count || 0), 0)}
               </Typography>
-              <Typography variant="small" className="text-grey-600">
+              <Typography variant="small" className="text-stone-600">
                 Total Views
               </Typography>
             </Card>
@@ -396,7 +396,7 @@ export default function StorytellerStoriesPage() {
               <Typography variant="h3" className="text-red-600 mb-1">
                 {filteredAndSortedStories.reduce((sum, s) => sum + (s.likes_count || 0), 0)}
               </Typography>
-              <Typography variant="small" className="text-grey-600">
+              <Typography variant="small" className="text-stone-600">
                 Total Likes
               </Typography>
             </Card>
@@ -427,11 +427,11 @@ export default function StorytellerStoriesPage() {
         {/* Stories Grid */}
         {filteredAndSortedStories.length === 0 ? (
           <Card className="p-12 text-center">
-            <BookOpen className="w-16 h-16 text-grey-300 mx-auto mb-4" />
-            <Typography variant="h3" className="text-grey-600 mb-2">
+            <BookOpen className="w-16 h-16 text-stone-300 mx-auto mb-4" />
+            <Typography variant="h3" className="text-stone-600 mb-2">
               No Stories Found
             </Typography>
-            <Typography variant="body" className="text-grey-500 mb-6">
+            <Typography variant="body" className="text-stone-500 mb-6">
               {storyteller?.display_name || 'This storyteller'} hasn't {filters.status === 'published' ? 'published' : 'created'} any stories yet.
             </Typography>
             <div className="flex flex-col sm:flex-row gap-2 justify-center">

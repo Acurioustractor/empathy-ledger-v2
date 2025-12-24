@@ -134,8 +134,8 @@ export default function ProjectSeedInterviewWizard({
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4" />
-              <p className="text-gray-600">Loading seed interview...</p>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sage-600 mx-auto mb-4" />
+              <p className="text-stone-600">Loading seed interview...</p>
             </div>
           </div>
         </DialogContent>
@@ -163,13 +163,13 @@ export default function ProjectSeedInterviewWizard({
             </div>
 
             <h2 className="text-2xl font-bold mb-2">Project Context Created!</h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-stone-600 mb-6">
               AI has extracted your project context from the seed interview.
             </p>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-4">
+            <div className="bg-sage-50 border border-sage-200 rounded-lg p-6 mb-4">
               <div className="flex items-center justify-center gap-2 mb-2">
-                <span className="text-sm font-medium text-blue-900">Extraction Quality</span>
+                <span className="text-sm font-medium text-sage-900">Extraction Quality</span>
                 <Badge
                   variant={extractionResult.quality_score >= 80 ? 'default' :
                           extractionResult.quality_score >= 60 ? 'secondary' : 'destructive'}
@@ -193,7 +193,7 @@ export default function ProjectSeedInterviewWizard({
               )}
             </div>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-stone-500">
               Closing automatically...
             </p>
           </div>
@@ -226,10 +226,10 @@ export default function ProjectSeedInterviewWizard({
         {/* Progress Bar */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-600">
+            <span className="text-stone-600">
               Question {currentStep + 1} of {template.questions.length}
             </span>
-            <span className="text-gray-600">
+            <span className="text-stone-600">
               {answeredCount} answered
               {requiredUnanswered > 0 && (
                 <span className="text-red-600 ml-2">
@@ -251,10 +251,10 @@ export default function ProjectSeedInterviewWizard({
                 w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium
                 transition-all duration-200
                 ${index === currentStep
-                  ? 'bg-blue-600 text-white ring-2 ring-blue-300 scale-110'
+                  ? 'bg-sage-600 text-white ring-2 ring-blue-300 scale-110'
                   : responses[q.id]?.trim()
                   ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
                 }
               `}
               title={q.text}
@@ -286,7 +286,7 @@ export default function ProjectSeedInterviewWizard({
               {currentQuestion.text}
             </Label>
             {currentQuestion.help_text && (
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-stone-600 mt-1">
                 {currentQuestion.help_text}
               </p>
             )}
@@ -305,7 +305,7 @@ export default function ProjectSeedInterviewWizard({
             className="min-h-[150px]"
           />
 
-          <div className="flex items-center justify-between text-xs text-gray-500">
+          <div className="flex items-center justify-between text-xs text-stone-500">
             <span>
               {responses[currentQuestion.id]?.trim()
                 ? `${responses[currentQuestion.id].split(/\s+/).filter(w => w).length} words`
@@ -364,9 +364,9 @@ export default function ProjectSeedInterviewWizard({
         </div>
 
         {/* Tips */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-          <p className="text-xs text-blue-900 font-medium mb-1">Tips for better results:</p>
-          <ul className="text-xs text-blue-800 space-y-0.5">
+        <div className="bg-sage-50 border border-sage-200 rounded-lg p-3">
+          <p className="text-xs text-sage-900 font-medium mb-1">Tips for better results:</p>
+          <ul className="text-xs text-sage-800 space-y-0.5">
             <li>• Be specific about your project's unique approach and expected outcomes</li>
             <li>• Include concrete examples and measurable indicators</li>
             <li>• Explain your cultural frameworks and community engagement methods</li>

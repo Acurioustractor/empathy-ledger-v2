@@ -94,22 +94,22 @@ export function ProfileOverviewTab({
             <div className="text-center p-4 bg-earth-50 rounded-lg border border-earth-200">
               <BookOpen className="w-8 h-8 mx-auto mb-2 text-earth-600" />
               <div className="text-2xl font-bold">{storyCount}</div>
-              <div className="text-sm text-grey-600">Stories Created</div>
+              <div className="text-sm text-stone-600">Stories Created</div>
             </div>
             <div className="text-center p-4 bg-sage-50 rounded-lg border border-sage-200">
               <Building2 className="w-8 h-8 mx-auto mb-2 text-sage-600" />
               <div className="text-2xl font-bold">{organizations.length}</div>
-              <div className="text-sm text-grey-600">Organizations</div>
+              <div className="text-sm text-stone-600">Organizations</div>
             </div>
             <div className="text-center p-4 bg-clay-50 rounded-lg border border-clay-200">
               <FolderKanban className="w-8 h-8 mx-auto mb-2 text-clay-600" />
               <div className="text-2xl font-bold">{projects.length}</div>
-              <div className="text-sm text-grey-600">Projects</div>
+              <div className="text-sm text-stone-600">Projects</div>
             </div>
-            <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <MapPin className="w-8 h-8 mx-auto mb-2 text-blue-600" />
+            <div className="text-center p-4 bg-sage-50 rounded-lg border border-sage-200">
+              <MapPin className="w-8 h-8 mx-auto mb-2 text-sage-600" />
               <div className="text-2xl font-bold">{locations.length}</div>
-              <div className="text-sm text-grey-600">Locations</div>
+              <div className="text-sm text-stone-600">Locations</div>
             </div>
           </div>
         </CardContent>

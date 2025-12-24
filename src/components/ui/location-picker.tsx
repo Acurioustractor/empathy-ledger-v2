@@ -238,7 +238,7 @@ export function LocationPicker({
                         console.log('Clicked location:', location)
                         handleSelectLocation(location)
                       }}
-                      className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-grey-100 active:bg-grey-200"
+                      className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-stone-100 active:bg-stone-200"
                     >
                       <Check
                         className={cn(
@@ -263,7 +263,7 @@ export function LocationPicker({
                         setShowFreeTextInput(true)
                         setOpen(false)
                       }}
-                      className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-grey-100 active:bg-grey-200 border-t mt-1 pt-2"
+                      className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-stone-100 active:bg-stone-200 border-t mt-1 pt-2"
                     >
                       <Plus className="mr-2 h-4 w-4" />
                       Enter custom location

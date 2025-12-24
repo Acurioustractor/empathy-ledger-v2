@@ -126,7 +126,7 @@ export function AddStorytellerDialog({
           <TabsContent value="existing" className="space-y-4 py-4">
           {/* Search Input */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400 w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 w-4 h-4" />
             <Input
               placeholder="Search by name or email..."
               value={searchQuery}
@@ -140,16 +140,16 @@ export function AddStorytellerDialog({
           <div className="max-h-[300px] overflow-y-auto space-y-2">
             {searching && (
               <div className="text-center py-8">
-                <Loader2 className="w-6 h-6 animate-spin mx-auto text-grey-400" />
-                <p className="text-sm text-grey-600 mt-2">Searching...</p>
+                <Loader2 className="w-6 h-6 animate-spin mx-auto text-stone-400" />
+                <p className="text-sm text-stone-600 mt-2">Searching...</p>
               </div>
             )}
 
             {!searching && searchQuery.length >= 2 && users.length === 0 && (
               <div className="text-center py-8">
-                <User className="w-8 h-8 mx-auto text-grey-400 mb-2" />
-                <p className="text-sm text-grey-600">No users found</p>
-                <p className="text-xs text-grey-500 mt-1">
+                <User className="w-8 h-8 mx-auto text-stone-400 mb-2" />
+                <p className="text-sm text-stone-600">No users found</p>
+                <p className="text-xs text-stone-500 mt-1">
                   Try a different search term
                 </p>
               </div>
@@ -160,7 +160,7 @@ export function AddStorytellerDialog({
                 {users.map((user) => (
                   <div
                     key={user.id}
-                    className="flex items-center gap-3 p-3 rounded-lg border border-grey-200 hover:border-earth-400 hover:bg-earth-50 transition-colors"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-stone-200 hover:border-earth-400 hover:bg-earth-50 transition-colors"
                   >
                     <Avatar className="w-10 h-10">
                       <AvatarImage src={user.avatarUrl} alt={user.name} />
@@ -170,11 +170,11 @@ export function AddStorytellerDialog({
                     </Avatar>
 
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-grey-900 truncate">
+                      <p className="font-medium text-stone-900 truncate">
                         {user.name}
                       </p>
                       {user.email && (
-                        <p className="text-sm text-grey-600 truncate">
+                        <p className="text-sm text-stone-600 truncate">
                           {user.email}
                         </p>
                       )}
@@ -200,7 +200,7 @@ export function AddStorytellerDialog({
             )}
 
             {searchQuery.length < 2 && (
-              <div className="text-center py-8 text-grey-500 text-sm">
+              <div className="text-center py-8 text-stone-500 text-sm">
                 Type at least 2 characters to search
               </div>
             )}

@@ -172,7 +172,7 @@ export default function ProjectContextManager({
     return (
       <Card className="p-8">
         <div className="flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sage-600"></div>
         </div>
       </Card>
     )
@@ -183,13 +183,13 @@ export default function ProjectContextManager({
       <Card className="p-8">
         <div className="text-center space-y-4">
           <div className="flex justify-center">
-            <div className="rounded-full bg-blue-100 p-3">
-              <Target className="h-8 w-8 text-blue-600" />
+            <div className="rounded-full bg-sage-100 p-3">
+              <Target className="h-8 w-8 text-sage-600" />
             </div>
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-2">No Project Context Defined</h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-stone-600 mb-4">
               Add project context to enable outcome tracking and project-specific AI analysis.
             </p>
           </div>
@@ -317,12 +317,12 @@ export default function ProjectContextManager({
 
           <TabsContent value="overview" className="space-y-6 mt-6">
             {/* Inheritance Toggle */}
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
               <div className="flex items-center gap-3">
-                <Link className="h-5 w-5 text-gray-600" />
+                <Link className="h-5 w-5 text-stone-600" />
                 <div>
                   <p className="font-medium">Inherit from Organization</p>
-                  <p className="text-sm text-gray-600">Use organization's cultural frameworks and values</p>
+                  <p className="text-sm text-stone-600">Use organization's cultural frameworks and values</p>
                 </div>
               </div>
               {editing ? (
@@ -340,7 +340,7 @@ export default function ProjectContextManager({
             {/* Purpose */}
             <div>
               <Label htmlFor="purpose" className="text-base font-semibold">Purpose</Label>
-              <p className="text-sm text-gray-600 mb-2">What this project is trying to achieve</p>
+              <p className="text-sm text-stone-600 mb-2">What this project is trying to achieve</p>
               {editing ? (
                 <Textarea
                   id="purpose"
@@ -350,7 +350,7 @@ export default function ProjectContextManager({
                   className="min-h-[80px]"
                 />
               ) : (
-                <p className="text-gray-900">{displayContext?.purpose || 'Not specified'}</p>
+                <p className="text-stone-900">{displayContext?.purpose || 'Not specified'}</p>
               )}
             </div>
 
@@ -359,7 +359,7 @@ export default function ProjectContextManager({
             {/* Context */}
             <div>
               <Label htmlFor="context-field" className="text-base font-semibold">Context</Label>
-              <p className="text-sm text-gray-600 mb-2">Why this project exists</p>
+              <p className="text-sm text-stone-600 mb-2">Why this project exists</p>
               {editing ? (
                 <Textarea
                   id="context-field"
@@ -369,7 +369,7 @@ export default function ProjectContextManager({
                   className="min-h-[80px]"
                 />
               ) : (
-                <p className="text-gray-900">{displayContext?.context || 'Not specified'}</p>
+                <p className="text-stone-900">{displayContext?.context || 'Not specified'}</p>
               )}
             </div>
 
@@ -381,7 +381,7 @@ export default function ProjectContextManager({
                 <Users className="h-4 w-4" />
                 Target Population
               </Label>
-              <p className="text-sm text-gray-600 mb-2">Who you're working with</p>
+              <p className="text-sm text-stone-600 mb-2">Who you're working with</p>
               {editing ? (
                 <Textarea
                   id="target"
@@ -391,7 +391,7 @@ export default function ProjectContextManager({
                   className="min-h-[60px]"
                 />
               ) : (
-                <p className="text-gray-900">{displayContext?.target_population || 'Not specified'}</p>
+                <p className="text-stone-900">{displayContext?.target_population || 'Not specified'}</p>
               )}
             </div>
 
@@ -400,7 +400,7 @@ export default function ProjectContextManager({
             {/* Timeframe */}
             <div>
               <Label htmlFor="timeframe" className="text-base font-semibold">Timeframe</Label>
-              <p className="text-sm text-gray-600 mb-2">Project duration or phases</p>
+              <p className="text-sm text-stone-600 mb-2">Project duration or phases</p>
               {editing ? (
                 <Textarea
                   id="timeframe"
@@ -410,7 +410,7 @@ export default function ProjectContextManager({
                   className="min-h-[60px]"
                 />
               ) : (
-                <p className="text-gray-900">{displayContext?.timeframe || 'Not specified'}</p>
+                <p className="text-stone-900">{displayContext?.timeframe || 'Not specified'}</p>
               )}
             </div>
           </TabsContent>
@@ -422,7 +422,7 @@ export default function ProjectContextManager({
                 <TrendingUp className="h-4 w-4" />
                 Expected Outcomes
               </Label>
-              <p className="text-sm text-gray-600 mb-3">The impact you're working to create</p>
+              <p className="text-sm text-stone-600 mb-3">The impact you're working to create</p>
               {displayContext?.expected_outcomes && displayContext.expected_outcomes.length > 0 ? (
                 <div className="space-y-3">
                   {displayContext.expected_outcomes.map((outcome, index) => (
@@ -433,7 +433,7 @@ export default function ProjectContextManager({
                           {outcome.timeframe.replace('_', ' ')}
                         </Badge>
                       </div>
-                      <p className="text-sm text-gray-700 mb-2">{outcome.description}</p>
+                      <p className="text-sm text-stone-700 mb-2">{outcome.description}</p>
                       <div className="flex flex-wrap gap-1">
                         {outcome.indicators.map((indicator, i) => (
                           <Badge key={i} variant="secondary" className="text-xs">
@@ -445,7 +445,7 @@ export default function ProjectContextManager({
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-600 text-sm">No outcomes defined yet. Use seed interview or import to extract outcomes.</p>
+                <p className="text-stone-600 text-sm">No outcomes defined yet. Use seed interview or import to extract outcomes.</p>
               )}
             </div>
 
@@ -457,7 +457,7 @@ export default function ProjectContextManager({
                 <CheckCircle className="h-4 w-4" />
                 Success Criteria
               </Label>
-              <p className="text-sm text-gray-600 mb-2">How you'll know you've succeeded</p>
+              <p className="text-sm text-stone-600 mb-2">How you'll know you've succeeded</p>
               <div className="flex flex-wrap gap-2 mb-2">
                 {(displayContext?.success_criteria || []).map((criteria, index) => (
                   <Badge key={index} variant="secondary" className="text-sm">
@@ -512,7 +512,7 @@ export default function ProjectContextManager({
             {/* Program Model */}
             <div>
               <Label htmlFor="program-model" className="text-base font-semibold">Program Model</Label>
-              <p className="text-sm text-gray-600 mb-2">How the project works</p>
+              <p className="text-sm text-stone-600 mb-2">How the project works</p>
               {editing ? (
                 <Textarea
                   id="program-model"
@@ -522,7 +522,7 @@ export default function ProjectContextManager({
                   className="min-h-[120px]"
                 />
               ) : (
-                <p className="text-gray-900 whitespace-pre-wrap">{displayContext?.program_model || 'Not specified'}</p>
+                <p className="text-stone-900 whitespace-pre-wrap">{displayContext?.program_model || 'Not specified'}</p>
               )}
             </div>
 
@@ -531,7 +531,7 @@ export default function ProjectContextManager({
             {/* Cultural Approaches */}
             <div>
               <Label className="text-base font-semibold">Cultural Approaches</Label>
-              <p className="text-sm text-gray-600 mb-2">Cultural practices and protocols used in this project</p>
+              <p className="text-sm text-stone-600 mb-2">Cultural practices and protocols used in this project</p>
               <div className="flex flex-wrap gap-2 mb-2">
                 {(displayContext?.cultural_approaches || []).map((approach, index) => (
                   <Badge key={index} variant="secondary" className="text-sm">
@@ -549,7 +549,7 @@ export default function ProjectContextManager({
               </div>
               {inheritsFromOrg && orgContext?.cultural_frameworks && (
                 <div className="mb-2">
-                  <p className="text-xs text-gray-500 mb-1">Inherited from organization:</p>
+                  <p className="text-xs text-stone-500 mb-1">Inherited from organization:</p>
                   <div className="flex flex-wrap gap-2">
                     {orgContext.cultural_frameworks.map((framework, index) => (
                       <Badge key={index} variant="outline" className="text-xs">
@@ -589,7 +589,7 @@ export default function ProjectContextManager({
             {/* Key Activities */}
             <div>
               <Label className="text-base font-semibold">Key Activities</Label>
-              <p className="text-sm text-gray-600 mb-2">Main activities and services</p>
+              <p className="text-sm text-stone-600 mb-2">Main activities and services</p>
               <div className="space-y-2">
                 {(displayContext?.key_activities || []).map((activity, index) => (
                   <div key={index} className="flex items-start gap-2">
@@ -634,22 +634,22 @@ export default function ProjectContextManager({
           <TabsContent value="metadata" className="space-y-6 mt-6">
             {context && (
               <div className="space-y-4">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-stone-600">
                   <Calendar className="h-4 w-4" />
                   <span>Created: {new Date(context.created_at).toLocaleDateString()}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-stone-600">
                   <Calendar className="h-4 w-4" />
                   <span>Last Updated: {new Date(context.updated_at).toLocaleDateString()}</span>
                 </div>
                 {context.ai_model_used && (
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="flex items-center gap-2 text-sm text-stone-600">
                     <Sparkles className="h-4 w-4" />
                     <span>Extracted by: {context.ai_model_used}</span>
                   </div>
                 )}
                 {context.inherits_from_org && (
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="flex items-center gap-2 text-sm text-stone-600">
                     <Link className="h-4 w-4" />
                     <span>Inheriting cultural context from organization</span>
                   </div>

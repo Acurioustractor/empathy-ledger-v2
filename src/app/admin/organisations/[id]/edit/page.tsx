@@ -131,10 +131,10 @@ export default function EditOrganizationPage() {
 
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-grey-900 mb-2">
+          <h1 className="text-3xl font-bold text-stone-900 mb-2">
             Edit Organization
           </h1>
-          <p className="text-grey-600">
+          <p className="text-stone-600">
             {organisation?.name} - {organisation?.stats?.members || 0} members, {organisation?.stats?.projects || 0} projects
           </p>
         </div>
@@ -242,7 +242,7 @@ export default function EditOrganizationPage() {
                 <Button
                   onClick={handleSave}
                   disabled={saving}
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="bg-sage-600 hover:bg-sage-700"
                 >
                   {saving ? (
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -269,23 +269,23 @@ export default function EditOrganizationPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex justify-between">
-                <span className="text-grey-600">Members</span>
+                <span className="text-stone-600">Members</span>
                 <span className="font-semibold">{organisation?.stats?.members || 0}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-grey-600">Projects</span>
+                <span className="text-stone-600">Projects</span>
                 <span className="font-semibold">{organisation?.stats?.projects || 0}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-grey-600">Stories</span>
+                <span className="text-stone-600">Stories</span>
                 <span className="font-semibold">{organisation?.stats?.stories || 0}</span>
               </div>
               <div className="pt-4 border-t">
-                <div className="text-xs text-grey-500">
+                <div className="text-xs text-stone-500">
                   <strong>Tenant ID:</strong><br />
                   {organisation?.tenant_id}
                 </div>
-                <div className="text-xs text-grey-500 mt-2">
+                <div className="text-xs text-stone-500 mt-2">
                   <strong>Created:</strong><br />
                   {organisation?.created_at ? new Date(organisation.created_at).toLocaleDateString() : 'Unknown'}
                 </div>
@@ -302,7 +302,7 @@ export default function EditOrganizationPage() {
                 <Trash2 className="w-4 h-4 mr-2" />
                 Delete Organization
               </Button>
-              <p className="text-xs text-grey-500 mt-2">
+              <p className="text-xs text-stone-500 mt-2">
                 This action cannot be undone. This will permanently delete the organisation and all associated data.
               </p>
             </CardContent>

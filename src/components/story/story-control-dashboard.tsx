@@ -65,11 +65,11 @@ export default function StoryControlDashboard({
       case 'published':
         return 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300'
       case 'draft':
-        return 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-900/30 dark:text-gray-300'
+        return 'bg-stone-100 text-stone-800 border-stone-200 dark:bg-stone-900/30 dark:text-stone-300'
       case 'withdrawn':
         return 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300'
       default:
-        return 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300'
+        return 'bg-sage-100 text-sage-800 border-sage-200 dark:bg-sage-900/30 dark:text-sage-300'
     }
   }
 
@@ -137,11 +137,11 @@ export default function StoryControlDashboard({
       </div>
 
       {/* Info Banner */}
-      <div className="mb-8 flex gap-3 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg">
-        <Shield className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
-        <div className="text-sm text-blue-900 dark:text-blue-100 space-y-1">
+      <div className="mb-8 flex gap-3 p-4 bg-sage-50 dark:bg-sage-950/20 border border-sage-200 dark:border-sage-900 rounded-lg">
+        <Shield className="w-5 h-5 text-sage-600 dark:text-sage-400 flex-shrink-0 mt-0.5" />
+        <div className="text-sm text-sage-900 dark:text-sage-100 space-y-1">
           <p className="font-semibold">You're in control of your story</p>
-          <p className="text-blue-700 dark:text-blue-300">
+          <p className="text-sage-700 dark:text-sage-300">
             You can create share links, track who views your story, and withdraw it at any time.
             When you withdraw your story, all share links stop working immediately.
           </p>

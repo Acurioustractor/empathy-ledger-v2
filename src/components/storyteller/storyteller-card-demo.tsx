@@ -273,7 +273,7 @@ export function StorytellerCardDemo() {
         <Typography variant="h1" className="text-2xl font-bold mb-2">
           Enhanced Storyteller Cards Demo
         </Typography>
-        <Typography variant="body" className="text-grey-600 mb-6">
+        <Typography variant="body" className="text-stone-600 mb-6">
           Showcasing organisations/projects tagging, location context, and AI-driven profile enhancement
         </Typography>
       </div>
@@ -334,11 +334,11 @@ export function StorytellerCardDemo() {
           Key Features
         </Typography>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <Typography variant="h3" className="font-semibold text-blue-800 mb-2">
+          <div className="p-4 bg-sage-50 rounded-lg border border-sage-200">
+            <Typography variant="h3" className="font-semibold text-sage-800 mb-2">
               🏢 Organizations & Projects
             </Typography>
-            <ul className="text-blue-700 space-y-1">
+            <ul className="text-sage-700 space-y-1">
               <li>• Color-coded by type (tribal, nonprofit, community, government)</li>
               <li>• Status indicators (active, completed, planning)</li>
               <li>• Role details in expanded view</li>
@@ -358,11 +358,11 @@ export function StorytellerCardDemo() {
             </ul>
           </div>
 
-          <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-            <Typography variant="h3" className="font-semibold text-purple-800 mb-2">
+          <div className="p-4 bg-clay-50 rounded-lg border border-clay-200">
+            <Typography variant="h3" className="font-semibold text-clay-800 mb-2">
               🤖 AI-Driven Insights
             </Typography>
-            <ul className="text-purple-700 space-y-1">
+            <ul className="text-clay-700 space-y-1">
               <li>• Profile completeness scoring</li>
               <li>• Story theme extraction</li>
               <li>• Cultural marker identification</li>

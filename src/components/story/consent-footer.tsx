@@ -146,8 +146,8 @@ export default function ConsentFooter({
 
         {/* Archive notice */}
         {isArchive && (
-          <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg p-4">
-            <p className="text-sm text-blue-900 dark:text-blue-100">
+          <div className="bg-sage-50 dark:bg-sage-950/20 border border-sage-200 dark:border-sage-900 rounded-lg p-4">
+            <p className="text-sm text-sage-900 dark:text-sage-100">
               <strong>Historical Archive:</strong> This story is part of a permanent public
               record. The storyteller has given explicit consent for permanent archival and
               understands that this story cannot be withdrawn.

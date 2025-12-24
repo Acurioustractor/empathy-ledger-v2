@@ -118,7 +118,7 @@ export default function AdminCleanupPage() {
     <div className="container mx-auto p-6">
       <div className="mb-6">
         <h1 className="text-3xl font-bold mb-2">Super Admin Cleanup</h1>
-        <p className="text-grey-600">Manage and clean up organisations and shared data</p>
+        <p className="text-stone-600">Manage and clean up organisations and shared data</p>
       </div>
 
       {message && (
@@ -156,10 +156,10 @@ export default function AdminCleanupPage() {
                   <div key={org.id} className="flex items-center justify-between p-4 border rounded-lg">
                     <div>
                       <h3 className="font-semibold">{org.name}</h3>
-                      <p className="text-sm text-grey-600">
+                      <p className="text-sm text-stone-600">
                         {org.stats.members} members • {org.stats.stories} stories • {org.stats.projects} projects
                       </p>
-                      <p className="text-xs text-grey-500">ID: {org.id}</p>
+                      <p className="text-xs text-stone-500">ID: {org.id}</p>
                     </div>
                     <div className="flex gap-2">
                       {orgs.length > 1 && (
@@ -167,7 +167,7 @@ export default function AdminCleanupPage() {
                           variant="outline"
                           size="sm"
                           onClick={() => fixTenant(org.id, org.name)}
-                          className="text-blue-600 border-blue-300 hover:bg-blue-50"
+                          className="text-sage-600 border-sage-300 hover:bg-sage-50"
                         >
                           <RefreshCw className="w-4 h-4 mr-1" />
                           Give Own Tenant
@@ -191,9 +191,9 @@ export default function AdminCleanupPage() {
         ))}
       </div>
 
-      <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <h3 className="font-semibold text-blue-800 mb-2">Recommended Actions:</h3>
-        <ul className="text-sm text-blue-700 space-y-1">
+      <div className="mt-8 p-4 bg-sage-50 border border-sage-200 rounded-lg">
+        <h3 className="font-semibold text-sage-800 mb-2">Recommended Actions:</h3>
+        <ul className="text-sm text-sage-700 space-y-1">
           <li>• Delete test organisations like &quot;Test Organization Working&quot;</li>
           <li>• Give &quot;A Curious Tractor&quot; its own tenant to separate from Snow Foundation data</li>
           <li>• Keep &quot;Snow Foundation&quot; and &quot;Cultural Healing Center&quot; as they have real data</li>

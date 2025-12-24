@@ -136,10 +136,10 @@ export default function AdminTranscriptViewPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed': return 'bg-green-100 text-green-800'
-      case 'processing': return 'bg-blue-100 text-blue-800'
+      case 'processing': return 'bg-sage-100 text-sage-800'
       case 'pending_review': return 'bg-yellow-100 text-yellow-800'
       case 'failed': return 'bg-red-100 text-red-800'
-      default: return 'bg-grey-100 text-grey-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -196,8 +196,8 @@ export default function AdminTranscriptViewPage() {
             Back
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-grey-900">{transcript.title}</h1>
-            <p className="text-grey-600">Transcript Details</p>
+            <h1 className="text-3xl font-bold text-stone-900">{transcript.title}</h1>
+            <p className="text-stone-600">Transcript Details</p>
           </div>
         </div>
         <div className="flex gap-2">
@@ -273,7 +273,7 @@ export default function AdminTranscriptViewPage() {
             </Avatar>
             <div>
               <div className="text-lg font-medium">{storytellerName}</div>
-              <div className="text-sm text-grey-500">ID: {transcript.storyteller_id}</div>
+              <div className="text-sm text-stone-500">ID: {transcript.storyteller_id}</div>
             </div>
           </div>
         </CardContent>
@@ -292,14 +292,14 @@ export default function AdminTranscriptViewPage() {
                 )}
               </CardDescription>
             </div>
-            <div className="text-sm text-grey-500">
+            <div className="text-sm text-stone-500">
               {transcript.character_count || 0} characters
             </div>
           </div>
         </CardHeader>
         <CardContent>
           <div className="prose max-w-none">
-            <div className="whitespace-pre-wrap bg-grey-50 p-4 rounded-lg border text-sm leading-relaxed">
+            <div className="whitespace-pre-wrap bg-stone-50 p-4 rounded-lg border text-sm leading-relaxed">
               {transcript.transcript_content || 'No content available'}
             </div>
           </div>

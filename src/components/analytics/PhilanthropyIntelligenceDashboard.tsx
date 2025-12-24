@@ -272,7 +272,7 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
       case 'low': return 'bg-green-100 text-green-800'
       case 'medium': return 'bg-yellow-100 text-yellow-800'
       case 'high': return 'bg-red-100 text-red-800'
-      default: return 'bg-grey-100 text-grey-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -280,7 +280,7 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
     switch (trend) {
       case 'up': return <TrendingUp className="h-4 w-4 text-green-600" />
       case 'down': return <TrendingUp className="h-4 w-4 text-red-600 rotate-180" />
-      default: return <BarChart3 className="h-4 w-4 text-grey-600" />
+      default: return <BarChart3 className="h-4 w-4 text-stone-600" />
     }
   }
 
@@ -292,8 +292,8 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
             <Card key={i}>
               <CardContent className="p-6">
                 <div className="animate-pulse space-y-2">
-                  <div className="h-4 bg-grey-200 rounded w-1/2"></div>
-                  <div className="h-8 bg-grey-200 rounded w-3/4"></div>
+                  <div className="h-4 bg-stone-200 rounded w-1/2"></div>
+                  <div className="h-8 bg-stone-200 rounded w-3/4"></div>
                 </div>
               </CardContent>
             </Card>
@@ -312,9 +312,9 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center">
-              <Target className="h-8 w-8 text-blue-600" />
+              <Target className="h-8 w-8 text-sage-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-grey-600">Total Impact Score</p>
+                <p className="text-sm font-medium text-stone-600">Total Impact Score</p>
                 <div className="flex items-center">
                   <p className="text-2xl font-bold">{data.totalImpactScore}</p>
                   <Badge className="ml-2 bg-green-100 text-green-800">+12%</Badge>
@@ -327,9 +327,9 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center">
-              <Network className="h-8 w-8 text-purple-600" />
+              <Network className="h-8 w-8 text-clay-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-grey-600">Sectors Engaged</p>
+                <p className="text-sm font-medium text-stone-600">Sectors Engaged</p>
                 <p className="text-2xl font-bold">{data.sectorsEngaged}</p>
               </div>
             </div>
@@ -341,7 +341,7 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
             <div className="flex items-center">
               <Users className="h-8 w-8 text-green-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-grey-600">Active Storytellers</p>
+                <p className="text-sm font-medium text-stone-600">Active Storytellers</p>
                 <p className="text-2xl font-bold">{data.activeStorytellers}</p>
               </div>
             </div>
@@ -353,7 +353,7 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
             <div className="flex items-center">
               <TrendingUp className="h-8 w-8 text-orange-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-grey-600">Community Reach</p>
+                <p className="text-sm font-medium text-stone-600">Community Reach</p>
                 <p className="text-2xl font-bold">{data.communityReach.toLocaleString()}</p>
               </div>
             </div>
@@ -381,19 +381,19 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-grey-600">Total Invested</p>
+                    <p className="text-sm text-stone-600">Total Invested</p>
                     <p className="text-xl font-bold">${data.portfolioPerformance.totalInvested.toLocaleString()}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-grey-600">Stories Generated</p>
+                    <p className="text-sm text-stone-600">Stories Generated</p>
                     <p className="text-xl font-bold">{data.portfolioPerformance.storiesGenerated}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-grey-600">Communities Reached</p>
+                    <p className="text-sm text-stone-600">Communities Reached</p>
                     <p className="text-xl font-bold">{data.portfolioPerformance.communitiesReached}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-grey-600">Systems Changed</p>
+                    <p className="text-sm text-stone-600">Systems Changed</p>
                     <p className="text-xl font-bold">{data.portfolioPerformance.systemsChanged}</p>
                   </div>
                 </div>
@@ -416,12 +416,12 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-3">
-                  <div className="p-3 bg-blue-50 rounded-lg">
+                  <div className="p-3 bg-sage-50 rounded-lg">
                     <div className="flex items-start">
-                      <CheckCircle2 className="h-5 w-5 text-blue-600 mt-0.5 mr-2 flex-shrink-0" />
+                      <CheckCircle2 className="h-5 w-5 text-sage-600 mt-0.5 mr-2 flex-shrink-0" />
                       <div>
-                        <p className="font-medium text-blue-900">High Impact Potential</p>
-                        <p className="text-sm text-blue-700">3 opportunities showing 90+ impact scores with strong storyteller networks</p>
+                        <p className="font-medium text-sage-900">High Impact Potential</p>
+                        <p className="text-sm text-sage-700">3 opportunities showing 90+ impact scores with strong storyteller networks</p>
                       </div>
                     </div>
                   </div>
@@ -457,13 +457,13 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
                   <div className="flex items-start justify-between">
                     <div>
                       <CardTitle className="text-lg">{opportunity.title}</CardTitle>
-                      <p className="text-sm text-grey-600 mt-1">{opportunity.description}</p>
+                      <p className="text-sm text-stone-600 mt-1">{opportunity.description}</p>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Badge className={getRiskBadgeColor(opportunity.riskLevel)}>
                         {opportunity.riskLevel} risk
                       </Badge>
-                      <Badge className="bg-blue-100 text-blue-800">
+                      <Badge className="bg-sage-100 text-sage-800">
                         {opportunity.impactPotential}% impact
                       </Badge>
                     </div>
@@ -472,15 +472,15 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <p className="text-sm font-medium text-grey-600">Funding Needed</p>
+                      <p className="text-sm font-medium text-stone-600">Funding Needed</p>
                       <p className="text-xl font-bold">${opportunity.fundingNeeded.toLocaleString()}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-grey-600">Timeframe</p>
+                      <p className="text-sm font-medium text-stone-600">Timeframe</p>
                       <p className="text-lg font-semibold">{opportunity.timeframe}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-grey-600">Readiness Score</p>
+                      <p className="text-sm font-medium text-stone-600">Readiness Score</p>
                       <div className="flex items-center">
                         <Progress value={opportunity.readinessScore} className="h-2 flex-1 mr-2" />
                         <span className="text-sm font-medium">{opportunity.readinessScore}%</span>
@@ -489,7 +489,7 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
                   </div>
 
                   <div>
-                    <p className="text-sm font-medium text-grey-600 mb-2">Sectors</p>
+                    <p className="text-sm font-medium text-stone-600 mb-2">Sectors</p>
                     <div className="flex flex-wrap gap-2">
                       {opportunity.sectors.map((sector, idx) => (
                         <Badge key={idx} variant="outline">{sector.replace('_', ' ')}</Badge>
@@ -498,13 +498,13 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
                   </div>
 
                   <div>
-                    <p className="text-sm font-medium text-grey-600 mb-2">Key Storytellers</p>
+                    <p className="text-sm font-medium text-stone-600 mb-2">Key Storytellers</p>
                     <div className="space-y-2">
                       {opportunity.storytellers.map((storyteller) => (
-                        <div key={storyteller.id} className="flex items-center justify-between p-2 bg-grey-50 rounded">
+                        <div key={storyteller.id} className="flex items-center justify-between p-2 bg-stone-50 rounded">
                           <div>
                             <p className="font-medium">{storyteller.name}</p>
-                            <p className="text-sm text-grey-600">{storyteller.expertise.join(', ')}</p>
+                            <p className="text-sm text-stone-600">{storyteller.expertise.join(', ')}</p>
                           </div>
                           <Badge className="bg-green-100 text-green-800">
                             {storyteller.impactScore}% impact
@@ -515,7 +515,7 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
                   </div>
 
                   <div>
-                    <p className="text-sm font-medium text-grey-600 mb-2">Expected Outcomes</p>
+                    <p className="text-sm font-medium text-stone-600 mb-2">Expected Outcomes</p>
                     <ul className="space-y-1">
                       {opportunity.expectedOutcomes.map((outcome, idx) => (
                         <li key={idx} className="flex items-start">
@@ -555,11 +555,11 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
                   </div>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <p className="text-grey-600">Improvement</p>
+                      <p className="text-stone-600">Improvement</p>
                       <p className="font-semibold text-green-600">+{measurement.improvement}%</p>
                     </div>
                     <div>
-                      <p className="text-grey-600">Contributors</p>
+                      <p className="text-stone-600">Contributors</p>
                       <p className="font-semibold">{measurement.storytellersContributing} storytellers</p>
                     </div>
                   </div>
@@ -579,7 +579,7 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border">
+              <div className="p-4 bg-gradient-to-r from-sage-50 to-clay-50 rounded-lg border">
                 <div className="flex items-center mb-3">
                   <Badge className={`${
                     data.recommendation.priority === 'immediate' ? 'bg-red-100 text-red-800' :
@@ -591,10 +591,10 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
                   </Badge>
                 </div>
                 <h3 className="text-lg font-semibold mb-2">{data.recommendation.focus}</h3>
-                <p className="text-grey-700 mb-4">{data.recommendation.rationale}</p>
+                <p className="text-stone-700 mb-4">{data.recommendation.rationale}</p>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-grey-600">Suggested Allocation</p>
+                    <p className="text-sm text-stone-600">Suggested Allocation</p>
                     <p className="text-xl font-bold">${data.recommendation.suggestedAllocation.toLocaleString()}</p>
                   </div>
                   <Button size="lg">
@@ -613,15 +613,15 @@ export function PhilanthropyIntelligenceDashboard({ organizationId }: Philanthro
               <CardContent className="space-y-3">
                 <div className="p-3 border rounded-lg">
                   <h4 className="font-medium mb-1">Portfolio Diversification</h4>
-                  <p className="text-sm text-grey-600">Balanced approach across 6 sectors with emphasis on cross-sector collaboration opportunities</p>
+                  <p className="text-sm text-stone-600">Balanced approach across 6 sectors with emphasis on cross-sector collaboration opportunities</p>
                 </div>
                 <div className="p-3 border rounded-lg">
                   <h4 className="font-medium mb-1">Risk Management</h4>
-                  <p className="text-sm text-grey-600">70% low-risk, 25% medium-risk initiatives with proven storyteller leadership</p>
+                  <p className="text-sm text-stone-600">70% low-risk, 25% medium-risk initiatives with proven storyteller leadership</p>
                 </div>
                 <div className="p-3 border rounded-lg">
                   <h4 className="font-medium mb-1">Impact Timeline</h4>
-                  <p className="text-sm text-grey-600">18-30 month horizons for sustainable community-driven change</p>
+                  <p className="text-sm text-stone-600">18-30 month horizons for sustainable community-driven change</p>
                 </div>
               </CardContent>
             </Card>

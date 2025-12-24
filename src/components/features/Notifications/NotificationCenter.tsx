@@ -167,12 +167,12 @@ const NotificationIcon = ({ type }: { type: Notification['type'] }) => {
   }
   const Icon = icons[type]
   const colours = {
-    story: 'text-blue-600 bg-blue-100',
+    story: 'text-sage-600 bg-sage-100',
     comment: 'text-green-600 bg-green-100',
     like: 'text-red-600 bg-red-100',
-    follow: 'text-purple-600 bg-purple-100',
+    follow: 'text-clay-600 bg-clay-100',
     achievement: 'text-yellow-600 bg-yellow-100',
-    system: 'text-grey-600 bg-grey-100',
+    system: 'text-stone-600 bg-stone-100',
     alert: 'text-orange-600 bg-orange-100',
   }
 
@@ -271,7 +271,7 @@ export default function NotificationCenter() {
         {/* Notifications List */}
         <ScrollArea className="h-[400px]">
           {notifications.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-32 text-grey-500">
+            <div className="flex flex-col items-center justify-center h-32 text-stone-500">
               <Bell className="h-8 w-8 mb-2 opacity-50" />
               <p className="text-sm">No notifications</p>
             </div>
@@ -285,8 +285,8 @@ export default function NotificationCenter() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, x: -100 }}
                     className={cn(
-                      'p-4 hover:bg-grey-50 cursor-pointer transition-colours relative',
-                      !notification.read && 'bg-blue-50/50'
+                      'p-4 hover:bg-stone-50 cursor-pointer transition-colours relative',
+                      !notification.read && 'bg-sage-50/50'
                     )}
                     onClick={() => handleNotificationClick(notification)}
                   >
@@ -298,16 +298,16 @@ export default function NotificationCenter() {
                             <p className="font-medium text-sm">
                               {notification.title}
                             </p>
-                            <p className="text-sm text-grey-600 mt-0.5">
+                            <p className="text-sm text-stone-600 mt-0.5">
                               {notification.message}
                             </p>
-                            <p className="text-xs text-grey-400 mt-1">
+                            <p className="text-xs text-stone-400 mt-1">
                               {formatDistanceToNow(notification.timestamp, { addSuffix: true })}
                             </p>
                           </div>
                           <div className="flex items-center gap-1">
                             {!notification.read && (
-                              <div className="w-2 h-2 bg-blue-600 rounded-full" />
+                              <div className="w-2 h-2 bg-sage-600 rounded-full" />
                             )}
                             <Button
                               variant="ghost"

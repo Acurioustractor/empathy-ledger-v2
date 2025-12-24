@@ -78,15 +78,15 @@ export function RevokeRadar({
               <div className="relative inline-flex items-center justify-center">
                 <div className={cn(
                   'w-16 h-16 rounded-full flex items-center justify-center',
-                  summary?.totalEmbeds ? 'bg-purple-100 dark:bg-purple-950/30' : 'bg-muted'
+                  summary?.totalEmbeds ? 'bg-clay-100 dark:bg-clay-950/30' : 'bg-muted'
                 )}>
                   <Code2 className={cn(
                     'h-6 w-6',
-                    summary?.totalEmbeds ? 'text-purple-600' : 'text-muted-foreground'
+                    summary?.totalEmbeds ? 'text-clay-600' : 'text-muted-foreground'
                   )} />
                 </div>
                 {(summary?.totalEmbeds || 0) > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-purple-600 text-white text-xs flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-clay-600 text-white text-xs flex items-center justify-center">
                     {summary?.totalEmbeds}
                   </span>
                 )}
@@ -189,7 +189,7 @@ export function RevokeRadar({
                 >
                   <div className="flex items-center gap-2 truncate">
                     {activity.type === 'view' && <Eye className="h-3 w-3 text-muted-foreground" />}
-                    {activity.type === 'embed' && <Code2 className="h-3 w-3 text-purple-500" />}
+                    {activity.type === 'embed' && <Code2 className="h-3 w-3 text-clay-500" />}
                     {activity.type === 'distribution' && <Share2 className="h-3 w-3 text-sky-500" />}
                     {activity.type === 'revocation' && <Ban className="h-3 w-3 text-red-500" />}
                     <span className="truncate">{activity.storyTitle}</span>

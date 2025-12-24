@@ -160,10 +160,10 @@ export default function OrganizationTranscripts() {
   const getStatusColor = (status: string): string => {
     switch (status) {
       case 'pending': return 'bg-yellow-100 text-yellow-800'
-      case 'reviewed': return 'bg-blue-100 text-blue-800'
+      case 'reviewed': return 'bg-sage-100 text-sage-800'
       case 'approved': return 'bg-green-100 text-green-800'
-      case 'published': return 'bg-purple-100 text-purple-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'published': return 'bg-clay-100 text-clay-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -519,7 +519,7 @@ export default function OrganizationTranscripts() {
           <Button
             variant="outline"
             onClick={handleGenerateBetterTitles}
-            className="text-blue-600 hover:text-blue-700 border-blue-200 hover:bg-blue-50"
+            className="text-sage-600 hover:text-sage-700 border-sage-200 hover:bg-sage-50"
           >
             <Sparkles className="h-4 w-4 mr-2" />
             Improve Titles
@@ -550,7 +550,7 @@ export default function OrganizationTranscripts() {
         </Card>
         <Card>
           <CardContent className="p-4">
-            <div className="text-2xl font-bold text-blue-600">{data.stats.reviewed}</div>
+            <div className="text-2xl font-bold text-sage-600">{data.stats.reviewed}</div>
             <p className="text-sm text-muted-foreground">Reviewed</p>
           </CardContent>
         </Card>
@@ -562,7 +562,7 @@ export default function OrganizationTranscripts() {
         </Card>
         <Card>
           <CardContent className="p-4">
-            <div className="text-2xl font-bold text-purple-600">{data.stats.published}</div>
+            <div className="text-2xl font-bold text-clay-600">{data.stats.published}</div>
             <p className="text-sm text-muted-foreground">Published</p>
           </CardContent>
         </Card>
@@ -640,12 +640,12 @@ export default function OrganizationTranscripts() {
                               {getDisplayTitle(transcript)}
                             </h3>
                             {getSuggestedTitlePreview(transcript) && (
-                              <div className="mt-1 p-2 bg-blue-50 border border-blue-200 rounded text-sm">
-                                <div className="flex items-center gap-1 text-blue-600 mb-1">
+                              <div className="mt-1 p-2 bg-sage-50 border border-sage-200 rounded text-sm">
+                                <div className="flex items-center gap-1 text-sage-600 mb-1">
                                   <Sparkles className="h-3 w-3" />
                                   <span className="font-medium">AI Suggested Title:</span>
                                 </div>
-                                <div className="text-blue-700 italic">
+                                <div className="text-sage-700 italic">
                                   "{getSuggestedTitlePreview(transcript)}"
                                 </div>
                               </div>
@@ -659,7 +659,7 @@ export default function OrganizationTranscripts() {
                               </Badge>
                             )}
                             {transcript.hasGeneratedStory && (
-                              <Badge variant="secondary" className="text-xs bg-purple-100 text-purple-700">
+                              <Badge variant="secondary" className="text-xs bg-clay-100 text-clay-700">
                                 <BookOpen className="h-3 w-3 mr-1" />
                                 Story
                               </Badge>
@@ -778,7 +778,7 @@ export default function OrganizationTranscripts() {
                             variant="outline"
                             size="sm"
                             onClick={() => handleViewVideo(transcript)}
-                            className="text-blue-600 hover:text-blue-700 border-blue-200 hover:bg-blue-50"
+                            className="text-sage-600 hover:text-sage-700 border-sage-200 hover:bg-sage-50"
                           >
                             <Video className="h-4 w-4 mr-1" />
                             Watch Video
@@ -831,7 +831,7 @@ export default function OrganizationTranscripts() {
                             variant="outline"
                             size="sm"
                             onClick={() => handleGenerateStory(transcript.id, transcript.title)}
-                            className="text-purple-600 hover:text-purple-700 border-purple-200 hover:bg-purple-50"
+                            className="text-clay-600 hover:text-clay-700 border-clay-200 hover:bg-clay-50"
                           >
                             <ArrowRight className="h-4 w-4 mr-1" />
                             Generate Story
@@ -841,7 +841,7 @@ export default function OrganizationTranscripts() {
                             variant="outline"
                             size="sm"
                             disabled
-                            className="text-purple-600 border-purple-200 bg-purple-50"
+                            className="text-clay-600 border-clay-200 bg-clay-50"
                           >
                             <BookOpen className="h-4 w-4 mr-1" />
                             Story Created

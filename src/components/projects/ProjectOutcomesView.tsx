@@ -30,9 +30,9 @@ export function ProjectOutcomesView({ outcomes }: ProjectOutcomesViewProps) {
   const getStrengthColor = (strength: string) => {
     switch (strength) {
       case 'demonstrated': return 'bg-green-100 text-green-800 border-green-300'
-      case 'described': return 'bg-blue-100 text-blue-800 border-blue-300'
+      case 'described': return 'bg-sage-100 text-sage-800 border-sage-300'
       case 'mentioned': return 'bg-yellow-100 text-yellow-800 border-yellow-300'
-      default: return 'bg-grey-100 text-grey-600 border-grey-300'
+      default: return 'bg-stone-100 text-stone-600 border-stone-300'
     }
   }
 
@@ -47,9 +47,9 @@ export function ProjectOutcomesView({ outcomes }: ProjectOutcomesViewProps) {
 
   const getScoreColor = (score: number) => {
     if (score >= 76) return 'text-green-600'
-    if (score >= 51) return 'text-blue-600'
+    if (score >= 51) return 'text-sage-600'
     if (score >= 26) return 'text-yellow-600'
-    return 'text-grey-400'
+    return 'text-stone-400'
   }
 
   return (
@@ -66,7 +66,7 @@ export function ProjectOutcomesView({ outcomes }: ProjectOutcomesViewProps) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="prose prose-sm max-w-none text-grey-700">
+          <div className="prose prose-sm max-w-none text-stone-700">
             <p>{outcomes.overall_progress_summary}</p>
           </div>
         </CardContent>
@@ -86,7 +86,7 @@ export function ProjectOutcomesView({ outcomes }: ProjectOutcomesViewProps) {
               {outcomes.key_wins.map((win, i) => (
                 <li key={i} className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-grey-700">{win}</span>
+                  <span className="text-sm text-stone-700">{win}</span>
                 </li>
               ))}
             </ul>
@@ -112,7 +112,7 @@ export function ProjectOutcomesView({ outcomes }: ProjectOutcomesViewProps) {
                   <div className={`text-3xl font-bold ${getScoreColor(outcome.score)}`}>
                     {outcome.score}
                   </div>
-                  <div className="text-xs text-grey-500 mt-1">out of 100</div>
+                  <div className="text-xs text-stone-500 mt-1">out of 100</div>
                 </div>
               </div>
             </CardHeader>
@@ -127,7 +127,7 @@ export function ProjectOutcomesView({ outcomes }: ProjectOutcomesViewProps) {
               {/* Storytellers */}
               {outcome.storytellers_mentioning.length > 0 && (
                 <div>
-                  <div className="text-xs font-medium text-grey-500 mb-2">
+                  <div className="text-xs font-medium text-stone-500 mb-2">
                     Mentioned by {outcome.storytellers_mentioning.length} storyteller{outcome.storytellers_mentioning.length !== 1 ? 's' : ''}
                   </div>
                   <div className="flex flex-wrap gap-1">
@@ -148,13 +148,13 @@ export function ProjectOutcomesView({ outcomes }: ProjectOutcomesViewProps) {
               {/* Evidence Quotes */}
               {outcome.evidence_found.length > 0 && (
                 <div className="space-y-2">
-                  <div className="text-xs font-medium text-grey-500 flex items-center gap-1">
+                  <div className="text-xs font-medium text-stone-500 flex items-center gap-1">
                     <Quote className="w-3 h-3" />
                     Evidence from interviews
                   </div>
                   <div className="space-y-2">
                     {outcome.evidence_found.slice(0, 2).map((quote, i) => (
-                      <div key={i} className="text-sm italic text-grey-600 border-l-2 border-grey-300 pl-3 py-1">
+                      <div key={i} className="text-sm italic text-stone-600 border-l-2 border-stone-300 pl-3 py-1">
                         "{quote.length > 150 ? quote.substring(0, 150) + '...' : quote}"
                       </div>
                     ))}
@@ -164,7 +164,7 @@ export function ProjectOutcomesView({ outcomes }: ProjectOutcomesViewProps) {
 
               {/* No Evidence Message */}
               {outcome.evidence_found.length === 0 && (
-                <div className="text-sm text-grey-500 italic flex items-center gap-2">
+                <div className="text-sm text-stone-500 italic flex items-center gap-2">
                   <AlertCircle className="w-4 h-4" />
                   No specific evidence found in transcripts yet
                 </div>
@@ -178,7 +178,7 @@ export function ProjectOutcomesView({ outcomes }: ProjectOutcomesViewProps) {
       {outcomes.gaps_or_opportunities && outcomes.gaps_or_opportunities.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-blue-700">
+            <CardTitle className="flex items-center gap-2 text-sage-700">
               <TrendingUp className="w-5 h-5" />
               Opportunities for Growth
             </CardTitle>
@@ -187,8 +187,8 @@ export function ProjectOutcomesView({ outcomes }: ProjectOutcomesViewProps) {
             <ul className="space-y-2">
               {outcomes.gaps_or_opportunities.map((gap, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <TrendingUp className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-grey-700">{gap}</span>
+                  <TrendingUp className="w-4 h-4 text-sage-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-stone-700">{gap}</span>
                 </li>
               ))}
             </ul>

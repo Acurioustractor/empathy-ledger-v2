@@ -101,18 +101,18 @@ const StorytellerDashboard: React.FC = () => {
     switch (status) {
       case 'published': return 'bg-green-100 text-green-800'
       case 'pending_review': return 'bg-yellow-100 text-yellow-800'
-      case 'draft': return 'bg-grey-100 text-grey-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'draft': return 'bg-stone-100 text-stone-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
   const getCulturalSignificanceColor = (significance: string) => {
     switch (significance) {
-      case 'sacred': return 'bg-purple-100 text-purple-800'
+      case 'sacred': return 'bg-clay-100 text-clay-800'
       case 'high': return 'bg-red-100 text-red-800'
       case 'medium': return 'bg-orange-100 text-orange-800'
-      case 'low': return 'bg-blue-100 text-blue-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'low': return 'bg-sage-100 text-sage-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -213,7 +213,7 @@ const StorytellerDashboard: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-sage-800">{stats.totalStories}</div>
-            <p className="text-xs text-grey-600 mt-1">
+            <p className="text-xs text-stone-600 mt-1">
               {stats.publishedStories} published • {stats.draftStories} drafts
             </p>
           </CardContent>
@@ -223,12 +223,12 @@ const StorytellerDashboard: React.FC = () => {
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm font-medium">Total Views</CardTitle>
-              <Eye className="w-4 h-4 text-blue-600" />
+              <Eye className="w-4 h-4 text-sage-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-800">{stats.totalViews.toLocaleString()}</div>
-            <p className="text-xs text-grey-600 mt-1">
+            <div className="text-2xl font-bold text-sage-800">{stats.totalViews.toLocaleString()}</div>
+            <p className="text-xs text-stone-600 mt-1">
               People reached by your stories
             </p>
           </CardContent>
@@ -243,7 +243,7 @@ const StorytellerDashboard: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-800">{stats.totalLikes}</div>
-            <p className="text-xs text-grey-600 mt-1">
+            <p className="text-xs text-stone-600 mt-1">
               Likes • {stats.totalComments} comments
             </p>
           </CardContent>
@@ -258,7 +258,7 @@ const StorytellerDashboard: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-sm font-bold text-amber-800">{stats.communityRank}</div>
-            <p className="text-xs text-grey-600 mt-1">
+            <p className="text-xs text-stone-600 mt-1">
               Your storytelling level
             </p>
           </CardContent>
@@ -314,7 +314,7 @@ const StorytellerDashboard: React.FC = () => {
                             {story.cultural_significance} significance
                           </Badge>
                         </div>
-                        <div className="flex items-center gap-4 text-sm text-grey-600">
+                        <div className="flex items-center gap-4 text-sm text-stone-600">
                           <span className="flex items-center gap-1">
                             <Calendar className="w-4 h-4" />
                             {new Date(story.created_at).toLocaleDateString()}
@@ -354,9 +354,9 @@ const StorytellerDashboard: React.FC = () => {
             ) : (
               <Card>
                 <CardContent className="p-12 text-center">
-                  <BookOpen className="w-12 h-12 text-grey-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-grey-600 mb-2">No stories yet</h3>
-                  <p className="text-grey-500 mb-6">Start sharing your stories with the community</p>
+                  <BookOpen className="w-12 h-12 text-stone-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-stone-600 mb-2">No stories yet</h3>
+                  <p className="text-stone-500 mb-6">Start sharing your stories with the community</p>
                   <Button asChild>
                     <Link href="/stories/create">
                       <Plus className="w-4 h-4 mr-2" />
@@ -385,8 +385,8 @@ const StorytellerDashboard: React.FC = () => {
               <CardDescription>Track how your stories are performing in the community</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-grey-600">
-                <BarChart3 className="w-12 h-12 text-grey-400 mx-auto mb-4" />
+              <div className="text-center py-12 text-stone-600">
+                <BarChart3 className="w-12 h-12 text-stone-400 mx-auto mb-4" />
                 <p>Detailed analytics will be available here</p>
               </div>
             </CardContent>
@@ -401,8 +401,8 @@ const StorytellerDashboard: React.FC = () => {
               <CardDescription>Connect with other storytellers and community members</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-grey-600">
-                <Users className="w-12 h-12 text-grey-400 mx-auto mb-4" />
+              <div className="text-center py-12 text-stone-600">
+                <Users className="w-12 h-12 text-stone-400 mx-auto mb-4" />
                 <p>Community features will be available here</p>
               </div>
             </CardContent>

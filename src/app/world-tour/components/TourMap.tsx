@@ -410,7 +410,7 @@ export function TourMap({ className }: TourMapProps) {
               label="Storytellers"
               count={storytellers?.length || 0}
               active={showStorytellers}
-              color="text-indigo-600"
+              color="text-terracotta-600"
               onClick={() => toggleLayer('storytellers')}
             />
             <LayerToggle
@@ -442,7 +442,7 @@ export function TourMap({ className }: TourMapProps) {
               label="Connections"
               count={filteredConnections.length}
               active={showConnections}
-              color="text-purple-600"
+              color="text-clay-600"
               onClick={() => toggleLayer('connections')}
             />
           </CardContent>

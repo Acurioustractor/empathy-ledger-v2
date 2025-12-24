@@ -212,20 +212,20 @@ export default function GalleriesAdminPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active': return 'bg-green-100 text-green-800'
-      case 'hidden': return 'bg-grey-100 text-grey-800'
+      case 'hidden': return 'bg-stone-100 text-stone-800'
       case 'flagged': return 'bg-red-100 text-red-800'
       case 'under_review': return 'bg-yellow-100 text-yellow-800'
-      default: return 'bg-grey-100 text-grey-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
   const getVisibilityColor = (visibility: string) => {
     switch (visibility) {
-      case 'public': return 'bg-blue-100 text-blue-800'
-      case 'community': return 'bg-purple-100 text-purple-800'
-      case 'organisation': return 'bg-indigo-100 text-indigo-800'
-      case 'private': return 'bg-grey-100 text-grey-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'public': return 'bg-sage-100 text-sage-800'
+      case 'community': return 'bg-clay-100 text-clay-800'
+      case 'organisation': return 'bg-terracotta-100 text-terracotta-800'
+      case 'private': return 'bg-stone-100 text-stone-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -234,7 +234,7 @@ export default function GalleriesAdminPage() {
       case 'high': return 'bg-red-100 text-red-800'
       case 'medium': return 'bg-yellow-100 text-yellow-800'
       case 'low': return 'bg-green-100 text-green-800'
-      default: return 'bg-grey-100 text-grey-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -260,8 +260,8 @@ export default function GalleriesAdminPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-grey-900 mb-2">Galleries Admin</h1>
-        <p className="text-grey-600">
+        <h1 className="text-3xl font-bold text-stone-900 mb-2">Galleries Admin</h1>
+        <p className="text-stone-600">
           Manage photo and video galleries with cultural sensitivity protocols
         </p>
       </div>
@@ -271,8 +271,8 @@ export default function GalleriesAdminPage() {
         <Card>
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-blue-600">{totalGalleries}</p>
-              <p className="text-xs text-grey-600">Total Galleries</p>
+              <p className="text-2xl font-bold text-sage-600">{totalGalleries}</p>
+              <p className="text-xs text-stone-600">Total Galleries</p>
             </div>
           </CardContent>
         </Card>
@@ -280,7 +280,7 @@ export default function GalleriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-green-600">{activeGalleries}</p>
-              <p className="text-xs text-grey-600">Active</p>
+              <p className="text-xs text-stone-600">Active</p>
             </div>
           </CardContent>
         </Card>
@@ -288,7 +288,7 @@ export default function GalleriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-red-600">{flaggedGalleries}</p>
-              <p className="text-xs text-grey-600">Flagged</p>
+              <p className="text-xs text-stone-600">Flagged</p>
             </div>
           </CardContent>
         </Card>
@@ -296,15 +296,15 @@ export default function GalleriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-yellow-600">{underReview}</p>
-              <p className="text-xs text-grey-600">Under Review</p>
+              <p className="text-xs text-stone-600">Under Review</p>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-purple-600">{elderApproved}</p>
-              <p className="text-xs text-grey-600">Elder Approved</p>
+              <p className="text-2xl font-bold text-clay-600">{elderApproved}</p>
+              <p className="text-xs text-stone-600">Elder Approved</p>
             </div>
           </CardContent>
         </Card>
@@ -312,7 +312,7 @@ export default function GalleriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-orange-600">{highSensitivity}</p>
-              <p className="text-xs text-grey-600">High Sensitivity</p>
+              <p className="text-xs text-stone-600">High Sensitivity</p>
             </div>
           </CardContent>
         </Card>
@@ -320,7 +320,7 @@ export default function GalleriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-emerald-600">{totalPhotos}</p>
-              <p className="text-xs text-grey-600">Total Photos</p>
+              <p className="text-xs text-stone-600">Total Photos</p>
               <Button
                 onClick={() => setIsPhotoViewerOpen(true)}
                 size="sm"
@@ -339,7 +339,7 @@ export default function GalleriesAdminPage() {
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-grey-400" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-stone-400" />
               <Input
                 placeholder="Search galleries..."
                 value={searchTerm}
@@ -351,7 +351,7 @@ export default function GalleriesAdminPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -363,7 +363,7 @@ export default function GalleriesAdminPage() {
             <select
               value={visibilityFilter}
               onChange={(e) => setVisibilityFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Visibility</option>
               <option value="public">Public</option>
@@ -375,7 +375,7 @@ export default function GalleriesAdminPage() {
             <select
               value={sensitivityFilter}
               onChange={(e) => setSensitivityFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Sensitivity</option>
               <option value="low">Low</option>
@@ -422,7 +422,7 @@ export default function GalleriesAdminPage() {
                     </Badge>
                   </div>
 
-                  <div className="flex items-center space-x-4 text-sm text-grey-600 mb-3">
+                  <div className="flex items-center space-x-4 text-sm text-stone-600 mb-3">
                     <span className="flex items-center">
                       <User className="w-3 h-3 mr-1" />
                       {gallery.creator?.display_name}
@@ -440,7 +440,7 @@ export default function GalleriesAdminPage() {
                   </div>
 
                   {gallery.description && (
-                    <p className="text-sm text-grey-700 mb-3 line-clamp-2">
+                    <p className="text-sm text-stone-700 mb-3 line-clamp-2">
                       {gallery.description}
                     </p>
                   )}
@@ -448,13 +448,13 @@ export default function GalleriesAdminPage() {
                   {/* Cultural Indicators */}
                   <div className="flex flex-wrap gap-1 mb-3">
                     {gallery.elder_approved && (
-                      <Badge className="bg-purple-100 text-purple-800" size="sm">
+                      <Badge className="bg-clay-100 text-clay-800" size="sm">
                         <Shield className="w-3 h-3 mr-1" />
                         Elder Approved
                       </Badge>
                     )}
                     {gallery.ceremonial_content && (
-                      <Badge className="bg-indigo-100 text-indigo-800" size="sm">
+                      <Badge className="bg-terracotta-100 text-terracotta-800" size="sm">
                         Ceremonial
                       </Badge>
                     )}
@@ -485,19 +485,19 @@ export default function GalleriesAdminPage() {
                   <div className="grid grid-cols-4 gap-2 text-center text-sm">
                     <div>
                       <p className="font-bold">{gallery.stats?.views_count || 0}</p>
-                      <p className="text-grey-600 text-xs">Views</p>
+                      <p className="text-stone-600 text-xs">Views</p>
                     </div>
                     <div>
                       <p className="font-bold">{gallery.stats?.likes_count || 0}</p>
-                      <p className="text-grey-600 text-xs">Likes</p>
+                      <p className="text-stone-600 text-xs">Likes</p>
                     </div>
                     <div>
                       <p className="font-bold">{gallery.stats?.comments_count || 0}</p>
-                      <p className="text-grey-600 text-xs">Comments</p>
+                      <p className="text-stone-600 text-xs">Comments</p>
                     </div>
                     <div>
                       <p className="font-bold">{gallery.stats?.shares_count || 0}</p>
-                      <p className="text-grey-600 text-xs">Shares</p>
+                      <p className="text-stone-600 text-xs">Shares</p>
                     </div>
                   </div>
                 </div>
@@ -523,7 +523,7 @@ export default function GalleriesAdminPage() {
                 </div>
               </div>
 
-              <div className="text-xs text-grey-500 flex items-center justify-between">
+              <div className="text-xs text-stone-500 flex items-center justify-between">
                 <span>Created {new Date(gallery.created_at).toLocaleDateString()}</span>
                 <span>Consent: {gallery.consent_status}</span>
               </div>
@@ -534,9 +534,9 @@ export default function GalleriesAdminPage() {
 
       {filteredGalleries.length === 0 && (
         <div className="text-center py-12">
-          <Image className="w-12 h-12 text-grey-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-grey-900 mb-2">No galleries found</h3>
-          <p className="text-grey-600">Try adjusting your search or filter criteria.</p>
+          <Image className="w-12 h-12 text-stone-400 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-stone-900 mb-2">No galleries found</h3>
+          <p className="text-stone-600">Try adjusting your search or filter criteria.</p>
         </div>
       )}
 
@@ -604,7 +604,7 @@ export default function GalleriesAdminPage() {
                               description: e.target.value
                             }))}
                             rows={4}
-                            className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            className="w-full px-3 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                           />
                         </div>
                         <div>
@@ -622,33 +622,33 @@ export default function GalleriesAdminPage() {
                       <>
                         <div>
                           <strong className="text-sm">Title:</strong>
-                          <p className="text-sm text-grey-600">{selectedGallery.title}</p>
+                          <p className="text-sm text-stone-600">{selectedGallery.title}</p>
                         </div>
                         {selectedGallery.description && (
                           <div>
                             <strong className="text-sm">Description:</strong>
-                            <p className="text-sm text-grey-600">{selectedGallery.description}</p>
+                            <p className="text-sm text-stone-600">{selectedGallery.description}</p>
                           </div>
                         )}
                         {selectedGallery.location && (
                           <div>
                             <strong className="text-sm">Location:</strong>
-                            <p className="text-sm text-grey-600">{selectedGallery.location}</p>
+                            <p className="text-sm text-stone-600">{selectedGallery.location}</p>
                           </div>
                         )}
                         <div>
                           <strong className="text-sm">Creator:</strong>
-                          <p className="text-sm text-grey-600">{selectedGallery.creator?.display_name}</p>
+                          <p className="text-sm text-stone-600">{selectedGallery.creator?.display_name}</p>
                         </div>
                         <div>
                           <strong className="text-sm">Created:</strong>
-                          <p className="text-sm text-grey-600">
+                          <p className="text-sm text-stone-600">
                             {new Date(selectedGallery.created_at).toLocaleDateString()}
                           </p>
                         </div>
                         <div>
                           <strong className="text-sm">Media Count:</strong>
-                          <p className="text-sm text-grey-600">{selectedGallery.media_count} items</p>
+                          <p className="text-sm text-stone-600">{selectedGallery.media_count} items</p>
                         </div>
                       </>
                     )}
@@ -668,19 +668,19 @@ export default function GalleriesAdminPage() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Elder Approved:</span>
-                      <Badge className={selectedGallery.elder_approved ? 'bg-green-100 text-green-800' : 'bg-grey-100 text-grey-800'}>
+                      <Badge className={selectedGallery.elder_approved ? 'bg-green-100 text-green-800' : 'bg-stone-100 text-stone-800'}>
                         {selectedGallery.elder_approved ? 'Yes' : 'No'}
                       </Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Ceremonial Content:</span>
-                      <Badge className={selectedGallery.ceremonial_content ? 'bg-purple-100 text-purple-800' : 'bg-grey-100 text-grey-800'}>
+                      <Badge className={selectedGallery.ceremonial_content ? 'bg-clay-100 text-clay-800' : 'bg-stone-100 text-stone-800'}>
                         {selectedGallery.ceremonial_content ? 'Yes' : 'No'}
                       </Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Traditional Knowledge:</span>
-                      <Badge className={selectedGallery.traditional_knowledge ? 'bg-indigo-100 text-indigo-800' : 'bg-grey-100 text-grey-800'}>
+                      <Badge className={selectedGallery.traditional_knowledge ? 'bg-terracotta-100 text-terracotta-800' : 'bg-stone-100 text-stone-800'}>
                         {selectedGallery.traditional_knowledge ? 'Yes' : 'No'}
                       </Badge>
                     </div>
@@ -719,7 +719,7 @@ export default function GalleriesAdminPage() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Featured:</span>
-                      <Badge className={selectedGallery.featured ? 'bg-yellow-100 text-yellow-800' : 'bg-grey-100 text-grey-800'}>
+                      <Badge className={selectedGallery.featured ? 'bg-yellow-100 text-yellow-800' : 'bg-stone-100 text-stone-800'}>
                         {selectedGallery.featured ? 'Yes' : 'No'}
                       </Badge>
                     </div>
@@ -733,20 +733,20 @@ export default function GalleriesAdminPage() {
                   <CardContent>
                     <div className="grid grid-cols-2 gap-4 text-center">
                       <div>
-                        <p className="text-2xl font-bold text-blue-600">{selectedGallery.stats?.views_count || 0}</p>
-                        <p className="text-sm text-grey-600">Views</p>
+                        <p className="text-2xl font-bold text-sage-600">{selectedGallery.stats?.views_count || 0}</p>
+                        <p className="text-sm text-stone-600">Views</p>
                       </div>
                       <div>
                         <p className="text-2xl font-bold text-red-600">{selectedGallery.stats?.likes_count || 0}</p>
-                        <p className="text-sm text-grey-600">Likes</p>
+                        <p className="text-sm text-stone-600">Likes</p>
                       </div>
                       <div>
                         <p className="text-2xl font-bold text-green-600">{selectedGallery.stats?.comments_count || 0}</p>
-                        <p className="text-sm text-grey-600">Comments</p>
+                        <p className="text-sm text-stone-600">Comments</p>
                       </div>
                       <div>
-                        <p className="text-2xl font-bold text-purple-600">{selectedGallery.stats?.shares_count || 0}</p>
-                        <p className="text-sm text-grey-600">Shares</p>
+                        <p className="text-2xl font-bold text-clay-600">{selectedGallery.stats?.shares_count || 0}</p>
+                        <p className="text-sm text-stone-600">Shares</p>
                       </div>
                     </div>
                   </CardContent>
@@ -839,25 +839,25 @@ function AllPhotosViewer({ onClose }: { onClose: () => void }) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-emerald-50 rounded-lg">
         <div className="text-center">
           <p className="text-2xl font-bold text-emerald-600">{photos.length}</p>
-          <p className="text-sm text-grey-600">Total Photos</p>
+          <p className="text-sm text-stone-600">Total Photos</p>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-bold text-blue-600">
+          <p className="text-2xl font-bold text-sage-600">
             {photos.reduce((sum, p) => sum + (p.fileSize || 0), 0) / (1024 * 1024) | 0} MB
           </p>
-          <p className="text-sm text-grey-600">Total Size</p>
+          <p className="text-sm text-stone-600">Total Size</p>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-bold text-purple-600">
+          <p className="text-2xl font-bold text-clay-600">
             {photos.filter(p => p.organizationName === 'Snow Foundation').length}
           </p>
-          <p className="text-sm text-grey-600">Snow Foundation</p>
+          <p className="text-sm text-stone-600">Snow Foundation</p>
         </div>
         <div className="text-center">
           <p className="text-2xl font-bold text-orange-600">
             {photos.filter(p => p.galleries.length === 0).length}
           </p>
-          <p className="text-sm text-grey-600">Unlinked</p>
+          <p className="text-sm text-stone-600">Unlinked</p>
         </div>
       </div>
 
@@ -867,11 +867,11 @@ function AllPhotosViewer({ onClose }: { onClose: () => void }) {
           {photos.map((photo, index) => (
             <div
               key={photo.id}
-              className="relative group cursor-pointer rounded-lg overflow-hidden bg-grey-100 aspect-square"
+              className="relative group cursor-pointer rounded-lg overflow-hidden bg-stone-100 aspect-square"
               onClick={() => setSelectedPhoto(photo)}
             >
               <div className="w-full h-full flex items-center justify-center">
-                <FileImage className="w-8 h-8 text-grey-400" />
+                <FileImage className="w-8 h-8 text-stone-400" />
               </div>
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
                 <div className="text-white text-center">
@@ -886,7 +886,7 @@ function AllPhotosViewer({ onClose }: { onClose: () => void }) {
               </div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2">
                 <p className="text-white text-xs truncate">{photo.filename}</p>
-                <p className="text-grey-200 text-xs">
+                <p className="text-stone-200 text-xs">
                   {(photo.fileSize / 1024 / 1024).toFixed(1)} MB
                 </p>
               </div>
@@ -916,9 +916,9 @@ function AllPhotosViewer({ onClose }: { onClose: () => void }) {
                 <div>
                   <strong>Visibility:</strong>
                   <Badge className={`ml-2 ${
-                    selectedPhoto.visibility === 'public' ? 'bg-blue-100 text-blue-800' :
-                    selectedPhoto.visibility === 'private' ? 'bg-grey-100 text-grey-800' :
-                    'bg-purple-100 text-purple-800'
+                    selectedPhoto.visibility === 'public' ? 'bg-sage-100 text-sage-800' :
+                    selectedPhoto.visibility === 'private' ? 'bg-stone-100 text-stone-800' :
+                    'bg-clay-100 text-clay-800'
                   }`}>
                     {selectedPhoto.visibility}
                   </Badge>
@@ -950,8 +950,8 @@ function AllPhotosViewer({ onClose }: { onClose: () => void }) {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-center bg-grey-100 rounded-lg h-64">
-                <div className="text-center text-grey-500">
+              <div className="flex items-center justify-center bg-stone-100 rounded-lg h-64">
+                <div className="text-center text-stone-500">
                   <FileImage className="w-16 h-16 mx-auto mb-2" />
                   <p>Photo Preview</p>
                   <p className="text-xs">({selectedPhoto.mimeType})</p>

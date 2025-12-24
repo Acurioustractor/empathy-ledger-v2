@@ -211,10 +211,10 @@ export default function EnhancedStorytellerProfilePage() {
         <Header />
         <div className="container mx-auto px-4 py-8">
           <div className="animate-pulse space-y-6">
-            <div className="h-64 bg-grey-200 rounded-xl"></div>
-            <div className="h-8 bg-grey-200 rounded w-1/3"></div>
-            <div className="h-4 bg-grey-200 rounded w-full"></div>
-            <div className="h-4 bg-grey-200 rounded w-2/3"></div>
+            <div className="h-64 bg-stone-200 rounded-xl"></div>
+            <div className="h-8 bg-stone-200 rounded w-1/3"></div>
+            <div className="h-4 bg-stone-200 rounded w-full"></div>
+            <div className="h-4 bg-stone-200 rounded w-2/3"></div>
           </div>
         </div>
         <Footer />
@@ -306,7 +306,7 @@ export default function EnhancedStorytellerProfilePage() {
                     </Badge>
                   )}
                   {storyteller.elder_status && (
-                    <Badge className="bg-white/90 backdrop-blur-sm text-purple-700 border-purple-200 shadow-lg">
+                    <Badge className="bg-white/90 backdrop-blur-sm text-clay-700 border-clay-200 shadow-lg">
                       <Crown className="w-3 h-3 mr-1" />
                       Elder
                     </Badge>
@@ -342,31 +342,31 @@ export default function EnhancedStorytellerProfilePage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center gap-2 text-grey-600 mb-1">
+              <div className="flex items-center justify-center gap-2 text-stone-600 mb-1">
                 <BookOpen className="w-4 h-4" />
                 <span className="text-sm">Stories</span>
               </div>
-              <div className="text-2xl font-bold text-grey-900">{storyteller.story_count}</div>
+              <div className="text-2xl font-bold text-stone-900">{storyteller.story_count}</div>
             </CardContent>
           </Card>
 
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center gap-2 text-grey-600 mb-1">
+              <div className="flex items-center justify-center gap-2 text-stone-600 mb-1">
                 <Mic className="w-4 h-4" />
                 <span className="text-sm">Transcripts</span>
               </div>
-              <div className="text-2xl font-bold text-grey-900">{transcripts.length}</div>
+              <div className="text-2xl font-bold text-stone-900">{transcripts.length}</div>
             </CardContent>
           </Card>
 
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center gap-2 text-grey-600 mb-1">
+              <div className="flex items-center justify-center gap-2 text-stone-600 mb-1">
                 <Calendar className="w-4 h-4" />
                 <span className="text-sm">Experience</span>
               </div>
-              <div className="text-2xl font-bold text-grey-900">
+              <div className="text-2xl font-bold text-stone-900">
                 {storyteller.years_of_experience || '-'}
                 {storyteller.years_of_experience && <span className="text-sm font-normal">y</span>}
               </div>
@@ -375,11 +375,11 @@ export default function EnhancedStorytellerProfilePage() {
 
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center gap-2 text-grey-600 mb-1">
+              <div className="flex items-center justify-center gap-2 text-stone-600 mb-1">
                 <Users className="w-4 h-4" />
                 <span className="text-sm">Projects</span>
               </div>
-              <div className="text-2xl font-bold text-grey-900">{storyteller.projects?.length || 0}</div>
+              <div className="text-2xl font-bold text-stone-900">{storyteller.projects?.length || 0}</div>
             </CardContent>
           </Card>
         </div>
@@ -403,7 +403,7 @@ export default function EnhancedStorytellerProfilePage() {
                     <CardTitle>About</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <Typography variant="body" className="text-grey-700 leading-relaxed">
+                    <Typography variant="body" className="text-stone-700 leading-relaxed">
                       {storyteller.bio || storyteller.profile?.bio || 'No biography available.'}
                     </Typography>
                   </CardContent>
@@ -418,7 +418,7 @@ export default function EnhancedStorytellerProfilePage() {
                     <CardContent className="space-y-4">
                       {storyteller.specialties && storyteller.specialties.length > 0 && (
                         <div>
-                          <Typography variant="h4" className="text-sm font-semibold text-grey-700 mb-2">
+                          <Typography variant="h4" className="text-sm font-semibold text-stone-700 mb-2">
                             Specialties
                           </Typography>
                           <div className="flex flex-wrap gap-2">
@@ -433,7 +433,7 @@ export default function EnhancedStorytellerProfilePage() {
 
                       {storyteller.preferred_topics && storyteller.preferred_topics.length > 0 && (
                         <div>
-                          <Typography variant="h4" className="text-sm font-semibold text-grey-700 mb-2">
+                          <Typography variant="h4" className="text-sm font-semibold text-stone-700 mb-2">
                             Preferred Topics
                           </Typography>
                           <div className="flex flex-wrap gap-2">
@@ -459,7 +459,7 @@ export default function EnhancedStorytellerProfilePage() {
                       <CardTitle className="text-lg">Cultural Background</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <Typography variant="body" className="text-grey-700">
+                      <Typography variant="body" className="text-stone-700">
                         {storyteller.cultural_background}
                       </Typography>
                     </CardContent>
@@ -475,10 +475,10 @@ export default function EnhancedStorytellerProfilePage() {
                     <CardContent className="space-y-3">
                       {storyteller.organisations.map((org, index) => (
                         <div key={index} className="flex items-center gap-3">
-                          <Building2 className="w-5 h-5 text-grey-500" />
+                          <Building2 className="w-5 h-5 text-stone-500" />
                           <div>
-                            <div className="font-medium text-grey-900">{org.name}</div>
-                            <div className="text-sm text-grey-500">{org.role}</div>
+                            <div className="font-medium text-stone-900">{org.name}</div>
+                            <div className="text-sm text-stone-500">{org.role}</div>
                           </div>
                         </div>
                       ))}
@@ -495,10 +495,10 @@ export default function EnhancedStorytellerProfilePage() {
                     <CardContent className="space-y-3">
                       {storyteller.projects.map((project, index) => (
                         <div key={index} className="flex items-center gap-3">
-                          <Target className="w-5 h-5 text-grey-500" />
+                          <Target className="w-5 h-5 text-stone-500" />
                           <div>
-                            <div className="font-medium text-grey-900">{project.name}</div>
-                            <div className="text-sm text-grey-500">{project.role}</div>
+                            <div className="font-medium text-stone-900">{project.name}</div>
+                            <div className="text-sm text-stone-500">{project.role}</div>
                           </div>
                         </div>
                       ))}
@@ -515,7 +515,7 @@ export default function EnhancedStorytellerProfilePage() {
                     <CardContent>
                       <div className="flex flex-wrap gap-2">
                         {storyteller.profile.languages_spoken.map((language, index) => (
-                          <Badge key={index} variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                          <Badge key={index} variant="outline" className="bg-sage-50 text-sage-700 border-sage-200">
                             <Languages className="w-3 h-3 mr-1" />
                             {language}
                           </Badge>
@@ -539,11 +539,11 @@ export default function EnhancedStorytellerProfilePage() {
               <CardContent>
                 {stories.length === 0 ? (
                   <div className="text-center py-8">
-                    <BookOpen className="w-12 h-12 text-grey-400 mx-auto mb-4" />
-                    <Typography variant="h3" className="text-grey-600 mb-2">
+                    <BookOpen className="w-12 h-12 text-stone-400 mx-auto mb-4" />
+                    <Typography variant="h3" className="text-stone-600 mb-2">
                       No Published Stories
                     </Typography>
-                    <Typography variant="body" className="text-grey-500">
+                    <Typography variant="body" className="text-stone-500">
                       {storyteller.display_name} hasn't published any stories yet.
                     </Typography>
                   </div>
@@ -553,7 +553,7 @@ export default function EnhancedStorytellerProfilePage() {
                       <Card key={story.id} className="hover:shadow-lg transition-shadow">
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between mb-3">
-                            <Typography variant="h3" className="font-semibold text-grey-900 line-clamp-2">
+                            <Typography variant="h3" className="font-semibold text-stone-900 line-clamp-2">
                               {story.title}
                             </Typography>
                             {story.featured && (
@@ -564,12 +564,12 @@ export default function EnhancedStorytellerProfilePage() {
                             )}
                           </div>
 
-                          <Typography variant="body" className="text-grey-600 mb-4 line-clamp-3">
+                          <Typography variant="body" className="text-stone-600 mb-4 line-clamp-3">
                             {story.content.substring(0, 150)}...
                           </Typography>
 
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4 text-sm text-grey-500">
+                            <div className="flex items-center gap-4 text-sm text-stone-500">
                               <div className="flex items-center gap-1">
                                 <Eye className="w-4 h-4" />
                                 {story.views_count}
@@ -622,11 +622,11 @@ export default function EnhancedStorytellerProfilePage() {
               <CardContent>
                 {relatedStorytellers.length === 0 ? (
                   <div className="text-center py-8">
-                    <Users className="w-12 h-12 text-grey-400 mx-auto mb-4" />
-                    <Typography variant="h3" className="text-grey-600 mb-2">
+                    <Users className="w-12 h-12 text-stone-400 mx-auto mb-4" />
+                    <Typography variant="h3" className="text-stone-600 mb-2">
                       No Related Storytellers
                     </Typography>
-                    <Typography variant="body" className="text-grey-500">
+                    <Typography variant="body" className="text-stone-500">
                       We'll find related storytellers as the community grows.
                     </Typography>
                   </div>
@@ -659,11 +659,11 @@ export default function EnhancedStorytellerProfilePage() {
               <CardContent>
                 {transcripts.length === 0 ? (
                   <div className="text-center py-8">
-                    <Headphones className="w-12 h-12 text-grey-400 mx-auto mb-4" />
-                    <Typography variant="h3" className="text-grey-600 mb-2">
+                    <Headphones className="w-12 h-12 text-stone-400 mx-auto mb-4" />
+                    <Typography variant="h3" className="text-stone-600 mb-2">
                       No Transcripts Available
                     </Typography>
-                    <Typography variant="body" className="text-grey-500">
+                    <Typography variant="body" className="text-stone-500">
                       No audio recordings have been transcribed yet.
                     </Typography>
                   </div>
@@ -674,14 +674,14 @@ export default function EnhancedStorytellerProfilePage() {
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                <Mic className="w-5 h-5 text-blue-600" />
+                              <div className="w-10 h-10 bg-sage-100 rounded-full flex items-center justify-center">
+                                <Mic className="w-5 h-5 text-sage-600" />
                               </div>
                               <div>
-                                <Typography variant="h4" className="font-medium text-grey-900">
+                                <Typography variant="h4" className="font-medium text-stone-900">
                                   {transcript.title || 'Untitled Recording'}
                                 </Typography>
-                                <div className="flex items-center gap-4 text-sm text-grey-500">
+                                <div className="flex items-center gap-4 text-sm text-stone-500">
                                   <span>{formatDuration(transcript.duration)}</span>
                                   <span>{transcript.word_count.toLocaleString()} words</span>
                                   <span>{formatDate(transcript.created_at)}</span>

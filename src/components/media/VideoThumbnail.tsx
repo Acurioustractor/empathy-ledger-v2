@@ -48,7 +48,7 @@ export function VideoThumbnail({ url, title, className, onClick }: VideoThumbnai
           onError={() => setThumbnailUrl(null)}
         />
       ) : (
-        <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+        <div className="w-full h-full bg-gradient-to-br from-sage-500 to-clay-600 flex items-center justify-center">
           <Video className="w-12 h-12 text-white" />
         </div>
       )}
@@ -56,7 +56,7 @@ export function VideoThumbnail({ url, title, className, onClick }: VideoThumbnai
       {/* Play overlay */}
       <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
         <div className="bg-white/90 rounded-full p-3">
-          <Play className="w-6 h-6 text-grey-800 ml-1" />
+          <Play className="w-6 h-6 text-stone-800 ml-1" />
         </div>
       </div>
 

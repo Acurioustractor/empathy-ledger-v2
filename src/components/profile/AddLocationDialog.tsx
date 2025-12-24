@@ -96,7 +96,7 @@ export function AddLocationDialog({
               placeholder="Search for a location..."
               onChange={(e) => setSelectedLocationId(e.target.value)}
             />
-            <p className="text-xs text-grey-600 mt-1">TODO: Replace with LocationPicker component</p>
+            <p className="text-xs text-stone-600 mt-1">TODO: Replace with LocationPicker component</p>
           </div>
 
           {/* Location Type */}
@@ -118,19 +118,19 @@ export function AddLocationDialog({
               </SelectContent>
             </Select>
             {locationType === 'traditional' && (
-              <p className="text-xs text-grey-600 mt-2">
+              <p className="text-xs text-stone-600 mt-2">
                 Traditional Territory represents your ancestral connection to Country
               </p>
             )}
           </div>
 
           {/* Visibility */}
-          <div className="flex items-center justify-between p-3 bg-grey-50 rounded-lg">
+          <div className="flex items-center justify-between p-3 bg-stone-50 rounded-lg">
             <div>
               <Label htmlFor="public" className="font-medium">
                 Public Visibility
               </Label>
-              <p className="text-xs text-grey-600">
+              <p className="text-xs text-stone-600">
                 Make this location visible on your public profile
               </p>
             </div>
@@ -142,12 +142,12 @@ export function AddLocationDialog({
           </div>
 
           {/* Primary Location */}
-          <div className="flex items-center justify-between p-3 bg-grey-50 rounded-lg">
+          <div className="flex items-center justify-between p-3 bg-stone-50 rounded-lg">
             <div>
               <Label htmlFor="primary" className="font-medium">
                 Primary Location
               </Label>
-              <p className="text-xs text-grey-600">
+              <p className="text-xs text-stone-600">
                 Set as your main location (shown first)
               </p>
             </div>

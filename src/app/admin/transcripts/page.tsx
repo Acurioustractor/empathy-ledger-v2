@@ -202,10 +202,10 @@ export default function AdminTranscriptsPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed': return 'bg-green-100 text-green-800'
-      case 'processing': return 'bg-blue-100 text-blue-800'
+      case 'processing': return 'bg-sage-100 text-sage-800'
       case 'pending_review': return 'bg-yellow-100 text-yellow-800'
       case 'failed': return 'bg-red-100 text-red-800'
-      default: return 'bg-grey-100 text-grey-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -262,8 +262,8 @@ export default function AdminTranscriptsPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-grey-900">Transcripts</h1>
-          <p className="text-grey-600">
+          <h1 className="text-3xl font-bold text-stone-900">Transcripts</h1>
+          <p className="text-stone-600">
             Manage audio transcriptions, review accuracy, and track processing status
           </p>
         </div>
@@ -337,7 +337,7 @@ export default function AdminTranscriptsPage() {
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex-1 max-w-md">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
                 <Input
                   placeholder="Search transcripts..."
                   value={searchTerm}
@@ -427,7 +427,7 @@ export default function AdminTranscriptsPage() {
                         <div>
                           <div className="font-medium">{transcript.title}</div>
                           <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs text-grey-500">
+                            <span className="text-xs text-stone-500">
                               {formatFileSize(transcript.file_size)}
                             </span>
                             {transcript.has_story && (
@@ -451,7 +451,7 @@ export default function AdminTranscriptsPage() {
                               {transcript.storyteller_name}
                             </span>
                             {transcript.organization_name && (
-                              <div className="text-xs text-grey-500">
+                              <div className="text-xs text-stone-500">
                                 {transcript.organization_name}
                               </div>
                             )}
@@ -479,7 +479,7 @@ export default function AdminTranscriptsPage() {
                             {transcript.location}
                           </span>
                         ) : (
-                          <span className="text-sm text-grey-400">
+                          <span className="text-sm text-stone-400">
                             Not specified
                           </span>
                         )}
@@ -538,7 +538,7 @@ export default function AdminTranscriptsPage() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between px-2 py-4">
-              <div className="text-sm text-grey-600">
+              <div className="text-sm text-stone-600">
                 Showing {(currentPage - 1) * 20 + 1} to {Math.min(currentPage * 20, totalCount)} of {totalCount} transcripts
               </div>
               <div className="flex items-center space-x-2">

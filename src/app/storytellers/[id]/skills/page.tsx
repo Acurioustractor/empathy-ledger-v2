@@ -167,13 +167,13 @@ export default function StorytellerSkillsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-sage-50 to-terracotta-100 py-12">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
-              <Award className="h-12 w-12 text-blue-600 mx-auto mb-4 animate-pulse" />
-              <h2 className="text-xl font-semibold text-grey-900 mb-2">Analyzing Skills...</h2>
-              <p className="text-grey-600">Extracting professional competencies from your stories</p>
+              <Award className="h-12 w-12 text-sage-600 mx-auto mb-4 animate-pulse" />
+              <h2 className="text-xl font-semibold text-stone-900 mb-2">Analyzing Skills...</h2>
+              <p className="text-stone-600">Extracting professional competencies from your stories</p>
             </div>
           </div>
         </div>
@@ -183,7 +183,7 @@ export default function StorytellerSkillsPage() {
 
   if (error || competencies.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-sage-50 to-terracotta-100 py-12">
         <div className="container mx-auto px-6">
           <Card className="max-w-2xl mx-auto">
             <CardHeader>
@@ -207,21 +207,21 @@ export default function StorytellerSkillsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-sage-50 to-terracotta-100 py-12">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mb-8">
-          <Link href={`/storytellers/${storytellerId}`} className="text-blue-600 hover:text-blue-800 flex items-center gap-2 mb-4">
+          <Link href={`/storytellers/${storytellerId}`} className="text-sage-600 hover:text-sage-800 flex items-center gap-2 mb-4">
             <ArrowLeft className="h-4 w-4" />
             Back to Profile
           </Link>
           
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-grey-900 mb-2">
+              <h1 className="text-3xl font-bold text-stone-900 mb-2">
                 Professional Skills Analysis
               </h1>
-              <p className="text-grey-600">
+              <p className="text-stone-600">
                 Competencies extracted from {storyteller?.display_name}'s life stories
               </p>
             </div>
@@ -240,7 +240,7 @@ export default function StorytellerSkillsPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Skills</CardTitle>
-              <Award className="h-4 w-4 text-blue-500" />
+              <Award className="h-4 w-4 text-sage-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{portfolioStats.totalSkills}</div>
@@ -273,7 +273,7 @@ export default function StorytellerSkillsPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Top Skill Value</CardTitle>
-              <TrendingUp className="h-4 w-4 text-purple-500" />
+              <TrendingUp className="h-4 w-4 text-clay-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{portfolioStats.topMarketValue}/10</div>
@@ -297,7 +297,7 @@ export default function StorytellerSkillsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Eye className="h-5 w-5 text-blue-600" />
+                    <Eye className="h-5 w-5 text-sage-600" />
                     Skills Portfolio Radar
                   </CardTitle>
                 </CardHeader>
@@ -373,7 +373,7 @@ export default function StorytellerSkillsPage() {
                     </div>
                     <div className="space-y-1">
                       {(skillsByLevel[level] || []).slice(0, 3).map((skill, index) => (
-                        <div key={index} className="text-xs text-grey-600 truncate">
+                        <div key={index} className="text-xs text-stone-600 truncate">
                           {skill.skill}
                         </div>
                       ))}
@@ -399,7 +399,7 @@ export default function StorytellerSkillsPage() {
                         {competency.level}
                       </Badge>
                     </div>
-                    <div className="flex items-center gap-4 text-sm text-grey-500">
+                    <div className="flex items-center gap-4 text-sm text-stone-500">
                       <div className="flex items-center gap-1">
                         <DollarSign className="h-3 w-3" />
                         Market Value: {competency.market_value}/10
@@ -419,12 +419,12 @@ export default function StorytellerSkillsPage() {
                         </h4>
                         <div className="space-y-2">
                           {competency.evidence.slice(0, 2).map((evidence, i) => (
-                            <p key={i} className="text-xs text-grey-600 bg-green-50 p-2 rounded border-l-2 border-green-500">
+                            <p key={i} className="text-xs text-stone-600 bg-green-50 p-2 rounded border-l-2 border-green-500">
                               {evidence}
                             </p>
                           ))}
                           {competency.evidence.length > 2 && (
-                            <p className="text-xs text-grey-500">
+                            <p className="text-xs text-stone-500">
                               +{competency.evidence.length - 2} more examples
                             </p>
                           )}
@@ -440,7 +440,7 @@ export default function StorytellerSkillsPage() {
                           {competency.development_recommendations.slice(0, 3).map((rec, i) => (
                             <div key={i} className="flex items-start gap-2">
                               <div className="w-1 h-1 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
-                              <p className="text-xs text-grey-600">{rec}</p>
+                              <p className="text-xs text-stone-600">{rec}</p>
                             </div>
                           ))}
                         </div>
@@ -449,7 +449,7 @@ export default function StorytellerSkillsPage() {
                       {competency.related_opportunities.length > 0 && (
                         <div>
                           <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
-                            <Target className="h-3 w-3 text-blue-500" />
+                            <Target className="h-3 w-3 text-sage-500" />
                             Related Opportunities
                           </h4>
                           <div className="flex flex-wrap gap-1">
@@ -473,7 +473,7 @@ export default function StorytellerSkillsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <GraduationCap className="h-5 w-5 text-blue-600" />
+                  <GraduationCap className="h-5 w-5 text-sage-600" />
                   Skill Development Roadmap
                 </CardTitle>
                 <CardDescription>
@@ -500,7 +500,7 @@ export default function StorytellerSkillsPage() {
                               >
                                 {competency.level}
                               </Badge>
-                              <span className="text-xs text-grey-400">→</span>
+                              <span className="text-xs text-stone-400">→</span>
                               <Badge 
                                 style={{ backgroundColor: getSkillLevelColor(nextLevel) }}
                                 className="text-white text-xs"
@@ -511,20 +511,20 @@ export default function StorytellerSkillsPage() {
                           </div>
                           
                           <div className="space-y-2">
-                            <div className="flex items-center gap-2 text-xs text-grey-500">
+                            <div className="flex items-center gap-2 text-xs text-stone-500">
                               <Clock className="h-3 w-3" />
                               6-12 months
                             </div>
                             
                             <div>
                               <p className="text-xs font-medium mb-1">Top Recommendation:</p>
-                              <p className="text-xs text-grey-600 bg-blue-50 p-2 rounded">
+                              <p className="text-xs text-stone-600 bg-sage-50 p-2 rounded">
                                 {competency.development_recommendations[0]}
                               </p>
                             </div>
                             
                             <div className="flex items-center justify-between text-xs">
-                              <span className="text-grey-500">Market Value Impact</span>
+                              <span className="text-stone-500">Market Value Impact</span>
                               <span className="font-medium text-green-600">
                                 +{Math.min(2, 10 - competency.market_value)} points
                               </span>
@@ -554,7 +554,7 @@ export default function StorytellerSkillsPage() {
                         <div key={index} className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                           <div>
                             <h4 className="font-medium text-sm">{competency.skill}</h4>
-                            <p className="text-xs text-grey-600">High market value</p>
+                            <p className="text-xs text-stone-600">High market value</p>
                           </div>
                           <Badge variant="outline" className="text-green-700 border-green-700">
                             Priority
@@ -568,7 +568,7 @@ export default function StorytellerSkillsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Users className="h-5 w-5 text-purple-600" />
+                    <Users className="h-5 w-5 text-clay-600" />
                     Collaboration Opportunities
                   </CardTitle>
                 </CardHeader>
@@ -578,12 +578,12 @@ export default function StorytellerSkillsPage() {
                       .filter(comp => comp.level === 'expert' || comp.level === 'advanced')
                       .slice(0, 5)
                       .map((competency, index) => (
-                        <div key={index} className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                        <div key={index} className="flex items-center justify-between p-3 bg-clay-50 rounded-lg">
                           <div>
                             <h4 className="font-medium text-sm">{competency.skill}</h4>
-                            <p className="text-xs text-grey-600">Share knowledge</p>
+                            <p className="text-xs text-stone-600">Share knowledge</p>
                           </div>
-                          <Badge variant="outline" className="text-purple-700 border-purple-700">
+                          <Badge variant="outline" className="text-clay-700 border-clay-700">
                             Mentor
                           </Badge>
                         </div>
@@ -651,7 +651,7 @@ export default function StorytellerSkillsPage() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-blue-600">Medium Value Skills</CardTitle>
+                  <CardTitle className="text-sage-600">Medium Value Skills</CardTitle>
                   <CardDescription>Market value 5-7</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -659,9 +659,9 @@ export default function StorytellerSkillsPage() {
                     {competencies
                       .filter(comp => comp.market_value >= 5 && comp.market_value < 8)
                       .map((competency, index) => (
-                        <div key={index} className="flex items-center justify-between p-2 bg-blue-50 rounded">
+                        <div key={index} className="flex items-center justify-between p-2 bg-sage-50 rounded">
                           <span className="text-sm font-medium">{competency.skill}</span>
-                          <Badge className="bg-blue-600 text-white">
+                          <Badge className="bg-sage-600 text-white">
                             {competency.market_value}
                           </Badge>
                         </div>

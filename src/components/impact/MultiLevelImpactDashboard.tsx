@@ -249,7 +249,7 @@ export default function MultiLevelImpactDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-clay-600"></div>
       </div>
     )
   }
@@ -257,7 +257,7 @@ export default function MultiLevelImpactDashboard() {
   return (
     <div className="space-y-6 p-6">
       {/* Breadcrumb Navigation */}
-      <div className="flex items-center space-x-2 text-sm text-grey-600">
+      <div className="flex items-center space-x-2 text-sm text-stone-600">
         {currentLevel.breadcrumb.length > 1 && (
           <Button
             variant="ghost"
@@ -271,7 +271,7 @@ export default function MultiLevelImpactDashboard() {
         {currentLevel.breadcrumb.map((crumb, index) => (
           <React.Fragment key={index}>
             {index > 0 && <ArrowRight className="h-3 w-3" />}
-            <span className={index === currentLevel.breadcrumb.length - 1 ? 'font-medium text-grey-900' : ''}>
+            <span className={index === currentLevel.breadcrumb.length - 1 ? 'font-medium text-stone-900' : ''}>
               {crumb}
             </span>
           </React.Fragment>
@@ -281,8 +281,8 @@ export default function MultiLevelImpactDashboard() {
       {/* Dashboard Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-grey-900">{currentLevel.name}</h1>
-          <p className="text-grey-600 mt-1">
+          <h1 className="text-3xl font-bold text-stone-900">{currentLevel.name}</h1>
+          <p className="text-stone-600 mt-1">
             {currentLevel.type === 'site' && 'Indigenous community impact across all organisations'}
             {currentLevel.type === 'organisation' && 'Community stories and transformation within this organisation'}
             {currentLevel.type === 'storyteller' && 'Individual impact insights and community contributions'}
@@ -290,9 +290,9 @@ export default function MultiLevelImpactDashboard() {
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          {currentLevel.type === 'site' && <Globe className="h-8 w-8 text-purple-600" />}
+          {currentLevel.type === 'site' && <Globe className="h-8 w-8 text-clay-600" />}
           {currentLevel.type === 'organisation' && <Building2 className="h-8 w-8 text-green-600" />}
-          {currentLevel.type === 'storyteller' && <Users className="h-8 w-8 text-blue-600" />}
+          {currentLevel.type === 'storyteller' && <Users className="h-8 w-8 text-sage-600" />}
           {currentLevel.type === 'insights' && <Lightbulb className="h-8 w-8 text-orange-600" />}
         </div>
       </div>
@@ -308,10 +308,10 @@ export default function MultiLevelImpactDashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-grey-600">Total Insights</p>
-                  <p className="text-2xl font-bold text-grey-900">{metrics?.totalInsights.toLocaleString()}</p>
+                  <p className="text-sm font-medium text-stone-600">Total Insights</p>
+                  <p className="text-2xl font-bold text-stone-900">{metrics?.totalInsights.toLocaleString()}</p>
                 </div>
-                <TrendingUp className="h-8 w-8 text-purple-500" />
+                <TrendingUp className="h-8 w-8 text-clay-500" />
               </div>
             </CardContent>
           </Card>
@@ -326,10 +326,10 @@ export default function MultiLevelImpactDashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-grey-600">
+                  <p className="text-sm font-medium text-stone-600">
                     {currentLevel.type === 'site' ? 'Storytellers' : currentLevel.type === 'organisation' ? 'Community Members' : 'Stories Shared'}
                   </p>
-                  <p className="text-2xl font-bold text-grey-900">{metrics?.totalStorytellers}</p>
+                  <p className="text-2xl font-bold text-stone-900">{metrics?.totalStorytellers}</p>
                 </div>
                 <Users className="h-8 w-8 text-green-500" />
               </div>
@@ -347,10 +347,10 @@ export default function MultiLevelImpactDashboard() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-grey-600">Organizations</p>
-                    <p className="text-2xl font-bold text-grey-900">{metrics?.totalOrganizations}</p>
+                    <p className="text-sm font-medium text-stone-600">Organizations</p>
+                    <p className="text-2xl font-bold text-stone-900">{metrics?.totalOrganizations}</p>
                   </div>
-                  <Building2 className="h-8 w-8 text-blue-500" />
+                  <Building2 className="h-8 w-8 text-sage-500" />
                 </div>
               </CardContent>
             </Card>
@@ -366,8 +366,8 @@ export default function MultiLevelImpactDashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-grey-600">Avg Confidence</p>
-                  <p className="text-2xl font-bold text-grey-900">
+                  <p className="text-sm font-medium text-stone-600">Avg Confidence</p>
+                  <p className="text-2xl font-bold text-stone-900">
                     {Math.round((metrics?.avgConfidenceScore || 0) * 100)}%
                   </p>
                 </div>
@@ -477,7 +477,7 @@ export default function MultiLevelImpactDashboard() {
                   {metrics?.trending.topPerformers.map((org, index) => (
                     <div
                       key={org.id}
-                      className="flex items-center justify-between p-3 bg-grey-50 rounded-lg cursor-pointer hover:bg-grey-100 transition-colours"
+                      className="flex items-center justify-between p-3 bg-stone-50 rounded-lg cursor-pointer hover:bg-stone-100 transition-colours"
                       onClick={() => navigateToLevel({
                         type: 'organisation',
                         id: org.id,
@@ -488,7 +488,7 @@ export default function MultiLevelImpactDashboard() {
                       <div className="flex items-center space-x-3">
                         <div className={`flex items-center justify-center w-8 h-8 rounded-full ${
                           index === 0 ? 'bg-yellow-100 text-yellow-600' :
-                          index === 1 ? 'bg-grey-100 text-grey-600' :
+                          index === 1 ? 'bg-stone-100 text-stone-600' :
                           'bg-orange-100 text-orange-600'
                         }`}>
                           {index + 1}
@@ -503,7 +503,7 @@ export default function MultiLevelImpactDashboard() {
                         >
                           {org.change > 0 ? '+' : ''}{org.change}%
                         </Badge>
-                        <ArrowRight className="h-4 w-4 text-grey-400" />
+                        <ArrowRight className="h-4 w-4 text-stone-400" />
                       </div>
                     </div>
                   ))}
@@ -554,7 +554,7 @@ export default function MultiLevelImpactDashboard() {
               <CardContent>
                 <div className="space-y-6">
                   {insights.map((insight) => (
-                    <div key={insight.id} className="border rounded-lg p-4 bg-grey-50">
+                    <div key={insight.id} className="border rounded-lg p-4 bg-stone-50">
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex items-center space-x-2">
                           {getImpactTypeIcon(insight.impactType)}
@@ -576,7 +576,7 @@ export default function MultiLevelImpactDashboard() {
                         </div>
                       </div>
 
-                      <blockquote className="border-l-4 border-purple-500 pl-4 italic text-grey-700 mb-3">
+                      <blockquote className="border-l-4 border-clay-500 pl-4 italic text-stone-700 mb-3">
                         "{insight.quote}"
                       </blockquote>
 
@@ -626,7 +626,7 @@ export default function MultiLevelImpactDashboard() {
                 })
               }
             }}
-            className="bg-purple-600 hover:bg-purple-700"
+            className="bg-clay-600 hover:bg-clay-700"
           >
             Drill Down
             <ArrowRight className="ml-2 h-4 w-4" />

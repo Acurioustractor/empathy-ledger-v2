@@ -147,7 +147,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ adminLevel, tenantId })
       case 'active':
         return <Badge variant="outline" className="text-green-600 border-green-600">Active</Badge>
       case 'inactive':
-        return <Badge variant="outline" className="text-grey-600 border-grey-600">Inactive</Badge>
+        return <Badge variant="outline" className="text-stone-600 border-grey-600">Inactive</Badge>
       case 'suspended':
         return <Badge variant="destructive">Suspended</Badge>
       case 'pending':

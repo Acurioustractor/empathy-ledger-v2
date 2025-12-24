@@ -344,7 +344,7 @@ export default function OrganizationStorytellersPage() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-2">
-              <FileText className="h-4 w-4 text-blue-500" />
+              <FileText className="h-4 w-4 text-sage-500" />
               <span className="text-2xl font-bold">{data.stats.totalTranscripts}</span>
             </div>
           </CardContent>
@@ -372,7 +372,7 @@ export default function OrganizationStorytellersPage() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-2">
-              <Video className="h-4 w-4 text-purple-500" />
+              <Video className="h-4 w-4 text-clay-500" />
               <span className="text-2xl font-bold">{data.stats.totalVideos}</span>
             </div>
           </CardContent>
@@ -442,7 +442,7 @@ export default function OrganizationStorytellersPage() {
                     onClick={() => setVideoManagerStorytellerId(storyteller.id)}
                     title="Manage Videos"
                   >
-                    <VideoIcon className="h-3 w-3 text-blue-600" />
+                    <VideoIcon className="h-3 w-3 text-sage-600" />
                   </Button>
                   <Button
                     variant="outline"

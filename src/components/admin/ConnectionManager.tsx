@@ -135,34 +135,34 @@ export default function ConnectionManager({ storytellerId, storytellerName }: Co
   const getPriorityIcon = (level: string) => {
     switch (level) {
       case 'high': return <Star className="w-4 h-4 text-yellow-500" />
-      case 'medium': return <Target className="w-4 h-4 text-blue-500" />
-      default: return <Globe className="w-4 h-4 text-grey-400" />
+      case 'medium': return <Target className="w-4 h-4 text-sage-500" />
+      default: return <Globe className="w-4 h-4 text-stone-400" />
     }
   }
 
   const getRoleIcon = (role: string) => {
     if (role.includes('elder') || role.includes('cultural')) {
-      return <Crown className="w-4 h-4 text-purple-600" />
+      return <Crown className="w-4 h-4 text-clay-600" />
     }
     if (role.includes('admin') || role.includes('lead')) {
       return <Star className="w-4 h-4 text-yellow-600" />
     }
-    return <Users className="w-4 h-4 text-blue-600" />
+    return <Users className="w-4 h-4 text-sage-600" />
   }
 
   if (loading) {
     return (
       <div className="space-y-6">
         <div className="flex items-center gap-3">
-          <Sparkles className="w-6 h-6 text-blue-600 animate-spin" />
+          <Sparkles className="w-6 h-6 text-sage-600 animate-spin" />
           <h2 className="text-2xl font-bold">Loading Connection Intelligence...</h2>
         </div>
         <div className="grid gap-4">
           {[1, 2, 3].map(i => (
             <Card key={i} className="animate-pulse">
               <CardContent className="p-6">
-                <div className="h-4 bg-grey-200 rounded w-3/4 mb-2"></div>
-                <div className="h-3 bg-grey-200 rounded w-1/2"></div>
+                <div className="h-4 bg-stone-200 rounded w-3/4 mb-2"></div>
+                <div className="h-3 bg-stone-200 rounded w-1/2"></div>
               </CardContent>
             </Card>
           ))}
@@ -176,17 +176,17 @@ export default function ConnectionManager({ storytellerId, storytellerName }: Co
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl text-white">
+          <div className="p-3 bg-gradient-to-br from-sage-500 to-clay-600 rounded-xl text-white">
             <Sparkles className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-grey-900">Connection Manager</h2>
-            <p className="text-grey-600">
+            <h2 className="text-3xl font-bold text-stone-900">Connection Manager</h2>
+            <p className="text-stone-600">
               Intelligent relationship management for <span className="font-semibold">{storytellerName}</span>
             </p>
           </div>
         </div>
-        <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+        <Badge variant="outline" className="bg-sage-50 text-sage-700 border-sage-200">
           <Heart className="w-3 h-3 mr-1" />
           Culturally Sensitive
         </Badge>
@@ -214,14 +214,14 @@ export default function ConnectionManager({ storytellerId, storytellerName }: Co
                   <div className="flex items-center gap-3">
                     {getRoleIcon(connection.role)}
                     <div>
-                      <h4 className="font-semibold text-grey-900">{connection.name}</h4>
-                      <div className="flex items-center gap-2 text-sm text-grey-600">
+                      <h4 className="font-semibold text-stone-900">{connection.name}</h4>
+                      <div className="flex items-center gap-2 text-sm text-stone-600">
                         <Badge variant="secondary" className="text-xs">
                           {connection.type}
                         </Badge>
                         <span>{connection.role}</span>
                         {connection.culturalAuthority && (
-                          <Badge variant="outline" className="text-xs border-purple-200 text-purple-700">
+                          <Badge variant="outline" className="text-xs border-clay-200 text-clay-700">
                             <Crown className="w-3 h-3 mr-1" />
                             Cultural Authority
                           </Badge>
@@ -229,7 +229,7 @@ export default function ConnectionManager({ storytellerId, storytellerName }: Co
                       </div>
                     </div>
                   </div>
-                  <div className="text-xs text-grey-500">
+                  <div className="text-xs text-stone-500">
                     Connected {new Date(connection.connectedAt).toLocaleDateString()}
                   </div>
                 </div>
@@ -243,7 +243,7 @@ export default function ConnectionManager({ storytellerId, storytellerName }: Co
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-blue-600" />
+            <Sparkles className="w-5 h-5 text-sage-600" />
             Intelligent Suggestions ({suggestions.length})
           </CardTitle>
           <CardDescription>
@@ -252,7 +252,7 @@ export default function ConnectionManager({ storytellerId, storytellerName }: Co
         </CardHeader>
         <CardContent>
           {suggestions.length === 0 ? (
-            <div className="text-center py-8 text-grey-500">
+            <div className="text-center py-8 text-stone-500">
               <AlertCircle className="w-8 h-8 mx-auto mb-2" />
               <p>No new connection suggestions at this time</p>
               <p className="text-sm">All suitable connections may already be established</p>
@@ -266,8 +266,8 @@ export default function ConnectionManager({ storytellerId, storytellerName }: Co
                     suggestion.priorityLevel === 'high'
                       ? 'border-yellow-200 bg-yellow-50'
                       : suggestion.priorityLevel === 'medium'
-                      ? 'border-blue-200 bg-blue-50'
-                      : 'border-grey-200 bg-grey-50'
+                      ? 'border-sage-200 bg-sage-50'
+                      : 'border-stone-200 bg-stone-50'
                   }`}
                 >
                   <div className="flex items-start justify-between">
@@ -278,7 +278,7 @@ export default function ConnectionManager({ storytellerId, storytellerName }: Co
                         <Badge variant="outline">
                           {suggestion.targetType}
                         </Badge>
-                        <div className="flex items-center gap-1 text-sm text-grey-600">
+                        <div className="flex items-center gap-1 text-sm text-stone-600">
                           <span className="font-medium">{suggestion.matchScore}%</span>
                           <span>match</span>
                         </div>
@@ -286,7 +286,7 @@ export default function ConnectionManager({ storytellerId, storytellerName }: Co
 
                       <div className="space-y-2 mb-4">
                         {suggestion.matchReasons.map((reason, index) => (
-                          <div key={index} className="flex items-center gap-2 text-sm text-grey-700">
+                          <div key={index} className="flex items-center gap-2 text-sm text-stone-700">
                             <CheckCircle className="w-4 h-4 text-green-500" />
                             {reason}
                           </div>
@@ -296,7 +296,7 @@ export default function ConnectionManager({ storytellerId, storytellerName }: Co
                       <div className="flex items-center gap-3">
                         <Badge
                           variant="secondary"
-                          className={suggestion.culturalAlignment ? 'bg-purple-100 text-purple-700' : ''}
+                          className={suggestion.culturalAlignment ? 'bg-clay-100 text-clay-700' : ''}
                         >
                           {suggestion.culturalAlignment ? (
                             <>

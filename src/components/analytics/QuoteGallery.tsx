@@ -59,9 +59,9 @@ export function QuoteGallery({
           <Card key={i} className="animate-pulse">
             <CardContent className="p-6">
               <div className="space-y-3">
-                <div className="h-4 bg-grey-200 rounded w-full"></div>
-                <div className="h-4 bg-grey-200 rounded w-3/4"></div>
-                <div className="h-3 bg-grey-200 rounded w-1/2"></div>
+                <div className="h-4 bg-stone-200 rounded w-full"></div>
+                <div className="h-4 bg-stone-200 rounded w-3/4"></div>
+                <div className="h-3 bg-stone-200 rounded w-1/2"></div>
               </div>
             </CardContent>
           </Card>
@@ -74,10 +74,10 @@ export function QuoteGallery({
     return (
       <Card className={className}>
         <CardContent className="pt-6">
-          <div className="text-center text-grey-500">
+          <div className="text-center text-stone-500">
             <Quote className="h-12 w-12 mx-auto mb-4 opacity-50" />
             <Typography variant="body">Unable to load quotes</Typography>
-            <Typography variant="small" className="text-grey-400">
+            <Typography variant="small" className="text-stone-400">
               {error}
             </Typography>
           </div>
@@ -96,12 +96,12 @@ export function QuoteGallery({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center text-grey-500 py-8">
+          <div className="text-center text-stone-500 py-8">
             <Quote className="h-16 w-16 mx-auto mb-4 opacity-50" />
             <Typography variant="h3" className="mb-2">
               No quotes discovered yet
             </Typography>
-            <Typography variant="body" className="text-grey-400 max-w-sm mx-auto">
+            <Typography variant="body" className="text-stone-400 max-w-sm mx-auto">
               Our AI will automatically extract powerful moments from your stories and transcripts
             </Typography>
           </div>
@@ -146,7 +146,7 @@ function QuoteCard({ quote, index, showActions, onCopy, onShare }: QuoteCardProp
     if (score >= 0.8) return 'text-red-600 bg-red-100'
     if (score >= 0.6) return 'text-orange-600 bg-orange-100'
     if (score >= 0.4) return 'text-yellow-600 bg-yellow-100'
-    return 'text-grey-600 bg-grey-100'
+    return 'text-stone-600 bg-stone-100'
   }
 
   const getImpactLevel = (score: number) => {
@@ -161,7 +161,7 @@ function QuoteCard({ quote, index, showActions, onCopy, onShare }: QuoteCardProp
       <CardContent className="p-6">
         <div className="space-y-4">
           {/* Quote Text */}
-          <blockquote className="text-lg text-grey-800 leading-relaxed border-l-4 border-blue-500 pl-4 italic">
+          <blockquote className="text-lg text-stone-800 leading-relaxed border-l-4 border-sage-500 pl-4 italic">
             "{quote.text}"
           </blockquote>
 
@@ -169,7 +169,7 @@ function QuoteCard({ quote, index, showActions, onCopy, onShare }: QuoteCardProp
           <div className="flex items-start justify-between">
             <div className="space-y-2 flex-1">
               {/* Source */}
-              <Typography variant="small" className="text-grey-600 flex items-center gap-1">
+              <Typography variant="small" className="text-stone-600 flex items-center gap-1">
                 <BookmarkPlus className="h-3 w-3" />
                 From: {quote.sourceTitle}
               </Typography>
@@ -194,15 +194,15 @@ function QuoteCard({ quote, index, showActions, onCopy, onShare }: QuoteCardProp
               <div className="flex items-center gap-4 text-sm">
                 <div className="flex items-center gap-1">
                   <Star className={`h-3 w-3 ${getImpactColor(quote.impactScore)}`} />
-                  <span className="text-grey-600">
+                  <span className="text-stone-600">
                     {getImpactLevel(quote.impactScore)} Impact
                   </span>
                 </div>
 
                 {quote.citationCount > 0 && (
                   <div className="flex items-center gap-1">
-                    <MessageCircle className="h-3 w-3 text-blue-500" />
-                    <span className="text-grey-600">
+                    <MessageCircle className="h-3 w-3 text-sage-500" />
+                    <span className="text-stone-600">
                       {quote.citationCount} citation{quote.citationCount !== 1 ? 's' : ''}
                     </span>
                   </div>
@@ -221,12 +221,12 @@ function QuoteCard({ quote, index, showActions, onCopy, onShare }: QuoteCardProp
 
           {/* Actions */}
           {showActions && (
-            <div className="flex items-center gap-2 pt-2 border-t border-grey-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <div className="flex items-center gap-2 pt-2 border-t border-stone-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={onCopy}
-                className="flex items-center gap-1 text-grey-600 hover:text-grey-800"
+                className="flex items-center gap-1 text-stone-600 hover:text-stone-800"
               >
                 <Copy className="h-3 w-3" />
                 Copy
@@ -236,7 +236,7 @@ function QuoteCard({ quote, index, showActions, onCopy, onShare }: QuoteCardProp
                 variant="ghost"
                 size="sm"
                 onClick={onShare}
-                className="flex items-center gap-1 text-grey-600 hover:text-grey-800"
+                className="flex items-center gap-1 text-stone-600 hover:text-stone-800"
               >
                 <Share2 className="h-3 w-3" />
                 Share
@@ -244,7 +244,7 @@ function QuoteCard({ quote, index, showActions, onCopy, onShare }: QuoteCardProp
 
               <div className="flex-1" />
 
-              <Typography variant="small" className="text-grey-400">
+              <Typography variant="small" className="text-stone-400">
                 #{index + 1}
               </Typography>
             </div>
@@ -270,13 +270,13 @@ export function QuoteGalleryCompact({
   return (
     <div className={`space-y-3 ${className}`}>
       {quotes.map((quote) => (
-        <div key={quote.id} className="border-l-4 border-blue-500 pl-4 py-2">
-          <blockquote className="text-sm text-grey-700 italic mb-1">
+        <div key={quote.id} className="border-l-4 border-sage-500 pl-4 py-2">
+          <blockquote className="text-sm text-stone-700 italic mb-1">
             "{quote.text.length > 100
               ? `${quote.text.substring(0, 100)}...`
               : quote.text}"
           </blockquote>
-          <Typography variant="small" className="text-grey-500">
+          <Typography variant="small" className="text-stone-500">
             From: {quote.sourceTitle}
           </Typography>
         </div>

@@ -413,7 +413,7 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
       case 'public':
         return <Badge variant="outline" className="text-green-700 border-green-200 bg-green-50">Public</Badge>
       case 'organisation':
-        return <Badge variant="outline" className="text-blue-700 border-blue-200 bg-blue-50">Organization</Badge>
+        return <Badge variant="outline" className="text-sage-700 border-sage-200 bg-sage-50">Organization</Badge>
       case 'private':
         return <Badge variant="outline" className="text-yellow-700 border-yellow-200 bg-yellow-50">Private</Badge>
       case 'restricted':
@@ -589,7 +589,7 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
                 <Button
                   variant="outline"
                   onClick={() => handleDownloadGallery(selectedGallery)}
-                  className="border-blue-200 text-blue-700 hover:bg-blue-50"
+                  className="border-sage-200 text-sage-700 hover:bg-sage-50"
                 >
                   <Download className="w-4 h-4 mr-2" />
                   Download All ({selectedGallery.photoCount})
@@ -597,7 +597,7 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
               )}
               <Button
                 onClick={() => setIsUploadDialogOpen(true)}
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-sage-600 hover:bg-sage-700"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Photos
@@ -778,7 +778,7 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
                           </Popover>
                         </div>
                       </div>
-                      <div className="text-xs text-slate-500 bg-blue-50 p-3 rounded border border-blue-200">
+                      <div className="text-xs text-slate-500 bg-sage-50 p-3 rounded border border-sage-200">
                         <Tag className="h-3 w-3 inline mr-1" />
                         All photos added to this gallery will be automatically tagged with your organization name and tenant.
                         {galleryForm.projectId && galleryForm.projectId !== 'none' && " They will also be tagged with the selected project."}
@@ -936,7 +936,7 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
-              <Images className="w-4 h-4 text-blue-600" />
+              <Images className="w-4 h-4 text-sage-600" />
               <div>
                 <div className="text-lg font-semibold">{displayStats.totalGalleries}</div>
                 <div className="text-xs text-muted-foreground">Galleries</div>
@@ -960,7 +960,7 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
-              <Images className="w-4 h-4 text-purple-600" />
+              <Images className="w-4 h-4 text-clay-600" />
               <div>
                 <div className="text-lg font-semibold">{displayStats.totalImages}</div>
                 <div className="text-xs text-muted-foreground">Images</div>
@@ -1023,8 +1023,8 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
             <div>
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-purple-100 rounded-lg">
-                    <Video className="w-5 h-5 text-purple-600" />
+                  <div className="p-2 bg-clay-100 rounded-lg">
+                    <Video className="w-5 h-5 text-clay-600" />
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-slate-900">Storyteller Videos</h2>
@@ -1044,7 +1044,7 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
                       onClick={() => handleVideoClick(video)}
                     />
                     <CardContent className="p-4 space-y-2">
-                      <h3 className="font-bold text-sm text-slate-900 line-clamp-2 group-hover:text-purple-600 transition-colours">
+                      <h3 className="font-bold text-sm text-slate-900 line-clamp-2 group-hover:text-clay-600 transition-colours">
                         {video.title}
                       </h3>
                       <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
@@ -1065,8 +1065,8 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
           <div>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <Images className="w-5 h-5 text-blue-600" />
+                <div className="p-2 bg-sage-100 rounded-lg">
+                  <Images className="w-5 h-5 text-sage-600" />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-slate-900">Photo Galleries</h2>
@@ -1093,7 +1093,7 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                       </>
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-sage-50 to-clay-50">
                         <Images className="w-16 h-16 text-slate-400" />
                       </div>
                     )}
@@ -1116,7 +1116,7 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
                           e.stopPropagation()
                           handleDownloadGallery(gallery)
                         }}
-                        className="absolute bottom-3 left-3 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
+                        className="absolute bottom-3 left-3 bg-sage-600 hover:bg-sage-700 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
                         title="Download all photos"
                       >
                         <Download className="w-4 h-4" />
@@ -1137,7 +1137,7 @@ export default function OrganizationGalleries({ params }: OrganizationGalleriesP
                   <CardContent className="p-5 space-y-3">
                     {/* Title */}
                     <div className="space-y-1">
-                      <h3 className="font-bold text-xl text-slate-900 line-clamp-1 group-hover:text-blue-600 transition-colours">
+                      <h3 className="font-bold text-xl text-slate-900 line-clamp-1 group-hover:text-sage-600 transition-colours">
                         {gallery.title}
                       </h3>
                       {gallery.description && (

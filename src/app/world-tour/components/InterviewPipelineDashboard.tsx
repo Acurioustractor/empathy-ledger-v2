@@ -104,7 +104,7 @@ export function InterviewPipelineDashboard({ data, loading }: InterviewPipelineD
               title="Interviews"
               count={data.totalInterviews}
               description="Conversations recorded"
-              color="from-blue-500 to-indigo-600"
+              color="from-sage-500 to-terracotta-600"
               status="complete"
             />
             <PipelineStage
@@ -112,7 +112,7 @@ export function InterviewPipelineDashboard({ data, loading }: InterviewPipelineD
               title="Analyzed"
               count={data.analyzedInterviews}
               description="Insights extracted"
-              color="from-purple-500 to-pink-600"
+              color="from-clay-500 to-pink-600"
               status={data.pendingAnalysis > 0 ? 'in-progress' : 'complete'}
               progress={analysisProgress}
             />
@@ -144,14 +144,14 @@ export function InterviewPipelineDashboard({ data, loading }: InterviewPipelineD
           value={data.voicesPreserved}
           label="Voices Preserved"
           description="Unique storytellers with analyzed interviews"
-          color="text-blue-600"
+          color="text-sage-600"
         />
         <MetricCard
           icon={<Quote className="w-5 h-5" />}
           value={data.wisdomMomentsExtracted}
           label="Wisdom Moments"
           description="Key quotes and insights captured"
-          color="text-purple-600"
+          color="text-clay-600"
         />
         <MetricCard
           icon={<Sparkles className="w-5 h-5" />}
@@ -167,7 +167,7 @@ export function InterviewPipelineDashboard({ data, loading }: InterviewPipelineD
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
-              <FileText className="w-5 h-5 text-purple-500" />
+              <FileText className="w-5 h-5 text-clay-500" />
               Theme Discovery Sources
             </CardTitle>
             <CardDescription>
@@ -428,7 +428,7 @@ function StatusItem({
   const colors = {
     success: 'text-green-600',
     warning: 'text-amber-600',
-    info: 'text-blue-600'
+    info: 'text-sage-600'
   }
 
   return (

@@ -352,9 +352,9 @@ const StorytellerManagement: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
           <div className="bg-white p-4 rounded-lg shadow">
             <div className="flex items-center">
-              <Users className="h-8 w-8 text-blue-500" />
+              <Users className="h-8 w-8 text-sage-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-grey-500">Total Storytellers</p>
+                <p className="text-sm font-medium text-stone-500">Total Storytellers</p>
                 <p className="text-lg font-semibold">{summary.total}</p>
               </div>
             </div>
@@ -364,7 +364,7 @@ const StorytellerManagement: React.FC = () => {
             <div className="flex items-center">
               <UserCheck className="h-8 w-8 text-green-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-grey-500">Active</p>
+                <p className="text-sm font-medium text-stone-500">Active</p>
                 <p className="text-lg font-semibold">{summary.active}</p>
               </div>
             </div>
@@ -374,7 +374,7 @@ const StorytellerManagement: React.FC = () => {
             <div className="flex items-center">
               <Star className="h-8 w-8 text-yellow-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-grey-500">Featured</p>
+                <p className="text-sm font-medium text-stone-500">Featured</p>
                 <p className="text-lg font-semibold">{summary.featured}</p>
               </div>
             </div>
@@ -382,9 +382,9 @@ const StorytellerManagement: React.FC = () => {
           
           <div className="bg-white p-4 rounded-lg shadow">
             <div className="flex items-center">
-              <Award className="h-8 w-8 text-purple-500" />
+              <Award className="h-8 w-8 text-clay-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-grey-500">Elders</p>
+                <p className="text-sm font-medium text-stone-500">Elders</p>
                 <p className="text-lg font-semibold">{summary.elders}</p>
               </div>
             </div>
@@ -392,9 +392,9 @@ const StorytellerManagement: React.FC = () => {
           
           <div className="bg-white p-4 rounded-lg shadow">
             <div className="flex items-center">
-              <MessageSquare className="h-8 w-8 text-indigo-500" />
+              <MessageSquare className="h-8 w-8 text-terracotta-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-grey-500">Total Stories</p>
+                <p className="text-sm font-medium text-stone-500">Total Stories</p>
                 <p className="text-lg font-semibold">{summary.totalStories}</p>
               </div>
             </div>
@@ -404,7 +404,7 @@ const StorytellerManagement: React.FC = () => {
             <div className="flex items-center">
               <Eye className="h-8 w-8 text-red-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-grey-500">Total Views</p>
+                <p className="text-sm font-medium text-stone-500">Total Views</p>
                 <p className="text-lg font-semibold">{summary.totalViews.toLocaleString()}</p>
               </div>
             </div>
@@ -414,7 +414,7 @@ const StorytellerManagement: React.FC = () => {
             <div className="flex items-center">
               <Heart className="h-8 w-8 text-pink-500" />
               <div className="ml-3">
-                <p className="text-sm font-medium text-grey-500">Avg Engagement</p>
+                <p className="text-sm font-medium text-stone-500">Avg Engagement</p>
                 <p className="text-lg font-semibold">{summary.averageEngagement}%</p>
               </div>
             </div>
@@ -428,13 +428,13 @@ const StorytellerManagement: React.FC = () => {
           {/* Search */}
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 h-4 w-4" />
               <input
                 type="text"
                 placeholder="Search storytellers..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-grey-300 rounded-md"
+                className="w-full pl-10 pr-4 py-2 border border-stone-300 rounded-md"
               />
             </div>
           </div>
@@ -444,7 +444,7 @@ const StorytellerManagement: React.FC = () => {
             <select
               value={locationFilter}
               onChange={(e) => setLocationFilter(e.target.value)}
-              className="px-3 py-2 border border-grey-300 rounded-md"
+              className="px-3 py-2 border border-stone-300 rounded-md"
             >
               <option value="all">All Locations</option>
               <option value="not-specified">Not Specified</option>
@@ -456,7 +456,7 @@ const StorytellerManagement: React.FC = () => {
             <select
               value={organizationFilter}
               onChange={(e) => setOrganizationFilter(e.target.value)}
-              className="px-3 py-2 border border-grey-300 rounded-md"
+              className="px-3 py-2 border border-stone-300 rounded-md"
             >
               <option value="all">All Organizations</option>
               <option value="none">No Organization</option>
@@ -468,7 +468,7 @@ const StorytellerManagement: React.FC = () => {
             <select
               value={projectFilter}
               onChange={(e) => setProjectFilter(e.target.value)}
-              className="px-3 py-2 border border-grey-300 rounded-md"
+              className="px-3 py-2 border border-stone-300 rounded-md"
             >
               <option value="all">All Projects</option>
               <option value="none">No Projects</option>
@@ -480,7 +480,7 @@ const StorytellerManagement: React.FC = () => {
             <select
               value={featuredFilter}
               onChange={(e) => setFeaturedFilter(e.target.value)}
-              className="px-3 py-2 border border-grey-300 rounded-md"
+              className="px-3 py-2 border border-stone-300 rounded-md"
             >
               <option value="all">All Featured</option>
               <option value="true">Featured</option>
@@ -492,13 +492,13 @@ const StorytellerManagement: React.FC = () => {
           <div className="flex gap-2">
             <button
               onClick={fetchStorytellers}
-              className="px-4 py-2 bg-grey-100 text-grey-700 rounded-md hover:bg-grey-200 flex items-center gap-2"
+              className="px-4 py-2 bg-stone-100 text-stone-700 rounded-md hover:bg-stone-200 flex items-center gap-2"
             >
               <RefreshCw className="h-4 w-4" />
               Refresh
             </button>
             
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center gap-2">
+            <button className="px-4 py-2 bg-sage-600 text-white rounded-md hover:bg-sage-700 flex items-center gap-2">
               <Download className="h-4 w-4" />
               Export
             </button>
@@ -510,9 +510,9 @@ const StorytellerManagement: React.FC = () => {
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-grey-200">
-            <thead className="bg-grey-50">
+            <thead className="bg-stone-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">
                   <input
                     type="checkbox"
                     onChange={(e) => {
@@ -525,50 +525,50 @@ const StorytellerManagement: React.FC = () => {
                     checked={selectedStorytellers.length === storytellers.length}
                   />
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider cursor-pointer"
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider cursor-pointer"
                     onClick={() => {
                       setSortBy('displayName')
                       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
                     }}>
                   Storyteller
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">
                   Location
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">
                   Organization
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">
                   Projects
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider cursor-pointer"
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider cursor-pointer"
                     onClick={() => {
                       setSortBy('storyCount')
                       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
                     }}>
                   Stories
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider cursor-pointer"
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider cursor-pointer"
                     onClick={() => {
                       setSortBy('engagementRate')
                       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
                     }}>
                   Engagement
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">
                   Status & Badges
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">
                   Featured
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-grey-200">
               {sortedStorytellers.map((storyteller) => (
-                <tr key={storyteller.id} className="hover:bg-grey-50">
+                <tr key={storyteller.id} className="hover:bg-stone-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <input
                       type="checkbox"
@@ -593,7 +593,7 @@ const StorytellerManagement: React.FC = () => {
                             className="h-10 w-10 rounded-full object-cover"
                           />
                         ) : (
-                          <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center">
+                          <div className="h-10 w-10 rounded-full bg-gradient-to-r from-clay-400 to-pink-400 flex items-center justify-center">
                             <span className="text-white font-medium">
                               {storyteller.displayName.charAt(0)}
                             </span>
@@ -601,20 +601,20 @@ const StorytellerManagement: React.FC = () => {
                         )}
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-grey-900">
+                        <div className="text-sm font-medium text-stone-900">
                           {storyteller.displayName}
                         </div>
-                        <div className="text-sm text-grey-500">{storyteller.email}</div>
+                        <div className="text-sm text-stone-500">{storyteller.email}</div>
                       </div>
                     </div>
                   </td>
                   
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-grey-900">
+                    <div className="text-sm text-stone-900">
                       <select
                         value={storyteller.location === 'Not specified' ? 'none' : allLocations.find(l => l.display === storyteller.location)?.id || 'none'}
                         onChange={(e) => handleLocationChange(storyteller.id, e.target.value)}
-                        className="w-full px-2 py-1 text-xs border border-grey-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-2 py-1 text-xs border border-stone-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-sage-500"
                         disabled={allLocations.length === 0}
                       >
                         <option value="none">Not specified</option>
@@ -632,11 +632,11 @@ const StorytellerManagement: React.FC = () => {
                   </td>
                   
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-grey-900">
+                    <div className="text-sm text-stone-900">
                       <select
                         value={storyteller.organisation === 'Independent' ? 'none' : allOrganizations.find(o => o.name === storyteller.organisation)?.id || 'none'}
                         onChange={(e) => handleOrganizationChange(storyteller.id, e.target.value)}
-                        className="w-full px-2 py-1 text-xs border border-grey-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-2 py-1 text-xs border border-stone-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-sage-500"
                         disabled={allOrganizations.length === 0}
                       >
                         <option value="none">Independent</option>
@@ -654,9 +654,9 @@ const StorytellerManagement: React.FC = () => {
                   </td>
                   
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-grey-900">
+                    <div className="text-sm text-stone-900">
                       <div className="flex flex-col gap-1">
-                        <div className="text-xs text-grey-500">
+                        <div className="text-xs text-stone-500">
                           {storyteller.projects?.length || 0} projects
                         </div>
                         <select
@@ -674,7 +674,7 @@ const StorytellerManagement: React.FC = () => {
                             }
                             e.target.value = 'none' // Reset selector
                           }}
-                          className="w-full px-2 py-1 text-xs border border-grey-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                          className="w-full px-2 py-1 text-xs border border-stone-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-sage-500"
                           disabled={allProjects.length === 0}
                         >
                           <option value="none">
@@ -693,7 +693,7 @@ const StorytellerManagement: React.FC = () => {
                             {storyteller.projects.map(projectName => (
                               <span
                                 key={projectName}
-                                className="inline-flex items-center px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded cursor-pointer hover:bg-blue-200"
+                                className="inline-flex items-center px-2 py-1 text-xs bg-sage-100 text-sage-800 rounded cursor-pointer hover:bg-sage-200"
                                 onClick={() => {
                                   const currentProjectIds = storyteller.projects
                                     ?.map(p => allProjects.find(proj => proj.name === p)?.id)
@@ -716,13 +716,13 @@ const StorytellerManagement: React.FC = () => {
                   </td>
                   
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-grey-900">
+                    <div className="text-sm text-stone-900">
                       <div className="flex items-center gap-1">
-                        <MessageSquare className="h-4 w-4 text-blue-500" />
+                        <MessageSquare className="h-4 w-4 text-sage-500" />
                         <span className="font-medium">{storyteller.storyCount}</span>
-                        <span className="text-grey-500">stories</span>
+                        <span className="text-stone-500">stories</span>
                       </div>
-                      <div className="flex items-center gap-1 text-xs text-grey-500">
+                      <div className="flex items-center gap-1 text-xs text-stone-500">
                         <Eye className="h-3 w-3" />
                         <span>{storyteller.stats.viewsTotal.toLocaleString()} views</span>
                       </div>
@@ -730,17 +730,17 @@ const StorytellerManagement: React.FC = () => {
                   </td>
                   
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-grey-900">
+                    <div className="text-sm text-stone-900">
                       <div className="flex items-center">
-                        <div className="flex-1 bg-grey-200 rounded-full h-2 mr-2">
+                        <div className="flex-1 bg-stone-200 rounded-full h-2 mr-2">
                           <div 
-                            className="bg-blue-600 h-2 rounded-full" 
+                            className="bg-sage-600 h-2 rounded-full" 
                             style={{ width: `${Math.min(100, storyteller.engagementRate)}%` }}
                           ></div>
                         </div>
                         <span className="text-xs">{storyteller.engagementRate}%</span>
                       </div>
-                      <div className="text-xs text-grey-500 mt-1">
+                      <div className="text-xs text-stone-500 mt-1">
                         {storyteller.stats.followersCount} followers
                       </div>
                     </div>
@@ -752,7 +752,7 @@ const StorytellerManagement: React.FC = () => {
                         storyteller.status === 'active' ? 'bg-green-100 text-green-800' :
                         storyteller.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                         storyteller.status === 'suspended' ? 'bg-red-100 text-red-800' :
-                        'bg-grey-100 text-grey-800'
+                        'bg-stone-100 text-stone-800'
                       }`}>
                         {storyteller.status}
                       </span>
@@ -762,10 +762,10 @@ const StorytellerManagement: React.FC = () => {
                           <Star className="h-4 w-4 text-yellow-500" title="Featured" />
                         )}
                         {storyteller.isElder && (
-                          <Award className="h-4 w-4 text-purple-500" title="Elder" />
+                          <Award className="h-4 w-4 text-clay-500" title="Elder" />
                         )}
                         {storyteller.preferences.virtualSessions && (
-                          <Video className="h-4 w-4 text-blue-500" title="Virtual Sessions" />
+                          <Video className="h-4 w-4 text-sage-500" title="Virtual Sessions" />
                         )}
                         {storyteller.preferences.travelWilling && (
                           <MapPin className="h-4 w-4 text-green-500" title="Travel Willing" />
@@ -780,7 +780,7 @@ const StorytellerManagement: React.FC = () => {
                       className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium transition-colours ${
                         storyteller.isFeatured 
                           ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200' 
-                          : 'bg-grey-100 text-grey-600 hover:bg-grey-200'
+                          : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
                       }`}
                     >
                       <Star className={`h-4 w-4 ${storyteller.isFeatured ? 'fill-current' : ''}`} />
@@ -795,7 +795,7 @@ const StorytellerManagement: React.FC = () => {
                           setEditingStoryteller(storyteller)
                           setShowEditModal(true)
                         }}
-                        className="text-indigo-600 hover:text-indigo-900 p-1"
+                        className="text-terracotta-600 hover:text-terracotta-900 p-1"
                         title="Edit"
                       >
                         <Edit className="h-4 w-4" />
@@ -818,9 +818,9 @@ const StorytellerManagement: React.FC = () => {
         
         {storytellers.length === 0 && (
           <div className="text-center py-8">
-            <Users className="mx-auto h-12 w-12 text-grey-400" />
-            <h3 className="mt-2 text-sm font-medium text-grey-900">No storytellers found</h3>
-            <p className="mt-1 text-sm text-grey-500">
+            <Users className="mx-auto h-12 w-12 text-stone-400" />
+            <h3 className="mt-2 text-sm font-medium text-stone-900">No storytellers found</h3>
+            <p className="mt-1 text-sm text-stone-500">
               Try adjusting your search or filters.
             </p>
           </div>
@@ -829,13 +829,13 @@ const StorytellerManagement: React.FC = () => {
 
       {/* Edit Modal */}
       {showEditModal && editingStoryteller && (
-        <div className="fixed inset-0 bg-grey-600 bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-stone-600 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Edit Storyteller</h2>
               <button
                 onClick={() => setShowEditModal(false)}
-                className="text-grey-400 hover:text-grey-600"
+                className="text-stone-400 hover:text-stone-600"
               >
                 ×
               </button>
@@ -856,53 +856,53 @@ const StorytellerManagement: React.FC = () => {
             }}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-grey-700 mb-1">Display Name</label>
+                  <label className="block text-sm font-medium text-stone-700 mb-1">Display Name</label>
                   <input
                     type="text"
                     name="displayName"
                     defaultValue={editingStoryteller.displayName}
-                    className="w-full px-3 py-2 border border-grey-300 rounded-md"
+                    className="w-full px-3 py-2 border border-stone-300 rounded-md"
                     required
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-grey-700 mb-1">Occupation</label>
+                  <label className="block text-sm font-medium text-stone-700 mb-1">Occupation</label>
                   <input
                     type="text"
                     name="occupation"
                     defaultValue={editingStoryteller.occupation}
-                    className="w-full px-3 py-2 border border-grey-300 rounded-md"
+                    className="w-full px-3 py-2 border border-stone-300 rounded-md"
                   />
                 </div>
                 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-grey-700 mb-1">Cultural Background</label>
+                  <label className="block text-sm font-medium text-stone-700 mb-1">Cultural Background</label>
                   <input
                     type="text"
                     name="culturalBackground"
                     defaultValue={editingStoryteller.culturalBackground}
-                    className="w-full px-3 py-2 border border-grey-300 rounded-md"
+                    className="w-full px-3 py-2 border border-stone-300 rounded-md"
                   />
                 </div>
                 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-grey-700 mb-1">Bio</label>
+                  <label className="block text-sm font-medium text-stone-700 mb-1">Bio</label>
                   <textarea
                     name="bio"
                     defaultValue={editingStoryteller.bio}
                     rows={4}
-                    className="w-full px-3 py-2 border border-grey-300 rounded-md"
+                    className="w-full px-3 py-2 border border-stone-300 rounded-md"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-grey-700 mb-1">Languages (comma-separated)</label>
+                  <label className="block text-sm font-medium text-stone-700 mb-1">Languages (comma-separated)</label>
                   <input
                     type="text"
                     name="languages"
                     defaultValue={editingStoryteller.languages.join(', ')}
-                    className="w-full px-3 py-2 border border-grey-300 rounded-md"
+                    className="w-full px-3 py-2 border border-stone-300 rounded-md"
                   />
                 </div>
                 
@@ -915,7 +915,7 @@ const StorytellerManagement: React.FC = () => {
                       defaultChecked={editingStoryteller.isElder}
                       className="mr-2"
                     />
-                    <span className="text-sm font-medium text-grey-700">Elder Status</span>
+                    <span className="text-sm font-medium text-stone-700">Elder Status</span>
                   </label>
                 </div>
               </div>
@@ -924,13 +924,13 @@ const StorytellerManagement: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowEditModal(false)}
-                  className="px-4 py-2 text-grey-700 bg-grey-100 rounded-md hover:bg-grey-200"
+                  className="px-4 py-2 text-stone-700 bg-stone-100 rounded-md hover:bg-stone-200"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  className="px-4 py-2 bg-sage-600 text-white rounded-md hover:bg-sage-700"
                 >
                   Save Changes
                 </button>

@@ -621,11 +621,11 @@ export function SimpleStoryCreator({ onComplete }: SimpleStoryCreatorProps) {
             ) : (
               <>
                 {suggestedTitle && (
-                  <Card className="bg-purple-50 border-purple-200">
+                  <Card className="bg-clay-50 border-clay-200">
                     <CardContent className="p-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <Sparkles className="w-4 h-4 text-purple-600" />
-                        <span className="text-sm font-medium text-purple-800">AI Suggestion</span>
+                        <Sparkles className="w-4 h-4 text-clay-600" />
+                        <span className="text-sm font-medium text-clay-800">AI Suggestion</span>
                       </div>
                       <p className="text-lg font-medium">{suggestedTitle}</p>
                       <Button
@@ -677,8 +677,8 @@ export function SimpleStoryCreator({ onComplete }: SimpleStoryCreatorProps) {
             />
 
             <div className="text-center space-y-2 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div className="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center animate-in zoom-in duration-300 delay-150">
-                <Camera className="w-8 h-8 text-blue-600" />
+              <div className="w-16 h-16 mx-auto bg-sage-100 rounded-full flex items-center justify-center animate-in zoom-in duration-300 delay-150">
+                <Camera className="w-8 h-8 text-sage-600" />
               </div>
               <h1 className="text-2xl font-bold">Add a photo?</h1>
               <p className="text-muted-foreground">
@@ -758,8 +758,8 @@ export function SimpleStoryCreator({ onComplete }: SimpleStoryCreatorProps) {
         return (
           <div className="space-y-6">
             <div className="text-center space-y-2 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div className="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center animate-in zoom-in duration-300 delay-150">
-                <Lock className="w-8 h-8 text-purple-600" />
+              <div className="w-16 h-16 mx-auto bg-clay-100 rounded-full flex items-center justify-center animate-in zoom-in duration-300 delay-150">
+                <Lock className="w-8 h-8 text-clay-600" />
               </div>
               <h1 className="text-2xl font-bold">Who should see your story?</h1>
               <p className="text-muted-foreground">
@@ -880,15 +880,15 @@ export function SimpleStoryCreator({ onComplete }: SimpleStoryCreatorProps) {
             {/* Guest user prompt */}
             {!user ? (
               <div className="space-y-4 pt-4">
-                <Card className="bg-blue-50 border-blue-200 text-left">
+                <Card className="bg-sage-50 border-sage-200 text-left">
                   <CardContent className="p-4">
-                    <h3 className="font-semibold text-blue-900 mb-2">
+                    <h3 className="font-semibold text-sage-900 mb-2">
                       Create an account to publish
                     </h3>
-                    <p className="text-sm text-blue-800 mb-3">
+                    <p className="text-sm text-sage-800 mb-3">
                       Your story is saved on this device. Create a free account to:
                     </p>
-                    <ul className="text-sm text-blue-800 space-y-1 ml-4 list-disc">
+                    <ul className="text-sm text-sage-800 space-y-1 ml-4 list-disc">
                       <li>Publish your story for others to see</li>
                       <li>Access your stories from any device</li>
                       <li>Connect with your community</li>
@@ -937,7 +937,7 @@ export function SimpleStoryCreator({ onComplete }: SimpleStoryCreatorProps) {
                       </div>
                     </div>
                     <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
-                      <Users className="w-5 h-5 text-blue-600 mt-0.5" />
+                      <Users className="w-5 h-5 text-sage-600 mt-0.5" />
                       <div>
                         <p className="font-medium text-sm">Visible to {visibility === 'private' ? 'only you' : visibility === 'community' ? 'your community' : 'everyone'}</p>
                         <p className="text-xs text-muted-foreground">Change privacy settings anytime</p>
@@ -1000,7 +1000,7 @@ export function SimpleStoryCreator({ onComplete }: SimpleStoryCreatorProps) {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <FileEdit className="w-5 h-5 text-blue-500" />
+              <FileEdit className="w-5 h-5 text-sage-500" />
               Welcome back!
             </DialogTitle>
             <DialogDescription>

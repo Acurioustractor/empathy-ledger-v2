@@ -157,7 +157,7 @@ export default function ContentReviewDashboard() {
       case 'high': return 'bg-orange-100 text-orange-800 border-orange-200'
       case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
       case 'low': return 'bg-green-100 text-green-800 border-green-200'
-      default: return 'bg-grey-100 text-grey-800 border-grey-200'
+      default: return 'bg-stone-100 text-stone-800 border-stone-200'
     }
   }
 
@@ -187,7 +187,7 @@ export default function ContentReviewDashboard() {
       <div className="flex justify-between items-start">
         <div>
           <h1 className="text-3xl font-bold">Content Review Dashboard</h1>
-          <p className="text-grey-600 mt-2">
+          <p className="text-stone-600 mt-2">
             Review and moderate community-submitted content
           </p>
         </div>
@@ -210,7 +210,7 @@ export default function ContentReviewDashboard() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-grey-600">Pending Reviews</p>
+                <p className="text-sm text-stone-600">Pending Reviews</p>
                 <p className="text-2xl font-bold">{stats.pendingCount}</p>
               </div>
               <Clock className="w-8 h-8 text-orange-500" />
@@ -222,7 +222,7 @@ export default function ContentReviewDashboard() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-grey-600">Approved Today</p>
+                <p className="text-sm text-stone-600">Approved Today</p>
                 <p className="text-2xl font-bold text-green-600">{stats.approvedToday}</p>
               </div>
               <CheckCircle className="w-8 h-8 text-green-500" />
@@ -234,7 +234,7 @@ export default function ContentReviewDashboard() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-grey-600">Rejected Today</p>
+                <p className="text-sm text-stone-600">Rejected Today</p>
                 <p className="text-2xl font-bold text-red-600">{stats.rejectedToday}</p>
               </div>
               <XCircle className="w-8 h-8 text-red-500" />
@@ -246,7 +246,7 @@ export default function ContentReviewDashboard() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-grey-600">Elder Review Queue</p>
+                <p className="text-sm text-stone-600">Elder Review Queue</p>
                 <p className="text-2xl font-bold text-clay-600">{stats.elderReviewQueue}</p>
               </div>
               <Heart className="w-8 h-8 text-clay-500" />
@@ -258,10 +258,10 @@ export default function ContentReviewDashboard() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-grey-600">Avg Review Time</p>
+                <p className="text-sm text-stone-600">Avg Review Time</p>
                 <p className="text-2xl font-bold">{stats.avgReviewTime}h</p>
               </div>
-              <BarChart3 className="w-8 h-8 text-blue-500" />
+              <BarChart3 className="w-8 h-8 text-sage-500" />
             </div>
           </CardContent>
         </Card>
@@ -273,7 +273,7 @@ export default function ContentReviewDashboard() {
           <div className="flex flex-wrap gap-4 items-center">
             <div className="flex-1 min-w-[200px]">
               <div className="relative">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400" />
+                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400" />
                 <Input
                   placeholder="Search by title or author..."
                   value={searchTerm}
@@ -337,14 +337,14 @@ export default function ContentReviewDashboard() {
             <div className="text-center py-8">
               <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
               <h3 className="text-lg font-semibold mb-2">All caught up!</h3>
-              <p className="text-grey-600">No pending reviews at the moment.</p>
+              <p className="text-stone-600">No pending reviews at the moment.</p>
             </div>
           ) : (
             <div className="space-y-4">
               {filteredReviews.map((review) => (
                 <div
                   key={review.id}
-                  className="border rounded-lg p-4 hover:bg-grey-50 transition-colours"
+                  className="border rounded-lg p-4 hover:bg-stone-50 transition-colours"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -368,7 +368,7 @@ export default function ContentReviewDashboard() {
                         )}
                       </div>
                       
-                      <div className="flex items-center gap-4 text-sm text-grey-600">
+                      <div className="flex items-center gap-4 text-sm text-stone-600">
                         <div className="flex items-center gap-1">
                           <User className="w-4 h-4" />
                           {review.author}

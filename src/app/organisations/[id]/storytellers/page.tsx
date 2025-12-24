@@ -164,7 +164,7 @@ export default function EnhancedStorytellerPage() {
         <div className="space-y-6">
           <div className="text-center">
             <div className="animate-spin w-8 h-8 border-2 border-earth-600 border-t-transparent rounded-full mx-auto"></div>
-            <p className="mt-2 text-grey-600">Loading storytellers...</p>
+            <p className="mt-2 text-stone-600">Loading storytellers...</p>
           </div>
         </div>
       </div>
@@ -198,10 +198,10 @@ export default function EnhancedStorytellerPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-grey-900">
+          <h1 className="text-3xl font-bold text-stone-900">
             {organisation?.name} Storytellers
           </h1>
-          <p className="text-grey-600 mt-1">
+          <p className="text-stone-600 mt-1">
             Community voices and their stories
           </p>
         </div>
@@ -221,41 +221,41 @@ export default function EnhancedStorytellerPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center gap-2 text-grey-600 mb-1">
+              <div className="flex items-center justify-center gap-2 text-stone-600 mb-1">
                 <Users className="w-4 h-4" />
                 <span className="text-sm">Storytellers</span>
               </div>
-              <div className="text-2xl font-bold text-grey-900">{stats.totalStorytellers}</div>
+              <div className="text-2xl font-bold text-stone-900">{stats.totalStorytellers}</div>
             </CardContent>
           </Card>
 
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center gap-2 text-grey-600 mb-1">
+              <div className="flex items-center justify-center gap-2 text-stone-600 mb-1">
                 <FileText className="w-4 h-4" />
                 <span className="text-sm">Transcripts</span>
               </div>
-              <div className="text-2xl font-bold text-grey-900">{stats.totalTranscripts}</div>
+              <div className="text-2xl font-bold text-stone-900">{stats.totalTranscripts}</div>
             </CardContent>
           </Card>
 
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center gap-2 text-grey-600 mb-1">
+              <div className="flex items-center justify-center gap-2 text-stone-600 mb-1">
                 <BookOpen className="w-4 h-4" />
                 <span className="text-sm">Stories</span>
               </div>
-              <div className="text-2xl font-bold text-grey-900">{stats.totalStories}</div>
+              <div className="text-2xl font-bold text-stone-900">{stats.totalStories}</div>
             </CardContent>
           </Card>
 
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center gap-2 text-grey-600 mb-1">
+              <div className="flex items-center justify-center gap-2 text-stone-600 mb-1">
                 <Video className="w-4 h-4" />
                 <span className="text-sm">Videos</span>
               </div>
-              <div className="text-2xl font-bold text-grey-900">{stats.totalVideos}</div>
+              <div className="text-2xl font-bold text-stone-900">{stats.totalVideos}</div>
             </CardContent>
           </Card>
         </div>
@@ -264,7 +264,7 @@ export default function EnhancedStorytellerPage() {
       {/* Search */}
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400 w-4 h-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 w-4 h-4" />
           <Input
             placeholder="Search storytellers..."
             value={searchQuery}
@@ -302,11 +302,11 @@ export default function EnhancedStorytellerPage() {
       {filteredStorytellers.length === 0 && !loading && (
         <Card>
           <CardContent className="p-12 text-center">
-            <Users className="w-12 h-12 text-grey-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-grey-900 mb-2">
+            <Users className="w-12 h-12 text-stone-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-stone-900 mb-2">
               {searchQuery ? 'No storytellers found' : 'No storytellers yet'}
             </h3>
-            <p className="text-grey-600 mb-4">
+            <p className="text-stone-600 mb-4">
               {searchQuery
                 ? 'Try adjusting your search criteria'
                 : 'Add storytellers to start building your community'
@@ -356,10 +356,10 @@ export default function EnhancedStorytellerPage() {
               <CardTitle className="text-xl">Confirm Deletion</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-grey-700">
+              <p className="text-stone-700">
                 Are you sure you want to remove <strong>{deleteConfirm.name}</strong> from this organisation?
               </p>
-              <p className="text-sm text-grey-600">
+              <p className="text-sm text-stone-600">
                 This will remove their storyteller role from this organisation. This action can be undone by re-adding them.
               </p>
               <div className="flex gap-3 justify-end">

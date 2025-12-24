@@ -183,7 +183,7 @@ export function ValueShowcase() {
               value={platformStats.eldersCount}
               label="Community Elders"
               subtext="Sharing wisdom"
-              accent="bg-purple-500"
+              accent="bg-clay-500"
             />
             <StatCard
               icon={<Sparkles className="w-6 h-6" />}
@@ -227,7 +227,7 @@ export function ValueShowcase() {
             icon={<Megaphone className="w-8 h-8" />}
             title="Amplifying Voices"
             description="Many communities have stories that deserve to be heard. We provide a platform where every voice matters, regardless of background or circumstance."
-            color="from-blue-500 to-indigo-600"
+            color="from-sage-500 to-terracotta-600"
           />
         </div>
       </section>
@@ -325,7 +325,7 @@ export function ValueShowcase() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h3 className="text-2xl font-bold flex items-center gap-2">
-                <Sparkles className="w-6 h-6 text-purple-500" />
+                <Sparkles className="w-6 h-6 text-clay-500" />
                 Themes in Stories
               </h3>
               <p className="text-muted-foreground">
@@ -463,7 +463,7 @@ function StorytellerCard({ storyteller }: { storyteller: TopStoryteller }) {
                 </Badge>
               )}
               {storyteller.isFeatured && (
-                <Badge className="text-xs bg-purple-100 text-purple-700 border-purple-200">
+                <Badge className="text-xs bg-clay-100 text-clay-700 border-clay-200">
                   <Star className="w-3 h-3 mr-1" />
                   Featured
                 </Badge>

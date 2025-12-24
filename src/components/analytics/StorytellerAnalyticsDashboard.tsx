@@ -37,10 +37,10 @@ export function StorytellerAnalyticsDashboard({
           {[...Array(4)].map((_, i) => (
             <Card key={i} className="animate-pulse">
               <CardHeader className="pb-2">
-                <div className="h-4 bg-grey-200 rounded w-3/4"></div>
+                <div className="h-4 bg-stone-200 rounded w-3/4"></div>
               </CardHeader>
               <CardContent>
-                <div className="h-8 bg-grey-200 rounded w-1/2"></div>
+                <div className="h-8 bg-stone-200 rounded w-1/2"></div>
               </CardContent>
             </Card>
           ))}
@@ -53,10 +53,10 @@ export function StorytellerAnalyticsDashboard({
     return (
       <Card className={className}>
         <CardContent className="pt-6">
-          <div className="text-center text-grey-500">
+          <div className="text-center text-stone-500">
             <BarChart3 className="h-12 w-12 mx-auto mb-4 opacity-50" />
             <Typography variant="body">Unable to load analytics</Typography>
-            <Typography variant="small" className="text-grey-400">
+            <Typography variant="small" className="text-stone-400">
               {error}
             </Typography>
           </div>
@@ -128,7 +128,7 @@ export function StorytellerAnalyticsDashboard({
                           value={theme.prominenceScore * 100}
                           className="flex-1 h-2"
                         />
-                        <Typography variant="small" className="text-grey-500 min-w-[3rem]">
+                        <Typography variant="small" className="text-stone-500 min-w-[3rem]">
                           {Math.round(theme.prominenceScore * 100)}%
                         </Typography>
                       </div>
@@ -137,10 +137,10 @@ export function StorytellerAnalyticsDashboard({
                 ))}
               </div>
             ) : (
-              <div className="text-center text-grey-500 py-8">
+              <div className="text-center text-stone-500 py-8">
                 <Sparkles className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <Typography variant="body">No themes analysed yet</Typography>
-                <Typography variant="small" className="text-grey-400">
+                <Typography variant="small" className="text-stone-400">
                   Share more stories to see your themes
                 </Typography>
               </div>
@@ -160,14 +160,14 @@ export function StorytellerAnalyticsDashboard({
             {quotes && quotes.length > 0 ? (
               <div className="space-y-4">
                 {quotes.slice(0, 3).map((quote, index) => (
-                  <div key={quote.id} className="border-l-4 border-blue-500 pl-4 py-2">
-                    <blockquote className="text-grey-800 italic mb-2">
+                  <div key={quote.id} className="border-l-4 border-sage-500 pl-4 py-2">
+                    <blockquote className="text-stone-800 italic mb-2">
                       "{quote.text.length > 120
                         ? `${quote.text.substring(0, 120)}...`
                         : quote.text}"
                     </blockquote>
                     <div className="flex items-center justify-between">
-                      <Typography variant="small" className="text-grey-500">
+                      <Typography variant="small" className="text-stone-500">
                         From: {quote.sourceTitle}
                       </Typography>
                       <div className="flex items-center gap-2">
@@ -179,7 +179,7 @@ export function StorytellerAnalyticsDashboard({
                       </div>
                     </div>
                     {quote.citationCount > 0 && (
-                      <Typography variant="small" className="text-blue-600 mt-1">
+                      <Typography variant="small" className="text-sage-600 mt-1">
                         Cited {quote.citationCount} times
                       </Typography>
                     )}
@@ -187,10 +187,10 @@ export function StorytellerAnalyticsDashboard({
                 ))}
               </div>
             ) : (
-              <div className="text-center text-grey-500 py-8">
+              <div className="text-center text-stone-500 py-8">
                 <Quote className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <Typography variant="body">No quotes found yet</Typography>
-                <Typography variant="small" className="text-grey-400">
+                <Typography variant="small" className="text-stone-400">
                   AI will extract powerful moments from your stories
                 </Typography>
               </div>
@@ -210,13 +210,13 @@ export function StorytellerAnalyticsDashboard({
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-sage-100 text-sage-600 rounded-full mb-4">
                 <Heart className="h-6 w-6" />
               </div>
-              <Typography variant="h3" className="text-2xl font-bold text-grey-900">
+              <Typography variant="h3" className="text-2xl font-bold text-stone-900">
                 {analytics?.engagementScore || 0}
               </Typography>
-              <Typography variant="small" className="text-grey-600">
+              <Typography variant="small" className="text-stone-600">
                 Engagement Score
               </Typography>
             </div>
@@ -225,22 +225,22 @@ export function StorytellerAnalyticsDashboard({
               <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 text-green-600 rounded-full mb-4">
                 <Network className="h-6 w-6" />
               </div>
-              <Typography variant="h3" className="text-2xl font-bold text-grey-900">
+              <Typography variant="h3" className="text-2xl font-bold text-stone-900">
                 {analytics?.primaryThemes?.length || 0}
               </Typography>
-              <Typography variant="small" className="text-grey-600">
+              <Typography variant="small" className="text-stone-600">
                 Primary Themes
               </Typography>
             </div>
 
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-100 text-purple-600 rounded-full mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-clay-100 text-clay-600 rounded-full mb-4">
                 <TrendingUp className="h-6 w-6" />
               </div>
-              <Typography variant="h3" className="text-2xl font-bold text-grey-900">
+              <Typography variant="h3" className="text-2xl font-bold text-stone-900">
                 {analytics?.totalTranscripts || 0}
               </Typography>
-              <Typography variant="small" className="text-grey-600">
+              <Typography variant="small" className="text-stone-600">
                 Transcripts Processed
               </Typography>
             </div>
@@ -272,16 +272,16 @@ function MetricCard({
   progressValue
 }: MetricCardProps) {
   const colorClasses = {
-    blue: 'bg-blue-500 text-white',
+    blue: 'bg-sage-500 text-white',
     green: 'bg-green-500 text-white',
-    purple: 'bg-purple-500 text-white',
+    purple: 'bg-clay-500 text-white',
     orange: 'bg-orange-500 text-white'
   }
 
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-grey-600">
+        <CardTitle className="text-sm font-medium text-stone-600">
           {title}
         </CardTitle>
         <div className={`p-2 rounded-lg ${colorClasses[colour]}`}>
@@ -289,10 +289,10 @@ function MetricCard({
         </div>
       </CardHeader>
       <CardContent>
-        <Typography variant="h2" className="text-2xl font-bold text-grey-900">
+        <Typography variant="h2" className="text-2xl font-bold text-stone-900">
           {value.toLocaleString()}
         </Typography>
-        <Typography variant="small" className="text-grey-500">
+        <Typography variant="small" className="text-stone-500">
           {description}
         </Typography>
         {showProgress && progressValue !== undefined && (

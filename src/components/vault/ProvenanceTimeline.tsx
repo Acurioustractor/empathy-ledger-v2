@@ -61,14 +61,14 @@ const actionConfig: Record<string, {
   update: {
     icon: PenLine,
     label: 'Updated',
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-100 dark:bg-blue-950/30'
+    color: 'text-sage-600',
+    bgColor: 'bg-sage-100 dark:bg-sage-950/30'
   },
   share: {
     icon: Share2,
     label: 'Shared',
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-100 dark:bg-purple-950/30'
+    color: 'text-clay-600',
+    bgColor: 'bg-clay-100 dark:bg-clay-950/30'
   },
   revoke: {
     icon: Ban,
@@ -109,14 +109,14 @@ const actionConfig: Record<string, {
   view: {
     icon: Eye,
     label: 'Viewed',
-    color: 'text-gray-600',
-    bgColor: 'bg-gray-100 dark:bg-gray-950/30'
+    color: 'text-stone-600',
+    bgColor: 'bg-stone-100 dark:bg-gray-950/30'
   },
   token_generate: {
     icon: Code2,
     label: 'Embed Token Generated',
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-100 dark:bg-purple-950/30'
+    color: 'text-clay-600',
+    bgColor: 'bg-clay-100 dark:bg-clay-950/30'
   },
   token_revoke: {
     icon: Ban,
@@ -139,8 +139,8 @@ const actionConfig: Record<string, {
   export: {
     icon: Download,
     label: 'Data Exported',
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-100 dark:bg-blue-950/30'
+    color: 'text-sage-600',
+    bgColor: 'bg-sage-100 dark:bg-sage-950/30'
   }
 }
 
@@ -216,8 +216,8 @@ export function ProvenanceTimeline({
                       const config = actionConfig[log.action] || {
                         icon: PenLine,
                         label: log.action,
-                        color: 'text-gray-600',
-                        bgColor: 'bg-gray-100 dark:bg-gray-950/30'
+                        color: 'text-stone-600',
+                        bgColor: 'bg-stone-100 dark:bg-gray-950/30'
                       }
                       const Icon = config.icon
 

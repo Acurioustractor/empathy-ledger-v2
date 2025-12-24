@@ -90,21 +90,21 @@ function MetricCard({ title, value, change, icon: Icon, subtitle }: MetricCardPr
       <CardContent className="p-6">
         <div className="flex items-start justify-between">
           <div className="space-y-1">
-            <p className="text-sm font-medium text-grey-500">{title}</p>
+            <p className="text-sm font-medium text-stone-500">{title}</p>
             <p className="text-2xl font-bold">{value}</p>
-            {subtitle && <p className="text-xs text-grey-500">{subtitle}</p>}
+            {subtitle && <p className="text-xs text-stone-500">{subtitle}</p>}
             {change !== undefined && (
               <div className="flex items-center gap-1 text-sm">
                 <ArrowUp className={`h-3 w-3 ${isPositive ? 'text-green-600' : 'text-red-600 rotate-180'}`} />
                 <span className={isPositive ? 'text-green-600' : 'text-red-600'}>
                   {Math.abs(change)}%
                 </span>
-                <span className="text-grey-500">from last week</span>
+                <span className="text-stone-500">from last week</span>
               </div>
             )}
           </div>
-          <div className="p-2 bg-blue-100 rounded-lg">
-            <Icon className="h-5 w-5 text-blue-600" />
+          <div className="p-2 bg-sage-100 rounded-lg">
+            <Icon className="h-5 w-5 text-sage-600" />
           </div>
         </div>
       </CardContent>
@@ -114,7 +114,7 @@ function MetricCard({ title, value, change, icon: Icon, subtitle }: MetricCardPr
 
 export default function StorytellerDashboard() {
   return (
-    <div className="min-h-screen bg-grey-50">
+    <div className="min-h-screen bg-stone-50">
       {/* Header */}
       <header className="bg-white border-b">
         <div className="container mx-auto px-4 py-6">
@@ -126,7 +126,7 @@ export default function StorytellerDashboard() {
               </Avatar>
               <div>
                 <h1 className="text-2xl font-bold">Welcome back, Sarah!</h1>
-                <p className="text-grey-500 flex items-center gap-2">
+                <p className="text-stone-500 flex items-center gap-2">
                   <MapPin className="h-4 w-4" />
                   Darwin, Northern Territory
                   <span className="mx-2">•</span>
@@ -244,7 +244,7 @@ export default function StorytellerDashboard() {
                   {engagementData.map((item) => (
                     <div key={item.name} className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.colour }} />
-                      <span className="text-sm text-grey-600">{item.name}</span>
+                      <span className="text-sm text-stone-600">{item.name}</span>
                     </div>
                   ))}
                 </div>
@@ -275,10 +275,10 @@ export default function StorytellerDashboard() {
                 </TabsList>
                 <TabsContent value="published" className="space-y-4 mt-4">
                   {recentStories.filter(s => s.status === 'published').map((story) => (
-                    <div key={story.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-grey-50">
+                    <div key={story.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-stone-50">
                       <div className="flex-1">
                         <h4 className="font-medium">{story.title}</h4>
-                        <div className="flex items-center gap-4 mt-1 text-sm text-grey-500">
+                        <div className="flex items-center gap-4 mt-1 text-sm text-stone-500">
                           <span className="flex items-center gap-1">
                             <Clock className="h-3 w-3" />
                             {story.publishedAt}
@@ -307,10 +307,10 @@ export default function StorytellerDashboard() {
                 </TabsContent>
                 <TabsContent value="drafts" className="space-y-4 mt-4">
                   {recentStories.filter(s => s.status === 'draft').map((story) => (
-                    <div key={story.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-grey-50">
+                    <div key={story.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-stone-50">
                       <div className="flex-1">
                         <h4 className="font-medium">{story.title}</h4>
-                        <p className="text-sm text-grey-500 mt-1">Draft - Not published</p>
+                        <p className="text-sm text-stone-500 mt-1">Draft - Not published</p>
                       </div>
                       <div className="flex gap-2">
                         <Button variant="ghost" size="sm">Continue Writing</Button>
@@ -320,7 +320,7 @@ export default function StorytellerDashboard() {
                   ))}
                 </TabsContent>
                 <TabsContent value="archived">
-                  <p className="text-sm text-grey-500 text-center py-8">No archived stories</p>
+                  <p className="text-sm text-stone-500 text-center py-8">No archived stories</p>
                 </TabsContent>
               </Tabs>
             </CardContent>
@@ -331,12 +331,12 @@ export default function StorytellerDashboard() {
             <Card className="cursor-pointer hover:shadow-lg transition-shadow">
               <CardContent className="p-6">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-blue-100 rounded-lg">
-                    <BookOpen className="h-6 w-6 text-blue-600" />
+                  <div className="p-3 bg-sage-100 rounded-lg">
+                    <BookOpen className="h-6 w-6 text-sage-600" />
                   </div>
                   <div>
                     <p className="font-medium">Story Templates</p>
-                    <p className="text-sm text-grey-500">Start from a template</p>
+                    <p className="text-sm text-stone-500">Start from a template</p>
                   </div>
                 </div>
               </CardContent>
@@ -350,7 +350,7 @@ export default function StorytellerDashboard() {
                   </div>
                   <div>
                     <p className="font-medium">Analytics</p>
-                    <p className="text-sm text-grey-500">Detailed insights</p>
+                    <p className="text-sm text-stone-500">Detailed insights</p>
                   </div>
                 </div>
               </CardContent>
@@ -359,12 +359,12 @@ export default function StorytellerDashboard() {
             <Card className="cursor-pointer hover:shadow-lg transition-shadow">
               <CardContent className="p-6">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-purple-100 rounded-lg">
-                    <Settings className="h-6 w-6 text-purple-600" />
+                  <div className="p-3 bg-clay-100 rounded-lg">
+                    <Settings className="h-6 w-6 text-clay-600" />
                   </div>
                   <div>
                     <p className="font-medium">Settings</p>
-                    <p className="text-sm text-grey-500">Manage preferences</p>
+                    <p className="text-sm text-stone-500">Manage preferences</p>
                   </div>
                 </div>
               </CardContent>

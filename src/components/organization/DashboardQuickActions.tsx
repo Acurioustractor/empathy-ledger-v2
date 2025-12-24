@@ -71,7 +71,7 @@ export function DashboardQuickActions({ organizationId }: DashboardQuickActionsP
       case 'clay':
         return `${baseClasses} bg-clay-600 hover:bg-clay-700 text-white`
       default:
-        return `${baseClasses} bg-grey-600 hover:bg-grey-700 text-white`
+        return `${baseClasses} bg-stone-600 hover:bg-stone-700 text-white`
     }
   }
 

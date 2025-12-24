@@ -133,7 +133,7 @@ export function StorytellerCreationWizard({
 
         {/* Progress bar */}
         {currentStep !== 'mode-selection' && (
-          <div className="h-2 bg-gray-100">
+          <div className="h-2 bg-stone-100">
             <div
               className="h-full bg-primary transition-all duration-300"
               style={{

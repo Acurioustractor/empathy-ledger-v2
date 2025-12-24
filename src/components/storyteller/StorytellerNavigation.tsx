@@ -154,11 +154,11 @@ export function StorytellerNavigation({ storytellerId }: StorytellerNavigationPr
       </Card>
 
       {/* Quick Actions */}
-      <Card className="bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200">
+      <Card className="bg-gradient-to-br from-clay-50 to-sage-50 border-clay-200">
         <CardContent className="p-4">
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-purple-600" />
+              <Sparkles className="h-4 w-4 text-clay-600" />
               <span className="text-sm font-medium">AI Story Tools</span>
               <Badge variant="secondary" className="text-xs">Beta</Badge>
             </div>
@@ -167,7 +167,7 @@ export function StorytellerNavigation({ storytellerId }: StorytellerNavigationPr
             </p>
             <Link
               href={`/storytellers/${storytellerId}/ai-tools`}
-              className="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white text-xs py-2 rounded-md transition-colours"
+              className="block w-full text-center bg-clay-600 hover:bg-clay-700 text-white text-xs py-2 rounded-md transition-colours"
             >
               Try AI Generation
             </Link>

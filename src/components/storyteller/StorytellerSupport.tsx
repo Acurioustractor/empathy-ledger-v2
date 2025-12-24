@@ -84,10 +84,10 @@ export function StorytellerSupport({ variant = 'full', storyId }: StorytellerSup
           color="bg-pink-50"
         />
         <QuickHelpCard
-          icon={<Users className="w-6 h-6 text-blue-600" />}
+          icon={<Users className="w-6 h-6 text-sage-600" />}
           title="Community Support"
           description="Connect with other storytellers."
-          color="bg-blue-50"
+          color="bg-sage-50"
         />
       </div>
 
@@ -242,12 +242,12 @@ function PostSubmissionGuide({ storyId }: { storyId?: string }) {
 
       <div className="space-y-4 text-left">
         <NextStep
-          icon={<Eye className="w-5 h-5 text-blue-600" />}
+          icon={<Eye className="w-5 h-5 text-sage-600" />}
           title="Review Your Story"
           description="Visit your dashboard to edit or add more details anytime."
         />
         <NextStep
-          icon={<Share2 className="w-5 h-5 text-purple-600" />}
+          icon={<Share2 className="w-5 h-5 text-clay-600" />}
           title="Share Settings"
           description="Adjust who can see your story in your privacy settings."
         />

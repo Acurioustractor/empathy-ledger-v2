@@ -153,15 +153,15 @@ export default function DemographicsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-blue-200 bg-blue-50/30">
+        <Card className="border-sage-200 bg-sage-50/30">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center text-lg">
-              <TrendingUp className="w-5 h-5 mr-2 text-blue-600" />
+              <TrendingUp className="w-5 h-5 mr-2 text-sage-600" />
               Community Growth
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-blue-600 mb-2">
+            <div className="text-3xl font-bold text-sage-600 mb-2">
               +{engagementMetrics.communityGrowth}%
             </div>
             <p className="text-sm text-muted-foreground">This year</p>
@@ -185,15 +185,15 @@ export default function DemographicsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-purple-200 bg-purple-50/30">
+        <Card className="border-clay-200 bg-clay-50/30">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center text-lg">
-              <Heart className="w-5 h-5 mr-2 text-purple-600" />
+              <Heart className="w-5 h-5 mr-2 text-clay-600" />
               Cultural Preservation
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-purple-600 mb-2">
+            <div className="text-3xl font-bold text-clay-600 mb-2">
               {engagementMetrics.culturalPreservation}%
             </div>
             <p className="text-sm text-muted-foreground">Culturally significant content</p>
@@ -238,7 +238,7 @@ export default function DemographicsPage() {
                   
                   <div className="space-y-3">
                     {demographicData.ageGroups.map((group, index) => (
-                      <div key={group.name} className="flex items-center justify-between p-3 bg-grey-50 rounded-lg">
+                      <div key={group.name} className="flex items-center justify-between p-3 bg-stone-50 rounded-lg">
                         <div className="flex items-center space-x-3">
                           <div 
                             className="w-4 h-4 rounded-full" 
@@ -259,8 +259,8 @@ export default function DemographicsPage() {
                 </>
               ) : (
                 <div className="text-center py-8">
-                  <EyeOff className="w-12 h-12 mx-auto mb-4 text-grey-400" />
-                  <p className="text-grey-600">Detailed age demographics require authorization</p>
+                  <EyeOff className="w-12 h-12 mx-auto mb-4 text-stone-400" />
+                  <p className="text-stone-600">Detailed age demographics require authorization</p>
                   <p className="text-sm text-muted-foreground mt-2">
                     Enable detailed view to see age distribution analysis
                   </p>
@@ -305,7 +305,7 @@ export default function DemographicsPage() {
                   
                   <div className="space-y-3">
                     {demographicData.culturalBackgrounds.map((bg, index) => (
-                      <div key={bg.name} className="flex items-center justify-between p-3 bg-grey-50 rounded-lg">
+                      <div key={bg.name} className="flex items-center justify-between p-3 bg-stone-50 rounded-lg">
                         <div className="flex items-center space-x-3">
                           <div 
                             className="w-4 h-4 rounded-full" 
@@ -324,7 +324,7 @@ export default function DemographicsPage() {
               ) : (
                 <div className="text-center py-8">
                   <Shield className="w-12 h-12 mx-auto mb-4 text-amber-500" />
-                  <p className="text-grey-600">Cultural heritage data protected</p>
+                  <p className="text-stone-600">Cultural heritage data protected</p>
                   <p className="text-sm text-muted-foreground mt-2">
                     This information requires community consent to display
                   </p>
@@ -370,8 +370,8 @@ export default function DemographicsPage() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <MapPin className="w-12 h-12 mx-auto mb-4 text-grey-400" />
-              <p className="text-grey-600">Geographic data requires authorization</p>
+              <MapPin className="w-12 h-12 mx-auto mb-4 text-stone-400" />
+              <p className="text-stone-600">Geographic data requires authorization</p>
               <p className="text-sm text-muted-foreground mt-2">
                 Location information is protected for community privacy
               </p>
@@ -427,8 +427,8 @@ export default function DemographicsPage() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <BookOpen className="w-12 h-12 mx-auto mb-4 text-grey-400" />
-              <p className="text-grey-600">Language data requires community consent</p>
+              <BookOpen className="w-12 h-12 mx-auto mb-4 text-stone-400" />
+              <p className="text-stone-600">Language data requires community consent</p>
               <p className="text-sm text-muted-foreground mt-2">
                 Indigenous language information is culturally sensitive
               </p>

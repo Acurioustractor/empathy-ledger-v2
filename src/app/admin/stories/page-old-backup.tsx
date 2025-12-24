@@ -318,21 +318,21 @@ export default function StoriesAdminPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'published': return 'bg-green-100 text-green-800'
-      case 'draft': return 'bg-grey-100 text-grey-800'
+      case 'draft': return 'bg-stone-100 text-stone-800'
       case 'under_review': return 'bg-yellow-100 text-yellow-800'
       case 'flagged': return 'bg-red-100 text-red-800'
-      case 'archived': return 'bg-blue-100 text-blue-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'archived': return 'bg-sage-100 text-sage-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
   const getVisibilityColor = (visibility: string) => {
     switch (visibility) {
-      case 'public': return 'bg-blue-100 text-blue-800'
-      case 'community': return 'bg-purple-100 text-purple-800'
-      case 'organisation': return 'bg-indigo-100 text-indigo-800'
-      case 'private': return 'bg-grey-100 text-grey-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'public': return 'bg-sage-100 text-sage-800'
+      case 'community': return 'bg-clay-100 text-clay-800'
+      case 'organisation': return 'bg-terracotta-100 text-terracotta-800'
+      case 'private': return 'bg-stone-100 text-stone-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -341,7 +341,7 @@ export default function StoriesAdminPage() {
       case 'high': return 'bg-red-100 text-red-800'
       case 'medium': return 'bg-yellow-100 text-yellow-800'
       case 'low': return 'bg-green-100 text-green-800'
-      default: return 'bg-grey-100 text-grey-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -368,11 +368,11 @@ export default function StoriesAdminPage() {
     <div className="container mx-auto px-4 py-8">
 
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-grey-900 mb-2">Stories Admin</h1>
-        <p className="text-grey-600">
+        <h1 className="text-3xl font-bold text-stone-900 mb-2">Stories Admin</h1>
+        <p className="text-stone-600">
           Manage community stories with cultural sensitivity and elder review protocols
         </p>
-        <div className="mt-3 text-sm text-grey-500">
+        <div className="mt-3 text-sm text-stone-500">
           Showing {stories.length} of {totalStories} total stories {filteredStories.length !== stories.length && `(${filteredStories.length} filtered)`}
         </div>
       </div>
@@ -382,8 +382,8 @@ export default function StoriesAdminPage() {
         <Card>
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-blue-600">{totalStories}</p>
-              <p className="text-xs text-grey-600">Total Stories</p>
+              <p className="text-2xl font-bold text-sage-600">{totalStories}</p>
+              <p className="text-xs text-stone-600">Total Stories</p>
             </div>
           </CardContent>
         </Card>
@@ -391,7 +391,7 @@ export default function StoriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-green-600">{publishedStories}</p>
-              <p className="text-xs text-grey-600">Published</p>
+              <p className="text-xs text-stone-600">Published</p>
             </div>
           </CardContent>
         </Card>
@@ -399,7 +399,7 @@ export default function StoriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-red-600">{flaggedStories}</p>
-              <p className="text-xs text-grey-600">Flagged</p>
+              <p className="text-xs text-stone-600">Flagged</p>
             </div>
           </CardContent>
         </Card>
@@ -407,15 +407,15 @@ export default function StoriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-yellow-600">{underReview}</p>
-              <p className="text-xs text-grey-600">Under Review</p>
+              <p className="text-xs text-stone-600">Under Review</p>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-purple-600">{elderApproved}</p>
-              <p className="text-xs text-grey-600">Elder Approved</p>
+              <p className="text-2xl font-bold text-clay-600">{elderApproved}</p>
+              <p className="text-xs text-stone-600">Elder Approved</p>
             </div>
           </CardContent>
         </Card>
@@ -423,7 +423,7 @@ export default function StoriesAdminPage() {
           <CardContent className="p-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-orange-600">{highSensitivity}</p>
-              <p className="text-xs text-grey-600">High Sensitivity</p>
+              <p className="text-xs text-stone-600">High Sensitivity</p>
             </div>
           </CardContent>
         </Card>
@@ -434,7 +434,7 @@ export default function StoriesAdminPage() {
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-grey-400" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-stone-400" />
               <Input
                 placeholder="Search stories..."
                 value={searchTerm}
@@ -446,7 +446,7 @@ export default function StoriesAdminPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Status</option>
               <option value="published">Published</option>
@@ -459,7 +459,7 @@ export default function StoriesAdminPage() {
             <select
               value={visibilityFilter}
               onChange={(e) => setVisibilityFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Visibility</option>
               <option value="public">Public</option>
@@ -471,7 +471,7 @@ export default function StoriesAdminPage() {
             <select
               value={sensitivityFilter}
               onChange={(e) => setSensitivityFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Sensitivity</option>
               <option value="low">Low</option>
@@ -524,7 +524,7 @@ export default function StoriesAdminPage() {
                     </Badge>
                   </div>
 
-                  <div className="flex items-center space-x-4 text-sm text-grey-600 mb-3">
+                  <div className="flex items-center space-x-4 text-sm text-stone-600 mb-3">
                     <span className="flex items-center">
                       <User className="w-3 h-3 mr-1" />
                       {story.author?.display_name}
@@ -546,7 +546,7 @@ export default function StoriesAdminPage() {
                   </div>
 
                   {story.excerpt && (
-                    <p className="text-sm text-grey-700 mb-3 line-clamp-2">
+                    <p className="text-sm text-stone-700 mb-3 line-clamp-2">
                       {story.excerpt}
                     </p>
                   )}
@@ -554,13 +554,13 @@ export default function StoriesAdminPage() {
                   {/* Cultural Indicators */}
                   <div className="flex flex-wrap gap-1 mb-3">
                     {story.elder_approved && (
-                      <Badge className="bg-purple-100 text-purple-800" size="sm">
+                      <Badge className="bg-clay-100 text-clay-800" size="sm">
                         <Shield className="w-3 h-3 mr-1" />
                         Elder Approved
                       </Badge>
                     )}
                     {story.ceremonial_content && (
-                      <Badge className="bg-indigo-100 text-indigo-800" size="sm">
+                      <Badge className="bg-terracotta-100 text-terracotta-800" size="sm">
                         Ceremonial
                       </Badge>
                     )}
@@ -608,19 +608,19 @@ export default function StoriesAdminPage() {
                   <div className="grid grid-cols-4 gap-4 text-center text-sm">
                     <div>
                       <p className="font-bold">{story.stats?.views_count || 0}</p>
-                      <p className="text-grey-600 text-xs">Views</p>
+                      <p className="text-stone-600 text-xs">Views</p>
                     </div>
                     <div>
                       <p className="font-bold">{story.stats?.likes_count || 0}</p>
-                      <p className="text-grey-600 text-xs">Likes</p>
+                      <p className="text-stone-600 text-xs">Likes</p>
                     </div>
                     <div>
                       <p className="font-bold">{story.stats?.comments_count || 0}</p>
-                      <p className="text-grey-600 text-xs">Comments</p>
+                      <p className="text-stone-600 text-xs">Comments</p>
                     </div>
                     <div>
                       <p className="font-bold">{story.stats?.shares_count || 0}</p>
-                      <p className="text-grey-600 text-xs">Shares</p>
+                      <p className="text-stone-600 text-xs">Shares</p>
                     </div>
                   </div>
                 </div>
@@ -652,9 +652,9 @@ export default function StoriesAdminPage() {
 
       {filteredStories.length === 0 && (
         <div className="text-center py-12">
-          <BookOpen className="w-12 h-12 text-grey-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-grey-900 mb-2">No stories found</h3>
-          <p className="text-grey-600">Try adjusting your search or filter criteria.</p>
+          <BookOpen className="w-12 h-12 text-stone-400 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-stone-900 mb-2">No stories found</h3>
+          <p className="text-stone-600">Try adjusting your search or filter criteria.</p>
         </div>
       )}
 
@@ -722,7 +722,7 @@ export default function StoriesAdminPage() {
                               excerpt: e.target.value
                             }))}
                             rows={3}
-                            className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            className="w-full px-3 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                           />
                         </div>
                         <div>
@@ -734,7 +734,7 @@ export default function StoriesAdminPage() {
                               content: e.target.value
                             }))}
                             rows={10}
-                            className="w-full px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            className="w-full px-3 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                           />
                         </div>
                       </>
@@ -742,27 +742,27 @@ export default function StoriesAdminPage() {
                       <>
                         <div>
                           <strong className="text-sm">Title:</strong>
-                          <p className="text-sm text-grey-600">{selectedStory.title}</p>
+                          <p className="text-sm text-stone-600">{selectedStory.title}</p>
                         </div>
                         {selectedStory.excerpt && (
                           <div>
                             <strong className="text-sm">Excerpt:</strong>
-                            <p className="text-sm text-grey-600">{selectedStory.excerpt}</p>
+                            <p className="text-sm text-stone-600">{selectedStory.excerpt}</p>
                           </div>
                         )}
                         <div>
                           <strong className="text-sm">Content Preview:</strong>
-                          <div className="max-h-64 overflow-y-auto p-3 bg-grey-50 rounded-md">
-                            <p className="text-sm text-grey-700">{selectedStory.content}</p>
+                          <div className="max-h-64 overflow-y-auto p-3 bg-stone-50 rounded-md">
+                            <p className="text-sm text-stone-700">{selectedStory.content}</p>
                           </div>
                         </div>
                         <div>
                           <strong className="text-sm">Author:</strong>
-                          <p className="text-sm text-grey-600">{selectedStory.author?.display_name}</p>
+                          <p className="text-sm text-stone-600">{selectedStory.author?.display_name}</p>
                         </div>
                         <div>
                           <strong className="text-sm">Reading Time:</strong>
-                          <p className="text-sm text-grey-600">{selectedStory.stats?.reading_time} minutes</p>
+                          <p className="text-sm text-stone-600">{selectedStory.stats?.reading_time} minutes</p>
                         </div>
                       </>
                     )}
@@ -788,7 +788,7 @@ export default function StoriesAdminPage() {
                         <strong className="text-sm">Key Concepts:</strong>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {selectedStory.transcript_analysis.key_concepts.map(concept => (
-                            <Badge key={concept} className="bg-blue-100 text-blue-800" size="sm">{concept}</Badge>
+                            <Badge key={concept} className="bg-sage-100 text-sage-800" size="sm">{concept}</Badge>
                           ))}
                         </div>
                       </div>
@@ -796,7 +796,7 @@ export default function StoriesAdminPage() {
                         <strong className="text-sm">Cultural Elements:</strong>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {selectedStory.transcript_analysis.cultural_elements.map(element => (
-                            <Badge key={element} className="bg-purple-100 text-purple-800" size="sm">{element}</Badge>
+                            <Badge key={element} className="bg-clay-100 text-clay-800" size="sm">{element}</Badge>
                           ))}
                         </div>
                       </div>
@@ -805,7 +805,7 @@ export default function StoriesAdminPage() {
                         <Badge className={
                           selectedStory.transcript_analysis.sentiment === 'positive' ? 'bg-green-100 text-green-800' :
                           selectedStory.transcript_analysis.sentiment === 'negative' ? 'bg-red-100 text-red-800' :
-                          'bg-grey-100 text-grey-800'
+                          'bg-stone-100 text-stone-800'
                         }>
                           {selectedStory.transcript_analysis.sentiment}
                         </Badge>
@@ -836,7 +836,7 @@ export default function StoriesAdminPage() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Featured:</span>
-                      <Badge className={selectedStory.featured ? 'bg-yellow-100 text-yellow-800' : 'bg-grey-100 text-grey-800'}>
+                      <Badge className={selectedStory.featured ? 'bg-yellow-100 text-yellow-800' : 'bg-stone-100 text-stone-800'}>
                         {selectedStory.featured ? 'Yes' : 'No'}
                       </Badge>
                     </div>
@@ -856,19 +856,19 @@ export default function StoriesAdminPage() {
                   <CardContent className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Elder Approved:</span>
-                      <Badge className={selectedStory.elder_approved ? 'bg-green-100 text-green-800' : 'bg-grey-100 text-grey-800'}>
+                      <Badge className={selectedStory.elder_approved ? 'bg-green-100 text-green-800' : 'bg-stone-100 text-stone-800'}>
                         {selectedStory.elder_approved ? 'Yes' : 'No'}
                       </Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Ceremonial Content:</span>
-                      <Badge className={selectedStory.ceremonial_content ? 'bg-purple-100 text-purple-800' : 'bg-grey-100 text-grey-800'}>
+                      <Badge className={selectedStory.ceremonial_content ? 'bg-clay-100 text-clay-800' : 'bg-stone-100 text-stone-800'}>
                         {selectedStory.ceremonial_content ? 'Yes' : 'No'}
                       </Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Traditional Knowledge:</span>
-                      <Badge className={selectedStory.traditional_knowledge ? 'bg-indigo-100 text-indigo-800' : 'bg-grey-100 text-grey-800'}>
+                      <Badge className={selectedStory.traditional_knowledge ? 'bg-terracotta-100 text-terracotta-800' : 'bg-stone-100 text-stone-800'}>
                         {selectedStory.traditional_knowledge ? 'Yes' : 'No'}
                       </Badge>
                     </div>
@@ -899,7 +899,7 @@ export default function StoriesAdminPage() {
                       <div className="flex items-center justify-between gap-4">
                         <div>
                           <p className="text-sm font-medium">Share to ACT Farm</p>
-                          <p className="text-xs text-grey-600">
+                          <p className="text-xs text-stone-600">
                             Publishes title, summary, and image to the ACT Farm registry.
                           </p>
                         </div>
@@ -910,7 +910,7 @@ export default function StoriesAdminPage() {
                         />
                       </div>
                       {shareToActFarmLoading && (
-                        <p className="text-xs text-grey-500">Updating sharing status...</p>
+                        <p className="text-xs text-stone-500">Updating sharing status...</p>
                       )}
                       {shareToActFarmError && (
                         <p className="text-xs text-red-600">{shareToActFarmError}</p>
@@ -929,20 +929,20 @@ export default function StoriesAdminPage() {
                   <CardContent>
                     <div className="grid grid-cols-2 gap-4 text-center">
                       <div>
-                        <p className="text-2xl font-bold text-blue-600">{selectedStory.stats?.views_count || 0}</p>
-                        <p className="text-sm text-grey-600">Views</p>
+                        <p className="text-2xl font-bold text-sage-600">{selectedStory.stats?.views_count || 0}</p>
+                        <p className="text-sm text-stone-600">Views</p>
                       </div>
                       <div>
                         <p className="text-2xl font-bold text-red-600">{selectedStory.stats?.likes_count || 0}</p>
-                        <p className="text-sm text-grey-600">Likes</p>
+                        <p className="text-sm text-stone-600">Likes</p>
                       </div>
                       <div>
                         <p className="text-2xl font-bold text-green-600">{selectedStory.stats?.comments_count || 0}</p>
-                        <p className="text-sm text-grey-600">Comments</p>
+                        <p className="text-sm text-stone-600">Comments</p>
                       </div>
                       <div>
-                        <p className="text-2xl font-bold text-purple-600">{selectedStory.stats?.shares_count || 0}</p>
-                        <p className="text-sm text-grey-600">Shares</p>
+                        <p className="text-2xl font-bold text-clay-600">{selectedStory.stats?.shares_count || 0}</p>
+                        <p className="text-sm text-stone-600">Shares</p>
                       </div>
                     </div>
                   </CardContent>

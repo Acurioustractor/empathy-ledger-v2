@@ -18,8 +18,8 @@ export default function MyAnalyticsPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-2 text-grey-600">Loading...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sage-600 mx-auto"></div>
+          <p className="mt-2 text-stone-600">Loading...</p>
         </div>
       </div>
     )
@@ -32,12 +32,12 @@ export default function MyAnalyticsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-center gap-2">
-                <Brain className="w-6 h-6 text-blue-600" />
+                <Brain className="w-6 h-6 text-sage-600" />
                 Personal Analytics Dashboard
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-grey-600 mb-6">
+              <p className="text-stone-600 mb-6">
                 Sign in to view your personalized storytelling analytics, including your themes,
                 impact metrics, powerful quotes, and growth insights.
               </p>
@@ -55,36 +55,36 @@ export default function MyAnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-grey-50">
+    <div className="min-h-screen bg-stone-50">
       <Header />
 
       {/* Quick Navigation Bar */}
-      <div className="bg-white border-b border-grey-200">
+      <div className="bg-white border-b border-stone-200">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between py-3">
             <div className="flex items-center gap-4">
-              <Link href="/" className="flex items-center gap-2 text-grey-600 hover:text-blue-600">
+              <Link href="/" className="flex items-center gap-2 text-stone-600 hover:text-sage-600">
                 <Home className="w-4 h-4" />
                 <span className="text-sm">Home</span>
               </Link>
-              <span className="text-grey-300">|</span>
-              <Link href="/storytellers" className="text-sm text-grey-600 hover:text-blue-600">
+              <span className="text-stone-300">|</span>
+              <Link href="/storytellers" className="text-sm text-stone-600 hover:text-sage-600">
                 Storytellers
               </Link>
-              <span className="text-grey-300">|</span>
-              <Link href="/stories" className="text-sm text-grey-600 hover:text-blue-600">
+              <span className="text-stone-300">|</span>
+              <Link href="/stories" className="text-sm text-stone-600 hover:text-sage-600">
                 Stories
               </Link>
-              <span className="text-grey-300">|</span>
-              <span className="text-sm font-medium text-blue-600">My Analytics</span>
+              <span className="text-stone-300">|</span>
+              <span className="text-sm font-medium text-sage-600">My Analytics</span>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 text-sm text-grey-600">
+              <div className="flex items-center gap-2 text-sm text-stone-600">
                 <User className="w-4 h-4" />
                 <span>Welcome, {user?.email?.split('@')[0] || 'Benjamin'}</span>
               </div>
-              <Link href="/settings" className="p-2 text-grey-600 hover:text-blue-600">
+              <Link href="/settings" className="p-2 text-stone-600 hover:text-sage-600">
                 <Settings className="w-4 h-4" />
               </Link>
             </div>

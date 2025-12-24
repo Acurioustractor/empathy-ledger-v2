@@ -53,35 +53,35 @@ export default async function ProjectAnalysisPage({ params }: ProjectAnalysisPag
       <div className="container mx-auto px-6 py-8">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center text-sm text-grey-600 mb-4">
-            <span className="hover:text-blue-600 transition-colours cursor-pointer">
+          <div className="flex items-center text-sm text-stone-600 mb-4">
+            <span className="hover:text-sage-600 transition-colours cursor-pointer">
               {organisation.name}
             </span>
             <span className="mx-2">→</span>
-            <span className="hover:text-blue-600 transition-colours cursor-pointer">
+            <span className="hover:text-sage-600 transition-colours cursor-pointer">
               Projects
             </span>
             <span className="mx-2">→</span>
-            <span className="hover:text-blue-600 transition-colours cursor-pointer">
+            <span className="hover:text-sage-600 transition-colours cursor-pointer">
               {project.name}
             </span>
             <span className="mx-2">→</span>
-            <span className="text-grey-900 font-medium">Analysis</span>
+            <span className="text-stone-900 font-medium">Analysis</span>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-8 mb-8">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <h1 className="text-4xl font-bold text-grey-900 mb-4">
+                <h1 className="text-4xl font-bold text-stone-900 mb-4">
                   {project.name} - Impact Analysis
                 </h1>
-                <p className="text-xl text-grey-700 mb-6 leading-relaxed">
+                <p className="text-xl text-stone-700 mb-6 leading-relaxed">
                   Understanding the human stories, cultural impact, and systems change potential
                   through the voices of community members who shared their experiences.
                 </p>
-                <div className="flex items-center gap-6 text-sm text-grey-600">
+                <div className="flex items-center gap-6 text-sm text-stone-600">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-sage-500 rounded-full"></div>
                     <span>Organization: {organisation.name}</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -104,7 +104,7 @@ export default async function ProjectAnalysisPage({ params }: ProjectAnalysisPag
                   project={project}
                   organisation={organisation}
                 />
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-sage-500 to-clay-600 rounded-xl flex items-center justify-center">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
@@ -114,7 +114,7 @@ export default async function ProjectAnalysisPage({ params }: ProjectAnalysisPag
 
             {project.description && (
               <div className="mt-6 p-4 bg-stone-50 rounded-lg">
-                <p className="text-grey-700 leading-relaxed">{project.description}</p>
+                <p className="text-stone-700 leading-relaxed">{project.description}</p>
               </div>
             )}
           </div>

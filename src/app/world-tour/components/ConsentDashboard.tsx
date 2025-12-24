@@ -210,7 +210,7 @@ export function ConsentDashboard({ data, loading }: ConsentDashboardProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-blue-500" />
+              <TrendingUp className="w-5 h-5 text-sage-500" />
               Consent Trend
             </CardTitle>
             <CardDescription>
@@ -344,8 +344,8 @@ function ConsentCard({
 
   const colorClasses = {
     green: 'bg-green-50 dark:bg-green-950/30 text-green-600 border-green-200 dark:border-green-800',
-    blue: 'bg-blue-50 dark:bg-blue-950/30 text-blue-600 border-blue-200 dark:border-blue-800',
-    purple: 'bg-purple-50 dark:bg-purple-950/30 text-purple-600 border-purple-200 dark:border-purple-800',
+    blue: 'bg-sage-50 dark:bg-sage-950/30 text-sage-600 border-sage-200 dark:border-sage-800',
+    purple: 'bg-clay-50 dark:bg-clay-950/30 text-clay-600 border-clay-200 dark:border-clay-800',
     amber: 'bg-amber-50 dark:bg-amber-950/30 text-amber-600 border-amber-200 dark:border-amber-800'
   }
 

@@ -297,7 +297,7 @@ export default function QuickAddPage() {
         </Button>
         <div>
           <h1 className="text-3xl font-bold">Quick Add: Storyteller & Transcript</h1>
-          <p className="text-grey-600">Fast workflow for adding stories with Descript videos</p>
+          <p className="text-stone-600">Fast workflow for adding stories with Descript videos</p>
         </div>
       </div>
 
@@ -305,22 +305,22 @@ export default function QuickAddPage() {
 
         {/* Organization Context Info */}
         {effectiveOrgId && effectiveOrgId !== 'all' && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-sm text-blue-800">
+          <div className="bg-sage-50 border border-sage-200 rounded-lg p-4">
+            <p className="text-sm text-sage-800">
               <strong>Adding to:</strong> {projects.length > 0 ? projects[0]?.organization_name || 'Current Organization' : 'Current Organization'}
             </p>
-            <p className="text-xs text-blue-600 mt-1">
+            <p className="text-xs text-sage-600 mt-1">
               The storyteller will be automatically linked to this organization
             </p>
           </div>
         )}
 
         {(!effectiveOrgId || effectiveOrgId === 'all') && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-sm text-blue-800">
+          <div className="bg-sage-50 border border-sage-200 rounded-lg p-4">
+            <p className="text-sm text-sage-800">
               <strong>Adding as Community Storyteller</strong>
             </p>
-            <p className="text-xs text-blue-600 mt-1">
+            <p className="text-xs text-sage-600 mt-1">
               This storyteller will be added to the community. You can optionally link them to an organization later.
             </p>
           </div>
@@ -514,7 +514,7 @@ export default function QuickAddPage() {
                   {photo && (
                     <p className="text-sm text-green-600 mt-1">✓ Selected: {photo.name}</p>
                   )}
-                  <p className="text-xs text-grey-500 mt-1">
+                  <p className="text-xs text-stone-500 mt-1">
                     Upload a profile photo for the storyteller
                   </p>
                 </div>
@@ -526,7 +526,7 @@ export default function QuickAddPage() {
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="Melbourne, VIC"
                   />
-                  <p className="text-xs text-grey-500 mt-1">City, State (e.g., Sydney, NSW)</p>
+                  <p className="text-xs text-stone-500 mt-1">City, State (e.g., Sydney, NSW)</p>
                 </div>
                 <div>
                   <Label htmlFor="bio">Bio (optional)</Label>
@@ -564,7 +564,7 @@ export default function QuickAddPage() {
                 className="font-mono text-sm"
                 required
               />
-              <p className="text-sm text-grey-500 mt-1">
+              <p className="text-sm text-stone-500 mt-1">
                 {transcriptText.length} characters • ~{Math.ceil(transcriptText.split(/\s+/).filter(Boolean).length / 150)} minutes
               </p>
             </div>
@@ -669,7 +669,7 @@ export default function QuickAddPage() {
                   onChange={(e) => setCulturalBackground(e.target.value)}
                   placeholder="Wiradjuri, Yolngu, etc."
                 />
-                <p className="text-xs text-grey-500 mt-1">Cultural or Indigenous heritage</p>
+                <p className="text-xs text-stone-500 mt-1">Cultural or Indigenous heritage</p>
               </div>
 
               <div>
@@ -680,7 +680,7 @@ export default function QuickAddPage() {
                   onChange={(e) => setTags(e.target.value)}
                   placeholder="youth, leadership, empowerment, resilience"
                 />
-                <p className="text-xs text-grey-500 mt-1">Keywords to help categorize this story</p>
+                <p className="text-xs text-stone-500 mt-1">Keywords to help categorize this story</p>
               </div>
             </CardContent>
           )}

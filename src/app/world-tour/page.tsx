@@ -257,7 +257,7 @@ function WorldTourContent() {
               <span className="text-sm text-muted-foreground">Stories</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded-full bg-indigo-500 flex items-center justify-center">
+              <div className="w-4 h-4 rounded-full bg-terracotta-500 flex items-center justify-center">
                 <UserCircle className="w-2 h-2 text-white" />
               </div>
               <span className="text-sm text-muted-foreground">Storytellers</span>
@@ -275,7 +275,7 @@ function WorldTourContent() {
               <span className="text-sm text-muted-foreground">Dream Partners</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-0.5 bg-purple-500 opacity-60" style={{ borderStyle: 'dashed' }}></div>
+              <div className="w-8 h-0.5 bg-clay-500 opacity-60" style={{ borderStyle: 'dashed' }}></div>
               <span className="text-sm text-muted-foreground">Theme Connections</span>
             </div>
           </div>
@@ -288,14 +288,14 @@ function WorldTourContent() {
               </div>
               <div className="text-xs md:text-sm text-muted-foreground">Interviews</div>
             </div>
-            <div className="bg-gradient-to-br from-indigo-50 to-indigo-100/50 dark:from-indigo-950/50 dark:to-indigo-900/30 rounded-xl p-4 text-center border border-indigo-200/50 dark:border-indigo-800/50">
-              <div className="text-2xl md:text-3xl font-bold text-indigo-600 dark:text-indigo-400">
+            <div className="bg-gradient-to-br from-terracotta-50 to-terracotta-100/50 dark:from-terracotta-950/50 dark:to-terracotta-900/30 rounded-xl p-4 text-center border border-terracotta-200/50 dark:border-terracotta-800/50">
+              <div className="text-2xl md:text-3xl font-bold text-terracotta-600 dark:text-terracotta-400">
                 {state.stats?.totalStorytellers || state.storytellers?.length || 0}
               </div>
               <div className="text-xs md:text-sm text-muted-foreground">Voices</div>
             </div>
-            <div className="bg-gradient-to-br from-purple-50 to-purple-100/50 dark:from-purple-950/50 dark:to-purple-900/30 rounded-xl p-4 text-center border border-purple-200/50 dark:border-purple-800/50">
-              <div className="text-2xl md:text-3xl font-bold text-purple-600 dark:text-purple-400">
+            <div className="bg-gradient-to-br from-clay-50 to-clay-100/50 dark:from-clay-950/50 dark:to-clay-900/30 rounded-xl p-4 text-center border border-clay-200/50 dark:border-clay-800/50">
+              <div className="text-2xl md:text-3xl font-bold text-clay-600 dark:text-clay-400">
                 {state.stats?.uniqueThemes || trendingThemes.length}
               </div>
               <div className="text-xs md:text-sm text-muted-foreground">Themes</div>

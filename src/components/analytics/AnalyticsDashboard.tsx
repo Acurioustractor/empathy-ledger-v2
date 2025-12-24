@@ -120,7 +120,7 @@ export const AnalyticsDashboard: React.FC = () => {
             title="Total Stories"
             value={communityMetrics.totalStories}
             description="Community narratives preserved"
-            icon={<BookOpen className="w-4 h-4 text-blue-500" />}
+            icon={<BookOpen className="w-4 h-4 text-sage-500" />}
             trend="up"
           />
           
@@ -183,7 +183,7 @@ export const AnalyticsDashboard: React.FC = () => {
                       {communityMetrics.communityResilience}%
                     </span>
                   </div>
-                  <div className="w-full bg-grey-200 rounded-full h-2">
+                  <div className="w-full bg-stone-200 rounded-full h-2">
                     <div 
                       className="bg-green-500 h-2 rounded-full" 
                       style={{ width: `${communityMetrics.communityResilience}%` }}
@@ -247,8 +247,8 @@ export const AnalyticsDashboard: React.FC = () => {
               <div className="space-y-4">
                 {[
                   { name: '🌱 Healing & Recovery', stories: 127, percentage: 23, colour: 'bg-green-500' },
-                  { name: '🏠 Connection to Land', stories: 98, percentage: 18, colour: 'bg-blue-500' },
-                  { name: '👥 Community Resilience', stories: 89, percentage: 16, colour: 'bg-purple-500' },
+                  { name: '🏠 Connection to Land', stories: 98, percentage: 18, colour: 'bg-sage-500' },
+                  { name: '👥 Community Resilience', stories: 89, percentage: 16, colour: 'bg-clay-500' },
                   { name: '🎓 Learning & Growth', stories: 76, percentage: 14, colour: 'bg-orange-500' },
                   { name: '❤️ Family & Relationships', stories: 65, percentage: 12, colour: 'bg-red-500' }
                 ].map((theme) => (
@@ -259,7 +259,7 @@ export const AnalyticsDashboard: React.FC = () => {
                         <div className="text-sm font-bold">{theme.stories} stories ({theme.percentage}%)</div>
                       </div>
                     </div>
-                    <div className="w-full bg-grey-200 rounded-full h-3">
+                    <div className="w-full bg-stone-200 rounded-full h-3">
                       <div 
                         className={`${theme.colour} h-3 rounded-full`} 
                         style={{ width: `${theme.percentage}%` }}
@@ -290,7 +290,7 @@ export const AnalyticsDashboard: React.FC = () => {
                   { pattern: 'Challenge → Community Support → Empowerment', percentage: 19, description: 'Community-supported healing' },
                   { pattern: 'Isolation → Connection → Belonging', percentage: 19, description: 'Finding community and place' }
                 ].map((journey) => (
-                  <div key={journey.pattern} className="p-4 bg-grey-50 rounded-lg">
+                  <div key={journey.pattern} className="p-4 bg-stone-50 rounded-lg">
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex-1">
                         <h4 className="font-semibold text-lg">{journey.pattern}</h4>
@@ -535,9 +535,9 @@ export const AnalyticsDashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-blue-50 rounded-lg">
-                  <div className="text-2xl font-bold text-blue-600">23</div>
-                  <div className="text-sm text-blue-700">Active Collaborations</div>
+                <div className="text-center p-4 bg-sage-50 rounded-lg">
+                  <div className="text-2xl font-bold text-sage-600">23</div>
+                  <div className="text-sm text-sage-700">Active Collaborations</div>
                   <div className="text-xs text-muted-foreground mt-1">Storytellers working together</div>
                 </div>
                 <div className="text-center p-4 bg-green-50 rounded-lg">
@@ -545,9 +545,9 @@ export const AnalyticsDashboard: React.FC = () => {
                   <div className="text-sm text-green-700">Mentor-Mentee Relationships</div>
                   <div className="text-xs text-muted-foreground mt-1">Knowledge transfer pairs</div>
                 </div>
-                <div className="text-center p-4 bg-purple-50 rounded-lg">
-                  <div className="text-2xl font-bold text-purple-600">31</div>
-                  <div className="text-sm text-purple-700">Cross-Cultural Dialogues</div>
+                <div className="text-center p-4 bg-clay-50 rounded-lg">
+                  <div className="text-2xl font-bold text-clay-600">31</div>
+                  <div className="text-sm text-clay-700">Cross-Cultural Dialogues</div>
                   <div className="text-xs text-muted-foreground mt-1">Intercultural conversations</div>
                 </div>
               </div>
@@ -616,10 +616,10 @@ export const AnalyticsDashboard: React.FC = () => {
                       <span className="text-sm font-medium">{cluster.storytellers} storytellers</span>
                       <div className="flex space-x-1">
                         {Array.from({ length: Math.min(cluster.storytellers, 8) }).map((_, i) => (
-                          <div key={i} className="w-6 h-6 bg-grey-300 rounded-full"></div>
+                          <div key={i} className="w-6 h-6 bg-stone-300 rounded-full"></div>
                         ))}
                         {cluster.storytellers > 8 && (
-                          <div className="w-6 h-6 bg-grey-200 rounded-full flex items-center justify-center text-xs">
+                          <div className="w-6 h-6 bg-stone-200 rounded-full flex items-center justify-center text-xs">
                             +{cluster.storytellers - 8}
                           </div>
                         )}
@@ -665,12 +665,12 @@ export const AnalyticsDashboard: React.FC = () => {
                     { type: 'Cultural bridge stories', influence: 68, description: 'Connect different communities' },
                     { type: 'Environmental connection tales', influence: 54, description: 'Spark land-based narratives' }
                   ].map((story) => (
-                    <div key={story.type} className="flex justify-between items-center p-3 bg-grey-50 rounded">
+                    <div key={story.type} className="flex justify-between items-center p-3 bg-stone-50 rounded">
                       <div>
                         <div className="font-medium">{story.type}</div>
                         <div className="text-sm text-muted-foreground">{story.description}</div>
                       </div>
-                      <div className="text-sm font-semibold text-blue-600">
+                      <div className="text-sm font-semibold text-sage-600">
                         {story.influence}% influence
                       </div>
                     </div>
@@ -694,10 +694,10 @@ export const AnalyticsDashboard: React.FC = () => {
             <CardContent>
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Card className="p-4 bg-blue-50 border-blue-200">
+                  <Card className="p-4 bg-sage-50 border-sage-200">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600">5</div>
-                      <div className="text-sm text-blue-700">Storytellers seeking mentors</div>
+                      <div className="text-2xl font-bold text-sage-600">5</div>
+                      <div className="text-sm text-sage-700">Storytellers seeking mentors</div>
                       <Badge variant="outline" className="mt-2">Ready to connect</Badge>
                     </div>
                   </Card>
@@ -708,10 +708,10 @@ export const AnalyticsDashboard: React.FC = () => {
                       <Badge variant="outline" className="mt-2">Active requests</Badge>
                     </div>
                   </Card>
-                  <Card className="p-4 bg-purple-50 border-purple-200">
+                  <Card className="p-4 bg-clay-50 border-clay-200">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-purple-600">8</div>
-                      <div className="text-sm text-purple-700">Potential healing circle facilitators</div>
+                      <div className="text-2xl font-bold text-clay-600">8</div>
+                      <div className="text-sm text-clay-700">Potential healing circle facilitators</div>
                       <Badge variant="outline" className="mt-2">AI identified</Badge>
                     </div>
                   </Card>
@@ -785,7 +785,7 @@ export const AnalyticsDashboard: React.FC = () => {
                     stories: 89,
                     themes: ['Wild rice', 'Migration', 'Healing'],
                     storytellers: 19,
-                    healthIndicator: { level: 'Growing', percentage: 72, colour: 'bg-blue-500' },
+                    healthIndicator: { level: 'Growing', percentage: 72, colour: 'bg-sage-500' },
                     description: 'Strong healing traditions with growing intergenerational connection'
                   },
                   {
@@ -793,7 +793,7 @@ export const AnalyticsDashboard: React.FC = () => {
                     stories: 156,
                     themes: ['Identity', 'Adaptation', 'Preservation'],
                     storytellers: 34,
-                    healthIndicator: { level: 'Resilient', percentage: 79, colour: 'bg-purple-500' },
+                    healthIndicator: { level: 'Resilient', percentage: 79, colour: 'bg-clay-500' },
                     description: 'Innovative cultural preservation in metropolitan environments'
                   },
                   {
@@ -827,7 +827,7 @@ export const AnalyticsDashboard: React.FC = () => {
                       </div>
                       <div>
                         <h5 className="font-medium mb-2">Active Storytellers:</h5>
-                        <div className="text-2xl font-bold text-blue-600">{region.storytellers}</div>
+                        <div className="text-2xl font-bold text-sage-600">{region.storytellers}</div>
                       </div>
                     </div>
 
@@ -837,7 +837,7 @@ export const AnalyticsDashboard: React.FC = () => {
                         <span className="text-sm font-medium">{region.healthIndicator.level}</span>
                         <span className="text-sm text-muted-foreground">{region.healthIndicator.percentage}%</span>
                       </div>
-                      <div className="w-full bg-grey-200 rounded-full h-3">
+                      <div className="w-full bg-stone-200 rounded-full h-3">
                         <div 
                           className={`${region.healthIndicator.colour} h-3 rounded-full`}
                           style={{ width: `${region.healthIndicator.percentage}%` }}
@@ -869,9 +869,9 @@ export const AnalyticsDashboard: React.FC = () => {
                     <div className="text-sm text-red-700">Forced relocation narratives</div>
                     <div className="text-xs text-muted-foreground mt-1">Historical trauma stories</div>
                   </div>
-                  <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <div className="text-2xl font-bold text-blue-600">45</div>
-                    <div className="text-sm text-blue-700">Voluntary migration journeys</div>
+                  <div className="text-center p-4 bg-sage-50 rounded-lg border border-sage-200">
+                    <div className="text-2xl font-bold text-sage-600">45</div>
+                    <div className="text-sm text-sage-700">Voluntary migration journeys</div>
                     <div className="text-xs text-muted-foreground mt-1">Economic and educational moves</div>
                   </div>
                   <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
@@ -889,7 +889,7 @@ export const AnalyticsDashboard: React.FC = () => {
                     { theme: 'Building community in diaspora', stories: 42, impact: 'New cultural hubs formed' },
                     { theme: 'Intergenerational transmission challenges', stories: 19, impact: 'Language and tradition gaps' }
                   ].map((item) => (
-                    <div key={item.theme} className="p-3 bg-grey-50 rounded-lg">
+                    <div key={item.theme} className="p-3 bg-stone-50 rounded-lg">
                       <div className="flex justify-between items-start">
                         <div>
                           <div className="font-medium">{item.theme}</div>
@@ -940,7 +940,7 @@ export const AnalyticsDashboard: React.FC = () => {
                         examples: '5 programs running'
                       }
                     ].map((hotspot) => (
-                      <Card key={hotspot.area} className="p-4 bg-gradient-to-r from-green-50 to-blue-50">
+                      <Card key={hotspot.area} className="p-4 bg-gradient-to-r from-green-50 to-sage-50">
                         <div className="flex justify-between items-start mb-2">
                           <h5 className="font-semibold">{hotspot.area}</h5>
                           <Badge variant="default" className="bg-green-600">

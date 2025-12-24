@@ -238,7 +238,7 @@ function ExploreContent() {
                 label="Connections"
                 count={state.connections.length}
                 active={showConnections}
-                color="text-purple-500"
+                color="text-clay-500"
                 onClick={() => toggleLayer('connections')}
               />
             </div>
@@ -267,7 +267,7 @@ function ExploreContent() {
               <div className="text-xs text-white/60">Interviews</div>
             </div>
             <div className="text-center hidden md:block">
-              <div className="font-bold text-purple-400">{stats?.uniqueThemes || trendingThemes.length}</div>
+              <div className="font-bold text-clay-400">{stats?.uniqueThemes || trendingThemes.length}</div>
               <div className="text-xs text-white/60">Themes</div>
             </div>
             <div className="text-center hidden md:block">

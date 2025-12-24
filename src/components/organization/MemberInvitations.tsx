@@ -145,7 +145,7 @@ export default function MemberInvitations({
       case 'accepted': return 'bg-green-100 text-green-800 border-green-200'
       case 'expired': return 'bg-red-100 text-red-800 border-red-200'
       case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
-      default: return 'bg-grey-100 text-grey-800 border-grey-200'
+      default: return 'bg-stone-100 text-stone-800 border-stone-200'
     }
   }
 
@@ -174,8 +174,8 @@ export default function MemberInvitations({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-grey-900">Member Invitations</h2>
-          <p className="text-grey-600 mt-1">Invite new members to join your organisation</p>
+          <h2 className="text-2xl font-bold text-stone-900">Member Invitations</h2>
+          <p className="text-stone-600 mt-1">Invite new members to join your organisation</p>
         </div>
         <Button onClick={() => setShowInviteForm(!showInviteForm)}>
           <Plus className="w-4 h-4 mr-2" />
@@ -273,15 +273,15 @@ export default function MemberInvitations({
               <p className="text-muted-foreground">Loading invitations...</p>
             </div>
           ) : invitations.length === 0 ? (
-            <div className="text-center py-8 text-grey-500">
-              <Mail className="w-12 h-12 mx-auto mb-4 text-grey-300" />
+            <div className="text-center py-8 text-stone-500">
+              <Mail className="w-12 h-12 mx-auto mb-4 text-stone-300" />
               <p className="font-medium">No invitations yet</p>
               <p className="text-sm">Send your first invitation to get started</p>
             </div>
           ) : (
             <div className="space-y-3">
               {invitations.map((invitation) => (
-                <div key={invitation.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-grey-50">
+                <div key={invitation.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-stone-50">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <span className="font-medium">{invitation.email}</span>
@@ -291,7 +291,7 @@ export default function MemberInvitations({
                       </Badge>
                       <Badge variant="outline">{invitation.role}</Badge>
                     </div>
-                    <div className="text-sm text-grey-500">
+                    <div className="text-sm text-stone-500">
                       Invited {new Date(invitation.created_at).toLocaleDateString()}
                       {invitation.invited_by_profile?.display_name && (
                         <span> by {invitation.invited_by_profile.display_name}</span>

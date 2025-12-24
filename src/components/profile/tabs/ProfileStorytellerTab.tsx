@@ -93,19 +93,19 @@ export function ProfileStorytellerTab({
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h3 className="text-lg font-semibold text-grey-900 flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-stone-900 flex items-center gap-2">
           <BookOpen className="w-5 h-5 text-earth-600" />
           Storyteller Profile
         </h3>
-        <p className="text-sm text-grey-600 mt-1">
+        <p className="text-sm text-stone-600 mt-1">
           This information appears on your public storyteller profile page
         </p>
       </div>
 
       {/* Public Profile Notice */}
-      <Alert className="bg-blue-50 border-blue-200">
-        <Eye className="w-4 h-4 text-blue-600" />
-        <AlertDescription className="text-sm text-grey-700">
+      <Alert className="bg-sage-50 border-sage-200">
+        <Eye className="w-4 h-4 text-sage-600" />
+        <AlertDescription className="text-sm text-stone-700">
           <strong>Public Information:</strong> Everything on this page is visible to the community.
           Use the Privacy tab to control what other profile information is shared.
         </AlertDescription>
@@ -123,8 +123,8 @@ export function ProfileStorytellerTab({
             <div className="flex items-center gap-3">
               <BookOpen className="w-5 h-5 text-earth-600" />
               <div>
-                <p className="font-medium text-grey-900">Active Storyteller</p>
-                <p className="text-sm text-grey-600">Your profile appears in storyteller listings</p>
+                <p className="font-medium text-stone-900">Active Storyteller</p>
+                <p className="text-sm text-stone-600">Your profile appears in storyteller listings</p>
               </div>
             </div>
             {isEditing ? (
@@ -144,8 +144,8 @@ export function ProfileStorytellerTab({
             <div className="flex items-center gap-3">
               <Crown className="w-5 h-5 text-amber-600" />
               <div>
-                <p className="font-medium text-grey-900">Elder Status</p>
-                <p className="text-sm text-grey-600">Recognized community elder</p>
+                <p className="font-medium text-stone-900">Elder Status</p>
+                <p className="text-sm text-stone-600">Recognized community elder</p>
               </div>
             </div>
             {isEditing ? (
@@ -165,8 +165,8 @@ export function ProfileStorytellerTab({
             <div className="flex items-center gap-3">
               <Shield className="w-5 h-5 text-clay-700" />
               <div>
-                <p className="font-medium text-grey-900">Traditional Knowledge Keeper</p>
-                <p className="text-sm text-grey-600">Holder of traditional cultural knowledge</p>
+                <p className="font-medium text-stone-900">Traditional Knowledge Keeper</p>
+                <p className="text-sm text-stone-600">Holder of traditional cultural knowledge</p>
               </div>
             </div>
             {isEditing ? (
@@ -209,7 +209,7 @@ export function ProfileStorytellerTab({
                 </SelectContent>
               </Select>
             ) : (
-              <p className="text-grey-900 py-2">
+              <p className="text-stone-900 py-2">
                 {experienceLevels.find(l => l.value === storytellingExperience)?.label || 'Not specified'}
               </p>
             )}
@@ -226,7 +226,7 @@ export function ProfileStorytellerTab({
                 onChange={(e) => onFieldChange('years_of_experience', parseInt(e.target.value))}
               />
             ) : (
-              <p className="text-grey-900 py-2">{yearsOfExperience || 0} years</p>
+              <p className="text-stone-900 py-2">{yearsOfExperience || 0} years</p>
             )}
           </div>
 
@@ -249,7 +249,7 @@ export function ProfileStorytellerTab({
                 </SelectContent>
               </Select>
             ) : (
-              <p className="text-grey-900 py-2">
+              <p className="text-stone-900 py-2">
                 {availabilityOptions.find(o => o.value === availabilityStatus)?.label || 'Not specified'}
               </p>
             )}
@@ -286,7 +286,7 @@ export function ProfileStorytellerTab({
               ) : null
             })}
             {!isEditing && storytellingStyle.length === 0 && (
-              <p className="text-grey-500 text-sm">No styles specified</p>
+              <p className="text-stone-500 text-sm">No styles specified</p>
             )}
           </div>
         </CardContent>
@@ -321,7 +321,7 @@ export function ProfileStorytellerTab({
               ) : null
             })}
             {!isEditing && preferredTopics.length === 0 && (
-              <p className="text-grey-500 text-sm">No topics specified</p>
+              <p className="text-stone-500 text-sm">No topics specified</p>
             )}
           </div>
         </CardContent>
@@ -334,8 +334,8 @@ export function ProfileStorytellerTab({
             <div className="flex items-center gap-3">
               <Users className="w-5 h-5 text-earth-600" />
               <div>
-                <p className="font-medium text-grey-900">View Your Public Profile</p>
-                <p className="text-sm text-grey-600">See how others see your storyteller profile</p>
+                <p className="font-medium text-stone-900">View Your Public Profile</p>
+                <p className="text-sm text-stone-600">See how others see your storyteller profile</p>
               </div>
             </div>
             <Button variant="outline" size="sm">

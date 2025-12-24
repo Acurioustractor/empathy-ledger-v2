@@ -127,7 +127,7 @@ export function StorytellerCard({
           // Subtle featured effect
           isFeatured && 'ring-1 ring-amber-200/80 dark:ring-amber-700/50',
           // Subtle elder status
-          isElder && 'ring-1 ring-purple-200/80 dark:ring-purple-700/50',
+          isElder && 'ring-1 ring-amber-200/80 dark:ring-amber-700/50',
           !isActive && 'opacity-75 grayscale-[0.3]',
           className
         )}
@@ -173,12 +173,12 @@ export function StorytellerCard({
             )}
             {isElder && (
               <div
-                className="bg-background/95 backdrop-blur-sm rounded-full px-3 py-1 flex items-center shadow-md border border-purple-200 dark:border-purple-700 touch-target"
+                className="bg-background/95 backdrop-blur-sm rounded-full px-3 py-1 flex items-center shadow-md border border-clay-200 dark:border-clay-700 touch-target"
                 role="listitem"
                 aria-label="Recognized Elder"
               >
-                <Crown className="w-3.5 h-3.5 text-purple-500 mr-1" aria-hidden="true" />
-                <span className="text-xs font-medium text-purple-700 dark:text-purple-300">Elder</span>
+                <Crown className="w-3.5 h-3.5 text-clay-500 mr-1" aria-hidden="true" />
+                <span className="text-xs font-medium text-clay-700 dark:text-clay-300">Elder</span>
               </div>
             )}
           </div>

@@ -129,9 +129,9 @@ export function ProjectAnalysisView({ projectId, organizationId, projectName, or
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-grey-600">Analyzing project impact and insights...</p>
-          <p className="text-sm text-grey-500 mt-2">This may take a moment as we process all storyteller contributions</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sage-600 mx-auto mb-4"></div>
+          <p className="text-stone-600">Analyzing project impact and insights...</p>
+          <p className="text-sm text-stone-500 mt-2">This may take a moment as we process all storyteller contributions</p>
         </div>
       </div>
     )
@@ -151,9 +151,9 @@ export function ProjectAnalysisView({ projectId, organizationId, projectName, or
 
   if (!analysis) {
     return (
-      <div className="bg-grey-50 border border-grey-200 rounded-lg p-6 text-center">
-        <h3 className="text-lg font-semibold text-grey-800 mb-2">No Analysis Available</h3>
-        <p className="text-grey-600">Unable to load project analysis data.</p>
+      <div className="bg-stone-50 border border-stone-200 rounded-lg p-6 text-center">
+        <h3 className="text-lg font-semibold text-stone-800 mb-2">No Analysis Available</h3>
+        <p className="text-stone-600">Unable to load project analysis data.</p>
       </div>
     )
   }
@@ -162,16 +162,16 @@ export function ProjectAnalysisView({ projectId, organizationId, projectName, or
     <div className="space-y-8">
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+        <Card className="bg-gradient-to-br from-sage-50 to-sage-100 border-sage-200">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <Users className="w-6 h-6 text-blue-600" />
-              <span className="text-2xl font-bold text-blue-700">{analysis.projectInfo.storytellerCount}</span>
+              <Users className="w-6 h-6 text-sage-600" />
+              <span className="text-2xl font-bold text-sage-700">{analysis.projectInfo.storytellerCount}</span>
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-sm font-medium text-blue-800">Community Voices</p>
-            <p className="text-xs text-blue-600 mt-1">Storytellers sharing their experiences</p>
+            <p className="text-sm font-medium text-sage-800">Community Voices</p>
+            <p className="text-xs text-sage-600 mt-1">Storytellers sharing their experiences</p>
           </CardContent>
         </Card>
 
@@ -188,16 +188,16 @@ export function ProjectAnalysisView({ projectId, organizationId, projectName, or
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+        <Card className="bg-gradient-to-br from-clay-50 to-clay-100 border-clay-200">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <Lightbulb className="w-6 h-6 text-purple-600" />
-              <span className="text-2xl font-bold text-purple-700">{analysis.aggregatedInsights.overallThemes.length}</span>
+              <Lightbulb className="w-6 h-6 text-clay-600" />
+              <span className="text-2xl font-bold text-clay-700">{analysis.aggregatedInsights.overallThemes.length}</span>
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-sm font-medium text-purple-800">Key Themes</p>
-            <p className="text-xs text-purple-600 mt-1">Patterns across all stories</p>
+            <p className="text-sm font-medium text-clay-800">Key Themes</p>
+            <p className="text-xs text-clay-600 mt-1">Patterns across all stories</p>
           </CardContent>
         </Card>
 
@@ -289,7 +289,7 @@ function OverviewTab({ analysis }: { analysis: AnalysisData }) {
       <Card className="lg:col-span-2">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-blue-600" />
+            <TrendingUp className="w-5 h-5 text-sage-600" />
             Impact Framework Overview
           </CardTitle>
           <CardDescription>
@@ -331,30 +331,30 @@ function OverviewTab({ analysis }: { analysis: AnalysisData }) {
         <CardContent>
           <div className="space-y-4">
             {(analysis.storytellers || []).slice(0, 5).map((storyteller) => (
-              <div key={storyteller.id} className="flex items-start gap-3 p-3 bg-grey-50 rounded-lg">
+              <div key={storyteller.id} className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
                 <Avatar className="w-10 h-10 flex-shrink-0">
                   <AvatarImage
                     src={storyteller.profileImageUrl}
                     alt={storyteller.displayName}
                   />
-                  <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold text-sm">
+                  <AvatarFallback className="bg-gradient-to-br from-sage-500 to-clay-600 text-white font-semibold text-sm">
                     {storyteller.displayName.split(' ').map(n => n[0]).join('')}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-grey-900">{storyteller.displayName}</p>
-                  <p className="text-sm text-grey-600 truncate">
+                  <p className="font-medium text-stone-900">{storyteller.displayName}</p>
+                  <p className="text-sm text-stone-600 truncate">
                     {storyteller.transcriptCount} story{storyteller.transcriptCount !== 1 ? 's' : ''} •
                     {storyteller.themes.length} themes
                   </p>
                   {storyteller.culturalBackground && (
-                    <p className="text-xs text-grey-500 mt-1">{storyteller.culturalBackground}</p>
+                    <p className="text-xs text-stone-500 mt-1">{storyteller.culturalBackground}</p>
                   )}
                 </div>
               </div>
             ))}
             {analysis.storytellers.length > 5 && (
-              <p className="text-sm text-grey-500 text-center pt-2">
+              <p className="text-sm text-stone-500 text-center pt-2">
                 And {analysis.storytellers.length - 5} more community voices...
               </p>
             )}
@@ -366,7 +366,7 @@ function OverviewTab({ analysis }: { analysis: AnalysisData }) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Network className="w-5 h-5 text-purple-600" />
+            <Network className="w-5 h-5 text-clay-600" />
             Dominant Themes
           </CardTitle>
           <CardDescription>
@@ -378,15 +378,15 @@ function OverviewTab({ analysis }: { analysis: AnalysisData }) {
             {(analysis.aggregatedInsights?.overallThemes || []).slice(0, 8).map((theme, index) => (
               <div key={theme.theme} className="flex items-center justify-between">
                 <div className="flex-1">
-                  <p className="font-medium text-grey-900">{theme.theme}</p>
-                  <p className="text-sm text-grey-600">
+                  <p className="font-medium text-stone-900">{theme.theme}</p>
+                  <p className="text-sm text-stone-600">
                     {theme.frequency} mention{theme.frequency !== 1 ? 's' : ''} •
                     {theme.storytellers.length} storyteller{theme.storytellers.length !== 1 ? 's' : ''}
                   </p>
                 </div>
-                <div className="w-12 h-2 bg-grey-200 rounded-full overflow-hidden">
+                <div className="w-12 h-2 bg-stone-200 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full transition-all duration-300"
+                    className="h-full bg-gradient-to-r from-clay-500 to-sage-500 rounded-full transition-all duration-300"
                     style={{
                       width: `${(theme.frequency / analysis.aggregatedInsights.overallThemes[0].frequency) * 100}%`
                     }}
@@ -437,7 +437,7 @@ function ImpactFrameworkTab({ analysis }: { analysis: AnalysisData }) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-blue-600" />
+            <TrendingUp className="w-5 h-5 text-sage-600" />
             Indigenous Impact Framework Analysis
           </CardTitle>
           <CardDescription>
@@ -454,26 +454,26 @@ function ImpactFrameworkTab({ analysis }: { analysis: AnalysisData }) {
                 <Card key={impact.name} className="border-2 hover:shadow-lg transition-shadow">
                   <CardHeader className="pb-3">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg">
+                      <div className="p-2 bg-gradient-to-br from-sage-50 to-clay-50 rounded-lg">
                         {impactIcons[iconKey] || <Star className="w-6 h-6" />}
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-grey-900">{impact.name}</h3>
+                        <h3 className="font-semibold text-stone-900">{impact.name}</h3>
                         <div className="flex items-center gap-2 mt-1">
-                          <div className="flex-1 bg-grey-200 rounded-full h-2">
+                          <div className="flex-1 bg-stone-200 rounded-full h-2">
                             <div
-                              className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
+                              className="bg-gradient-to-r from-sage-500 to-clay-600 h-2 rounded-full transition-all duration-500"
                               style={{ width: `${impact.value}%` }}
                             />
                           </div>
-                          <span className="text-sm font-bold text-grey-700">{impact.value}%</span>
+                          <span className="text-sm font-bold text-stone-700">{impact.value}%</span>
                         </div>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-grey-600">{impactDescriptions[descKey]}</p>
-                    <div className="mt-3 p-2 bg-grey-50 rounded text-xs text-grey-500">
+                    <p className="text-sm text-stone-600">{impactDescriptions[descKey]}</p>
+                    <div className="mt-3 p-2 bg-stone-50 rounded text-xs text-stone-500">
                       Impact Score: {impact.value} / 100
                     </div>
                   </CardContent>
@@ -492,52 +492,52 @@ function ImpactFrameworkTab({ analysis }: { analysis: AnalysisData }) {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
-              <h4 className="font-semibold text-grey-900">Scoring Methodology</h4>
-              <ul className="space-y-2 text-sm text-grey-600">
+              <h4 className="font-semibold text-stone-900">Scoring Methodology</h4>
+              <ul className="space-y-2 text-sm text-stone-600">
                 <li className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
+                  <div className="w-1.5 h-1.5 bg-sage-500 rounded-full mt-2 flex-shrink-0" />
                   Scores are derived from actual language patterns in community stories
                 </li>
                 <li className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
+                  <div className="w-1.5 h-1.5 bg-sage-500 rounded-full mt-2 flex-shrink-0" />
                   Higher scores indicate stronger evidence of that impact type
                 </li>
                 <li className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
+                  <div className="w-1.5 h-1.5 bg-sage-500 rounded-full mt-2 flex-shrink-0" />
                   Framework based on Indigenous success indicators, not colonial metrics
                 </li>
                 <li className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
+                  <div className="w-1.5 h-1.5 bg-sage-500 rounded-full mt-2 flex-shrink-0" />
                   Validated against real community experiences and outcomes
                 </li>
               </ul>
             </div>
             <div className="space-y-4">
-              <h4 className="font-semibold text-grey-900">Interpretation Guide</h4>
+              <h4 className="font-semibold text-stone-900">Interpretation Guide</h4>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-2 bg-red-200 rounded-full">
                     <div className="w-3/12 h-2 bg-red-500 rounded-full" />
                   </div>
-                  <span className="text-sm text-grey-600">0-25%: Emerging</span>
+                  <span className="text-sm text-stone-600">0-25%: Emerging</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-2 bg-yellow-200 rounded-full">
                     <div className="w-6/12 h-2 bg-yellow-500 rounded-full" />
                   </div>
-                  <span className="text-sm text-grey-600">26-50%: Developing</span>
+                  <span className="text-sm text-stone-600">26-50%: Developing</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-2 bg-blue-200 rounded-full">
-                    <div className="w-9/12 h-2 bg-blue-500 rounded-full" />
+                  <div className="w-12 h-2 bg-sage-200 rounded-full">
+                    <div className="w-9/12 h-2 bg-sage-500 rounded-full" />
                   </div>
-                  <span className="text-sm text-grey-600">51-75%: Strong</span>
+                  <span className="text-sm text-stone-600">51-75%: Strong</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-2 bg-green-200 rounded-full">
                     <div className="w-full h-2 bg-green-500 rounded-full" />
                   </div>
-                  <span className="text-sm text-grey-600">76-100%: Transformative</span>
+                  <span className="text-sm text-stone-600">76-100%: Transformative</span>
                 </div>
               </div>
             </div>
@@ -555,7 +555,7 @@ function CommunityVoicesTab({ analysis }: { analysis: AnalysisData }) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Quote className="w-5 h-5 text-blue-600" />
+            <Quote className="w-5 h-5 text-sage-600" />
             Powerful Community Voices
           </CardTitle>
           <CardDescription>
@@ -565,15 +565,15 @@ function CommunityVoicesTab({ analysis }: { analysis: AnalysisData }) {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {(analysis.aggregatedInsights?.powerfulQuotes || []).map((quote, index) => (
-              <Card key={index} className="border-l-4 border-l-blue-500 bg-gradient-to-r from-blue-50 to-transparent">
+              <Card key={index} className="border-l-4 border-l-blue-500 bg-gradient-to-r from-sage-50 to-transparent">
                 <CardContent className="p-6">
-                  <blockquote className="text-grey-800 mb-4 leading-relaxed">
+                  <blockquote className="text-stone-800 mb-4 leading-relaxed">
                     &ldquo;{quote.quote}&rdquo;
                   </blockquote>
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-medium text-grey-900">— {quote.speaker}</p>
-                      <p className="text-sm text-grey-600 capitalize">
+                      <p className="font-medium text-stone-900">— {quote.speaker}</p>
+                      <p className="text-sm text-stone-600 capitalize">
                         {quote.impactType.replace(/_/g, ' ')} Impact
                       </p>
                     </div>
@@ -582,7 +582,7 @@ function CommunityVoicesTab({ analysis }: { analysis: AnalysisData }) {
                         <Star className="w-4 h-4 text-yellow-500 fill-current" />
                         <span className="text-sm font-medium">{Math.round(quote.confidence * 100)}%</span>
                       </div>
-                      <p className="text-xs text-grey-500">confidence</p>
+                      <p className="text-xs text-stone-500">confidence</p>
                     </div>
                   </div>
                 </CardContent>
@@ -606,7 +606,7 @@ function CommunityVoicesTab({ analysis }: { analysis: AnalysisData }) {
             <div className="space-y-3">
               {(analysis.humanStoryExtracts?.transformationMoments || []).slice(0, 5).map((moment, index) => (
                 <div key={index} className="p-3 bg-green-50 border-l-2 border-green-400 rounded-r">
-                  <p className="text-sm text-grey-700">{moment}</p>
+                  <p className="text-sm text-stone-700">{moment}</p>
                 </div>
               ))}
             </div>
@@ -616,7 +616,7 @@ function CommunityVoicesTab({ analysis }: { analysis: AnalysisData }) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-purple-600" />
+              <BookOpen className="w-5 h-5 text-clay-600" />
               Wisdom Shared
             </CardTitle>
             <CardDescription>Knowledge and insights passed between generations</CardDescription>
@@ -624,8 +624,8 @@ function CommunityVoicesTab({ analysis }: { analysis: AnalysisData }) {
           <CardContent>
             <div className="space-y-3">
               {(analysis.humanStoryExtracts?.wisdomShared || []).slice(0, 5).map((wisdom, index) => (
-                <div key={index} className="p-3 bg-purple-50 border-l-2 border-purple-400 rounded-r">
-                  <p className="text-sm text-grey-700">{wisdom}</p>
+                <div key={index} className="p-3 bg-clay-50 border-l-2 border-clay-400 rounded-r">
+                  <p className="text-sm text-stone-700">{wisdom}</p>
                 </div>
               ))}
             </div>
@@ -635,7 +635,7 @@ function CommunityVoicesTab({ analysis }: { analysis: AnalysisData }) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Building className="w-5 h-5 text-blue-600" />
+              <Building className="w-5 h-5 text-sage-600" />
               Challenges Overcome
             </CardTitle>
             <CardDescription>Stories of resilience and perseverance</CardDescription>
@@ -643,8 +643,8 @@ function CommunityVoicesTab({ analysis }: { analysis: AnalysisData }) {
           <CardContent>
             <div className="space-y-3">
               {(analysis.humanStoryExtracts?.challengesOvercome || []).slice(0, 5).map((challenge, index) => (
-                <div key={index} className="p-3 bg-blue-50 border-l-2 border-blue-400 rounded-r">
-                  <p className="text-sm text-grey-700">{challenge}</p>
+                <div key={index} className="p-3 bg-sage-50 border-l-2 border-sage-400 rounded-r">
+                  <p className="text-sm text-stone-700">{challenge}</p>
                 </div>
               ))}
             </div>
@@ -663,7 +663,7 @@ function CommunityVoicesTab({ analysis }: { analysis: AnalysisData }) {
             <div className="space-y-3">
               {(analysis.humanStoryExtracts?.communityImpact || []).slice(0, 5).map((impact, index) => (
                 <div key={index} className="p-3 bg-amber-50 border-l-2 border-amber-400 rounded-r">
-                  <p className="text-sm text-grey-700">{impact}</p>
+                  <p className="text-sm text-stone-700">{impact}</p>
                 </div>
               ))}
             </div>
@@ -682,7 +682,7 @@ function ThematicAnalysisTab({ analysis }: { analysis: AnalysisData }) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Network className="w-5 h-5 text-purple-600" />
+            <Network className="w-5 h-5 text-clay-600" />
             Thematic Patterns Across Stories
           </CardTitle>
           <CardDescription>
@@ -701,11 +701,11 @@ function ThematicAnalysisTab({ analysis }: { analysis: AnalysisData }) {
                     if (active && payload && payload.length) {
                       const data = payload[0].payload
                       return (
-                        <div className="bg-white p-4 border border-grey-200 rounded-lg shadow-lg">
+                        <div className="bg-white p-4 border border-stone-200 rounded-lg shadow-lg">
                           <p className="font-semibold">{label}</p>
-                          <p className="text-blue-600">Frequency: {data.frequency}</p>
-                          <p className="text-grey-600">Storytellers: {data.storytellers.length}</p>
-                          <div className="mt-2 text-xs text-grey-500">
+                          <p className="text-sage-600">Frequency: {data.frequency}</p>
+                          <p className="text-stone-600">Storytellers: {data.storytellers.length}</p>
+                          <div className="mt-2 text-xs text-stone-500">
                             Featured in: {data.storytellers.slice(0, 3).join(', ')}
                             {data.storytellers.length > 3 && ` +${data.storytellers.length - 3} more`}
                           </div>
@@ -725,20 +725,20 @@ function ThematicAnalysisTab({ analysis }: { analysis: AnalysisData }) {
               <Card key={theme.theme} className="border-l-4" style={{ borderLeftColor: themeColors[index % themeColors.length] }}>
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-grey-900">{theme.theme}</h4>
+                    <h4 className="font-semibold text-stone-900">{theme.theme}</h4>
                     <Badge variant="outline">{theme.frequency}</Badge>
                   </div>
-                  <p className="text-sm text-grey-600 mb-3">
+                  <p className="text-sm text-stone-600 mb-3">
                     Mentioned across {theme.storytellers.length} storyteller{theme.storytellers.length !== 1 ? 's' : ''}
                   </p>
                   <div className="flex flex-wrap gap-1">
                     {(theme.storytellers || []).slice(0, 3).map((storyteller, idx) => (
-                      <span key={idx} className="text-xs bg-grey-100 px-2 py-1 rounded">
+                      <span key={idx} className="text-xs bg-stone-100 px-2 py-1 rounded">
                         {storyteller}
                       </span>
                     ))}
                     {theme.storytellers.length > 3 && (
-                      <span className="text-xs text-grey-500">+{theme.storytellers.length - 3} more</span>
+                      <span className="text-xs text-stone-500">+{theme.storytellers.length - 3} more</span>
                     )}
                   </div>
                 </CardContent>
@@ -757,7 +757,7 @@ function ThematicAnalysisTab({ analysis }: { analysis: AnalysisData }) {
         <CardContent>
           <div className="space-y-4">
             {(analysis.storytellers || []).map((storyteller, index) => (
-              <div key={storyteller.id} className="p-4 border border-grey-200 rounded-lg">
+              <div key={storyteller.id} className="p-4 border border-stone-200 rounded-lg">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <Avatar className="w-12 h-12 flex-shrink-0">
@@ -765,19 +765,19 @@ function ThematicAnalysisTab({ analysis }: { analysis: AnalysisData }) {
                         src={storyteller.profileImageUrl}
                         alt={storyteller.displayName}
                       />
-                      <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold">
+                      <AvatarFallback className="bg-gradient-to-br from-sage-500 to-clay-600 text-white font-semibold">
                         {storyteller.displayName.split(' ').map(n => n[0]).join('')}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <h4 className="font-semibold text-grey-900">{storyteller.displayName}</h4>
-                      <p className="text-sm text-grey-600">
+                      <h4 className="font-semibold text-stone-900">{storyteller.displayName}</h4>
+                      <p className="text-sm text-stone-600">
                         {storyteller.transcriptCount} transcript{storyteller.transcriptCount !== 1 ? 's' : ''} •
                         {storyteller.themes.length} theme{storyteller.themes.length !== 1 ? 's' : ''}
                       </p>
                     </div>
                   </div>
-                  <Badge variant="outline" className="bg-purple-50 text-purple-700">
+                  <Badge variant="outline" className="bg-clay-50 text-clay-700">
                     {storyteller.impactInsights.length} insights
                   </Badge>
                 </div>
@@ -818,10 +818,10 @@ function RecommendationsTab({ analysis }: { analysis: AnalysisData }) {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200">
+      <Card className="bg-gradient-to-br from-sage-50 to-clay-50 border-sage-200">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Compass className="w-5 h-5 text-blue-600" />
+            <Compass className="w-5 h-5 text-sage-600" />
             Strategic Path Forward
           </CardTitle>
           <CardDescription>
@@ -830,10 +830,10 @@ function RecommendationsTab({ analysis }: { analysis: AnalysisData }) {
         </CardHeader>
         <CardContent>
           <div className="text-center mb-6">
-            <p className="text-lg text-grey-700 font-medium">
+            <p className="text-lg text-stone-700 font-medium">
               Building on the stories and wisdom shared by {analysis.projectInfo.storytellerCount} community members
             </p>
-            <p className="text-grey-600 mt-2">
+            <p className="text-stone-600 mt-2">
               These recommendations honour community voice and prioritize sustainable, relationship-based approaches
             </p>
           </div>
@@ -855,11 +855,11 @@ function RecommendationsTab({ analysis }: { analysis: AnalysisData }) {
                 safeRecommendations.continuationSuggestions.map((suggestion, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0" />
-                    <span className="text-grey-700">{suggestion}</span>
+                    <span className="text-stone-700">{suggestion}</span>
                   </li>
                 ))
               ) : (
-                <li className="text-grey-500 italic">No continuation suggestions available</li>
+                <li className="text-stone-500 italic">No continuation suggestions available</li>
               )}
             </ul>
           </CardContent>
@@ -867,7 +867,7 @@ function RecommendationsTab({ analysis }: { analysis: AnalysisData }) {
 
         <Card className="border-l-4 border-l-blue-500">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-blue-700">
+            <CardTitle className="flex items-center gap-2 text-sage-700">
               <Network className="w-5 h-5" />
               Key Connections
             </CardTitle>
@@ -878,12 +878,12 @@ function RecommendationsTab({ analysis }: { analysis: AnalysisData }) {
               {safeRecommendations.keyConnections.length > 0 ? (
                 safeRecommendations.keyConnections.map((connection, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
-                    <span className="text-grey-700">{connection}</span>
+                    <div className="w-2 h-2 bg-sage-500 rounded-full mt-2 flex-shrink-0" />
+                    <span className="text-stone-700">{connection}</span>
                   </li>
                 ))
               ) : (
-                <li className="text-grey-500 italic">No key connections available</li>
+                <li className="text-stone-500 italic">No key connections available</li>
               )}
             </ul>
           </CardContent>
@@ -891,7 +891,7 @@ function RecommendationsTab({ analysis }: { analysis: AnalysisData }) {
 
         <Card className="border-l-4 border-l-purple-500">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-purple-700">
+            <CardTitle className="flex items-center gap-2 text-clay-700">
               <Globe className="w-5 h-5" />
               System Change Opportunities
             </CardTitle>
@@ -902,12 +902,12 @@ function RecommendationsTab({ analysis }: { analysis: AnalysisData }) {
               {safeRecommendations.systemChangeOpportunities.length > 0 ? (
                 safeRecommendations.systemChangeOpportunities.map((opportunity, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0" />
-                    <span className="text-grey-700">{opportunity}</span>
+                    <div className="w-2 h-2 bg-clay-500 rounded-full mt-2 flex-shrink-0" />
+                    <span className="text-stone-700">{opportunity}</span>
                   </li>
                 ))
               ) : (
-                <li className="text-grey-500 italic">No system change opportunities available</li>
+                <li className="text-stone-500 italic">No system change opportunities available</li>
               )}
             </ul>
           </CardContent>
@@ -927,11 +927,11 @@ function RecommendationsTab({ analysis }: { analysis: AnalysisData }) {
                 safeRecommendations.communityEngagementStrategy.map((strategy, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0" />
-                    <span className="text-grey-700">{strategy}</span>
+                    <span className="text-stone-700">{strategy}</span>
                   </li>
                 ))
               ) : (
-                <li className="text-grey-500 italic">No community engagement strategies available</li>
+                <li className="text-stone-500 italic">No community engagement strategies available</li>
               )}
             </ul>
           </CardContent>
@@ -950,13 +950,13 @@ function RecommendationsTab({ analysis }: { analysis: AnalysisData }) {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <p className="text-grey-700 leading-relaxed">
+            <p className="text-stone-700 leading-relaxed">
               The power of <strong>{analysis.projectInfo.name}</strong> lies not in its metrics or outcomes,
               but in the authentic human connections it has fostered. Through {analysis.projectInfo.storytellerCount} voices
               sharing their experiences across {analysis.projectInfo.transcriptCount} stories, we see a tapestry of
               resilience, wisdom, and transformation.
             </p>
-            <p className="text-grey-700 leading-relaxed">
+            <p className="text-stone-700 leading-relaxed">
               Each story represents not just an individual journey, but a thread in the larger fabric of community
               healing and empowerment. The themes of {(analysis.aggregatedInsights?.overallThemes || []).slice(0, 3).map(t => t.theme).join(', ')}
               that emerge across multiple voices show shared experiences that, when acknowledged and honoured,
@@ -964,7 +964,7 @@ function RecommendationsTab({ analysis }: { analysis: AnalysisData }) {
             </p>
             <div className="bg-white p-4 rounded-lg border border-amber-200">
               <p className="text-amber-800 font-medium mb-2">Key Insight:</p>
-              <p className="text-grey-700 italic">
+              <p className="text-stone-700 italic">
                 &ldquo;Stories have the power to shift systems because they make the abstract personal,
                 the systemic human, and the impossible possible. When we honour community voice and centre
                 relationship, we create the conditions for transformation that goes far beyond any single project.&rdquo;

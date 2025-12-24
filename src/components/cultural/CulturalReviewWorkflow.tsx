@@ -192,7 +192,7 @@ export default function CulturalReviewWorkflow({
       case 'high': return 'bg-red-100 text-red-800 border-red-200'
       case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
       case 'low': return 'bg-green-100 text-green-800 border-green-200'
-      default: return 'bg-grey-100 text-grey-800 border-grey-200'
+      default: return 'bg-stone-100 text-stone-800 border-stone-200'
     }
   }
 
@@ -236,7 +236,7 @@ export default function CulturalReviewWorkflow({
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600 mx-auto"></div>
-          <p className="mt-2 text-grey-600">Loading items for review...</p>
+          <p className="mt-2 text-stone-600">Loading items for review...</p>
         </div>
       </div>
     )
@@ -270,10 +270,10 @@ export default function CulturalReviewWorkflow({
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-grey-900">
+            <h2 className="text-2xl font-bold text-stone-900">
               Cultural Review Workflow
             </h2>
-            <p className="text-grey-600 mt-1">
+            <p className="text-stone-600 mt-1">
               {userRole === 'elder' ? 'Elder Review' : 'Cultural Review'} • {reviewItems.length} items pending
             </p>
           </div>
@@ -281,7 +281,7 @@ export default function CulturalReviewWorkflow({
           <div className="flex items-center space-x-2">
             <button
               onClick={fetchReviewItems}
-              className="px-4 py-2 text-sm border border-grey-300 rounded-md hover:bg-grey-50 transition-colours"
+              className="px-4 py-2 text-sm border border-stone-300 rounded-md hover:bg-stone-50 transition-colours"
             >
               <svg className="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -298,8 +298,8 @@ export default function CulturalReviewWorkflow({
           <svg className="mx-auto h-16 w-16 text-green-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <h3 className="text-lg font-medium text-grey-900 mb-2">All Caught Up!</h3>
-          <p className="text-grey-500">
+          <h3 className="text-lg font-medium text-stone-900 mb-2">All Caught Up!</h3>
+          <p className="text-stone-500">
             There are no items pending cultural review at this time.
           </p>
         </div>
@@ -308,7 +308,7 @@ export default function CulturalReviewWorkflow({
           {reviewItems.map((item) => (
             <div key={`${item.type}-${item.id}`} className="bg-white rounded-lg shadow-md overflow-hidden">
               {/* Preview */}
-              <div className="aspect-video bg-grey-100 overflow-hidden relative">
+              <div className="aspect-video bg-stone-100 overflow-hidden relative">
                 {item.preview_url ? (
                   <Image
                     src={item.preview_url}
@@ -318,7 +318,7 @@ export default function CulturalReviewWorkflow({
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full">
-                    <svg className="w-16 h-16 text-grey-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-16 h-16 text-stone-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                   </div>
@@ -327,7 +327,7 @@ export default function CulturalReviewWorkflow({
                 {/* Type Badge */}
                 <div className="absolute top-3 left-3">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    item.type === 'gallery' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'
+                    item.type === 'gallery' ? 'bg-sage-100 text-sage-800' : 'bg-clay-100 text-clay-800'
                   }`}>
                     {item.type === 'gallery' ? '📁 Gallery' : '🖼️ Photo'}
                   </span>
@@ -344,12 +344,12 @@ export default function CulturalReviewWorkflow({
 
               {/* Content */}
               <div className="p-6">
-                <h3 className="text-lg font-semibold text-grey-900 mb-2">
+                <h3 className="text-lg font-semibold text-stone-900 mb-2">
                   {item.title}
                 </h3>
 
                 {item.description && (
-                  <p className="text-grey-600 text-sm mb-3 line-clamp-2">
+                  <p className="text-stone-600 text-sm mb-3 line-clamp-2">
                     {item.description}
                   </p>
                 )}
@@ -357,13 +357,13 @@ export default function CulturalReviewWorkflow({
                 {/* Cultural Context Indicators */}
                 <div className="flex flex-wrap gap-2 mb-4">
                   {item.ceremonial_content && (
-                    <span className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-purple-100 text-purple-800">
+                    <span className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-clay-100 text-clay-800">
                       🪶 Ceremonial
                     </span>
                   )}
                   
                   {item.traditional_knowledge && (
-                    <span className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-blue-100 text-blue-800">
+                    <span className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-sage-100 text-sage-800">
                       📚 Traditional Knowledge
                     </span>
                   )}
@@ -376,7 +376,7 @@ export default function CulturalReviewWorkflow({
                 </div>
 
                 {/* Submitter Info */}
-                <div className="flex items-center justify-between mb-4 text-sm text-grey-500">
+                <div className="flex items-center justify-between mb-4 text-sm text-stone-500">
                   <div className="flex items-center">
                     {item.created_by_profile?.avatar_url ? (
                       <Image
@@ -387,7 +387,7 @@ export default function CulturalReviewWorkflow({
                         className="rounded-full mr-2"
                       />
                     ) : (
-                      <div className="w-6 h-6 bg-grey-300 rounded-full mr-2" />
+                      <div className="w-6 h-6 bg-stone-300 rounded-full mr-2" />
                     )}
                     <span>{item.created_by_profile?.display_name || 'Unknown'}</span>
                   </div>
@@ -437,14 +437,14 @@ export default function CulturalReviewWorkflow({
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
             <div className="p-6">
-              <h3 className="text-lg font-semibold text-grey-900 mb-4">
+              <h3 className="text-lg font-semibold text-stone-900 mb-4">
                 {reviewAction === 'approve' ? 'Approve Content' :
                  reviewAction === 'reject' ? 'Reject Content' :
                  'Request Changes'} - {selectedItem.title}
               </h3>
 
               <div className="mb-4">
-                <label className="block text-sm font-medium text-grey-700 mb-2">
+                <label className="block text-sm font-medium text-stone-700 mb-2">
                   Review Notes
                   {reviewAction !== 'approve' && (
                     <span className="text-red-500 ml-1">*</span>
@@ -454,7 +454,7 @@ export default function CulturalReviewWorkflow({
                   value={reviewNotes}
                   onChange={(e) => setReviewNotes(e.target.value)}
                   rows={4}
-                  className="w-full border border-grey-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full border border-stone-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   placeholder={
                     reviewAction === 'approve' ? 'Optional notes about the approval...' :
                     reviewAction === 'reject' ? 'Please explain why this content is being rejected...' :
@@ -470,7 +470,7 @@ export default function CulturalReviewWorkflow({
                     setReviewAction(null)
                     setReviewNotes('')
                   }}
-                  className="px-4 py-2 text-grey-700 border border-grey-300 rounded-md hover:bg-grey-50 transition-colours"
+                  className="px-4 py-2 text-stone-700 border border-stone-300 rounded-md hover:bg-stone-50 transition-colours"
                   disabled={submitting}
                 >
                   Cancel

@@ -175,10 +175,10 @@ export default function ProjectStorytellersPage() {
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-grey-900">
+            <h1 className="text-3xl font-bold text-stone-900">
               Project Storytellers
             </h1>
-            <p className="text-grey-600">
+            <p className="text-stone-600">
               {project ? `Manage storytellers for: ${project.name}` : 'Loading project...'}
             </p>
           </div>
@@ -195,7 +195,7 @@ export default function ProjectStorytellersPage() {
           <div className="flex items-center gap-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
                 <Input
                   placeholder="Search storytellers..."
                   value={searchTerm}
@@ -214,10 +214,10 @@ export default function ProjectStorytellersPage() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-grey-600">Total Storytellers</p>
+                <p className="text-sm font-medium text-stone-600">Total Storytellers</p>
                 <p className="text-2xl font-bold">{storytellers.length}</p>
               </div>
-              <Users className="h-8 w-8 text-blue-600" />
+              <Users className="h-8 w-8 text-sage-600" />
             </div>
           </CardContent>
         </Card>
@@ -225,7 +225,7 @@ export default function ProjectStorytellersPage() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-grey-600">Assigned</p>
+                <p className="text-sm font-medium text-stone-600">Assigned</p>
                 <p className="text-2xl font-bold">{assignedStorytellers.length}</p>
               </div>
               <UserCheck className="h-8 w-8 text-green-600" />
@@ -236,10 +236,10 @@ export default function ProjectStorytellersPage() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-grey-600">Available</p>
+                <p className="text-sm font-medium text-stone-600">Available</p>
                 <p className="text-2xl font-bold">{unassignedStorytellers.length}</p>
               </div>
-              <UserX className="h-8 w-8 text-grey-600" />
+              <UserX className="h-8 w-8 text-stone-600" />
             </div>
           </CardContent>
         </Card>
@@ -257,7 +257,7 @@ export default function ProjectStorytellersPage() {
           {loading ? (
             <div className="text-center py-8">Loading storytellers...</div>
           ) : assignedStorytellers.length === 0 ? (
-            <div className="text-center py-8 text-grey-500">
+            <div className="text-center py-8 text-stone-500">
               No storytellers assigned to this project yet.
             </div>
           ) : (
@@ -281,7 +281,7 @@ export default function ProjectStorytellersPage() {
                             <Star className="h-4 w-4 text-yellow-500" />
                           )}
                         </div>
-                        <p className="text-sm text-grey-600 line-clamp-2">
+                        <p className="text-sm text-stone-600 line-clamp-2">
                           {storyteller.bio || 'No bio available'}
                         </p>
                         <div className="flex items-center justify-between mt-2">
@@ -324,7 +324,7 @@ export default function ProjectStorytellersPage() {
               </p>
 
               {unassignedStorytellers.length === 0 ? (
-                <p className="text-grey-500 text-center py-8">
+                <p className="text-stone-500 text-center py-8">
                   All storytellers are already assigned to this project.
                 </p>
               ) : (
@@ -332,7 +332,7 @@ export default function ProjectStorytellersPage() {
                   {unassignedStorytellers.map((storyteller) => (
                     <div
                       key={storyteller.id}
-                      className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-grey-50"
+                      className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-stone-50"
                     >
                       <Checkbox
                         checked={selectedStorytellers.includes(storyteller.id)}
@@ -357,7 +357,7 @@ export default function ProjectStorytellersPage() {
                             <Star className="h-4 w-4 text-yellow-500" />
                           )}
                         </div>
-                        <p className="text-sm text-grey-600 line-clamp-1">
+                        <p className="text-sm text-stone-600 line-clamp-1">
                           {storyteller.bio || 'No bio available'}
                         </p>
                         <div className="flex items-center gap-2 mt-1">

@@ -75,10 +75,10 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'active': return 'bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300'
-      case 'completed': return 'bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300'
+      case 'completed': return 'bg-sage-50 text-sage-700 dark:bg-sage-950 dark:text-sage-300'
       case 'paused': return 'bg-yellow-50 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-300'
       case 'cancelled': return 'bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300'
-      default: return 'bg-grey-50 text-grey-700 dark:bg-grey-950 dark:text-grey-300'
+      default: return 'bg-stone-50 text-stone-700 dark:bg-grey-950 dark:text-stone-300'
     }
   }
 

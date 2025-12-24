@@ -91,7 +91,7 @@ export default function StoryEditor({ storyId, initialData, onSave, onPublish }:
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: 'text-blue-600 underline',
+          class: 'text-sage-600 underline',
         },
       }),
       Image.configure({
@@ -202,8 +202,8 @@ export default function StoryEditor({ storyId, initialData, onSave, onPublish }:
     <button
       onClick={onClick}
       className={cn(
-        'p-2 rounded hover:bg-grey-100 transition-colours',
-        active && 'bg-grey-100 text-blue-600'
+        'p-2 rounded hover:bg-stone-100 transition-colours',
+        active && 'bg-stone-100 text-sage-600'
       )}
       title={title}
       type="button"
@@ -215,7 +215,7 @@ export default function StoryEditor({ storyId, initialData, onSave, onPublish }:
   if (!editor) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="h-8 w-8 animate-spin text-grey-400" />
+        <Loader2 className="h-8 w-8 animate-spin text-stone-400" />
       </div>
     )
   }
@@ -269,7 +269,7 @@ export default function StoryEditor({ storyId, initialData, onSave, onPublish }:
                 setTitle(e.target.value)
                 setHasUnsavedChanges(true)
               }}
-              className="text-2xl font-bold border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-blue-600"
+              className="text-2xl font-bold border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-sage-600"
             />
           </div>
 
@@ -282,7 +282,7 @@ export default function StoryEditor({ storyId, initialData, onSave, onPublish }:
                 setSubtitle(e.target.value)
                 setHasUnsavedChanges(true)
               }}
-              className="text-lg border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-blue-600"
+              className="text-lg border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-sage-600"
             />
           </div>
 
@@ -303,7 +303,7 @@ export default function StoryEditor({ storyId, initialData, onSave, onPublish }:
               >
                 <Italic className="h-4 w-4" />
               </ToolbarButton>
-              <div className="w-px h-6 bg-grey-300 mx-1" />
+              <div className="w-px h-6 bg-stone-300 mx-1" />
               <ToolbarButton
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
                 active={editor.isActive('bulletList')}
@@ -325,7 +325,7 @@ export default function StoryEditor({ storyId, initialData, onSave, onPublish }:
               >
                 <Quote className="h-4 w-4" />
               </ToolbarButton>
-              <div className="w-px h-6 bg-grey-300 mx-1" />
+              <div className="w-px h-6 bg-stone-300 mx-1" />
               <ToolbarButton
                 onClick={() => {
                   const url = window.prompt('Enter URL:')
@@ -349,7 +349,7 @@ export default function StoryEditor({ storyId, initialData, onSave, onPublish }:
               >
                 <ImageIcon className="h-4 w-4" />
               </ToolbarButton>
-              <div className="w-px h-6 bg-grey-300 mx-1" />
+              <div className="w-px h-6 bg-stone-300 mx-1" />
               <ToolbarButton
                 onClick={() => editor.chain().focus().undo().run()}
                 disabled={!editor.can().undo()}
@@ -364,7 +364,7 @@ export default function StoryEditor({ storyId, initialData, onSave, onPublish }:
               >
                 <Redo className="h-4 w-4" />
               </ToolbarButton>
-              <div className="ml-auto text-sm text-grey-500">
+              <div className="ml-auto text-sm text-stone-500">
                 {wordCount} words
               </div>
             </div>
@@ -442,7 +442,7 @@ export default function StoryEditor({ storyId, initialData, onSave, onPublish }:
                   ))}
                 </div>
                 {tags.length >= 10 && (
-                  <p className="text-xs text-grey-500">Maximum 10 tags</p>
+                  <p className="text-xs text-stone-500">Maximum 10 tags</p>
                 )}
               </div>
             </CardContent>
@@ -456,19 +456,19 @@ export default function StoryEditor({ storyId, initialData, onSave, onPublish }:
             <CardContent>
               <div className="space-y-3 text-sm">
                 <div className="flex gap-2">
-                  <Info className="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <Info className="h-4 w-4 text-sage-600 flex-shrink-0 mt-0.5" />
                   <p>Start with a compelling opening that draws readers in.</p>
                 </div>
                 <div className="flex gap-2">
-                  <Info className="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <Info className="h-4 w-4 text-sage-600 flex-shrink-0 mt-0.5" />
                   <p>Use descriptive language to paint a vivid picture.</p>
                 </div>
                 <div className="flex gap-2">
-                  <Info className="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <Info className="h-4 w-4 text-sage-600 flex-shrink-0 mt-0.5" />
                   <p>Share personal experiences and emotions to connect with readers.</p>
                 </div>
                 <div className="flex gap-2">
-                  <Info className="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <Info className="h-4 w-4 text-sage-600 flex-shrink-0 mt-0.5" />
                   <p>Keep paragraphs short for better readability.</p>
                 </div>
               </div>

@@ -30,7 +30,7 @@ export default function StorytellerFilters() {
     <div className="bg-white border rounded-lg p-4 space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Filter className="h-5 w-5 text-grey-500" />
+          <Filter className="h-5 w-5 text-stone-500" />
           <h3 className="font-medium">Filters</h3>
           {activeFiltersCount > 0 && (
             <Badge variant="secondary" className="ml-2">
@@ -52,7 +52,7 @@ export default function StorytellerFilters() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-grey-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
           <Input
             type="search"
             placeholder="Search by name or email..."
@@ -148,7 +148,7 @@ export default function StorytellerFilters() {
               Search: {storytellerFilters.search}
               <button
                 onClick={() => updateStorytellerFilters({ search: '' })}
-                className="ml-2 hover:bg-grey-300 rounded-full p-0.5"
+                className="ml-2 hover:bg-stone-300 rounded-full p-0.5"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -159,7 +159,7 @@ export default function StorytellerFilters() {
               Status: {storytellerFilters.status}
               <button
                 onClick={() => updateStorytellerFilters({ status: 'all' })}
-                className="ml-2 hover:bg-grey-300 rounded-full p-0.5"
+                className="ml-2 hover:bg-stone-300 rounded-full p-0.5"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -170,7 +170,7 @@ export default function StorytellerFilters() {
               Featured: {storytellerFilters.featured === 'true' ? 'Yes' : 'No'}
               <button
                 onClick={() => updateStorytellerFilters({ featured: 'all' })}
-                className="ml-2 hover:bg-grey-300 rounded-full p-0.5"
+                className="ml-2 hover:bg-stone-300 rounded-full p-0.5"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -181,7 +181,7 @@ export default function StorytellerFilters() {
               Elder: {storytellerFilters.elder === 'true' ? 'Yes' : 'No'}
               <button
                 onClick={() => updateStorytellerFilters({ elder: 'all' })}
-                className="ml-2 hover:bg-grey-300 rounded-full p-0.5"
+                className="ml-2 hover:bg-stone-300 rounded-full p-0.5"
               >
                 <X className="h-3 w-3" />
               </button>

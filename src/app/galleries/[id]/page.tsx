@@ -123,10 +123,10 @@ function PhotoModal({ photo, onClose, onPrevious, onNext, hasPrevious, hasNext }
                 <h3 className="text-xl font-semibold mb-2">{photo.media_asset.title}</h3>
               )}
               {photo.caption && (
-                <p className="text-grey-200 mb-2">{photo.caption}</p>
+                <p className="text-stone-200 mb-2">{photo.caption}</p>
               )}
               {photo.cultural_context && (
-                <p className="text-grey-300 text-sm">{photo.cultural_context}</p>
+                <p className="text-stone-300 text-sm">{photo.cultural_context}</p>
               )}
             </div>
           </div>
@@ -271,7 +271,7 @@ export default function GalleryPage() {
         <div className="container mx-auto px-6 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-            <p className="mt-4 text-grey-600">Loading gallery...</p>
+            <p className="mt-4 text-stone-600">Loading gallery...</p>
           </div>
         </div>
       </div>
@@ -286,7 +286,7 @@ export default function GalleryPage() {
             <svg className="mx-auto h-24 w-24 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
             </svg>
-            <h3 className="mt-4 text-lg font-medium text-grey-900">{error}</h3>
+            <h3 className="mt-4 text-lg font-medium text-stone-900">{error}</h3>
             <div className="mt-4">
               <Link
                 href="/galleries"
@@ -315,8 +315,8 @@ export default function GalleryPage() {
           <Link href="/galleries" className="text-orange-600 hover:text-orange-700">
             Galleries
           </Link>
-          <span className="mx-2 text-grey-500">/</span>
-          <span className="text-grey-900">{gallery.title}</span>
+          <span className="mx-2 text-stone-500">/</span>
+          <span className="text-stone-900">{gallery.title}</span>
         </nav>
 
         {/* Gallery Header */}
@@ -324,11 +324,11 @@ export default function GalleryPage() {
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
             <div className="flex-1 lg:mr-8">
               <div className="flex items-start justify-between mb-4">
-                <h1 className="text-3xl font-bold text-grey-900">{gallery.title}</h1>
+                <h1 className="text-3xl font-bold text-stone-900">{gallery.title}</h1>
                 {canUploadPhotos && (
                   <Link
                     href={`/galleries/${gallery.id}/edit`}
-                    className="inline-flex items-center px-3 py-2 border border-grey-300 shadow-sm text-sm leading-4 font-medium rounded-md text-grey-700 bg-white hover:bg-grey-50"
+                    className="inline-flex items-center px-3 py-2 border border-stone-300 shadow-sm text-sm leading-4 font-medium rounded-md text-stone-700 bg-white hover:bg-stone-50"
                   >
                     <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -339,7 +339,7 @@ export default function GalleryPage() {
               </div>
 
               {gallery.description && gallery.description.trim() !== '' && (
-                <p className="text-grey-700 text-lg mb-6">{gallery.description}</p>
+                <p className="text-stone-700 text-lg mb-6">{gallery.description}</p>
               )}
 
               {/* Cultural Context - only show if there are badges to display */}
@@ -354,13 +354,13 @@ export default function GalleryPage() {
                   {getSensitivityBadge(gallery.cultural_sensitivity_level)}
 
                   {gallery.ceremonial_content && (
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-800">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-clay-100 text-clay-800">
                       Ceremonial Content
                     </span>
                   )}
 
                   {gallery.traditional_knowledge_content && (
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-sage-100 text-sage-800">
                       Traditional Knowledge
                     </span>
                   )}
@@ -368,7 +368,7 @@ export default function GalleryPage() {
               )}
 
               {/* Gallery Info */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-grey-600">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-stone-600">
                 <div className="flex items-center">
                   <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -393,8 +393,8 @@ export default function GalleryPage() {
 
             {/* Creator Info */}
             <div className="mt-6 lg:mt-0 lg:ml-8">
-              <div className="bg-grey-50 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-grey-900 mb-3">Created by</h3>
+              <div className="bg-stone-50 rounded-lg p-4">
+                <h3 className="text-sm font-medium text-stone-900 mb-3">Created by</h3>
                 <div className="flex items-center">
                   {gallery.created_by_profile?.avatar_url ? (
                     <Image
@@ -405,25 +405,25 @@ export default function GalleryPage() {
                       className="rounded-full mr-3"
                     />
                   ) : (
-                    <div className="w-10 h-10 bg-grey-300 rounded-full mr-3 flex items-center justify-center">
-                      <svg className="w-5 h-5 text-grey-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-10 h-10 bg-stone-300 rounded-full mr-3 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
                   )}
                   <div>
-                    <p className="text-sm font-medium text-grey-900">
+                    <p className="text-sm font-medium text-stone-900">
                       {gallery.created_by_profile?.display_name || 'Unknown User'}
                     </p>
                     {gallery.created_by_profile?.is_elder && (
-                      <p className="text-xs text-purple-600">Community Elder</p>
+                      <p className="text-xs text-clay-600">Community Elder</p>
                     )}
                   </div>
                 </div>
 
                 {gallery.organisation && (
-                  <div className="mt-4 pt-4 border-t border-grey-200">
-                    <h4 className="text-sm font-medium text-grey-900 mb-2">Organization</h4>
+                  <div className="mt-4 pt-4 border-t border-stone-200">
+                    <h4 className="text-sm font-medium text-stone-900 mb-2">Organization</h4>
                     <div className="flex items-center">
                       {gallery.organisation.logo_url ? (
                         <Image
@@ -434,11 +434,11 @@ export default function GalleryPage() {
                           className="rounded mr-2"
                         />
                       ) : (
-                        <svg className="w-6 h-6 mr-2 text-grey-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-6 h-6 mr-2 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
                       )}
-                      <span className="text-sm text-grey-600">{gallery.organisation.name}</span>
+                      <span className="text-sm text-stone-600">{gallery.organisation.name}</span>
                     </div>
                   </div>
                 )}
@@ -450,11 +450,11 @@ export default function GalleryPage() {
         {/* Photo Grid */}
         {photos.length === 0 ? (
           <div className="bg-white rounded-lg shadow-md p-12 text-center">
-            <svg className="mx-auto h-24 w-24 text-grey-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="mx-auto h-24 w-24 text-stone-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            <h3 className="mt-4 text-lg font-medium text-grey-900">No photos yet</h3>
-            <p className="mt-2 text-grey-500">
+            <h3 className="mt-4 text-lg font-medium text-stone-900">No photos yet</h3>
+            <p className="mt-2 text-stone-500">
               {canUploadPhotos
                 ? 'Add some photos to get started!'
                 : 'This gallery is waiting for photos to be added.'
@@ -475,7 +475,7 @@ export default function GalleryPage() {
           <>
             {canUploadPhotos && (
               <div className="mb-6 flex justify-between items-center">
-                <h2 className="text-xl font-semibold text-grey-900">Photos ({gallery.photo_count})</h2>
+                <h2 className="text-xl font-semibold text-stone-900">Photos ({gallery.photo_count})</h2>
                 <button
                   onClick={() => setShowUploadManager(true)}
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700"
@@ -556,7 +556,7 @@ export default function GalleryPage() {
 
                 {photo.caption && (
                   <div className="p-3">
-                    <p className="text-sm text-grey-700 line-clamp-2">{photo.caption}</p>
+                    <p className="text-sm text-stone-700 line-clamp-2">{photo.caption}</p>
                   </div>
                 )}
               </div>
@@ -573,7 +573,7 @@ export default function GalleryPage() {
                 <h2 className="text-xl font-semibold">Add Photos to Gallery</h2>
                 <button
                   onClick={() => setShowUploadManager(false)}
-                  className="text-grey-400 hover:text-grey-600"
+                  className="text-stone-400 hover:text-stone-600"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

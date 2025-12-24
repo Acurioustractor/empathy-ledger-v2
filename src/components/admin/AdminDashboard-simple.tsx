@@ -95,15 +95,15 @@ const AdminDashboard: React.FC = () => {
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-gray-500">{title}</p>
+            <p className="text-sm font-medium text-stone-500">{title}</p>
             <p className="text-3xl font-bold mt-1">
               {isLoadingStats ? (
-                <span className="inline-block w-16 h-8 bg-gray-200 animate-pulse rounded" />
+                <span className="inline-block w-16 h-8 bg-stone-200 animate-pulse rounded" />
               ) : (
                 typeof value === 'number' ? value.toLocaleString() : value
               )}
             </p>
-            {subtitle && <p className="text-xs text-gray-400 mt-1">{subtitle}</p>}
+            {subtitle && <p className="text-xs text-stone-400 mt-1">{subtitle}</p>}
           </div>
           <div className={`p-3 rounded-full ${color}`}>
             <Icon className="w-6 h-6 text-white" />
@@ -136,8 +136,8 @@ const AdminDashboard: React.FC = () => {
             )}
           </div>
           <h3 className="font-semibold mt-3">{title}</h3>
-          <p className="text-sm text-gray-500 mt-1">{description}</p>
-          <div className="flex items-center mt-3 text-sm font-medium text-indigo-600">
+          <p className="text-sm text-stone-500 mt-1">{description}</p>
+          <div className="flex items-center mt-3 text-sm font-medium text-terracotta-600">
             Go to {title.toLowerCase()} <ArrowRight className="w-4 h-4 ml-1" />
           </div>
         </CardContent>
@@ -150,8 +150,8 @@ const AdminDashboard: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <h1 className="text-2xl font-bold text-stone-900">Admin Dashboard</h1>
+          <p className="text-stone-500 text-sm mt-1">
             Welcome back! Here's what's happening.
           </p>
         </div>
@@ -205,7 +205,7 @@ const AdminDashboard: React.FC = () => {
             <div className="flex flex-wrap gap-3">
               {stats.pendingReviews > 0 && (
                 <Link href="/admin/reviews">
-                  <Badge variant="outline" className="py-2 px-3 text-sm bg-white cursor-pointer hover:bg-gray-50">
+                  <Badge variant="outline" className="py-2 px-3 text-sm bg-white cursor-pointer hover:bg-stone-50">
                     <Clock className="w-4 h-4 mr-2 text-orange-500" />
                     {stats.pendingReviews} pending reviews
                   </Badge>
@@ -213,7 +213,7 @@ const AdminDashboard: React.FC = () => {
               )}
               {stats.flaggedContent > 0 && (
                 <Link href="/admin/reviews?filter=flagged">
-                  <Badge variant="outline" className="py-2 px-3 text-sm bg-white cursor-pointer hover:bg-gray-50">
+                  <Badge variant="outline" className="py-2 px-3 text-sm bg-white cursor-pointer hover:bg-stone-50">
                     <Flag className="w-4 h-4 mr-2 text-red-500" />
                     {stats.flaggedContent} flagged content
                   </Badge>
@@ -221,8 +221,8 @@ const AdminDashboard: React.FC = () => {
               )}
               {stats.elderApprovals > 0 && (
                 <Link href="/admin/reviews?filter=elder">
-                  <Badge variant="outline" className="py-2 px-3 text-sm bg-white cursor-pointer hover:bg-gray-50">
-                    <Shield className="w-4 h-4 mr-2 text-purple-500" />
+                  <Badge variant="outline" className="py-2 px-3 text-sm bg-white cursor-pointer hover:bg-stone-50">
+                    <Shield className="w-4 h-4 mr-2 text-clay-500" />
                     {stats.elderApprovals} elder approvals
                   </Badge>
                 </Link>
@@ -238,7 +238,7 @@ const AdminDashboard: React.FC = () => {
           title="Total Storytellers"
           value={stats.totalUsers}
           icon={Users}
-          color="bg-blue-500"
+          color="bg-sage-500"
           subtitle={`${stats.activeUsers} active`}
         />
         <StatCard
@@ -252,13 +252,13 @@ const AdminDashboard: React.FC = () => {
           title="Organizations"
           value={stats.totalOrganizations}
           icon={Building2}
-          color="bg-purple-500"
+          color="bg-clay-500"
         />
         <StatCard
           title="Transcripts"
           value={stats.totalTranscripts}
           icon={FileText}
-          color="bg-indigo-500"
+          color="bg-terracotta-500"
         />
       </div>
 
@@ -278,7 +278,7 @@ const AdminDashboard: React.FC = () => {
             description="Manage all storytellers"
             href="/admin/storytellers"
             icon={Users}
-            color="bg-blue-500"
+            color="bg-sage-500"
             count={stats.totalUsers}
           />
           <ActionCard
@@ -295,7 +295,7 @@ const AdminDashboard: React.FC = () => {
             description="Manage transcripts"
             href="/admin/transcripts"
             icon={FileText}
-            color="bg-indigo-500"
+            color="bg-terracotta-500"
             count={stats.totalTranscripts}
           />
         </div>
@@ -316,7 +316,7 @@ const AdminDashboard: React.FC = () => {
           description="Manage organizations"
           href="/admin/organisations"
           icon={Building2}
-          color="bg-purple-500"
+          color="bg-clay-500"
           count={stats.totalOrganizations}
         />
         <ActionCard
@@ -324,7 +324,7 @@ const AdminDashboard: React.FC = () => {
           description="View platform activity"
           href="/admin/audit-log"
           icon={Activity}
-          color="bg-gray-600"
+          color="bg-stone-600"
         />
       </div>
 
@@ -338,27 +338,27 @@ const AdminDashboard: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
               <div className="flex items-center gap-3">
                 <CheckCircle className="w-5 h-5 text-green-500" />
                 <div>
                   <p className="font-medium">All Services</p>
-                  <p className="text-sm text-gray-500">Operational</p>
+                  <p className="text-sm text-stone-500">Operational</p>
                 </div>
               </div>
               <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50">
                 Healthy
               </Badge>
             </div>
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
               <div className="flex items-center gap-3">
-                <TrendingUp className="w-5 h-5 text-blue-500" />
+                <TrendingUp className="w-5 h-5 text-sage-500" />
                 <div>
                   <p className="font-medium">Data Status</p>
-                  <p className="text-sm text-gray-500">{isLoadingStats ? 'Loading...' : 'Synced'}</p>
+                  <p className="text-sm text-stone-500">{isLoadingStats ? 'Loading...' : 'Synced'}</p>
                 </div>
               </div>
-              <Badge variant="outline" className="text-blue-600 border-blue-200 bg-blue-50">
+              <Badge variant="outline" className="text-sage-600 border-sage-200 bg-sage-50">
                 {isLoadingStats ? 'Loading' : 'Ready'}
               </Badge>
             </div>

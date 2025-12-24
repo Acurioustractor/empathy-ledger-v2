@@ -146,7 +146,7 @@ export function PersonalAnalyticsDashboard() {
   if (!user) {
     return (
       <div className="p-6 text-center">
-        <p className="text-grey-600">Please sign in to view your storyteller analytics</p>
+        <p className="text-stone-600">Please sign in to view your storyteller analytics</p>
         <Button className="mt-4">Sign In</Button>
       </div>
     )
@@ -155,8 +155,8 @@ export function PersonalAnalyticsDashboard() {
   if (loading) {
     return (
       <div className="p-6 text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="mt-2 text-grey-600">Loading your analytics...</p>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sage-600 mx-auto"></div>
+        <p className="mt-2 text-stone-600">Loading your analytics...</p>
       </div>
     )
   }
@@ -173,13 +173,13 @@ export function PersonalAnalyticsDashboard() {
   if (!analytics) {
     return (
       <div className="p-6 text-center bg-white rounded-lg shadow-sm border">
-        <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-          <BarChart3 className="h-8 w-8 text-blue-500" />
+        <div className="w-16 h-16 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <BarChart3 className="h-8 w-8 text-sage-500" />
         </div>
-        <h3 className="text-xl font-semibold text-grey-900 mb-2">
+        <h3 className="text-xl font-semibold text-stone-900 mb-2">
           Welcome to Your Analytics Dashboard!
         </h3>
-        <p className="text-grey-600 mb-6 max-w-md mx-auto">
+        <p className="text-stone-600 mb-6 max-w-md mx-auto">
           Start sharing stories and transcripts to see personalized insights about your storytelling journey,
           themes, impact, and community connections.
         </p>
@@ -201,7 +201,7 @@ export function PersonalAnalyticsDashboard() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-2">
-        <Brain className="w-6 h-6 text-blue-600" />
+        <Brain className="w-6 h-6 text-sage-600" />
         <h2 className="text-2xl font-bold">Your Storytelling Analytics</h2>
         <Badge variant="secondary" className="ml-auto">
           Private Dashboard
@@ -213,11 +213,11 @@ export function PersonalAnalyticsDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Stories & Transcripts</CardTitle>
-            <BookOpen className="h-4 w-4 text-blue-600" />
+            <BookOpen className="h-4 w-4 text-sage-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analytics.total_stories + analytics.total_transcripts}</div>
-            <p className="text-xs text-grey-600">
+            <p className="text-xs text-stone-600">
               {analytics.total_stories} stories, {analytics.total_transcripts} transcripts
             </p>
           </CardContent>
@@ -230,18 +230,18 @@ export function PersonalAnalyticsDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analytics.impact_reach}</div>
-            <p className="text-xs text-grey-600">people reached</p>
+            <p className="text-xs text-stone-600">people reached</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Engagement Score</CardTitle>
-            <TrendingUp className="h-4 w-4 text-purple-600" />
+            <TrendingUp className="h-4 w-4 text-clay-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{Math.round(analytics.total_engagement_score)}</div>
-            <p className="text-xs text-grey-600">out of 100</p>
+            <p className="text-xs text-stone-600">out of 100</p>
           </CardContent>
         </Card>
 
@@ -252,7 +252,7 @@ export function PersonalAnalyticsDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analytics.connection_count}</div>
-            <p className="text-xs text-grey-600">storyteller connections</p>
+            <p className="text-xs text-stone-600">storyteller connections</p>
           </CardContent>
         </Card>
       </div>
@@ -270,7 +270,7 @@ export function PersonalAnalyticsDashboard() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Award className="w-5 h-5 text-purple-600" />
+                  <Award className="w-5 h-5 text-clay-600" />
                   Storytelling Style
                 </CardTitle>
                 <CardDescription>Your unique narrative approach</CardDescription>
@@ -279,7 +279,7 @@ export function PersonalAnalyticsDashboard() {
                 <Badge variant="default" className="text-lg px-4 py-2 capitalize mb-4">
                   {analytics.storytelling_style}
                 </Badge>
-                <div className="space-y-2 text-sm text-grey-600">
+                <div className="space-y-2 text-sm text-stone-600">
                   <p><strong>Total Words:</strong> {analytics.total_word_count.toLocaleString()}</p>
                   <p><strong>Last Updated:</strong> {new Date(analytics.last_calculated_at).toLocaleDateString()}</p>
                 </div>
@@ -316,23 +316,23 @@ export function PersonalAnalyticsDashboard() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Activity className="w-5 h-5 text-blue-600" />
+                  <Activity className="w-5 h-5 text-sage-600" />
                   Recent Activity
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   {engagement.map((period) => (
-                    <div key={period.id} className="flex justify-between items-center p-3 bg-grey-50 rounded-lg">
+                    <div key={period.id} className="flex justify-between items-center p-3 bg-stone-50 rounded-lg">
                       <div>
                         <p className="font-medium capitalize">{period.period_type} Period</p>
-                        <p className="text-sm text-grey-600">
+                        <p className="text-sm text-stone-600">
                           {new Date(period.period_start).toLocaleDateString()}
                         </p>
                       </div>
                       <div className="text-right">
                         <p className="text-lg font-bold">{Math.round(period.engagement_score)}</p>
-                        <p className="text-xs text-grey-600">engagement score</p>
+                        <p className="text-xs text-stone-600">engagement score</p>
                       </div>
                     </div>
                   ))}
@@ -371,13 +371,13 @@ export function PersonalAnalyticsDashboard() {
                         {Object.entries(analytics.theme_distribution).map(([theme, percentage]) => (
                           <div key={theme} className="flex items-center gap-3">
                             <span className="text-sm w-32">{theme}</span>
-                            <div className="flex-1 bg-grey-200 rounded-full h-2">
+                            <div className="flex-1 bg-stone-200 rounded-full h-2">
                               <div
-                                className="bg-blue-600 h-2 rounded-full"
+                                className="bg-sage-600 h-2 rounded-full"
                                 style={{ width: `${percentage}%` }}
                               ></div>
                             </div>
-                            <span className="text-sm text-grey-600">{percentage}%</span>
+                            <span className="text-sm text-stone-600">{percentage}%</span>
                           </div>
                         ))}
                       </div>
@@ -385,7 +385,7 @@ export function PersonalAnalyticsDashboard() {
                   )}
                 </div>
               ) : (
-                <p className="text-grey-600">No themes identified yet. Add more content to see theme analysis.</p>
+                <p className="text-stone-600">No themes identified yet. Add more content to see theme analysis.</p>
               )}
             </CardContent>
           </Card>
@@ -395,7 +395,7 @@ export function PersonalAnalyticsDashboard() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Quote className="w-5 h-5 text-blue-600" />
+                <Quote className="w-5 h-5 text-sage-600" />
                 Your Powerful Quotes
               </CardTitle>
               <CardDescription>
@@ -406,18 +406,18 @@ export function PersonalAnalyticsDashboard() {
               {quotes.length > 0 ? (
                 <div className="space-y-4">
                   {quotes.map((quote) => (
-                    <div key={quote.id} className="border-l-4 border-blue-600 pl-4 py-2">
-                      <blockquote className="text-grey-800 italic mb-2">
+                    <div key={quote.id} className="border-l-4 border-sage-600 pl-4 py-2">
+                      <blockquote className="text-stone-800 italic mb-2">
                         "{quote.quote_text}"
                       </blockquote>
                       <div className="flex items-center gap-2">
                         <Badge variant="outline" className="text-xs">
                           {quote.quote_category}
                         </Badge>
-                        <span className="text-xs text-grey-600">
+                        <span className="text-xs text-stone-600">
                           Impact: {Math.round(quote.emotional_impact_score * 100)}%
                         </span>
-                        <span className="text-xs text-grey-600">
+                        <span className="text-xs text-stone-600">
                           Wisdom: {Math.round(quote.wisdom_score * 100)}%
                         </span>
                       </div>
@@ -425,7 +425,7 @@ export function PersonalAnalyticsDashboard() {
                   ))}
                 </div>
               ) : (
-                <p className="text-grey-600">No quotes extracted yet. Share more stories to see powerful quotes identified.</p>
+                <p className="text-stone-600">No quotes extracted yet. Share more stories to see powerful quotes identified.</p>
               )}
             </CardContent>
           </Card>
@@ -446,7 +446,7 @@ export function PersonalAnalyticsDashboard() {
               <div className="space-y-4">
                 <div>
                   <h4 className="font-medium mb-2">Immediate Opportunities</h4>
-                  <ul className="space-y-2 text-sm text-grey-700">
+                  <ul className="space-y-2 text-sm text-stone-700">
                     <li>• Add more transcripts to increase theme diversity</li>
                     <li>• Write stories based on your transcripts to boost engagement</li>
                     <li>• Connect with other storytellers to expand your network</li>
@@ -467,7 +467,7 @@ export function PersonalAnalyticsDashboard() {
         </TabsContent>
       </Tabs>
 
-      <div className="text-center text-sm text-grey-500">
+      <div className="text-center text-sm text-stone-500">
         Analytics last updated: {new Date(analytics.last_calculated_at).toLocaleString()}
       </div>
     </div>

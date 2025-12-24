@@ -182,8 +182,8 @@ export default function CommandCenterPage() {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-stone-50 dark:bg-stone-900">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-terracotta-600"></div>
       </div>
     );
   }
@@ -193,21 +193,21 @@ export default function CommandCenterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-3xl font-bold text-stone-900 dark:text-white">
               Command Center
             </h1>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
               Super Admin Dashboard
             </p>
           </div>
           <button
             onClick={refreshStats}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+            className="px-4 py-2 bg-terracotta-600 text-white rounded-lg hover:bg-terracotta-700 transition"
           >
             Refresh Stats
           </button>
@@ -267,13 +267,13 @@ export default function CommandCenterPage() {
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Activity Feed */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-white dark:bg-stone-800 rounded-xl shadow-sm p-6">
+            <h2 className="text-lg font-semibold text-stone-900 dark:text-white mb-4">
               Recent Activity
             </h2>
             <div className="space-y-3 max-h-[400px] overflow-y-auto">
               {activities.length === 0 ? (
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                <p className="text-stone-500 dark:text-stone-400 text-sm">
                   No recent activity
                 </p>
               ) : (
@@ -285,13 +285,13 @@ export default function CommandCenterPage() {
           </div>
 
           {/* AI Jobs Queue */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-white dark:bg-stone-800 rounded-xl shadow-sm p-6">
+            <h2 className="text-lg font-semibold text-stone-900 dark:text-white mb-4">
               AI Analysis Queue
             </h2>
             <div className="space-y-3 max-h-[400px] overflow-y-auto">
               {aiJobs.length === 0 ? (
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                <p className="text-stone-500 dark:text-stone-400 text-sm">
                   No pending jobs
                 </p>
               ) : (
@@ -304,8 +304,8 @@ export default function CommandCenterPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="mt-8 bg-white dark:bg-stone-800 rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold text-stone-900 dark:text-white mb-4">
             Quick Actions
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -349,9 +349,9 @@ function StatCard({
   trendLabel?: string;
 }) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5">
-      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{label}</p>
-      <p className="mt-1 text-3xl font-bold text-gray-900 dark:text-white">
+    <div className="bg-white dark:bg-stone-800 rounded-xl shadow-sm p-5">
+      <p className="text-sm font-medium text-stone-500 dark:text-stone-400">{label}</p>
+      <p className="mt-1 text-3xl font-bold text-stone-900 dark:text-white">
         {value.toLocaleString()}
       </p>
       {trend !== undefined && (
@@ -377,7 +377,7 @@ function AlertCard({
 }) {
   const colors = {
     warning: 'bg-yellow-50 border-yellow-200 text-yellow-800 dark:bg-yellow-900/20 dark:border-yellow-800 dark:text-yellow-200',
-    info: 'bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-200',
+    info: 'bg-sage-50 border-sage-200 text-sage-800 dark:bg-sage-900/20 dark:border-sage-800 dark:text-sage-200',
     error: 'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-800 dark:text-red-200',
   };
 
@@ -400,18 +400,18 @@ function ActivityRow({ activity }: { activity: ActivityItem }) {
 
   return (
     <div className={`flex items-start gap-3 p-2 rounded-lg ${activity.requires_attention ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''}`}>
-      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-sm">
+      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-700 flex items-center justify-center text-sm">
         {getActivityIcon(activity.action_category)}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm text-gray-900 dark:text-white">
+        <p className="text-sm text-stone-900 dark:text-white">
           <span className="font-medium">{activity.user_name || 'System'}</span>{' '}
-          <span className="text-gray-500 dark:text-gray-400">{activity.action}</span>{' '}
+          <span className="text-stone-500 dark:text-stone-400">{activity.action}</span>{' '}
           {activity.entity_title && (
             <span className="font-medium">{activity.entity_title}</span>
           )}
         </p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">{timeAgo}</p>
+        <p className="text-xs text-stone-500 dark:text-stone-400">{timeAgo}</p>
       </div>
     </div>
   );
@@ -421,18 +421,18 @@ function ActivityRow({ activity }: { activity: ActivityItem }) {
 function AIJobRow({ job, onRetry }: { job: AIJob; onRetry: () => void }) {
   const statusColors = {
     pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200',
-    processing: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200',
+    processing: 'bg-sage-100 text-sage-800 dark:bg-sage-900/30 dark:text-sage-200',
     failed: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-200',
   };
 
   return (
-    <div className="flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-gray-700/50">
+    <div className="flex items-center justify-between p-2 rounded-lg bg-stone-50 dark:bg-stone-700/50">
       <div className="flex-1">
         <div className="flex items-center gap-2">
           <span className={`px-2 py-0.5 rounded text-xs font-medium ${statusColors[job.status as keyof typeof statusColors] || ''}`}>
             {job.status}
           </span>
-          <span className="text-sm text-gray-900 dark:text-white font-medium">
+          <span className="text-sm text-stone-900 dark:text-white font-medium">
             {job.job_type}
           </span>
         </div>
@@ -445,7 +445,7 @@ function AIJobRow({ job, onRetry }: { job: AIJob; onRetry: () => void }) {
       {job.status === 'failed' && (
         <button
           onClick={onRetry}
-          className="px-2 py-1 text-xs bg-indigo-600 text-white rounded hover:bg-indigo-700"
+          className="px-2 py-1 text-xs bg-terracotta-600 text-white rounded hover:bg-terracotta-700"
         >
           Retry
         </button>
@@ -467,10 +467,10 @@ function QuickAction({
   return (
     <button
       onClick={onClick}
-      className="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+      className="flex flex-col items-center justify-center p-4 bg-stone-50 dark:bg-stone-700/50 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-700 transition"
     >
       <span className="text-2xl mb-2">{icon}</span>
-      <span className="text-sm font-medium text-gray-900 dark:text-white text-center">
+      <span className="text-sm font-medium text-stone-900 dark:text-white text-center">
         {label}
       </span>
     </button>

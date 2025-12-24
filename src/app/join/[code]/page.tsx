@@ -136,10 +136,10 @@ export default function JoinOrganizationPage() {
 
   const getRoleColor = (role: string) => {
     switch (role) {
-      case 'admin': return 'bg-purple-100 text-purple-800 border-purple-200'
-      case 'member': return 'bg-blue-100 text-blue-800 border-blue-200'
-      case 'viewer': return 'bg-grey-100 text-grey-800 border-grey-200'
-      default: return 'bg-grey-100 text-grey-800 border-grey-200'
+      case 'admin': return 'bg-clay-100 text-clay-800 border-clay-200'
+      case 'member': return 'bg-sage-100 text-sage-800 border-sage-200'
+      case 'viewer': return 'bg-stone-100 text-stone-800 border-stone-200'
+      default: return 'bg-stone-100 text-stone-800 border-stone-200'
     }
   }
 
@@ -240,7 +240,7 @@ export default function JoinOrganizationPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-center">
-                <p className="text-grey-600 mb-4">
+                <p className="text-stone-600 mb-4">
                   Please contact the organisation administrator for a new invitation.
                 </p>
                 <Button asChild>
@@ -293,21 +293,21 @@ export default function JoinOrganizationPage() {
 
             <CardContent className="space-y-6">
               {/* Organization Info */}
-              <div className="bg-grey-50 p-4 rounded-lg">
+              <div className="bg-stone-50 p-4 rounded-lg">
                 <h3 className="font-semibold mb-2">Organization Details</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
-                    <Users className="w-4 h-4 text-grey-500" />
+                    <Users className="w-4 h-4 text-stone-500" />
                     <span>{invitation.organisation.name}</span>
                   </div>
                   {invitation.organisation.description && (
-                    <p className="text-grey-600">{invitation.organisation.description}</p>
+                    <p className="text-stone-600">{invitation.organisation.description}</p>
                   )}
                 </div>
               </div>
 
               {/* Role Info */}
-              <div className="bg-grey-50 p-4 rounded-lg">
+              <div className="bg-stone-50 p-4 rounded-lg">
                 <h3 className="font-semibold mb-2">Your Role</h3>
                 <div className="flex items-center gap-2 mb-2">
                   <Badge className={getRoleColor(invitation.role)}>
@@ -315,13 +315,13 @@ export default function JoinOrganizationPage() {
                     {invitation.role.charAt(0).toUpperCase() + invitation.role.slice(1)}
                   </Badge>
                 </div>
-                <p className="text-sm text-grey-600">{getRoleDescription(invitation.role)}</p>
+                <p className="text-sm text-stone-600">{getRoleDescription(invitation.role)}</p>
               </div>
 
               {/* Invitation Details */}
-              <div className="bg-grey-50 p-4 rounded-lg">
+              <div className="bg-stone-50 p-4 rounded-lg">
                 <h3 className="font-semibold mb-2">Invitation Details</h3>
-                <div className="space-y-2 text-sm text-grey-600">
+                <div className="space-y-2 text-sm text-stone-600">
                   <div className="flex items-center gap-2">
                     <Mail className="w-4 h-4" />
                     <span>Sent to: {invitation.email}</span>
@@ -343,7 +343,7 @@ export default function JoinOrganizationPage() {
               <div className="space-y-3">
                 {!isAuthenticated ? (
                   <div className="text-center">
-                    <p className="text-grey-600 mb-4">You need to sign in to accept this invitation</p>
+                    <p className="text-stone-600 mb-4">You need to sign in to accept this invitation</p>
                     <div className="flex gap-2">
                       <Button asChild className="flex-1">
                         <a href={`/auth/signin?redirect=/join/${inviteCode}`}>

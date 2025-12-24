@@ -121,7 +121,7 @@ export function EngagementDashboard({ data, loading }: EngagementDashboardProps)
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-blue-500" />
+              <TrendingUp className="w-5 h-5 text-sage-500" />
               Engagement Trend
             </CardTitle>
             <CardDescription>
@@ -237,7 +237,7 @@ export function EngagementDashboard({ data, loading }: EngagementDashboardProps)
                   return (
                     <div
                       key={story.id}
-                      className="flex items-center gap-4 p-3 rounded-lg border hover:border-blue-300 dark:hover:border-blue-700 transition-colors"
+                      className="flex items-center gap-4 p-3 rounded-lg border hover:border-sage-300 dark:hover:border-sage-700 transition-colors"
                     >
                       <div
                         className={cn(
@@ -253,7 +253,7 @@ export function EngagementDashboard({ data, loading }: EngagementDashboardProps)
                       <div className="flex-1 min-w-0">
                         <Link
                           href={story.id.startsWith('demo') ? '#' : `/stories/${story.id}`}
-                          className="font-medium hover:text-blue-600 line-clamp-1"
+                          className="font-medium hover:text-sage-600 line-clamp-1"
                         >
                           {story.title}
                         </Link>
@@ -263,7 +263,7 @@ export function EngagementDashboard({ data, loading }: EngagementDashboardProps)
                         <Progress value={percentage} className="h-1 mt-2" />
                       </div>
                       <div className="text-right">
-                        <div className="flex items-center gap-1 text-blue-600">
+                        <div className="flex items-center gap-1 text-sage-600">
                           <Eye className="w-4 h-4" />
                           <span className="font-bold">{story.views}</span>
                         </div>
@@ -280,7 +280,7 @@ export function EngagementDashboard({ data, loading }: EngagementDashboardProps)
       </Card>
 
       {/* Engagement Score Summary */}
-      <Card className="bg-gradient-to-br from-blue-50 via-background to-purple-50 dark:from-blue-950/30 dark:via-background dark:to-purple-950/30">
+      <Card className="bg-gradient-to-br from-sage-50 via-background to-clay-50 dark:from-sage-950/30 dark:via-background dark:to-clay-950/30">
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -290,7 +290,7 @@ export function EngagementDashboard({ data, loading }: EngagementDashboardProps)
               </p>
             </div>
             <div className="text-right">
-              <div className="text-4xl font-bold text-blue-600">
+              <div className="text-4xl font-bold text-sage-600">
                 {totalEngagement.toLocaleString()}
               </div>
               <Badge variant="secondary" className="mt-1">
@@ -317,9 +317,9 @@ function EngagementCard({
   color: 'blue' | 'green' | 'purple' | 'amber'
 }) {
   const colorClasses = {
-    blue: 'bg-blue-50 dark:bg-blue-950/30 text-blue-600',
+    blue: 'bg-sage-50 dark:bg-sage-950/30 text-sage-600',
     green: 'bg-green-50 dark:bg-green-950/30 text-green-600',
-    purple: 'bg-purple-50 dark:bg-purple-950/30 text-purple-600',
+    purple: 'bg-clay-50 dark:bg-clay-950/30 text-clay-600',
     amber: 'bg-amber-50 dark:bg-amber-950/30 text-amber-600'
   }
 

@@ -196,10 +196,10 @@ export default function MediaLinkingManager({
 
   const getRoleColor = (role?: string) => {
     switch (role) {
-      case 'hero': return 'bg-purple-100 text-purple-800'
-      case 'cover': return 'bg-blue-100 text-blue-800'
+      case 'hero': return 'bg-clay-100 text-clay-800'
+      case 'cover': return 'bg-sage-100 text-sage-800'
       case 'primary': return 'bg-green-100 text-green-800'
-      default: return 'bg-grey-100 text-grey-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -242,7 +242,7 @@ export default function MediaLinkingManager({
               {/* Search and Context */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="relative">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-grey-400" />
+                  <Search className="absolute left-3 top-3 h-4 w-4 text-stone-400" />
                   <Input
                     placeholder="Search media files..."
                     value={searchTerm}
@@ -254,7 +254,7 @@ export default function MediaLinkingManager({
                 <select
                   value={selectedRole}
                   onChange={(e) => setSelectedRole(e.target.value)}
-                  className="px-3 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="px-3 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 >
                   <option value="hero">Hero Media</option>
                   <option value="cover">Cover Image</option>
@@ -277,7 +277,7 @@ export default function MediaLinkingManager({
                   <Card key={media.id} className="cursor-pointer hover:shadow-md transition-shadow">
                     <CardContent className="p-4">
                       {/* Media Thumbnail */}
-                      <div className="aspect-video bg-grey-100 rounded-md mb-3 flex items-center justify-center overflow-hidden">
+                      <div className="aspect-video bg-stone-100 rounded-md mb-3 flex items-center justify-center overflow-hidden">
                         {media.thumbnail_url ? (
                           <img 
                             src={media.thumbnail_url} 
@@ -295,7 +295,7 @@ export default function MediaLinkingManager({
                           {media.title || media.filename}
                         </h4>
                         
-                        <div className="flex items-center justify-between text-xs text-grey-500">
+                        <div className="flex items-center justify-between text-xs text-stone-500">
                           <span className="flex items-center">
                             {getMediaIcon(media.file_type)}
                             <span className="ml-1 capitalize">{media.file_type.split('/')[0]}</span>
@@ -327,7 +327,7 @@ export default function MediaLinkingManager({
               </div>
               
               {filteredAvailableMedia.length === 0 && (
-                <div className="text-center py-8 text-grey-500">
+                <div className="text-center py-8 text-stone-500">
                   <Search className="w-8 h-8 mx-auto mb-2 opacity-50" />
                   <p>No available media found</p>
                 </div>
@@ -344,7 +344,7 @@ export default function MediaLinkingManager({
             <Card key={usage.id}>
               <CardContent className="p-4">
                 {/* Media Preview */}
-                <div className="aspect-video bg-grey-100 rounded-md mb-3 flex items-center justify-center overflow-hidden">
+                <div className="aspect-video bg-stone-100 rounded-md mb-3 flex items-center justify-center overflow-hidden">
                   {usage.media_asset?.thumbnail_url ? (
                     <img 
                       src={usage.media_asset.thumbnail_url} 
@@ -370,7 +370,7 @@ export default function MediaLinkingManager({
                     {usage.media_asset?.title || usage.media_asset?.filename}
                   </h4>
                   
-                  <div className="flex items-center justify-between text-xs text-grey-500">
+                  <div className="flex items-center justify-between text-xs text-stone-500">
                     <span className="flex items-center">
                       {getMediaIcon(usage.media_asset?.file_type || 'unknown')}
                       <span className="ml-1 capitalize">
@@ -393,7 +393,7 @@ export default function MediaLinkingManager({
                   </div>
                   
                   {usage.usage_context && (
-                    <p className="text-xs text-grey-600 line-clamp-2">
+                    <p className="text-xs text-stone-600 line-clamp-2">
                       {usage.usage_context}
                     </p>
                   )}
@@ -414,7 +414,7 @@ export default function MediaLinkingManager({
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 text-grey-500">
+        <div className="text-center py-12 text-stone-500">
           <Image className="w-12 h-12 mx-auto mb-4 opacity-50" />
           <h3 className="text-lg font-medium mb-2">No media linked yet</h3>
           <p className="text-sm">Link photos, videos, or other media to this {contentType}</p>

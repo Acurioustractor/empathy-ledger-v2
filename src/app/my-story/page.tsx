@@ -144,7 +144,7 @@ export default function MyStoryPage() {
                 </span>
               </div>
               <div>
-                <p className="font-semibold text-gray-900">{displayName}</p>
+                <p className="font-semibold text-stone-900">{displayName}</p>
                 <p className="text-xs text-amber-700">Storyteller</p>
               </div>
             </div>
@@ -162,7 +162,7 @@ export default function MyStoryPage() {
 
         {/* Welcome Message */}
         <div className="text-center py-4">
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-stone-900">
             Welcome back, {displayName.split(' ')[0]}
           </h1>
           <p className="text-amber-700 mt-1">
@@ -193,7 +193,7 @@ export default function MyStoryPage() {
         {/* My Stories Section */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+            <h2 className="text-lg font-semibold text-stone-900 flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-amber-600" />
               My Stories
             </h2>
@@ -206,8 +206,8 @@ export default function MyStoryPage() {
             <div className="space-y-3">
               {[1, 2, 3].map(i => (
                 <div key={i} className="bg-white rounded-xl p-4 animate-pulse">
-                  <div className="h-5 bg-gray-200 rounded w-3/4 mb-2" />
-                  <div className="h-4 bg-gray-100 rounded w-1/2" />
+                  <div className="h-5 bg-stone-200 rounded w-3/4 mb-2" />
+                  <div className="h-4 bg-stone-100 rounded w-1/2" />
                 </div>
               ))}
             </div>
@@ -217,8 +217,8 @@ export default function MyStoryPage() {
                 <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
                   <BookOpen className="w-8 h-8 text-amber-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">No stories yet</h3>
-                <p className="text-gray-600 text-sm mb-4">
+                <h3 className="font-semibold text-stone-900 mb-2">No stories yet</h3>
+                <p className="text-stone-600 text-sm mb-4">
                   Your stories are waiting to be told. Start by sharing something meaningful to you.
                 </p>
                 <Link href="/capture">
@@ -237,10 +237,10 @@ export default function MyStoryPage() {
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-medium text-gray-900 truncate">
+                          <h3 className="font-medium text-stone-900 truncate">
                             {story.title || 'Untitled Story'}
                           </h3>
-                          <div className="flex items-center gap-3 mt-2 text-xs text-gray-500">
+                          <div className="flex items-center gap-3 mt-2 text-xs text-stone-500">
                             <span className="flex items-center gap-1">
                               {getVisibilityIcon(story.visibility)}
                               {getVisibilityLabel(story.visibility)}
@@ -276,7 +276,7 @@ export default function MyStoryPage() {
             <Card className="bg-white/80 hover:bg-white transition-all cursor-pointer border-amber-100">
               <CardContent className="p-4 text-center">
                 <Globe className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-                <p className="text-sm font-medium text-gray-700">Browse Stories</p>
+                <p className="text-sm font-medium text-stone-700">Browse Stories</p>
               </CardContent>
             </Card>
           </Link>
@@ -284,7 +284,7 @@ export default function MyStoryPage() {
             <Card className="bg-white/80 hover:bg-white transition-all cursor-pointer border-amber-100">
               <CardContent className="p-4 text-center">
                 <Users className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-                <p className="text-sm font-medium text-gray-700">Storytellers</p>
+                <p className="text-sm font-medium text-stone-700">Storytellers</p>
               </CardContent>
             </Card>
           </Link>

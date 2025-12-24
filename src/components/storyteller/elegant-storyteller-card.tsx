@@ -179,7 +179,7 @@ export function ElegantStorytellerCard({
               </Badge>
             )}
             {isElder && (
-              <Badge className="bg-white/90 backdrop-blur-sm text-purple-700 border-purple-200 shadow-lg touch-target">
+              <Badge className="bg-white/90 backdrop-blur-sm text-clay-700 border-clay-200 shadow-lg touch-target">
                 <Crown className="w-3 h-3 mr-1" />
                 Elder
               </Badge>
@@ -224,7 +224,7 @@ export function ElegantStorytellerCard({
 
           {/* Bio */}
           {storyteller.bio && (
-            <Typography variant="p" className="text-grey-700 leading-relaxed text-sm">
+            <Typography variant="p" className="text-stone-700 leading-relaxed text-sm">
               {getCardDisplayBio(storyteller.bio, 150)}
             </Typography>
           )}
@@ -232,7 +232,7 @@ export function ElegantStorytellerCard({
           {/* Primary Organization */}
           {storyteller.primary_organization && (
             <div className="flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-grey-500" />
+              <Building2 className="w-4 h-4 text-stone-500" />
               <Badge
                 variant="outline"
                 className={cn("text-xs touch-target", getOrgTypeColor(storyteller.primary_organization.type))}
@@ -245,7 +245,7 @@ export function ElegantStorytellerCard({
           {/* Primary Project */}
           {storyteller.primary_project && (
             <div className="flex items-center gap-2">
-              <Target className="w-4 h-4 text-grey-500" />
+              <Target className="w-4 h-4 text-stone-500" />
               <Badge
                 variant="outline"
                 className={cn("text-xs touch-target", getProjectTypeColor(storyteller.primary_project.type))}
@@ -267,13 +267,13 @@ export function ElegantStorytellerCard({
           )}
 
           {/* Footer */}
-          <div className="flex items-center justify-between pt-4 border-t border-grey-100">
+          <div className="flex items-center justify-between pt-4 border-t border-stone-100">
             <div className="flex items-center gap-4 flex-wrap">
               {/* Transcript Count */}
               {storyteller.transcript_count !== undefined && storyteller.transcript_count > 0 && (
                 <div className="flex items-center gap-1">
                   <FileText className="w-4 h-4 text-earth-600" />
-                  <Typography variant="small" className="text-grey-700 font-medium">
+                  <Typography variant="small" className="text-stone-700 font-medium">
                     {storyteller.transcript_count} {storyteller.transcript_count === 1 ? 'transcript' : 'transcripts'}
                   </Typography>
                 </div>
@@ -282,13 +282,13 @@ export function ElegantStorytellerCard({
               {/* Story Count */}
               <div className="flex items-center gap-1">
                 <Heart className="w-4 h-4 text-earth-600" />
-                <Typography variant="small" className="text-grey-700 font-medium">
+                <Typography variant="small" className="text-stone-700 font-medium">
                   {storyteller.story_count} {storyteller.story_count === 1 ? 'story' : 'stories'}
                 </Typography>
               </div>
 
               {storyteller.last_active && (
-                <div className="flex items-center gap-1 text-xs text-grey-500">
+                <div className="flex items-center gap-1 text-xs text-stone-500">
                   <Calendar className="w-3 h-3" />
                   <span>{formatLastActive(storyteller.last_active)}</span>
                 </div>

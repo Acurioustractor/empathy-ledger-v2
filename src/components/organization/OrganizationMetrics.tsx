@@ -26,12 +26,12 @@ function SimpleMetricCard({
     <div className="bg-white rounded-lg p-6 border shadow-sm">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-grey-600">{title}</p>
-          <p className="text-2xl font-bold text-grey-900">{value}</p>
-          <p className="text-sm text-grey-500">{subtitle}</p>
+          <p className="text-sm font-medium text-stone-600">{title}</p>
+          <p className="text-2xl font-bold text-stone-900">{value}</p>
+          <p className="text-sm text-stone-500">{subtitle}</p>
         </div>
-        <div className="w-10 h-10 bg-grey-100 rounded-lg flex items-center justify-center">
-          <Icon className="w-5 h-5 text-grey-600" />
+        <div className="w-10 h-10 bg-stone-100 rounded-lg flex items-center justify-center">
+          <Icon className="w-5 h-5 text-stone-600" />
         </div>
       </div>
     </div>

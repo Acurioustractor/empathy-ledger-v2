@@ -112,13 +112,13 @@ export default function TestModernCardsPage() {
           <Typography variant="h1" className="text-4xl font-bold mb-4 bg-gradient-to-r from-earth-700 to-sage-700 bg-clip-text text-transparent">
             ✨ Refined Storyteller Cards
           </Typography>
-          <Typography variant="body" className="text-grey-600 text-lg max-w-2xl mx-auto">
+          <Typography variant="body" className="text-stone-600 text-lg max-w-2xl mx-auto">
             Clean, spacious design with subtle animations and breathing room
           </Typography>
         </div>
 
         {/* Features List */}
-        <div className="mb-12 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-grey-100">
+        <div className="mb-12 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-stone-100">
           <Typography variant="h2" className="text-xl font-semibold mb-4 text-earth-700">
             🎨 Refined Design Features
           </Typography>
@@ -164,11 +164,11 @@ export default function TestModernCardsPage() {
         </div>
 
         {/* Legend */}
-        <div className="mt-12 bg-white rounded-2xl p-6 shadow-md border border-grey-100">
+        <div className="mt-12 bg-white rounded-2xl p-6 shadow-md border border-stone-100">
           <Typography variant="h3" className="text-lg font-semibold mb-4 text-earth-700">
             💫 Subtle Hover Effects
           </Typography>
-          <ul className="space-y-2 text-sm text-grey-600">
+          <ul className="space-y-2 text-sm text-stone-600">
             <li>• Card lifts gently with soft shadow</li>
             <li>• Arrow slides smoothly to the right</li>
             <li>• Clean transitions without distraction</li>

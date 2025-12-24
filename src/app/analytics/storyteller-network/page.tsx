@@ -167,8 +167,8 @@ export default function StorytellerNetworkPage() {
             <CardContent>
               <div className="space-y-3">
                 {topInfluencers.map((storyteller, index) => (
-                  <div key={storyteller.id} className="flex items-center space-x-3 p-2 rounded-lg bg-grey-50">
-                    <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                  <div key={storyteller.id} className="flex items-center space-x-3 p-2 rounded-lg bg-stone-50">
+                    <div className="flex-shrink-0 w-8 h-8 bg-sage-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
                       {index + 1}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -210,7 +210,7 @@ export default function StorytellerNetworkPage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-sage-500 rounded-full"></div>
                     <span className="text-sm">Community Members</span>
                   </div>
                   <Badge variant="outline">
@@ -223,7 +223,7 @@ export default function StorytellerNetworkPage() {
 
           {/* Selected Storyteller Details */}
           {selectedStoryteller && (
-            <Card className="border-blue-200 bg-blue-50/30">
+            <Card className="border-sage-200 bg-sage-50/30">
               <CardHeader>
                 <CardTitle className="flex items-center text-lg">
                   <Eye className="w-5 h-5 mr-2" />
@@ -300,9 +300,9 @@ export default function StorytellerNetworkPage() {
                   </p>
                 </div>
                 
-                <div className="p-3 bg-blue-50 rounded-lg">
-                  <p className="font-medium text-blue-800">Influence Distribution</p>
-                  <p className="text-blue-600">
+                <div className="p-3 bg-sage-50 rounded-lg">
+                  <p className="font-medium text-sage-800">Influence Distribution</p>
+                  <p className="text-sage-600">
                     {Math.round((networkStats.highInfluenceStorytellers / storytellers.length) * 100)}% have high community influence.
                   </p>
                 </div>

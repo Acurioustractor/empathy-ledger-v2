@@ -101,7 +101,7 @@ export default function CreateTranscriptPage() {
       <div className="container mx-auto py-8 px-4">
         <div className="text-center">
           <h2 className="text-2xl font-semibold mb-4">Please Sign In</h2>
-          <p className="text-grey-600 mb-6">You need to be signed in to create transcripts.</p>
+          <p className="text-stone-600 mb-6">You need to be signed in to create transcripts.</p>
           <Link href="/auth/signin">
             <Button>Sign In</Button>
           </Link>
@@ -121,8 +121,8 @@ export default function CreateTranscriptPage() {
           </Button>
         </Link>
         <div>
-          <h1 className="text-3xl font-bold text-grey-900">Create Transcript</h1>
-          <p className="text-grey-600">Add a new transcript to the platform</p>
+          <h1 className="text-3xl font-bold text-stone-900">Create Transcript</h1>
+          <p className="text-stone-600">Add a new transcript to the platform</p>
         </div>
       </div>
 
@@ -141,7 +141,7 @@ export default function CreateTranscriptPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title */}
             <div>
-              <label className="block text-sm font-medium text-grey-700 mb-2">
+              <label className="block text-sm font-medium text-stone-700 mb-2">
                 Title *
               </label>
               <Input
@@ -154,7 +154,7 @@ export default function CreateTranscriptPage() {
 
             {/* Storyteller */}
             <div>
-              <label className="block text-sm font-medium text-grey-700 mb-2">
+              <label className="block text-sm font-medium text-stone-700 mb-2">
                 Storyteller *
               </label>
               <Select value={formData.storyteller_id} onValueChange={(value) => handleChange('storyteller_id', value)}>
@@ -173,7 +173,7 @@ export default function CreateTranscriptPage() {
 
             {/* Content */}
             <div>
-              <label className="block text-sm font-medium text-grey-700 mb-2">
+              <label className="block text-sm font-medium text-stone-700 mb-2">
                 Transcript Content *
               </label>
               <Textarea
@@ -184,14 +184,14 @@ export default function CreateTranscriptPage() {
                 required
                 className="min-h-[300px]"
               />
-              <p className="text-xs text-grey-500 mt-1">
+              <p className="text-xs text-stone-500 mt-1">
                 Word count: {formData.content.split(/\s+/).filter(word => word.length > 0).length}
               </p>
             </div>
 
             {/* Source URL (optional) */}
             <div>
-              <label className="block text-sm font-medium text-grey-700 mb-2">
+              <label className="block text-sm font-medium text-stone-700 mb-2">
                 Source Video URL
               </label>
               <Input
@@ -204,7 +204,7 @@ export default function CreateTranscriptPage() {
 
             {/* Language */}
             <div>
-              <label className="block text-sm font-medium text-grey-700 mb-2">
+              <label className="block text-sm font-medium text-stone-700 mb-2">
                 Language
               </label>
               <Select value={formData.language} onValueChange={(value) => handleChange('language', value)}>
@@ -222,7 +222,7 @@ export default function CreateTranscriptPage() {
 
             {/* Status */}
             <div>
-              <label className="block text-sm font-medium text-grey-700 mb-2">
+              <label className="block text-sm font-medium text-stone-700 mb-2">
                 Status
               </label>
               <Select value={formData.status} onValueChange={(value) => handleChange('status', value)}>

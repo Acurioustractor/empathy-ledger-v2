@@ -162,11 +162,11 @@ export default function OrganizationsAdminPage() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'nonprofit': return 'bg-blue-100 text-blue-800'
+      case 'nonprofit': return 'bg-sage-100 text-sage-800'
       case 'community': return 'bg-green-100 text-green-800' 
-      case 'educational': return 'bg-purple-100 text-purple-800'
+      case 'educational': return 'bg-clay-100 text-clay-800'
       case 'cultural_center': return 'bg-orange-100 text-orange-800'
-      default: return 'bg-grey-100 text-grey-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -175,7 +175,7 @@ export default function OrganizationsAdminPage() {
       case 'active': return 'border-green-300 text-green-700'
       case 'inactive': return 'border-red-300 text-red-700'
       case 'pending': return 'border-yellow-300 text-yellow-700'
-      default: return 'border-grey-300 text-grey-700'
+      default: return 'border-stone-300 text-stone-700'
     }
   }
 
@@ -184,7 +184,7 @@ export default function OrganizationsAdminPage() {
       case 'verified': return 'border-green-300 text-green-700'
       case 'unverified': return 'border-red-300 text-red-700'
       case 'pending': return 'border-yellow-300 text-yellow-700'
-      default: return 'border-grey-300 text-grey-700'
+      default: return 'border-stone-300 text-stone-700'
     }
   }
 
@@ -202,16 +202,16 @@ export default function OrganizationsAdminPage() {
       <div>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-grey-900 mb-2">
+            <h1 className="text-3xl font-bold text-stone-900 mb-2">
               Organizations Admin
             </h1>
-            <p className="text-grey-600">
+            <p className="text-stone-600">
               Manage organisations and their tenant settings
             </p>
           </div>
           <Button
             onClick={() => router.push('/admin/organisations/create')}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-sage-600 hover:bg-sage-700"
           >
             <Plus className="w-4 h-4 mr-2" />
             Add Organization
@@ -224,10 +224,10 @@ export default function OrganizationsAdminPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center">
-              <Building2 className="w-8 h-8 text-blue-600" />
+              <Building2 className="w-8 h-8 text-sage-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">{organisations.length}</p>
-                <p className="text-grey-600">Total Organizations</p>
+                <p className="text-stone-600">Total Organizations</p>
               </div>
             </div>
           </CardContent>
@@ -239,7 +239,7 @@ export default function OrganizationsAdminPage() {
               <Users className="w-8 h-8 text-green-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">{organisations.filter(o => o.type === 'community').length}</p>
-                <p className="text-grey-600">Community</p>
+                <p className="text-stone-600">Community</p>
               </div>
             </div>
           </CardContent>
@@ -248,10 +248,10 @@ export default function OrganizationsAdminPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center">
-              <BookOpen className="w-8 h-8 text-purple-600" />
+              <BookOpen className="w-8 h-8 text-clay-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">{organisations.filter(o => o.type === 'nonprofit').length}</p>
-                <p className="text-grey-600">Nonprofit</p>
+                <p className="text-stone-600">Nonprofit</p>
               </div>
             </div>
           </CardContent>
@@ -263,7 +263,7 @@ export default function OrganizationsAdminPage() {
               <Plus className="w-8 h-8 text-orange-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">{organisations.filter(o => o.type === 'cultural_center').length}</p>
-                <p className="text-grey-600">Cultural Centers</p>
+                <p className="text-stone-600">Cultural Centers</p>
               </div>
             </div>
           </CardContent>
@@ -276,7 +276,7 @@ export default function OrganizationsAdminPage() {
           <div className="flex flex-wrap gap-4">
             <div className="flex-1 min-w-64">
               <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-grey-400" />
+                <Search className="absolute left-3 top-3 h-4 w-4 text-stone-400" />
                 <Input
                   type="text"
                   placeholder="Search organisations..."
@@ -290,7 +290,7 @@ export default function OrganizationsAdminPage() {
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Types</option>
               <option value="nonprofit">Nonprofit</option>
@@ -302,7 +302,7 @@ export default function OrganizationsAdminPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -313,7 +313,7 @@ export default function OrganizationsAdminPage() {
             <select
               value={verificationFilter}
               onChange={(e) => setVerificationFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Verification</option>
               <option value="verified">Verified</option>
@@ -324,7 +324,7 @@ export default function OrganizationsAdminPage() {
             <select
               value={activityFilter}
               onChange={(e) => setActivityFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">All Activity</option>
               <option value="active">Recently Active</option>
@@ -399,7 +399,7 @@ export default function OrganizationsAdminPage() {
             <CardContent className="space-y-4">
               {/* Description */}
               {org.description && (
-                <p className="text-sm text-grey-600 line-clamp-2">
+                <p className="text-sm text-stone-600 line-clamp-2">
                   {org.description}
                 </p>
               )}
@@ -407,29 +407,29 @@ export default function OrganizationsAdminPage() {
               {/* Details */}
               <div className="space-y-2 text-sm">
                 {org.location && (
-                  <div className="flex items-center text-grey-600">
+                  <div className="flex items-center text-stone-600">
                     <MapPin className="w-4 h-4 mr-2" />
                     <span>{org.location}</span>
                   </div>
                 )}
 
-                <div className="flex items-center text-grey-600">
+                <div className="flex items-center text-stone-600">
                   <Calendar className="w-4 h-4 mr-2" />
                   <span>{new Date(org.created_at).toLocaleDateString()}</span>
                 </div>
 
                 {org.contact_email && (
-                  <div className="flex items-center text-grey-600">
+                  <div className="flex items-center text-stone-600">
                     <Mail className="w-4 h-4 mr-2" />
                     <span className="truncate">{org.contact_email}</span>
                   </div>
                 )}
 
                 {org.website_url && (
-                  <div className="flex items-center text-grey-600">
+                  <div className="flex items-center text-stone-600">
                     <Globe className="w-4 h-4 mr-2" />
                     <a href={org.website_url} target="_blank" rel="noopener noreferrer" 
-                       className="text-blue-600 hover:underline truncate flex items-center">
+                       className="text-sage-600 hover:underline truncate flex items-center">
                       {org.website_url.replace(/https?:\/\//g, '')}
                       <ExternalLink className="w-3 h-3 ml-1" />
                     </a>
@@ -447,19 +447,19 @@ export default function OrganizationsAdminPage() {
 
 
               {/* Activity Metrics */}
-              <div className="grid grid-cols-2 gap-4 p-3 bg-grey-50 rounded-md">
+              <div className="grid grid-cols-2 gap-4 p-3 bg-stone-50 rounded-md">
                 <div className="text-center">
-                  <div className="text-lg font-bold text-grey-900">{org.story_count || 0}</div>
-                  <div className="text-xs text-grey-600">Stories</div>
+                  <div className="text-lg font-bold text-stone-900">{org.story_count || 0}</div>
+                  <div className="text-xs text-stone-600">Stories</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-lg font-bold text-grey-900">{org.member_count || 0}</div>
-                  <div className="text-xs text-grey-600">Members</div>
+                  <div className="text-lg font-bold text-stone-900">{org.member_count || 0}</div>
+                  <div className="text-xs text-stone-600">Members</div>
                 </div>
               </div>
 
               {/* Organization Details */}
-              <div className="flex items-center justify-between text-xs text-grey-500">
+              <div className="flex items-center justify-between text-xs text-stone-500">
                 <div className="flex items-center">
                   <Hash className="w-3 h-3 mr-1" />
                   <span>ID: {org.id.slice(0, 8)}...</span>
@@ -474,7 +474,7 @@ export default function OrganizationsAdminPage() {
               <div className="flex space-x-2 pt-2">
                 <Button
                   onClick={() => router.push(`/organisations/${org.id}/dashboard`)}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700"
+                  className="flex-1 bg-sage-600 hover:bg-sage-700"
                   size="sm"
                 >
                   <Eye className="w-4 h-4 mr-2" />
@@ -506,9 +506,9 @@ export default function OrganizationsAdminPage() {
 
       {filteredOrganizations.length === 0 && (
         <div className="text-center py-12">
-          <Building2 className="w-12 h-12 text-grey-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-grey-900 mb-2">No organisations found</h3>
-          <p className="text-grey-600">
+          <Building2 className="w-12 h-12 text-stone-400 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-stone-900 mb-2">No organisations found</h3>
+          <p className="text-stone-600">
             {searchTerm || typeFilter !== 'all' 
               ? 'Try adjusting your search or filter criteria.' 
               : 'No organisations have been created yet.'}

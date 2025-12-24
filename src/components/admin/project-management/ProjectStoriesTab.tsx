@@ -435,7 +435,7 @@ export const ProjectStoriesTab: React.FC<ProjectStoriesTabProps> = ({ projectId 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600">{stats.totalStories}</div>
+              <div className="text-2xl font-bold text-sage-600">{stats.totalStories}</div>
               <div className="text-xs text-stone-600 dark:text-stone-400">Total Stories</div>
             </CardContent>
           </Card>
@@ -453,7 +453,7 @@ export const ProjectStoriesTab: React.FC<ProjectStoriesTabProps> = ({ projectId 
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600">{stats.elderApproved}</div>
+              <div className="text-2xl font-bold text-clay-600">{stats.elderApproved}</div>
               <div className="text-xs text-stone-600 dark:text-stone-400">Elder Approved</div>
             </CardContent>
           </Card>

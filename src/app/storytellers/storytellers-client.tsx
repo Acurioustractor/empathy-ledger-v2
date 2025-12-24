@@ -220,7 +220,7 @@ export default function StorytellerDirectoryClient({ initialStorytellers }: Stor
         <div className="flex items-start gap-6">
           {/* Avatar */}
           <div className="relative flex-shrink-0">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900 dark:to-indigo-900 flex items-center justify-center border-2 border-background shadow-md">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-sage-100 to-terracotta-100 dark:from-sage-900 dark:to-terracotta-900 flex items-center justify-center border-2 border-background shadow-md">
               {storyteller.profile?.avatar_url ? (
                 <img
                   src={storyteller.profile.avatar_url}
@@ -242,7 +242,7 @@ export default function StorytellerDirectoryClient({ initialStorytellers }: Stor
                 </div>
               )}
               {storyteller.elder_status && (
-                <div className="w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
+                <div className="w-5 h-5 bg-clay-500 rounded-full flex items-center justify-center">
                   <Crown className="w-3 h-3 text-white" />
                 </div>
               )}
@@ -288,7 +288,7 @@ export default function StorytellerDirectoryClient({ initialStorytellers }: Stor
             {/* Stats Row */}
             <div className="flex items-center gap-6 mb-3">
               <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                <BookOpen className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                <BookOpen className="w-4 h-4 text-sage-600 dark:text-sage-400" />
                 <span className="font-medium">{storyteller.story_count}</span>
                 <span>{storyteller.story_count === 1 ? 'Story' : 'Stories'}</span>
               </div>
@@ -302,7 +302,7 @@ export default function StorytellerDirectoryClient({ initialStorytellers }: Stor
               )}
 
               <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                <TrendingUp className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                <TrendingUp className="w-4 h-4 text-clay-600 dark:text-clay-400" />
                 <span className="font-medium capitalize">{storyteller.status}</span>
               </div>
             </div>
@@ -405,8 +405,8 @@ export default function StorytellerDirectoryClient({ initialStorytellers }: Stor
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="text-center p-6 bg-card rounded-xl shadow-sm border border-border hover:shadow-md transition-shadow">
             <div className="flex items-center justify-center mb-3">
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center">
-                <Users className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="w-12 h-12 bg-sage-100 dark:bg-sage-900/50 rounded-full flex items-center justify-center">
+                <Users className="w-6 h-6 text-sage-600 dark:text-sage-400" />
               </div>
             </div>
             <Typography variant="h2" className="text-foreground font-bold">
@@ -447,11 +447,11 @@ export default function StorytellerDirectoryClient({ initialStorytellers }: Stor
 
           <div className="text-center p-6 bg-card rounded-xl shadow-sm border border-border hover:shadow-md transition-shadow">
             <div className="flex items-center justify-center mb-3">
-              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center">
-                <Star className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              <div className="w-12 h-12 bg-clay-100 dark:bg-clay-900/50 rounded-full flex items-center justify-center">
+                <Star className="w-6 h-6 text-clay-600 dark:text-clay-400" />
               </div>
             </div>
-            <Typography variant="h2" className="text-purple-600 dark:text-purple-400 font-bold">
+            <Typography variant="h2" className="text-clay-600 dark:text-clay-400 font-bold">
               {stats.featured}
             </Typography>
             <Typography variant="small" className="text-muted-foreground font-medium">

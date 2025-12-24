@@ -139,7 +139,7 @@ export default async function OrganizationDashboard({
       <div className="px-6 space-y-8">
         {/* Enhanced Metrics Overview */}
         <div>
-          <h2 className="text-xl font-semibold text-grey-900 mb-6">Community Metrics</h2>
+          <h2 className="text-xl font-semibold text-stone-900 mb-6">Community Metrics</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             <EnhancedOrganizationMetrics
               metrics={analytics.metrics}
@@ -150,7 +150,7 @@ export default async function OrganizationDashboard({
 
         {/* Analytics Insights Row */}
         <div>
-          <h2 className="text-xl font-semibold text-grey-900 mb-6">Analytics Insights</h2>
+          <h2 className="text-xl font-semibold text-stone-900 mb-6">Analytics Insights</h2>
           <div className="grid gap-6 lg:grid-cols-2">
             <TrendingThemesWidget
               themes={analytics.themes}
@@ -165,7 +165,7 @@ export default async function OrganizationDashboard({
 
         {/* Activity Grid */}
         <div>
-          <h2 className="text-xl font-semibold text-grey-900 mb-6">Activity & Health</h2>
+          <h2 className="text-xl font-semibold text-stone-900 mb-6">Activity & Health</h2>
           <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
             <TopContributorsWidget
               contributors={analytics.contributors}
@@ -181,7 +181,7 @@ export default async function OrganizationDashboard({
         {/* Multi-Organization Summary (only shows if user has multiple orgs) */}
         {userOrganizations.length > 1 && (
           <div>
-            <h2 className="text-xl font-semibold text-grey-900 mb-6">Organization Overview</h2>
+            <h2 className="text-xl font-semibold text-stone-900 mb-6">Organization Overview</h2>
             <MultiOrgSummary
               organizations={userOrganizations}
               currentOrgId={id}

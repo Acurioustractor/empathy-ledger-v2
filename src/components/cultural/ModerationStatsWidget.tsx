@@ -270,13 +270,13 @@ export function ModerationStatsWidget({
             <p className="text-xs text-stone-500">Elder Required</p>
           </div>
 
-          <div className="p-4 bg-purple-50 rounded-lg text-center">
+          <div className="p-4 bg-clay-50 rounded-lg text-center">
             <div className="flex justify-center mb-2">
-              <div className="p-2 bg-purple-100 rounded-full">
-                <Clock className="w-4 h-4 text-purple-600" />
+              <div className="p-2 bg-clay-100 rounded-full">
+                <Clock className="w-4 h-4 text-clay-600" />
               </div>
             </div>
-            <p className="text-2xl font-bold text-purple-700">{stats.pending_elder_review}</p>
+            <p className="text-2xl font-bold text-clay-700">{stats.pending_elder_review}</p>
             <p className="text-xs text-stone-500">Pending Review</p>
           </div>
         </div>

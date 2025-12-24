@@ -73,7 +73,7 @@ const statusColors = {
 }
 
 const culturalSensitivityColors = {
-  low: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
+  low: 'bg-sage-100 text-sage-800 dark:bg-sage-900/30 dark:text-sage-300',
   medium: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300',
   high: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
 }
@@ -141,7 +141,7 @@ export function AdminStoryCard({
                 src={story.storyteller?.avatar_url}
                 alt={story.storyteller?.display_name}
               />
-              <AvatarFallback className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 text-blue-700 dark:text-blue-300 font-semibold">
+              <AvatarFallback className="bg-gradient-to-br from-sage-100 to-clay-100 dark:from-sage-900/50 dark:to-clay-900/50 text-sage-700 dark:text-sage-300 font-semibold">
                 {story.storyteller?.display_name ? getInitials(story.storyteller.display_name) : 'ST'}
               </AvatarFallback>
             </Avatar>
@@ -279,7 +279,7 @@ export function AdminStoryCard({
                 src={story.storyteller?.avatar_url}
                 alt={story.storyteller?.display_name}
               />
-              <AvatarFallback className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 text-blue-700 dark:text-blue-300 font-semibold text-sm">
+              <AvatarFallback className="bg-gradient-to-br from-sage-100 to-clay-100 dark:from-sage-900/50 dark:to-clay-900/50 text-sage-700 dark:text-sage-300 font-semibold text-sm">
                 {story.storyteller?.display_name ? getInitials(story.storyteller.display_name) : 'ST'}
               </AvatarFallback>
             </Avatar>

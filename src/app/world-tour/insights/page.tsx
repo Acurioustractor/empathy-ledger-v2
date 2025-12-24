@@ -415,7 +415,7 @@ export default function InsightsPage() {
               label="Stories Published"
               trend={`${analyticsData?.quality?.withTranscripts || stats.storiesWithTranscripts || 0} from interviews`}
               trendUp={(analyticsData?.quality?.withTranscripts || 0) > 0}
-              gradient="from-purple-500 to-purple-600"
+              gradient="from-clay-500 to-clay-600"
             />
           </div>
         </div>
@@ -524,7 +524,7 @@ export default function InsightsPage() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Layers className="w-5 h-5 text-purple-500" />
+                      <Layers className="w-5 h-5 text-clay-500" />
                       Theme Categories
                     </CardTitle>
                     <CardDescription>
@@ -618,7 +618,7 @@ export default function InsightsPage() {
                   icon={<Mic className="w-5 h-5" />}
                   label="Total Interviews"
                   value={(analyticsData?.interviewPipeline?.totalInterviews || stats.totalTranscripts || 0).toString()}
-                  color="text-blue-500"
+                  color="text-sage-500"
                 />
                 <QuickStatCard
                   icon={<Zap className="w-5 h-5" />}
@@ -630,7 +630,7 @@ export default function InsightsPage() {
                   icon={<Sparkles className="w-5 h-5" />}
                   label="Themes Found"
                   value={(analyticsData?.interviewPipeline?.themesBySource?.fromTranscripts || stats.uniqueThemes || 0).toString()}
-                  color="text-purple-500"
+                  color="text-clay-500"
                 />
                 <QuickStatCard
                   icon={<BookOpen className="w-5 h-5" />}
@@ -839,7 +839,7 @@ export default function InsightsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <GitBranch className="w-5 h-5 text-purple-500" />
+                    <GitBranch className="w-5 h-5 text-clay-500" />
                     Cross-Cultural Connections
                   </CardTitle>
                   <CardDescription>
@@ -852,7 +852,7 @@ export default function InsightsPage() {
                       {trending.crossRegional.map((item) => (
                         <div
                           key={item.theme}
-                          className="p-4 rounded-lg border bg-gradient-to-br from-purple-50/50 via-transparent to-blue-50/50 dark:from-purple-950/30 dark:to-blue-950/30"
+                          className="p-4 rounded-lg border bg-gradient-to-br from-clay-50/50 via-transparent to-sage-50/50 dark:from-clay-950/30 dark:to-sage-950/30"
                         >
                           <div className="flex items-center gap-2 mb-3">
                             <div
@@ -1102,14 +1102,14 @@ export default function InsightsPage() {
                         label="Estimated Reach"
                         value={metrics.totalReach.toLocaleString()}
                         subtext="People potentially impacted"
-                        icon={<Eye className="w-5 h-5 text-blue-500" />}
+                        icon={<Eye className="w-5 h-5 text-sage-500" />}
                       />
                       <Separator />
                       <ImpactMetricRow
                         label="Cross-Cultural Connections"
                         value={metrics.crossCulturalConnections.toString()}
                         subtext="Theme bridges across regions"
-                        icon={<GitBranch className="w-5 h-5 text-purple-500" />}
+                        icon={<GitBranch className="w-5 h-5 text-clay-500" />}
                       />
                       <Separator />
                       <ImpactMetricRow
@@ -1307,9 +1307,9 @@ function ImpactCard({
   color: 'purple' | 'amber' | 'blue' | 'green'
 }) {
   const colorClasses = {
-    purple: 'from-purple-500 to-purple-600 bg-purple-50 dark:bg-purple-950/30 text-purple-600',
+    purple: 'from-clay-500 to-clay-600 bg-clay-50 dark:bg-clay-950/30 text-clay-600',
     amber: 'from-amber-500 to-amber-600 bg-amber-50 dark:bg-amber-950/30 text-amber-600',
-    blue: 'from-blue-500 to-blue-600 bg-blue-50 dark:bg-blue-950/30 text-blue-600',
+    blue: 'from-sage-500 to-sage-600 bg-sage-50 dark:bg-sage-950/30 text-sage-600',
     green: 'from-green-500 to-green-600 bg-green-50 dark:bg-green-950/30 text-green-600'
   }
 

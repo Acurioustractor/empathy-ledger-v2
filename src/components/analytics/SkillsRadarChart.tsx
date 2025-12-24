@@ -47,12 +47,12 @@ export function SkillsRadarChart({
       return (
         <div className="bg-white p-3 border rounded-lg shadow-lg">
           <p className="font-semibold">{payload[0]?.payload?.fullSkill}</p>
-          <p className="text-sm text-grey-600">
+          <p className="text-sm text-stone-600">
             Level: {payload[0]?.value === 4 ? 'Expert' : 
                     payload[0]?.value === 3 ? 'Advanced' : 
                     payload[0]?.value === 2 ? 'Intermediate' : 'Beginner'}
           </p>
-          <p className="text-sm text-grey-600">
+          <p className="text-sm text-stone-600">
             Market Value: {payload[0]?.payload?.marketValue}/10
           </p>
         </div>
@@ -66,13 +66,13 @@ export function SkillsRadarChart({
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Eye className="h-5 w-5 text-grey-400" />
+            <Eye className="h-5 w-5 text-stone-400" />
             {title}
           </CardTitle>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-80 flex items-center justify-center text-grey-500">
+          <div className="h-80 flex items-center justify-center text-stone-500">
             <p>No skills data available</p>
           </div>
         </CardContent>
@@ -84,7 +84,7 @@ export function SkillsRadarChart({
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Eye className="h-5 w-5 text-blue-600" />
+          <Eye className="h-5 w-5 text-sage-600" />
           {title}
         </CardTitle>
         <CardDescription>{description}</CardDescription>
@@ -120,7 +120,7 @@ export function SkillsRadarChart({
         
         {competencies.length > maxSkills && (
           <div className="mt-3 text-center">
-            <p className="text-xs text-grey-500">
+            <p className="text-xs text-stone-500">
               Showing top {maxSkills} skills. Total: {competencies.length}
             </p>
           </div>

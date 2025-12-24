@@ -199,7 +199,7 @@ export default function VaultDashboardPage() {
     if (category === 'revocation' || action.includes('revoke')) return 'text-red-500'
     if (category === 'consent') return 'text-green-500'
     if (action === 'archive' || action === 'delete') return 'text-orange-500'
-    if (action.includes('share') || action.includes('distribute')) return 'text-blue-500'
+    if (action.includes('share') || action.includes('distribute')) return 'text-sage-500'
     return 'text-muted-foreground'
   }
 

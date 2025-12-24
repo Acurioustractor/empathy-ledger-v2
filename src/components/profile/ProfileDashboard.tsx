@@ -281,7 +281,7 @@ export function ProfileDashboard() {
       <div className="flex items-center justify-center min-h-64">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-clay-600 mx-auto mb-4"></div>
-          <p className="text-lg text-grey-600">Loading profile...</p>
+          <p className="text-lg text-stone-600">Loading profile...</p>
         </div>
       </div>
     )
@@ -292,7 +292,7 @@ export function ProfileDashboard() {
     return (
       <div className="flex items-center justify-center min-h-64">
         <div className="text-center">
-          <p className="text-lg text-grey-600 mb-4">Please sign in to view your profile</p>
+          <p className="text-lg text-stone-600 mb-4">Please sign in to view your profile</p>
           <Button onClick={() => router.push('/auth/signin')}>
             Sign In
           </Button>

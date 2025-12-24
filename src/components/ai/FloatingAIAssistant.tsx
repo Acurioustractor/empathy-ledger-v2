@@ -214,7 +214,7 @@ export function FloatingAIAssistant({
     return (
       <Button
         onClick={onToggle}
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 z-50"
+        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg bg-gradient-to-r from-clay-500 to-pink-500 hover:from-clay-600 hover:to-pink-600 z-50"
       >
         <Sparkles className="w-6 h-6 text-white" />
       </Button>
@@ -222,9 +222,9 @@ export function FloatingAIAssistant({
   }
 
   return (
-    <Card className="fixed bottom-6 right-6 w-96 max-h-[70vh] overflow-hidden shadow-xl border-2 border-purple-200 bg-gradient-to-br from-white to-purple-50 z-50">
+    <Card className="fixed bottom-6 right-6 w-96 max-h-[70vh] overflow-hidden shadow-xl border-2 border-clay-200 bg-gradient-to-br from-white to-clay-50 z-50">
       {/* Header */}
-      <div className="p-4 border-b bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+      <div className="p-4 border-b bg-gradient-to-r from-clay-500 to-pink-500 text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Sparkles className="w-5 h-5" />
@@ -275,7 +275,7 @@ export function FloatingAIAssistant({
       {isExpanded && (
         <div className="flex flex-col h-96">
           {/* Tabs */}
-          <div className="flex border-b bg-grey-50">
+          <div className="flex border-b bg-stone-50">
             {[
               { id: 'suggestions', label: 'AI Suggestions', icon: Lightbulb },
               { id: 'cultural', label: 'Cultural Check', icon: Shield },
@@ -288,8 +288,8 @@ export function FloatingAIAssistant({
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex-1 rounded-none border-b-2 ${
                   activeTab === tab.id
-                    ? 'border-purple-500 bg-white text-purple-700'
-                    : 'border-transparent hover:bg-grey-100'
+                    ? 'border-clay-500 bg-white text-clay-700'
+                    : 'border-transparent hover:bg-stone-100'
                 }`}
               >
                 <tab.icon className="w-4 h-4 mr-1" />
@@ -373,7 +373,7 @@ export function FloatingAIAssistant({
                 {/* Suggestions List */}
                 <div className="space-y-3">
                   {suggestions.length === 0 && !isLoading && (
-                    <Typography variant="caption" className="text-grey-500 text-center block">
+                    <Typography variant="caption" className="text-stone-500 text-center block">
                       Click buttons above to get AI writing suggestions
                     </Typography>
                   )}
@@ -388,7 +388,7 @@ export function FloatingAIAssistant({
                   )}
 
                   {suggestions.map(suggestion => (
-                    <Card key={suggestion.id} className="p-3 border border-grey-200">
+                    <Card key={suggestion.id} className="p-3 border border-stone-200">
                       <div className="flex items-start justify-between mb-2">
                         <Typography variant="subtitle2" className="font-medium text-sm">
                           {suggestion.title}
@@ -401,12 +401,12 @@ export function FloatingAIAssistant({
                         </Badge>
                       </div>
 
-                      <Typography variant="caption" className="text-grey-600 mb-2 block">
+                      <Typography variant="caption" className="text-stone-600 mb-2 block">
                         {suggestion.content}
                       </Typography>
 
                       {suggestion.reasoning && (
-                        <Typography variant="caption" className="text-grey-500 text-xs italic mb-2 block">
+                        <Typography variant="caption" className="text-stone-500 text-xs italic mb-2 block">
                           {suggestion.reasoning}
                         </Typography>
                       )}
@@ -502,7 +502,7 @@ export function FloatingAIAssistant({
                     )}
                   </>
                 ) : (
-                  <Typography variant="caption" className="text-grey-500">
+                  <Typography variant="caption" className="text-stone-500">
                     Write some content to see cultural analysis
                   </Typography>
                 )}
@@ -538,7 +538,7 @@ export function FloatingAIAssistant({
                   </Button>
                 </div>
 
-                <Alert className="p-3 bg-blue-50 border-blue-200">
+                <Alert className="p-3 bg-sage-50 border-sage-200">
                   <Sparkles className="h-4 w-4" />
                   <AlertDescription className="text-sm">
                     <strong>AI Ethics:</strong> All suggestions respect cultural protocols and Indigenous knowledge sovereignty

@@ -207,15 +207,15 @@ export default function AIStoryCreator() {
   })
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50/50 via-white to-indigo-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-clay-50/50 via-white to-terracotta-50/30">
       <Header />
       
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-grey-900 mb-2">AI Story Creator</h1>
-            <p className="text-grey-600">Create compelling stories using AI with your transcripts and personalized writing personas</p>
+            <h1 className="text-3xl font-bold text-stone-900 mb-2">AI Story Creator</h1>
+            <p className="text-stone-600">Create compelling stories using AI with your transcripts and personalized writing personas</p>
           </div>
           <Button variant="outline" asChild>
             <a href="/stories">
@@ -231,7 +231,7 @@ export default function AIStoryCreator() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Brain className="w-5 h-5 text-purple-600" />
+                  <Brain className="w-5 h-5 text-clay-600" />
                   Story Creation Workspace
                 </CardTitle>
                 <CardDescription>
@@ -270,10 +270,10 @@ export default function AIStoryCreator() {
                     </SelectContent>
                   </Select>
                   {selectedPersona && (
-                    <div className="p-3 bg-grey-50 rounded-lg">
+                    <div className="p-3 bg-stone-50 rounded-lg">
                       <div className="text-sm">
                         <p className="font-medium mb-1">{personas.find(p => p.id === selectedPersona)?.description}</p>
-                        <p className="text-grey-600">Tone: {personas.find(p => p.id === selectedPersona)?.tone}</p>
+                        <p className="text-stone-600">Tone: {personas.find(p => p.id === selectedPersona)?.tone}</p>
                       </div>
                     </div>
                   )}
@@ -283,7 +283,7 @@ export default function AIStoryCreator() {
                 <Button 
                   onClick={generateStory} 
                   disabled={isGenerating || !selectedPersona || selectedTranscripts.length === 0 || !storyPrompt}
-                  className="w-full bg-purple-600 hover:bg-purple-700"
+                  className="w-full bg-clay-600 hover:bg-clay-700"
                   size="lg"
                 >
                   {isGenerating ? (
@@ -379,7 +379,7 @@ export default function AIStoryCreator() {
                   <div className="space-y-3">
                     {/* Search */}
                     <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-grey-400" />
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-stone-400" />
                       <Input
                         placeholder="Search transcripts, storytellers, themes..."
                         value={searchTerm}
@@ -420,11 +420,11 @@ export default function AIStoryCreator() {
                   <ScrollArea className="h-64">
                     {loading ? (
                       <div className="flex items-center justify-center h-32">
-                        <div className="text-sm text-grey-500">Loading transcripts...</div>
+                        <div className="text-sm text-stone-500">Loading transcripts...</div>
                       </div>
                     ) : filteredTranscripts.length === 0 ? (
                       <div className="flex items-center justify-center h-32">
-                        <div className="text-sm text-grey-500">No transcripts found</div>
+                        <div className="text-sm text-stone-500">No transcripts found</div>
                       </div>
                     ) : (
                       <div className="space-y-3">
@@ -434,7 +434,7 @@ export default function AIStoryCreator() {
                             className={`p-3 border rounded-lg cursor-pointer transition-colours ${
                               selectedTranscripts.includes(transcript.id)
                                 ? 'bg-green-50 border-green-200'
-                                : 'hover:bg-grey-50'
+                                : 'hover:bg-stone-50'
                             }`}
                             onClick={() => {
                               setSelectedTranscripts(prev =>
@@ -448,27 +448,27 @@ export default function AIStoryCreator() {
                               <div className="flex-1">
                                 <h4 className="font-medium text-sm">{transcript.title}</h4>
                                 <div className="flex items-center gap-2 mt-1">
-                                  <p className="text-xs text-grey-500">
+                                  <p className="text-xs text-stone-500">
                                     {new Date(transcript.created_at).toLocaleDateString()}
                                   </p>
                                   <Badge variant="outline" className="text-xs">
                                     {transcript.status}
                                   </Badge>
-                                  <span className="text-xs text-grey-500">
+                                  <span className="text-xs text-stone-500">
                                     {transcript.word_count} words
                                   </span>
                                 </div>
                                 {transcript.storyteller && (
-                                  <p className="text-xs text-blue-600 mt-1">
+                                  <p className="text-xs text-sage-600 mt-1">
                                     by {transcript.storyteller.display_name || transcript.storyteller.email}
                                   </p>
                                 )}
                                 {transcript.organisation && (
-                                  <p className="text-xs text-purple-600 mt-1">
+                                  <p className="text-xs text-clay-600 mt-1">
                                     {transcript.organisation.name}
                                   </p>
                                 )}
-                                <p className="text-xs text-grey-600 mt-1 line-clamp-2">
+                                <p className="text-xs text-stone-600 mt-1 line-clamp-2">
                                   {transcript.transcript_content?.substring(0, 100)}...
                                 </p>
                               </div>
@@ -494,7 +494,7 @@ export default function AIStoryCreator() {
                     )}
                   </ScrollArea>
 
-                  <div className="text-sm text-grey-600">
+                  <div className="text-sm text-stone-600">
                     {selectedTranscripts.length} transcript{selectedTranscripts.length !== 1 ? 's' : ''} selected
                   </div>
                 </div>
@@ -506,7 +506,7 @@ export default function AIStoryCreator() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <User className="w-5 h-5 text-blue-600" />
+                    <User className="w-5 h-5 text-sage-600" />
                     Selected Persona
                   </CardTitle>
                 </CardHeader>
@@ -517,16 +517,16 @@ export default function AIStoryCreator() {
                       <div className="space-y-3 text-sm">
                         <div>
                           <h4 className="font-medium">{persona.name}</h4>
-                          <p className="text-grey-600">{persona.description}</p>
+                          <p className="text-stone-600">{persona.description}</p>
                         </div>
                         <Separator />
                         <div>
                           <p className="font-medium">Writing Style:</p>
-                          <p className="text-grey-600">{persona.style}</p>
+                          <p className="text-stone-600">{persona.style}</p>
                         </div>
                         <div>
                           <p className="font-medium">Cultural Integration:</p>
-                          <p className="text-grey-600">{persona.cultural_context}</p>
+                          <p className="text-stone-600">{persona.cultural_context}</p>
                         </div>
                       </div>
                     ) : null
@@ -544,7 +544,7 @@ export default function AIStoryCreator() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-sm space-y-2">
-                <ul className="space-y-1 text-grey-600">
+                <ul className="space-y-1 text-stone-600">
                   <li>• Select 2-3 related transcripts for richer context</li>
                   <li>• Choose personas that match your story's purpose</li>
                   <li>• Be specific in your story prompts</li>

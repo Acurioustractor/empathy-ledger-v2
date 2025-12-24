@@ -73,7 +73,7 @@ export function FullScreenAnalysisButton({
       <Button
         variant="outline"
         onClick={toggleFullScreen}
-        className="flex items-center gap-2 bg-white hover:bg-grey-50"
+        className="flex items-center gap-2 bg-white hover:bg-stone-50"
       >
         <Maximize2 className="w-4 h-4" />
         Full Screen
@@ -83,7 +83,7 @@ export function FullScreenAnalysisButton({
       {isFullScreen && (
         <div className="fixed inset-0 z-50 bg-white overflow-auto">
           {/* Full Screen Header */}
-          <div className="sticky top-0 z-10 bg-white border-b border-grey-200 px-6 py-4 shadow-sm">
+          <div className="sticky top-0 z-10 bg-white border-b border-stone-200 px-6 py-4 shadow-sm">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <Button
@@ -95,12 +95,12 @@ export function FullScreenAnalysisButton({
                   <ArrowLeft className="w-4 h-4" />
                   Back
                 </Button>
-                <div className="flex items-center text-sm text-grey-600">
+                <div className="flex items-center text-sm text-stone-600">
                   <span>{organisation.name}</span>
                   <span className="mx-2">→</span>
                   <span>{project.name}</span>
                   <span className="mx-2">→</span>
-                  <span className="text-grey-900 font-medium">Analysis</span>
+                  <span className="text-stone-900 font-medium">Analysis</span>
                 </div>
               </div>
               <div className="flex items-center gap-2">

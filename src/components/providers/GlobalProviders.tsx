@@ -24,9 +24,9 @@ export default function GlobalProviders({ children }: { children: React.ReactNod
       />
       
       {/* Floating Cmd+K hint */}
-      <div className="fixed bottom-20 right-8 z-40 hidden lg:flex items-center gap-2 px-3 py-2 bg-white border rounded-lg shadow-sm text-sm text-grey-600">
+      <div className="fixed bottom-20 right-8 z-40 hidden lg:flex items-center gap-2 px-3 py-2 bg-white border rounded-lg shadow-sm text-sm text-stone-600">
         <span>Quick search</span>
-        <kbd className="px-2 py-1 text-xs bg-grey-100 border rounded">⌘K</kbd>
+        <kbd className="px-2 py-1 text-xs bg-stone-100 border rounded">⌘K</kbd>
       </div>
     </>
   )

@@ -123,10 +123,10 @@ export function ActivityFeed({
       <div className="space-y-3">
         {[...Array(5)].map((_, i) => (
           <div key={i} className="animate-pulse flex gap-3">
-            <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full" />
+            <div className="w-8 h-8 bg-stone-200 dark:bg-stone-700 rounded-full" />
             <div className="flex-1 space-y-2">
-              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
-              <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/4" />
+              <div className="h-4 bg-stone-200 dark:bg-stone-700 rounded w-3/4" />
+              <div className="h-3 bg-stone-200 dark:bg-stone-700 rounded w-1/4" />
             </div>
           </div>
         ))}
@@ -144,8 +144,8 @@ export function ActivityFeed({
               onClick={() => setSelectedCategory(cat.value)}
               className={`px-3 py-1 text-sm rounded-full transition ${
                 selectedCategory === cat.value
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  ? 'bg-terracotta-600 text-white'
+                  : 'bg-stone-100 dark:bg-stone-700 text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-600'
               }`}
             >
               {cat.label}
@@ -156,7 +156,7 @@ export function ActivityFeed({
 
       <div className="space-y-3">
         {activities.length === 0 ? (
-          <p className="text-gray-500 dark:text-gray-400 text-sm text-center py-8">
+          <p className="text-stone-500 dark:text-stone-400 text-sm text-center py-8">
             No activity to show
           </p>
         ) : (
@@ -189,20 +189,20 @@ function ActivityRow({
       className={`flex items-start gap-3 p-3 rounded-lg transition ${
         activity.requires_attention
           ? 'bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800'
-          : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
+          : 'hover:bg-stone-50 dark:hover:bg-stone-700/50'
       } ${onClick ? 'cursor-pointer' : ''}`}
       onClick={onClick}
     >
-      <div className="flex-shrink-0 w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-lg">
+      <div className="flex-shrink-0 w-9 h-9 rounded-full bg-stone-100 dark:bg-stone-700 flex items-center justify-center text-lg">
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm text-gray-900 dark:text-white">
+        <p className="text-sm text-stone-900 dark:text-white">
           <span className="font-medium">{activity.user_name || 'System'}</span>{' '}
           <span className={`${actionColor}`}>{activity.action}</span>{' '}
           {activity.entity_title && (
             <>
-              <span className="text-gray-500 dark:text-gray-400">
+              <span className="text-stone-500 dark:text-stone-400">
                 {activity.entity_type}:
               </span>{' '}
               <span className="font-medium">{activity.entity_title}</span>
@@ -210,7 +210,7 @@ function ActivityRow({
           )}
         </p>
         <div className="flex items-center gap-2 mt-1">
-          <span className="text-xs text-gray-500 dark:text-gray-400">{timeAgo}</span>
+          <span className="text-xs text-stone-500 dark:text-stone-400">{timeAgo}</span>
           {activity.requires_attention && (
             <span className="px-2 py-0.5 text-xs bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-200 rounded-full">
               Needs attention
@@ -245,9 +245,9 @@ function getActionColor(action: string): string {
     return 'text-red-600 dark:text-red-400';
   }
   if (action.includes('update') || action.includes('edit')) {
-    return 'text-blue-600 dark:text-blue-400';
+    return 'text-sage-600 dark:text-sage-400';
   }
-  return 'text-gray-600 dark:text-gray-400';
+  return 'text-stone-600 dark:text-stone-400';
 }
 
 function getTimeAgo(dateString: string): string {

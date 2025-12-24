@@ -134,7 +134,7 @@ export default function GalleriesPage() {
         <div className="container mx-auto px-6 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-            <p className="mt-4 text-grey-600">Loading photo galleries...</p>
+            <p className="mt-4 text-stone-600">Loading photo galleries...</p>
           </div>
         </div>
       </div>
@@ -148,10 +148,10 @@ export default function GalleriesPage() {
       <div className="container mx-auto px-6 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-grey-900 mb-4">
+          <h1 className="text-4xl font-bold text-stone-900 mb-4">
             Photo Galleries
           </h1>
-          <p className="text-xl text-grey-700 max-w-2xl mx-auto">
+          <p className="text-xl text-stone-700 max-w-2xl mx-auto">
             Explore visual stories and memories that capture the spirit of our communities, 
             shared with respect for cultural protocols and storyteller consent.
           </p>
@@ -174,16 +174,16 @@ export default function GalleriesPage() {
 
         {/* Filters */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h3 className="text-lg font-medium text-grey-900 mb-4">Filter Galleries</h3>
+          <h3 className="text-lg font-medium text-stone-900 mb-4">Filter Galleries</h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label className="block text-sm font-medium text-grey-700 mb-2">
+              <label className="block text-sm font-medium text-stone-700 mb-2">
                 Cultural Theme
               </label>
               <select
                 value={filters.culturalTheme}
                 onChange={(e) => handleFilterChange('culturalTheme', e.target.value)}
-                className="w-full border border-grey-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full border border-stone-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
               >
                 {culturalThemes.map(theme => (
                   <option key={theme.value} value={theme.value}>
@@ -194,13 +194,13 @@ export default function GalleriesPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-grey-700 mb-2">
+              <label className="block text-sm font-medium text-stone-700 mb-2">
                 Cultural Sensitivity
               </label>
               <select
                 value={filters.sensitivity}
                 onChange={(e) => handleFilterChange('sensitivity', e.target.value)}
-                className="w-full border border-grey-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full border border-stone-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
               >
                 {sensitivityLevels.map(level => (
                   <option key={level.value} value={level.value}>
@@ -216,9 +216,9 @@ export default function GalleriesPage() {
                   type="checkbox"
                   checked={filters.featured}
                   onChange={(e) => handleFilterChange('featured', e.target.checked)}
-                  className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-grey-300 rounded"
+                  className="mr-2 h-4 w-4 text-orange-600 focus:ring-orange-500 border-stone-300 rounded"
                 />
-                <span className="text-sm font-medium text-grey-700">Featured Only</span>
+                <span className="text-sm font-medium text-stone-700">Featured Only</span>
               </label>
             </div>
           </div>
@@ -239,11 +239,11 @@ export default function GalleriesPage() {
         {console.log('🖼️ Rendering galleries:', galleries.length, 'galleries in state') || null}
         {galleries.length === 0 ? (
           <div className="text-center py-12">
-            <svg className="mx-auto h-24 w-24 text-grey-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="mx-auto h-24 w-24 text-stone-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            <h3 className="mt-4 text-lg font-medium text-grey-900">No galleries found</h3>
-            <p className="mt-2 text-grey-500">
+            <h3 className="mt-4 text-lg font-medium text-stone-900">No galleries found</h3>
+            <p className="mt-2 text-stone-500">
               {user ? 'Be the first to create a gallery!' : 'Check back later for new galleries.'}
             </p>
           </div>
@@ -257,7 +257,7 @@ export default function GalleriesPage() {
                   className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200"
                 >
                   {/* Cover Image */}
-                  <div className="aspect-video bg-grey-200 overflow-hidden relative">
+                  <div className="aspect-video bg-stone-200 overflow-hidden relative">
                     {gallery.cover_image?.public_url ? (
                       <Image
                         src={gallery.cover_image.thumbnail_url || gallery.cover_image.public_url}
@@ -293,12 +293,12 @@ export default function GalleriesPage() {
 
                   {/* Content */}
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold text-grey-900 mb-2 group-hover:text-orange-600 transition-colours">
+                    <h3 className="text-xl font-semibold text-stone-900 mb-2 group-hover:text-orange-600 transition-colours">
                       {gallery.title}
                     </h3>
                     
                     {gallery.description && (
-                      <p className="text-grey-600 mb-4 line-clamp-2">
+                      <p className="text-stone-600 mb-4 line-clamp-2">
                         {gallery.description}
                       </p>
                     )}
@@ -314,8 +314,8 @@ export default function GalleriesPage() {
 
                     {/* Metadata */}
                     <div className="space-y-3">
-                      <div className="flex items-center text-sm text-grey-600">
-                        <span className="text-grey-500 text-xs uppercase tracking-wider mr-2">Created by</span>
+                      <div className="flex items-center text-sm text-stone-600">
+                        <span className="text-stone-500 text-xs uppercase tracking-wider mr-2">Created by</span>
                         {gallery.created_by_profile?.avatar_url ? (
                           <Image
                             src={gallery.created_by_profile.avatar_url}
@@ -325,12 +325,12 @@ export default function GalleriesPage() {
                             className="rounded-full mr-2"
                           />
                         ) : (
-                          <div className="w-5 h-5 bg-grey-300 rounded-full mr-2" />
+                          <div className="w-5 h-5 bg-stone-300 rounded-full mr-2" />
                         )}
                         <span className="font-medium">{gallery.created_by_profile?.display_name || 'Unknown'}</span>
                       </div>
                       
-                      <div className="flex items-center space-x-4 text-sm text-grey-600">
+                      <div className="flex items-center space-x-4 text-sm text-stone-600">
                         <div className="flex items-center">
                           <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -349,8 +349,8 @@ export default function GalleriesPage() {
 
                     {/* Organization */}
                     {gallery.organisation && (
-                      <div className="mt-3 pt-3 border-t border-grey-100">
-                        <div className="flex items-center text-sm text-grey-600">
+                      <div className="mt-3 pt-3 border-t border-stone-100">
+                        <div className="flex items-center text-sm text-stone-600">
                           {gallery.organisation.logo_url ? (
                             <Image
                               src={gallery.organisation.logo_url}
@@ -379,19 +379,19 @@ export default function GalleriesPage() {
                 <button
                   onClick={() => fetchGalleries(pagination.page - 1)}
                   disabled={pagination.page <= 1}
-                  className="px-4 py-2 text-sm font-medium text-grey-500 bg-white border border-grey-300 rounded-md hover:bg-grey-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 text-sm font-medium text-stone-500 bg-white border border-stone-300 rounded-md hover:bg-stone-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Previous
                 </button>
                 
-                <span className="px-4 py-2 text-sm text-grey-700">
+                <span className="px-4 py-2 text-sm text-stone-700">
                   Page {pagination.page} of {pagination.totalPages}
                 </span>
                 
                 <button
                   onClick={() => fetchGalleries(pagination.page + 1)}
                   disabled={pagination.page >= pagination.totalPages}
-                  className="px-4 py-2 text-sm font-medium text-grey-500 bg-white border border-grey-300 rounded-md hover:bg-grey-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 text-sm font-medium text-stone-500 bg-white border border-stone-300 rounded-md hover:bg-stone-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                 </button>

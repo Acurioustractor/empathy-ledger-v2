@@ -128,7 +128,7 @@ const projectTypeColors = {
 
 const statusColors = {
   active: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-  completed: 'bg-grey-100 text-grey-600 border-grey-200',
+  completed: 'bg-stone-100 text-stone-600 border-stone-200',
   planning: 'bg-amber-100 text-amber-800 border-amber-200',
   paused: 'bg-orange-100 text-orange-600 border-orange-200'
 }
@@ -186,7 +186,7 @@ export function UnifiedStorytellerCard({
     return (
       <div className="flex flex-col gap-1">
         {storyteller.location && (
-          <div className="flex items-center gap-1 text-sm text-grey-600">
+          <div className="flex items-center gap-1 text-sm text-stone-600">
             <MapPin className="w-3 h-3" />
             <span>{storyteller.location}</span>
             {storyteller.geographic_scope && (
@@ -226,7 +226,7 @@ export function UnifiedStorytellerCard({
           <div>
             <div className="flex items-center gap-1 mb-2">
               <Building2 className="w-4 h-4 text-earth-600" />
-              <Typography variant="small" className="text-grey-600 font-medium">
+              <Typography variant="small" className="text-stone-600 font-medium">
                 Organizations
               </Typography>
             </div>
@@ -251,7 +251,7 @@ export function UnifiedStorytellerCard({
                     </Badge>
                   )}
                   {isDetailed && (
-                    <span className="text-xs text-grey-500">({org.role})</span>
+                    <span className="text-xs text-stone-500">({org.role})</span>
                   )}
                 </div>
               ))}
@@ -274,7 +274,7 @@ export function UnifiedStorytellerCard({
           <div>
             <div className="flex items-center gap-1 mb-2">
               <Target className="w-4 h-4 text-emerald-600" />
-              <Typography variant="small" className="text-grey-600 font-medium">
+              <Typography variant="small" className="text-stone-600 font-medium">
                 Projects
               </Typography>
             </div>
@@ -299,7 +299,7 @@ export function UnifiedStorytellerCard({
                     </Badge>
                   )}
                   {isDetailed && (
-                    <span className="text-xs text-grey-500">({project.role})</span>
+                    <span className="text-xs text-stone-500">({project.role})</span>
                   )}
                 </div>
               ))}
@@ -335,7 +335,7 @@ export function UnifiedStorytellerCard({
             </Typography>
           </div>
           <div className="flex items-center gap-1">
-            <span className="text-xs text-grey-600">Profile:</span>
+            <span className="text-xs text-stone-600">Profile:</span>
             <span className={cn("text-xs font-medium", getProfileCompletenessColor(profile_completeness))}>
               {profile_completeness}% complete
             </span>
@@ -345,7 +345,7 @@ export function UnifiedStorytellerCard({
         {/* Top Themes */}
         {top_themes && top_themes.length > 0 && (
           <div>
-            <Typography variant="small" className="text-grey-600 mb-1">
+            <Typography variant="small" className="text-stone-600 mb-1">
               Story Themes:
             </Typography>
             <div className="flex flex-wrap gap-1">
@@ -366,7 +366,7 @@ export function UnifiedStorytellerCard({
         {/* Cultural Markers */}
         {cultural_markers && cultural_markers.length > 0 && (
           <div>
-            <Typography variant="small" className="text-grey-600 mb-1">
+            <Typography variant="small" className="text-stone-600 mb-1">
               Cultural Markers:
             </Typography>
             <div className="flex flex-wrap gap-1">
@@ -386,7 +386,7 @@ export function UnifiedStorytellerCard({
         {/* Suggested Tags */}
         {suggested_tags && suggested_tags.length > 0 && isDetailed && (
           <div>
-            <Typography variant="small" className="text-grey-600 mb-2">
+            <Typography variant="small" className="text-stone-600 mb-2">
               AI Suggestions:
             </Typography>
             <div className="space-y-1">
@@ -396,7 +396,7 @@ export function UnifiedStorytellerCard({
                     <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200 touch-target">
                       {suggestion.category}: {suggestion.value}
                     </Badge>
-                    <span className="text-grey-500">
+                    <span className="text-stone-500">
                       {suggestion.confidence}% confidence
                     </span>
                   </div>
@@ -425,39 +425,39 @@ export function UnifiedStorytellerCard({
     const { transcripts, stories, videos, analyzed_content } = storyteller.content_stats
 
     return (
-      <div className="grid grid-cols-2 gap-3 p-3 bg-grey-50 rounded-lg">
+      <div className="grid grid-cols-2 gap-3 p-3 bg-stone-50 rounded-lg">
         <div className="text-center">
-          <div className="flex items-center justify-center gap-1 text-sm text-grey-600">
+          <div className="flex items-center justify-center gap-1 text-sm text-stone-600">
             <FileText className="w-4 h-4" />
             <span>Transcripts</span>
           </div>
-          <div className="text-lg font-semibold text-grey-900">{transcripts}</div>
+          <div className="text-lg font-semibold text-stone-900">{transcripts}</div>
         </div>
 
         <div className="text-center">
-          <div className="flex items-center justify-center gap-1 text-sm text-grey-600">
+          <div className="flex items-center justify-center gap-1 text-sm text-stone-600">
             <BookOpen className="w-4 h-4" />
             <span>Stories</span>
           </div>
-          <div className="text-lg font-semibold text-grey-900">{stories}</div>
+          <div className="text-lg font-semibold text-stone-900">{stories}</div>
         </div>
 
         {(videos > 0 || analyzed_content > 0) && (
           <>
             <div className="text-center">
-              <div className="flex items-center justify-center gap-1 text-sm text-grey-600">
+              <div className="flex items-center justify-center gap-1 text-sm text-stone-600">
                 <Video className="w-4 h-4" />
                 <span>Videos</span>
               </div>
-              <div className="text-lg font-semibold text-grey-900">{videos}</div>
+              <div className="text-lg font-semibold text-stone-900">{videos}</div>
             </div>
 
             <div className="text-center">
-              <div className="flex items-center justify-center gap-1 text-sm text-grey-600">
+              <div className="flex items-center justify-center gap-1 text-sm text-stone-600">
                 <Lightbulb className="w-4 h-4" />
                 <span>AI Analyzed</span>
               </div>
-              <div className="text-lg font-semibold text-grey-900">{analyzed_content}</div>
+              <div className="text-lg font-semibold text-stone-900">{analyzed_content}</div>
             </div>
           </>
         )}
@@ -468,7 +468,7 @@ export function UnifiedStorytellerCard({
   return (
     <Card
       className={cn(
-        'group transition-all duration-300 hover:shadow-lg overflow-hidden bg-white border border-grey-200',
+        'group transition-all duration-300 hover:shadow-lg overflow-hidden bg-white border border-stone-200',
         'rounded-lg relative',
         isFeatured && 'ring-2 ring-amber-200',
         isElder && 'ring-2 ring-purple-200',
@@ -494,7 +494,7 @@ export function UnifiedStorytellerCard({
                 <Link href={`/storytellers/${storyteller.id}`}>
                   <Typography
                     variant="h3"
-                    className="text-grey-900 font-bold group-hover:text-earth-700 transition-colours cursor-pointer"
+                    className="text-stone-900 font-bold group-hover:text-earth-700 transition-colours cursor-pointer"
                   >
                     {storyteller.display_name}
                   </Typography>
@@ -513,7 +513,7 @@ export function UnifiedStorytellerCard({
                   </Badge>
                 )}
                 {isElder && (
-                  <Badge className="bg-purple-100 text-purple-800 text-xs font-medium touch-target">
+                  <Badge className="bg-clay-100 text-clay-800 text-xs font-medium touch-target">
                     <Crown className="w-3 h-3 mr-1" />
                     Elder
                   </Badge>
@@ -527,7 +527,7 @@ export function UnifiedStorytellerCard({
       <CardContent className="pt-0 space-y-4">
         {/* Bio */}
         {storyteller.bio && !isCompact && (
-          <Typography variant="body" className="text-grey-700 leading-relaxed text-sm">
+          <Typography variant="body" className="text-stone-700 leading-relaxed text-sm">
             {isDetailed ? storyteller.bio : truncateBio(storyteller.bio)}
           </Typography>
         )}
@@ -546,7 +546,7 @@ export function UnifiedStorytellerCard({
           <div className="space-y-3">
             {storyteller.cultural_affiliations && storyteller.cultural_affiliations.length > 0 && (
               <div>
-                <Typography variant="small" className="text-grey-600 font-medium mb-2">
+                <Typography variant="small" className="text-stone-600 font-medium mb-2">
                   Cultural Affiliations:
                 </Typography>
                 <div className="flex flex-wrap gap-1">
@@ -565,7 +565,7 @@ export function UnifiedStorytellerCard({
 
             {storyteller.languages && storyteller.languages.length > 0 && (
               <div>
-                <Typography variant="small" className="text-grey-600 font-medium mb-2">
+                <Typography variant="small" className="text-stone-600 font-medium mb-2">
                   Languages:
                 </Typography>
                 <div className="flex flex-wrap gap-1">
@@ -585,17 +585,17 @@ export function UnifiedStorytellerCard({
         )}
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-4 border-t border-grey-200">
+        <div className="flex items-center justify-between pt-4 border-t border-stone-200">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
               <Heart className="w-4 h-4 text-earth-600" />
-              <Typography variant="small" className="text-grey-700 font-medium">
+              <Typography variant="small" className="text-stone-700 font-medium">
                 {storyteller.story_count} {storyteller.story_count === 1 ? 'story' : 'stories'}
               </Typography>
             </div>
 
             {storyteller.last_active && (
-              <div className="flex items-center gap-1 text-sm text-grey-500">
+              <div className="flex items-center gap-1 text-sm text-stone-500">
                 <Calendar className="w-3 h-3" />
                 <span>Active {formatLastActive(storyteller.last_active)}</span>
               </div>

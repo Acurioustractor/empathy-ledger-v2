@@ -121,7 +121,7 @@ export default function SuperAdminMemberManagement() {
       <div className="container mx-auto px-4 py-6">
         <div className="text-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-grey-900 mx-auto"></div>
-          <p className="mt-4 text-grey-600">Loading member data...</p>
+          <p className="mt-4 text-stone-600">Loading member data...</p>
         </div>
       </div>
     )
@@ -130,8 +130,8 @@ export default function SuperAdminMemberManagement() {
   return (
     <div className="container mx-auto px-4 py-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-grey-900">Super Admin - Member Management</h1>
-        <p className="text-grey-600 mt-2">
+        <h1 className="text-3xl font-bold text-stone-900">Super Admin - Member Management</h1>
+        <p className="text-stone-600 mt-2">
           Manage members across all organisations
         </p>
       </div>

@@ -59,7 +59,7 @@ function MetricCard({ title, value, change, changeLabel, icon: Icon, description
   const getChangeColor = (change: number) => {
     if (change > 0) return 'text-green-600'
     if (change < 0) return 'text-red-600'
-    return 'text-grey-600'
+    return 'text-stone-600'
   }
 
   return (
@@ -139,15 +139,15 @@ export default function AdminAnalyticsPage() {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-grey-900">Analytics</h1>
+          <h1 className="text-3xl font-bold text-stone-900">Analytics</h1>
         </div>
         <div className="grid gap-6 md:grid-cols-4">
           {[...Array(4)].map((_, i) => (
             <Card key={i}>
               <CardContent className="p-6">
                 <div className="animate-pulse">
-                  <div className="h-4 bg-grey-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-8 bg-grey-200 rounded w-1/2"></div>
+                  <div className="h-4 bg-stone-200 rounded w-3/4 mb-2"></div>
+                  <div className="h-8 bg-stone-200 rounded w-1/2"></div>
                 </div>
               </CardContent>
             </Card>
@@ -162,8 +162,8 @@ export default function AdminAnalyticsPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-grey-900">Analytics</h1>
-          <p className="text-grey-600">
+          <h1 className="text-3xl font-bold text-stone-900">Analytics</h1>
+          <p className="text-stone-600">
             Platform insights, user engagement, and performance metrics
           </p>
         </div>
@@ -241,7 +241,7 @@ export default function AdminAnalyticsPage() {
                 <div className="space-y-4">
                   {analytics.activity.daily_active_users.slice(-7).map((day, index) => (
                     <div key={day.date} className="flex items-center justify-between">
-                      <span className="text-sm text-grey-600">
+                      <span className="text-sm text-stone-600">
                         {new Date(day.date).toLocaleDateString('en-US', { 
                           weekday: 'short', 
                           month: 'short', 
@@ -249,9 +249,9 @@ export default function AdminAnalyticsPage() {
                         })}
                       </span>
                       <div className="flex items-center gap-2">
-                        <div className="w-32 bg-grey-200 rounded-full h-2">
+                        <div className="w-32 bg-stone-200 rounded-full h-2">
                           <div 
-                            className="bg-blue-600 h-2 rounded-full" 
+                            className="bg-sage-600 h-2 rounded-full" 
                             style={{ 
                               width: `${(day.count / Math.max(...analytics.activity.daily_active_users.map(d => d.count))) * 100}%` 
                             }}
@@ -290,7 +290,7 @@ export default function AdminAnalyticsPage() {
                           {content.type}
                         </Badge>
                       </div>
-                      <span className="text-sm font-medium text-grey-600 ml-2">
+                      <span className="text-sm font-medium text-stone-600 ml-2">
                         {formatNumber(content.views)} views
                       </span>
                     </div>
@@ -316,12 +316,12 @@ export default function AdminAnalyticsPage() {
                 {analytics.activity.top_storytellers.slice(0, 8).map((storyteller, index) => (
                   <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                      <div className="w-8 h-8 bg-gradient-to-br from-sage-600 to-clay-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
                         {index + 1}
                       </div>
                       <div>
                         <div className="font-medium text-sm">{storyteller.name}</div>
-                        <div className="text-xs text-grey-500">
+                        <div className="text-xs text-stone-500">
                           {storyteller.stories} stories
                         </div>
                       </div>
@@ -346,15 +346,15 @@ export default function AdminAnalyticsPage() {
               <CardContent>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-sm text-grey-600">New users this month</span>
+                    <span className="text-sm text-stone-600">New users this month</span>
                     <span className="font-medium">{analytics.users.new_this_month}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-grey-600">Monthly active users</span>
+                    <span className="text-sm text-stone-600">Monthly active users</span>
                     <span className="font-medium">{analytics.users.active_monthly}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-grey-600">Growth rate</span>
+                    <span className="text-sm text-stone-600">Growth rate</span>
                     <span className={`font-medium ${analytics.users.growth_rate >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                       {analytics.users.growth_rate >= 0 ? '+' : ''}{analytics.users.growth_rate.toFixed(1)}%
                     </span>
@@ -370,16 +370,16 @@ export default function AdminAnalyticsPage() {
               <CardContent>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-sm text-grey-600">Avg. story length</span>
+                    <span className="text-sm text-stone-600">Avg. story length</span>
                     <span className="font-medium">{analytics.stories.average_length} words</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-grey-600">Stories this month</span>
+                    <span className="text-sm text-stone-600">Stories this month</span>
                     <span className="font-medium">{analytics.stories.published_this_month}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-grey-600">Engagement rate</span>
-                    <span className="font-medium text-blue-600">
+                    <span className="text-sm text-stone-600">Engagement rate</span>
+                    <span className="font-medium text-sage-600">
                       {analytics.stories.engagement_rate.toFixed(1)}%
                     </span>
                   </div>
@@ -394,15 +394,15 @@ export default function AdminAnalyticsPage() {
               <CardContent>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-sm text-grey-600">Active organisations</span>
+                    <span className="text-sm text-stone-600">Active organisations</span>
                     <span className="font-medium">{analytics.organisations.active}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-grey-600">New this month</span>
+                    <span className="text-sm text-stone-600">New this month</span>
                     <span className="font-medium">{analytics.organisations.new_this_month}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-grey-600">Avg. members</span>
+                    <span className="text-sm text-stone-600">Avg. members</span>
                     <span className="font-medium">{analytics.organisations.average_members}</span>
                   </div>
                 </div>

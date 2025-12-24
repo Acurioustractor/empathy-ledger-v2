@@ -74,7 +74,7 @@ const MediaUploadForm: React.FC<{
         <div
           className={cn(
             "border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colours",
-            dragActive ? "border-blue-500 bg-blue-50" : "border-stone-300 hover:border-stone-400",
+            dragActive ? "border-sage-500 bg-sage-50" : "border-stone-300 hover:border-stone-400",
             file ? "border-green-500 bg-green-50" : ""
           )}
           onDragEnter={handleDrag}
@@ -354,7 +354,7 @@ export const ProjectMediaTab: React.FC<ProjectMediaTabProps> = ({ projectId }) =
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600">{stats.totalFiles}</div>
+              <div className="text-2xl font-bold text-sage-600">{stats.totalFiles}</div>
               <div className="text-xs text-stone-600 dark:text-stone-400">Total Files</div>
             </CardContent>
           </Card>
@@ -366,7 +366,7 @@ export const ProjectMediaTab: React.FC<ProjectMediaTabProps> = ({ projectId }) =
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600">{stats.videos}</div>
+              <div className="text-2xl font-bold text-clay-600">{stats.videos}</div>
               <div className="text-xs text-stone-600 dark:text-stone-400">Videos</div>
             </CardContent>
           </Card>

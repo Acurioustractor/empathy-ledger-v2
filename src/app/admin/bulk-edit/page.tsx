@@ -264,7 +264,7 @@ export default function BulkEditPage() {
         </Button>
         <div>
           <h1 className="text-3xl font-bold">Bulk Edit Transcripts</h1>
-          <p className="text-grey-600">Assign storytellers to orphaned transcripts</p>
+          <p className="text-stone-600">Assign storytellers to orphaned transcripts</p>
         </div>
       </div>
 
@@ -326,7 +326,7 @@ export default function BulkEditPage() {
                     checked={selectedTranscripts.size === transcripts.length && transcripts.length > 0}
                     onCheckedChange={toggleAll}
                   />
-                  <span className="text-sm text-grey-600">
+                  <span className="text-sm text-stone-600">
                     {selectedTranscripts.size} of {transcripts.length} selected
                   </span>
                 </div>
@@ -359,15 +359,15 @@ export default function BulkEditPage() {
           {loading ? (
             <Card>
               <CardContent className="p-12 text-center">
-                <p className="text-grey-600">Loading transcripts...</p>
+                <p className="text-stone-600">Loading transcripts...</p>
               </CardContent>
             </Card>
           ) : transcripts.length === 0 ? (
             <Card>
               <CardContent className="p-12 text-center">
-                <FileText className="h-12 w-12 text-grey-400 mx-auto mb-4" />
-                <p className="text-lg font-medium text-grey-600">No orphaned transcripts found!</p>
-                <p className="text-sm text-grey-500">All transcripts in this organization have storytellers assigned.</p>
+                <FileText className="h-12 w-12 text-stone-400 mx-auto mb-4" />
+                <p className="text-lg font-medium text-stone-600">No orphaned transcripts found!</p>
+                <p className="text-sm text-stone-500">All transcripts in this organization have storytellers assigned.</p>
               </CardContent>
             </Card>
           ) : (
@@ -389,7 +389,7 @@ export default function BulkEditPage() {
                     return (
                       <div
                         key={transcript.id}
-                        className="flex items-start gap-4 p-4 border rounded-lg hover:bg-grey-50"
+                        className="flex items-start gap-4 p-4 border rounded-lg hover:bg-stone-50"
                       >
                         <Checkbox
                           checked={selectedTranscripts.has(transcript.id)}
@@ -400,7 +400,7 @@ export default function BulkEditPage() {
                           <div className="flex items-start justify-between gap-4">
                             <div className="flex-1">
                               <h4 className="font-medium truncate">{transcript.title}</h4>
-                              <p className="text-sm text-grey-500">
+                              <p className="text-sm text-stone-500">
                                 Created: {new Date(transcript.created_at).toLocaleDateString()}
                               </p>
                             </div>

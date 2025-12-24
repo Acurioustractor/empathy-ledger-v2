@@ -105,19 +105,19 @@ export function StoryShareSheet({
       name: 'Facebook',
       icon: Facebook,
       url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(storyUrl)}`,
-      color: 'hover:bg-blue-50 hover:text-blue-600'
+      color: 'hover:bg-sage-50 hover:text-sage-600'
     },
     {
       name: 'LinkedIn',
       icon: Linkedin,
       url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(storyUrl)}`,
-      color: 'hover:bg-blue-50 hover:text-blue-700'
+      color: 'hover:bg-sage-50 hover:text-sage-700'
     },
     {
       name: 'Email',
       icon: Mail,
       url: `mailto:?subject=${encodeURIComponent(storyTitle)}&body=${encodeURIComponent(`Check out this story: ${storyUrl}`)}`,
-      color: 'hover:bg-gray-50 hover:text-gray-700'
+      color: 'hover:bg-stone-50 hover:text-stone-700'
     }
   ]
 
@@ -126,13 +126,13 @@ export function StoryShareSheet({
       icon: Lock,
       label: 'Private',
       description: 'Only you can see this story',
-      color: 'text-gray-600'
+      color: 'text-stone-600'
     },
     community: {
       icon: Users,
       label: 'Community',
       description: 'Visible to community members',
-      color: 'text-blue-600'
+      color: 'text-sage-600'
     },
     public: {
       icon: Globe,

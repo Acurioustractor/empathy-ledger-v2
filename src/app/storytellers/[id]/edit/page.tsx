@@ -295,10 +295,10 @@ export default function StorytellerEditPage() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'completed': return 'bg-green-100 text-green-800 border-green-200'
-      case 'processing': return 'bg-blue-100 text-blue-800 border-blue-200'
+      case 'processing': return 'bg-sage-100 text-sage-800 border-sage-200'
       case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
       case 'failed': return 'bg-red-100 text-red-800 border-red-200'
-      default: return 'bg-grey-100 text-grey-800 border-grey-200'
+      default: return 'bg-stone-100 text-stone-800 border-stone-200'
     }
   }
 
@@ -323,7 +323,7 @@ export default function StorytellerEditPage() {
             <Typography variant="h2" className="text-red-600 mb-4">
               {error.includes('permission') ? 'Access Denied' : 'Error'}
             </Typography>
-            <Typography variant="body" className="text-grey-600 mb-6">
+            <Typography variant="body" className="text-stone-600 mb-6">
               {error}
             </Typography>
             <Button asChild>
@@ -356,7 +356,7 @@ export default function StorytellerEditPage() {
               <Typography variant="h1" className="text-earth-800">
                 Edit Storyteller Profile
               </Typography>
-              <Typography variant="body" className="text-grey-600">
+              <Typography variant="body" className="text-stone-600">
                 Update your storytelling profile and preferences
               </Typography>
             </div>
@@ -420,7 +420,7 @@ export default function StorytellerEditPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-grey-700 mb-2">
+                  <label className="block text-sm font-medium text-stone-700 mb-2">
                     Display Name
                   </label>
                   <Input
@@ -432,7 +432,7 @@ export default function StorytellerEditPage() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-grey-700 mb-2">
+                  <label className="block text-sm font-medium text-stone-700 mb-2">
                     Bio
                   </label>
                   <Textarea
@@ -444,7 +444,7 @@ export default function StorytellerEditPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-grey-700 mb-2">
+                  <label className="block text-sm font-medium text-stone-700 mb-2">
                     Cultural Background
                   </label>
                   <Select 
@@ -463,7 +463,7 @@ export default function StorytellerEditPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-grey-700 mb-2">
+                  <label className="block text-sm font-medium text-stone-700 mb-2">
                     Years of Experience
                   </label>
                   <Input
@@ -481,10 +481,10 @@ export default function StorytellerEditPage() {
                 <div className="md:col-span-2">
                   <div className="flex items-center justify-between">
                     <div>
-                      <label className="block text-sm font-medium text-grey-700 mb-1">
+                      <label className="block text-sm font-medium text-stone-700 mb-1">
                         Elder Status
                       </label>
-                      <Typography variant="small" className="text-grey-500">
+                      <Typography variant="small" className="text-stone-500">
                         Are you recognised as an Elder in your community?
                       </Typography>
                     </div>
@@ -493,7 +493,7 @@ export default function StorytellerEditPage() {
                         checked={formData.elder_status || false}
                         onCheckedChange={(checked) => updateFormData('elder_status', checked)}
                       />
-                      <Crown className="w-4 h-4 text-purple-500" />
+                      <Crown className="w-4 h-4 text-clay-500" />
                     </div>
                   </div>
                 </div>
@@ -506,7 +506,7 @@ export default function StorytellerEditPage() {
                 <FileText className="w-6 h-6 text-earth-600" />
                 <Typography variant="h2">Existing Transcripts ({transcripts.length})</Typography>
               </div>
-              <Typography variant="body" className="text-grey-600 mb-6">
+              <Typography variant="body" className="text-stone-600 mb-6">
                 View and manage transcripts for {formData.display_name || 'this storyteller'}
               </Typography>
 
@@ -597,7 +597,7 @@ export default function StorytellerEditPage() {
               <div className="space-y-8">
                 {/* Specialties */}
                 <div>
-                  <label className="block text-sm font-medium text-grey-700 mb-3">
+                  <label className="block text-sm font-medium text-stone-700 mb-3">
                     Specialties
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -611,7 +611,7 @@ export default function StorytellerEditPage() {
                           'p-3 border rounded-lg cursor-pointer transition-all text-center',
                           (formData.specialties || []).includes(specialty)
                             ? 'border-earth-500 bg-earth-50 text-earth-700'
-                            : 'border-grey-200 hover:border-grey-300'
+                            : 'border-stone-200 hover:border-stone-300'
                         )}
                       >
                         <Typography variant="small" className="font-medium">
@@ -624,7 +624,7 @@ export default function StorytellerEditPage() {
 
                 {/* Storytelling Styles */}
                 <div>
-                  <label className="block text-sm font-medium text-grey-700 mb-3">
+                  <label className="block text-sm font-medium text-stone-700 mb-3">
                     Storytelling Styles
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -638,7 +638,7 @@ export default function StorytellerEditPage() {
                           'p-3 border rounded-lg cursor-pointer transition-all text-center',
                           (formData.storytelling_style || []).includes(style)
                             ? 'border-earth-500 bg-earth-50 text-earth-700'
-                            : 'border-grey-200 hover:border-grey-300'
+                            : 'border-stone-200 hover:border-stone-300'
                         )}
                       >
                         <Typography variant="small" className="font-medium">
@@ -651,7 +651,7 @@ export default function StorytellerEditPage() {
 
                 {/* Preferred Topics */}
                 <div>
-                  <label className="block text-sm font-medium text-grey-700 mb-3">
+                  <label className="block text-sm font-medium text-stone-700 mb-3">
                     Preferred Topics
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -665,7 +665,7 @@ export default function StorytellerEditPage() {
                           'p-2 border rounded-md cursor-pointer transition-all text-center text-sm',
                           (formData.preferred_topics || []).includes(topic)
                             ? 'border-earth-400 bg-earth-25 text-earth-700'
-                            : 'border-grey-200 hover:border-grey-300'
+                            : 'border-stone-200 hover:border-stone-300'
                         )}
                       >
                         {topic}
@@ -686,7 +686,7 @@ export default function StorytellerEditPage() {
 
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-grey-700 mb-2">
+                  <label className="block text-sm font-medium text-stone-700 mb-2">
                     Profile Status
                   </label>
                   <Select 
@@ -709,7 +709,7 @@ export default function StorytellerEditPage() {
                     <Typography variant="body" className="font-medium">
                       Featured Storyteller
                     </Typography>
-                    <Typography variant="small" className="text-grey-600">
+                    <Typography variant="small" className="text-stone-600">
                       Featured storytellers appear prominently in searches
                     </Typography>
                   </div>

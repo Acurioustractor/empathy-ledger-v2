@@ -248,7 +248,7 @@ export function ProjectRelationshipManager({ projectId, projectName, organizatio
           <div className="flex gap-2">
             <Link
               href={`/organisations/${organizationId}/projects/${projectId}/analysis`}
-              className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg"
+              className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-sage-600 to-clay-600 text-white rounded-lg hover:from-sage-700 hover:to-clay-700 transition-all duration-200 shadow-md hover:shadow-lg"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -392,11 +392,11 @@ export function ProjectRelationshipManager({ projectId, projectName, organizatio
         <CardContent>
           <div className="space-y-2">
             {galleries.map(gallery => (
-              <div key={gallery.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-grey-50 transition-colours">
+              <div key={gallery.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-stone-50 transition-colours">
                 <div className="flex-1">
                   <Link
                     href={`/galleries/${gallery.id}`}
-                    className="block hover:text-blue-600 transition-colours"
+                    className="block hover:text-sage-600 transition-colours"
                   >
                     <div className="font-medium flex items-center gap-2">
                       {gallery.title}

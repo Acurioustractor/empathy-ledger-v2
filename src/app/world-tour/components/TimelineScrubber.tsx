@@ -105,7 +105,7 @@ export function TimelineScrubber({ data, onDateRangeChange, className }: Timelin
     <Card className={cn("bg-white/95 dark:bg-stone-900/95 backdrop-blur-sm", className)}>
       <CardContent className="p-4">
         <div className="flex items-center gap-3 mb-4">
-          <Calendar className="w-5 h-5 text-purple-500" />
+          <Calendar className="w-5 h-5 text-clay-500" />
           <span className="font-medium">Timeline Scrubber</span>
           {currentMonth && (
             <Badge variant="secondary" className="ml-auto">
@@ -131,8 +131,8 @@ export function TimelineScrubber({ data, onDateRangeChange, className }: Timelin
                   <div
                     className={cn(
                       "absolute bottom-0 w-full rounded-t transition-all duration-300",
-                      isActive ? "bg-purple-500" : "bg-stone-200 dark:bg-stone-700",
-                      isCurrent && "ring-2 ring-purple-300 dark:ring-purple-700",
+                      isActive ? "bg-clay-500" : "bg-stone-200 dark:bg-stone-700",
+                      isCurrent && "ring-2 ring-clay-300 dark:ring-clay-700",
                       "group-hover:opacity-80"
                     )}
                     style={{ height: `${Math.max(height, 8)}%` }}
@@ -210,7 +210,7 @@ export function TimelineScrubber({ data, onDateRangeChange, className }: Timelin
         {currentMonth && (
           <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t text-sm">
             <div className="text-center">
-              <div className="text-lg font-bold text-purple-600">{currentMonth.stories}</div>
+              <div className="text-lg font-bold text-clay-600">{currentMonth.stories}</div>
               <div className="text-xs text-muted-foreground">Stories</div>
             </div>
             <div className="text-center">

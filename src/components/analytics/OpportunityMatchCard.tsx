@@ -66,7 +66,7 @@ export function OpportunityMatchCard({
 }: OpportunityMatchCardProps) {
   const getMatchScoreColor = (score: number) => {
     if (score >= 80) return 'text-green-600 bg-green-100 border-green-200'
-    if (score >= 60) return 'text-blue-600 bg-blue-100 border-blue-200'
+    if (score >= 60) return 'text-sage-600 bg-sage-100 border-sage-200'
     if (score >= 40) return 'text-yellow-600 bg-yellow-100 border-yellow-200'
     return 'text-red-600 bg-red-100 border-red-200'
   }
@@ -88,7 +88,7 @@ export function OpportunityMatchCard({
           <div className="flex-1">
             <CardTitle className="text-lg mb-1 flex items-center gap-2">
               {type === 'career' ? (
-                <Briefcase className="h-4 w-4 text-blue-600" />
+                <Briefcase className="h-4 w-4 text-sage-600" />
               ) : (
                 <DollarSign className="h-4 w-4 text-green-600" />
               )}
@@ -108,7 +108,7 @@ export function OpportunityMatchCard({
               {opportunity.match_score}% Match
             </Badge>
             {isGrant(opportunity) && opportunity.cultural_focus && (
-              <Badge variant="outline" className="text-purple-700 border-purple-700">
+              <Badge variant="outline" className="text-clay-700 border-clay-700">
                 <Heart className="h-3 w-3 mr-1" />
                 Cultural Focus
               </Badge>
@@ -132,7 +132,7 @@ export function OpportunityMatchCard({
           <div>
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium">Match Quality</span>
-              <span className="text-sm text-grey-500">
+              <span className="text-sm text-stone-500">
                 {getMatchScoreLabel(opportunity.match_score)}
               </span>
             </div>
@@ -175,7 +175,7 @@ export function OpportunityMatchCard({
                     {opportunity.gap_analysis.slice(0, 3).map((gap, i) => (
                       <div key={i} className="flex items-start gap-2">
                         <Lightbulb className="h-3 w-3 text-yellow-500 mt-1 flex-shrink-0" />
-                        <span className="text-xs text-grey-600">{gap}</span>
+                        <span className="text-xs text-stone-600">{gap}</span>
                       </div>
                     ))}
                   </div>
@@ -186,10 +186,10 @@ export function OpportunityMatchCard({
               {isCareer(opportunity) && (
                 <div>
                   <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
-                    <Target className="h-3 w-3 text-blue-500" />
+                    <Target className="h-3 w-3 text-sage-500" />
                     Application Strategy
                   </h4>
-                  <p className="text-xs text-grey-600 bg-blue-50 p-3 rounded border-l-2 border-blue-500">
+                  <p className="text-xs text-stone-600 bg-sage-50 p-3 rounded border-l-2 border-sage-500">
                     {opportunity.application_strategy}
                   </p>
                 </div>
@@ -199,10 +199,10 @@ export function OpportunityMatchCard({
               {isGrant(opportunity) && (
                 <div>
                   <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
-                    <Lightbulb className="h-3 w-3 text-blue-500" />
+                    <Lightbulb className="h-3 w-3 text-sage-500" />
                     Suggested Project Approach
                   </h4>
-                  <p className="text-xs text-grey-600 bg-blue-50 p-3 rounded border-l-2 border-blue-500">
+                  <p className="text-xs text-stone-600 bg-sage-50 p-3 rounded border-l-2 border-sage-500">
                     {opportunity.suggested_project}
                   </p>
                 </div>
@@ -212,10 +212,10 @@ export function OpportunityMatchCard({
               {isCareer(opportunity) && (
                 <div>
                   <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
-                    <Heart className="h-3 w-3 text-purple-500" />
+                    <Heart className="h-3 w-3 text-clay-500" />
                     Cultural Alignment
                   </h4>
-                  <p className="text-xs text-grey-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
+                  <p className="text-xs text-stone-600 bg-clay-50 p-3 rounded border-l-2 border-clay-500">
                     {opportunity.cultural_fit}
                   </p>
                 </div>
@@ -225,10 +225,10 @@ export function OpportunityMatchCard({
               {isGrant(opportunity) && (
                 <div>
                   <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
-                    <Users className="h-3 w-3 text-purple-500" />
+                    <Users className="h-3 w-3 text-clay-500" />
                     Community Impact Potential
                   </h4>
-                  <p className="text-xs text-grey-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
+                  <p className="text-xs text-stone-600 bg-clay-50 p-3 rounded border-l-2 border-clay-500">
                     {opportunity.community_impact_potential}
                   </p>
                 </div>
@@ -238,7 +238,7 @@ export function OpportunityMatchCard({
 
           {/* Footer with deadline and actions */}
           <div className="flex items-center justify-between pt-2 border-t">
-            <div className="flex items-center gap-4 text-xs text-grey-500">
+            <div className="flex items-center gap-4 text-xs text-stone-500">
               {isCareer(opportunity) && opportunity.salary_range && (
                 <div className="flex items-center gap-1">
                   <DollarSign className="h-3 w-3" />

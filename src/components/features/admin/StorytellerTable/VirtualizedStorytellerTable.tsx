@@ -159,7 +159,7 @@ export default function VirtualizedStorytellerTable() {
           </Avatar>
           <div>
             <div className="font-medium">{row.original.displayName}</div>
-            <div className="text-sm text-grey-500">{row.original.email}</div>
+            <div className="text-sm text-stone-500">{row.original.email}</div>
           </div>
         </div>
       ),
@@ -231,9 +231,9 @@ export default function VirtualizedStorytellerTable() {
       cell: ({ row }) => (
         <div className="text-center">
           <div className="text-sm font-medium">{row.original.engagementRate}%</div>
-          <div className="w-full bg-grey-200 rounded-full h-1.5 mt-1">
+          <div className="w-full bg-stone-200 rounded-full h-1.5 mt-1">
             <div
-              className="bg-blue-600 h-1.5 rounded-full"
+              className="bg-sage-600 h-1.5 rounded-full"
               style={{ width: `${row.original.engagementRate}%` }}
             />
           </div>
@@ -348,8 +348,8 @@ export default function VirtualizedStorytellerTable() {
     return (
       <div className="flex items-center justify-center h-96">
         <div className="flex flex-col items-center gap-2">
-          <RefreshCw className="h-8 w-8 animate-spin text-grey-400" />
-          <p className="text-sm text-grey-500">Loading storytellers...</p>
+          <RefreshCw className="h-8 w-8 animate-spin text-stone-400" />
+          <p className="text-sm text-stone-500">Loading storytellers...</p>
         </div>
       </div>
     )
@@ -359,8 +359,8 @@ export default function VirtualizedStorytellerTable() {
     <div className="w-full space-y-4">
       {/* Bulk Actions Bar */}
       {selectedStorytellers.length > 0 && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 flex items-center justify-between">
-          <span className="text-sm font-medium text-blue-900">
+        <div className="bg-sage-50 border border-sage-200 rounded-lg p-3 flex items-center justify-between">
+          <span className="text-sm font-medium text-sage-900">
             {selectedStorytellers.length} storyteller(s) selected
           </span>
           <div className="flex gap-2">
@@ -398,14 +398,14 @@ export default function VirtualizedStorytellerTable() {
       {/* Table Container */}
       <div className="border rounded-lg bg-white">
         {/* Table Header */}
-        <div className="border-b bg-grey-50">
+        <div className="border-b bg-stone-50">
           <div className="flex">
             {table.getHeaderGroups().map(headerGroup => (
               <React.Fragment key={headerGroup.id}>
                 {headerGroup.headers.map(header => (
                   <div
                     key={header.id}
-                    className="px-4 py-3 text-left text-xs font-medium text-grey-500 uppercase tracking-wider"
+                    className="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider"
                     style={{ width: header.getSize() }}
                   >
                     {header.isPlaceholder
@@ -436,8 +436,8 @@ export default function VirtualizedStorytellerTable() {
                 <div
                   key={row.id}
                   className={cn(
-                    'absolute top-0 left-0 w-full flex border-b hover:bg-grey-50',
-                    selectedStorytellers.includes(row.original.id) && 'bg-blue-50'
+                    'absolute top-0 left-0 w-full flex border-b hover:bg-stone-50',
+                    selectedStorytellers.includes(row.original.id) && 'bg-sage-50'
                   )}
                   style={{
                     height: `${virtualRow.size}px`,
@@ -461,7 +461,7 @@ export default function VirtualizedStorytellerTable() {
       </div>
 
       {/* Table Footer */}
-      <div className="flex items-center justify-between text-sm text-grey-600">
+      <div className="flex items-center justify-between text-sm text-stone-600">
         <div>
           Showing {virtualRows.length} of {rows.length} storytellers
         </div>

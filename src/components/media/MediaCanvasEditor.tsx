@@ -280,18 +280,18 @@ export function MediaCanvasEditor({
       <Card
         key={block.id}
         className={`mb-4 transition-all duration-200 ${
-          isSelected ? 'ring-2 ring-purple-500 bg-purple-50' : 'hover:bg-grey-50'
+          isSelected ? 'ring-2 ring-purple-500 bg-clay-50' : 'hover:bg-stone-50'
         } ${isHighSensitivity ? 'border-orange-300' : ''}`}
         onClick={() => setSelectedBlockId(block.id)}
       >
         {/* Block Header */}
-        <div className="flex items-center justify-between p-3 border-b bg-grey-50">
+        <div className="flex items-center justify-between p-3 border-b bg-stone-50">
           <div className="flex items-center space-x-2">
-            <GripVertical className="w-4 h-4 text-grey-400 cursor-move" />
+            <GripVertical className="w-4 h-4 text-stone-400 cursor-move" />
             {(() => {
               const template = BLOCK_TEMPLATES.find(t => t.type === block.type)
               const Icon = template?.icon || Type
-              return <Icon className="w-4 h-4 text-grey-600" />
+              return <Icon className="w-4 h-4 text-stone-600" />
             })()}
             <Typography variant="subtitle2" className="font-medium capitalize">
               {block.type} Block
@@ -369,7 +369,7 @@ export function MediaCanvasEditor({
       case 'image':
         return (
           <div className="space-y-3">
-            <div className="border-2 border-dashed border-grey-300 rounded-lg p-6 text-center">
+            <div className="border-2 border-dashed border-stone-300 rounded-lg p-6 text-center">
               {block.content.src ? (
                 <div className="space-y-2">
                   <img src={block.content.src} alt={block.content.alt} className="max-h-48 mx-auto rounded" />
@@ -380,7 +380,7 @@ export function MediaCanvasEditor({
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <Image className="w-12 h-12 mx-auto text-grey-400" />
+                  <Image className="w-12 h-12 mx-auto text-stone-400" />
                   <Button variant="outline">
                     <Upload className="w-4 h-4 mr-2" />
                     Upload Image
@@ -447,8 +447,8 @@ export function MediaCanvasEditor({
       case 'audio':
         return (
           <div className="space-y-3">
-            <div className="border-2 border-dashed border-grey-300 rounded-lg p-6 text-center">
-              <Mic className="w-12 h-12 mx-auto text-grey-400 mb-2" />
+            <div className="border-2 border-dashed border-stone-300 rounded-lg p-6 text-center">
+              <Mic className="w-12 h-12 mx-auto text-stone-400 mb-2" />
               <Button variant="outline">
                 <Upload className="w-4 h-4 mr-2" />
                 Upload Audio
@@ -523,8 +523,8 @@ export function MediaCanvasEditor({
       case 'gallery':
         return (
           <div className="space-y-3">
-            <div className="border-2 border-dashed border-grey-300 rounded-lg p-6 text-center">
-              <Camera className="w-12 h-12 mx-auto text-grey-400 mb-2" />
+            <div className="border-2 border-dashed border-stone-300 rounded-lg p-6 text-center">
+              <Camera className="w-12 h-12 mx-auto text-stone-400 mb-2" />
               <Button variant="outline">
                 <Upload className="w-4 h-4 mr-2" />
                 Add Photos to Gallery
@@ -542,7 +542,7 @@ export function MediaCanvasEditor({
 
       default:
         return (
-          <div className="text-center text-grey-500 py-8">
+          <div className="text-center text-stone-500 py-8">
             <Settings className="w-8 h-8 mx-auto mb-2" />
             <Typography variant="caption">
               Content editor for {block.type} blocks coming soon
@@ -559,7 +559,7 @@ export function MediaCanvasEditor({
           <div className="prose max-w-none">
             <div className="whitespace-pre-wrap">{block.content.text}</div>
             {block.content.culturalNotes && (
-              <Alert className="mt-3 p-3 bg-blue-50 border-blue-200">
+              <Alert className="mt-3 p-3 bg-sage-50 border-sage-200">
                 <AlertDescription className="text-sm">
                   <strong>Cultural Context:</strong> {block.content.culturalNotes}
                 </AlertDescription>
@@ -570,9 +570,9 @@ export function MediaCanvasEditor({
 
       case 'quote':
         return (
-          <blockquote className="border-l-4 border-purple-500 pl-4 py-2 italic text-lg">
+          <blockquote className="border-l-4 border-clay-500 pl-4 py-2 italic text-lg">
             <div className="mb-2">{block.content.text}</div>
-            <cite className="text-sm text-grey-600 not-italic">
+            <cite className="text-sm text-stone-600 not-italic">
               — {block.content.speaker} {block.content.context && `(${block.content.context})`}
             </cite>
           </blockquote>
@@ -580,7 +580,7 @@ export function MediaCanvasEditor({
 
       default:
         return (
-          <div className="flex items-center justify-center py-8 text-grey-500">
+          <div className="flex items-center justify-center py-8 text-stone-500">
             <Typography variant="caption">
               {block.type.toUpperCase()} Block Preview
             </Typography>
@@ -597,7 +597,7 @@ export function MediaCanvasEditor({
           <Typography variant="h3" className="text-xl font-semibold">
             Story Canvas
           </Typography>
-          <Typography variant="body2" className="text-grey-600">
+          <Typography variant="body2" className="text-stone-600">
             Build your multimedia story with drag-and-drop blocks
           </Typography>
         </div>
@@ -652,7 +652,7 @@ export function MediaCanvasEditor({
                     <Icon className="w-4 h-4 mr-2 flex-shrink-0" />
                     <div>
                       <div className="font-medium">{template.label}</div>
-                      <div className="text-xs text-grey-500">{template.description}</div>
+                      <div className="text-xs text-stone-500">{template.description}</div>
                       {!isApproved && (
                         <Badge variant="secondary" className="text-xs mt-1">
                           Requires Review
@@ -670,11 +670,11 @@ export function MediaCanvasEditor({
         <div className={showBlockPalette ? "lg:col-span-3" : "lg:col-span-4"}>
           {blocks.length === 0 ? (
             <Card className="p-12 text-center">
-              <Type className="w-16 h-16 mx-auto text-grey-300 mb-4" />
-              <Typography variant="h4" className="text-grey-500 mb-2">
+              <Type className="w-16 h-16 mx-auto text-stone-300 mb-4" />
+              <Typography variant="h4" className="text-stone-500 mb-2">
                 Start Building Your Story
               </Typography>
-              <Typography variant="body2" className="text-grey-400 mb-4">
+              <Typography variant="body2" className="text-stone-400 mb-4">
                 Click "Add Block" to begin creating your multimedia story
               </Typography>
               <Button

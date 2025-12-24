@@ -186,7 +186,7 @@ export function ComparisonView({ data, loading }: ComparisonViewProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <GitCompare className="w-5 h-5 text-purple-500" />
+            <GitCompare className="w-5 h-5 text-clay-500" />
             Comparison View
           </CardTitle>
           <CardDescription>
@@ -267,7 +267,7 @@ export function ComparisonView({ data, loading }: ComparisonViewProps) {
                   variant={isSelected ? "default" : "outline"}
                   className={cn(
                     "cursor-pointer transition-colors",
-                    isSelected && "bg-purple-600"
+                    isSelected && "bg-clay-600"
                   )}
                   onClick={() => toggleSelection(item.name)}
                 >

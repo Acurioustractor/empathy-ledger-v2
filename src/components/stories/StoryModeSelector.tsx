@@ -67,8 +67,8 @@ const STORY_MODES: StoryMode[] = [
     duration: '30-60 minutes',
     targetLength: '500+ words with multimedia',
     icon: Palette,
-    colour: 'text-purple-700',
-    gradient: 'from-purple-500 to-pink-500',
+    colour: 'text-clay-700',
+    gradient: 'from-clay-500 to-pink-500',
     aiFeatures: ['Content structuring', 'Media suggestions', 'Theme detection', 'Interactive elements', 'Cultural context'],
     culturalSupport: true,
     complexity: 'intermediate',
@@ -83,8 +83,8 @@ const STORY_MODES: StoryMode[] = [
     duration: '15-30 minutes',
     targetLength: 'Based on source material',
     icon: FileText,
-    colour: 'text-blue-700',
-    gradient: 'from-blue-500 to-cyan-500',
+    colour: 'text-sage-700',
+    gradient: 'from-sage-500 to-cyan-500',
     aiFeatures: ['Quote extraction', 'Theme identification', 'Narrative structure', 'Speaker attribution', 'Cultural protocol detection'],
     culturalSupport: true,
     complexity: 'intermediate',
@@ -194,14 +194,14 @@ export function StoryModeSelector({
 
         {/* Content */}
         <div className="p-6">
-          <Typography variant="body2" className="text-grey-600 mb-4">
+          <Typography variant="body2" className="text-stone-600 mb-4">
             {mode.description}
           </Typography>
 
           {/* AI Features Preview */}
           <div className="mb-4">
             <div className="flex items-center space-x-2 mb-2">
-              <Sparkles className="w-4 h-4 text-purple-500" />
+              <Sparkles className="w-4 h-4 text-clay-500" />
               <Typography variant="subtitle2" className="font-medium">
                 AI Features
               </Typography>
@@ -222,10 +222,10 @@ export function StoryModeSelector({
 
           {/* Best For */}
           <div className="mb-4">
-            <Typography variant="caption" className="font-medium text-grey-700 mb-1 block">
+            <Typography variant="caption" className="font-medium text-stone-700 mb-1 block">
               Best for:
             </Typography>
-            <Typography variant="caption" className="text-grey-600">
+            <Typography variant="caption" className="text-stone-600">
               {mode.bestFor.slice(0, 2).join(', ')}
               {mode.bestFor.length > 2 && '...'}
             </Typography>
@@ -242,17 +242,17 @@ export function StoryModeSelector({
 
         {/* Expanded Details */}
         {isExpanded && (
-          <div className="border-t bg-grey-50 p-6">
+          <div className="border-t bg-stone-50 p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* All AI Features */}
               <div>
                 <Typography variant="subtitle2" className="font-medium mb-2 flex items-center">
-                  <Sparkles className="w-4 h-4 mr-2 text-purple-500" />
+                  <Sparkles className="w-4 h-4 mr-2 text-clay-500" />
                   Complete AI Feature Set
                 </Typography>
                 <ul className="space-y-1">
                   {mode.aiFeatures.map((feature, index) => (
-                    <li key={index} className="text-sm text-grey-600 flex items-center">
+                    <li key={index} className="text-sm text-stone-600 flex items-center">
                       <CheckCircle className="w-3 h-3 mr-2 text-green-500" />
                       {feature}
                     </li>
@@ -268,7 +268,7 @@ export function StoryModeSelector({
                 </Typography>
                 <ul className="space-y-1">
                   {mode.examples.map((example, index) => (
-                    <li key={index} className="text-sm text-grey-600">
+                    <li key={index} className="text-sm text-stone-600">
                       • {example}
                     </li>
                   ))}
@@ -302,7 +302,7 @@ export function StoryModeSelector({
         <Typography variant="h1" className="text-3xl font-bold">
           Choose Your Story Creation Mode
         </Typography>
-        <Typography variant="body1" className="text-grey-600 max-w-2xl mx-auto">
+        <Typography variant="body1" className="text-stone-600 max-w-2xl mx-auto">
           Select the storytelling approach that best fits your needs. Each mode is powered by 2025 AI technology
           while respecting cultural protocols and Indigenous knowledge sovereignty.
         </Typography>
@@ -322,7 +322,7 @@ export function StoryModeSelector({
 
       {/* Quick Start Recommendation */}
       {userExperience === 'beginner' && (
-        <Alert className="border-blue-200 bg-blue-50 max-w-4xl mx-auto">
+        <Alert className="border-sage-200 bg-sage-50 max-w-4xl mx-auto">
           <Info className="h-4 w-4" />
           <AlertDescription>
             <strong>New to storytelling?</strong> We recommend starting with <strong>Quick Story</strong> mode
@@ -350,45 +350,45 @@ export function StoryModeSelector({
             <Typography variant="subtitle1" className="font-medium">
               Quick & Easy
             </Typography>
-            <Typography variant="caption" className="text-grey-600">
+            <Typography variant="caption" className="text-stone-600">
               Choose Quick Story for fast, personal narratives with basic AI assistance
             </Typography>
           </div>
 
           <div className="text-center space-y-2">
-            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto">
-              <Palette className="w-6 h-6 text-purple-600" />
+            <div className="w-12 h-12 bg-clay-100 rounded-full flex items-center justify-center mx-auto">
+              <Palette className="w-6 h-6 text-clay-600" />
             </div>
             <Typography variant="subtitle1" className="font-medium">
               Rich & Interactive
             </Typography>
-            <Typography variant="caption" className="text-grey-600">
+            <Typography variant="caption" className="text-stone-600">
               Choose Rich Story for multimedia content with advanced features
             </Typography>
           </div>
 
           <div className="text-center space-y-2">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-              <FileText className="w-6 h-6 text-blue-600" />
+            <div className="w-12 h-12 bg-sage-100 rounded-full flex items-center justify-center mx-auto">
+              <FileText className="w-6 h-6 text-sage-600" />
             </div>
             <Typography variant="subtitle1" className="font-medium">
               Transform Content
             </Typography>
-            <Typography variant="caption" className="text-grey-600">
+            <Typography variant="caption" className="text-stone-600">
               Choose Transcript mode to convert existing interviews into stories
             </Typography>
           </div>
         </div>
 
         <div className="mt-6 text-center">
-          <Typography variant="caption" className="text-grey-500">
+          <Typography variant="caption" className="text-stone-500">
             💡 You can always switch between modes or upgrade your story format later
           </Typography>
         </div>
       </Card>
 
       {/* 2025 AI Features Highlight */}
-      <Card className="p-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+      <Card className="p-6 bg-gradient-to-r from-clay-600 to-pink-600 text-white">
         <div className="flex items-center justify-center space-x-3 mb-4">
           <Sparkles className="w-6 h-6" />
           <Typography variant="h3" className="text-xl font-semibold text-white">

@@ -137,7 +137,7 @@ export function TranscriptCreationDialog({
               <div className="space-y-2">
                 <Label htmlFor="storyteller">Storyteller *</Label>
                 {isLoadingStorytellers ? (
-                  <div className="flex items-center gap-2 text-sm text-grey-600">
+                  <div className="flex items-center gap-2 text-sm text-stone-600">
                     <Loader2 className="h-4 w-4 animate-spin" />
                     Loading storytellers...
                   </div>
@@ -171,7 +171,7 @@ export function TranscriptCreationDialog({
             ) : selectedStoryteller && (
               <div className="space-y-2">
                 <Label>Storyteller</Label>
-                <div className="flex items-center gap-3 p-3 bg-grey-50 rounded-lg border">
+                <div className="flex items-center gap-3 p-3 bg-stone-50 rounded-lg border">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={selectedStoryteller.avatarUrl} />
                     <AvatarFallback>
@@ -180,7 +180,7 @@ export function TranscriptCreationDialog({
                   </Avatar>
                   <div>
                     <div className="font-medium">{selectedStoryteller.displayName}</div>
-                    <div className="text-sm text-grey-600">{selectedStoryteller.fullName}</div>
+                    <div className="text-sm text-stone-600">{selectedStoryteller.fullName}</div>
                   </div>
                 </div>
               </div>
@@ -197,7 +197,7 @@ export function TranscriptCreationDialog({
                 disabled={isSubmitting}
                 maxLength={200}
               />
-              <p className="text-xs text-grey-600">
+              <p className="text-xs text-stone-600">
                 {title.length}/200 characters
               </p>
             </div>
@@ -214,7 +214,7 @@ export function TranscriptCreationDialog({
                 rows={12}
                 className="font-mono text-sm"
               />
-              <div className="flex justify-between text-xs text-grey-600">
+              <div className="flex justify-between text-xs text-stone-600">
                 <span>{wordCount} words</span>
                 <span>{text.length} characters</span>
               </div>
@@ -228,7 +228,7 @@ export function TranscriptCreationDialog({
             )}
 
             {/* Info Message */}
-            <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-700">
+            <div className="p-3 bg-sage-50 border border-sage-200 rounded-lg text-sm text-sage-700">
               <p className="font-medium mb-1">What happens next?</p>
               <ul className="list-disc list-inside space-y-1 text-xs">
                 <li>AI analysis will extract themes and insights</li>

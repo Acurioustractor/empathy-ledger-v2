@@ -138,7 +138,7 @@ export default function StorytellerOpportunitiesPage() {
 
   const getMatchScoreColor = (score: number) => {
     if (score >= 80) return 'text-green-600 bg-green-100'
-    if (score >= 60) return 'text-blue-600 bg-blue-100'
+    if (score >= 60) return 'text-sage-600 bg-sage-100'
     if (score >= 40) return 'text-yellow-600 bg-yellow-100'
     return 'text-red-600 bg-red-100'
   }
@@ -152,13 +152,13 @@ export default function StorytellerOpportunitiesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-sage-100 py-12">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
               <Target className="h-12 w-12 text-green-600 mx-auto mb-4 animate-pulse" />
-              <h2 className="text-xl font-semibold text-grey-900 mb-2">Finding Opportunities...</h2>
-              <p className="text-grey-600">Matching your skills with career and grant opportunities</p>
+              <h2 className="text-xl font-semibold text-stone-900 mb-2">Finding Opportunities...</h2>
+              <p className="text-stone-600">Matching your skills with career and grant opportunities</p>
             </div>
           </div>
         </div>
@@ -168,7 +168,7 @@ export default function StorytellerOpportunitiesPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-sage-100 py-12">
         <div className="container mx-auto px-6">
           <Card className="max-w-2xl mx-auto">
             <CardHeader>
@@ -193,7 +193,7 @@ export default function StorytellerOpportunitiesPage() {
 
   if (careerRecommendations.length === 0 && grantOpportunities.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-sage-100 py-12">
         <div className="container mx-auto px-6">
           <div className="mb-8">
             <Link href={`/storytellers/${storytellerId}/dashboard`} className="text-green-600 hover:text-green-800 flex items-center gap-2 mb-4">
@@ -205,7 +205,7 @@ export default function StorytellerOpportunitiesPage() {
           <Card className="max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Target className="h-5 w-5 text-blue-600" />
+                <Target className="h-5 w-5 text-sage-600" />
                 Career & Grant Opportunities
               </CardTitle>
               <CardDescription>
@@ -214,11 +214,11 @@ export default function StorytellerOpportunitiesPage() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="text-center py-8">
-                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Briefcase className="h-8 w-8 text-blue-500" />
+                <div className="w-16 h-16 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Briefcase className="h-8 w-8 text-sage-500" />
                 </div>
-                <h3 className="text-lg font-semibold text-grey-900 mb-2">Ready to Discover Opportunities?</h3>
-                <p className="text-grey-600 mb-6 max-w-md mx-auto">
+                <h3 className="text-lg font-semibold text-stone-900 mb-2">Ready to Discover Opportunities?</h3>
+                <p className="text-stone-600 mb-6 max-w-md mx-auto">
                   Start by sharing your story or uploading a transcript. Our AI will analyse your experiences 
                   to find matching career opportunities and grant funding.
                 </p>
@@ -240,23 +240,23 @@ export default function StorytellerOpportunitiesPage() {
               </div>
               
               <div className="border-t pt-6">
-                <h4 className="font-semibold text-grey-900 mb-3">What you'll discover:</h4>
+                <h4 className="font-semibold text-stone-900 mb-3">What you'll discover:</h4>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm text-grey-700">Personalized career recommendations based on your skills and experiences</span>
+                    <span className="text-sm text-stone-700">Personalized career recommendations based on your skills and experiences</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm text-grey-700">Grant opportunities matching your cultural background and interests</span>
+                    <div className="w-2 h-2 bg-sage-500 rounded-full"></div>
+                    <span className="text-sm text-stone-700">Grant opportunities matching your cultural background and interests</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    <span className="text-sm text-grey-700">Skills gap analysis with development recommendations</span>
+                    <div className="w-2 h-2 bg-clay-500 rounded-full"></div>
+                    <span className="text-sm text-stone-700">Skills gap analysis with development recommendations</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                    <span className="text-sm text-grey-700">Cultural alignment assessment for meaningful work connections</span>
+                    <span className="text-sm text-stone-700">Cultural alignment assessment for meaningful work connections</span>
                   </div>
                 </div>
               </div>
@@ -268,7 +268,7 @@ export default function StorytellerOpportunitiesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-sage-100 py-12">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mb-8">
@@ -279,10 +279,10 @@ export default function StorytellerOpportunitiesPage() {
           
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-grey-900 mb-2">
+              <h1 className="text-3xl font-bold text-stone-900 mb-2">
                 Career & Grant Opportunities
               </h1>
-              <p className="text-grey-600">
+              <p className="text-stone-600">
                 Personalized recommendations for {storyteller?.display_name}
               </p>
             </div>
@@ -301,7 +301,7 @@ export default function StorytellerOpportunitiesPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Career Opportunities</CardTitle>
-              <Briefcase className="h-4 w-4 text-blue-500" />
+              <Briefcase className="h-4 w-4 text-sage-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{careerRecommendations.length}</div>
@@ -336,7 +336,7 @@ export default function StorytellerOpportunitiesPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Cultural Focus</CardTitle>
-              <Heart className="h-4 w-4 text-purple-500" />
+              <Heart className="h-4 w-4 text-clay-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
@@ -360,9 +360,9 @@ export default function StorytellerOpportunitiesPage() {
               <Card>
                 <CardContent className="flex items-center justify-center py-12">
                   <div className="text-center">
-                    <Briefcase className="h-12 w-12 text-grey-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-grey-900 mb-2">No Career Recommendations Yet</h3>
-                    <p className="text-grey-600 mb-4">Generate a full analysis to discover career opportunities.</p>
+                    <Briefcase className="h-12 w-12 text-stone-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-stone-900 mb-2">No Career Recommendations Yet</h3>
+                    <p className="text-stone-600 mb-4">Generate a full analysis to discover career opportunities.</p>
                     <Link href={`/storytellers/${storytellerId}/analytics`}>
                       <Button>Generate Analysis</Button>
                     </Link>
@@ -395,7 +395,7 @@ export default function StorytellerOpportunitiesPage() {
                           <div>
                             <div className="flex items-center justify-between mb-2">
                               <span className="text-sm font-medium">Match Quality</span>
-                              <span className="text-sm text-grey-500">
+                              <span className="text-sm text-stone-500">
                                 {getMatchScoreLabel(career.match_score)}
                               </span>
                             </div>
@@ -433,7 +433,7 @@ export default function StorytellerOpportunitiesPage() {
                                 {career.gap_analysis.slice(0, 3).map((gap, i) => (
                                   <div key={i} className="flex items-start gap-2">
                                     <Lightbulb className="h-3 w-3 text-yellow-500 mt-1 flex-shrink-0" />
-                                    <span className="text-xs text-grey-600">{gap}</span>
+                                    <span className="text-xs text-stone-600">{gap}</span>
                                   </div>
                                 ))}
                               </div>
@@ -443,10 +443,10 @@ export default function StorytellerOpportunitiesPage() {
                           {/* Application Strategy */}
                           <div>
                             <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
-                              <Target className="h-3 w-3 text-blue-500" />
+                              <Target className="h-3 w-3 text-sage-500" />
                               Application Strategy
                             </h4>
-                            <p className="text-xs text-grey-600 bg-blue-50 p-3 rounded border-l-2 border-blue-500">
+                            <p className="text-xs text-stone-600 bg-sage-50 p-3 rounded border-l-2 border-sage-500">
                               {career.application_strategy}
                             </p>
                           </div>
@@ -454,17 +454,17 @@ export default function StorytellerOpportunitiesPage() {
                           {/* Cultural Fit */}
                           <div>
                             <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
-                              <Heart className="h-3 w-3 text-purple-500" />
+                              <Heart className="h-3 w-3 text-clay-500" />
                               Cultural Alignment
                             </h4>
-                            <p className="text-xs text-grey-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
+                            <p className="text-xs text-stone-600 bg-clay-50 p-3 rounded border-l-2 border-clay-500">
                               {career.cultural_fit}
                             </p>
                           </div>
 
                           {/* Additional Info */}
                           <div className="flex items-center justify-between pt-2 border-t">
-                            <div className="flex items-center gap-4 text-xs text-grey-500">
+                            <div className="flex items-center gap-4 text-xs text-stone-500">
                               {career.salary_range && (
                                 <div className="flex items-center gap-1">
                                   <DollarSign className="h-3 w-3" />
@@ -501,9 +501,9 @@ export default function StorytellerOpportunitiesPage() {
               <Card>
                 <CardContent className="flex items-center justify-center py-12">
                   <div className="text-center">
-                    <DollarSign className="h-12 w-12 text-grey-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-grey-900 mb-2">No Grant Opportunities Yet</h3>
-                    <p className="text-grey-600 mb-4">Generate a full analysis to discover funding opportunities.</p>
+                    <DollarSign className="h-12 w-12 text-stone-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-stone-900 mb-2">No Grant Opportunities Yet</h3>
+                    <p className="text-stone-600 mb-4">Generate a full analysis to discover funding opportunities.</p>
                     <Link href={`/storytellers/${storytellerId}/analytics`}>
                       <Button>Generate Analysis</Button>
                     </Link>
@@ -530,7 +530,7 @@ export default function StorytellerOpportunitiesPage() {
                               {grant.match_score}% Match
                             </Badge>
                             {grant.cultural_focus && (
-                              <Badge variant="outline" className="text-purple-700 border-purple-700">
+                              <Badge variant="outline" className="text-clay-700 border-clay-700">
                                 Cultural Focus
                               </Badge>
                             )}
@@ -550,7 +550,7 @@ export default function StorytellerOpportunitiesPage() {
                           <div>
                             <div className="flex items-center justify-between mb-2">
                               <span className="text-sm font-medium">Qualification Match</span>
-                              <span className="text-sm text-grey-500">
+                              <span className="text-sm text-stone-500">
                                 {getMatchScoreLabel(grant.match_score)}
                               </span>
                             </div>
@@ -567,11 +567,11 @@ export default function StorytellerOpportunitiesPage() {
                               {grant.storyteller_qualifications.slice(0, 3).map((qual, i) => (
                                 <div key={i} className="flex items-start gap-2">
                                   <div className="w-1 h-1 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                                  <span className="text-xs text-grey-700">{qual}</span>
+                                  <span className="text-xs text-stone-700">{qual}</span>
                                 </div>
                               ))}
                               {grant.storyteller_qualifications.length > 3 && (
-                                <p className="text-xs text-grey-500 pl-3">
+                                <p className="text-xs text-stone-500 pl-3">
                                   +{grant.storyteller_qualifications.length - 3} more qualifications
                                 </p>
                               )}
@@ -581,10 +581,10 @@ export default function StorytellerOpportunitiesPage() {
                           {/* Suggested Project */}
                           <div>
                             <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
-                              <Lightbulb className="h-3 w-3 text-blue-500" />
+                              <Lightbulb className="h-3 w-3 text-sage-500" />
                               Suggested Project Approach
                             </h4>
-                            <p className="text-xs text-grey-600 bg-blue-50 p-3 rounded border-l-2 border-blue-500">
+                            <p className="text-xs text-stone-600 bg-sage-50 p-3 rounded border-l-2 border-sage-500">
                               {grant.suggested_project}
                             </p>
                           </div>
@@ -592,10 +592,10 @@ export default function StorytellerOpportunitiesPage() {
                           {/* Community Impact */}
                           <div>
                             <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
-                              <Users className="h-3 w-3 text-purple-500" />
+                              <Users className="h-3 w-3 text-clay-500" />
                               Community Impact Potential
                             </h4>
-                            <p className="text-xs text-grey-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
+                            <p className="text-xs text-stone-600 bg-clay-50 p-3 rounded border-l-2 border-clay-500">
                               {grant.community_impact_potential}
                             </p>
                           </div>
@@ -603,7 +603,7 @@ export default function StorytellerOpportunitiesPage() {
                           {/* Application Info */}
                           <div className="flex items-center justify-between pt-2 border-t">
                             {grant.application_deadline && (
-                              <div className="flex items-center gap-1 text-xs text-grey-500">
+                              <div className="flex items-center gap-1 text-xs text-stone-500">
                                 <Clock className="h-3 w-3" />
                                 Deadline: {grant.application_deadline}
                               </div>
@@ -630,7 +630,7 @@ export default function StorytellerOpportunitiesPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-blue-600" />
+                  <TrendingUp className="h-5 w-5 text-sage-600" />
                   Opportunity Development Strategy
                 </CardTitle>
                 <CardDescription>
@@ -642,7 +642,7 @@ export default function StorytellerOpportunitiesPage() {
                   {/* Career Development */}
                   <div>
                     <h3 className="font-semibold mb-4 flex items-center gap-2">
-                      <Briefcase className="h-4 w-4 text-blue-600" />
+                      <Briefcase className="h-4 w-4 text-sage-600" />
                       Career Development Focus
                     </h3>
                     <div className="space-y-3">
@@ -694,28 +694,28 @@ export default function StorytellerOpportunitiesPage() {
                     <div className="space-y-3">
                       {grantOpportunities.length > 0 && (
                         <>
-                          <div className="p-3 bg-blue-50 rounded-lg border-l-2 border-blue-500">
+                          <div className="p-3 bg-sage-50 rounded-lg border-l-2 border-sage-500">
                             <h4 className="font-medium text-sm mb-2">Strengthen Your Applications</h4>
                             <div className="space-y-1">
                               <div className="flex items-center gap-2">
-                                <BookOpen className="h-3 w-3 text-blue-600" />
+                                <BookOpen className="h-3 w-3 text-sage-600" />
                                 <span className="text-xs">Document measurable community impact</span>
                               </div>
                               <div className="flex items-center gap-2">
-                                <Users className="h-3 w-3 text-blue-600" />
+                                <Users className="h-3 w-3 text-sage-600" />
                                 <span className="text-xs">Build community partnership letters</span>
                               </div>
                               <div className="flex items-center gap-2">
-                                <Award className="h-3 w-3 text-blue-600" />
+                                <Award className="h-3 w-3 text-sage-600" />
                                 <span className="text-xs">Create project portfolio with outcomes</span>
                               </div>
                             </div>
                           </div>
 
                           {grantOpportunities.some(g => g.cultural_focus) && (
-                            <div className="p-3 bg-purple-50 rounded-lg border-l-2 border-purple-500">
+                            <div className="p-3 bg-clay-50 rounded-lg border-l-2 border-clay-500">
                               <h4 className="font-medium text-sm mb-2">Cultural Projects Advantage</h4>
-                              <p className="text-xs text-grey-600">
+                              <p className="text-xs text-stone-600">
                                 {grantOpportunities.filter(g => g.cultural_focus).length} grants 
                                 specifically focus on cultural work - this aligns with your background.
                               </p>

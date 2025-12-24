@@ -236,8 +236,8 @@ export default async function MembersPage({ params }: MembersPageProps) {
     <div className="space-y-8">
       <div className="bg-gradient-to-r from-earth-50 to-sage-50 border-b border-stone-200 px-8 py-8 -mx-6 mb-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold text-grey-900 mb-3">Members & Invitations</h1>
-          <p className="text-grey-700 text-lg">
+          <h1 className="text-4xl font-bold text-stone-900 mb-3">Members & Invitations</h1>
+          <p className="text-stone-700 text-lg">
             Manage your organisation's members and send invitations
           </p>
         </div>

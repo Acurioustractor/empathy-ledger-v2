@@ -137,13 +137,13 @@ export function SimpleSignInForm({ redirectTo: propRedirectTo }: SimpleSignInFor
       {/* Google OAuth Section */}
       <div className="space-y-4">
         <div className="text-center">
-          <p className="text-sm text-grey-600 mb-4">Sign in with your Google account</p>
+          <p className="text-sm text-stone-600 mb-4">Sign in with your Google account</p>
         </div>
         
         <Button 
           type="button"
           onClick={handleGoogleSignIn}
-          className="w-full bg-white border border-grey-300 text-grey-700 hover:bg-grey-50 flex items-center justify-center gap-3"
+          className="w-full bg-white border border-stone-300 text-stone-700 hover:bg-stone-50 flex items-center justify-center gap-3"
           disabled={isLoading || success}
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -159,10 +159,10 @@ export function SimpleSignInForm({ redirectTo: propRedirectTo }: SimpleSignInFor
       {/* Divider */}
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-grey-300" />
+          <div className="w-full border-t border-stone-300" />
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-white text-grey-500">Or continue with email</span>
+          <span className="px-2 bg-white text-stone-500">Or continue with email</span>
         </div>
       </div>
 
@@ -219,8 +219,8 @@ export function SimpleSignInForm({ redirectTo: propRedirectTo }: SimpleSignInFor
         </Button>
       </form>
 
-      <div className="text-center text-sm text-grey-600">
-        <p className="text-xs text-gray-400">Enter your credentials to sign in</p>
+      <div className="text-center text-sm text-stone-600">
+        <p className="text-xs text-stone-400">Enter your credentials to sign in</p>
       </div>
     </div>
   )

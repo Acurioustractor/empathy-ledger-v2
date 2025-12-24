@@ -541,7 +541,7 @@ export default function Header() {
                       variant="outline"
                       size="sm"
                       asChild
-                      className="w-full justify-start border-grey-300 text-grey-700 hover:bg-grey-50 font-semibold mb-2"
+                      className="w-full justify-start border-stone-300 text-stone-700 hover:bg-stone-50 font-semibold mb-2"
                     >
                       <Link href={`/storytellers/${actualUser.id}/dashboard`} onClick={closeMobileMenu} className="flex items-center gap-2">
                         <Layout className="w-4 h-4" />
@@ -571,7 +571,7 @@ export default function Header() {
                       handleSignOut()
                       closeMobileMenu()
                     }}
-                    className="w-full justify-start border-grey-400 text-red-600 hover:bg-red-50 hover:text-red-700 font-semibold"
+                    className="w-full justify-start border-stone-400 text-red-600 hover:bg-red-50 hover:text-red-700 font-semibold"
                   >
                     Sign Out
                   </Button>

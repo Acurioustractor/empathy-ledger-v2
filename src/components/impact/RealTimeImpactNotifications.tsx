@@ -76,7 +76,7 @@ export function RealTimeImpactNotifications({
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-blue-600 text-white px-3 py-2 rounded-lg shadow-lg text-sm font-medium"
+          className="bg-sage-600 text-white px-3 py-2 rounded-lg shadow-lg text-sm font-medium"
         >
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4" />
@@ -97,9 +97,9 @@ function NotificationCard({ event, onRemove }: { event: ImpactEvent; onRemove: (
       case 'impact_insight_created':
         return <Sparkles className="w-5 h-5 text-green-600" />
       case 'profile_metrics_updated':
-        return <User className="w-5 h-5 text-blue-600" />
+        return <User className="w-5 h-5 text-sage-600" />
       case 'organization_metrics_updated':
-        return <Users className="w-5 h-5 text-purple-600" />
+        return <Users className="w-5 h-5 text-clay-600" />
       case 'site_metrics_updated':
         return <Globe className="w-5 h-5 text-orange-600" />
     }
@@ -142,9 +142,9 @@ function NotificationCard({ event, onRemove }: { event: ImpactEvent; onRemove: (
       case 'impact_insight_created':
         return 'border-green-200 bg-green-50'
       case 'profile_metrics_updated':
-        return 'border-blue-200 bg-blue-50'
+        return 'border-sage-200 bg-sage-50'
       case 'organization_metrics_updated':
-        return 'border-purple-200 bg-purple-50'
+        return 'border-clay-200 bg-clay-50'
       case 'site_metrics_updated':
         return 'border-orange-200 bg-orange-50'
     }
@@ -165,11 +165,11 @@ function NotificationCard({ event, onRemove }: { event: ImpactEvent; onRemove: (
           {getEventIcon()}
 
           <div className="flex-1 min-w-0">
-            <h4 className="font-semibold text-grey-900 text-sm">
+            <h4 className="font-semibold text-stone-900 text-sm">
               {getEventTitle()}
             </h4>
 
-            <p className="text-grey-700 text-xs mt-1 line-clamp-2">
+            <p className="text-stone-700 text-xs mt-1 line-clamp-2">
               {getEventMessage()}
             </p>
 
@@ -187,7 +187,7 @@ function NotificationCard({ event, onRemove }: { event: ImpactEvent; onRemove: (
               </div>
             )}
 
-            <div className="text-xs text-grey-500 mt-2">
+            <div className="text-xs text-stone-500 mt-2">
               {new Date(event.timestamp).toLocaleTimeString()}
             </div>
           </div>
@@ -195,7 +195,7 @@ function NotificationCard({ event, onRemove }: { event: ImpactEvent; onRemove: (
 
         <button
           onClick={onRemove}
-          className="text-grey-400 hover:text-grey-600 p-1"
+          className="text-stone-400 hover:text-stone-600 p-1"
         >
           <X className="w-4 h-4" />
         </button>

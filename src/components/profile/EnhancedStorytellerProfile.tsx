@@ -102,7 +102,7 @@ function ProfileHeroSection({ profile }: { profile: StorytellerProfileData }) {
     if (profile.storyteller_ranking <= 10) {
       return { icon: <Crown className="w-5 h-5" />, label: 'Top 10 Storyteller', colour: 'bg-yellow-500' }
     } else if (profile.storyteller_ranking <= 50) {
-      return { icon: <Star className="w-5 h-5" />, label: 'Leading Voice', colour: 'bg-blue-500' }
+      return { icon: <Star className="w-5 h-5" />, label: 'Leading Voice', colour: 'bg-sage-500' }
     } else {
       return { icon: <Sparkles className="w-5 h-5" />, label: 'Rising Storyteller', colour: 'bg-green-500' }
     }
@@ -114,7 +114,7 @@ function ProfileHeroSection({ profile }: { profile: StorytellerProfileData }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl p-8"
+      className="bg-gradient-to-r from-sage-600 to-clay-600 text-white rounded-xl p-8"
     >
       <div className="flex items-start gap-6">
         {/* Profile Image */}
@@ -202,14 +202,14 @@ function ImpactDashboardSection({ profile }: { profile: StorytellerProfileData }
       label: 'Cultural Protocol',
       value: profile.cultural_protocol_score || 0,
       icon: <Shield className="w-5 h-5" />,
-      colour: 'bg-blue-500'
+      colour: 'bg-sage-500'
     },
     {
       key: 'community_leadership_score',
       label: 'Community Leadership',
       value: profile.community_leadership_score || 0,
       icon: <Users className="w-5 h-5" />,
-      colour: 'bg-purple-500'
+      colour: 'bg-clay-500'
     },
     {
       key: 'knowledge_transmission_score',
@@ -237,7 +237,7 @@ function ImpactDashboardSection({ profile }: { profile: StorytellerProfileData }
       label: 'System Navigation',
       value: profile.system_navigation_score || 0,
       icon: <TrendingUp className="w-5 h-5" />,
-      colour: 'bg-indigo-500'
+      colour: 'bg-terracotta-500'
     }
   ]
 
@@ -249,16 +249,16 @@ function ImpactDashboardSection({ profile }: { profile: StorytellerProfileData }
       className="bg-white rounded-xl shadow-lg p-6"
     >
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-grey-900">Indigenous Impact Profile</h2>
+        <h2 className="text-2xl font-bold text-stone-900">Indigenous Impact Profile</h2>
         <div className="flex items-center gap-4">
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">{profile.total_impact_insights}</div>
-            <div className="text-sm text-grey-600">Total Insights</div>
+            <div className="text-2xl font-bold text-sage-600">{profile.total_impact_insights}</div>
+            <div className="text-sm text-stone-600">Total Insights</div>
           </div>
           {profile.storyteller_ranking && (
             <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600">#{profile.storyteller_ranking}</div>
-              <div className="text-sm text-grey-600">Community Ranking</div>
+              <div className="text-2xl font-bold text-clay-600">#{profile.storyteller_ranking}</div>
+              <div className="text-sm text-stone-600">Community Ranking</div>
             </div>
           )}
         </div>
@@ -273,7 +273,7 @@ function ImpactDashboardSection({ profile }: { profile: StorytellerProfileData }
       {/* Impact Badges */}
       {profile.impact_badges && profile.impact_badges.length > 0 && (
         <div className="mt-6">
-          <h3 className="text-lg font-semibold text-grey-900 mb-3">Impact Achievements</h3>
+          <h3 className="text-lg font-semibold text-stone-900 mb-3">Impact Achievements</h3>
           <div className="flex flex-wrap gap-2">
             {profile.impact_badges.map((badge, index) => (
               <div key={index} className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
@@ -292,18 +292,18 @@ function ImpactAreaCard({ area }: { area: any }) {
   const percentage = Math.round(area.value * 100)
 
   return (
-    <div className="bg-grey-50 rounded-lg p-4">
+    <div className="bg-stone-50 rounded-lg p-4">
       <div className="flex items-center gap-3 mb-3">
         <div className={`${area.colour} p-2 rounded-lg text-white`}>
           {area.icon}
         </div>
         <div>
-          <div className="font-medium text-grey-900">{area.label}</div>
-          <div className="text-2xl font-bold text-grey-900">{percentage}%</div>
+          <div className="font-medium text-stone-900">{area.label}</div>
+          <div className="text-2xl font-bold text-stone-900">{percentage}%</div>
         </div>
       </div>
 
-      <div className="w-full bg-grey-200 rounded-full h-2">
+      <div className="w-full bg-stone-200 rounded-full h-2">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
@@ -323,23 +323,23 @@ function CulturalContributionsSection({ profile }: { profile: StorytellerProfile
       transition={{ delay: 0.2 }}
       className="bg-white rounded-xl shadow-lg p-6"
     >
-      <h2 className="text-2xl font-bold text-grey-900 mb-6">Cultural Contributions</h2>
+      <h2 className="text-2xl font-bold text-stone-900 mb-6">Cultural Contributions</h2>
 
       {/* Video Introduction */}
       {profile.video_introduction_url && (
         <div className="mb-6">
-          <h3 className="text-lg font-semibold text-grey-900 mb-3 flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-stone-900 mb-3 flex items-center gap-2">
             <Video className="w-5 h-5" />
             Video Introduction
           </h3>
-          <div className="aspect-video bg-grey-100 rounded-lg flex items-center justify-center">
-            <p className="text-grey-600">Video player would be integrated here</p>
+          <div className="aspect-video bg-stone-100 rounded-lg flex items-center justify-center">
+            <p className="text-stone-600">Video player would be integrated here</p>
           </div>
         </div>
       )}
 
       {/* Placeholder for stories, transcripts, etc. */}
-      <div className="text-grey-600">
+      <div className="text-stone-600">
         <p>Additional cultural contributions and stories will be displayed here as they are integrated with the impact analysis system.</p>
       </div>
     </motion.div>
@@ -354,18 +354,18 @@ function ImpactTimelineSection({ profile }: { profile: StorytellerProfileData })
       transition={{ delay: 0.3 }}
       className="bg-white rounded-xl shadow-lg p-6"
     >
-      <h2 className="text-2xl font-bold text-grey-900 mb-6 flex items-center gap-2">
+      <h2 className="text-2xl font-bold text-stone-900 mb-6 flex items-center gap-2">
         <Clock className="w-6 h-6" />
         Community Impact Timeline
       </h2>
 
       {profile.last_impact_analysis ? (
-        <div className="text-sm text-grey-600">
+        <div className="text-sm text-stone-600">
           Last analysis: {new Date(profile.last_impact_analysis).toLocaleDateString()}
         </div>
       ) : (
-        <div className="text-grey-600 text-center py-8">
-          <Sparkles className="w-12 h-12 text-grey-400 mx-auto mb-4" />
+        <div className="text-stone-600 text-center py-8">
+          <Sparkles className="w-12 h-12 text-stone-400 mx-auto mb-4" />
           <p className="text-lg font-medium">Ready for Impact Analysis</p>
           <p className="text-sm">Upload stories and transcripts to begin measuring Indigenous community impact</p>
         </div>
@@ -377,9 +377,9 @@ function ImpactTimelineSection({ profile }: { profile: StorytellerProfileData })
 function ProfileSkeleton() {
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-pulse">
-      <div className="bg-grey-300 rounded-xl h-48"></div>
-      <div className="bg-grey-300 rounded-xl h-64"></div>
-      <div className="bg-grey-300 rounded-xl h-32"></div>
+      <div className="bg-stone-300 rounded-xl h-48"></div>
+      <div className="bg-stone-300 rounded-xl h-64"></div>
+      <div className="bg-stone-300 rounded-xl h-32"></div>
     </div>
   )
 }

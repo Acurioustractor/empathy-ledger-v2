@@ -195,7 +195,7 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
           <Typography variant="h1" className="text-2xl font-semibold">
             Import Transcript to Story
           </Typography>
-          <Typography variant="body2" className="text-grey-600">
+          <Typography variant="body2" className="text-stone-600">
             Transform interviews and recordings into structured stories
           </Typography>
         </div>
@@ -206,7 +206,7 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
       <Card className="p-4">
         <div className="flex items-center justify-between mb-2">
           <Typography variant="subtitle2" className="font-medium">Import Progress</Typography>
-          <Typography variant="caption" className="text-sm text-grey-600">
+          <Typography variant="caption" className="text-sm text-stone-600">
             Step {['input', 'analysis', 'section-selection', 'story-options', 'preview'].indexOf(currentStep) + 1} of 5
           </Typography>
         </div>
@@ -238,9 +238,9 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
                   type="file"
                   accept=".txt"
                   onChange={handleFileUpload}
-                  className="block w-full text-sm text-grey-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  className="block w-full text-sm text-stone-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-sage-50 file:text-sage-700 hover:file:bg-sage-100"
                 />
-                <Typography variant="caption" className="text-xs text-grey-500">
+                <Typography variant="caption" className="text-xs text-stone-500">
                   Upload a .txt file or paste text below
                 </Typography>
               </div>
@@ -254,7 +254,7 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
                   rows={12}
                   className="min-h-[300px]"
                 />
-                <div className="text-right text-sm text-grey-500 mt-1">
+                <div className="text-right text-sm text-stone-500 mt-1">
                   {transcriptText.split(' ').filter(word => word.length > 0).length} words
                 </div>
               </div>
@@ -287,36 +287,36 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
 
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 text-sm font-semibold flex items-center justify-center flex-shrink-0">
+                <div className="w-6 h-6 rounded-full bg-sage-100 text-sage-600 text-sm font-semibold flex items-center justify-center flex-shrink-0">
                   1
                 </div>
                 <div>
                   <Typography variant="subtitle2" className="font-medium">AI Analysis</Typography>
-                  <Typography variant="caption" className="text-sm text-grey-600">
+                  <Typography variant="caption" className="text-sm text-stone-600">
                     Our AI analyzes your transcript to identify themes, cultural sensitivity, and suggest the best story template
                   </Typography>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 text-sm font-semibold flex items-center justify-center flex-shrink-0">
+                <div className="w-6 h-6 rounded-full bg-sage-100 text-sage-600 text-sm font-semibold flex items-center justify-center flex-shrink-0">
                   2
                 </div>
                 <div>
                   <Typography variant="subtitle2" className="font-medium">Section Selection</Typography>
-                  <Typography variant="caption" className="text-sm text-grey-600">
+                  <Typography variant="caption" className="text-sm text-stone-600">
                     Review and select which parts of the transcript to include in your story
                   </Typography>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 text-sm font-semibold flex items-center justify-center flex-shrink-0">
+                <div className="w-6 h-6 rounded-full bg-sage-100 text-sage-600 text-sm font-semibold flex items-center justify-center flex-shrink-0">
                   3
                 </div>
                 <div>
                   <Typography variant="subtitle2" className="font-medium">Story Generation</Typography>
-                  <Typography variant="caption" className="text-sm text-grey-600">
+                  <Typography variant="caption" className="text-sm text-stone-600">
                     Transform selected text into a structured story with cultural respect and narrative flow
                   </Typography>
                 </div>
@@ -345,9 +345,9 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div>
                 <Typography variant="subtitle2" className="font-medium mb-2">Suggested Template</Typography>
-                <Card className="p-4 bg-blue-50 border-blue-200">
+                <Card className="p-4 bg-sage-50 border-sage-200">
                   <Typography variant="h4" className="font-semibold">{selectedTemplate?.title}</Typography>
-                  <Typography variant="caption" className="text-sm text-grey-600 mt-1">
+                  <Typography variant="caption" className="text-sm text-stone-600 mt-1">
                     {selectedTemplate?.description}
                   </Typography>
                   <Badge className="mt-2" variant={selectedTemplate?.culturalSensitivity === 'high' ? 'destructive' : 'default'}>
@@ -363,7 +363,7 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
                     <Badge key={index} variant="outline">{theme}</Badge>
                   ))}
                 </div>
-                <Typography variant="caption" className="text-sm text-grey-600 mt-2">
+                <Typography variant="caption" className="text-sm text-stone-600 mt-2">
                   Confidence: {Math.round(analysis.confidence)}%
                 </Typography>
               </div>
@@ -397,7 +397,7 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
               </Alert>
             )}
 
-            <Typography variant="body2" className="text-grey-600 mt-4">
+            <Typography variant="body2" className="text-stone-600 mt-4">
               {analysis.reasoning}
             </Typography>
 
@@ -423,13 +423,13 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
               Select Transcript Sections
             </Typography>
 
-            <Typography variant="body2" className="text-grey-600 mb-6">
+            <Typography variant="body2" className="text-stone-600 mb-6">
               Choose which parts of your transcript to include in the story. Selected sections will be transformed according to the {selectedTemplate?.title} template.
             </Typography>
 
             <div className="space-y-4 max-h-96 overflow-y-auto">
               {transcriptSections.map((section, index) => (
-                <Card key={section.id} className={`p-4 cursor-pointer transition-colours ${section.selected ? 'bg-blue-50 border-blue-300' : 'hover:bg-grey-50'}`}>
+                <Card key={section.id} className={`p-4 cursor-pointer transition-colours ${section.selected ? 'bg-sage-50 border-sage-300' : 'hover:bg-stone-50'}`}>
                   <div className="flex items-start space-x-3">
                     <input
                       type="checkbox"
@@ -445,11 +445,11 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
                             <Badge variant="outline" className="ml-2">{section.templateSection}</Badge>
                           )}
                         </Typography>
-                        <Typography variant="caption" className="text-xs text-grey-500">
+                        <Typography variant="caption" className="text-xs text-stone-500">
                           {section.text.split(' ').length} words
                         </Typography>
                       </div>
-                      <Typography variant="body2" className="text-grey-700 text-sm">
+                      <Typography variant="body2" className="text-stone-700 text-sm">
                         {section.text.substring(0, 200)}{section.text.length > 200 ? '...' : ''}
                       </Typography>
                     </div>
@@ -463,7 +463,7 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
                 Back to Analysis
               </Button>
               <div className="flex items-center space-x-2">
-                <Typography variant="caption" className="text-sm text-grey-600">
+                <Typography variant="caption" className="text-sm text-stone-600">
                   {transcriptSections.filter(s => s.selected).length} sections selected
                 </Typography>
                 <Button
@@ -562,7 +562,7 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
                       {storyOptions.culturalSensitivity} (Auto-detected)
                     </option>
                   </select>
-                  <Typography variant="caption" className="text-xs text-grey-500">
+                  <Typography variant="caption" className="text-xs text-stone-500">
                     Cultural sensitivity level was automatically determined from transcript analysis
                   </Typography>
                 </div>
@@ -597,7 +597,7 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
           <div className="flex items-center justify-between">
             <div>
               <Typography variant="h3" className="text-lg font-semibold">Story Preview</Typography>
-              <Typography variant="body2" className="text-grey-600">
+              <Typography variant="body2" className="text-stone-600">
                 Review your generated story before saving
               </Typography>
             </div>
@@ -619,10 +619,10 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
               {generatedStory.sections?.map((section: any, index: number) => (
                 section.content.trim() && (
                   <div key={index} className="mb-8">
-                    <h2 className="text-xl font-semibold mb-4 text-grey-800">
+                    <h2 className="text-xl font-semibold mb-4 text-stone-800">
                       {section.title}
                     </h2>
-                    <div className="whitespace-pre-wrap text-grey-700 leading-relaxed">
+                    <div className="whitespace-pre-wrap text-stone-700 leading-relaxed">
                       {section.content}
                     </div>
                     {section.suggestions?.length > 0 && (
@@ -668,7 +668,7 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
                 <Typography variant="subtitle2" className="font-medium mb-2">Cultural Guidance</Typography>
                 <ul className="space-y-1">
                   {generatedStory.culturalGuidance.map((guidance: string, index: number) => (
-                    <li key={index} className="text-xs text-grey-600 flex items-start">
+                    <li key={index} className="text-xs text-stone-600 flex items-start">
                       <span className="w-2 h-2 rounded-full bg-orange-300 mr-2 mt-1.5 flex-shrink-0"></span>
                       {guidance}
                     </li>
@@ -682,8 +682,8 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
                 <Typography variant="subtitle2" className="font-medium mb-2">Review Notes</Typography>
                 <ul className="space-y-1">
                   {generatedStory.reviewNotes.map((note: string, index: number) => (
-                    <li key={index} className="text-xs text-grey-600 flex items-start">
-                      <span className="w-2 h-2 rounded-full bg-blue-300 mr-2 mt-1.5 flex-shrink-0"></span>
+                    <li key={index} className="text-xs text-stone-600 flex items-start">
+                      <span className="w-2 h-2 rounded-full bg-sage-300 mr-2 mt-1.5 flex-shrink-0"></span>
                       {note}
                     </li>
                   ))}

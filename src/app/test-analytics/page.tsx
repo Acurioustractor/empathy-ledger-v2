@@ -53,8 +53,8 @@ export default function TestAnalyticsPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-2 text-grey-600">Loading storytellers...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sage-600 mx-auto"></div>
+          <p className="mt-2 text-stone-600">Loading storytellers...</p>
         </div>
       </div>
     )
@@ -64,8 +64,8 @@ export default function TestAnalyticsPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="space-y-6">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-grey-900">🌟 Analytics System Test</h1>
-          <p className="mt-2 text-grey-600">
+          <h1 className="text-3xl font-bold text-stone-900">🌟 Analytics System Test</h1>
+          <p className="mt-2 text-stone-600">
             Test the new storyteller analytics integration with populated sample data
           </p>
         </div>
@@ -96,7 +96,7 @@ export default function TestAnalyticsPage() {
                 Refresh
               </Button>
             </div>
-            <div className="mt-4 text-sm text-grey-600">
+            <div className="mt-4 text-sm text-stone-600">
               Found {storytellers.length} storytellers with analytics data
             </div>
           </CardContent>
@@ -111,7 +111,7 @@ export default function TestAnalyticsPage() {
         {storytellers.length === 0 && (
           <Card>
             <CardContent className="p-6 text-center">
-              <p className="text-grey-600">
+              <p className="text-stone-600">
                 No storytellers found. Make sure you have storytellers with is_storyteller = true in your profiles table.
               </p>
               <Button onClick={fetchStorytellers} className="mt-4">
@@ -121,10 +121,10 @@ export default function TestAnalyticsPage() {
           </Card>
         )}
 
-        <Card className="mt-8 bg-blue-50 border-blue-200">
+        <Card className="mt-8 bg-sage-50 border-sage-200">
           <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-blue-900 mb-2">🚀 What's Working</h3>
-            <div className="space-y-2 text-blue-800 text-sm">
+            <h3 className="text-lg font-semibold text-sage-900 mb-2">🚀 What's Working</h3>
+            <div className="space-y-2 text-sage-800 text-sm">
               <p>✅ Database migration applied successfully</p>
               <p>✅ Sample analytics data populated from transcripts</p>
               <p>✅ Frontend components can read new analytics tables</p>

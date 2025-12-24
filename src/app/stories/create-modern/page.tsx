@@ -220,7 +220,7 @@ export default function ModernCreateStoryPage() {
           <Typography variant="h2" className="text-2xl font-semibold mb-4">
             Please Sign In
           </Typography>
-          <Typography variant="body1" className="text-grey-600 mb-6">
+          <Typography variant="body1" className="text-stone-600 mb-6">
             You need to be signed in to create stories.
           </Typography>
           <Link href="/auth/signin">
@@ -232,36 +232,36 @@ export default function ModernCreateStoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-sage-50 via-white to-clay-50">
       <div className="container mx-auto py-8 px-4">
         {/* Header */}
         <div className="mb-8">
           {mode === 'mode-selection' ? (
             <div className="text-center space-y-4">
               <div className="flex items-center justify-center space-x-2 mb-4">
-                <Sparkles className="w-8 h-8 text-blue-500" />
+                <Sparkles className="w-8 h-8 text-sage-500" />
                 <Typography variant="h1" className="text-3xl font-bold">
                   Create Your Story
                 </Typography>
               </div>
-              <Typography variant="body1" className="text-grey-600 max-w-2xl mx-auto">
+              <Typography variant="body1" className="text-stone-600 max-w-2xl mx-auto">
                 Choose how you'd like to create your story with our 2025 AI-powered platform
               </Typography>
             </div>
           ) : mode === 'template-selection' ? (
             <div className="text-center space-y-4">
               <div className="flex items-center justify-center space-x-2 mb-4">
-                <Sparkles className="w-8 h-8 text-blue-500" />
+                <Sparkles className="w-8 h-8 text-sage-500" />
                 <Typography variant="h1" className="text-3xl font-bold">
                   Choose Your Template
                 </Typography>
               </div>
-              <Typography variant="body1" className="text-grey-600 max-w-2xl mx-auto">
+              <Typography variant="body1" className="text-stone-600 max-w-2xl mx-auto">
                 {selectedStoryMode?.title} - {selectedStoryMode?.description}
               </Typography>
 
               {/* Quick Stats */}
-              <div className="flex items-center justify-center space-x-8 text-sm text-grey-600">
+              <div className="flex items-center justify-center space-x-8 text-sm text-stone-600">
                 <div className="flex items-center space-x-1">
                   <BookOpen className="w-4 h-4" />
                   <span>{STORY_TEMPLATES.length} Templates</span>
@@ -299,7 +299,7 @@ export default function ModernCreateStoryPage() {
 
         {/* Saved Draft Notice */}
         {savedDraft && mode === 'mode-selection' && (
-          <Alert className="mb-6 bg-blue-50 border-blue-200">
+          <Alert className="mb-6 bg-sage-50 border-sage-200">
             <Info className="h-4 w-4" />
             <AlertDescription className="flex items-center justify-between">
               <div>
@@ -339,7 +339,7 @@ export default function ModernCreateStoryPage() {
                   <Badge variant="outline">
                     {selectedStoryMode.title}
                   </Badge>
-                  <Typography variant="body2" className="text-grey-600">
+                  <Typography variant="body2" className="text-stone-600">
                     {selectedStoryMode.duration} • {selectedStoryMode.targetLength}
                   </Typography>
                 </div>
@@ -386,7 +386,7 @@ export default function ModernCreateStoryPage() {
                   <Badge variant="outline">
                     {selectedStoryMode.title}
                   </Badge>
-                  <Typography variant="body2" className="text-grey-600">
+                  <Typography variant="body2" className="text-stone-600">
                     {selectedStoryMode.duration} • AI-powered conversion
                   </Typography>
                 </div>
@@ -425,7 +425,7 @@ export default function ModernCreateStoryPage() {
                     Story Preview
                   </Typography>
                   {selectedStoryMode && (
-                    <Typography variant="body2" className="text-grey-600">
+                    <Typography variant="body2" className="text-stone-600">
                       {selectedStoryMode.title} • {selectedStoryMode.complexity} level
                     </Typography>
                   )}
@@ -462,10 +462,10 @@ export default function ModernCreateStoryPage() {
                 {storyPreview.sections?.map((section, index) => (
                   section.content.trim() && (
                     <div key={index} className="mb-8">
-                      <h2 className="text-xl font-semibold mb-4 text-grey-800">
+                      <h2 className="text-xl font-semibold mb-4 text-stone-800">
                         {section.title}
                       </h2>
-                      <div className="whitespace-pre-wrap text-grey-700 leading-relaxed">
+                      <div className="whitespace-pre-wrap text-stone-700 leading-relaxed">
                         {section.content}
                       </div>
                     </div>

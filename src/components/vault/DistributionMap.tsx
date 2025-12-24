@@ -64,16 +64,16 @@ interface DistributionMapProps {
 }
 
 const platformConfig: Record<string, { icon: React.ElementType; label: string; color: string }> = {
-  embed: { icon: Code2, label: 'Embed', color: 'text-purple-600' },
+  embed: { icon: Code2, label: 'Embed', color: 'text-clay-600' },
   twitter: { icon: Twitter, label: 'Twitter/X', color: 'text-sky-500' },
-  facebook: { icon: Facebook, label: 'Facebook', color: 'text-blue-600' },
-  linkedin: { icon: Linkedin, label: 'LinkedIn', color: 'text-blue-700' },
+  facebook: { icon: Facebook, label: 'Facebook', color: 'text-sage-600' },
+  linkedin: { icon: Linkedin, label: 'LinkedIn', color: 'text-sage-700' },
   website: { icon: Globe, label: 'Website', color: 'text-green-600' },
   blog: { icon: Globe, label: 'Blog', color: 'text-orange-600' },
-  api: { icon: Webhook, label: 'API', color: 'text-indigo-600' },
+  api: { icon: Webhook, label: 'API', color: 'text-terracotta-600' },
   rss: { icon: Rss, label: 'RSS Feed', color: 'text-orange-500' },
   newsletter: { icon: Mail, label: 'Newsletter', color: 'text-pink-600' },
-  custom: { icon: Globe, label: 'Custom', color: 'text-gray-600' }
+  custom: { icon: Globe, label: 'Custom', color: 'text-stone-600' }
 }
 
 const statusConfig = {

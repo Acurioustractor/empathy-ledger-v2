@@ -60,7 +60,7 @@ const culturalColors = {
 }
 
 const storyTypeColors = {
-  traditional: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
+  traditional: 'bg-clay-100 text-clay-800 dark:bg-clay-900/30 dark:text-clay-300',
   personal: 'bg-earth-100 text-earth-800 dark:bg-earth-900/30 dark:text-earth-300',
   historical: 'bg-stone-100 text-stone-800 dark:bg-stone-900/30 dark:text-stone-300',
   educational: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300',
@@ -123,7 +123,7 @@ export function StoryCard({
         <div className="flex">
           {/* Left: Profile Image */}
           <div
-            className="relative w-32 h-32 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex-shrink-0"
+            className="relative w-32 h-32 bg-gradient-to-br from-sage-50 to-terracotta-100 dark:from-sage-900/30 dark:to-terracotta-900/30 flex-shrink-0"
             role="img"
             aria-label={`Author photo: ${author?.display_name || author?.full_name || 'Unknown author'}`}
           >
@@ -249,7 +249,7 @@ export function StoryCard({
       aria-label={ariaLabel}
     >
       {/* Profile Image Header */}
-      <div className="relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30">
+      <div className="relative h-48 bg-gradient-to-br from-sage-50 to-terracotta-100 dark:from-sage-900/30 dark:to-terracotta-900/30">
         {author?.profile_image_url ? (
           <img
             src={author.profile_image_url}

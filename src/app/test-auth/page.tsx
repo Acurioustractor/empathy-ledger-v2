@@ -56,7 +56,7 @@ export default function TestAuthPage() {
       </button>
       <button 
         onClick={testAuth}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className="bg-sage-500 text-white px-4 py-2 rounded"
       >
         Test Auth
       </button>

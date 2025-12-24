@@ -146,7 +146,7 @@ export default function OrganizationContextManager({
     return (
       <Card className="p-8">
         <div className="flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sage-600"></div>
         </div>
       </Card>
     )
@@ -157,13 +157,13 @@ export default function OrganizationContextManager({
       <Card className="p-8">
         <div className="text-center space-y-4">
           <div className="flex justify-center">
-            <div className="rounded-full bg-blue-100 p-3">
-              <Sparkles className="h-8 w-8 text-blue-600" />
+            <div className="rounded-full bg-sage-100 p-3">
+              <Sparkles className="h-8 w-8 text-sage-600" />
             </div>
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-2">No Context Defined Yet</h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-stone-600 mb-4">
               Add your organization's context to enable project-specific impact analysis and better AI insights.
             </p>
           </div>
@@ -270,7 +270,7 @@ export default function OrganizationContextManager({
             {/* Mission */}
             <div>
               <Label htmlFor="mission" className="text-base font-semibold">Mission</Label>
-              <p className="text-sm text-gray-600 mb-2">Your organization's core purpose</p>
+              <p className="text-sm text-stone-600 mb-2">Your organization's core purpose</p>
               {editing ? (
                 <Textarea
                   id="mission"
@@ -280,7 +280,7 @@ export default function OrganizationContextManager({
                   className="min-h-[80px]"
                 />
               ) : (
-                <p className="text-gray-900">{displayContext?.mission || 'Not specified'}</p>
+                <p className="text-stone-900">{displayContext?.mission || 'Not specified'}</p>
               )}
             </div>
 
@@ -289,7 +289,7 @@ export default function OrganizationContextManager({
             {/* Vision */}
             <div>
               <Label htmlFor="vision" className="text-base font-semibold">Vision</Label>
-              <p className="text-sm text-gray-600 mb-2">The world you're working toward</p>
+              <p className="text-sm text-stone-600 mb-2">The world you're working toward</p>
               {editing ? (
                 <Textarea
                   id="vision"
@@ -299,7 +299,7 @@ export default function OrganizationContextManager({
                   className="min-h-[80px]"
                 />
               ) : (
-                <p className="text-gray-900">{displayContext?.vision || 'Not specified'}</p>
+                <p className="text-stone-900">{displayContext?.vision || 'Not specified'}</p>
               )}
             </div>
 
@@ -308,7 +308,7 @@ export default function OrganizationContextManager({
             {/* Values */}
             <div>
               <Label className="text-base font-semibold">Core Values</Label>
-              <p className="text-sm text-gray-600 mb-2">The principles that guide your work</p>
+              <p className="text-sm text-stone-600 mb-2">The principles that guide your work</p>
               <div className="flex flex-wrap gap-2 mb-2">
                 {(displayContext?.values || []).map((value, index) => (
                   <Badge key={index} variant="secondary" className="text-sm">
@@ -356,7 +356,7 @@ export default function OrganizationContextManager({
             {/* Approach Description */}
             <div>
               <Label htmlFor="approach" className="text-base font-semibold">Approach Description</Label>
-              <p className="text-sm text-gray-600 mb-2">How you work and what makes you unique</p>
+              <p className="text-sm text-stone-600 mb-2">How you work and what makes you unique</p>
               {editing ? (
                 <Textarea
                   id="approach"
@@ -366,7 +366,7 @@ export default function OrganizationContextManager({
                   className="min-h-[120px]"
                 />
               ) : (
-                <p className="text-gray-900 whitespace-pre-wrap">{displayContext?.approach_description || 'Not specified'}</p>
+                <p className="text-stone-900 whitespace-pre-wrap">{displayContext?.approach_description || 'Not specified'}</p>
               )}
             </div>
 
@@ -375,7 +375,7 @@ export default function OrganizationContextManager({
             {/* Cultural Frameworks */}
             <div>
               <Label className="text-base font-semibold">Cultural Frameworks</Label>
-              <p className="text-sm text-gray-600 mb-2">Cultural practices and protocols you follow</p>
+              <p className="text-sm text-stone-600 mb-2">Cultural practices and protocols you follow</p>
               <div className="flex flex-wrap gap-2 mb-2">
                 {(displayContext?.cultural_frameworks || []).map((framework, index) => (
                   <Badge key={index} variant="secondary" className="text-sm">
@@ -423,7 +423,7 @@ export default function OrganizationContextManager({
             {/* Key Principles */}
             <div>
               <Label className="text-base font-semibold">Key Principles</Label>
-              <p className="text-sm text-gray-600 mb-2">Operating principles that guide your decisions</p>
+              <p className="text-sm text-stone-600 mb-2">Operating principles that guide your decisions</p>
               <div className="flex flex-wrap gap-2 mb-2">
                 {(displayContext?.key_principles || []).map((principle, index) => (
                   <Badge key={index} variant="secondary" className="text-sm">
@@ -471,7 +471,7 @@ export default function OrganizationContextManager({
             {/* Impact Philosophy */}
             <div>
               <Label htmlFor="impact-philosophy" className="text-base font-semibold">Impact Philosophy</Label>
-              <p className="text-sm text-gray-600 mb-2">Your theory of change and how you create impact</p>
+              <p className="text-sm text-stone-600 mb-2">Your theory of change and how you create impact</p>
               {editing ? (
                 <Textarea
                   id="impact-philosophy"
@@ -481,7 +481,7 @@ export default function OrganizationContextManager({
                   className="min-h-[120px]"
                 />
               ) : (
-                <p className="text-gray-900 whitespace-pre-wrap">{displayContext?.impact_philosophy || 'Not specified'}</p>
+                <p className="text-stone-900 whitespace-pre-wrap">{displayContext?.impact_philosophy || 'Not specified'}</p>
               )}
             </div>
 
@@ -490,7 +490,7 @@ export default function OrganizationContextManager({
             {/* Measurement Approach */}
             <div>
               <Label htmlFor="measurement" className="text-base font-semibold">Measurement Approach</Label>
-              <p className="text-sm text-gray-600 mb-2">How you know you're making a difference</p>
+              <p className="text-sm text-stone-600 mb-2">How you know you're making a difference</p>
               {editing ? (
                 <Textarea
                   id="measurement"
@@ -500,7 +500,7 @@ export default function OrganizationContextManager({
                   className="min-h-[100px]"
                 />
               ) : (
-                <p className="text-gray-900 whitespace-pre-wrap">{displayContext?.measurement_approach || 'Not specified'}</p>
+                <p className="text-stone-900 whitespace-pre-wrap">{displayContext?.measurement_approach || 'Not specified'}</p>
               )}
             </div>
 
@@ -510,14 +510,14 @@ export default function OrganizationContextManager({
             {displayContext?.impact_domains && (
               <div>
                 <Label className="text-base font-semibold">Impact Domains</Label>
-                <p className="text-sm text-gray-600 mb-3">Areas where you create impact</p>
+                <p className="text-sm text-stone-600 mb-3">Areas where you create impact</p>
                 <div className="grid grid-cols-2 gap-4">
                   {Object.entries(displayContext.impact_domains).map(([domain, areas]) => (
                     <div key={domain} className="border rounded-lg p-4">
-                      <h4 className="font-semibold text-sm text-gray-700 mb-2 capitalize">{domain}</h4>
+                      <h4 className="font-semibold text-sm text-stone-700 mb-2 capitalize">{domain}</h4>
                       <ul className="list-disc list-inside space-y-1">
                         {(areas as string[]).map((area, index) => (
-                          <li key={index} className="text-sm text-gray-600">{area}</li>
+                          <li key={index} className="text-sm text-stone-600">{area}</li>
                         ))}
                       </ul>
                     </div>
@@ -540,9 +540,9 @@ export default function OrganizationContextManager({
                   placeholder="https://yourorganization.org"
                 />
               ) : (
-                <p className="text-gray-900">
+                <p className="text-stone-900">
                   {displayContext?.website ? (
-                    <a href={displayContext.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                    <a href={displayContext.website} target="_blank" rel="noopener noreferrer" className="text-sage-600 hover:underline">
                       {displayContext.website}
                     </a>
                   ) : (
@@ -557,16 +557,16 @@ export default function OrganizationContextManager({
             {/* Metadata */}
             {context && (
               <div className="space-y-4">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-stone-600">
                   <Calendar className="h-4 w-4" />
                   <span>Created: {new Date(context.created_at).toLocaleDateString()}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-stone-600">
                   <Calendar className="h-4 w-4" />
                   <span>Last Updated: {new Date(context.updated_at).toLocaleDateString()}</span>
                 </div>
                 {context.ai_model_used && (
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="flex items-center gap-2 text-sm text-stone-600">
                     <Sparkles className="h-4 w-4" />
                     <span>Extracted by: {context.ai_model_used}</span>
                   </div>

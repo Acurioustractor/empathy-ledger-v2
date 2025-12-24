@@ -104,9 +104,9 @@ export default function AdminOrganizationDetailPage() {
   const getVerificationBadge = (status: string) => {
     switch (status) {
       case 'verified':
-        return <Badge className="bg-blue-100 text-blue-800"><Shield className="w-3 h-3 mr-1" />Verified</Badge>
+        return <Badge className="bg-sage-100 text-sage-800"><Shield className="w-3 h-3 mr-1" />Verified</Badge>
       case 'unverified':
-        return <Badge className="bg-grey-100 text-grey-800">Unverified</Badge>
+        return <Badge className="bg-stone-100 text-stone-800">Unverified</Badge>
       case 'pending':
         return <Badge className="bg-yellow-100 text-yellow-800">Pending Verification</Badge>
       default:
@@ -120,8 +120,8 @@ export default function AdminOrganizationDetailPage() {
         <Header />
         <div className="container mx-auto px-4 py-8">
           <div className="animate-pulse">
-            <div className="h-8 bg-grey-200 rounded w-64 mb-4"></div>
-            <div className="h-64 bg-grey-200 rounded"></div>
+            <div className="h-8 bg-stone-200 rounded w-64 mb-4"></div>
+            <div className="h-64 bg-stone-200 rounded"></div>
           </div>
         </div>
       </div>
@@ -184,8 +184,8 @@ export default function AdminOrganizationDetailPage() {
           
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-grey-900 mb-2 flex items-center gap-3">
-                <Building2 className="w-8 h-8 text-blue-600" />
+              <h1 className="text-3xl font-bold text-stone-900 mb-2 flex items-center gap-3">
+                <Building2 className="w-8 h-8 text-sage-600" />
                 {organisation.name}
               </h1>
               <div className="flex items-center gap-3">
@@ -217,26 +217,26 @@ export default function AdminOrganizationDetailPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-grey-500">Description</label>
+                    <label className="text-sm font-medium text-stone-500">Description</label>
                     <p className="mt-1">{organisation.description || 'No description provided'}</p>
                   </div>
                   
                   {organisation.mission_statement && (
                     <div>
-                      <label className="text-sm font-medium text-grey-500">Mission Statement</label>
+                      <label className="text-sm font-medium text-stone-500">Mission Statement</label>
                       <p className="mt-1">{organisation.mission_statement}</p>
                     </div>
                   )}
                   
                   {organisation.location && (
                     <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-grey-400" />
+                      <MapPin className="w-4 h-4 text-stone-400" />
                       <span>{organisation.location}</span>
                     </div>
                   )}
                   
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-grey-400" />
+                    <Calendar className="w-4 h-4 text-stone-400" />
                     <span>Created {new Date(organisation.created_at).toLocaleDateString()}</span>
                   </div>
                 </CardContent>
@@ -250,12 +250,12 @@ export default function AdminOrganizationDetailPage() {
                 <CardContent className="space-y-4">
                   {organisation.website_url && (
                     <div className="flex items-center gap-2">
-                      <Globe className="w-4 h-4 text-grey-400" />
+                      <Globe className="w-4 h-4 text-stone-400" />
                       <a 
                         href={organisation.website_url} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline flex items-center gap-1"
+                        className="text-sage-600 hover:underline flex items-center gap-1"
                       >
                         {organisation.website_url}
                         <ExternalLink className="w-3 h-3" />
@@ -265,8 +265,8 @@ export default function AdminOrganizationDetailPage() {
                   
                   {organisation.contact_email && (
                     <div className="flex items-center gap-2">
-                      <Mail className="w-4 h-4 text-grey-400" />
-                      <a href={`mailto:${organisation.contact_email}`} className="text-blue-600 hover:underline">
+                      <Mail className="w-4 h-4 text-stone-400" />
+                      <a href={`mailto:${organisation.contact_email}`} className="text-sage-600 hover:underline">
                         {organisation.contact_email}
                       </a>
                     </div>
@@ -274,7 +274,7 @@ export default function AdminOrganizationDetailPage() {
                   
                   {organisation.contact_phone && (
                     <div className="flex items-center gap-2">
-                      <Phone className="w-4 h-4 text-grey-400" />
+                      <Phone className="w-4 h-4 text-stone-400" />
                       <span>{organisation.contact_phone}</span>
                     </div>
                   )}
@@ -288,15 +288,15 @@ export default function AdminOrganizationDetailPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center p-4 bg-blue-50 rounded-lg">
-                      <Users className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                    <div className="text-center p-4 bg-sage-50 rounded-lg">
+                      <Users className="w-8 h-8 text-sage-600 mx-auto mb-2" />
                       <div className="text-2xl font-bold">{organisation.member_count || 0}</div>
-                      <div className="text-sm text-grey-600">Members</div>
+                      <div className="text-sm text-stone-600">Members</div>
                     </div>
                     <div className="text-center p-4 bg-green-50 rounded-lg">
                       <FileText className="w-8 h-8 text-green-600 mx-auto mb-2" />
                       <div className="text-2xl font-bold">{organisation.story_count || 0}</div>
-                      <div className="text-sm text-grey-600">Stories</div>
+                      <div className="text-sm text-stone-600">Stories</div>
                     </div>
                   </div>
                 </CardContent>
@@ -311,7 +311,7 @@ export default function AdminOrganizationDetailPage() {
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium">Last Activity</span>
-                      <span className="text-sm text-grey-600">
+                      <span className="text-sm text-stone-600">
                         {new Date(organisation.updated_at).toLocaleDateString()}
                       </span>
                     </div>
@@ -339,8 +339,8 @@ export default function AdminOrganizationDetailPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8 text-grey-500">
-                  <Users className="w-12 h-12 mx-auto mb-3 text-grey-300" />
+                <div className="text-center py-8 text-stone-500">
+                  <Users className="w-12 h-12 mx-auto mb-3 text-stone-300" />
                   <p>Member management coming soon</p>
                 </div>
               </CardContent>
@@ -357,8 +357,8 @@ export default function AdminOrganizationDetailPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8 text-grey-500">
-                  <FileText className="w-12 h-12 mx-auto mb-3 text-grey-300" />
+                <div className="text-center py-8 text-stone-500">
+                  <FileText className="w-12 h-12 mx-auto mb-3 text-stone-300" />
                   <p>Story management coming soon</p>
                 </div>
               </CardContent>
@@ -373,8 +373,8 @@ export default function AdminOrganizationDetailPage() {
                 <CardDescription>Activity log for this organisation</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8 text-grey-500">
-                  <Activity className="w-12 h-12 mx-auto mb-3 text-grey-300" />
+                <div className="text-center py-8 text-stone-500">
+                  <Activity className="w-12 h-12 mx-auto mb-3 text-stone-300" />
                   <p>Activity tracking coming soon</p>
                 </div>
               </CardContent>
@@ -389,8 +389,8 @@ export default function AdminOrganizationDetailPage() {
                 <CardDescription>Manage organisation configuration and permissions</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8 text-grey-500">
-                  <Settings className="w-12 h-12 mx-auto mb-3 text-grey-300" />
+                <div className="text-center py-8 text-stone-500">
+                  <Settings className="w-12 h-12 mx-auto mb-3 text-stone-300" />
                   <p>Settings management coming soon</p>
                 </div>
               </CardContent>

@@ -215,8 +215,8 @@ Cultural Context: ${story.cultural_significance}`
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
               <Trophy className="h-12 w-12 text-yellow-600 mx-auto mb-4 animate-pulse" />
-              <h2 className="text-xl font-semibold text-grey-900 mb-2">Loading Impact Stories...</h2>
-              <p className="text-grey-600">Analyzing your achievements and community contributions</p>
+              <h2 className="text-xl font-semibold text-stone-900 mb-2">Loading Impact Stories...</h2>
+              <p className="text-stone-600">Analyzing your achievements and community contributions</p>
             </div>
           </div>
         </div>
@@ -261,10 +261,10 @@ Cultural Context: ${story.cultural_significance}`
           
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-grey-900 mb-2">
+              <h1 className="text-3xl font-bold text-stone-900 mb-2">
                 Impact & Achievement Stories
               </h1>
-              <p className="text-grey-600">
+              <p className="text-stone-600">
                 Professional-ready stories from {storyteller?.display_name}'s experiences
               </p>
             </div>
@@ -296,7 +296,7 @@ Cultural Context: ${story.cultural_significance}`
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Resume Ready</CardTitle>
-              <FileText className="h-4 w-4 text-blue-500" />
+              <FileText className="h-4 w-4 text-sage-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
@@ -322,7 +322,7 @@ Cultural Context: ${story.cultural_significance}`
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Community Impact</CardTitle>
-              <Users className="h-4 w-4 text-purple-500" />
+              <Users className="h-4 w-4 text-clay-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
@@ -368,7 +368,7 @@ Cultural Context: ${story.cultural_significance}`
                           {story.measurable_outcomes.map((outcome, i) => (
                             <li key={i} className="flex items-start gap-2">
                               <CheckCircle className="h-3 w-3 text-green-500 mt-1 flex-shrink-0" />
-                              <span className="text-xs text-grey-700">{outcome}</span>
+                              <span className="text-xs text-stone-700">{outcome}</span>
                             </li>
                           ))}
                         </ul>
@@ -377,7 +377,7 @@ Cultural Context: ${story.cultural_significance}`
                       {/* Beneficiaries */}
                       <div>
                         <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
-                          <Users className="h-3 w-3 text-blue-500" />
+                          <Users className="h-3 w-3 text-sage-500" />
                           Who Benefited
                         </h4>
                         <div className="flex flex-wrap gap-1">
@@ -392,10 +392,10 @@ Cultural Context: ${story.cultural_significance}`
                       {/* Cultural Significance */}
                       <div>
                         <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
-                          <Globe className="h-3 w-3 text-purple-500" />
+                          <Globe className="h-3 w-3 text-clay-500" />
                           Cultural Significance
                         </h4>
-                        <p className="text-xs text-grey-600 bg-purple-50 p-3 rounded border-l-2 border-purple-500">
+                        <p className="text-xs text-stone-600 bg-clay-50 p-3 rounded border-l-2 border-clay-500">
                           {story.cultural_significance}
                         </p>
                       </div>
@@ -475,7 +475,7 @@ Cultural Context: ${story.cultural_significance}`
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Clock className="h-5 w-5 text-blue-600" />
+                    <Clock className="h-5 w-5 text-sage-600" />
                     Timeline Distribution
                   </CardTitle>
                 </CardHeader>
@@ -514,7 +514,7 @@ Cultural Context: ${story.cultural_significance}`
                         .filter(story => story.suitable_for.includes(usage))
                         .slice(0, 2)
                         .map((story, index) => (
-                          <div key={index} className="text-xs text-grey-600 truncate">
+                          <div key={index} className="text-xs text-stone-600 truncate">
                             {story.title}
                           </div>
                         ))}
@@ -530,7 +530,7 @@ Cultural Context: ${story.cultural_significance}`
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Download className="h-5 w-5 text-blue-600" />
+                  <Download className="h-5 w-5 text-sage-600" />
                   Export Stories for Professional Use
                 </CardTitle>
                 <CardDescription>
@@ -563,10 +563,10 @@ Cultural Context: ${story.cultural_significance}`
                     {impactStories
                       .filter(story => story.suitable_for.includes(exportFormat))
                       .map((story, index) => (
-                        <Card key={index} className="cursor-pointer hover:bg-grey-50 transition-colours">
+                        <Card key={index} className="cursor-pointer hover:bg-stone-50 transition-colours">
                           <CardContent className="p-4">
                             <h4 className="font-medium text-sm mb-2">{story.title}</h4>
-                            <p className="text-xs text-grey-600 mb-3">{story.description.substring(0, 100)}...</p>
+                            <p className="text-xs text-stone-600 mb-3">{story.description.substring(0, 100)}...</p>
                             <div className="flex gap-2">
                               <Button
                                 size="sm"
@@ -623,7 +623,7 @@ Cultural Context: ${story.cultural_significance}`
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <pre className="bg-grey-50 p-4 rounded text-sm whitespace-pre-wrap font-mono">
+                  <pre className="bg-stone-50 p-4 rounded text-sm whitespace-pre-wrap font-mono">
                     {formatStoryForExport(selectedStory, exportFormat)}
                   </pre>
                 </CardContent>
@@ -688,7 +688,7 @@ Cultural Context: ${story.cultural_significance}`
                         .filter(theme => theme.length > 10)
                     )).slice(0, 5).map((theme, index) => (
                       <div key={index} className="p-3 bg-red-50 rounded border-l-2 border-red-500">
-                        <p className="text-xs text-grey-700">{theme}</p>
+                        <p className="text-xs text-stone-700">{theme}</p>
                       </div>
                     ))}
                   </div>
@@ -699,7 +699,7 @@ Cultural Context: ${story.cultural_significance}`
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Target className="h-5 w-5 text-blue-600" />
+                  <Target className="h-5 w-5 text-sage-600" />
                   Professional Readiness Score
                 </CardTitle>
                 <CardDescription>
@@ -711,13 +711,13 @@ Cultural Context: ${story.cultural_significance}`
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Resume Readiness</span>
-                      <span className="text-sm text-grey-500">
+                      <span className="text-sm text-stone-500">
                         {Math.round((impactStories.filter(s => s.suitable_for.includes('resume')).length / impactStories.length) * 100)}%
                       </span>
                     </div>
-                    <div className="w-full bg-grey-200 rounded-full h-2">
+                    <div className="w-full bg-stone-200 rounded-full h-2">
                       <div 
-                        className="bg-blue-600 h-2 rounded-full"
+                        className="bg-sage-600 h-2 rounded-full"
                         style={{ width: `${(impactStories.filter(s => s.suitable_for.includes('resume')).length / impactStories.length) * 100}%` }}
                       ></div>
                     </div>
@@ -726,11 +726,11 @@ Cultural Context: ${story.cultural_significance}`
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Grant Application Readiness</span>
-                      <span className="text-sm text-grey-500">
+                      <span className="text-sm text-stone-500">
                         {Math.round((impactStories.filter(s => s.suitable_for.includes('grant_application')).length / impactStories.length) * 100)}%
                       </span>
                     </div>
-                    <div className="w-full bg-grey-200 rounded-full h-2">
+                    <div className="w-full bg-stone-200 rounded-full h-2">
                       <div 
                         className="bg-green-600 h-2 rounded-full"
                         style={{ width: `${(impactStories.filter(s => s.suitable_for.includes('grant_application')).length / impactStories.length) * 100}%` }}
@@ -741,13 +741,13 @@ Cultural Context: ${story.cultural_significance}`
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Interview Preparedness</span>
-                      <span className="text-sm text-grey-500">
+                      <span className="text-sm text-stone-500">
                         {Math.round((impactStories.filter(s => s.suitable_for.includes('interview')).length / impactStories.length) * 100)}%
                       </span>
                     </div>
-                    <div className="w-full bg-grey-200 rounded-full h-2">
+                    <div className="w-full bg-stone-200 rounded-full h-2">
                       <div 
-                        className="bg-purple-600 h-2 rounded-full"
+                        className="bg-clay-600 h-2 rounded-full"
                         style={{ width: `${(impactStories.filter(s => s.suitable_for.includes('interview')).length / impactStories.length) * 100}%` }}
                       ></div>
                     </div>
@@ -756,11 +756,11 @@ Cultural Context: ${story.cultural_significance}`
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Portfolio Quality</span>
-                      <span className="text-sm text-grey-500">
+                      <span className="text-sm text-stone-500">
                         {Math.round((impactStories.filter(s => s.suitable_for.includes('portfolio')).length / impactStories.length) * 100)}%
                       </span>
                     </div>
-                    <div className="w-full bg-grey-200 rounded-full h-2">
+                    <div className="w-full bg-stone-200 rounded-full h-2">
                       <div 
                         className="bg-yellow-600 h-2 rounded-full"
                         style={{ width: `${(impactStories.filter(s => s.suitable_for.includes('portfolio')).length / impactStories.length) * 100}%` }}

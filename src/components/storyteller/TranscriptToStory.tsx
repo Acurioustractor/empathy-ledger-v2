@@ -425,7 +425,7 @@ export function TranscriptToStory({
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
                 <CardTitle className="flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-purple-500" />
+                  <Sparkles className="h-5 w-5 text-clay-500" />
                   AI Story Generation
                 </CardTitle>
                 
@@ -474,7 +474,7 @@ export function TranscriptToStory({
               
               {/* Enhancement: Organization context indicator */}
               {organizationContext && (
-                <Badge variant="outline" className="text-blue-600 border-blue-200 bg-blue-50">
+                <Badge variant="outline" className="text-sage-600 border-sage-200 bg-sage-50">
                   <Building2 className="h-3 w-3 mr-1" />
                   {organizationContext.name}
                 </Badge>
@@ -485,18 +485,18 @@ export function TranscriptToStory({
         <CardContent>
           <div className="grid grid-cols-3 gap-4 text-sm">
             <div className="flex items-center gap-2">
-              <FileText className="h-4 w-4 text-grey-500" />
+              <FileText className="h-4 w-4 text-stone-500" />
               <span className="text-muted-foreground">Source:</span>
               <span className="font-medium">{transcript.title}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Hash className="h-4 w-4 text-grey-500" />
+              <Hash className="h-4 w-4 text-stone-500" />
               <span className="text-muted-foreground">Words:</span>
               <span className="font-medium">{wordCount.toLocaleString()}</span>
             </div>
             {transcript.duration && (
               <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-grey-500" />
+                <Clock className="h-4 w-4 text-stone-500" />
                 <span className="text-muted-foreground">Duration:</span>
                 <span className="font-medium">{Math.round(transcript.duration / 60)} min</span>
               </div>
@@ -540,11 +540,11 @@ export function TranscriptToStory({
 
       {/* Enhancement: AI Suggestions Panel */}
       {showAISuggestions && aiSuggestions.length > 0 && (
-        <Card className="border-blue-200 bg-blue-50">
+        <Card className="border-sage-200 bg-sage-50">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base flex items-center gap-2">
-                <Brain className="h-4 w-4 text-blue-600" />
+                <Brain className="h-4 w-4 text-sage-600" />
                 AI Suggestions
               </CardTitle>
               <Button 
@@ -559,11 +559,11 @@ export function TranscriptToStory({
           <CardContent className="pt-0">
             <div className="space-y-3">
               {aiSuggestions.map((suggestion, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 bg-white rounded-md border border-blue-100">
+                <div key={index} className="flex items-start gap-3 p-3 bg-white rounded-md border border-sage-100">
                   <suggestion.icon className={cn(
                     "h-5 w-5 mt-0.5",
                     suggestion.priority === 'high' ? "text-red-500" :
-                    suggestion.priority === 'medium' ? "text-orange-500" : "text-blue-500"
+                    suggestion.priority === 'medium' ? "text-orange-500" : "text-sage-500"
                   )} />
                   <div className="flex-1">
                     <Typography variant="body-sm" className="font-medium">
@@ -707,7 +707,7 @@ export function TranscriptToStory({
                               : prev.selectedProjects.filter(id => id !== project.id)
                           }))
                         }}
-                        className="rounded border-grey-300 text-blue-600 focus:ring-blue-500"
+                        className="rounded border-stone-300 text-sage-600 focus:ring-blue-500"
                       />
                       <span className="font-medium">{project.name}</span>
                       {project.tags && project.tags.length > 0 && (
@@ -886,7 +886,7 @@ export function TranscriptToStory({
                   </h3>
                   <div className="space-y-3">
                     {result.analysis.keyMoments.slice(0, 3).map((moment, idx) => (
-                      <div key={idx} className="border-l-2 border-purple-200 pl-4">
+                      <div key={idx} className="border-l-2 border-clay-200 pl-4">
                         <p className="text-sm">{moment.text}</p>
                         <div className="flex items-center gap-4 mt-1">
                           <span className="text-xs text-muted-foreground">

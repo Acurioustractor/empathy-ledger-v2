@@ -104,7 +104,7 @@ const elderStatusConfig: Record<string, {
   not_required: {
     label: 'Review Not Required',
     icon: CheckCircle2,
-    colorClass: 'text-gray-500'
+    colorClass: 'text-stone-500'
   },
   pending: {
     label: 'Awaiting Review',
@@ -114,7 +114,7 @@ const elderStatusConfig: Record<string, {
   in_review: {
     label: 'Under Review',
     icon: Eye,
-    colorClass: 'text-blue-500'
+    colorClass: 'text-sage-500'
   },
   approved: {
     label: 'Elder Approved',
@@ -217,8 +217,8 @@ export function CulturalStatusBadge({
         {(requiresElderReview || normalizedLevel === 'high' || normalizedLevel === 'sacred') && (
           <div
             className={cn(
-              'inline-flex items-center rounded-lg border border-gray-200 dark:border-gray-700',
-              'bg-gray-50 dark:bg-gray-900/30',
+              'inline-flex items-center rounded-lg border border-stone-200 dark:border-gray-700',
+              'bg-stone-50 dark:bg-stone-900/30',
               sizeClasses[size],
               elderConfig.colorClass
             )}

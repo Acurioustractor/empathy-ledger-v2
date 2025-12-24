@@ -377,7 +377,7 @@ function ActivityItem({
   const colorMap = {
     consent_approved: 'text-green-600 bg-green-100',
     consent_declined: 'text-red-600 bg-red-100',
-    message_received: 'text-blue-600 bg-blue-100',
+    message_received: 'text-sage-600 bg-sage-100',
     request_sent: 'text-amber-600 bg-amber-100'
   }
 

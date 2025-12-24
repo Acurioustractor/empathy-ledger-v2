@@ -91,9 +91,9 @@ export function ProfilePrivacyTab({
   const getVisibilityColor = (visibility: string) => {
     switch (visibility) {
       case 'public': return 'bg-green-100 text-green-800 border-green-200'
-      case 'community': return 'bg-blue-100 text-blue-800 border-blue-200'
-      case 'private': return 'bg-grey-100 text-grey-800 border-grey-200'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'community': return 'bg-sage-100 text-sage-800 border-sage-200'
+      case 'private': return 'bg-stone-100 text-stone-800 border-stone-200'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -101,11 +101,11 @@ export function ProfilePrivacyTab({
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h3 className="text-lg font-semibold text-grey-900 flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-stone-900 flex items-center gap-2">
           <Shield className="w-5 h-5 text-earth-600" />
           Privacy & Consent
         </h3>
-        <p className="text-sm text-grey-600 mt-1">
+        <p className="text-sm text-stone-600 mt-1">
           Control who can see your information and how your data is used
         </p>
       </div>
@@ -146,7 +146,7 @@ export function ProfilePrivacyTab({
                       {option.icon}
                       <div>
                         <div className="font-medium">{option.label}</div>
-                        <div className="text-xs text-grey-600">{option.description}</div>
+                        <div className="text-xs text-stone-600">{option.description}</div>
                       </div>
                     </div>
                   </SelectItem>
@@ -154,12 +154,12 @@ export function ProfilePrivacyTab({
               </SelectContent>
             </Select>
           ) : (
-            <div className="p-4 bg-grey-50 rounded-lg border">
+            <div className="p-4 bg-stone-50 rounded-lg border">
               <div className="flex items-center gap-3">
                 {currentVisibility.icon}
                 <div>
                   <div className="font-medium">{currentVisibility.label}</div>
-                  <div className="text-sm text-grey-600">{currentVisibility.description}</div>
+                  <div className="text-sm text-stone-600">{currentVisibility.description}</div>
                 </div>
               </div>
             </div>
@@ -186,7 +186,7 @@ export function ProfilePrivacyTab({
               { field: 'show_organizations', label: 'Organization Memberships', icon: <Eye className="w-4 h-4" /> },
               { field: 'show_projects', label: 'Project Participations', icon: <Eye className="w-4 h-4" /> }
             ].map((item) => (
-              <div key={item.field} className="flex items-center justify-between p-3 bg-grey-50 rounded-lg">
+              <div key={item.field} className="flex items-center justify-between p-3 bg-stone-50 rounded-lg">
                 <div className="flex items-center gap-3">
                   {item.icon}
                   <Label htmlFor={item.field} className="cursor-pointer">
@@ -235,12 +235,12 @@ export function ProfilePrivacyTab({
               { field: 'allow_story_requests', label: 'Allow Story Requests', description: 'Accept requests to contribute stories' },
               { field: 'show_in_storyteller_directory', label: 'Show in Storyteller Directory', description: 'Appear in public storyteller listings' }
             ].map((item) => (
-              <div key={item.field} className="flex items-center justify-between p-3 bg-grey-50 rounded-lg">
+              <div key={item.field} className="flex items-center justify-between p-3 bg-stone-50 rounded-lg">
                 <div>
                   <Label htmlFor={item.field} className="cursor-pointer font-medium">
                     {item.label}
                   </Label>
-                  <p className="text-xs text-grey-600 mt-1">{item.description}</p>
+                  <p className="text-xs text-stone-600 mt-1">{item.description}</p>
                 </div>
                 {isEditing ? (
                   <Switch
@@ -276,7 +276,7 @@ export function ProfilePrivacyTab({
               { field: 'third_party_sharing', label: 'Third-Party Integrations', description: 'Allow approved third-party services' },
               { field: 'marketing_communications', label: 'Marketing Communications', description: 'Receive updates and newsletters' }
             ].map((item) => (
-              <div key={item.field} className="flex items-center justify-between p-3 bg-grey-50 rounded-lg">
+              <div key={item.field} className="flex items-center justify-between p-3 bg-stone-50 rounded-lg">
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <Label htmlFor={`consent-${item.field}`} className="cursor-pointer font-medium">
@@ -286,7 +286,7 @@ export function ProfilePrivacyTab({
                       <Badge variant="outline" className="text-xs">Required</Badge>
                     )}
                   </div>
-                  <p className="text-xs text-grey-600 mt-1">{item.description}</p>
+                  <p className="text-xs text-stone-600 mt-1">{item.description}</p>
                 </div>
                 {isEditing && !item.required ? (
                   <Switch
@@ -318,7 +318,7 @@ export function ProfilePrivacyTab({
       {/* Cultural Data Notice */}
       <Alert className="bg-amber-50 border-amber-200">
         <AlertTriangle className="w-4 h-4 text-amber-600" />
-        <AlertDescription className="text-sm text-grey-700">
+        <AlertDescription className="text-sm text-stone-700">
           <strong>Cultural Data Protection:</strong> Your cultural information is handled with special care.
           Traditional knowledge and cultural practices are protected according to Indigenous data sovereignty principles.
         </AlertDescription>
@@ -326,7 +326,7 @@ export function ProfilePrivacyTab({
 
       {/* Information */}
       <Card className="bg-clay-50 border-clay-200">
-        <CardContent className="p-4 text-sm text-grey-700 space-y-2">
+        <CardContent className="p-4 text-sm text-stone-700 space-y-2">
           <div className="flex items-start gap-2">
             <Info className="w-4 h-4 text-clay-700 mt-0.5 flex-shrink-0" />
             <div className="space-y-1">
@@ -336,7 +336,7 @@ export function ProfilePrivacyTab({
                 <li><strong>Community:</strong> Only authenticated users in your organizations can see this</li>
                 <li><strong>Private:</strong> Only you and system administrators can see this</li>
               </ul>
-              <p className="text-xs mt-2 text-grey-600">
+              <p className="text-xs mt-2 text-stone-600">
                 You can change these settings at any time. Some fields may override your general visibility setting.
               </p>
             </div>

@@ -140,8 +140,8 @@ export function VideoManager({
             )}
           </div>
 
-          <div className="bg-blue-50 p-3 rounded-lg">
-            <p className="text-sm text-blue-800">
+          <div className="bg-sage-50 p-3 rounded-lg">
+            <p className="text-sm text-sage-800">
               <strong>Supported platforms:</strong> YouTube, Vimeo, and other video platforms.
               Leave blank to remove existing video links.
             </p>
@@ -155,7 +155,7 @@ export function VideoManager({
           <Button
             onClick={handleSave}
             disabled={!canSave}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-sage-600 hover:bg-sage-700"
           >
             {isSaving ? (
               <>

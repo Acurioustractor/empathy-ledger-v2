@@ -87,9 +87,9 @@ export function TranscriptCard({
     switch (status) {
       case 'completed': return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
       case 'processing': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
-      case 'pending': return 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
+      case 'pending': return 'bg-sage-100 text-sage-800 dark:bg-sage-900/20 dark:text-sage-400'
       case 'error': return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
-      default: return 'bg-grey-100 text-grey-800 dark:bg-grey-900/20 dark:text-grey-400'
+      default: return 'bg-stone-100 text-stone-800 dark:bg-stone-900/20 dark:text-stone-400'
     }
   }
 
@@ -110,8 +110,8 @@ export function TranscriptCard({
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex items-start gap-3 flex-1">
-            <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-              <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+            <div className="p-2 bg-sage-100 dark:bg-sage-900/20 rounded-lg">
+              <FileText className="h-5 w-5 text-sage-600 dark:text-sage-400" />
             </div>
             <div className="flex-1">
               <CardTitle className="text-lg font-semibold line-clamp-2">
@@ -188,10 +188,10 @@ export function TranscriptCard({
         {transcript.hasVideo && (
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Play className="h-4 w-4 text-purple-500" />
+              <Play className="h-4 w-4 text-clay-500" />
               <span className="text-sm font-medium">Video Content</span>
             </div>
-            <div className="flex items-center gap-3 p-3 bg-purple-50 dark:bg-purple-900/10 rounded-lg">
+            <div className="flex items-center gap-3 p-3 bg-clay-50 dark:bg-clay-900/10 rounded-lg">
               {transcript.videoThumbnail && (
                 <img 
                   src={transcript.videoThumbnail} 
@@ -278,7 +278,7 @@ export function TranscriptCard({
               <Button 
                 size="sm" 
                 onClick={() => setShowAIDialog(true)}
-                className="gap-1 bg-purple-600 hover:bg-purple-700"
+                className="gap-1 bg-clay-600 hover:bg-clay-700"
               >
                 <Sparkles className="h-4 w-4" />
                 AI Generate

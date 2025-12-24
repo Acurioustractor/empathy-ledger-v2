@@ -105,7 +105,7 @@ export function EnhancedStorytellerCard({
   return (
     <Card
       className={cn(
-        'group transition-all duration-300 hover:shadow-lg overflow-hidden bg-white border border-grey-200',
+        'group transition-all duration-300 hover:shadow-lg overflow-hidden bg-white border border-stone-200',
         'rounded-lg',
         storyteller.is_featured && 'ring-2 ring-amber-200',
         storyteller.is_elder && 'ring-2 ring-purple-200',
@@ -128,7 +128,7 @@ export function EnhancedStorytellerCard({
                 <Link href={`/storytellers/${storyteller.id}`}>
                   <Typography
                     variant="h3"
-                    className="text-grey-900 font-bold group-hover:text-earth-700 transition-colours cursor-pointer"
+                    className="text-stone-900 font-bold group-hover:text-earth-700 transition-colours cursor-pointer"
                   >
                     {storyteller.display_name}
                   </Typography>
@@ -137,14 +137,14 @@ export function EnhancedStorytellerCard({
                 {/* Location and Project Context */}
                 <div className="flex flex-col gap-1 mt-1">
                   {storyteller.location && (
-                    <div className="flex items-center gap-1 text-sm text-grey-600">
+                    <div className="flex items-center gap-1 text-sm text-stone-600">
                       <MapPin className="w-3 h-3" />
                       <span>{storyteller.location}</span>
                     </div>
                   )}
 
                   {storyteller.primary_project && (
-                    <div className="flex items-center gap-1 text-sm text-grey-600">
+                    <div className="flex items-center gap-1 text-sm text-stone-600">
                       <Briefcase className="w-3 h-3" />
                       <span>{storyteller.primary_project}</span>
                     </div>
@@ -161,7 +161,7 @@ export function EnhancedStorytellerCard({
                   </Badge>
                 )}
                 {storyteller.is_elder && (
-                  <Badge className="bg-purple-100 text-purple-800 text-xs font-medium touch-target">
+                  <Badge className="bg-clay-100 text-clay-800 text-xs font-medium touch-target">
                     <Crown className="w-3 h-3 mr-1" />
                     Elder
                   </Badge>
@@ -176,50 +176,50 @@ export function EnhancedStorytellerCard({
         {/* Bio */}
         {storyteller.bio && (
           <div className="mb-4">
-            <Typography variant="body" className="text-grey-700 leading-relaxed text-sm">
+            <Typography variant="body" className="text-stone-700 leading-relaxed text-sm">
               {getCardDisplayBio(storyteller.bio, 120)}
             </Typography>
           </div>
         )}
 
         {/* Content Statistics - Clear Labels */}
-        <div className="grid grid-cols-2 gap-4 mb-4 p-3 bg-grey-50 rounded-lg">
+        <div className="grid grid-cols-2 gap-4 mb-4 p-3 bg-stone-50 rounded-lg">
           <div className="text-center">
-            <div className="flex items-center justify-center gap-1 text-sm text-grey-600">
+            <div className="flex items-center justify-center gap-1 text-sm text-stone-600">
               <FileText className="w-4 h-4" />
               <span>Transcripts</span>
             </div>
-            <div className="text-lg font-semibold text-grey-900">
+            <div className="text-lg font-semibold text-stone-900">
               {storyteller.content_stats.transcripts}
             </div>
           </div>
 
           <div className="text-center">
-            <div className="flex items-center justify-center gap-1 text-sm text-grey-600">
+            <div className="flex items-center justify-center gap-1 text-sm text-stone-600">
               <BookOpen className="w-4 h-4" />
               <span>Stories</span>
             </div>
-            <div className="text-lg font-semibold text-grey-900">
+            <div className="text-lg font-semibold text-stone-900">
               {storyteller.content_stats.stories}
             </div>
           </div>
 
           <div className="text-center">
-            <div className="flex items-center justify-center gap-1 text-sm text-grey-600">
+            <div className="flex items-center justify-center gap-1 text-sm text-stone-600">
               <Video className="w-4 h-4" />
               <span>Videos</span>
             </div>
-            <div className="text-lg font-semibold text-grey-900">
+            <div className="text-lg font-semibold text-stone-900">
               {storyteller.content_stats.videos}
             </div>
           </div>
 
           <div className="text-center">
-            <div className="flex items-center justify-center gap-1 text-sm text-grey-600">
+            <div className="flex items-center justify-center gap-1 text-sm text-stone-600">
               <Lightbulb className="w-4 h-4" />
               <span>AI Analyzed</span>
             </div>
-            <div className="text-lg font-semibold text-grey-900">
+            <div className="text-lg font-semibold text-stone-900">
               {storyteller.content_stats.analyzed_content}
             </div>
           </div>
@@ -228,7 +228,7 @@ export function EnhancedStorytellerCard({
         {/* AI Insights - Story Themes */}
         {storyteller.ai_insights?.top_themes && storyteller.ai_insights.top_themes.length > 0 && (
           <div className="mb-4">
-            <Typography variant="small" className="text-grey-600 font-medium mb-2">
+            <Typography variant="small" className="text-stone-600 font-medium mb-2">
               Story Themes:
             </Typography>
             <div className="flex flex-wrap gap-2">
@@ -249,7 +249,7 @@ export function EnhancedStorytellerCard({
         {/* Cultural Markers */}
         {storyteller.ai_insights?.cultural_markers && storyteller.ai_insights.cultural_markers.length > 0 && (
           <div className="mb-4">
-            <Typography variant="small" className="text-grey-600 font-medium mb-2">
+            <Typography variant="small" className="text-stone-600 font-medium mb-2">
               Cultural Markers:
             </Typography>
             <div className="flex flex-wrap gap-2">
@@ -257,7 +257,7 @@ export function EnhancedStorytellerCard({
                 <Badge
                   key={index}
                   variant="outline"
-                  className="text-xs bg-purple-50 text-purple-700 border-purple-200 touch-target"
+                  className="text-xs bg-clay-50 text-clay-700 border-clay-200 touch-target"
                 >
                   {marker}
                 </Badge>
@@ -370,7 +370,7 @@ export function EnhancedStorytellerCard({
                   </Badge>
                 )}
                 {storyteller.speaking_availability && (
-                  <Badge className="text-xs bg-purple-100 text-purple-800 border-purple-300 touch-target">
+                  <Badge className="text-xs bg-clay-100 text-clay-800 border-clay-300 touch-target">
                     Speaking
                   </Badge>
                 )}
@@ -380,8 +380,8 @@ export function EnhancedStorytellerCard({
         )}
 
         {/* Footer with last active and actions */}
-        <div className="flex items-center justify-between pt-4 border-t border-grey-200">
-          <div className="text-sm text-grey-500">
+        <div className="flex items-center justify-between pt-4 border-t border-stone-200">
+          <div className="text-sm text-stone-500">
             {storyteller.last_active && (
               <div className="flex items-center gap-1">
                 <Calendar className="w-3 h-3" />

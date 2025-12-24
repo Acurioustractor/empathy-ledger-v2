@@ -67,7 +67,7 @@ interface Story {
 const culturalSensitivityColors = {
   low: 'bg-emerald-100 text-emerald-800 border-emerald-200',
   medium: 'bg-amber-100 text-amber-800 border-amber-200',
-  high: 'bg-purple-100 text-purple-800 border-purple-200'
+  high: 'bg-clay-100 text-clay-800 border-clay-200'
 }
 
 export default function StoryDetailPage({ params }: { params: Promise<{ id: string }> }) {

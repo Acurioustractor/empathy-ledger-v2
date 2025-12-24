@@ -337,7 +337,7 @@ export function StoryTemplates({ onSelectTemplate, selectedTemplate }: StoryTemp
         <Typography variant="h2" className="text-2xl font-semibold">
           Choose a Story Template
         </Typography>
-        <Typography variant="body1" className="text-grey-600 max-w-2xl mx-auto">
+        <Typography variant="body1" className="text-stone-600 max-w-2xl mx-auto">
           Select a template to guide your storytelling with culturally respectful prompts and structure
         </Typography>
       </div>
@@ -353,7 +353,7 @@ export function StoryTemplates({ onSelectTemplate, selectedTemplate }: StoryTemp
               key={template.id}
               className={cn(
                 "relative transition-all duration-200 cursor-pointer hover:shadow-lg",
-                isSelected ? "ring-2 ring-blue-500 bg-blue-50" : ""
+                isSelected ? "ring-2 ring-blue-500 bg-sage-50" : ""
               )}
             >
               <div className="p-6">
@@ -362,7 +362,7 @@ export function StoryTemplates({ onSelectTemplate, selectedTemplate }: StoryTemp
                   <div className="flex items-center space-x-3">
                     <div className={cn(
                       "p-2 rounded-lg",
-                      isSelected ? "bg-blue-500 text-white" : "bg-grey-100 text-grey-600"
+                      isSelected ? "bg-sage-500 text-white" : "bg-stone-100 text-stone-600"
                     )}>
                       <Icon className="w-5 h-5" />
                     </div>
@@ -393,7 +393,7 @@ export function StoryTemplates({ onSelectTemplate, selectedTemplate }: StoryTemp
                 </div>
 
                 {/* Description */}
-                <Typography variant="body2" className="text-grey-600 mb-4">
+                <Typography variant="body2" className="text-stone-600 mb-4">
                   {template.description}
                 </Typography>
 
@@ -407,8 +407,8 @@ export function StoryTemplates({ onSelectTemplate, selectedTemplate }: StoryTemp
                       </Typography>
                       <ul className="space-y-1">
                         {template.structure.map((step, index) => (
-                          <li key={index} className="text-sm text-grey-600 flex items-start">
-                            <span className="w-5 h-5 rounded-full bg-grey-200 text-xs flex items-center justify-center mr-2 mt-0.5 flex-shrink-0">
+                          <li key={index} className="text-sm text-stone-600 flex items-start">
+                            <span className="w-5 h-5 rounded-full bg-stone-200 text-xs flex items-center justify-center mr-2 mt-0.5 flex-shrink-0">
                               {index + 1}
                             </span>
                             {step}
@@ -426,8 +426,8 @@ export function StoryTemplates({ onSelectTemplate, selectedTemplate }: StoryTemp
                         </Typography>
                         <ul className="space-y-1">
                           {template.culturalGuidelines.map((guideline, index) => (
-                            <li key={index} className="text-sm text-grey-600 flex items-start">
-                              <span className="w-2 h-2 rounded-full bg-blue-300 mr-2 mt-2 flex-shrink-0"></span>
+                            <li key={index} className="text-sm text-stone-600 flex items-start">
+                              <span className="w-2 h-2 rounded-full bg-sage-300 mr-2 mt-2 flex-shrink-0"></span>
                               {guideline}
                             </li>
                           ))}
@@ -440,8 +440,8 @@ export function StoryTemplates({ onSelectTemplate, selectedTemplate }: StoryTemp
                       <Typography variant="subtitle2" className="font-medium mb-2">
                         Example Opening:
                       </Typography>
-                      <div className="bg-grey-50 p-3 rounded-lg">
-                        <Typography variant="body2" className="text-grey-700 italic">
+                      <div className="bg-stone-50 p-3 rounded-lg">
+                        <Typography variant="body2" className="text-stone-700 italic">
                           "{template.exampleContent}"
                         </Typography>
                       </div>

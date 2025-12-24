@@ -134,8 +134,8 @@ export function TranscriptList({
       {/* Header with Stats */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-            <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+          <div className="p-2 bg-sage-100 dark:bg-sage-900/20 rounded-lg">
+            <FileText className="h-5 w-5 text-sage-600 dark:text-sage-400" />
           </div>
           <div>
             <h2 className="text-xl font-semibold">{title}</h2>

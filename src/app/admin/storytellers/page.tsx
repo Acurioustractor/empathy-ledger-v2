@@ -286,8 +286,8 @@ export default function AdminStorytellersPage() {
       case 'active': return 'bg-green-100 text-green-800'
       case 'pending': return 'bg-yellow-100 text-yellow-800'
       case 'suspended': return 'bg-red-100 text-red-800'
-      case 'inactive': return 'bg-grey-100 text-grey-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'inactive': return 'bg-stone-100 text-stone-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -314,8 +314,8 @@ export default function AdminStorytellersPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-grey-900">Storytellers</h1>
-          <p className="text-grey-600">
+          <h1 className="text-3xl font-bold text-stone-900">Storytellers</h1>
+          <p className="text-stone-600">
             Manage storytellers, review profiles, and monitor community activity
           </p>
         </div>
@@ -395,7 +395,7 @@ export default function AdminStorytellersPage() {
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex-1 max-w-md">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
                 <Input
                   placeholder="Search storytellers..."
                   value={storytellerFilters.search}
@@ -528,7 +528,7 @@ export default function AdminStorytellersPage() {
             <CardTitle>Storytellers ({totalCount})</CardTitle>
             {selectedStorytellers.length > 0 && (
               <div className="flex items-center gap-2">
-                <span className="text-sm text-grey-600">
+                <span className="text-sm text-stone-600">
                   {selectedStorytellers.length} selected
                 </span>
                 <Button size="sm" variant="outline">
@@ -589,7 +589,7 @@ export default function AdminStorytellersPage() {
                         <div className="flex items-center space-x-3">
                           <Avatar className="h-10 w-10">
                             <AvatarImage src={storyteller.avatar_url || `/placeholder-avatar.jpg`} />
-                            <AvatarFallback className="bg-gradient-to-br from-blue-400 to-purple-500 text-white font-medium">
+                            <AvatarFallback className="bg-gradient-to-br from-sage-400 to-clay-500 text-white font-medium">
                               {getInitials(storyteller.display_name || storyteller.full_name || '')}
                             </AvatarFallback>
                           </Avatar>
@@ -597,7 +597,7 @@ export default function AdminStorytellersPage() {
                             <div className="flex items-center gap-2">
                               <Link
                                 href={`/storytellers/${storyteller.id}`}
-                                className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                                className="font-medium text-sage-600 hover:text-sage-800 hover:underline"
                               >
                                 {storyteller.display_name || storyteller.full_name || 'Unnamed User'}
                               </Link>
@@ -608,16 +608,16 @@ export default function AdminStorytellersPage() {
                                 </Badge>
                               )}
                               {storyteller.elder && (
-                                <Badge variant="outline" className="text-xs border-purple-200 text-purple-700">
+                                <Badge variant="outline" className="text-xs border-clay-200 text-clay-700">
                                   <Crown className="w-3 h-3 mr-1" />
                                   Elder
                                 </Badge>
                               )}
                             </div>
-                            <div className="flex items-center gap-4 text-sm text-grey-500 mt-1">
+                            <div className="flex items-center gap-4 text-sm text-stone-500 mt-1">
                               <span>{storyteller.email || 'No email'}</span>
                               {storyteller.cultural_background && (
-                                <span className="text-xs bg-grey-100 px-2 py-1 rounded">
+                                <span className="text-xs bg-stone-100 px-2 py-1 rounded">
                                   {storyteller.cultural_background}
                                 </span>
                               )}
@@ -748,7 +748,7 @@ export default function AdminStorytellersPage() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between px-2 py-4">
-              <div className="text-sm text-grey-600">
+              <div className="text-sm text-stone-600">
                 Showing {(currentPage - 1) * 20 + 1} to {Math.min(currentPage * 20, totalCount)} of {totalCount} storytellers
               </div>
               <div className="flex items-center space-x-2">

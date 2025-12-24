@@ -117,7 +117,7 @@ export default function SimpleOrganizationDashboard() {
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-sage-500 rounded-full"></div>
                     <div>
                       <p className="text-sm font-medium">New member joined organisation</p>
                       <p className="text-xs text-muted-foreground">1 day ago</p>

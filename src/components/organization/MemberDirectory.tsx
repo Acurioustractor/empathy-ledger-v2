@@ -375,7 +375,7 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
       <div className="bg-gradient-to-r from-earth-50 to-sage-50 rounded-lg p-8 border border-earth-200 mb-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-3xl font-bold text-grey-900 mb-2">Our Community</h2>
+            <h2 className="text-3xl font-bold text-stone-900 mb-2">Our Community</h2>
             <p className="text-sage-700">
               {localMembers.length} storytellers, knowledge keepers, and community members
             </p>
@@ -384,19 +384,19 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
           <div className="flex items-center gap-8">
             <div className="text-center bg-white/50 rounded-lg p-4 min-w-[80px]">
               <div className="text-3xl font-bold text-earth-700">{localMembers.length}</div>
-              <div className="text-sm text-grey-600 mt-1">Members</div>
+              <div className="text-sm text-stone-600 mt-1">Members</div>
             </div>
             <div className="text-center bg-white/50 rounded-lg p-4 min-w-[80px]">
               <div className="text-3xl font-bold text-sage-700">
                 {localMembers.reduce((sum, m) => sum + (m.stories_count || 0), 0)}
               </div>
-              <div className="text-sm text-grey-600 mt-1">Stories</div>
+              <div className="text-sm text-stone-600 mt-1">Stories</div>
             </div>
             <div className="text-center bg-white/50 rounded-lg p-4 min-w-[80px]">
               <div className="text-3xl font-bold text-clay-700">
                 {localMembers.reduce((sum, m) => sum + (m.projects?.length || 0), 0)}
               </div>
-              <div className="text-sm text-grey-600 mt-1">Projects</div>
+              <div className="text-sm text-stone-600 mt-1">Projects</div>
             </div>
           </div>
         </div>
@@ -404,19 +404,19 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
         <div className="flex items-center gap-8 pt-4 border-t border-earth-200/50">
           <div className="flex items-center gap-3">
             <Heart className="h-5 w-5 text-red-500" />
-            <span className="text-sm text-grey-700">
+            <span className="text-sm text-stone-700">
               {localMembers.filter(m => m.locations && m.locations.length > 0).length} members with locations
             </span>
           </div>
           <div className="flex items-center gap-3">
-            <Briefcase className="h-5 w-5 text-blue-500" />
-            <span className="text-sm text-grey-700">
+            <Briefcase className="h-5 w-5 text-sage-500" />
+            <span className="text-sm text-stone-700">
               {localMembers.filter(m => m.projects && m.projects.length > 0).length} active in projects
             </span>
           </div>
           <div className="flex items-center gap-3">
             <Globe className="h-5 w-5 text-green-500" />
-            <span className="text-sm text-grey-700">
+            <span className="text-sm text-stone-700">
               {new Set(localMembers.flatMap(m => m.locations?.map(l => l.city || l.name) || [])).size} locations
             </span>
           </div>
@@ -427,7 +427,7 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
         <div className="flex items-center gap-4">
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button className="bg-sage-600 hover:bg-sage-700">
                 <UserPlus className="h-4 w-4 mr-2" />
                 Add Member
               </Button>
@@ -516,7 +516,7 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className="bg-sage-600 hover:bg-sage-700"
                   >
                     {isSubmitting ? 'Adding...' : 'Add Member'}
                   </Button>
@@ -634,7 +634,7 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center mb-8 p-4 bg-grey-50 rounded-lg">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center mb-8 p-4 bg-stone-50 rounded-lg">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -693,7 +693,7 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
             {/* Information Below */}
             <CardContent className="p-6 text-center space-y-4">
               <div>
-                <h3 className="font-bold text-lg text-grey-900">
+                <h3 className="font-bold text-lg text-stone-900">
                   {(member.display_name || member.full_name || 'Member').trim()}
                 </h3>
 
@@ -712,7 +712,7 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
 
               {/* Location */}
               {member.locations && member.locations.length > 0 && (
-                <div className="flex items-center justify-center gap-1 text-sm text-grey-600">
+                <div className="flex items-center justify-center gap-1 text-sm text-stone-600">
                   <MapPin className="h-4 w-4" />
                   <span>
                     {member.locations[0].city ?
@@ -739,7 +739,7 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
               {/* Projects */}
               {member.projects && member.projects.length > 0 && (
                 <div className="mb-4">
-                  <p className="text-xs text-grey-500 mb-1">Projects</p>
+                  <p className="text-xs text-stone-500 mb-1">Projects</p>
                   <div className="flex justify-center gap-1">
                     <Badge variant="outline" className="text-xs">
                       {member.projects[0].name}
@@ -754,7 +754,7 @@ export function MemberDirectory({ members, organizationId, canManage = false, is
               )}
 
               {/* Footer */}
-              <div className="flex items-center justify-between pt-3 border-t border-grey-100 text-xs text-grey-500">
+              <div className="flex items-center justify-between pt-3 border-t border-stone-100 text-xs text-stone-500">
                 <div className="flex items-center gap-1">
                   <Calendar className="h-3 w-3" />
                   {new Date(member.joined_at).toLocaleDateString('en-US', {

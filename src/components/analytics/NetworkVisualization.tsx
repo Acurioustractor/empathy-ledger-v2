@@ -351,7 +351,7 @@ export const NetworkVisualization: React.FC<NetworkVisualizationProps> = ({
   return (
     <div className="space-y-4">
       {/* Controls */}
-      <div className="flex flex-wrap gap-4 items-center justify-between p-4 bg-grey-50 rounded-lg">
+      <div className="flex flex-wrap gap-4 items-center justify-between p-4 bg-stone-50 rounded-lg">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <Filter className="w-4 h-4" />
@@ -436,7 +436,7 @@ export const NetworkVisualization: React.FC<NetworkVisualizationProps> = ({
                         <span>Community Keeper</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-sage-500"></div>
                         <span>Community Member</span>
                       </div>
                     </>

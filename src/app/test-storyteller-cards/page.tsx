@@ -150,7 +150,7 @@ export default function TestStorytellerCardsPage() {
         <Typography variant="h1" className="text-3xl font-bold mb-2">
           Enhanced Storyteller Cards - Development & Testing
         </Typography>
-        <Typography variant="body" className="text-grey-600">
+        <Typography variant="body" className="text-stone-600">
           Testing the new enhanced storyteller card system with real data integration
         </Typography>
       </div>
@@ -166,7 +166,7 @@ export default function TestStorytellerCardsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{realStorytellers.length}</div>
-            <div className="text-xs text-grey-500">storytellers loaded</div>
+            <div className="text-xs text-stone-500">storytellers loaded</div>
           </CardContent>
         </Card>
 
@@ -179,7 +179,7 @@ export default function TestStorytellerCardsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{enhancedStorytellers.length}</div>
-            <div className="text-xs text-grey-500">transformed</div>
+            <div className="text-xs text-stone-500">transformed</div>
           </CardContent>
         </Card>
 
@@ -194,7 +194,7 @@ export default function TestStorytellerCardsPage() {
             <div className="text-2xl font-bold">
               {enhancedStorytellers.filter(s => s.ai_insights).length}
             </div>
-            <div className="text-xs text-grey-500">have AI data</div>
+            <div className="text-xs text-stone-500">have AI data</div>
           </CardContent>
         </Card>
 
@@ -211,7 +211,7 @@ export default function TestStorytellerCardsPage() {
                 transformationStatus === 'success' ? 'bg-green-100 text-green-800' :
                 transformationStatus === 'error' ? 'bg-red-100 text-red-800' :
                 transformationStatus === 'loading' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-grey-100 text-grey-800'
+                'bg-stone-100 text-stone-800'
               }
             >
               {transformationStatus}
@@ -267,7 +267,7 @@ export default function TestStorytellerCardsPage() {
 
             {enhancedStorytellers.length > 0 ? (
               <div className="space-y-6">
-                <Typography variant="body" className="text-grey-600">
+                <Typography variant="body" className="text-stone-600">
                   Clean, elegant design focused on essential information:
                 </Typography>
 
@@ -311,7 +311,7 @@ export default function TestStorytellerCardsPage() {
                 </div>
               </div>
             ) : (
-              <div className="text-center py-12 text-grey-500">
+              <div className="text-center py-12 text-stone-500">
                 No enhanced data available. Please transform the real data first.
               </div>
             )}
@@ -332,13 +332,13 @@ export default function TestStorytellerCardsPage() {
               </div>
             ) : realStorytellers.length > 0 ? (
               <div className="space-y-4">
-                <Typography variant="body" className="text-grey-600">
+                <Typography variant="body" className="text-stone-600">
                   Showing first 3 storytellers from your existing data:
                 </Typography>
                 <div className="grid grid-cols-1 gap-4">
                   {realStorytellers.slice(0, 3).map((storyteller, index) => (
                     <Card key={index} className="p-4">
-                      <pre className="text-sm overflow-x-auto bg-grey-50 p-3 rounded">
+                      <pre className="text-sm overflow-x-auto bg-stone-50 p-3 rounded">
                         {JSON.stringify(storyteller, null, 2)}
                       </pre>
                     </Card>
@@ -346,7 +346,7 @@ export default function TestStorytellerCardsPage() {
                 </div>
               </div>
             ) : (
-              <div className="text-center py-12 text-grey-500">
+              <div className="text-center py-12 text-stone-500">
                 No real data loaded. Click "Fetch Real Data" to load from your API.
               </div>
             )}
@@ -369,7 +369,7 @@ export default function TestStorytellerCardsPage() {
                   </Typography>
                 </div>
 
-                <Typography variant="body" className="text-grey-600">
+                <Typography variant="body" className="text-stone-600">
                   Full-featured cards with all available data and AI insights:
                 </Typography>
 
@@ -417,7 +417,7 @@ export default function TestStorytellerCardsPage() {
                 </div>
               </div>
             ) : (
-              <div className="text-center py-12 text-grey-500">
+              <div className="text-center py-12 text-stone-500">
                 No enhanced data available. Please transform the real data first.
               </div>
             )}
@@ -443,7 +443,7 @@ export default function TestStorytellerCardsPage() {
                 }}
               />
             ) : (
-              <div className="text-center py-12 text-grey-500">
+              <div className="text-center py-12 text-stone-500">
                 No enhanced data available. Please transform the real data first.
               </div>
             )}
@@ -456,7 +456,7 @@ export default function TestStorytellerCardsPage() {
             <Typography variant="h2" className="text-xl font-semibold mb-4">
               Demo with Sample Data
             </Typography>
-            <Typography variant="body" className="text-grey-600 mb-6">
+            <Typography variant="body" className="text-stone-600 mb-6">
               This shows the full feature set with carefully crafted sample data:
             </Typography>
             <StorytellerCardDemo />
@@ -474,13 +474,13 @@ export default function TestStorytellerCardsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
                 <strong>Real Data Sample:</strong>
-                <pre className="mt-1 text-xs bg-grey-50 p-2 rounded overflow-x-auto">
+                <pre className="mt-1 text-xs bg-stone-50 p-2 rounded overflow-x-auto">
                   {JSON.stringify(realStorytellers[0] || 'No data', null, 2)}
                 </pre>
               </div>
               <div>
                 <strong>Enhanced Data Sample:</strong>
-                <pre className="mt-1 text-xs bg-grey-50 p-2 rounded overflow-x-auto">
+                <pre className="mt-1 text-xs bg-stone-50 p-2 rounded overflow-x-auto">
                   {JSON.stringify(enhancedStorytellers[0] || 'No data', null, 2)}
                 </pre>
               </div>

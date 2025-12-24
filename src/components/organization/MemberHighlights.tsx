@@ -22,7 +22,7 @@ export function MemberHighlights({ members, organizationId }: MemberHighlightsPr
         <h3 className="text-lg font-semibold">Recent Members</h3>
         <Link
           href={`/organisations/${organizationId}/members`}
-          className="text-sm text-blue-600 hover:text-blue-800"
+          className="text-sm text-sage-600 hover:text-sage-800"
         >
           View All
         </Link>
@@ -31,9 +31,9 @@ export function MemberHighlights({ members, organizationId }: MemberHighlightsPr
       {members.length > 0 ? (
         <div className="space-y-4">
           {members.map((member) => (
-            <div key={member.id} className="flex items-center gap-3 border-b border-grey-100 pb-4 last:border-b-0 last:pb-0">
-              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-blue-700">
+            <div key={member.id} className="flex items-center gap-3 border-b border-stone-100 pb-4 last:border-b-0 last:pb-0">
+              <div className="w-10 h-10 bg-sage-100 rounded-full flex items-center justify-center">
+                <span className="text-sm font-medium text-sage-700">
                   {(member.display_name || member.full_name || 'M')
                     .split(' ')
                     .map(n => n[0])
@@ -44,10 +44,10 @@ export function MemberHighlights({ members, organizationId }: MemberHighlightsPr
               </div>
 
               <div className="flex-1">
-                <div className="font-medium text-grey-900">
+                <div className="font-medium text-stone-900">
                   {member.display_name || member.full_name || 'Member'}
                 </div>
-                <div className="text-sm text-grey-500">
+                <div className="text-sm text-stone-500">
                   Joined {new Date(member.created_at).toLocaleDateString()}
                 </div>
               </div>
@@ -55,7 +55,7 @@ export function MemberHighlights({ members, organizationId }: MemberHighlightsPr
           ))}
         </div>
       ) : (
-        <div className="text-center py-8 text-grey-500">
+        <div className="text-center py-8 text-stone-500">
           <p>No recent members</p>
           <p className="text-sm mt-1">New members will appear here when they join</p>
         </div>

@@ -41,10 +41,10 @@ export default function AdminLayout({
   // Show loading while checking auth
   if (!mounted || isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-stone-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading admin panel...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-terracotta-600 mx-auto"></div>
+          <p className="mt-4 text-stone-600">Loading admin panel...</p>
         </div>
       </div>
     )
@@ -53,11 +53,11 @@ export default function AdminLayout({
   // Don't render admin content for non-admins
   if (!user || (!isAdmin && !isSuperAdmin)) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-stone-50">
         <div className="text-center">
-          <Shield className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Access Denied</h2>
-          <p className="text-gray-600 mb-4">You don't have permission to access the admin panel.</p>
+          <Shield className="w-16 h-16 text-stone-400 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-stone-900 mb-2">Access Denied</h2>
+          <p className="text-stone-600 mb-4">You don't have permission to access the admin panel.</p>
           <Button onClick={() => router.push('/')}>Go Home</Button>
         </div>
       </div>
@@ -101,7 +101,7 @@ export default function AdminLayout({
       <Link href={item.href} onClick={() => setSidebarOpen(false)}>
         <Button
           variant={active ? "secondary" : "ghost"}
-          className={`w-full justify-start ${active ? 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100' : ''} ${item.highlight ? 'bg-green-50 text-green-700 hover:bg-green-100 border border-green-200' : ''}`}
+          className={`w-full justify-start ${active ? 'bg-terracotta-50 text-terracotta-700 hover:bg-terracotta-100' : ''} ${item.highlight ? 'bg-green-50 text-green-700 hover:bg-green-100 border border-green-200' : ''}`}
         >
           <item.icon className={`w-4 h-4 mr-3 ${item.highlight ? 'text-green-600' : ''}`} />
           {item.label}
@@ -114,15 +114,15 @@ export default function AdminLayout({
   const SidebarContent = () => (
     <>
       {/* Header */}
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-4 border-b border-stone-200">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-bold text-gray-900">Admin Panel</h1>
-            <p className="text-xs text-gray-500">Empathy Ledger</p>
+            <h1 className="text-lg font-bold text-stone-900">Admin Panel</h1>
+            <p className="text-xs text-stone-500">Empathy Ledger</p>
           </div>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-1 rounded hover:bg-gray-100"
+            className="lg:hidden p-1 rounded hover:bg-stone-100"
           >
             <X className="w-5 h-5" />
           </button>
@@ -130,17 +130,17 @@ export default function AdminLayout({
       </div>
 
       {/* User Info */}
-      <div className="p-4 border-b border-gray-200 bg-gray-50">
+      <div className="p-4 border-b border-stone-200 bg-stone-50">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
-            <span className="text-indigo-700 font-semibold text-sm">
+          <div className="w-10 h-10 rounded-full bg-terracotta-100 flex items-center justify-center">
+            <span className="text-terracotta-700 font-semibold text-sm">
               {user?.email?.charAt(0).toUpperCase()}
             </span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">{user?.email}</p>
+            <p className="text-sm font-medium text-stone-900 truncate">{user?.email}</p>
             <div className="flex items-center gap-1">
-              <Badge variant="outline" className={isSuperAdmin ? 'bg-purple-50 text-purple-700 border-purple-200' : 'bg-blue-50 text-blue-700 border-blue-200'}>
+              <Badge variant="outline" className={isSuperAdmin ? 'bg-clay-50 text-clay-700 border-clay-200' : 'bg-sage-50 text-sage-700 border-sage-200'}>
                 {isSuperAdmin ? 'Super Admin' : 'Admin'}
               </Badge>
             </div>
@@ -156,7 +156,7 @@ export default function AdminLayout({
 
         {/* Media Section */}
         <div className="pt-4">
-          <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 px-3">
+          <div className="text-xs font-semibold text-stone-500 uppercase tracking-wide mb-2 px-3">
             Media
           </div>
           {mediaItems.map((item) => (
@@ -166,7 +166,7 @@ export default function AdminLayout({
 
         {/* Management Section */}
         <div className="pt-4">
-          <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 px-3">
+          <div className="text-xs font-semibold text-stone-500 uppercase tracking-wide mb-2 px-3">
             Management
           </div>
           {managementItems.map((item) => (
@@ -176,7 +176,7 @@ export default function AdminLayout({
       </nav>
 
       {/* Footer */}
-      <div className="p-3 border-t border-gray-200 space-y-2">
+      <div className="p-3 border-t border-stone-200 space-y-2">
         <Link href="/">
           <Button variant="outline" className="w-full justify-start">
             <ChevronRight className="w-4 h-4 mr-2" />
@@ -196,19 +196,19 @@ export default function AdminLayout({
   )
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-stone-50">
       {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 px-4 py-3">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-stone-200 px-4 py-3">
         <div className="flex items-center justify-between">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-2 rounded-lg hover:bg-gray-100"
+            className="p-2 rounded-lg hover:bg-stone-100"
           >
             <Menu className="w-6 h-6" />
           </button>
           <h1 className="text-lg font-semibold">Admin</h1>
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className={isSuperAdmin ? 'bg-purple-50 text-purple-700' : 'bg-blue-50 text-blue-700'}>
+            <Badge variant="outline" className={isSuperAdmin ? 'bg-clay-50 text-clay-700' : 'bg-sage-50 text-sage-700'}>
               {isSuperAdmin ? 'Super' : 'Admin'}
             </Badge>
           </div>
@@ -225,7 +225,7 @@ export default function AdminLayout({
 
       {/* Sidebar */}
       <div className={`
-        fixed top-0 left-0 z-50 h-full w-64 bg-white border-r border-gray-200 flex flex-col
+        fixed top-0 left-0 z-50 h-full w-64 bg-white border-r border-stone-200 flex flex-col
         transform transition-transform duration-200 ease-in-out
         lg:translate-x-0
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}

@@ -137,7 +137,7 @@ export default function DocumentImportDialog({
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Extraction Quality</span>
+              <span className="text-sm text-stone-600">Extraction Quality</span>
               <Badge variant={qualityScore >= 80 ? 'default' : qualityScore >= 60 ? 'secondary' : 'destructive'}>
                 {qualityScore}%
               </Badge>
@@ -150,8 +150,8 @@ export default function DocumentImportDialog({
                 </AlertDescription>
               </Alert>
             )}
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <Sparkles className="h-4 w-4 text-blue-600" />
+            <div className="flex items-center gap-2 text-sm text-stone-600">
+              <Sparkles className="h-4 w-4 text-sage-600" />
               <span>You can now review and edit the extracted context</span>
             </div>
           </div>
@@ -202,7 +202,7 @@ export default function DocumentImportDialog({
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="document-text">Document Text</Label>
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-stone-500">
                 {wordCount} words • {charCount} characters
               </div>
             </div>

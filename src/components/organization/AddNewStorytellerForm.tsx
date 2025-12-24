@@ -124,7 +124,7 @@ export function AddNewStorytellerForm({
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           disabled={loading}
         />
-        <p className="text-xs text-grey-600">
+        <p className="text-xs text-stone-600">
           Optional - An invitation link can be sent to this email
         </p>
       </div>
@@ -142,7 +142,7 @@ export function AddNewStorytellerForm({
           onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
           disabled={loading}
         />
-        <p className="text-xs text-grey-600">
+        <p className="text-xs text-stone-600">
           Optional - Provide at least email or phone number
         </p>
       </div>
@@ -174,7 +174,7 @@ export function AddNewStorytellerForm({
           rows={4}
           disabled={loading}
         />
-        <p className="text-xs text-grey-600">
+        <p className="text-xs text-stone-600">
           You can add more details later, or the storyteller can complete their profile
         </p>
       </div>

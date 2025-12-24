@@ -114,7 +114,7 @@ export function ExportPanel({ analyticsData, className }: ExportPanelProps) {
     <Card className={className}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Download className="w-5 h-5 text-blue-500" />
+          <Download className="w-5 h-5 text-sage-500" />
           Export Analytics
         </CardTitle>
         <CardDescription>
@@ -163,7 +163,7 @@ export function ExportPanel({ analyticsData, className }: ExportPanelProps) {
                 className={cn(
                   "flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors",
                   selectedSections.includes(section.id)
-                    ? "border-blue-300 bg-blue-50/50 dark:border-blue-700 dark:bg-blue-950/30"
+                    ? "border-sage-300 bg-sage-50/50 dark:border-sage-700 dark:bg-sage-950/30"
                     : "hover:border-stone-300 dark:hover:border-stone-600"
                 )}
                 onClick={() => toggleSection(section.id)}
@@ -250,11 +250,11 @@ function FormatButton({
       className={cn(
         "p-3 rounded-lg border text-left transition-colors",
         selected
-          ? "border-blue-500 bg-blue-50 dark:bg-blue-950/30"
+          ? "border-sage-500 bg-sage-50 dark:bg-sage-950/30"
           : "hover:border-stone-300 dark:hover:border-stone-600"
       )}
     >
-      <div className={cn("mb-1", selected ? "text-blue-600" : "text-muted-foreground")}>
+      <div className={cn("mb-1", selected ? "text-sage-600" : "text-muted-foreground")}>
         {icon}
       </div>
       <div className="font-medium text-sm">{label}</div>

@@ -195,10 +195,10 @@ const AdminDashboard: React.FC = () => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'pending': return <Clock className="w-4 h-4 text-yellow-500" />
-      case 'in_review': return <Eye className="w-4 h-4 text-blue-500" />
+      case 'in_review': return <Eye className="w-4 h-4 text-sage-500" />
       case 'approved': return <CheckCircle className="w-4 h-4 text-green-500" />
       case 'rejected': return <XCircle className="w-4 h-4 text-red-500" />
-      default: return <Clock className="w-4 h-4 text-grey-500" />
+      default: return <Clock className="w-4 h-4 text-stone-500" />
     }
   }
 
@@ -221,8 +221,8 @@ const AdminDashboard: React.FC = () => {
       {/* Modern Admin Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-grey-900">Dashboard</h1>
-          <p className="text-grey-600">
+          <h1 className="text-3xl font-bold text-stone-900">Dashboard</h1>
+          <p className="text-stone-600">
             Overview and platform management
           </p>
         </div>
@@ -305,21 +305,21 @@ const AdminDashboard: React.FC = () => {
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <div className="flex-1 space-y-1">
                   <p className="text-sm font-medium">New story published</p>
-                  <p className="text-xs text-grey-500">2 minutes ago</p>
+                  <p className="text-xs text-stone-500">2 minutes ago</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
-                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <div className="w-2 h-2 bg-sage-500 rounded-full"></div>
                 <div className="flex-1 space-y-1">
                   <p className="text-sm font-medium">User registration</p>
-                  <p className="text-xs text-grey-500">5 minutes ago</p>
+                  <p className="text-xs text-stone-500">5 minutes ago</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
                 <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
                 <div className="flex-1 space-y-1">
                   <p className="text-sm font-medium">Content review pending</p>
-                  <p className="text-xs text-grey-500">10 minutes ago</p>
+                  <p className="text-xs text-stone-500">10 minutes ago</p>
                 </div>
               </div>
             </div>
@@ -362,7 +362,7 @@ const AdminDashboard: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-medium text-grey-600">Pending Reviews</h3>
+                <h3 className="text-sm font-medium text-stone-600">Pending Reviews</h3>
                 <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.pendingReviews}</p>
               </div>
               <Flag className="h-8 w-8 text-orange-600" />
@@ -379,10 +379,10 @@ const AdminDashboard: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-medium text-grey-600">Total Users</h3>
+                <h3 className="text-sm font-medium text-stone-600">Total Users</h3>
                 <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.totalUsers}</p>
               </div>
-              <Users className="h-8 w-8 text-blue-600" />
+              <Users className="h-8 w-8 text-sage-600" />
             </div>
             <div className="mt-4">
               <Link href="/admin/users">
@@ -396,7 +396,7 @@ const AdminDashboard: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-medium text-grey-600">Stories Published</h3>
+                <h3 className="text-sm font-medium text-stone-600">Stories Published</h3>
                 <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.totalStories}</p>
               </div>
               <BookOpen className="h-8 w-8 text-green-600" />
@@ -413,10 +413,10 @@ const AdminDashboard: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-medium text-grey-600">Organizations</h3>
+                <h3 className="text-sm font-medium text-stone-600">Organizations</h3>
                 <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.totalOrganizations}</p>
               </div>
-              <Building2 className="h-8 w-8 text-purple-600" />
+              <Building2 className="h-8 w-8 text-clay-600" />
             </div>
             <div className="mt-4">
               <Link href="/admin/organisations">
@@ -441,7 +441,7 @@ const AdminDashboard: React.FC = () => {
                   <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
                   <div>
                     <p className="font-medium">{review.title}</p>
-                    <p className="text-sm text-grey-600">by {review.author}</p>
+                    <p className="text-sm text-stone-600">by {review.author}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -453,7 +453,7 @@ const AdminDashboard: React.FC = () => {
               </div>
             ))}
             {pendingReviews.length === 0 && (
-              <div className="text-center py-8 text-grey-500">
+              <div className="text-center py-8 text-stone-500">
                 No pending reviews
               </div>
             )}

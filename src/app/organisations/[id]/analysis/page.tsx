@@ -78,27 +78,27 @@ export default async function OrganizationAnalysisPage({ params }: OrganizationA
       <div className="container mx-auto px-6 py-8">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center text-sm text-grey-600 mb-4">
-            <span className="hover:text-blue-600 transition-colours cursor-pointer">
+          <div className="flex items-center text-sm text-stone-600 mb-4">
+            <span className="hover:text-sage-600 transition-colours cursor-pointer">
               {organisation.name}
             </span>
             <span className="mx-2">→</span>
-            <span className="text-grey-900 font-medium">Impact Analysis</span>
+            <span className="text-stone-900 font-medium">Impact Analysis</span>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-8 mb-8">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <h1 className="text-4xl font-bold text-grey-900 mb-4">
+                <h1 className="text-4xl font-bold text-stone-900 mb-4">
                   Impact Analysis Dashboard
                 </h1>
-                <p className="text-xl text-grey-700 mb-6 leading-relaxed">
+                <p className="text-xl text-stone-700 mb-6 leading-relaxed">
                   Explore the human stories, cultural impact, and systems change potential
                   across all {organisation.name} projects through comprehensive analysis.
                 </p>
-                <div className="flex items-center gap-6 text-sm text-grey-600">
+                <div className="flex items-center gap-6 text-sm text-stone-600">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-sage-500 rounded-full"></div>
                     <span>Organization: {organisation.name}</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -108,7 +108,7 @@ export default async function OrganizationAnalysisPage({ params }: OrganizationA
                 </div>
               </div>
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-sage-500 to-clay-600 rounded-xl flex items-center justify-center">
                   <Activity className="w-8 h-8 text-white" />
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default async function OrganizationAnalysisPage({ params }: OrganizationA
 
             {organisation.description && (
               <div className="mt-6 p-4 bg-stone-50 rounded-lg">
-                <p className="text-grey-700 leading-relaxed">{organisation.description}</p>
+                <p className="text-stone-700 leading-relaxed">{organisation.description}</p>
               </div>
             )}
           </div>
@@ -142,15 +142,15 @@ export default async function OrganizationAnalysisPage({ params }: OrganizationA
                   <div className="space-y-4">
                     {/* Project Stats */}
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="flex items-center gap-2 text-sm text-grey-600">
+                      <div className="flex items-center gap-2 text-sm text-stone-600">
                         <Users className="w-4 h-4" />
                         <span>{project.storytellerCount} Storytellers</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-grey-600">
+                      <div className="flex items-center gap-2 text-sm text-stone-600">
                         <FileText className="w-4 h-4" />
                         <span>{project.transcriptCount} Transcripts</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-grey-600 col-span-2">
+                      <div className="flex items-center gap-2 text-sm text-stone-600 col-span-2">
                         <Calendar className="w-4 h-4" />
                         <span>Created {new Date(project.created_at).toLocaleDateString()}</span>
                       </div>
@@ -184,13 +184,13 @@ export default async function OrganizationAnalysisPage({ params }: OrganizationA
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-grey-600 mb-4">
+              <p className="text-stone-600 mb-4">
                 To generate impact analysis, projects need to have storyteller transcripts.
                 Once transcripts are available, comprehensive analysis will show:
               </p>
-              <ul className="space-y-2 text-sm text-grey-600">
+              <ul className="space-y-2 text-sm text-stone-600">
                 <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-sage-500 rounded-full"></div>
                   <span>Cultural impact insights and themes</span>
                 </li>
                 <li className="flex items-center gap-2">
@@ -198,7 +198,7 @@ export default async function OrganizationAnalysisPage({ params }: OrganizationA
                   <span>Community empowerment metrics</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-purple-500 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-clay-500 rounded-full"></div>
                   <span>Powerful quotes and story highlights</span>
                 </li>
                 <li className="flex items-center gap-2">

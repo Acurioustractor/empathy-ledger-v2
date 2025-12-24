@@ -462,7 +462,7 @@ export const ProjectTranscriptsTab: React.FC<ProjectTranscriptsTabProps> = ({ pr
       case 'completed':
         return <Badge className="bg-green-100 text-green-700">Completed</Badge>
       case 'processing':
-        return <Badge className="bg-blue-100 text-blue-700">Processing</Badge>
+        return <Badge className="bg-sage-100 text-sage-700">Processing</Badge>
       case 'failed':
         return <Badge variant="destructive">Failed</Badge>
       default:
@@ -534,7 +534,7 @@ export const ProjectTranscriptsTab: React.FC<ProjectTranscriptsTabProps> = ({ pr
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600">{stats.totalTranscripts}</div>
+              <div className="text-2xl font-bold text-sage-600">{stats.totalTranscripts}</div>
               <div className="text-xs text-stone-600 dark:text-stone-400">Total Transcripts</div>
             </CardContent>
           </Card>
@@ -552,7 +552,7 @@ export const ProjectTranscriptsTab: React.FC<ProjectTranscriptsTabProps> = ({ pr
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600">{stats.elderReviewed}</div>
+              <div className="text-2xl font-bold text-clay-600">{stats.elderReviewed}</div>
               <div className="text-xs text-stone-600 dark:text-stone-400">Elder Reviewed</div>
             </CardContent>
           </Card>

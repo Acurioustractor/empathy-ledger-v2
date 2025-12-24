@@ -60,8 +60,8 @@ export default function ForgotPasswordPage() {
           
           <Card>
             <CardHeader className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Mail className="w-8 h-8 text-blue-600" />
+              <div className="w-16 h-16 bg-sage-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Mail className="w-8 h-8 text-sage-600" />
               </div>
               <CardTitle className="text-2xl">Forgot Password?</CardTitle>
               <CardDescription>
@@ -80,7 +80,7 @@ export default function ForgotPasswordPage() {
                   </Alert>
                   
                   <div className="text-center space-y-3">
-                    <p className="text-sm text-grey-600">
+                    <p className="text-sm text-stone-600">
                       Didn't receive the email? Check your spam folder or
                     </p>
                     <Button
@@ -121,15 +121,15 @@ export default function ForgotPasswordPage() {
                   
                   <Button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    className="w-full bg-sage-600 hover:bg-sage-700"
                     disabled={loading || !email}
                   >
                     {loading ? 'Sending...' : 'Send Reset Instructions'}
                   </Button>
                   
-                  <div className="text-center text-sm text-grey-600">
+                  <div className="text-center text-sm text-stone-600">
                     Remember your password?{' '}
-                    <Link href="/auth/signin" className="text-blue-600 hover:underline font-medium">
+                    <Link href="/auth/signin" className="text-sage-600 hover:underline font-medium">
                       Sign In
                     </Link>
                   </div>

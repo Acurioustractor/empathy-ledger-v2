@@ -325,7 +325,7 @@ export default function GeographicPage() {
             </div>
             
             {/* Map Legend */}
-            <div className="mt-4 p-4 bg-grey-50 rounded-lg">
+            <div className="mt-4 p-4 bg-stone-50 rounded-lg">
               <h4 className="font-semibold mb-2">Map Legend</h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                 <div className="flex items-center space-x-2">
@@ -337,7 +337,7 @@ export default function GeographicPage() {
                   <span>Medium Cultural Significance</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-grey-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-stone-500 rounded-full"></div>
                   <span>General Community Stories</span>
                 </div>
               </div>
@@ -365,9 +365,9 @@ export default function GeographicPage() {
                   <span>Story Density</span>
                   <span className="font-medium">{insight.storyDensity}</span>
                 </div>
-                <div className="w-full bg-grey-200 rounded-full h-2">
+                <div className="w-full bg-stone-200 rounded-full h-2">
                   <div 
-                    className="bg-blue-500 h-2 rounded-full" 
+                    className="bg-sage-500 h-2 rounded-full" 
                     style={{ 
                       width: `${Math.min(100, (insight.storyDensity / Math.max(...insights.map(i => i.storyDensity))) * 100)}%` 
                     }}
@@ -398,7 +398,7 @@ export default function GeographicPage() {
                 </h4>
                 <div className="space-y-2">
                   {insight.culturalClusters.map((cluster, i) => (
-                    <div key={i} className="flex items-center justify-between text-sm p-2 bg-grey-50 rounded">
+                    <div key={i} className="flex items-center justify-between text-sm p-2 bg-stone-50 rounded">
                       <span className="font-medium">{cluster.name}</span>
                       <div className="text-right">
                         <div className="font-medium">{cluster.storytellers}</div>

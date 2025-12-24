@@ -87,7 +87,7 @@ export default function CreateStorytellerPage() {
       <div className="container mx-auto py-8 px-4">
         <div className="text-center">
           <h2 className="text-2xl font-semibold mb-4">Please Sign In</h2>
-          <p className="text-grey-600 mb-6">You need to be signed in to create storytellers.</p>
+          <p className="text-stone-600 mb-6">You need to be signed in to create storytellers.</p>
           <Link href="/auth/signin">
             <Button>Sign In</Button>
           </Link>
@@ -107,8 +107,8 @@ export default function CreateStorytellerPage() {
           </Button>
         </Link>
         <div>
-          <h1 className="text-3xl font-bold text-grey-900">Add New Storyteller</h1>
-          <p className="text-grey-600">Quick admin form for adding storytellers</p>
+          <h1 className="text-3xl font-bold text-stone-900">Add New Storyteller</h1>
+          <p className="text-stone-600">Quick admin form for adding storytellers</p>
         </div>
       </div>
 
@@ -128,7 +128,7 @@ export default function CreateStorytellerPage() {
             {/* Essential Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-grey-700 mb-2">
+                <label className="block text-sm font-medium text-stone-700 mb-2">
                   Display Name *
                 </label>
                 <Input
@@ -139,8 +139,8 @@ export default function CreateStorytellerPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-grey-700 mb-2">
-                  Email <span className="text-grey-400">(optional)</span>
+                <label className="block text-sm font-medium text-stone-700 mb-2">
+                  Email <span className="text-stone-400">(optional)</span>
                 </label>
                 <Input
                   type="email"
@@ -153,7 +153,7 @@ export default function CreateStorytellerPage() {
 
             {/* Bio */}
             <div>
-              <label className="block text-sm font-medium text-grey-700 mb-2">
+              <label className="block text-sm font-medium text-stone-700 mb-2">
                 Bio / About
               </label>
               <Textarea
@@ -167,12 +167,12 @@ export default function CreateStorytellerPage() {
             {/* Experience & Status */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-grey-700 mb-2">
+                <label className="block text-sm font-medium text-stone-700 mb-2">
                   Years of Experience
                 </label>
                 <Select value={formData.years_of_experience} onValueChange={(value) => handleChange('years_of_experience', value)}>
-                  <SelectTrigger className="bg-white border-grey-300 text-grey-900">
-                    <SelectValue className="text-grey-900" />
+                  <SelectTrigger className="bg-white border-stone-300 text-stone-900">
+                    <SelectValue className="text-stone-900" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border shadow-lg">
                     <SelectItem value="0">New storyteller</SelectItem>
@@ -186,12 +186,12 @@ export default function CreateStorytellerPage() {
                 </Select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-grey-700 mb-2">
+                <label className="block text-sm font-medium text-stone-700 mb-2">
                   Elder Status
                 </label>
                 <Select value={formData.is_elder ? "true" : "false"} onValueChange={(value) => handleChange('is_elder', value === "true")}>
-                  <SelectTrigger className="bg-white border-grey-300 text-grey-900">
-                    <SelectValue className="text-grey-900" />
+                  <SelectTrigger className="bg-white border-stone-300 text-stone-900">
+                    <SelectValue className="text-stone-900" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border shadow-lg">
                     <SelectItem value="false">Community member</SelectItem>
@@ -204,7 +204,7 @@ export default function CreateStorytellerPage() {
             {/* Cultural & Location Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-grey-700 mb-2">
+                <label className="block text-sm font-medium text-stone-700 mb-2">
                   Cultural Background
                 </label>
                 <Input
@@ -214,7 +214,7 @@ export default function CreateStorytellerPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-grey-700 mb-2">
+                <label className="block text-sm font-medium text-stone-700 mb-2">
                   Location
                 </label>
                 <Input
@@ -227,7 +227,7 @@ export default function CreateStorytellerPage() {
 
             {/* Organization */}
             <div>
-              <label className="block text-sm font-medium text-grey-700 mb-2">
+              <label className="block text-sm font-medium text-stone-700 mb-2">
                 Organization
               </label>
               <Input

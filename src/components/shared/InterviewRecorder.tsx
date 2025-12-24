@@ -187,7 +187,7 @@ export default function InterviewRecorder({
       {/* Progress */}
       <div className="space-y-2">
         <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-600">Interview Progress</span>
+          <span className="text-stone-600">Interview Progress</span>
           <span className="font-medium">
             Question {currentQuestionIndex + 1} of {script.length}
           </span>
@@ -196,15 +196,15 @@ export default function InterviewRecorder({
       </div>
 
       {/* Current Question */}
-      <Card className="p-6 bg-blue-50 border-blue-200">
+      <Card className="p-6 bg-sage-50 border-sage-200">
         <div className="space-y-4">
           <div>
             <Badge className="mb-2">{currentQuestion.section}</Badge>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-stone-900 mb-2">
               {currentQuestion.prompt}
             </h3>
             {currentQuestion.guidingNotes && (
-              <p className="text-sm text-gray-600 italic">
+              <p className="text-sm text-stone-600 italic">
                 Note: {currentQuestion.guidingNotes}
               </p>
             )}
@@ -220,8 +220,8 @@ export default function InterviewRecorder({
             <div className="flex items-center gap-3">
               {!recording && !audioBlob && !transcribing && !saving && (
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-gray-300" />
-                  <span className="font-medium text-gray-600">Ready to Record</span>
+                  <div className="w-3 h-3 rounded-full bg-stone-300" />
+                  <span className="font-medium text-stone-600">Ready to Record</span>
                 </div>
               )}
               {recording && (
@@ -240,18 +240,18 @@ export default function InterviewRecorder({
               )}
               {transcribing && (
                 <div className="flex items-center gap-2">
-                  <Loader2 className="h-5 w-5 text-blue-500 animate-spin" />
-                  <span className="font-medium text-blue-700">Transcribing Audio...</span>
+                  <Loader2 className="h-5 w-5 text-sage-500 animate-spin" />
+                  <span className="font-medium text-sage-700">Transcribing Audio...</span>
                 </div>
               )}
               {saving && (
                 <div className="flex items-center gap-2">
-                  <Loader2 className="h-5 w-5 text-purple-500 animate-spin" />
-                  <span className="font-medium text-purple-700">Saving Interview...</span>
+                  <Loader2 className="h-5 w-5 text-clay-500 animate-spin" />
+                  <span className="font-medium text-clay-700">Saving Interview...</span>
                 </div>
               )}
             </div>
-            <div className="text-2xl font-mono font-bold text-gray-900">
+            <div className="text-2xl font-mono font-bold text-stone-900">
               {formatTime(recordingTime)}
             </div>
           </div>

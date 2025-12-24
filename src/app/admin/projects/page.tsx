@@ -200,20 +200,20 @@ export default function AdminProjectsPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active': return 'bg-green-100 text-green-800'
-      case 'completed': return 'bg-blue-100 text-blue-800'
+      case 'completed': return 'bg-sage-100 text-sage-800'
       case 'pending': return 'bg-yellow-100 text-yellow-800'
-      case 'archived': return 'bg-grey-100 text-grey-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'archived': return 'bg-stone-100 text-stone-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'cultural_preservation': return 'bg-purple-100 text-purple-800'
+      case 'cultural_preservation': return 'bg-clay-100 text-clay-800'
       case 'oral_history': return 'bg-orange-100 text-orange-800'
       case 'community_stories': return 'bg-teal-100 text-teal-800'
-      case 'educational': return 'bg-indigo-100 text-indigo-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'educational': return 'bg-terracotta-100 text-terracotta-800'
+      default: return 'bg-stone-100 text-stone-800'
     }
   }
 
@@ -243,8 +243,8 @@ export default function AdminProjectsPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-grey-900">Projects</h1>
-          <p className="text-grey-600">
+          <h1 className="text-3xl font-bold text-stone-900">Projects</h1>
+          <p className="text-stone-600">
             Manage storytelling projects, track progress, and coordinate community initiatives
           </p>
         </div>
@@ -318,7 +318,7 @@ export default function AdminProjectsPage() {
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex-1 max-w-md">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-grey-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
                 <Input
                   placeholder="Search projects..."
                   value={searchTerm}
@@ -408,7 +408,7 @@ export default function AdminProjectsPage() {
                       <TableCell>
                         <div>
                           <div className="font-medium">{project.name}</div>
-                          <div className="text-sm text-grey-500 max-w-xs truncate">
+                          <div className="text-sm text-stone-500 max-w-xs truncate">
                             {project.description}
                           </div>
                         </div>
@@ -428,13 +428,13 @@ export default function AdminProjectsPage() {
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-1">
-                          <Users className="h-3 w-3 text-grey-400" />
+                          <Users className="h-3 w-3 text-stone-400" />
                           <span className="text-sm">{project.storyteller_count}</span>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-1">
-                          <BookOpen className="h-3 w-3 text-grey-400" />
+                          <BookOpen className="h-3 w-3 text-stone-400" />
                           <span className="text-sm">{project.story_count}</span>
                         </div>
                       </TableCell>
@@ -493,7 +493,7 @@ export default function AdminProjectsPage() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between px-2 py-4">
-              <div className="text-sm text-grey-600">
+              <div className="text-sm text-stone-600">
                 Showing {(currentPage - 1) * 20 + 1} to {Math.min(currentPage * 20, totalCount)} of {totalCount} projects
               </div>
               <div className="flex items-center space-x-2">

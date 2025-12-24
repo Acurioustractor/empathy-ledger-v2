@@ -68,7 +68,7 @@ const universalPrinciples = [
   {
     principle: "Consent",
     description: "Ensure you have permission to share others' experiences",
-    icon: <Shield className="w-5 h-5 text-blue-600" />
+    icon: <Shield className="w-5 h-5 text-sage-600" />
   },
   {
     principle: "Context",
@@ -227,9 +227,9 @@ export default function GuidelinesPage() {
                 </AlertDescription>
               </Alert>
 
-              <Alert className="border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/20">
-                <Info className="h-4 w-4 text-blue-600" />
-                <AlertDescription className="text-blue-800 dark:text-blue-200">
+              <Alert className="border-sage-200 bg-sage-50 dark:border-sage-800 dark:bg-sage-950/20">
+                <Info className="h-4 w-4 text-sage-600" />
+                <AlertDescription className="text-sage-800 dark:text-sage-200">
                   <strong>Privacy First:</strong> Use our flexible privacy controls to share only with those you choose. Not everything needs to be public.
                 </AlertDescription>
               </Alert>

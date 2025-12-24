@@ -160,10 +160,10 @@ export default function AdminWorldTourAnalyticsPage() {
       <div className="py-8 text-center">
         <div className="flex flex-col items-center gap-4">
           <div className="relative">
-            <div className="w-16 h-16 border-4 border-gray-200 rounded-full animate-pulse" />
-            <RefreshCw className="w-8 h-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin text-gray-500" />
+            <div className="w-16 h-16 border-4 border-stone-200 rounded-full animate-pulse" />
+            <RefreshCw className="w-8 h-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin text-stone-500" />
           </div>
-          <p className="text-gray-500">Loading World Tour analytics...</p>
+          <p className="text-stone-500">Loading World Tour analytics...</p>
         </div>
       </div>
     )
@@ -187,17 +187,17 @@ export default function AdminWorldTourAnalyticsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <Link href="/world-tour" className="text-gray-500 hover:text-gray-700">
+            <Link href="/world-tour" className="text-stone-500 hover:text-stone-700">
               <Globe className="w-5 h-5" />
             </Link>
-            <ChevronRight className="w-4 h-4 text-gray-400" />
-            <Badge variant="outline" className="text-indigo-600 border-indigo-300">
+            <ChevronRight className="w-4 h-4 text-stone-400" />
+            <Badge variant="outline" className="text-terracotta-600 border-terracotta-300">
               <Shield className="w-3 h-3 mr-1" />
               Admin Analytics
             </Badge>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">World Tour Analytics</h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <h1 className="text-2xl font-bold text-stone-900">World Tour Analytics</h1>
+          <p className="text-stone-500 text-sm mt-1">
             Full analytics dashboard with admin-only metrics and data export
           </p>
         </div>
@@ -216,12 +216,12 @@ export default function AdminWorldTourAnalyticsPage() {
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-blue-100 text-blue-600">
+              <div className="p-2 rounded-lg bg-sage-100 text-sage-600">
                 <Mic className="w-5 h-5" />
               </div>
               <div>
                 <p className="text-2xl font-bold">{stats.totalTranscripts}</p>
-                <p className="text-xs text-gray-500">Interviews</p>
+                <p className="text-xs text-stone-500">Interviews</p>
               </div>
             </div>
           </CardContent>
@@ -234,7 +234,7 @@ export default function AdminWorldTourAnalyticsPage() {
               </div>
               <div>
                 <p className="text-2xl font-bold">{storytellerCount}</p>
-                <p className="text-xs text-gray-500">Storytellers</p>
+                <p className="text-xs text-stone-500">Storytellers</p>
               </div>
             </div>
           </CardContent>
@@ -242,12 +242,12 @@ export default function AdminWorldTourAnalyticsPage() {
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-purple-100 text-purple-600">
+              <div className="p-2 rounded-lg bg-clay-100 text-clay-600">
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
                 <p className="text-2xl font-bold">{stats.uniqueThemes}</p>
-                <p className="text-xs text-gray-500">Themes</p>
+                <p className="text-xs text-stone-500">Themes</p>
               </div>
             </div>
           </CardContent>
@@ -260,7 +260,7 @@ export default function AdminWorldTourAnalyticsPage() {
               </div>
               <div>
                 <p className="text-2xl font-bold">{stats.totalPublishedStories || stats.totalStories}</p>
-                <p className="text-xs text-gray-500">Stories</p>
+                <p className="text-xs text-stone-500">Stories</p>
               </div>
             </div>
           </CardContent>
@@ -270,7 +270,7 @@ export default function AdminWorldTourAnalyticsPage() {
       {/* Main Dashboard Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <TabsList className="bg-gray-100 p-1 flex-wrap h-auto">
+          <TabsList className="bg-stone-100 p-1 flex-wrap h-auto">
             <TabsTrigger value="overview" className="gap-2">
               <BarChart3 className="w-4 h-4" />
               Overview
@@ -327,20 +327,20 @@ export default function AdminWorldTourAnalyticsPage() {
         {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="border-blue-200 bg-blue-50/50">
+            <Card className="border-sage-200 bg-sage-50/50">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-blue-600 font-medium">Analyzed</p>
-                    <p className="text-3xl font-bold text-blue-700">{stats.analyzedTranscripts}</p>
+                    <p className="text-sm text-sage-600 font-medium">Analyzed</p>
+                    <p className="text-3xl font-bold text-sage-700">{stats.analyzedTranscripts}</p>
                   </div>
-                  <Zap className="w-8 h-8 text-blue-400" />
+                  <Zap className="w-8 h-8 text-sage-400" />
                 </div>
                 <Progress
                   value={stats.totalTranscripts > 0 ? (stats.analyzedTranscripts / stats.totalTranscripts) * 100 : 0}
                   className="h-2 mt-2"
                 />
-                <p className="text-xs text-blue-600 mt-1">
+                <p className="text-xs text-sage-600 mt-1">
                   {stats.totalTranscripts > 0 ? Math.round((stats.analyzedTranscripts / stats.totalTranscripts) * 100) : 0}% of interviews
                 </p>
               </CardContent>
@@ -384,20 +384,20 @@ export default function AdminWorldTourAnalyticsPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-purple-200 bg-purple-50/50">
+            <Card className="border-clay-200 bg-clay-50/50">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-purple-600 font-medium">With Transcripts</p>
-                    <p className="text-3xl font-bold text-purple-700">{stats.storiesWithTranscripts}</p>
+                    <p className="text-sm text-clay-600 font-medium">With Transcripts</p>
+                    <p className="text-3xl font-bold text-clay-700">{stats.storiesWithTranscripts}</p>
                   </div>
-                  <FileText className="w-8 h-8 text-purple-400" />
+                  <FileText className="w-8 h-8 text-clay-400" />
                 </div>
                 <Progress
                   value={stats.totalStories > 0 ? (stats.storiesWithTranscripts / stats.totalStories) * 100 : 0}
                   className="h-2 mt-2"
                 />
-                <p className="text-xs text-purple-600 mt-1">
+                <p className="text-xs text-clay-600 mt-1">
                   {stats.totalStories > 0 ? Math.round((stats.storiesWithTranscripts / stats.totalStories) * 100) : 0}% of stories
                 </p>
               </CardContent>
@@ -417,20 +417,20 @@ export default function AdminWorldTourAnalyticsPage() {
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-3 gap-6">
-                <div className="text-center p-4 rounded-lg bg-gray-50">
-                  <p className="text-3xl font-bold text-gray-900">{stats.totalStories}</p>
-                  <p className="text-sm text-gray-500">Stories on Map</p>
-                  <p className="text-xs text-gray-400 mt-1">With location data</p>
+                <div className="text-center p-4 rounded-lg bg-stone-50">
+                  <p className="text-3xl font-bold text-stone-900">{stats.totalStories}</p>
+                  <p className="text-sm text-stone-500">Stories on Map</p>
+                  <p className="text-xs text-stone-400 mt-1">With location data</p>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-gray-50">
-                  <p className="text-3xl font-bold text-gray-900">{stats.totalStoriesWithoutLocation || 0}</p>
-                  <p className="text-sm text-gray-500">Missing Location</p>
-                  <p className="text-xs text-gray-400 mt-1">Need coordinates</p>
+                <div className="text-center p-4 rounded-lg bg-stone-50">
+                  <p className="text-3xl font-bold text-stone-900">{stats.totalStoriesWithoutLocation || 0}</p>
+                  <p className="text-sm text-stone-500">Missing Location</p>
+                  <p className="text-xs text-stone-400 mt-1">Need coordinates</p>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-gray-50">
-                  <p className="text-3xl font-bold text-gray-900">{stats.countriesRequested}</p>
-                  <p className="text-sm text-gray-500">Countries Requested</p>
-                  <p className="text-xs text-gray-400 mt-1">Tour nominations</p>
+                <div className="text-center p-4 rounded-lg bg-stone-50">
+                  <p className="text-3xl font-bold text-stone-900">{stats.countriesRequested}</p>
+                  <p className="text-sm text-stone-500">Countries Requested</p>
+                  <p className="text-xs text-stone-400 mt-1">Tour nominations</p>
                 </div>
               </div>
             </CardContent>
@@ -479,7 +479,7 @@ export default function AdminWorldTourAnalyticsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Download className="w-5 h-5 text-indigo-500" />
+                <Download className="w-5 h-5 text-terracotta-500" />
                 Data Export
               </CardTitle>
               <CardDescription>

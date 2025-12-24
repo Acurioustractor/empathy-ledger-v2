@@ -53,11 +53,11 @@ export default function TestSimplePage() {
       <h1>Simple Auth Test</h1>
       <button 
         onClick={testSimpleAuth}
-        className="bg-purple-500 text-white px-4 py-2 rounded"
+        className="bg-clay-500 text-white px-4 py-2 rounded"
       >
         Test Direct Fetch
       </button>
-      <div className="mt-4 p-4 bg-grey-100 rounded">
+      <div className="mt-4 p-4 bg-stone-100 rounded">
         <pre>{result}</pre>
       </div>
     </div>

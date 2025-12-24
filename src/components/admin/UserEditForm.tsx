@@ -193,10 +193,10 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ userId }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active': return 'text-green-600 border-green-600'
-      case 'inactive': return 'text-grey-600 border-grey-600'
+      case 'inactive': return 'text-stone-600 border-grey-600'
       case 'suspended': return 'text-red-600 border-red-600'
       case 'pending': return 'text-yellow-600 border-yellow-600'
-      default: return 'text-grey-600 border-grey-600'
+      default: return 'text-stone-600 border-grey-600'
     }
   }
 
@@ -413,7 +413,7 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ userId }) => {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label className="text-base font-medium">Storyteller</Label>
-                    <p className="text-sm text-grey-600">Can create and share stories</p>
+                    <p className="text-sm text-stone-600">Can create and share stories</p>
                   </div>
                   <Switch
                     checked={formData.is_storyteller}
@@ -424,7 +424,7 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ userId }) => {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label className="text-base font-medium">Community Elder</Label>
-                    <p className="text-sm text-grey-600">Has special cultural oversight privileges</p>
+                    <p className="text-sm text-stone-600">Has special cultural oversight privileges</p>
                   </div>
                   <Switch
                     checked={formData.is_elder}
@@ -435,7 +435,7 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ userId }) => {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label className="text-base font-medium">Administrator</Label>
-                    <p className="text-sm text-grey-600">Has admin access to manage platform</p>
+                    <p className="text-sm text-stone-600">Has admin access to manage platform</p>
                   </div>
                   <Switch
                     checked={formData.is_admin}
@@ -458,7 +458,7 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ userId }) => {
               <div className="flex items-center justify-between">
                 <div>
                   <Label className="text-base font-medium">Email Verified</Label>
-                  <p className="text-sm text-grey-600">Email address has been verified</p>
+                  <p className="text-sm text-stone-600">Email address has been verified</p>
                 </div>
                 <Switch
                   checked={formData.verification_email}
@@ -469,7 +469,7 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ userId }) => {
               <div className="flex items-center justify-between">
                 <div>
                   <Label className="text-base font-medium">Identity Verified</Label>
-                  <p className="text-sm text-grey-600">Identity has been verified</p>
+                  <p className="text-sm text-stone-600">Identity has been verified</p>
                 </div>
                 <Switch
                   checked={formData.verification_identity}
@@ -480,7 +480,7 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ userId }) => {
               <div className="flex items-center justify-between">
                 <div>
                   <Label className="text-base font-medium">Cultural Verification</Label>
-                  <p className="text-sm text-grey-600">Cultural background has been verified</p>
+                  <p className="text-sm text-stone-600">Cultural background has been verified</p>
                 </div>
                 <Switch
                   checked={formData.verification_cultural}
@@ -501,16 +501,16 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ userId }) => {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-grey-600">Stories Shared</p>
+                    <p className="text-sm text-stone-600">Stories Shared</p>
                     <p className="text-2xl font-bold">{user.stats?.stories_count || 0}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-grey-600">Stories Read</p>
+                    <p className="text-sm text-stone-600">Stories Read</p>
                     <p className="text-2xl font-bold">{user.stats?.stories_read || 0}</p>
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm text-grey-600">Community Engagement</p>
+                  <p className="text-sm text-stone-600">Community Engagement</p>
                   <p className="text-2xl font-bold">{user.stats?.community_engagement || 0}%</p>
                 </div>
               </CardContent>
@@ -522,18 +522,18 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ userId }) => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <p className="text-sm text-grey-600">Member Since</p>
+                  <p className="text-sm text-stone-600">Member Since</p>
                   <p className="font-medium">{new Date(user.created_at).toLocaleDateString()}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-grey-600">Last Sign In</p>
+                  <p className="text-sm text-stone-600">Last Sign In</p>
                   <p className="font-medium">
                     {user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString() : 'Never'}
                   </p>
                 </div>
                 {user.organisation && (
                   <div>
-                    <p className="text-sm text-grey-600">Organization</p>
+                    <p className="text-sm text-stone-600">Organization</p>
                     <p className="font-medium flex items-center gap-1">
                       <Building2 className="w-4 h-4" />
                       {user.organisation.name}

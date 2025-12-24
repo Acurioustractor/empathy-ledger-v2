@@ -127,7 +127,7 @@ export function LocationEditor({
       <div className="flex items-center gap-1 group">
         {currentLocation ? (
           <span
-            className="text-xs text-grey-600 hover:text-grey-800 cursor-pointer flex items-center gap-1"
+            className="text-xs text-stone-600 hover:text-stone-800 cursor-pointer flex items-center gap-1"
             onClick={() => setIsEditing(true)}
           >
             <MapPin className="w-3 h-3" />
@@ -135,7 +135,7 @@ export function LocationEditor({
           </span>
         ) : (
           <span
-            className="text-xs text-grey-400 hover:text-grey-600 cursor-pointer flex items-center gap-1"
+            className="text-xs text-stone-400 hover:text-stone-600 cursor-pointer flex items-center gap-1"
             onClick={() => setIsEditing(true)}
           >
             <MapPin className="w-3 h-3" />

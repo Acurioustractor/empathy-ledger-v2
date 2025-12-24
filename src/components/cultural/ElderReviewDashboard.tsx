@@ -356,7 +356,7 @@ export function ElderReviewDashboard() {
                           <h3 className="font-medium text-earth-800 truncate">{item.title}</h3>
                           {getPriorityBadge(item.priority)}
                           {item.community_input_required && (
-                            <Badge className="bg-purple-100 text-purple-700 border-purple-200">
+                            <Badge className="bg-clay-100 text-clay-700 border-clay-200">
                               <Users className="w-3 h-3 mr-1" />
                               Community Input
                             </Badge>
@@ -442,8 +442,8 @@ export function ElderReviewDashboard() {
                     <p className="text-3xl font-bold text-earth-700">{stats.elder_review_required}</p>
                     <p className="text-sm text-stone-500">Elder Review Required</p>
                   </div>
-                  <div className="text-center p-4 bg-purple-50 rounded-lg">
-                    <p className="text-3xl font-bold text-purple-700">{stats.pending_elder_review}</p>
+                  <div className="text-center p-4 bg-clay-50 rounded-lg">
+                    <p className="text-3xl font-bold text-clay-700">{stats.pending_elder_review}</p>
                     <p className="text-sm text-stone-500">Pending Elder Review</p>
                   </div>
                 </div>
@@ -534,7 +534,7 @@ export function ElderReviewDashboard() {
               variant="outline"
               onClick={() => handleSubmitDecision('needs_consultation')}
               disabled={submitting || !reviewNotes.trim()}
-              className="text-purple-600 border-purple-200 hover:bg-purple-50"
+              className="text-clay-600 border-clay-200 hover:bg-clay-50"
             >
               <MessageSquare className="w-4 h-4 mr-1" />
               Request Consultation

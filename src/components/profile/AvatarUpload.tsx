@@ -122,7 +122,7 @@ export function AvatarUpload({
       )}
 
       {isEditing && (
-        <p className="text-xs text-grey-600 text-center">
+        <p className="text-xs text-stone-600 text-center">
           Recommended: Square image, at least 400x400px
           <br />
           Max file size: 5MB

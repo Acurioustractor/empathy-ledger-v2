@@ -133,7 +133,7 @@ export const QuoteAnalysis: React.FC<QuoteAnalysisProps> = ({
     if (significance >= 80) return 'text-red-600 bg-red-50';
     if (significance >= 60) return 'text-orange-600 bg-orange-50';
     if (significance >= 40) return 'text-yellow-600 bg-yellow-50';
-    return 'text-grey-600 bg-grey-50';
+    return 'text-stone-600 bg-stone-50';
   };
 
   const getApprovalBadge = (approval: WisdomQuote['elderApproval']) => {
@@ -238,7 +238,7 @@ export const QuoteAnalysis: React.FC<QuoteAnalysisProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 w-4 h-4" />
               <Input
                 placeholder="Search quotes, themes, or storytellers..."
                 value={searchTerm}
@@ -360,7 +360,7 @@ export const QuoteAnalysis: React.FC<QuoteAnalysisProps> = ({
               </div>
 
               {/* Quote Text */}
-              <blockquote className="text-lg italic leading-relaxed text-grey-800">
+              <blockquote className="text-lg italic leading-relaxed text-stone-800">
                 "{expandedQuote === quote.id ? quote.text : 
                    quote.text.length > 200 ? `${quote.text.substring(0, 200)}...` : quote.text}"
               </blockquote>
@@ -402,7 +402,7 @@ export const QuoteAnalysis: React.FC<QuoteAnalysisProps> = ({
                   
                   <div className="flex items-center space-x-4 text-sm">
                     <div className="flex items-center space-x-1">
-                      <TrendingUp className="w-4 h-4 text-blue-500" />
+                      <TrendingUp className="w-4 h-4 text-sage-500" />
                       <span>Cultural Impact Score: {Math.round(quote.significance * 0.8 + Math.random() * 20)}</span>
                     </div>
                     <div className="flex items-center space-x-1">
@@ -420,7 +420,7 @@ export const QuoteAnalysis: React.FC<QuoteAnalysisProps> = ({
       {filteredQuotes.length === 0 && (
         <Card>
           <CardContent className="text-center py-12">
-            <Lightbulb className="w-16 h-16 mx-auto mb-4 text-grey-400" />
+            <Lightbulb className="w-16 h-16 mx-auto mb-4 text-stone-400" />
             <h3 className="text-lg font-medium mb-2">No Wisdom Quotes Found</h3>
             <p className="text-muted-foreground">
               {searchTerm || selectedThemes.length > 0 ? 

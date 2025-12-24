@@ -68,7 +68,7 @@ const CONTENT_SHARING_LEVELS = [
     value: 'sensitive',
     label: 'Sensitive Content',
     description: 'Sensitive content requiring careful handling',
-    colour: 'text-blue-800 bg-blue-100'
+    colour: 'text-sage-800 bg-sage-100'
   },
   {
     value: 'high_sensitivity',
@@ -298,7 +298,7 @@ export default function CreateStoryPage() {
             <Typography variant="h1" className="mb-4">
               Share Your Story
             </Typography>
-            <Typography variant="large" className="text-grey-600">
+            <Typography variant="large" className="text-stone-600">
               Every story matters - share your experience with the world
             </Typography>
           </div>
@@ -347,7 +347,7 @@ export default function CreateStoryPage() {
                         <SelectItem key={type.value} value={type.value}>
                           <div>
                             <div className="font-medium">{type.label}</div>
-                            <div className="text-xs text-grey-500">{type.description}</div>
+                            <div className="text-xs text-stone-500">{type.description}</div>
                           </div>
                         </SelectItem>
                       ))}
@@ -374,7 +374,7 @@ export default function CreateStoryPage() {
                         <SelectItem key={audience.value} value={audience.value}>
                           <div>
                             <div className="font-medium">{audience.label}</div>
-                            <div className="text-xs text-grey-500">{audience.description}</div>
+                            <div className="text-xs text-stone-500">{audience.description}</div>
                           </div>
                         </SelectItem>
                       ))}
@@ -400,7 +400,7 @@ export default function CreateStoryPage() {
                 {errors.content && (
                   <p className="text-red-600 text-sm mt-1">{errors.content}</p>
                 )}
-                <div className="text-xs text-grey-500 mt-1">
+                <div className="text-xs text-stone-500 mt-1">
                   {formData.content.length} characters • ~{Math.ceil(formData.content.split(' ').length / 200)} min read
                 </div>
               </div>
@@ -434,7 +434,7 @@ export default function CreateStoryPage() {
                             <Shield className="h-3 w-3" />
                             <span className="font-medium">{level.label}</span>
                           </div>
-                          <div className="text-xs text-grey-500 mt-1">{level.description}</div>
+                          <div className="text-xs text-stone-500 mt-1">{level.description}</div>
                         </div>
                       </SelectItem>
                     ))}
@@ -472,7 +472,7 @@ export default function CreateStoryPage() {
                     Location (Optional)
                   </label>
                   <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400 h-4 w-4" />
+                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 h-4 w-4" />
                     <Input
                       value={formData.location}
                       onChange={(e) => handleInputChange('location', e.target.value)}
@@ -487,7 +487,7 @@ export default function CreateStoryPage() {
                     Tags (Optional)
                   </label>
                   <div className="relative">
-                    <Tag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400 h-4 w-4" />
+                    <Tag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 h-4 w-4" />
                     <Input
                       value={formData.tags}
                       onChange={(e) => handleInputChange('tags', e.target.value)}
@@ -508,7 +508,7 @@ export default function CreateStoryPage() {
             </Typography>
             
             <div className="space-y-4">
-              <p className="text-sm text-grey-600">
+              <p className="text-sm text-stone-600">
                 Add photos, videos, or audio recordings to enrich your story. 
                 Audio and video files will be automatically transcribed.
               </p>
@@ -532,7 +532,7 @@ export default function CreateStoryPage() {
                   </p>
                   <div className="space-y-2">
                     {formData.media_assets.map((media, index) => (
-                      <div key={index} className="flex items-center gap-2 text-sm text-grey-600">
+                      <div key={index} className="flex items-center gap-2 text-sm text-stone-600">
                         <CheckCircle className="h-4 w-4 text-green-500" />
                         {media.filename}
                       </div>
@@ -563,7 +563,7 @@ export default function CreateStoryPage() {
                       <label htmlFor="cultural-review" className="text-sm font-medium cursor-pointer">
                         Cultural Review
                       </label>
-                      <p className="text-xs text-grey-600 mt-1">
+                      <p className="text-xs text-stone-600 mt-1">
                         Have this story reviewed by cultural advisors before publication
                       </p>
                     </div>
@@ -579,7 +579,7 @@ export default function CreateStoryPage() {
                       <label htmlFor="elder-approval" className="text-sm font-medium cursor-pointer">
                         Elder Approval
                       </label>
-                      <p className="text-xs text-grey-600 mt-1">
+                      <p className="text-xs text-stone-600 mt-1">
                         Have this story approved by community elders before publication
                       </p>
                     </div>
@@ -597,7 +597,7 @@ export default function CreateStoryPage() {
                   <label htmlFor="featured" className="text-sm font-medium cursor-pointer">
                     Nominate as Featured Story
                   </label>
-                  <p className="text-xs text-grey-600 mt-1">
+                  <p className="text-xs text-stone-600 mt-1">
                     Suggest this story for highlighting on the platform
                   </p>
                 </div>
@@ -643,7 +643,7 @@ export default function CreateStoryPage() {
                 </Button>
               </div>
               
-              <Typography variant="small" className="text-grey-600 text-center sm:text-right">
+              <Typography variant="small" className="text-stone-600 text-center sm:text-right">
                 {(formData.story_type === 'cultural' || formData.cultural_sensitivity_level === 'high_sensitivity' || formData.cultural_sensitivity_level === 'restricted')
                   ? 'Cultural and sensitive stories undergo review to ensure respectful sharing'
                   : 'Your story will be published once submitted for review'

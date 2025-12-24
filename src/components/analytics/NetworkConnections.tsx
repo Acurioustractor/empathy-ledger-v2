@@ -86,15 +86,15 @@ export function NetworkConnections({
   const getConnectionTypeColor = (type: string) => {
     switch (type) {
       case 'thematic':
-        return 'bg-purple-100 text-purple-700'
+        return 'bg-clay-100 text-clay-700'
       case 'geographic':
         return 'bg-green-100 text-green-700'
       case 'professional':
-        return 'bg-blue-100 text-blue-700'
+        return 'bg-sage-100 text-sage-700'
       case 'cultural':
         return 'bg-orange-100 text-orange-700'
       default:
-        return 'bg-grey-100 text-grey-700'
+        return 'bg-stone-100 text-stone-700'
     }
   }
 
@@ -131,10 +131,10 @@ export function NetworkConnections({
               ))}
             </div>
           ) : (
-            <div className="text-center text-grey-500 py-8">
+            <div className="text-center text-stone-500 py-8">
               <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
               <Typography variant="body">No connections yet</Typography>
-              <Typography variant="small" className="text-grey-400">
+              <Typography variant="small" className="text-stone-400">
                 Connect with other storytellers to build your network
               </Typography>
             </div>
@@ -171,11 +171,11 @@ export function NetworkConnections({
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <Typography variant="h3" className="text-2xl font-bold text-blue-600">
+            <div className="text-center p-4 bg-sage-50 rounded-lg">
+              <Typography variant="h3" className="text-2xl font-bold text-sage-600">
                 {connections.length}
               </Typography>
-              <Typography variant="small" className="text-grey-600">
+              <Typography variant="small" className="text-stone-600">
                 Active Connections
               </Typography>
             </div>
@@ -184,16 +184,16 @@ export function NetworkConnections({
               <Typography variant="h3" className="text-2xl font-bold text-green-600">
                 {Math.round(connections.reduce((sum, c) => sum + c.connectionStrength, 0) / connections.length * 100) || 0}%
               </Typography>
-              <Typography variant="small" className="text-grey-600">
+              <Typography variant="small" className="text-stone-600">
                 Avg. Connection Strength
               </Typography>
             </div>
 
-            <div className="text-center p-4 bg-purple-50 rounded-lg">
-              <Typography variant="h3" className="text-2xl font-bold text-purple-600">
+            <div className="text-center p-4 bg-clay-50 rounded-lg">
+              <Typography variant="h3" className="text-2xl font-bold text-clay-600">
                 {[...new Set(connections.flatMap(c => c.sharedThemes))].length}
               </Typography>
-              <Typography variant="small" className="text-grey-600">
+              <Typography variant="small" className="text-stone-600">
                 Shared Themes
               </Typography>
             </div>
@@ -219,7 +219,7 @@ interface ConnectionCardProps {
 
 function ConnectionCard({ connection }: ConnectionCardProps) {
   return (
-    <div className="p-4 border border-grey-200 rounded-lg hover:shadow-md transition-shadow">
+    <div className="p-4 border border-stone-200 rounded-lg hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
@@ -237,7 +237,7 @@ function ConnectionCard({ connection }: ConnectionCardProps) {
             </Badge>
           </div>
 
-          <div className="flex items-center gap-1 mb-2 text-grey-600">
+          <div className="flex items-center gap-1 mb-2 text-stone-600">
             <MapPin className="h-3 w-3" />
             <Typography variant="small">{connection.location}</Typography>
             <span className="mx-2">•</span>
@@ -245,7 +245,7 @@ function ConnectionCard({ connection }: ConnectionCardProps) {
             <Typography variant="small">{connection.storiesCount} stories</Typography>
           </div>
 
-          <Typography variant="small" className="text-grey-600 mb-3">
+          <Typography variant="small" className="text-stone-600 mb-3">
             {connection.reason}
           </Typography>
 
@@ -259,23 +259,23 @@ function ConnectionCard({ connection }: ConnectionCardProps) {
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Typography variant="small" className="text-grey-500">
+              <Typography variant="small" className="text-stone-500">
                 Connection strength:
               </Typography>
               <div className="flex items-center gap-1">
-                <div className="w-16 h-2 bg-grey-200 rounded-full overflow-hidden">
+                <div className="w-16 h-2 bg-stone-200 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-blue-500 rounded-full"
+                    className="h-full bg-sage-500 rounded-full"
                     style={{ width: `${connection.connectionStrength * 100}%` }}
                   />
                 </div>
-                <Typography variant="small" className="text-grey-600 min-w-[2.5rem]">
+                <Typography variant="small" className="text-stone-600 min-w-[2.5rem]">
                   {Math.round(connection.connectionStrength * 100)}%
                 </Typography>
               </div>
             </div>
 
-            <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-800">
+            <Button variant="ghost" size="sm" className="text-sage-600 hover:text-sage-800">
               <MessageSquare className="h-3 w-3 mr-1" />
               Message
             </Button>
@@ -300,24 +300,24 @@ interface RecommendationCardProps {
 
 function RecommendationCard({ recommendation }: RecommendationCardProps) {
   return (
-    <div className="p-4 border-2 border-dashed border-blue-200 rounded-lg bg-blue-50/50">
+    <div className="p-4 border-2 border-dashed border-sage-200 rounded-lg bg-sage-50/50">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
             <Typography variant="h4" className="font-semibold">
               {recommendation.name}
             </Typography>
-            <Badge variant="default" className="text-xs bg-blue-100 text-blue-700">
+            <Badge variant="default" className="text-xs bg-sage-100 text-sage-700">
               Recommended
             </Badge>
           </div>
 
-          <div className="flex items-center gap-1 mb-2 text-grey-600">
+          <div className="flex items-center gap-1 mb-2 text-stone-600">
             <MapPin className="h-3 w-3" />
             <Typography variant="small">{recommendation.location}</Typography>
           </div>
 
-          <Typography variant="small" className="text-grey-600 mb-3">
+          <Typography variant="small" className="text-stone-600 mb-3">
             {recommendation.reason}
           </Typography>
 
@@ -331,15 +331,15 @@ function RecommendationCard({ recommendation }: RecommendationCardProps) {
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Typography variant="small" className="text-grey-500">
+              <Typography variant="small" className="text-stone-500">
                 Similarity:
               </Typography>
-              <Typography variant="small" className="text-blue-600 font-medium">
+              <Typography variant="small" className="text-sage-600 font-medium">
                 {Math.round(recommendation.connectionStrength * 100)}% match
               </Typography>
             </div>
 
-            <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
+            <Button size="sm" className="bg-sage-600 hover:bg-sage-700 text-white">
               Connect
               <ArrowRight className="h-3 w-3 ml-1" />
             </Button>
@@ -353,15 +353,15 @@ function RecommendationCard({ recommendation }: RecommendationCardProps) {
 function getConnectionTypeColor(type: string) {
   switch (type) {
     case 'thematic':
-      return 'bg-purple-100 text-purple-700'
+      return 'bg-clay-100 text-clay-700'
     case 'geographic':
       return 'bg-green-100 text-green-700'
     case 'professional':
-      return 'bg-blue-100 text-blue-700'
+      return 'bg-sage-100 text-sage-700'
     case 'cultural':
       return 'bg-orange-100 text-orange-700'
     default:
-      return 'bg-grey-100 text-grey-700'
+      return 'bg-stone-100 text-stone-700'
   }
 }
 

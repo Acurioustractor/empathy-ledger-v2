@@ -197,7 +197,7 @@ export function GuidedStoryCreator({
             <Typography variant="h2" className="text-2xl font-semibold">
               {template.title}
             </Typography>
-            <Typography variant="body2" className="text-grey-600">
+            <Typography variant="body2" className="text-stone-600">
               {template.description}
             </Typography>
           </div>
@@ -229,13 +229,13 @@ export function GuidedStoryCreator({
           <Typography variant="subtitle2" className="font-medium">
             Story Progress
           </Typography>
-          <Typography variant="caption" className="text-sm text-grey-600">
+          <Typography variant="caption" className="text-sm text-stone-600">
             {Math.round(progress)}% Complete
           </Typography>
         </div>
         <Progress value={progress} className="h-2" />
 
-        <div className="flex items-center justify-between mt-3 text-sm text-grey-600">
+        <div className="flex items-center justify-between mt-3 text-sm text-stone-600">
           <span>
             Step {Math.max(0, currentStep + 1)} of {sections.length + 1}
           </span>
@@ -278,7 +278,7 @@ export function GuidedStoryCreator({
                 </div>
 
                 {showGuidance && (
-                  <Alert className="bg-blue-50 border-blue-200">
+                  <Alert className="bg-sage-50 border-sage-200">
                     <Lightbulb className="h-4 w-4" />
                     <AlertDescription>
                       <strong>Title Tips:</strong> A good title captures the essence of your story and draws readers in.
@@ -313,7 +313,7 @@ export function GuidedStoryCreator({
                 />
 
                 {showGuidance && (
-                  <Alert className="bg-blue-50 border-blue-200">
+                  <Alert className="bg-sage-50 border-sage-200">
                     <Lightbulb className="h-4 w-4" />
                     <AlertDescription>
                       <strong>Writing Guidance:</strong> {currentPrompt.guidance}
@@ -327,7 +327,7 @@ export function GuidedStoryCreator({
                 )}
 
                 {/* Word count */}
-                <div className="text-right text-sm text-grey-500">
+                <div className="text-right text-sm text-stone-500">
                   {sections[currentStep]?.content?.split(' ').filter(word => word.length > 0).length || 0} words
                 </div>
               </div>
@@ -386,8 +386,8 @@ export function GuidedStoryCreator({
 
             <div className="space-y-2">
               {/* Title */}
-              <div className="flex items-center space-x-2 p-2 rounded-lg bg-grey-50">
-                {storyTitle ? <CheckCircle className="w-4 h-4 text-green-500" /> : <BookOpen className="w-4 h-4 text-grey-400" />}
+              <div className="flex items-center space-x-2 p-2 rounded-lg bg-stone-50">
+                {storyTitle ? <CheckCircle className="w-4 h-4 text-green-500" /> : <BookOpen className="w-4 h-4 text-stone-400" />}
                 <span className="text-sm font-medium">Title</span>
               </div>
 
@@ -397,14 +397,14 @@ export function GuidedStoryCreator({
                   key={index}
                   className={cn(
                     "flex items-center space-x-2 p-2 rounded-lg cursor-pointer transition-colours",
-                    currentStep === index ? "bg-blue-100 border border-blue-300" : "bg-grey-50 hover:bg-grey-100"
+                    currentStep === index ? "bg-sage-100 border border-sage-300" : "bg-stone-50 hover:bg-stone-100"
                   )}
                   onClick={() => setCurrentStep(index)}
                 >
                   {section.completed ? (
                     <CheckCircle className="w-4 h-4 text-green-500" />
                   ) : (
-                    <BookOpen className="w-4 h-4 text-grey-400" />
+                    <BookOpen className="w-4 h-4 text-stone-400" />
                   )}
                   <span className="text-sm font-medium truncate">
                     {section.title}
@@ -424,8 +424,8 @@ export function GuidedStoryCreator({
 
               <ul className="space-y-2">
                 {template.culturalGuidelines.map((guideline, index) => (
-                  <li key={index} className="text-sm text-grey-600 flex items-start">
-                    <span className="w-2 h-2 rounded-full bg-blue-300 mr-2 mt-2 flex-shrink-0"></span>
+                  <li key={index} className="text-sm text-stone-600 flex items-start">
+                    <span className="w-2 h-2 rounded-full bg-sage-300 mr-2 mt-2 flex-shrink-0"></span>
                     {guideline}
                   </li>
                 ))}
@@ -452,7 +452,7 @@ export function GuidedStoryCreator({
               </Button>
             </div>
 
-            <Typography variant="caption" className="text-xs text-grey-500 mt-2">
+            <Typography variant="caption" className="text-xs text-stone-500 mt-2">
               AI assistance respects cultural sensitivity settings
             </Typography>
           </Card>

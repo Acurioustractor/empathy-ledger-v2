@@ -202,7 +202,7 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
       case 'active':
         return <Badge variant="outline" className="text-green-600 border-green-600">Active</Badge>
       case 'inactive':
-        return <Badge variant="outline" className="text-grey-600 border-grey-600">Inactive</Badge>
+        return <Badge variant="outline" className="text-stone-600 border-grey-600">Inactive</Badge>
       case 'suspended':
         return <Badge variant="destructive">Suspended</Badge>
       case 'pending_approval':
@@ -248,7 +248,7 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
       case 'suspended':
         return <Clock className="w-4 h-4 text-yellow-600" />
       default:
-        return <Clock className="w-4 h-4 text-grey-600" />
+        return <Clock className="w-4 h-4 text-stone-600" />
     }
   }
 

@@ -132,22 +132,22 @@ export function ImmersiveStorytellerProfile({ storytellerId, profile }: Immersiv
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center space-y-4">
-          <div className="w-16 h-16 bg-grey-200 rounded-full mx-auto" />
-          <h2 className="text-xl font-semibold text-grey-900">Storyteller not found</h2>
-          <p className="text-grey-600">The profile you're looking for doesn't exist or has been removed.</p>
+          <div className="w-16 h-16 bg-stone-200 rounded-full mx-auto" />
+          <h2 className="text-xl font-semibold text-stone-900">Storyteller not found</h2>
+          <p className="text-stone-600">The profile you're looking for doesn't exist or has been removed.</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-terracotta-50">
       {/* Navigation Header */}
-      <nav className="bg-white/90 backdrop-blur-sm border-b border-grey-200 sticky top-0 z-50">
+      <nav className="bg-white/90 backdrop-blur-sm border-b border-stone-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
-              <Link href={`/storytellers/${storytellerId}`} className="flex items-center space-x-2 text-grey-700 hover:text-indigo-600 transition-colours">
+              <Link href={`/storytellers/${storytellerId}`} className="flex items-center space-x-2 text-stone-700 hover:text-terracotta-600 transition-colours">
                 <ArrowLeft className="w-5 h-5" />
                 <span className="font-medium">Back to Profile</span>
               </Link>
@@ -155,17 +155,17 @@ export function ImmersiveStorytellerProfile({ storytellerId, profile }: Immersiv
             <div className="flex items-center space-x-2">
               <Link
                 href={`/storytellers/${storytellerId}`}
-                className="px-3 py-2 text-sm bg-grey-100 text-grey-700 rounded-lg hover:bg-grey-200 transition-colours"
+                className="px-3 py-2 text-sm bg-stone-100 text-stone-700 rounded-lg hover:bg-stone-200 transition-colours"
               >
                 Standard View
               </Link>
               <Link
                 href={`/storytellers/${storytellerId}/enhanced`}
-                className="px-3 py-2 text-sm bg-grey-100 text-grey-700 rounded-lg hover:bg-grey-200 transition-colours"
+                className="px-3 py-2 text-sm bg-stone-100 text-stone-700 rounded-lg hover:bg-stone-200 transition-colours"
               >
                 Enhanced View
               </Link>
-              <span className="px-3 py-2 text-sm bg-indigo-100 text-indigo-700 rounded-lg">
+              <span className="px-3 py-2 text-sm bg-terracotta-100 text-terracotta-700 rounded-lg">
                 Immersive View
               </span>
             </div>
@@ -230,7 +230,7 @@ function ProfileHeroSection({
   return (
     <div className="relative overflow-hidden">
       {/* Background with Cultural Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900">
+      <div className="absolute inset-0 bg-gradient-to-br from-terracotta-900 via-purple-900 to-sage-900">
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 bg-[url('/patterns/indigenous-pattern.svg')] opacity-10" />
       </div>
@@ -252,7 +252,7 @@ function ProfileHeroSection({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center">
+                <div className="w-full h-full bg-gradient-to-br from-sage-400 to-clay-600 flex items-center justify-center">
                   <User className="w-20 h-20 text-white/80" />
                 </div>
               )}
@@ -296,7 +296,7 @@ function ProfileHeroSection({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="flex items-center justify-center gap-2 text-blue-100 text-lg mb-6"
+              className="flex items-center justify-center gap-2 text-sage-100 text-lg mb-6"
             >
               <MapPin className="w-5 h-5" />
               <span>{profile.profile.locations[0].name || profile.profile.locations[0]}</span>
@@ -332,7 +332,7 @@ function ProfileHeroSection({
                   <Button
                     variant="ghost"
                     onClick={onToggleBio}
-                    className="mt-4 text-blue-200 hover:text-white hover:bg-white/10"
+                    className="mt-4 text-sage-200 hover:text-white hover:bg-white/10"
                   >
                     {showFullBio ? (
                       <>Show Less <ChevronDown className="w-4 h-4 ml-1" /></>
@@ -354,20 +354,20 @@ function ProfileHeroSection({
           >
             <div className="text-center">
               <div className="text-3xl font-bold text-white">{profile.story_count}</div>
-              <div className="text-blue-200">Stories</div>
+              <div className="text-sage-200">Stories</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-white">{profile.content_stats?.transcript_count || 0}</div>
-              <div className="text-blue-200">Transcripts</div>
+              <div className="text-sage-200">Transcripts</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-white">{profile.organisations?.length || 0}</div>
-              <div className="text-blue-200">Organizations</div>
+              <div className="text-sage-200">Organizations</div>
             </div>
             {profile.years_of_experience && (
               <div className="text-center">
                 <div className="text-3xl font-bold text-white">{profile.years_of_experience}</div>
-                <div className="text-blue-200">Years Experience</div>
+                <div className="text-sage-200">Years Experience</div>
               </div>
             )}
           </motion.div>
@@ -379,7 +379,7 @@ function ProfileHeroSection({
             transition={{ delay: 0.7 }}
             className="flex justify-center gap-4 mt-8"
           >
-            <Button size="lg" className="bg-white text-indigo-900 hover:bg-blue-50">
+            <Button size="lg" className="bg-white text-terracotta-900 hover:bg-sage-50">
               <MessageCircle className="w-5 h-5 mr-2" />
               Connect
             </Button>
@@ -424,8 +424,8 @@ function StoryCollectionSection({
     >
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-grey-900 mb-2">Story Collection</h2>
-          <p className="text-grey-600">Explore the rich tapestry of shared experiences</p>
+          <h2 className="text-3xl font-bold text-stone-900 mb-2">Story Collection</h2>
+          <p className="text-stone-600">Explore the rich tapestry of shared experiences</p>
         </div>
         <Badge variant="outline" className="text-lg px-4 py-2">
           {stories.length} Stories
@@ -448,9 +448,9 @@ function StoryCollectionSection({
 
       {stories.length === 0 && (
         <div className="text-center py-12">
-          <BookOpen className="w-16 h-16 text-grey-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-grey-900 mb-2">No Stories Yet</h3>
-          <p className="text-grey-600">Stories and experiences will appear here as they're shared</p>
+          <BookOpen className="w-16 h-16 text-stone-300 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-stone-900 mb-2">No Stories Yet</h3>
+          <p className="text-stone-600">Stories and experiences will appear here as they're shared</p>
         </div>
       )}
     </motion.div>
@@ -478,15 +478,15 @@ function StoryCard({
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1 }}
       className={`border rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer ${
-        isActive ? 'border-indigo-300 shadow-lg bg-indigo-50' : 'border-grey-200 hover:border-grey-300 hover:shadow-md'
+        isActive ? 'border-terracotta-300 shadow-lg bg-terracotta-50' : 'border-stone-200 hover:border-stone-300 hover:shadow-md'
       }`}
       onClick={onSelect}
     >
       <div className="p-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
-            <h3 className="text-xl font-semibold text-grey-900 mb-2">{story.title}</h3>
-            <p className="text-grey-600 leading-relaxed">{story.excerpt}</p>
+            <h3 className="text-xl font-semibold text-stone-900 mb-2">{story.title}</h3>
+            <p className="text-stone-600 leading-relaxed">{story.excerpt}</p>
           </div>
 
           {story.audio_url && (
@@ -505,7 +505,7 @@ function StoryCard({
         </div>
 
         {/* Story Metadata */}
-        <div className="flex items-center gap-4 text-sm text-grey-500 mb-4">
+        <div className="flex items-center gap-4 text-sm text-stone-500 mb-4">
           <div className="flex items-center gap-1">
             <Calendar className="w-4 h-4" />
             {new Date(story.created_at).toLocaleDateString()}
@@ -544,9 +544,9 @@ function StoryCard({
               {/* Audio Player */}
               {story.audio_url && (
                 <div className="mb-4">
-                  <div className="bg-grey-50 rounded-lg p-4">
+                  <div className="bg-stone-50 rounded-lg p-4">
                     <div className="flex items-center gap-3 mb-2">
-                      <Music className="w-5 h-5 text-indigo-600" />
+                      <Music className="w-5 h-5 text-terracotta-600" />
                       <span className="font-medium">Audio Recording</span>
                     </div>
                     <audio
@@ -562,11 +562,11 @@ function StoryCard({
 
               {/* Transcript Preview */}
               <div className="mb-4">
-                <h4 className="font-medium text-grey-900 mb-2 flex items-center gap-2">
+                <h4 className="font-medium text-stone-900 mb-2 flex items-center gap-2">
                   <FileText className="w-4 h-4" />
                   Transcript Preview
                 </h4>
-                <div className="bg-grey-50 rounded-lg p-4 text-sm text-grey-700 leading-relaxed">
+                <div className="bg-stone-50 rounded-lg p-4 text-sm text-stone-700 leading-relaxed">
                   "{story.transcript_preview}..."
                 </div>
               </div>
@@ -574,11 +574,11 @@ function StoryCard({
               {/* Cultural Context */}
               {story.cultural_context && (
                 <div className="mb-4">
-                  <h4 className="font-medium text-grey-900 mb-2 flex items-center gap-2">
+                  <h4 className="font-medium text-stone-900 mb-2 flex items-center gap-2">
                     <Leaf className="w-4 h-4" />
                     Cultural Context
                   </h4>
-                  <p className="text-sm text-grey-600 bg-green-50 rounded-lg p-3">
+                  <p className="text-sm text-stone-600 bg-green-50 rounded-lg p-3">
                     {story.cultural_context}
                   </p>
                 </div>
@@ -629,8 +629,8 @@ function VoiceAndTranscriptsSection({
       className="bg-white rounded-3xl shadow-xl p-8"
     >
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-grey-900 mb-2">Voice & Wisdom</h2>
-        <p className="text-grey-600">Listen to authentic voices and meaningful insights</p>
+        <h2 className="text-3xl font-bold text-stone-900 mb-2">Voice & Wisdom</h2>
+        <p className="text-stone-600">Listen to authentic voices and meaningful insights</p>
       </div>
 
       <Tabs defaultValue="quotes" className="w-full">
@@ -657,13 +657,13 @@ function VoiceAndTranscriptsSection({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border-l-4 border-indigo-500"
+                className="bg-gradient-to-r from-sage-50 to-terracotta-50 rounded-2xl p-6 border-l-4 border-terracotta-500"
               >
-                <blockquote className="text-lg italic text-grey-700 mb-4">
+                <blockquote className="text-lg italic text-stone-700 mb-4">
                   "{story.transcript_preview}"
                 </blockquote>
                 <div className="flex items-center justify-between">
-                  <cite className="text-sm text-grey-600">From "{story.title}"</cite>
+                  <cite className="text-sm text-stone-600">From "{story.title}"</cite>
                   <div className="flex items-center gap-2">
                     <Badge variant="outline">{story.themes[0]}</Badge>
                   </div>
@@ -681,14 +681,14 @@ function VoiceAndTranscriptsSection({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-grey-50 rounded-2xl p-6"
+                className="bg-stone-50 rounded-2xl p-6"
               >
-                <h4 className="font-semibold text-grey-900 mb-3">{story.title}</h4>
+                <h4 className="font-semibold text-stone-900 mb-3">{story.title}</h4>
                 <audio controls className="w-full mb-3">
                   <source src={story.audio_url} type="audio/mpeg" />
                   Your browser does not support the audio element.
                 </audio>
-                <div className="flex items-center justify-between text-sm text-grey-600">
+                <div className="flex items-center justify-between text-sm text-stone-600">
                   <span>{story.duration_minutes} minutes</span>
                   <div className="flex gap-2">
                     {story.themes.slice(0, 2).map(theme => (
@@ -711,23 +711,23 @@ function VoiceAndTranscriptsSection({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="border border-grey-200 rounded-xl p-4 hover:border-grey-300 transition-colours"
+                className="border border-stone-200 rounded-xl p-4 hover:border-stone-300 transition-colours"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-medium text-grey-900">{story.title}</h4>
+                  <h4 className="font-medium text-stone-900">{story.title}</h4>
                   <Button variant="outline" size="sm">
                     <ExternalLink className="w-4 h-4 mr-2" />
                     Read Full
                   </Button>
                 </div>
-                <p className="text-sm text-grey-600 line-clamp-2">{story.transcript_preview}</p>
+                <p className="text-sm text-stone-600 line-clamp-2">{story.transcript_preview}</p>
                 <div className="flex items-center gap-2 mt-3">
-                  <Clock className="w-4 h-4 text-grey-400" />
-                  <span className="text-xs text-grey-500">
+                  <Clock className="w-4 h-4 text-stone-400" />
+                  <span className="text-xs text-stone-500">
                     {new Date(story.created_at).toLocaleDateString()}
                   </span>
-                  <span className="text-xs text-grey-300">•</span>
-                  <span className="text-xs text-grey-500">{story.view_count} views</span>
+                  <span className="text-xs text-stone-300">•</span>
+                  <span className="text-xs text-stone-500">{story.view_count} views</span>
                 </div>
               </motion.div>
             ))}
@@ -740,9 +740,9 @@ function VoiceAndTranscriptsSection({
 
 function ProfileLoadingSkeleton() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-terracotta-50">
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900" />
+        <div className="absolute inset-0 bg-gradient-to-br from-terracotta-900 via-purple-900 to-sage-900" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-32">
           <div className="text-center animate-pulse">
             <div className="w-40 h-40 bg-white/20 rounded-full mx-auto mb-8" />
@@ -757,10 +757,10 @@ function ProfileLoadingSkeleton() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 -mt-24 relative z-10">
           <div className="lg:col-span-2 space-y-8">
             <div className="bg-white rounded-3xl shadow-xl p-8 animate-pulse">
-              <div className="h-8 bg-grey-200 rounded w-48 mb-6" />
+              <div className="h-8 bg-stone-200 rounded w-48 mb-6" />
               <div className="space-y-4">
                 {[1, 2, 3].map(i => (
-                  <div key={i} className="h-32 bg-grey-200 rounded-2xl" />
+                  <div key={i} className="h-32 bg-stone-200 rounded-2xl" />
                 ))}
               </div>
             </div>
@@ -768,8 +768,8 @@ function ProfileLoadingSkeleton() {
           <div className="space-y-8">
             {[1, 2, 3].map(i => (
               <div key={i} className="bg-white rounded-3xl shadow-xl p-6 animate-pulse">
-                <div className="h-6 bg-grey-200 rounded w-32 mb-4" />
-                <div className="h-24 bg-grey-200 rounded" />
+                <div className="h-6 bg-stone-200 rounded w-32 mb-4" />
+                <div className="h-24 bg-stone-200 rounded" />
               </div>
             ))}
           </div>
@@ -788,7 +788,7 @@ function ImpactMetricsCard({ profile }: { profile: EnhancedStorytellerProfile })
       label: 'Community Leadership',
       value: profile.ai_insights?.confidence_score || 0.8,
       icon: <Users className="w-5 h-5" />,
-      colour: 'from-blue-500 to-blue-600'
+      colour: 'from-sage-500 to-sage-600'
     },
     {
       label: 'Cultural Knowledge',
@@ -800,7 +800,7 @@ function ImpactMetricsCard({ profile }: { profile: EnhancedStorytellerProfile })
       label: 'Storytelling Impact',
       value: Math.min(profile.story_count / 20, 1),
       icon: <BookOpen className="w-5 h-5" />,
-      colour: 'from-purple-500 to-purple-600'
+      colour: 'from-clay-500 to-clay-600'
     },
     {
       label: 'Network Influence',
@@ -819,18 +819,18 @@ function ImpactMetricsCard({ profile }: { profile: EnhancedStorytellerProfile })
       className="bg-white rounded-3xl shadow-xl p-6"
     >
       <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-        <TrendingUp className="w-6 h-6 text-indigo-600" />
+        <TrendingUp className="w-6 h-6 text-terracotta-600" />
         Community Impact
       </h3>
 
       <div className="space-y-6">
         {/* Overall Impact Score */}
-        <div className="text-center p-6 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl border border-indigo-100">
-          <div className="text-4xl font-bold text-indigo-600 mb-2">
+        <div className="text-center p-6 bg-gradient-to-br from-terracotta-50 to-clay-50 rounded-2xl border border-terracotta-100">
+          <div className="text-4xl font-bold text-terracotta-600 mb-2">
             {Math.round((impactAreas.reduce((sum, area) => sum + area.value, 0) / impactAreas.length) * 100)}%
           </div>
-          <div className="text-sm font-medium text-grey-600">Overall Impact Score</div>
-          <div className="text-xs text-grey-500 mt-1">Based on community engagement and contributions</div>
+          <div className="text-sm font-medium text-stone-600">Overall Impact Score</div>
+          <div className="text-xs text-stone-500 mt-1">Based on community engagement and contributions</div>
         </div>
 
         {/* Individual Impact Areas */}
@@ -848,13 +848,13 @@ function ImpactMetricsCard({ profile }: { profile: EnhancedStorytellerProfile })
                   <div className={`p-2 rounded-lg bg-gradient-to-r ${area.colour} text-white`}>
                     {area.icon}
                   </div>
-                  <span className="font-medium text-grey-900">{area.label}</span>
+                  <span className="font-medium text-stone-900">{area.label}</span>
                 </div>
-                <span className="text-sm font-semibold text-grey-600">
+                <span className="text-sm font-semibold text-stone-600">
                   {Math.round(area.value * 100)}%
                 </span>
               </div>
-              <div className="w-full bg-grey-100 rounded-full h-2">
+              <div className="w-full bg-stone-100 rounded-full h-2">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={isInView ? { width: `${area.value * 100}%` } : {}}
@@ -867,16 +867,16 @@ function ImpactMetricsCard({ profile }: { profile: EnhancedStorytellerProfile })
         </div>
 
         {/* Key Achievements */}
-        <div className="pt-4 border-t border-grey-100">
-          <h4 className="font-semibold text-grey-900 mb-3">Key Achievements</h4>
+        <div className="pt-4 border-t border-stone-100">
+          <h4 className="font-semibold text-stone-900 mb-3">Key Achievements</h4>
           <div className="grid grid-cols-2 gap-3">
-            <div className="text-center p-3 bg-blue-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">{profile.story_count}</div>
-              <div className="text-xs text-blue-600">Stories Shared</div>
+            <div className="text-center p-3 bg-sage-50 rounded-lg">
+              <div className="text-2xl font-bold text-sage-600">{profile.story_count}</div>
+              <div className="text-xs text-sage-600">Stories Shared</div>
             </div>
-            <div className="text-center p-3 bg-purple-50 rounded-lg">
-              <div className="text-2xl font-bold text-purple-600">{profile.organisations?.length || 0}</div>
-              <div className="text-xs text-purple-600">Organizations</div>
+            <div className="text-center p-3 bg-clay-50 rounded-lg">
+              <div className="text-2xl font-bold text-clay-600">{profile.organisations?.length || 0}</div>
+              <div className="text-xs text-clay-600">Organizations</div>
             </div>
             <div className="text-center p-3 bg-green-50 rounded-lg">
               <div className="text-2xl font-bold text-green-600">{profile.projects?.length || 0}</div>
@@ -893,25 +893,25 @@ function ImpactMetricsCard({ profile }: { profile: EnhancedStorytellerProfile })
 
         {/* Availability Indicators */}
         {(profile.mentor_availability || profile.speaking_availability || profile.collaboration_availability) && (
-          <div className="pt-4 border-t border-grey-100">
-            <h4 className="font-semibold text-grey-900 mb-3">Availability</h4>
+          <div className="pt-4 border-t border-stone-100">
+            <h4 className="font-semibold text-stone-900 mb-3">Availability</h4>
             <div className="space-y-2">
               {profile.mentor_availability && (
                 <div className="flex items-center gap-2 text-sm">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-grey-700">Available for mentoring</span>
+                  <span className="text-stone-700">Available for mentoring</span>
                 </div>
               )}
               {profile.speaking_availability && (
                 <div className="flex items-center gap-2 text-sm">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-grey-700">Available for speaking engagements</span>
+                  <div className="w-2 h-2 bg-sage-500 rounded-full"></div>
+                  <span className="text-stone-700">Available for speaking engagements</span>
                 </div>
               )}
               {profile.collaboration_availability && (
                 <div className="flex items-center gap-2 text-sm">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                  <span className="text-grey-700">Open to collaborations</span>
+                  <div className="w-2 h-2 bg-clay-500 rounded-full"></div>
+                  <span className="text-stone-700">Open to collaborations</span>
                 </div>
               )}
             </div>
@@ -931,8 +931,8 @@ function CommunityConnectionsCard({ connections }: { connections: ConnectionNode
 
   const getRelationshipColor = (type: string) => {
     switch (type) {
-      case 'mentor': return 'from-purple-500 to-purple-600'
-      case 'mentee': return 'from-blue-500 to-blue-600'
+      case 'mentor': return 'from-clay-500 to-clay-600'
+      case 'mentee': return 'from-sage-500 to-sage-600'
       case 'collaborator': return 'from-green-500 to-green-600'
       case 'colleague': return 'from-orange-500 to-orange-600'
       default: return 'from-grey-500 to-grey-600'
@@ -959,7 +959,7 @@ function CommunityConnectionsCard({ connections }: { connections: ConnectionNode
     >
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-2xl font-bold flex items-center gap-2">
-          <Network className="w-6 h-6 text-indigo-600" />
+          <Network className="w-6 h-6 text-terracotta-600" />
           Network
         </h3>
         <Badge variant="outline" className="text-sm">
@@ -969,34 +969,34 @@ function CommunityConnectionsCard({ connections }: { connections: ConnectionNode
 
       {connections.length === 0 ? (
         <div className="text-center py-8">
-          <Network className="w-12 h-12 text-grey-300 mx-auto mb-3" />
-          <p className="text-grey-500">No connections yet</p>
-          <p className="text-sm text-grey-400">Connections will appear as relationships are built</p>
+          <Network className="w-12 h-12 text-stone-300 mx-auto mb-3" />
+          <p className="text-stone-500">No connections yet</p>
+          <p className="text-sm text-stone-400">Connections will appear as relationships are built</p>
         </div>
       ) : (
         <>
           {/* Connection Strength Visualization */}
-          <div className="mb-6 p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl">
-            <h4 className="font-semibold text-grey-900 mb-3 flex items-center gap-2">
-              <Zap className="w-4 h-4 text-indigo-600" />
+          <div className="mb-6 p-4 bg-gradient-to-br from-sage-50 to-terracotta-50 rounded-2xl">
+            <h4 className="font-semibold text-stone-900 mb-3 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-terracotta-600" />
               Network Strength
             </h4>
             <div className="flex items-center gap-2">
-              <div className="flex-1 bg-grey-200 rounded-full h-2">
+              <div className="flex-1 bg-stone-200 rounded-full h-2">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={isInView ? {
                     width: `${Math.min((connections.reduce((sum, c) => sum + c.connection_strength, 0) / connections.length) * 100, 100)}%`
                   } : {}}
                   transition={{ delay: 0.5, duration: 1 }}
-                  className="h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600"
+                  className="h-2 rounded-full bg-gradient-to-r from-terracotta-500 to-clay-600"
                 />
               </div>
-              <span className="text-sm font-semibold text-indigo-600">
+              <span className="text-sm font-semibold text-terracotta-600">
                 {Math.round((connections.reduce((sum, c) => sum + c.connection_strength, 0) / connections.length) * 100)}%
               </span>
             </div>
-            <p className="text-xs text-grey-600 mt-1">Average connection strength across network</p>
+            <p className="text-xs text-stone-600 mt-1">Average connection strength across network</p>
           </div>
 
           {/* Individual Connections */}
@@ -1007,7 +1007,7 @@ function CommunityConnectionsCard({ connections }: { connections: ConnectionNode
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ delay: 0.1 * index }}
-                className="group flex items-center gap-3 p-3 rounded-xl hover:bg-grey-50 transition-colours cursor-pointer"
+                className="group flex items-center gap-3 p-3 rounded-xl hover:bg-stone-50 transition-colours cursor-pointer"
               >
                 <div className="relative">
                   {connection.avatar_url ? (
@@ -1017,7 +1017,7 @@ function CommunityConnectionsCard({ connections }: { connections: ConnectionNode
                       className="w-10 h-10 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-sage-400 to-clay-500 flex items-center justify-center">
                       <User className="w-5 h-5 text-white" />
                     </div>
                   )}
@@ -1029,8 +1029,8 @@ function CommunityConnectionsCard({ connections }: { connections: ConnectionNode
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="font-medium text-grey-900 truncate">{connection.name}</div>
-                  <div className="flex items-center gap-2 text-xs text-grey-500">
+                  <div className="font-medium text-stone-900 truncate">{connection.name}</div>
+                  <div className="flex items-center gap-2 text-xs text-stone-500">
                     <span className="capitalize">{connection.relationship_type.replace('_', ' ')}</span>
                     {connection.shared_projects > 0 && (
                       <>
@@ -1043,13 +1043,13 @@ function CommunityConnectionsCard({ connections }: { connections: ConnectionNode
 
                 {/* Connection Strength Indicator */}
                 <div className="flex items-center gap-2">
-                  <div className="w-12 bg-grey-200 rounded-full h-1">
+                  <div className="w-12 bg-stone-200 rounded-full h-1">
                     <div
                       className={`h-1 rounded-full bg-gradient-to-r ${getRelationshipColor(connection.relationship_type)}`}
                       style={{ width: `${connection.connection_strength * 100}%` }}
                     />
                   </div>
-                  <ChevronRight className="w-4 h-4 text-grey-300 group-hover:text-grey-500 transition-colours" />
+                  <ChevronRight className="w-4 h-4 text-stone-300 group-hover:text-stone-500 transition-colours" />
                 </div>
               </motion.div>
             ))}
@@ -1060,7 +1060,7 @@ function CommunityConnectionsCard({ connections }: { connections: ConnectionNode
             <Button
               variant="ghost"
               onClick={() => setShowAll(!showAll)}
-              className="w-full mt-4 text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50"
+              className="w-full mt-4 text-terracotta-600 hover:text-terracotta-700 hover:bg-terracotta-50"
             >
               {showAll ? (
                 <>Show Less <ChevronDown className="w-4 h-4 ml-1" /></>
@@ -1071,8 +1071,8 @@ function CommunityConnectionsCard({ connections }: { connections: ConnectionNode
           )}
 
           {/* Relationship Type Breakdown */}
-          <div className="mt-6 pt-4 border-t border-grey-100">
-            <h4 className="font-semibold text-grey-900 mb-3">Relationship Types</h4>
+          <div className="mt-6 pt-4 border-t border-stone-100">
+            <h4 className="font-semibold text-stone-900 mb-3">Relationship Types</h4>
             <div className="grid grid-cols-2 gap-2">
               {Object.entries(
                 connections.reduce((acc, conn) => {
@@ -1084,8 +1084,8 @@ function CommunityConnectionsCard({ connections }: { connections: ConnectionNode
                   <div className={`p-1 rounded bg-gradient-to-r ${getRelationshipColor(type)}`}>
                     {getRelationshipIcon(type)}
                   </div>
-                  <span className="text-grey-700 capitalize flex-1">{type.replace('_', ' ')}</span>
-                  <span className="font-medium text-grey-900">{count}</span>
+                  <span className="text-stone-700 capitalize flex-1">{type.replace('_', ' ')}</span>
+                  <span className="font-medium text-stone-900">{count}</span>
                 </div>
               ))}
             </div>
@@ -1122,11 +1122,11 @@ function CulturalContextCard({ profile }: { profile: EnhancedStorytellerProfile 
             transition={{ delay: 0.1 }}
             className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border border-green-100"
           >
-            <h4 className="font-semibold text-grey-900 mb-2 flex items-center gap-2">
+            <h4 className="font-semibold text-stone-900 mb-2 flex items-center gap-2">
               <Map className="w-4 h-4 text-green-600" />
               Cultural Background
             </h4>
-            <p className="text-grey-700">{profile.cultural_background}</p>
+            <p className="text-stone-700">{profile.cultural_background}</p>
             {profile.specialties && profile.specialties.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
                 {(profile.specialties || []).map(specialty => (
@@ -1145,13 +1145,13 @@ function CulturalContextCard({ profile }: { profile: EnhancedStorytellerProfile 
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.2 }}
-            className="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-100"
+            className="p-4 bg-gradient-to-br from-sage-50 to-terracotta-50 rounded-2xl border border-sage-100"
           >
-            <h4 className="font-semibold text-grey-900 mb-2 flex items-center gap-2">
-              <Globe className="w-4 h-4 text-blue-600" />
+            <h4 className="font-semibold text-stone-900 mb-2 flex items-center gap-2">
+              <Globe className="w-4 h-4 text-sage-600" />
               Cultural Background
             </h4>
-            <p className="text-grey-700">{profile.cultural_background}</p>
+            <p className="text-stone-700">{profile.cultural_background}</p>
           </motion.div>
         )}
 
@@ -1163,8 +1163,8 @@ function CulturalContextCard({ profile }: { profile: EnhancedStorytellerProfile 
             transition={{ delay: 0.3 }}
             className="space-y-3"
           >
-            <h4 className="font-semibold text-grey-900 flex items-center gap-2">
-              <Languages className="w-4 h-4 text-purple-600" />
+            <h4 className="font-semibold text-stone-900 flex items-center gap-2">
+              <Languages className="w-4 h-4 text-clay-600" />
               Languages
             </h4>
             <div className="flex flex-wrap gap-2">
@@ -1175,7 +1175,7 @@ function CulturalContextCard({ profile }: { profile: EnhancedStorytellerProfile 
                   animate={isInView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ delay: 0.4 + index * 0.1 }}
                 >
-                  <Badge variant="secondary" className="bg-purple-100 text-purple-700 border-purple-200">
+                  <Badge variant="secondary" className="bg-clay-100 text-clay-700 border-clay-200">
                     {language}
                   </Badge>
                 </motion.div>
@@ -1192,7 +1192,7 @@ function CulturalContextCard({ profile }: { profile: EnhancedStorytellerProfile 
             transition={{ delay: 0.4 }}
             className="space-y-3"
           >
-            <h4 className="font-semibold text-grey-900 flex items-center gap-2">
+            <h4 className="font-semibold text-stone-900 flex items-center gap-2">
               <Shield className="w-4 h-4 text-orange-600" />
               Cultural Affiliations
             </h4>
@@ -1206,7 +1206,7 @@ function CulturalContextCard({ profile }: { profile: EnhancedStorytellerProfile 
                   className="flex items-center gap-2 p-2 rounded-lg bg-orange-50 border border-orange-100"
                 >
                   <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0" />
-                  <span className="text-sm text-grey-700">{affiliation}</span>
+                  <span className="text-sm text-stone-700">{affiliation}</span>
                 </motion.div>
               ))}
             </div>
@@ -1222,8 +1222,8 @@ function CulturalContextCard({ profile }: { profile: EnhancedStorytellerProfile 
             transition={{ delay: 0.5 }}
             className="space-y-3"
           >
-            <h4 className="font-semibold text-grey-900 flex items-center gap-2">
-              <Target className="w-4 h-4 text-indigo-600" />
+            <h4 className="font-semibold text-stone-900 flex items-center gap-2">
+              <Target className="w-4 h-4 text-terracotta-600" />
               Areas of Focus
             </h4>
             <div className="grid grid-cols-1 gap-2">
@@ -1233,7 +1233,7 @@ function CulturalContextCard({ profile }: { profile: EnhancedStorytellerProfile 
                   initial={{ opacity: 0, y: 10 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.6 + index * 0.05 }}
-                  className="text-sm bg-indigo-50 text-indigo-700 px-3 py-2 rounded-lg border border-indigo-100"
+                  className="text-sm bg-terracotta-50 text-terracotta-700 px-3 py-2 rounded-lg border border-terracotta-100"
                 >
                   {specialty}
                 </motion.div>
@@ -1244,7 +1244,7 @@ function CulturalContextCard({ profile }: { profile: EnhancedStorytellerProfile 
                   initial={{ opacity: 0, y: 10 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.7 + index * 0.05 }}
-                  className="text-sm bg-blue-50 text-blue-700 px-3 py-2 rounded-lg border border-blue-100"
+                  className="text-sm bg-sage-50 text-sage-700 px-3 py-2 rounded-lg border border-sage-100"
                 >
                   {area}
                 </motion.div>
@@ -1261,7 +1261,7 @@ function CulturalContextCard({ profile }: { profile: EnhancedStorytellerProfile 
             transition={{ delay: 0.6 }}
             className="space-y-3"
           >
-            <h4 className="font-semibold text-grey-900 flex items-center gap-2">
+            <h4 className="font-semibold text-stone-900 flex items-center gap-2">
               <Users className="w-4 h-4 text-green-600" />
               Community Roles
             </h4>
@@ -1277,7 +1277,7 @@ function CulturalContextCard({ profile }: { profile: EnhancedStorytellerProfile 
                   <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
                     <Star className="w-4 h-4 text-white" />
                   </div>
-                  <span className="font-medium text-grey-900">{role}</span>
+                  <span className="font-medium text-stone-900">{role}</span>
                 </motion.div>
               ))}
             </div>
@@ -1321,7 +1321,7 @@ function JourneyTimelineSection({ profile, stories }: { profile: EnhancedStoryte
       title: 'Joined Community',
       description: 'Became part of the storytelling community',
       icon: <Star className="w-4 h-4" />,
-      colour: 'from-blue-500 to-blue-600'
+      colour: 'from-sage-500 to-sage-600'
     },
     ...stories.map(story => ({
       id: story.id,
@@ -1330,7 +1330,7 @@ function JourneyTimelineSection({ profile, stories }: { profile: EnhancedStoryte
       title: story.title,
       description: story.excerpt,
       icon: <BookOpen className="w-4 h-4" />,
-      colour: 'from-purple-500 to-purple-600',
+      colour: 'from-clay-500 to-clay-600',
       themes: story.themes
     })),
     ...((profile.organisations || []).map(org => ({
@@ -1363,11 +1363,11 @@ function JourneyTimelineSection({ profile, stories }: { profile: EnhancedStoryte
     >
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-grey-900 mb-2 flex items-center gap-3">
-            <Calendar className="w-8 h-8 text-indigo-600" />
+          <h2 className="text-3xl font-bold text-stone-900 mb-2 flex items-center gap-3">
+            <Calendar className="w-8 h-8 text-terracotta-600" />
             Journey Timeline
           </h2>
-          <p className="text-grey-600">A chronological view of contributions and milestones</p>
+          <p className="text-stone-600">A chronological view of contributions and milestones</p>
         </div>
         <Badge variant="outline" className="text-lg px-4 py-2">
           {timelineEvents.length} Events
@@ -1376,14 +1376,14 @@ function JourneyTimelineSection({ profile, stories }: { profile: EnhancedStoryte
 
       {timelineEvents.length === 0 ? (
         <div className="text-center py-12">
-          <Calendar className="w-16 h-16 text-grey-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-grey-900 mb-2">Journey Beginning</h3>
-          <p className="text-grey-600">Timeline will grow as stories and experiences are shared</p>
+          <Calendar className="w-16 h-16 text-stone-300 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-stone-900 mb-2">Journey Beginning</h3>
+          <p className="text-stone-600">Timeline will grow as stories and experiences are shared</p>
         </div>
       ) : (
         <div className="relative">
           {/* Timeline Line */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-500 to-purple-600" />
+          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-terracotta-500 to-clay-600" />
 
           {/* Timeline Events */}
           <div className="space-y-8">
@@ -1401,8 +1401,8 @@ function JourneyTimelineSection({ profile, stories }: { profile: EnhancedStoryte
                     {event.icon}
                   </div>
                   {/* Date Badge */}
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white border border-grey-200 rounded-lg px-2 py-1 shadow-sm">
-                    <div className="text-xs font-medium text-grey-600 whitespace-nowrap">
+                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white border border-stone-200 rounded-lg px-2 py-1 shadow-sm">
+                    <div className="text-xs font-medium text-stone-600 whitespace-nowrap">
                       {new Date(event.date).toLocaleDateString('en-US', {
                         month: 'short',
                         year: 'numeric'
@@ -1413,23 +1413,23 @@ function JourneyTimelineSection({ profile, stories }: { profile: EnhancedStoryte
 
                 {/* Event Content */}
                 <div className="flex-1 pb-8">
-                  <div className="bg-grey-50 rounded-2xl p-6 hover:shadow-md transition-shadow">
+                  <div className="bg-stone-50 rounded-2xl p-6 hover:shadow-md transition-shadow">
                     <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-xl font-semibold text-grey-900">{event.title}</h3>
+                      <h3 className="text-xl font-semibold text-stone-900">{event.title}</h3>
                       <Badge
                         variant="outline"
                         className={`capitalize ${
-                          event.type === 'story' ? 'border-purple-200 text-purple-700' :
+                          event.type === 'story' ? 'border-clay-200 text-clay-700' :
                           event.type === 'organisation' ? 'border-green-200 text-green-700' :
                           event.type === 'project' ? 'border-orange-200 text-orange-700' :
-                          'border-blue-200 text-blue-700'
+                          'border-sage-200 text-sage-700'
                         }`}
                       >
                         {event.type}
                       </Badge>
                     </div>
 
-                    <p className="text-grey-600 mb-4">{event.description}</p>
+                    <p className="text-stone-600 mb-4">{event.description}</p>
 
                     {/* Themes for stories */}
                     {event.type === 'story' && 'themes' in event && event.themes && (
@@ -1448,7 +1448,7 @@ function JourneyTimelineSection({ profile, stories }: { profile: EnhancedStoryte
                     )}
 
                     {/* Full date */}
-                    <div className="flex items-center gap-2 mt-4 text-sm text-grey-500">
+                    <div className="flex items-center gap-2 mt-4 text-sm text-stone-500">
                       <Clock className="w-4 h-4" />
                       {new Date(event.date).toLocaleDateString('en-US', {
                         weekday: 'long',
@@ -1470,11 +1470,11 @@ function JourneyTimelineSection({ profile, stories }: { profile: EnhancedStoryte
             transition={{ delay: 0.5 }}
             className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4"
           >
-            <div className="text-center p-4 bg-purple-50 rounded-xl">
-              <div className="text-2xl font-bold text-purple-600">
+            <div className="text-center p-4 bg-clay-50 rounded-xl">
+              <div className="text-2xl font-bold text-clay-600">
                 {timelineEvents.filter(e => e.type === 'story').length}
               </div>
-              <div className="text-sm text-purple-600">Stories</div>
+              <div className="text-sm text-clay-600">Stories</div>
             </div>
             <div className="text-center p-4 bg-green-50 rounded-xl">
               <div className="text-2xl font-bold text-green-600">
@@ -1488,11 +1488,11 @@ function JourneyTimelineSection({ profile, stories }: { profile: EnhancedStoryte
               </div>
               <div className="text-sm text-orange-600">Projects</div>
             </div>
-            <div className="text-center p-4 bg-blue-50 rounded-xl">
-              <div className="text-2xl font-bold text-blue-600">
+            <div className="text-center p-4 bg-sage-50 rounded-xl">
+              <div className="text-2xl font-bold text-sage-600">
                 {profile.years_of_experience || Math.floor((Date.now() - new Date(profile.created_at).getTime()) / (1000 * 60 * 60 * 24 * 365))}
               </div>
-              <div className="text-sm text-blue-600">Years Active</div>
+              <div className="text-sm text-sage-600">Years Active</div>
             </div>
           </motion.div>
         </div>
@@ -1523,8 +1523,8 @@ function MediaGallerySection({ mediaItems }: { mediaItems: MediaItem[] }) {
     switch (type) {
       case 'image': return 'from-pink-500 to-rose-600'
       case 'video': return 'from-red-500 to-red-600'
-      case 'audio': return 'from-purple-500 to-purple-600'
-      case 'document': return 'from-blue-500 to-blue-600'
+      case 'audio': return 'from-clay-500 to-clay-600'
+      case 'document': return 'from-sage-500 to-sage-600'
       default: return 'from-grey-500 to-grey-600'
     }
   }
@@ -1539,11 +1539,11 @@ function MediaGallerySection({ mediaItems }: { mediaItems: MediaItem[] }) {
     >
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-grey-900 mb-2 flex items-center gap-3">
+          <h2 className="text-3xl font-bold text-stone-900 mb-2 flex items-center gap-3">
             <Image className="w-8 h-8 text-pink-600" />
             Media Gallery
           </h2>
-          <p className="text-grey-600">Photos, videos, audio recordings and documents</p>
+          <p className="text-stone-600">Photos, videos, audio recordings and documents</p>
         </div>
 
         {/* Media Type Filter */}
@@ -1569,11 +1569,11 @@ function MediaGallerySection({ mediaItems }: { mediaItems: MediaItem[] }) {
 
       {filteredMedia.length === 0 ? (
         <div className="text-center py-12">
-          <Image className="w-16 h-16 text-grey-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-grey-900 mb-2">
+          <Image className="w-16 h-16 text-stone-300 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-stone-900 mb-2">
             {filter === 'all' ? 'No Media Yet' : `No ${filter} files`}
           </h3>
-          <p className="text-grey-600">
+          <p className="text-stone-600">
             {filter === 'all'
               ? 'Media files will appear here as they are shared'
               : `${filter} files will appear here when uploaded`
@@ -1592,13 +1592,13 @@ function MediaGallerySection({ mediaItems }: { mediaItems: MediaItem[] }) {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ delay: 0.1 }}
-                  className="text-center p-4 bg-grey-50 rounded-xl"
+                  className="text-center p-4 bg-stone-50 rounded-xl"
                 >
                   <div className={`w-10 h-10 mx-auto mb-2 rounded-lg bg-gradient-to-br ${getMediaColor(type)} flex items-center justify-center text-white`}>
                     {getMediaIcon(type)}
                   </div>
-                  <div className="text-2xl font-bold text-grey-900">{count}</div>
-                  <div className="text-sm text-grey-600 capitalize">{type}s</div>
+                  <div className="text-2xl font-bold text-stone-900">{count}</div>
+                  <div className="text-sm text-stone-600 capitalize">{type}s</div>
                 </motion.div>
               )
             })}
@@ -1615,7 +1615,7 @@ function MediaGallerySection({ mediaItems }: { mediaItems: MediaItem[] }) {
                 className="group cursor-pointer"
                 onClick={() => setSelectedMedia(item)}
               >
-                <div className="relative bg-grey-100 rounded-2xl overflow-hidden aspect-square hover:shadow-lg transition-shadow">
+                <div className="relative bg-stone-100 rounded-2xl overflow-hidden aspect-square hover:shadow-lg transition-shadow">
                   {/* Media Preview */}
                   {item.type === 'image' ? (
                     <img
@@ -1624,7 +1624,7 @@ function MediaGallerySection({ mediaItems }: { mediaItems: MediaItem[] }) {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : item.type === 'video' ? (
-                    <div className="w-full h-full bg-grey-200 flex items-center justify-center relative">
+                    <div className="w-full h-full bg-stone-200 flex items-center justify-center relative">
                       {item.thumbnail_url ? (
                         <img
                           src={item.thumbnail_url}
@@ -1632,7 +1632,7 @@ function MediaGallerySection({ mediaItems }: { mediaItems: MediaItem[] }) {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <Video className="w-12 h-12 text-grey-400" />
+                        <Video className="w-12 h-12 text-stone-400" />
                       )}
                       <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
                         <Play className="w-8 h-8 text-white" />
@@ -1663,9 +1663,9 @@ function MediaGallerySection({ mediaItems }: { mediaItems: MediaItem[] }) {
 
                 {/* Media Info */}
                 <div className="mt-3">
-                  <h4 className="font-medium text-grey-900 truncate">{item.title}</h4>
+                  <h4 className="font-medium text-stone-900 truncate">{item.title}</h4>
                   {item.description && (
-                    <p className="text-sm text-grey-600 line-clamp-2 mt-1">{item.description}</p>
+                    <p className="text-sm text-stone-600 line-clamp-2 mt-1">{item.description}</p>
                   )}
 
                   {/* Tags */}
@@ -1684,7 +1684,7 @@ function MediaGallerySection({ mediaItems }: { mediaItems: MediaItem[] }) {
                     </div>
                   )}
 
-                  <div className="flex items-center justify-between mt-2 text-xs text-grey-500">
+                  <div className="flex items-center justify-between mt-2 text-xs text-stone-500">
                     <span>{new Date(item.created_at).toLocaleDateString()}</span>
                     <div className="flex items-center gap-1">
                       <Eye className="w-3 h-3" />
@@ -1737,11 +1737,11 @@ function RelatedStorytellersSection({ connections }: { connections: ConnectionNo
     >
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-grey-900 mb-2 flex items-center gap-3">
-            <Users className="w-8 h-8 text-indigo-600" />
+          <h2 className="text-3xl font-bold text-stone-900 mb-2 flex items-center gap-3">
+            <Users className="w-8 h-8 text-terracotta-600" />
             Connected Storytellers
           </h2>
-          <p className="text-grey-600">Discover other voices in the community network</p>
+          <p className="text-stone-600">Discover other voices in the community network</p>
         </div>
         <Badge variant="outline" className="text-lg px-4 py-2">
           {connections.length} connections
@@ -1750,18 +1750,18 @@ function RelatedStorytellersSection({ connections }: { connections: ConnectionNo
 
       {featuredConnections.length === 0 ? (
         <div className="text-center py-12">
-          <Users className="w-16 h-16 text-grey-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-grey-900 mb-2">Building Connections</h3>
-          <p className="text-grey-600">Connected storytellers will appear here as relationships develop</p>
+          <Users className="w-16 h-16 text-stone-300 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-stone-900 mb-2">Building Connections</h3>
+          <p className="text-stone-600">Connected storytellers will appear here as relationships develop</p>
         </div>
       ) : (
         <>
           {/* Connection Network Visualization */}
-          <div className="mb-8 p-6 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl">
+          <div className="mb-8 p-6 bg-gradient-to-br from-terracotta-50 to-clay-50 rounded-2xl">
             <div className="text-center">
               <div className="relative w-32 h-32 mx-auto mb-4">
                 {/* Central Node */}
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-br from-terracotta-500 to-clay-600 rounded-full flex items-center justify-center">
                   <User className="w-8 h-8 text-white" />
                 </div>
 
@@ -1778,20 +1778,20 @@ function RelatedStorytellersSection({ connections }: { connections: ConnectionNo
                       initial={{ scale: 0 }}
                       animate={isInView ? { scale: 1 } : {}}
                       transition={{ delay: 0.2 + index * 0.1 }}
-                      className="absolute w-6 h-6 bg-white rounded-full border-2 border-indigo-300 flex items-center justify-center"
+                      className="absolute w-6 h-6 bg-white rounded-full border-2 border-terracotta-300 flex items-center justify-center"
                       style={{
                         left: `calc(50% + ${x}px - 12px)`,
                         top: `calc(50% + ${y}px - 12px)`
                       }}
                     >
-                      <div className="w-2 h-2 bg-indigo-400 rounded-full" />
+                      <div className="w-2 h-2 bg-terracotta-400 rounded-full" />
                     </motion.div>
                   )
                 })}
               </div>
 
-              <h3 className="text-lg font-semibold text-grey-900 mb-2">Community Network</h3>
-              <p className="text-sm text-grey-600">
+              <h3 className="text-lg font-semibold text-stone-900 mb-2">Community Network</h3>
+              <p className="text-sm text-stone-600">
                 Connected through {connections.reduce((sum, c) => sum + c.shared_projects, 0)} shared projects
               </p>
             </div>
@@ -1807,7 +1807,7 @@ function RelatedStorytellersSection({ connections }: { connections: ConnectionNo
                 transition={{ delay: index * 0.1 }}
                 className="group cursor-pointer"
               >
-                <div className="bg-grey-50 rounded-2xl p-6 hover:shadow-lg transition-all duration-300 hover:bg-white">
+                <div className="bg-stone-50 rounded-2xl p-6 hover:shadow-lg transition-all duration-300 hover:bg-white">
                   {/* Avatar */}
                   <div className="relative w-16 h-16 mx-auto mb-4">
                     {connection.avatar_url ? (
@@ -1817,7 +1817,7 @@ function RelatedStorytellersSection({ connections }: { connections: ConnectionNo
                         className="w-full h-full rounded-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                      <div className="w-full h-full rounded-full bg-gradient-to-br from-sage-400 to-clay-500 flex items-center justify-center">
                         <User className="w-8 h-8 text-white" />
                       </div>
                     )}
@@ -1825,7 +1825,7 @@ function RelatedStorytellersSection({ connections }: { connections: ConnectionNo
                     {/* Connection Strength Ring */}
                     <div className="absolute inset-0 rounded-full border-2 border-transparent">
                       <div
-                        className="absolute inset-0 rounded-full border-2 border-indigo-500"
+                        className="absolute inset-0 rounded-full border-2 border-terracotta-500"
                         style={{
                           borderWidth: `${Math.max(2, connection.connection_strength * 4)}px`,
                           opacity: connection.connection_strength
@@ -1836,13 +1836,13 @@ function RelatedStorytellersSection({ connections }: { connections: ConnectionNo
 
                   {/* Info */}
                   <div className="text-center">
-                    <h4 className="font-semibold text-grey-900 mb-2">{connection.name}</h4>
-                    <p className="text-sm text-grey-600 capitalize mb-3">
+                    <h4 className="font-semibold text-stone-900 mb-2">{connection.name}</h4>
+                    <p className="text-sm text-stone-600 capitalize mb-3">
                       {connection.relationship_type.replace('_', ' ')}
                     </p>
 
                     {connection.shared_projects > 0 && (
-                      <div className="text-xs text-indigo-600 bg-indigo-50 rounded-full px-3 py-1 inline-block">
+                      <div className="text-xs text-terracotta-600 bg-terracotta-50 rounded-full px-3 py-1 inline-block">
                         {connection.shared_projects} shared projects
                       </div>
                     )}
@@ -1850,13 +1850,13 @@ function RelatedStorytellersSection({ connections }: { connections: ConnectionNo
 
                   {/* Connection Strength Bar */}
                   <div className="mt-4">
-                    <div className="w-full bg-grey-200 rounded-full h-1">
+                    <div className="w-full bg-stone-200 rounded-full h-1">
                       <div
-                        className="h-1 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600"
+                        className="h-1 rounded-full bg-gradient-to-r from-terracotta-500 to-clay-600"
                         style={{ width: `${connection.connection_strength * 100}%` }}
                       />
                     </div>
-                    <div className="text-xs text-grey-500 text-center mt-1">
+                    <div className="text-xs text-stone-500 text-center mt-1">
                       {Math.round(connection.connection_strength * 100)}% connection
                     </div>
                   </div>
@@ -1873,7 +1873,7 @@ function RelatedStorytellersSection({ connections }: { connections: ConnectionNo
               transition={{ delay: 0.5 }}
               className="text-center mt-8"
             >
-              <Button variant="outline" size="lg" className="bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100">
+              <Button variant="outline" size="lg" className="bg-terracotta-50 border-terracotta-200 text-terracotta-700 hover:bg-terracotta-100">
                 <Network className="w-5 h-5 mr-2" />
                 View All {connections.length} Connections
               </Button>

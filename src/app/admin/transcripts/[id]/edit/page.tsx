@@ -205,15 +205,15 @@ export default function AdminTranscriptEditPage() {
             Back
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-grey-900">Edit Transcript</h1>
-            <p className="text-grey-600">
+            <h1 className="text-3xl font-bold text-stone-900">Edit Transcript</h1>
+            <p className="text-stone-600">
               Update transcript content and details
               {transcript?.storyteller_id && (
                 <>
                   {' · '}
                   <a
                     href={`/admin/storytellers/${transcript.storyteller_id}/edit`}
-                    className="text-blue-600 hover:underline"
+                    className="text-sage-600 hover:underline"
                   >
                     View {transcript?.profiles?.display_name || transcript?.profiles?.full_name || 'Storyteller'}'s Profile
                   </a>
@@ -276,7 +276,7 @@ export default function AdminTranscriptEditPage() {
                   required
                   className="min-h-[500px] font-mono text-sm"
                 />
-                <div className="flex justify-between text-xs text-grey-500 mt-1">
+                <div className="flex justify-between text-xs text-stone-500 mt-1">
                   <span>Words: {wordCount.toLocaleString()}</span>
                   <span>Characters: {characterCount.toLocaleString()}</span>
                 </div>
@@ -371,7 +371,7 @@ export default function AdminTranscriptEditPage() {
                   </Avatar>
                   <div>
                     <div className="font-medium">{storytellerName}</div>
-                    <div className="text-sm text-grey-500">ID: {transcript.storyteller_id}</div>
+                    <div className="text-sm text-stone-500">ID: {transcript.storyteller_id}</div>
                   </div>
                 </div>
               </CardContent>
@@ -386,30 +386,30 @@ export default function AdminTranscriptEditPage() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-sm text-grey-600">Status</span>
+                  <span className="text-sm text-stone-600">Status</span>
                   <Badge variant={transcript.status === 'completed' ? 'default' : 'secondary'}>
                     {transcript.status}
                   </Badge>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-grey-600">Duration</span>
+                  <span className="text-sm text-stone-600">Duration</span>
                   <span className="text-sm font-mono">
                     {formatDuration(transcript.duration_seconds || 0)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-grey-600">Original Words</span>
+                  <span className="text-sm text-stone-600">Original Words</span>
                   <span className="text-sm">{(transcript.word_count || 0).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-grey-600">Created</span>
+                  <span className="text-sm text-stone-600">Created</span>
                   <span className="text-sm">
                     {new Date(transcript.created_at).toLocaleDateString()}
                   </span>
                 </div>
                 {transcript.updated_at !== transcript.created_at && (
                   <div className="flex justify-between">
-                    <span className="text-sm text-grey-600">Last Updated</span>
+                    <span className="text-sm text-stone-600">Last Updated</span>
                     <span className="text-sm">
                       {new Date(transcript.updated_at).toLocaleDateString()}
                     </span>

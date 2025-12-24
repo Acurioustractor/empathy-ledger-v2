@@ -172,8 +172,8 @@ export function QualityDashboard({ data, loading }: QualityDashboardProps) {
                 <div className="flex items-center gap-2 mb-3">
                   <div className={cn(
                     "p-2 rounded-lg",
-                    metric.color === 'blue' && "bg-blue-100 text-blue-600 dark:bg-blue-950",
-                    metric.color === 'purple' && "bg-purple-100 text-purple-600 dark:bg-purple-950",
+                    metric.color === 'blue' && "bg-sage-100 text-sage-600 dark:bg-sage-950",
+                    metric.color === 'purple' && "bg-clay-100 text-clay-600 dark:bg-clay-950",
                     metric.color === 'green' && "bg-green-100 text-green-600 dark:bg-green-950",
                     metric.color === 'amber' && "bg-amber-100 text-amber-600 dark:bg-amber-950"
                   )}>
@@ -201,7 +201,7 @@ export function QualityDashboard({ data, loading }: QualityDashboardProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-purple-500" />
+              <BarChart3 className="w-5 h-5 text-clay-500" />
               Quality Score Distribution
             </CardTitle>
             <CardDescription>
@@ -236,7 +236,7 @@ export function QualityDashboard({ data, loading }: QualityDashboardProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <FileText className="w-5 h-5 text-blue-500" />
+              <FileText className="w-5 h-5 text-sage-500" />
               Content Statistics
             </CardTitle>
             <CardDescription>
@@ -245,7 +245,7 @@ export function QualityDashboard({ data, loading }: QualityDashboardProps) {
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
-              <div className="p-4 rounded-lg bg-blue-50 dark:bg-blue-950/30">
+              <div className="p-4 rounded-lg bg-sage-50 dark:bg-sage-950/30">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium">Average Word Count</span>
                   <Badge variant="secondary">{data.averageWordCount.toLocaleString()} words</Badge>
@@ -259,7 +259,7 @@ export function QualityDashboard({ data, loading }: QualityDashboardProps) {
                 </p>
               </div>
 
-              <div className="p-4 rounded-lg bg-purple-50 dark:bg-purple-950/30">
+              <div className="p-4 rounded-lg bg-clay-50 dark:bg-clay-950/30">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium">Average Themes per Story</span>
                   <Badge variant="secondary">{data.averageThemeCount} themes</Badge>
@@ -293,11 +293,11 @@ export function QualityDashboard({ data, loading }: QualityDashboardProps) {
                   <div className="text-xs text-muted-foreground">Total Stories</div>
                 </div>
                 <div className="text-center p-3 rounded-lg border">
-                  <div className="text-2xl font-bold text-blue-600">{data.totalTranscripts}</div>
+                  <div className="text-2xl font-bold text-sage-600">{data.totalTranscripts}</div>
                   <div className="text-xs text-muted-foreground">Interviews</div>
                 </div>
                 <div className="text-center p-3 rounded-lg border">
-                  <div className="text-2xl font-bold text-purple-600">{data.aiAnalyzed}</div>
+                  <div className="text-2xl font-bold text-clay-600">{data.aiAnalyzed}</div>
                   <div className="text-xs text-muted-foreground">Enriched</div>
                 </div>
               </div>

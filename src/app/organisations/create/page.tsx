@@ -117,13 +117,13 @@ export default function CreateOrganizationPage() {
 
         {/* Header Section */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-            <Building2 className="w-8 h-8 text-blue-600" />
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-sage-100 rounded-full mb-4">
+            <Building2 className="w-8 h-8 text-sage-600" />
           </div>
           <h1 className="text-4xl font-bold text-earth-800 mb-4">
             Register Your Organization
           </h1>
-          <p className="text-xl text-grey-600 max-w-2xl mx-auto">
+          <p className="text-xl text-stone-600 max-w-2xl mx-auto">
             Join our network of organisations dedicated to preserving cultural stories and heritage
           </p>
         </div>
@@ -150,7 +150,7 @@ export default function CreateOrganizationPage() {
               <form onSubmit={handleSubmit} className="space-y-6 mt-6">
                 {/* Basic Information */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-grey-800">Basic Information</h3>
+                  <h3 className="text-lg font-semibold text-stone-800">Basic Information</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
@@ -225,7 +225,7 @@ export default function CreateOrganizationPage() {
 
                 {/* About Your Organization */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-grey-800">About Your Organization</h3>
+                  <h3 className="text-lg font-semibold text-stone-800">About Your Organization</h3>
                   
                   <div className="space-y-2">
                     <Label htmlFor="description">Organization Description</Label>
@@ -263,7 +263,7 @@ export default function CreateOrganizationPage() {
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className="bg-sage-600 hover:bg-sage-700"
                   >
                     {isSubmitting ? (
                       <>
@@ -282,10 +282,10 @@ export default function CreateOrganizationPage() {
 
         {/* Information Section */}
         <div className="max-w-4xl mx-auto mt-12">
-          <Card className="bg-blue-50 border-blue-200">
+          <Card className="bg-sage-50 border-sage-200">
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-blue-800 mb-3">What happens next?</h3>
-              <ul className="space-y-2 text-blue-700">
+              <h3 className="text-lg font-semibold text-sage-800 mb-3">What happens next?</h3>
+              <ul className="space-y-2 text-sage-700">
                 <li>• Your organisation will be reviewed for approval</li>
                 <li>• You'll receive confirmation via email once approved</li>
                 <li>• You can start inviting team members and creating stories</li>

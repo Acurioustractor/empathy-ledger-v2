@@ -242,12 +242,12 @@ export function MediaUploader({
         {...getRootProps()}
         className={cn(
           "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colours",
-          isDragActive ? "border-primary bg-primary/5" : "border-grey-300 hover:border-grey-400",
+          isDragActive ? "border-primary bg-primary/5" : "border-stone-300 hover:border-stone-400",
           uploading && "opacity-50 cursor-not-allowed"
         )}
       >
         <input {...getInputProps()} />
-        <Upload className="h-12 w-12 mx-auto mb-4 text-grey-400" />
+        <Upload className="h-12 w-12 mx-auto mb-4 text-stone-400" />
         {isDragActive ? (
           <p className="text-lg font-medium">Drop files here...</p>
         ) : (
@@ -255,10 +255,10 @@ export function MediaUploader({
             <p className="text-lg font-medium mb-2">
               Drag & drop media files here
             </p>
-            <p className="text-sm text-grey-500">
+            <p className="text-sm text-stone-500">
               or click to browse from your device
             </p>
-            <p className="text-xs text-grey-400 mt-2">
+            <p className="text-xs text-stone-400 mt-2">
               Supports images, videos, and audio files (max {maxFiles} files)
             </p>
           </>
@@ -271,7 +271,7 @@ export function MediaUploader({
           {files.map(file => (
             <div 
               key={file.id}
-              className="flex items-center gap-3 p-3 bg-grey-50 rounded-lg"
+              className="flex items-center gap-3 p-3 bg-stone-50 rounded-lg"
             >
               {/* File icon */}
               <div className="flex-shrink-0">
@@ -283,7 +283,7 @@ export function MediaUploader({
                 <p className="text-sm font-medium truncate">
                   {file.file.name}
                 </p>
-                <p className="text-xs text-grey-500">
+                <p className="text-xs text-stone-500">
                   {(file.file.size / 1024 / 1024).toFixed(2)} MB
                 </p>
                 
@@ -294,7 +294,7 @@ export function MediaUploader({
                 
                 {/* Status text */}
                 {file.status === 'transcribing' && (
-                  <p className="text-xs text-blue-600 mt-1">
+                  <p className="text-xs text-sage-600 mt-1">
                     Generating transcript...
                   </p>
                 )}

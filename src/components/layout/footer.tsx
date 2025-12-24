@@ -96,10 +96,10 @@ export default function Footer() {
             <div className="flex justify-center mb-4">
               <LogoMark size={48} variant="default" />
             </div>
-            <Typography variant="h3" className="mb-4 text-grey-900 dark:text-grey-100 font-bold">
+            <Typography variant="h3" className="mb-4 text-stone-900 dark:text-stone-100 font-bold">
               Cultural Acknowledgment
             </Typography>
-            <Typography variant="body" className="text-grey-700 dark:text-grey-300 leading-relaxed max-w-3xl mx-auto font-medium">
+            <Typography variant="body" className="text-stone-700 dark:text-stone-300 leading-relaxed max-w-3xl mx-auto font-medium">
               {culturalAcknowledgment.trim()}
             </Typography>
           </div>
@@ -114,7 +114,7 @@ export default function Footer() {
             <Link href="/" className="inline-block mb-4 group hover:opacity-80 transition-opacity">
               <Logo size="md" showWordmark={true} showTagline={true} />
             </Link>
-            <Typography variant="body-small" className="text-grey-700 dark:text-grey-300 mb-6 leading-relaxed font-medium">
+            <Typography variant="body-small" className="text-stone-700 dark:text-stone-300 mb-6 leading-relaxed font-medium">
               A platform dedicated to preserving and sharing Indigenous stories, 
               wisdom, and cultural heritage with respect and cultural integrity.
             </Typography>
@@ -147,7 +147,7 @@ export default function Footer() {
           {/* Footer Sections */}
           {footerSections.map((section) => (
             <div key={section.title} className="">
-              <Typography variant="h6" className="mb-4 text-grey-900 dark:text-grey-100 font-bold">
+              <Typography variant="h6" className="mb-4 text-stone-900 dark:text-stone-100 font-bold">
                 {section.title}
               </Typography>
               <ul className="space-y-3">
@@ -157,8 +157,8 @@ export default function Footer() {
                       href={link.href}
                       className={cn(
                         "flex items-center space-x-2 text-sm transition-colours",
-                        "text-grey-700 dark:text-grey-300 font-medium",
-                        "hover:text-grey-900 dark:hover:text-grey-100"
+                        "text-stone-700 dark:text-stone-300 font-medium",
+                        "hover:text-stone-900 dark:hover:text-stone-100"
                       )}
                       {...(link.external && {
                         target: '_blank',
@@ -181,12 +181,12 @@ export default function Footer() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm text-stone-500 dark:text-stone-400">
-              <Typography variant="small" className="text-center md:text-left text-grey-700 dark:text-grey-300 font-semibold">
+              <Typography variant="small" className="text-center md:text-left text-stone-700 dark:text-stone-300 font-semibold">
                 © {currentYear} Empathy Ledger. Built with respect for Indigenous cultures.
               </Typography>
             </div>
 
-            <div className="flex items-center space-x-4 text-xs text-grey-600 dark:text-grey-400 font-medium">
+            <div className="flex items-center space-x-4 text-xs text-stone-600 dark:text-stone-400 font-medium">
               <span className="flex items-center space-x-1">
                 <LogoMark size={12} variant="default" />
                 <span>Made with cultural respect</span>
@@ -202,7 +202,7 @@ export default function Footer() {
       <div className="bg-sage-100/50 dark:bg-sage-950/20 border-t border-sage-200/50 dark:border-sage-800/50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-6 text-center">
-            <Typography variant="caption" className="text-grey-800 dark:text-grey-200 font-bold">
+            <Typography variant="caption" className="text-stone-800 dark:text-stone-200 font-bold">
               Cultural Content Advisory:
             </Typography>
             <Typography variant="caption" className="text-sage-600 dark:text-sage-400">

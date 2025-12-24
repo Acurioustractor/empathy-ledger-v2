@@ -170,7 +170,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
       case 'negative':
         return <TrendingDown className="w-4 h-4 text-red-500" />;
       case 'neutral':
-        return <Minus className="w-4 h-4 text-grey-500" />;
+        return <Minus className="w-4 h-4 text-stone-500" />;
     }
   };
 
@@ -181,7 +181,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
       case 'negative':
         return 'bg-red-100 text-red-800 border-red-200';
       case 'neutral':
-        return 'bg-grey-100 text-grey-800 border-grey-200';
+        return 'bg-stone-100 text-stone-800 border-stone-200';
     }
   };
 
@@ -466,7 +466,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
                   {/* Metrics */}
                   <div className="grid grid-cols-3 gap-4">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600">{theme.frequency}</div>
+                      <div className="text-2xl font-bold text-sage-600">{theme.frequency}</div>
                       <div className="text-sm text-muted-foreground">Frequency</div>
                     </div>
                     <div className="text-center">
@@ -505,7 +505,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
                       </h5>
                       <div className="space-y-2">
                         {theme.relatedQuotes.slice(0, 2).map((quote, i) => (
-                          <blockquote key={i} className="text-sm italic text-grey-600 border-l-2 border-grey-300 pl-3">
+                          <blockquote key={i} className="text-sm italic text-stone-600 border-l-2 border-stone-300 pl-3">
                             "{quote.length > 100 ? `${quote.substring(0, 100)}...` : quote}"
                           </blockquote>
                         ))}
@@ -537,7 +537,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
                         <span className="font-medium text-sm">All Quotes ({theme.relatedQuotes.length}):</span>
                         <div className="mt-2 space-y-2 max-h-48 overflow-y-auto">
                           {theme.relatedQuotes.map((quote, i) => (
-                            <div key={i} className="text-sm p-2 bg-grey-50 rounded border-l-2 border-amber-300">
+                            <div key={i} className="text-sm p-2 bg-stone-50 rounded border-l-2 border-amber-300">
                               "{quote}"
                             </div>
                           ))}
@@ -552,7 +552,7 @@ export const ThematicAnalysis: React.FC<ThematicAnalysisProps> = ({
 
           {processedThemes.length === 0 && (
             <div className="text-center py-12">
-              <Brain className="w-16 h-16 mx-auto mb-4 text-grey-400" />
+              <Brain className="w-16 h-16 mx-auto mb-4 text-stone-400" />
               <h3 className="text-lg font-medium mb-2">No Themes Found</h3>
               <p className="text-muted-foreground">
                 No cultural themes match the current filter criteria.

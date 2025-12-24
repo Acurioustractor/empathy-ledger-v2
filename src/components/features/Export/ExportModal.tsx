@@ -180,38 +180,38 @@ export default function ExportModal({
               <div>
                 <Label className="text-base font-medium mb-3 block">Export Format</Label>
                 <RadioGroup value={format} onValueChange={(v) => setFormat(v as any)}>
-                  <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-grey-50">
+                  <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-stone-50">
                     <RadioGroupItem value="csv" id="csv" />
                     <Label htmlFor="csv" className="flex-1 cursor-pointer">
                       <div className="flex items-center gap-3">
                         <FileSpreadsheet className="h-5 w-5 text-green-600" />
                         <div>
                           <p className="font-medium">CSV</p>
-                          <p className="text-sm text-grey-500">Best for Excel, Google Sheets</p>
+                          <p className="text-sm text-stone-500">Best for Excel, Google Sheets</p>
                         </div>
                       </div>
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-grey-50">
+                  <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-stone-50">
                     <RadioGroupItem value="json" id="json" />
                     <Label htmlFor="json" className="flex-1 cursor-pointer">
                       <div className="flex items-center gap-3">
-                        <FileJson className="h-5 w-5 text-blue-600" />
+                        <FileJson className="h-5 w-5 text-sage-600" />
                         <div>
                           <p className="font-medium">JSON</p>
-                          <p className="text-sm text-grey-500">Best for developers, APIs</p>
+                          <p className="text-sm text-stone-500">Best for developers, APIs</p>
                         </div>
                       </div>
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-grey-50">
+                  <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-stone-50">
                     <RadioGroupItem value="pdf" id="pdf" />
                     <Label htmlFor="pdf" className="flex-1 cursor-pointer">
                       <div className="flex items-center gap-3">
                         <FileText className="h-5 w-5 text-red-600" />
                         <div>
                           <p className="font-medium">PDF</p>
-                          <p className="text-sm text-grey-500">Best for printing, reports</p>
+                          <p className="text-sm text-stone-500">Best for printing, reports</p>
                         </div>
                       </div>
                     </Label>
@@ -271,13 +271,13 @@ export default function ExportModal({
         {isExporting && (
           <div className="py-8 space-y-4">
             <div className="flex flex-col items-center gap-4">
-              <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+              <Loader2 className="h-8 w-8 animate-spin text-sage-600" />
               <div className="text-center">
                 <p className="font-medium">Exporting {dataType}...</p>
-                <p className="text-sm text-grey-500 mt-1">This may take a few moments</p>
+                <p className="text-sm text-stone-500 mt-1">This may take a few moments</p>
               </div>
               <Progress value={exportProgress} className="w-full" />
-              <p className="text-sm text-grey-500">{Math.round(exportProgress)}%</p>
+              <p className="text-sm text-stone-500">{Math.round(exportProgress)}%</p>
             </div>
           </div>
         )}
@@ -291,7 +291,7 @@ export default function ExportModal({
               </div>
               <div className="text-center">
                 <p className="font-medium text-lg">Export Complete!</p>
-                <p className="text-sm text-grey-500 mt-1">
+                <p className="text-sm text-stone-500 mt-1">
                   Your file has been downloaded
                 </p>
               </div>
