@@ -138,9 +138,9 @@ export function StorytellerCard({
           role="img"
           aria-label={`Profile photo of ${storyteller.display_name}`}
         >
-          {storyteller.profile?.avatar_url ? (
+          {(storyteller.avatar_url || storyteller.profile?.avatar_url) ? (
             <img
-              src={storyteller.profile.avatar_url}
+              src={storyteller.avatar_url || storyteller.profile?.avatar_url}
               alt={`Portrait of ${storyteller.display_name}${storyteller.cultural_background ? `, ${storyteller.cultural_background} storyteller` : ''}`}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               loading="lazy"

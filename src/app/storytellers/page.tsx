@@ -42,6 +42,8 @@ async function getStorytellers(): Promise<Storyteller[]> {
         status: ((profile.status as string) || 'active') as 'active' | 'inactive' | 'pending',
         elder_status: (profile.is_elder as boolean) || false,
         storytelling_style: profile.storytelling_style as string[] | null,
+        location: profile.location as string | null,
+        avatar_url: profile.avatar_url as string | undefined, // CRITICAL: Top-level for card components
         profile: {
           avatar_url: profile.avatar_url as string | undefined,
           cultural_affiliations: profile.cultural_affiliations as string[] | undefined,

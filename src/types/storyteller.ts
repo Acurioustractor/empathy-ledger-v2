@@ -16,6 +16,7 @@ export interface StorytellerProfile {
   status: 'active' | 'inactive' | 'pending'
   elder_status: boolean
   storytelling_style: string[] | null
+  avatar_url?: string // CRITICAL: Top-level avatar URL for card components
 
   // Location & Territory
   location?: string | null
