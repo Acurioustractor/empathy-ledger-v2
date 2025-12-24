@@ -9,7 +9,7 @@
 -- Stores calculated metrics for organization impact dashboard
 CREATE TABLE IF NOT EXISTS organization_impact_metrics (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  organization_id UUID NOT NULL REFERENCES organisations(id) ON DELETE CASCADE,
+  organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
   tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
 
   -- Storyteller Metrics
@@ -66,7 +66,7 @@ COMMENT ON TABLE organization_impact_metrics IS 'Aggregated impact metrics for o
 -- Tracks theme usage, trends, and evolution within an organization
 CREATE TABLE IF NOT EXISTS organization_theme_analytics (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  organization_id UUID NOT NULL REFERENCES organisations(id) ON DELETE CASCADE,
+  organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
   tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
 
   theme TEXT NOT NULL,
@@ -112,7 +112,7 @@ COMMENT ON TABLE organization_theme_analytics IS 'Theme analytics and evolution 
 -- Stores AI-generated insights from analyzing transcripts together
 CREATE TABLE IF NOT EXISTS organization_cross_transcript_insights (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  organization_id UUID NOT NULL REFERENCES organisations(id) ON DELETE CASCADE,
+  organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
   tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
 
   insight_type TEXT NOT NULL CHECK (insight_type IN (
@@ -162,7 +162,7 @@ COMMENT ON TABLE organization_cross_transcript_insights IS 'AI-generated insight
 -- Maps connections between storytellers based on themes, projects, culture
 CREATE TABLE IF NOT EXISTS organization_storyteller_network (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  organization_id UUID NOT NULL REFERENCES organisations(id) ON DELETE CASCADE,
+  organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
   tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
 
   storyteller_a_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
@@ -288,7 +288,7 @@ DECLARE
 BEGIN
   -- Get tenant_id
   SELECT tenant_id INTO tenant_uuid
-  FROM organisations WHERE id = org_id;
+  FROM organizations WHERE id = org_id;
 
   -- Get storyteller IDs
   SELECT ARRAY_AGG(profile_id) INTO storyteller_ids
@@ -401,7 +401,7 @@ COMMENT ON TRIGGER update_org_metrics_on_transcript_analysis ON transcripts
 
 -- Create initial impact metrics for existing organizations
 INSERT INTO organization_impact_metrics (organization_id, tenant_id)
-SELECT id, tenant_id FROM organisations
+SELECT id, tenant_id FROM organizations
 WHERE id NOT IN (SELECT organization_id FROM organization_impact_metrics)
 ON CONFLICT (organization_id) DO NOTHING;
 
