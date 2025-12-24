@@ -136,7 +136,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
 
     // Check if organisation exists
     const { data: organisation } = await supabase
-      .from('tenants')
+      .from('organisations')
       .select('id, name')
       .eq('id', organization_id)
       .single()

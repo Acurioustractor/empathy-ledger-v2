@@ -30,26 +30,12 @@ export async function POST(
       )
     }
 
-    // Get user's tenant_id
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('tenant_id')
-      .eq('id', user.id)
-      .single()
-
-    if (!profile) {
-      return NextResponse.json(
-        { error: 'User profile not found', code: 'PROFILE_NOT_FOUND' },
-        { status: 404 }
-      )
-    }
-
     // Execute consent withdrawal with cascade
     const revocationService = getRevocationService()
     const result = await revocationService.cascadeConsentWithdrawal(
       storyId,
       user.id,
-      profile.tenant_id
+      null
     )
 
     if (!result.success) {

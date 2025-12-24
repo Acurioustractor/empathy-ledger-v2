@@ -24,6 +24,14 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       .from('stories')
       .select(`
         *,
+        storyteller:profiles!stories_storyteller_id_fkey(
+          id,
+          display_name,
+          bio,
+          cultural_background,
+          is_elder,
+          profile_image_url
+        ),
         author:profiles!stories_author_id_fkey(
           id,
           display_name,

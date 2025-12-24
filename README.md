@@ -26,16 +26,22 @@ A culturally respectful platform for Indigenous communities to share, preserve, 
 
 ## 🚀 Quick Start
 
+**New to the project?** Start with our comprehensive setup guides:
+
+1. **[NEXT_STEPS.md](NEXT_STEPS.md)** - 15-minute cloud-first setup ⭐ **START HERE**
+2. **[DEVELOPMENT_SETUP_COMPLETE.md](DEVELOPMENT_SETUP_COMPLETE.md)** - Complete setup overview
+3. **[docs/QUICK_START_CLOUD_WORKFLOW.md](docs/QUICK_START_CLOUD_WORKFLOW.md)** - Daily development workflow
+
 ### Prerequisites
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
-- Supabase account (for backend services)
+- Supabase Cloud account (we use cloud-first approach - no local database)
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-org/empathy-ledger-v2.git
+   git clone https://github.com/Acurioustractor/empathy-ledger-v2.git
    cd empathy-ledger-v2
    ```
 
@@ -46,8 +52,22 @@ A culturally respectful platform for Indigenous communities to share, preserve, 
 
 3. **Set up environment variables**
    ```bash
-   cp .env.example .env.local
+   cp .env.local.example .env.local
+   # Edit .env.local with your Supabase Cloud credentials
    ```
+
+4. **Link to Supabase Cloud**
+   ```bash
+   npx supabase link --project-ref yvnuayzslukamizrlhwb
+   ```
+
+5. **Start development server**
+   ```bash
+   npm run dev
+   # Opens on http://localhost:3003
+   ```
+
+**See [NEXT_STEPS.md](NEXT_STEPS.md) for complete setup guide.**
    
    Update the `.env.local` file with your configuration:
    ```env
@@ -197,6 +217,10 @@ We welcome contributions that align with our cultural values and technical stand
 3. Make your changes following cultural sensitivity guidelines
 4. Add tests and documentation
 5. Submit a pull request
+
+For the repo’s long-term SaaS + Git process (branches, CI gates, migrations, releases), see `docs/SAAS_GIT_WORKFLOW.md`.
+
+For how organisations and partner systems integrate (embeds, external API syndication, webhooks, consent/revocation), see `docs/SAAS_ORG_INTEGRATION_GUIDE.md`.
 
 ## 📄 License
 

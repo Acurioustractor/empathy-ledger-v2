@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
 import { Badge } from '@/components/ui/badge'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
+import { Logo } from '@/components/brand/Logo'
 import { useAuth } from '@/lib/context/auth.context'
 import { cn } from '@/lib/utils'
 
@@ -223,26 +224,16 @@ export default function Header() {
   const visibleSecondaryNavigation = [...secondaryNavigation, ...authenticatedNavigation].filter(shouldShowNavItem)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-stone-200 bg-white shadow-sm backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 shadow-sm backdrop-blur-sm">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo and Brand */}
-          <Link 
-            href="/" 
-            className="flex items-center gap-4 hover:opacity-80 transition-all duration-200"
+          <Link
+            href="/"
+            className="flex items-center hover:opacity-80 transition-all duration-200"
             onClick={closeMobileMenu}
           >
-            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-earth-600 via-clay-600 to-sage-600 shadow-cultural">
-              <Heart className="w-6 h-6 text-white" />
-            </div>
-            <div className="hidden sm:block">
-              <Typography variant="cultural-title" className="text-earth-800 text-xl font-bold leading-tight">
-                Empathy Ledger
-              </Typography>
-              <Typography variant="cultural-caption" className="text-sage-600 -mt-1 text-sm font-medium">
-                Every Story Matters
-              </Typography>
-            </div>
+            <Logo size="lg" showWordmark={true} showTagline={true} />
           </Link>
 
           {/* Desktop Navigation */}
@@ -254,8 +245,8 @@ export default function Header() {
                 href={item.href}
                 className={cn(
                   "flex items-center gap-3 px-4 py-3 rounded-lg text-body-md font-medium transition-all duration-200 whitespace-nowrap",
-                  "text-stone-700 hover:text-earth-800",
-                  "hover:bg-stone-50 hover:shadow-sm"
+                  "text-foreground/80 hover:text-foreground",
+                  "hover:bg-muted hover:shadow-sm"
                 )}
               >
                 {item.iconName && renderIcon(item.iconName, "w-4 h-4")}
@@ -276,9 +267,9 @@ export default function Header() {
                   size="sm"
                   className={cn(
                     "flex items-center gap-2 px-4 py-3 rounded-lg text-body-md font-medium transition-all duration-200",
-                    "text-stone-700 hover:text-earth-800",
-                    "hover:bg-stone-50 hover:shadow-sm",
-                    isMoreMenuOpen && "bg-stone-50 text-earth-800"
+                    "text-foreground/80 hover:text-foreground",
+                    "hover:bg-muted hover:shadow-sm",
+                    isMoreMenuOpen && "bg-muted text-foreground"
                   )}
                   onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
                 >
@@ -292,7 +283,7 @@ export default function Header() {
 
                 {/* More Dropdown Menu */}
                 {isMoreMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-stone-200 py-2 z-50">
+                  <div className="absolute right-0 top-full mt-2 w-56 bg-popover rounded-lg shadow-lg border border-border py-2 z-50">
                     {visibleSecondaryNavigation.map((item) => (
                       <Link
                         key={`more-${item.name}-${item.href}`}
@@ -300,14 +291,14 @@ export default function Header() {
                         onClick={() => setIsMoreMenuOpen(false)}
                         className={cn(
                           "flex items-center gap-3 px-4 py-3 text-body-sm transition-all duration-200",
-                          "text-stone-700 hover:text-earth-800 hover:bg-stone-50"
+                          "text-popover-foreground hover:text-foreground hover:bg-muted"
                         )}
                       >
                         {item.iconName && renderIcon(item.iconName, "w-4 h-4")}
                         <div className="flex-1">
                           <div className="font-medium">{item.name}</div>
                           {item.description && (
-                            <div className="text-stone-500 text-xs mt-0.5">{item.description}</div>
+                            <div className="text-muted-foreground text-xs mt-0.5">{item.description}</div>
                           )}
                         </div>
                         {item.badge && (
@@ -331,8 +322,8 @@ export default function Header() {
             {/* User Profile or Auth Buttons */}
             {isLoading && !forceShowAuth ? (
               <div className="hidden sm:flex items-center space-x-2">
-                <div className="animate-pulse bg-grey-200 rounded px-4 py-2 w-20 h-8"></div>
-                <div className="animate-pulse bg-grey-200 rounded px-4 py-2 w-24 h-8"></div>
+                <div className="animate-pulse bg-muted rounded px-4 py-2 w-20 h-8"></div>
+                <div className="animate-pulse bg-muted rounded px-4 py-2 w-24 h-8"></div>
               </div>
             ) : actualIsAuthenticated ? (
               <div className="hidden sm:flex items-center">
@@ -342,13 +333,13 @@ export default function Header() {
                     variant="outline"
                     size="cultural-sm"
                     className={cn(
-                      "flex items-center gap-2 px-4 py-2 border-stone-300 hover:bg-stone-50 hover:border-earth-300",
-                      isUserDropdownOpen && "bg-stone-50 border-earth-300"
+                      "flex items-center gap-2 px-4 py-2 border-border hover:bg-muted hover:border-primary/30",
+                      isUserDropdownOpen && "bg-muted border-primary/30"
                     )}
                     onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
                   >
-                    <User className="w-4 h-4 text-stone-600" />
-                    <span className="text-body-sm font-medium text-stone-700">
+                    <User className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-body-sm font-medium text-foreground/80">
                       {actualProfile?.display_name || actualProfile?.first_name || actualUser?.email?.split('@')[0] || 'User'}
                     </span>
                     {(isAdmin || isSuperAdmin) && (
@@ -364,17 +355,17 @@ export default function Header() {
 
                   {/* User Dropdown Menu */}
                   {isUserDropdownOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-stone-200 py-2 z-50">
+                    <div className="absolute right-0 top-full mt-2 w-56 bg-popover rounded-lg shadow-lg border border-border py-2 z-50">
                       {/* Profile Link */}
                       <Link
                         href="/profile"
                         onClick={() => setIsUserDropdownOpen(false)}
-                        className="flex items-center gap-3 px-4 py-3 text-body-sm transition-all duration-200 text-stone-700 hover:text-earth-800 hover:bg-stone-50"
+                        className="flex items-center gap-3 px-4 py-3 text-body-sm transition-all duration-200 text-popover-foreground hover:text-foreground hover:bg-muted"
                       >
                         <User className="w-4 h-4" />
                         <div className="flex-1">
                           <div className="font-medium">Profile</div>
-                          <div className="text-stone-500 text-xs mt-0.5">View and edit your profile</div>
+                          <div className="text-muted-foreground text-xs mt-0.5">View and edit your profile</div>
                         </div>
                       </Link>
 
@@ -383,12 +374,12 @@ export default function Header() {
                         <Link
                           href={`/storytellers/${actualUser.id}/dashboard`}
                           onClick={() => setIsUserDropdownOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-body-sm transition-all duration-200 text-stone-700 hover:text-earth-800 hover:bg-stone-50"
+                          className="flex items-center gap-3 px-4 py-3 text-body-sm transition-all duration-200 text-popover-foreground hover:text-foreground hover:bg-muted"
                         >
                           <Layout className="w-4 h-4" />
                           <div className="flex-1">
                             <div className="font-medium">Dashboard</div>
-                            <div className="text-stone-500 text-xs mt-0.5">Your storyteller dashboard</div>
+                            <div className="text-muted-foreground text-xs mt-0.5">Your storyteller dashboard</div>
                           </div>
                         </Link>
                       )}
@@ -399,18 +390,18 @@ export default function Header() {
                         <Link
                           href="/admin"
                           onClick={() => setIsUserDropdownOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-body-sm transition-all duration-200 text-stone-700 hover:text-earth-800 hover:bg-stone-50"
+                          className="flex items-center gap-3 px-4 py-3 text-body-sm transition-all duration-200 text-popover-foreground hover:text-foreground hover:bg-muted"
                         >
                           <Settings className="w-4 h-4" />
                           <div className="flex-1">
                             <div className="font-medium">Admin</div>
-                            <div className="text-stone-500 text-xs mt-0.5">Platform administration</div>
+                            <div className="text-muted-foreground text-xs mt-0.5">Platform administration</div>
                           </div>
                         </Link>
                       )}
 
                       {/* Divider */}
-                      <div className="border-t border-stone-200 my-2" />
+                      <div className="border-t border-border my-2" />
 
                       {/* Sign Out */}
                       <button
@@ -418,12 +409,12 @@ export default function Header() {
                           setIsUserDropdownOpen(false)
                           handleSignOut()
                         }}
-                        className="flex items-center gap-3 px-4 py-3 text-body-sm transition-all duration-200 text-red-600 hover:text-red-700 hover:bg-red-50 w-full text-left"
+                        className="flex items-center gap-3 px-4 py-3 text-body-sm transition-all duration-200 text-destructive hover:text-destructive hover:bg-destructive/10 w-full text-left"
                       >
                         <LogOut className="w-4 h-4" />
                         <div className="flex-1">
                           <div className="font-medium">Sign Out</div>
-                          <div className="text-red-500 text-xs mt-0.5">End your session</div>
+                          <div className="text-destructive/70 text-xs mt-0.5">End your session</div>
                         </div>
                       </button>
                     </div>
@@ -432,11 +423,11 @@ export default function Header() {
               </div>
             ) : (
               <div className="hidden sm:flex items-center gap-3">
-                <Button 
-                  variant="outline" 
-                  size="cultural-sm" 
+                <Button
+                  variant="outline"
+                  size="cultural-sm"
                   asChild
-                  className="border-stone-300 text-stone-700 hover:bg-stone-50 hover:border-earth-300 hover:text-earth-700 transition-all duration-200 font-medium"
+                  className="border-border text-foreground/80 hover:bg-muted hover:border-primary/30 hover:text-foreground transition-all duration-200 font-medium"
                 >
                   <Link href="/auth/signin" className="flex items-center gap-2">
                     <User className="w-4 h-4" />
@@ -461,7 +452,7 @@ export default function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden border border-stone-300 text-stone-700 hover:bg-stone-50 hover:border-earth-300"
+              className="md:hidden border border-border text-foreground/80 hover:bg-muted hover:border-primary/30"
               onClick={toggleMobileMenu}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
@@ -477,7 +468,7 @@ export default function Header() {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-stone-200 bg-white shadow-lg">
+        <div className="md:hidden border-t border-border bg-background shadow-lg">
           <div className="container mx-auto px-6 py-6 space-y-3">
             {visibleNavigation.map((item) => (
               <Link
@@ -486,14 +477,14 @@ export default function Header() {
                 onClick={closeMobileMenu}
                 className={cn(
                   "flex items-center gap-4 px-4 py-4 rounded-lg transition-all duration-200",
-                  "text-stone-700 hover:text-earth-800 font-medium",
-                  "hover:bg-stone-50 hover:shadow-sm"
+                  "text-foreground/80 hover:text-foreground font-medium",
+                  "hover:bg-muted hover:shadow-sm"
                 )}
               >
                 {item.iconName && renderIcon(item.iconName, "w-4 h-4")}
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <Typography variant="body-md" className="font-medium text-stone-700">
+                    <Typography variant="body-md" className="font-medium text-foreground/80">
                       {item.name}
                     </Typography>
                     {item.badge && (
@@ -503,7 +494,7 @@ export default function Header() {
                     )}
                   </div>
                   {item.description && (
-                    <Typography variant="body-xs" className="text-stone-500 mt-1">
+                    <Typography variant="body-xs" className="text-muted-foreground mt-1">
                       {item.description}
                     </Typography>
                   )}
@@ -512,7 +503,7 @@ export default function Header() {
             ))}
 
             {/* Mobile Auth Actions */}
-            <div className="pt-4 border-t border-stone-200 dark:border-stone-800 space-y-2">
+            <div className="pt-4 border-t border-border space-y-2">
               {actualIsAuthenticated ? (
                 <>
                   {actualProfile && (

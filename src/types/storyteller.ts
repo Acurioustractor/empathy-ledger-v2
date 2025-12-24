@@ -16,13 +16,24 @@ export interface StorytellerProfile {
   status: 'active' | 'inactive' | 'pending'
   elder_status: boolean
   storytelling_style: string[] | null
-  availability: any | null
-  cultural_protocols: any | null
-  community_recognition: any | null
-  performance_preferences: any | null
-  compensation_preferences: any | null
-  travel_availability: any | null
-  technical_requirements: any | null
+
+  // Location & Territory
+  location?: string | null
+  geographic_scope?: string | null
+  traditional_territory?: string | null
+
+  // Cultural & Knowledge
+  traditional_knowledge_keeper?: boolean
+
+  // Metadata (JSON fields)
+  availability?: Record<string, unknown> | null
+  cultural_protocols?: Record<string, unknown> | null
+  community_recognition?: string[] | Record<string, unknown> | string | null
+  performance_preferences?: Record<string, unknown> | null
+  compensation_preferences?: Record<string, unknown> | null
+  travel_availability?: Record<string, unknown> | null
+  technical_requirements?: Record<string, unknown> | null
+
   profile?: {
     avatar_url?: string
     cultural_affiliations?: string[]
@@ -30,7 +41,7 @@ export interface StorytellerProfile {
     display_name?: string
     bio?: string
     phone?: string
-    social_links?: any
+    social_links?: Record<string, string>
     languages_spoken?: string[]
     interests?: string[]
     preferred_communication?: string[]

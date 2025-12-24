@@ -54,20 +54,6 @@ export async function POST(
       )
     }
 
-    // Get user's tenant_id from profile
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('tenant_id')
-      .eq('id', user.id)
-      .single()
-
-    if (profileError || !profile) {
-      return NextResponse.json(
-        { error: 'User profile not found', code: 'PROFILE_NOT_FOUND' },
-        { status: 404 }
-      )
-    }
-
     // Build embed options
     const options: EmbedOptions = {
       domains: domains.map((d: string) => d.trim().toLowerCase()).filter(Boolean),
@@ -82,7 +68,7 @@ export async function POST(
     const embedToken = await embedService.generateEmbedToken(
       storyId,
       user.id,
-      profile.tenant_id,
+      null,
       options
     )
 
@@ -233,13 +219,6 @@ export async function DELETE(
       )
     }
 
-    // Get user's tenant_id
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('tenant_id')
-      .eq('id', user.id)
-      .single()
-
     // Verify story ownership
     const { data: story, error: storyError } = await supabase
       .from('stories')
@@ -264,7 +243,7 @@ export async function DELETE(
     // Revoke the token
     const reason = request.nextUrl.searchParams.get('reason') || 'Revoked by owner'
     const embedService = getEmbedService()
-    await embedService.revokeEmbedToken(tokenId, user.id, profile?.tenant_id, reason)
+    await embedService.revokeEmbedToken(tokenId, user.id, null, reason)
 
     return NextResponse.json({
       success: true,

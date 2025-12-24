@@ -35,26 +35,12 @@ export async function POST(
     const body = await request.json().catch(() => ({}))
     const { reason } = body
 
-    // Get user's tenant_id
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('tenant_id')
-      .eq('id', user.id)
-      .single()
-
-    if (!profile) {
-      return NextResponse.json(
-        { error: 'User profile not found', code: 'PROFILE_NOT_FOUND' },
-        { status: 404 }
-      )
-    }
-
     // Archive the story
     const revocationService = getRevocationService()
     await revocationService.archiveStory(
       storyId,
       user.id,
-      profile.tenant_id,
+      null,
       reason
     )
 
@@ -111,26 +97,12 @@ export async function PUT(
       )
     }
 
-    // Get user's tenant_id
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('tenant_id')
-      .eq('id', user.id)
-      .single()
-
-    if (!profile) {
-      return NextResponse.json(
-        { error: 'User profile not found', code: 'PROFILE_NOT_FOUND' },
-        { status: 404 }
-      )
-    }
-
     // Restore the story
     const revocationService = getRevocationService()
     await revocationService.restoreStory(
       storyId,
       user.id,
-      profile.tenant_id
+      null
     )
 
     return NextResponse.json({

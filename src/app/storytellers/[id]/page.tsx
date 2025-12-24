@@ -300,25 +300,25 @@ export default function StorytellerProfilePage() {
 
                     {/* Enhanced Location & Cultural Context */}
                     <div className="mb-4 space-y-2">
-                      {(storyteller as any).location && (
+                      {storyteller.location && (
                         <div className="flex items-center gap-2">
                           <MapPin className="w-4 h-4 text-earth-500 flex-shrink-0" aria-hidden="true" />
                           <Typography variant="body" className="text-grey-700">
-                            {(storyteller as any).location}
+                            {storyteller.location}
                           </Typography>
-                          {(storyteller as any).geographic_scope && (
+                          {storyteller.geographic_scope && (
                             <Badge variant="secondary" className="text-xs ml-2">
-                              {(storyteller as any).geographic_scope}
+                              {storyteller.geographic_scope}
                             </Badge>
                           )}
                         </div>
                       )}
 
-                      {(storyteller as any).traditional_territory && (
+                      {storyteller.traditional_territory && (
                         <div className="flex items-center gap-2">
                           <Landmark className="w-4 h-4 text-amber-600 flex-shrink-0" aria-hidden="true" />
                           <Typography variant="body" className="text-grey-600 italic text-sm">
-                            {(storyteller as any).traditional_territory}
+                            {storyteller.traditional_territory}
                           </Typography>
                         </div>
                       )}
@@ -335,7 +335,7 @@ export default function StorytellerProfilePage() {
 
                     {/* Cultural Markers */}
                     {(storyteller.profile?.languages_spoken?.length ||
-                      (storyteller as any).traditional_knowledge_keeper ||
+                      storyteller.traditional_knowledge_keeper ||
                       storyteller.profile?.cultural_affiliations?.length) && (
                       <div className="mb-4 flex flex-wrap gap-2">
                         {storyteller.profile?.languages_spoken && storyteller.profile.languages_spoken.length > 0 && (
@@ -351,7 +351,7 @@ export default function StorytellerProfilePage() {
                           </Badge>
                         )}
 
-                        {(storyteller as any).traditional_knowledge_keeper && (
+                        {storyteller.traditional_knowledge_keeper && (
                           <Badge
                             variant="outline"
                             className="bg-amber-50 text-amber-700 border-amber-200 flex items-center gap-1.5"
@@ -808,10 +808,39 @@ export default function StorytellerProfilePage() {
                     <CheckCircle className="w-5 h-5 mr-2 text-earth-600" />
                     Community Recognition
                   </Typography>
-                  
-                  <Typography variant="body" className="text-grey-600">
-                    {JSON.stringify(storyteller.community_recognition)}
-                  </Typography>
+
+                  {Array.isArray(storyteller.community_recognition) ? (
+                    <ul className="space-y-2">
+                      {storyteller.community_recognition.map((recognition: string, index: number) => (
+                        <li key={index} className="flex items-start">
+                          <Award className="w-4 h-4 mr-2 mt-1 text-earth-500 flex-shrink-0" />
+                          <Typography variant="body" className="text-grey-600">
+                            {recognition}
+                          </Typography>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : typeof storyteller.community_recognition === 'string' ? (
+                    <Typography variant="body" className="text-grey-600">
+                      {storyteller.community_recognition}
+                    </Typography>
+                  ) : (
+                    <div className="space-y-2">
+                      {Object.entries(storyteller.community_recognition).map(([key, value]) => (
+                        <div key={key} className="flex items-start">
+                          <Award className="w-4 h-4 mr-2 mt-1 text-earth-500 flex-shrink-0" />
+                          <div>
+                            <Typography variant="body" className="font-semibold text-earth-700">
+                              {key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:
+                            </Typography>
+                            <Typography variant="body" className="text-grey-600">
+                              {String(value)}
+                            </Typography>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </Card>
               )}
 

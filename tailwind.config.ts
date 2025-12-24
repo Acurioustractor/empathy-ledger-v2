@@ -81,6 +81,76 @@ const config: Config = {
           800: '#4a4641',
           900: '#2c2420',  // Deep brown text
         },
+        // Earth - Rich natural browns for cultural warmth
+        earth: {
+          50: '#faf8f5',
+          100: '#f1ece4',
+          200: '#e3d9cc',  // Light earth tones
+          300: '#d1c0ab',
+          400: '#b8a389',
+          500: '#9a8468',  // Primary earth
+          600: '#7d6b52',
+          700: '#6b5a44',  // Warm brown
+          800: '#544537',  // Deep earth
+          900: '#3d3028',  // Rich dark earth
+          950: '#2a1f17',
+        },
+        // Clay - Warm terracotta-adjacent earth tones
+        clay: {
+          50: '#faf6f3',
+          100: '#f4ebe3',
+          200: '#e8d5c5',
+          300: '#d8b8a0',
+          400: '#c59876',
+          500: '#b07a56',  // Primary clay
+          600: '#9a6345',
+          700: '#824f3a',  // Warm clay
+          800: '#6a4031',  // Deep clay
+          900: '#523229',  // Rich dark clay
+          950: '#3a221d',
+        },
+        // Sage - Calm, respectful greens for general UI
+        sage: {
+          50: '#f6f7f6',
+          100: '#e8eae8',
+          200: '#d1d5d1',
+          300: '#b4bcb4',
+          400: '#929e92',
+          500: '#748174',  // Primary sage
+          600: '#5d685d',
+          700: '#4c554c',
+          800: '#3f463f',
+          900: '#353a35',
+          950: '#1e211e',
+        },
+        // Emerald - Growth, community, vitality
+        emerald: {
+          50: '#ecfdf5',
+          100: '#d1fae5',
+          200: '#a7f3d0',
+          300: '#6ee7b7',
+          400: '#34d399',
+          500: '#10b981',  // Primary emerald
+          600: '#059669',
+          700: '#047857',
+          800: '#065f46',
+          900: '#064e3b',
+          950: '#022c22',
+        },
+        // Warm - Warm cream tones for backgrounds
+        warm: {
+          50: '#faf8f5',
+          100: '#f5f2ed',
+          200: '#ebe5dc',
+          300: '#ded4c7',
+          400: '#cbbfad',
+          500: '#b5a58e',  // Primary warm
+          600: '#9a8a74',
+          700: '#7f7160',
+          800: '#665d4e',
+          900: '#524a3f',
+          950: '#2e2922',
+        },
         // Design System Colors
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

@@ -7,8 +7,8 @@ import { createClient } from '@supabase/supabase-js'
 
 
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 export async function GET(request: NextRequest) {
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
     if (excludeOrganization) {
       // Get organisation details to find its tenant_id
       const { data: org } = await supabase
-        .from('tenants')
+        .from('organisations')
         .select('tenant_id')
         .eq('id', excludeOrganization)
         .single()

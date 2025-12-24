@@ -34,7 +34,7 @@ export class GDPRService {
   async anonymizeStory(
     storyId: string,
     userId: string,
-    tenantId: string,
+    tenantId: string | null | undefined,
     options: AnonymizeOptions = {}
   ): Promise<AnonymizeResult> {
     const result: AnonymizeResult = {
@@ -111,13 +111,13 @@ export class GDPRService {
       const embedsRevoked = await embedService.revokeAllStoryEmbeds(
         storyId,
         userId,
-        tenantId,
+        resolvedTenantId,
         'Story anonymized'
       )
       const distributionsRevoked = await distributionService.revokeAllDistributions(
         storyId,
         userId,
-        tenantId,
+        resolvedTenantId,
         'Story anonymized'
       )
 
@@ -125,14 +125,15 @@ export class GDPRService {
 
       // 8. Anonymize related media if requested
       if (options.anonymizeMedia) {
-        const mediaAnonymized = await this.anonymizeStoryMedia(storyId, tenantId)
+        const mediaAnonymized = await this.anonymizeStoryMedia(storyId, resolvedTenantId)
         result.itemsAffected += mediaAnonymized
         result.fieldsAnonymized.push('related_media')
       }
 
       // 9. Create audit log
       await this.logAudit({
-        tenant_id: tenantId,
+        tenant_id: resolvedTenantId,
+        organization_id: story.organization_id || null,
         entity_type: 'story',
         entity_id: storyId,
         action: 'anonymize',
@@ -568,6 +569,27 @@ export class GDPRService {
   // ==========================================================================
   // PRIVATE HELPERS
   // ==========================================================================
+
+  private async resolveTenantContext(
+    organizationId: string | null,
+    storyTenantId: string | null,
+    fallbackTenantId?: string | null
+  ): Promise<string | null> {
+    if (organizationId) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: org } = await (this.supabase as any)
+        .from('organisations')
+        .select('tenant_id')
+        .eq('id', organizationId)
+        .single()
+
+      if (org?.tenant_id) {
+        return org.tenant_id
+      }
+    }
+
+    return storyTenantId || fallbackTenantId || null
+  }
 
   /**
    * Scrub PII from content

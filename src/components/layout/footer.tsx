@@ -1,9 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
-import { Heart, Mail, MapPin, Phone, Globe, Shield, Eye } from 'lucide-react'
+import { Mail, MapPin, Phone, Globe, Shield, Eye } from 'lucide-react'
 
 import { Typography } from '@/components/ui/typography'
 import { Button } from '@/components/ui/button'
+import { Logo, LogoMark } from '@/components/brand/Logo'
 import { cn } from '@/lib/utils'
 
 interface FooterSection {
@@ -93,9 +94,7 @@ export default function Footer() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex justify-center mb-4">
-              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-clay-500 to-sage-600 shadow-cultural">
-                <Heart className="w-6 h-6 text-white" />
-              </div>
+              <LogoMark size={48} variant="default" />
             </div>
             <Typography variant="h3" className="mb-4 text-grey-900 dark:text-grey-100 font-bold">
               Cultural Acknowledgment
@@ -112,18 +111,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center space-x-3 mb-4 group">
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-clay-500 to-sage-600 shadow-cultural group-hover:shadow-lg transition-shadow">
-                <Heart className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <Typography variant="cultural-subheading" className="text-grey-900 dark:text-grey-100 font-bold">
-                  Empathy Ledger
-                </Typography>
-                <Typography variant="caption" className="text-grey-600 dark:text-grey-300 -mt-1">
-                  Cultural Stories & Wisdom
-                </Typography>
-              </div>
+            <Link href="/" className="inline-block mb-4 group hover:opacity-80 transition-opacity">
+              <Logo size="md" showWordmark={true} showTagline={true} />
             </Link>
             <Typography variant="body-small" className="text-grey-700 dark:text-grey-300 mb-6 leading-relaxed font-medium">
               A platform dedicated to preserving and sharing Indigenous stories, 
@@ -199,7 +188,7 @@ export default function Footer() {
 
             <div className="flex items-center space-x-4 text-xs text-grey-600 dark:text-grey-400 font-medium">
               <span className="flex items-center space-x-1">
-                <Heart className="w-3 h-3 text-clay-500" />
+                <LogoMark size={12} variant="default" />
                 <span>Made with cultural respect</span>
               </span>
               <span>•</span>

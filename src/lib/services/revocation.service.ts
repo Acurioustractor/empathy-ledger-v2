@@ -27,7 +27,7 @@ export class RevocationService {
   async initiateRevocation(
     storyId: string,
     userId: string,
-    tenantId: string,
+    tenantId: string | null | undefined,
     options: RevocationOptions
   ): Promise<RevocationResult> {
     const startTime = Date.now()
@@ -45,7 +45,7 @@ export class RevocationService {
       // 1. Verify story ownership
       const { data: story, error: storyError } = await this.supabase
         .from('stories')
-        .select('id, author_id, storyteller_id, title, status')
+        .select('id, author_id, storyteller_id, title, status, organization_id, tenant_id')
         .eq('id', storyId)
         .single()
 
@@ -57,6 +57,16 @@ export class RevocationService {
         throw new Error('Unauthorized: You do not own this story')
       }
 
+      const resolvedTenantId = await this.resolveTenantContext(
+        story.organization_id,
+        story.tenant_id,
+        tenantId
+      )
+
+      if (!resolvedTenantId) {
+        throw new Error('Tenant context not found for story')
+      }
+
       // 2. Revoke embeds if requested
       if (options.scope === 'all' || options.scope === 'embeds') {
         try {
@@ -64,7 +74,7 @@ export class RevocationService {
           result.embedsRevoked = await embedService.revokeAllStoryEmbeds(
             storyId,
             userId,
-            tenantId,
+            resolvedTenantId,
             options.reason || 'Revoked by owner'
           )
         } catch (err) {
@@ -79,7 +89,7 @@ export class RevocationService {
           result.distributionsRevoked = await distributionService.revokeAllDistributions(
             storyId,
             userId,
-            tenantId,
+            resolvedTenantId,
             options.reason || 'Revoked by owner'
           )
 
@@ -101,7 +111,7 @@ export class RevocationService {
       // 4. Archive story if full revocation
       if (options.scope === 'all' && options.archiveStory !== false) {
         try {
-          await this.archiveStory(storyId, userId, tenantId, options.reason)
+          await this.archiveStory(storyId, userId, resolvedTenantId, options.reason)
           result.storyArchived = true
         } catch (err) {
           result.errors.push(`Story archive failed: ${err instanceof Error ? err.message : 'Unknown error'}`)
@@ -121,7 +131,8 @@ export class RevocationService {
 
       // 6. Create comprehensive audit log
       await this.logAudit({
-        tenant_id: tenantId,
+        tenant_id: resolvedTenantId,
+        organization_id: story.organization_id || null,
         entity_type: 'story',
         entity_id: storyId,
         action: 'revoke',
@@ -155,13 +166,13 @@ export class RevocationService {
   async archiveStory(
     storyId: string,
     userId: string,
-    tenantId: string,
+    tenantId: string | null | undefined,
     reason?: string
   ): Promise<void> {
     // Verify ownership
     const { data: story, error: storyError } = await this.supabase
       .from('stories')
-      .select('id, author_id, storyteller_id, title')
+      .select('id, author_id, storyteller_id, title, organization_id, tenant_id')
       .eq('id', storyId)
       .single()
 
@@ -171,6 +182,16 @@ export class RevocationService {
 
     if (story.author_id !== userId && story.storyteller_id !== userId) {
       throw new Error('Unauthorized')
+    }
+
+    const resolvedTenantId = await this.resolveTenantContext(
+      story.organization_id,
+      story.tenant_id,
+      tenantId
+    )
+
+    if (!resolvedTenantId) {
+      throw new Error('Tenant context not found for story')
     }
 
     const { error } = await this.supabase
@@ -188,7 +209,8 @@ export class RevocationService {
     }
 
     await this.logAudit({
-      tenant_id: tenantId,
+      tenant_id: resolvedTenantId,
+      organization_id: story.organization_id || null,
       entity_type: 'story',
       entity_id: storyId,
       action: 'archive',
@@ -206,12 +228,12 @@ export class RevocationService {
   async restoreStory(
     storyId: string,
     userId: string,
-    tenantId: string
+    tenantId: string | null | undefined
   ): Promise<void> {
     // Verify ownership
     const { data: story, error: storyError } = await this.supabase
       .from('stories')
-      .select('id, author_id, storyteller_id, title, is_archived')
+      .select('id, author_id, storyteller_id, title, is_archived, organization_id, tenant_id')
       .eq('id', storyId)
       .single()
 
@@ -225,6 +247,16 @@ export class RevocationService {
 
     if (!story.is_archived) {
       throw new Error('Story is not archived')
+    }
+
+    const resolvedTenantId = await this.resolveTenantContext(
+      story.organization_id,
+      story.tenant_id,
+      tenantId
+    )
+
+    if (!resolvedTenantId) {
+      throw new Error('Tenant context not found for story')
     }
 
     const { error } = await this.supabase
@@ -242,7 +274,8 @@ export class RevocationService {
     }
 
     await this.logAudit({
-      tenant_id: tenantId,
+      tenant_id: resolvedTenantId,
+      organization_id: story.organization_id || null,
       entity_type: 'story',
       entity_id: storyId,
       action: 'restore',
@@ -261,7 +294,7 @@ export class RevocationService {
   async cascadeConsentWithdrawal(
     storyId: string,
     userId: string,
-    tenantId: string
+    tenantId: string | null | undefined
   ): Promise<CascadeResult> {
     const result: CascadeResult = {
       storyId,
@@ -274,7 +307,7 @@ export class RevocationService {
       // 1. Verify ownership
       const { data: story, error: storyError } = await this.supabase
         .from('stories')
-        .select('id, author_id, storyteller_id, title')
+        .select('id, author_id, storyteller_id, title, organization_id, tenant_id')
         .eq('id', storyId)
         .single()
 
@@ -305,7 +338,7 @@ export class RevocationService {
       const embedsRevoked = await embedService.revokeAllStoryEmbeds(
         storyId,
         userId,
-        tenantId,
+        resolvedTenantId,
         'Consent withdrawn'
       )
       result.itemsAffected += embedsRevoked
@@ -316,7 +349,7 @@ export class RevocationService {
       const distributionsRevoked = await distributionService.revokeAllDistributions(
         storyId,
         userId,
-        tenantId,
+        resolvedTenantId,
         'Consent withdrawn'
       )
       result.itemsAffected += distributionsRevoked
@@ -333,7 +366,8 @@ export class RevocationService {
 
       // 6. Create audit log
       await this.logAudit({
-        tenant_id: tenantId,
+        tenant_id: resolvedTenantId,
+        organization_id: story.organization_id || null,
         entity_type: 'story',
         entity_id: storyId,
         action: 'consent_withdraw',
@@ -440,6 +474,27 @@ export class RevocationService {
     } catch (error) {
       console.error('Failed to create audit log:', error)
     }
+  }
+
+  private async resolveTenantContext(
+    organizationId: string | null,
+    storyTenantId: string | null,
+    fallbackTenantId?: string | null
+  ): Promise<string | null> {
+    if (organizationId) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: org } = await (this.supabase as any)
+        .from('organisations')
+        .select('tenant_id')
+        .eq('id', organizationId)
+        .single()
+
+      if (org?.tenant_id) {
+        return org.tenant_id
+      }
+    }
+
+    return storyTenantId || fallbackTenantId || null
   }
 }
 

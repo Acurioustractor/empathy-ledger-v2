@@ -421,11 +421,14 @@ class ConsentProxyService {
     const supabase = createSupabaseServiceClient()
 
     try {
+      const { organizationId, tenantId } = await this.resolveStoryContext(supabase, storyId)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await (supabase as any)
         .from('story_access_log')
         .insert({
           story_id: storyId,
+          tenant_id: tenantId,
+          organization_id: organizationId,
           app_id: requestor.appId || null,
           access_type: accessType,
           accessor_ip: requestor.ip || null,
@@ -441,6 +444,36 @@ class ConsentProxyService {
       // Don't fail the request if logging fails
       console.error('Failed to log story access:', error)
     }
+  }
+
+  private async resolveStoryContext(
+    supabase: ReturnType<typeof createSupabaseServiceClient>,
+    storyId: string
+  ): Promise<{ organizationId: string | null; tenantId: string | null }> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: story } = await (supabase as any)
+      .from('stories')
+      .select('organization_id, tenant_id')
+      .eq('id', storyId)
+      .single()
+
+    const organizationId = story?.organization_id ?? null
+    let tenantId = story?.tenant_id ?? null
+
+    if (organizationId) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: org } = await (supabase as any)
+        .from('organisations')
+        .select('tenant_id')
+        .eq('id', organizationId)
+        .single()
+
+      if (org?.tenant_id) {
+        tenantId = org.tenant_id
+      }
+    }
+
+    return { organizationId, tenantId }
   }
 
   /**

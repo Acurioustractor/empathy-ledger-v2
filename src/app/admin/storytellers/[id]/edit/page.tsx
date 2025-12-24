@@ -42,7 +42,7 @@ interface StorytellerEditData {
   featured: boolean
   elder: boolean
   status: 'active' | 'pending' | 'suspended' | 'inactive'
-  profile_image_url?: string
+  avatar_url?: string
   story_count: number
   created_at: string
   projects?: ProjectAssignment[]
@@ -311,7 +311,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
       console.log('Profile updated successfully')
 
       // Update local state
-      setStoryteller(prev => prev ? { ...prev, profile_image_url: avatarUrl } : null)
+      setStoryteller(prev => prev ? { ...prev, avatar_url: avatarUrl } : null)
 
       // Clear error if successful
       setError('')
@@ -694,7 +694,7 @@ export default function EditStorytellerPage({ params }: PageProps) {
                 </CardHeader>
                 <CardContent>
                   <AvatarUpload
-                    currentAvatarUrl={storyteller?.profile_image_url}
+                    currentAvatarUrl={storyteller?.avatar_url}
                     userName={storyteller?.display_name || storyteller?.full_name || 'Storyteller'}
                     onUpload={handleAvatarUpload}
                     isEditing={true}

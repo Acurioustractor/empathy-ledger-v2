@@ -33,6 +33,9 @@ Code helpers:
 Context endpoint (to power UI decisions consistently):
 - `GET /api/saas/context` (`src/app/api/saas/context/route.ts`)
 
+Integration guide:
+- `docs/SAAS_ORG_INTEGRATION_GUIDE.md`
+
 ## Recommended “Distribution Studio” (novel feature)
 
 Build a single workflow that makes distribution safe, obvious, and trackable:
@@ -54,4 +57,3 @@ This is the “novel loop”: organisations don’t just collect stories; they c
 - Wire org tier/policy into embed + external syndication APIs (feature gates + policy defaults).
 - Add an “approval queue” UI for `high` sensitivity items requiring elder approval before distribution.
 - Add a minimal “Outcome Ledger” table and link distributions → outcomes (phase 2).
-

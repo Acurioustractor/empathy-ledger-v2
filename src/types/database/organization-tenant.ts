@@ -17,6 +17,7 @@ export interface OrganizationTenantTables {
       organization_type: string | null
       slug: string
       status: string | null
+      tenant_id: string | null
       type: string | null
       website_url: string | null
     }
@@ -35,6 +36,7 @@ export interface OrganizationTenantTables {
       organization_type?: string | null
       slug: string
       status?: string | null
+      tenant_id?: string | null
       type?: string | null
       website_url?: string | null
     }
@@ -53,6 +55,7 @@ export interface OrganizationTenantTables {
       organization_type?: string | null
       slug?: string
       status?: string | null
+      tenant_id?: string | null
       type?: string | null
       website_url?: string | null
     }
@@ -103,42 +106,108 @@ export interface OrganizationTenantTables {
       },
     ]
   }
+  tenant_members: {
+    Row: {
+      created_at: string | null
+      id: string
+      is_active: boolean | null
+      profile_id: string
+      role: string | null
+      tenant_id: string
+      updated_at: string | null
+    }
+    Insert: {
+      created_at?: string | null
+      id?: string
+      is_active?: boolean | null
+      profile_id: string
+      role?: string | null
+      tenant_id: string
+      updated_at?: string | null
+    }
+    Update: {
+      created_at?: string | null
+      id?: string
+      is_active?: boolean | null
+      profile_id?: string
+      role?: string | null
+      tenant_id?: string
+      updated_at?: string | null
+    }
+    Relationships: [
+      {
+        foreignKeyName: "tenant_members_tenant_id_fkey"
+        columns: ["tenant_id"]
+        isOneToOne: false
+        referencedRelation: "tenants"
+        referencedColumns: ["id"]
+      },
+      {
+        foreignKeyName: "tenant_members_profile_id_fkey"
+        columns: ["profile_id"]
+        isOneToOne: false
+        referencedRelation: "profiles"
+        referencedColumns: ["id"]
+      },
+    ]
+  }
   tenants: {
     Row: {
       api_key_hash: string | null
       billing_contact_email: string | null
       created_at: string | null
       cultural_protocols: Json | null
+      data_region: string | null
+      description: string | null
       id: string
+      is_default: boolean | null
+      location: string | null
       name: string
       organization_id: string | null
+      slug: string | null
       status: string | null
       subscription_level: string | null
       updated_at: string | null
+      contact_email: string | null
+      website_url: string | null
     }
     Insert: {
       api_key_hash?: string | null
       billing_contact_email?: string | null
       created_at?: string | null
       cultural_protocols?: Json | null
+      data_region?: string | null
+      description?: string | null
       id?: string
+      is_default?: boolean | null
+      location?: string | null
       name: string
       organization_id?: string | null
+      slug?: string | null
       status?: string | null
       subscription_level?: string | null
       updated_at?: string | null
+      contact_email?: string | null
+      website_url?: string | null
     }
     Update: {
       api_key_hash?: string | null
       billing_contact_email?: string | null
       created_at?: string | null
       cultural_protocols?: Json | null
+      data_region?: string | null
+      description?: string | null
       id?: string
+      is_default?: boolean | null
+      location?: string | null
       name?: string
       organization_id?: string | null
+      slug?: string | null
       status?: string | null
       subscription_level?: string | null
       updated_at?: string | null
+      contact_email?: string | null
+      website_url?: string | null
     }
     Relationships: [
       {

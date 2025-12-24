@@ -15,9 +15,12 @@
     "type-check:baseline": "node scripts/ci/typecheck-baseline.mjs",
     "type-check:baseline:write": "node scripts/ci/typecheck-baseline.mjs --write",
     "test:e2e": "playwright test",
-    "db:types": "supabase gen types typescript --local > src/types/database-generated.ts",
+    "db:types": "npx supabase gen types typescript --project-id yvnuayzslukamizrlhwb > src/types/database-generated.ts",
+    "db:types:local": "supabase gen types typescript --local > src/types/database-generated.ts",
     "validate:schema": "node scripts/validate-database-schema.js",
-    "validate:spelling": "node scripts/validation/australian-spelling-audit.js"
+    "validate:spelling": "node scripts/validation/australian-spelling-audit.js",
+    "env:check": "node scripts/validate-env.mjs",
+    "env:setup": "cp .env.example .env.local && echo '✅ Created .env.local - edit with your values'"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^2.0.23",

@@ -5,8 +5,6 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
-import type { Storyteller, StorytellerInsert } from '@/types/database'
-
 
 
 export async function GET(request: NextRequest) {
@@ -72,7 +70,7 @@ export async function GET(request: NextRequest) {
     // Helper function to extract themes from bio text
     const extractThemesFromBio = (bio: string): string[] => {
       if (!bio) return []
-      const themes = []
+      const themes: string[] = []
       const keywords = ['family', 'community', 'health', 'business', 'environment', 'education', 'culture', 'tradition', 'healing', 'land', 'country', 'elders', 'youth', 'stories', 'wisdom', 'connection', 'identity', 'heritage', 'language', 'ceremony']
       keywords.forEach(keyword => {
         if (bio.toLowerCase().includes(keyword)) {
@@ -130,9 +128,10 @@ export async function GET(request: NextRequest) {
     }
 
     // Resolve avatar URLs for profiles that only have media references
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const profilesNeedingAvatars = (profiles || [])
-      .filter(profile => !profile.profile_image_url && !profile.avatar_url && profile.avatar_media_id)
-      .map(profile => profile.avatar_media_id)
+      .filter((profile: any) => !profile.profile_image_url && !profile.avatar_url && profile.avatar_media_id)
+      .map((profile: any) => profile.avatar_media_id)
 
     const avatarUrlMap: Record<string, string> = {}
 
@@ -154,18 +153,19 @@ export async function GET(request: NextRequest) {
     }
 
     // Transform profiles to storyteller format
-    const storytellers = await Promise.all((profiles || []).map(async profile => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const storytellers = await Promise.all((profiles || []).map(async (profile: any) => {
       const rawBio = profile.bio || ''
       const bio = cleanBio(rawBio)
       const themes = extractThemesFromBio(rawBio)
       const storyCount = profile.stories ? profile.stories.length : 0
 
       // Get organization data from profile's current_organization field
-      let organisations = []
+      let organisations: Array<{ id: string | null; name: string; role: string }> = []
       if (profile.current_organization) {
         // Try to find the organization by name first
         const { data: org } = await supabase
-          .from('tenants')
+          .from('organisations')
           .select('id, name')
           .eq('name', profile.current_organization)
           .single()

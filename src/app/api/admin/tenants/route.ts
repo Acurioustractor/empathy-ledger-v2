@@ -21,8 +21,9 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status') || 'all'
 
     // Query tenants
-    let query = supabase
-      .from('organizations')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let query = (supabase as any)
+      .from('tenants')
       .select('*')
       .order('name')
 
@@ -43,40 +44,44 @@ export async function GET(request: NextRequest) {
     }
 
     // Get projects count for each tenant
-    const { data: projects } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: projects } = await (supabase as any)
       .from('projects')
       .select('tenant_id')
 
     // Get member counts for each tenant
-    const { data: memberCounts } = await supabase
-      .from('profiles')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: memberCounts } = await (supabase as any)
+      .from('tenant_members')
       .select('tenant_id')
-      .not('tenant_id', 'is', null)
+      .eq('is_active', true)
 
     // Get story counts for each tenant
-    const { data: storyCounts } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: storyCounts } = await (supabase as any)
       .from('stories')
       .select('tenant_id, created_at')
       .not('tenant_id', 'is', null)
 
     // Transform data for frontend
-    const transformedTenants = (tenants || []).map(tenant => {
-      const tenantProjects = projects?.filter(p => p.tenant_id === tenant.id) || []
-      const tenantMembers = memberCounts?.filter(m => m.tenant_id === tenant.id) || []
-      const tenantStories = storyCounts?.filter(s => s.tenant_id === tenant.id) || []
-      
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const transformedTenants = (tenants || []).map((tenant: any) => {
+      const tenantProjects = projects?.filter((p: any) => p.tenant_id === tenant.id) || []
+      const tenantMembers = memberCounts?.filter((m: any) => m.tenant_id === tenant.id) || []
+      const tenantStories = storyCounts?.filter((s: any) => s.tenant_id === tenant.id) || []
+
       // Calculate last activity from most recent story
-      const sortedStories = tenantStories.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      const sortedStories = tenantStories.sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
       const lastActivity = sortedStories.length > 0 ? sortedStories[0].created_at : tenant.created_at
-      
+
       return {
         id: tenant.id,
         name: tenant.name,
         description: tenant.description,
         status: tenant.status,
         location: tenant.location,
-        contactEmail: tenant.contact_email,
-        website: tenant.website,
+        contactEmail: tenant.contact_email || tenant.billing_contact_email,
+        website: tenant.website_url,
         createdAt: tenant.created_at,
         updatedAt: tenant.updated_at,
         projectCount: tenantProjects.length,
@@ -107,15 +112,18 @@ export async function POST(request: NextRequest) {
     const tenantData = await request.json()
 
     // Create tenant in database
+    const slug = tenantData.slug || tenantData.name?.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '')
+
     const { data: newTenant, error } = await supabase
-      .from('organizations')
+      .from('tenants')
       .insert([{
         name: tenantData.name,
-        description: tenantData.description || '',
+        slug: slug || null,
+        description: tenantData.description || null,
         status: tenantData.status || 'active',
-        location: tenantData.location || '',
-        contact_email: tenantData.contactEmail || '',
-        website: tenantData.website || ''
+        location: tenantData.location || null,
+        contact_email: tenantData.contactEmail || null,
+        website_url: tenantData.website || null
       }])
       .select()
       .single()
@@ -150,15 +158,18 @@ export async function PUT(request: NextRequest) {
     }
 
     // Update tenant in database
+    const slug = updateData.slug || updateData.name?.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '')
+
     const { data: updatedTenant, error } = await supabase
-      .from('organizations')
+      .from('tenants')
       .update({
         name: updateData.name,
+        slug: slug || null,
         description: updateData.description,
         status: updateData.status,
         location: updateData.location,
         contact_email: updateData.contactEmail,
-        website: updateData.website
+        website_url: updateData.website
       })
       .eq('id', id)
       .select()
@@ -196,7 +207,7 @@ export async function DELETE(request: NextRequest) {
 
     // Delete tenant
     const { error } = await supabase
-      .from('organizations')
+      .from('tenants')
       .delete()
       .eq('id', id)
 

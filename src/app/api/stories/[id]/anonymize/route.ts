@@ -41,26 +41,12 @@ export async function POST(
       anonymizeMedia = true
     } = body
 
-    // Get user's tenant_id
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('tenant_id')
-      .eq('id', user.id)
-      .single()
-
-    if (!profile) {
-      return NextResponse.json(
-        { error: 'User profile not found', code: 'PROFILE_NOT_FOUND' },
-        { status: 404 }
-      )
-    }
-
     // Execute anonymization
     const gdprService = getGDPRService()
     const result = await gdprService.anonymizeStory(
       storyId,
       user.id,
-      profile.tenant_id,
+      null,
       {
         preserveContent,
         preserveAttribution,

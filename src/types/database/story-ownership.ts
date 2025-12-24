@@ -108,6 +108,7 @@ export interface StoryDistributionRow {
   id: string
   story_id: string
   tenant_id: string
+  organization_id: string | null
 
   // Distribution details
   platform: DistributionPlatform
@@ -152,6 +153,7 @@ export interface StoryDistributionInsert {
   id?: string
   story_id: string
   tenant_id: string
+  organization_id?: string | null
 
   platform: DistributionPlatform
   platform_post_id?: string | null
@@ -186,6 +188,7 @@ export interface StoryDistributionInsert {
 }
 
 export interface StoryDistributionUpdate {
+  organization_id?: string | null
   platform?: DistributionPlatform
   platform_post_id?: string | null
   distribution_url?: string | null
@@ -221,6 +224,7 @@ export interface EmbedTokenRow {
   id: string
   story_id: string
   tenant_id: string
+  organization_id: string | null
 
   // Token details
   token: string
@@ -260,6 +264,7 @@ export interface EmbedTokenInsert {
   id?: string
   story_id: string
   tenant_id: string
+  organization_id?: string | null
 
   token: string
   token_hash: string
@@ -289,6 +294,7 @@ export interface EmbedTokenInsert {
 }
 
 export interface EmbedTokenUpdate {
+  organization_id?: string | null
   allowed_domains?: string[] | null
   status?: EmbedTokenStatus
   expires_at?: string | null
@@ -316,6 +322,7 @@ export interface EmbedTokenUpdate {
 export interface AuditLogRow {
   id: string
   tenant_id: string
+  organization_id: string | null
 
   // What was affected
   entity_type: AuditEntityType
@@ -351,6 +358,7 @@ export interface AuditLogRow {
 export interface AuditLogInsert {
   id?: string
   tenant_id: string
+  organization_id?: string | null
 
   entity_type: AuditEntityType
   entity_id: string
@@ -385,6 +393,7 @@ export interface DeletionRequestRow {
   id: string
   user_id: string
   tenant_id: string
+  organization_id: string | null
 
   // Request details
   request_type: DeletionRequestType
@@ -427,6 +436,7 @@ export interface DeletionRequestInsert {
   id?: string
   user_id: string
   tenant_id: string
+  organization_id?: string | null
 
   request_type: DeletionRequestType
   scope?: Json | null
@@ -459,6 +469,7 @@ export interface DeletionRequestInsert {
 }
 
 export interface DeletionRequestUpdate {
+  organization_id?: string | null
   scope?: Json | null
   reason?: string | null
 

@@ -113,9 +113,9 @@ export interface UnifiedStorytellerCardProps {
 }
 
 const organizationTypeColors = {
-  nonprofit: 'bg-blue-50 text-blue-700 border-blue-200',
-  community: 'bg-green-50 text-green-700 border-green-200',
-  government: 'bg-purple-50 text-purple-700 border-purple-200',
+  nonprofit: 'bg-earth-50 text-earth-700 border-earth-200',
+  community: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  government: 'bg-stone-50 text-stone-700 border-stone-200',
   tribal: 'bg-amber-50 text-amber-700 border-amber-200'
 }
 
@@ -127,9 +127,9 @@ const projectTypeColors = {
 }
 
 const statusColors = {
-  active: 'bg-green-100 text-green-800 border-green-200',
+  active: 'bg-emerald-100 text-emerald-800 border-emerald-200',
   completed: 'bg-grey-100 text-grey-600 border-grey-200',
-  planning: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+  planning: 'bg-amber-100 text-amber-800 border-amber-200',
   paused: 'bg-orange-100 text-orange-600 border-orange-200'
 }
 
@@ -175,9 +175,9 @@ export function UnifiedStorytellerCard({
   }
 
   const getProfileCompletenessColor = (score: number) => {
-    if (score >= 80) return 'text-green-600'
-    if (score >= 60) return 'text-yellow-600'
-    return 'text-red-600'
+    if (score >= 80) return 'text-emerald-600'
+    if (score >= 60) return 'text-amber-600'
+    return 'text-rose-600'
   }
 
   const renderLocationContext = () => {
@@ -190,7 +190,7 @@ export function UnifiedStorytellerCard({
             <MapPin className="w-3 h-3" />
             <span>{storyteller.location}</span>
             {storyteller.geographic_scope && (
-              <Badge variant="outline" className="text-xs ml-1">
+              <Badge variant="outline" className="text-xs ml-1 touch-target">
                 {storyteller.geographic_scope}
               </Badge>
             )}
@@ -225,7 +225,7 @@ export function UnifiedStorytellerCard({
         {visibleOrgs && visibleOrgs.length > 0 && (
           <div>
             <div className="flex items-center gap-1 mb-2">
-              <Building2 className="w-4 h-4 text-blue-600" />
+              <Building2 className="w-4 h-4 text-earth-600" />
               <Typography variant="small" className="text-grey-600 font-medium">
                 Organizations
               </Typography>
@@ -236,7 +236,7 @@ export function UnifiedStorytellerCard({
                   <Badge
                     variant="outline"
                     className={cn(
-                      "text-xs",
+                      "text-xs touch-target",
                       organizationTypeColors[org.type || 'community']
                     )}
                   >
@@ -245,7 +245,7 @@ export function UnifiedStorytellerCard({
                   {org.status && (
                     <Badge
                       variant="outline"
-                      className={cn("text-xs", statusColors[org.status])}
+                      className={cn("text-xs touch-target", statusColors[org.status])}
                     >
                       {org.status}
                     </Badge>
@@ -273,7 +273,7 @@ export function UnifiedStorytellerCard({
         {visibleProjects && visibleProjects.length > 0 && (
           <div>
             <div className="flex items-center gap-1 mb-2">
-              <Target className="w-4 h-4 text-green-600" />
+              <Target className="w-4 h-4 text-emerald-600" />
               <Typography variant="small" className="text-grey-600 font-medium">
                 Projects
               </Typography>
@@ -284,7 +284,7 @@ export function UnifiedStorytellerCard({
                   <Badge
                     variant="outline"
                     className={cn(
-                      "text-xs",
+                      "text-xs touch-target",
                       projectTypeColors[project.type || 'community']
                     )}
                   >
@@ -293,7 +293,7 @@ export function UnifiedStorytellerCard({
                   {project.status && (
                     <Badge
                       variant="outline"
-                      className={cn("text-xs", statusColors[project.status])}
+                      className={cn("text-xs touch-target", statusColors[project.status])}
                     >
                       {project.status}
                     </Badge>
@@ -326,11 +326,11 @@ export function UnifiedStorytellerCard({
     const { profile_completeness, top_themes, suggested_tags, cultural_markers } = storyteller.ai_insights
 
     return (
-      <div className="space-y-3 p-3 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-200">
+      <div className="space-y-3 p-3 bg-gradient-to-r from-warm-50 to-accent/10 rounded-lg border border-accent/30">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-purple-600" />
-            <Typography variant="small" className="text-purple-700 font-medium">
+            <Sparkles className="w-4 h-4 text-accent" />
+            <Typography variant="small" className="text-accent-foreground font-medium">
               AI Insights
             </Typography>
           </div>
@@ -353,7 +353,7 @@ export function UnifiedStorytellerCard({
                 <Badge
                   key={index}
                   variant="outline"
-                  className="text-xs bg-earth-50 text-earth-700 border-earth-200"
+                  className="text-xs bg-earth-50 text-earth-700 border-earth-200 touch-target"
                 >
                   {theme.theme}
                   <span className="ml-1 text-earth-600">({theme.count})</span>
@@ -374,7 +374,7 @@ export function UnifiedStorytellerCard({
                 <Badge
                   key={index}
                   variant="outline"
-                  className="text-xs bg-purple-50 text-purple-700 border-purple-200"
+                  className="text-xs bg-earth-50 text-earth-700 border-earth-200 touch-target"
                 >
                   {marker}
                 </Badge>
@@ -393,7 +393,7 @@ export function UnifiedStorytellerCard({
               {suggested_tags.slice(0, 2).map((suggestion, index) => (
                 <div key={index} className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+                    <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200 touch-target">
                       {suggestion.category}: {suggestion.value}
                     </Badge>
                     <span className="text-grey-500">
@@ -507,13 +507,13 @@ export function UnifiedStorytellerCard({
               {/* Status badges */}
               <div className="flex flex-col gap-1">
                 {isFeatured && (
-                  <Badge className="bg-amber-100 text-amber-800 text-xs font-medium">
+                  <Badge className="bg-amber-100 text-amber-800 text-xs font-medium touch-target">
                     <Star className="w-3 h-3 mr-1" />
                     Featured
                   </Badge>
                 )}
                 {isElder && (
-                  <Badge className="bg-purple-100 text-purple-800 text-xs font-medium">
+                  <Badge className="bg-purple-100 text-purple-800 text-xs font-medium touch-target">
                     <Crown className="w-3 h-3 mr-1" />
                     Elder
                   </Badge>
@@ -554,7 +554,7 @@ export function UnifiedStorytellerCard({
                     <Badge
                       key={index}
                       variant="outline"
-                      className="text-xs bg-sage-50 text-sage-700 border-sage-200"
+                      className="text-xs bg-sage-50 text-sage-700 border-sage-200 touch-target"
                     >
                       {affiliation}
                     </Badge>
@@ -573,7 +573,7 @@ export function UnifiedStorytellerCard({
                     <Badge
                       key={index}
                       variant="outline"
-                      className="text-xs bg-clay-50 text-clay-700 border-clay-200"
+                      className="text-xs bg-clay-50 text-clay-700 border-clay-200 touch-target"
                     >
                       {language}
                     </Badge>

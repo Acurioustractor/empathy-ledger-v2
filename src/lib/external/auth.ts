@@ -123,6 +123,35 @@ export async function logStoryAccess(
   }
 ): Promise<void> {
   const supabase = createSupabaseServiceClient()
+  let organizationId: string | null = null
+  let tenantId: string | null = null
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: story } = await (supabase as any)
+      .from('stories')
+      .select('organization_id, tenant_id')
+      .eq('id', storyId)
+      .single()
+
+    organizationId = story?.organization_id ?? null
+    tenantId = story?.tenant_id ?? null
+
+    if (organizationId) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: org } = await (supabase as any)
+        .from('organisations')
+        .select('tenant_id')
+        .eq('id', organizationId)
+        .single()
+
+      if (org?.tenant_id) {
+        tenantId = org.tenant_id
+      }
+    }
+  } catch (error) {
+    console.error('Failed to resolve story tenant context:', error)
+  }
 
   // Table will be created via migration - bypass type checking
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -130,6 +159,8 @@ export async function logStoryAccess(
     .from('story_access_log')
     .insert({
       story_id: storyId,
+      tenant_id: tenantId,
+      organization_id: organizationId,
       app_id: appId,
       access_type: accessType,
       accessor_ip: context?.ip || null,

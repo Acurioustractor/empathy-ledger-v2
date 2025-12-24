@@ -71,8 +71,9 @@ export async function withOrganizationRole(
     }
 
     // Get organisation and validate it exists
-    const { data: organisation, error: orgError } = await supabase
-      .from('tenants')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: organisation, error: orgError } = await (supabase as any)
+      .from('organisations')
       .select('id, name, tenant_id')
       .eq('id', organizationId)
       .single()
@@ -88,7 +89,8 @@ export async function withOrganizationRole(
     }
 
     // Get user's role in this organisation using parameterized RPC call
-    const { data: userRole, error: roleError } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: userRole, error: roleError } = await (supabase as any)
       .rpc('get_user_organization_role', {
         org_id: organizationId,
         user_id: user.id
@@ -111,7 +113,8 @@ export async function withOrganizationRole(
     // Check if user has access to this organisation (either through role or tenant)
     if (!roleResult) {
       // Check if user is in the same tenant (fallback access)
-      const { data: userProfile } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: userProfile } = await (supabase as any)
         .from('profiles')
         .select('tenant_id')
         .eq('id', user.id)
@@ -241,9 +244,10 @@ export async function getOrganizationContext(
 ): Promise<{ organisation: any; error: NextResponse | null }> {
   try {
     const supabase = createSupabaseServerClient()
-    
-    const { data: organisation, error } = await supabase
-      .from('tenants')
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: organisation, error } = await (supabase as any)
+      .from('organisations')
       .select('id, name, tenant_id, cultural_identity, governance_structure')
       .eq('id', organizationId)
       .single()

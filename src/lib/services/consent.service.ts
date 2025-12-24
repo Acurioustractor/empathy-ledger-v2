@@ -83,7 +83,7 @@ export class ConsentService {
   async grantConsent(
     input: ConsentGrantInput,
     actorId: string,
-    tenantId: string
+    tenantId: string | null | undefined
   ): Promise<ConsentProof> {
     const consentId = crypto.randomUUID()
     const now = new Date().toISOString()
@@ -111,6 +111,22 @@ export class ConsentService {
       notes: input.notes || null
     }
 
+    const { data: storyContext } = await this.supabase
+      .from('stories')
+      .select('organization_id, tenant_id')
+      .eq('id', input.story_id)
+      .single()
+
+    const resolvedTenantId = await this.resolveTenantContext(
+      storyContext?.organization_id || null,
+      storyContext?.tenant_id || null,
+      tenantId
+    )
+
+    if (!resolvedTenantId) {
+      throw new Error('Tenant context not found for story')
+    }
+
     // Update story with consent status
     const { error: updateError } = await this.supabase
       .from('stories')
@@ -130,7 +146,8 @@ export class ConsentService {
     // Store consent proof in consent_records table or as JSON
     // Using audit log for now as dedicated consent_records may not exist
     await this.auditService.log({
-      tenant_id: tenantId,
+      tenant_id: resolvedTenantId,
+      organization_id: storyContext?.organization_id || null,
       entity_type: 'story',
       entity_id: input.story_id,
       action: 'consent_grant',
@@ -150,7 +167,7 @@ export class ConsentService {
   async withdrawConsent(
     storyId: string,
     userId: string,
-    tenantId: string,
+    tenantId: string | null | undefined,
     reason: string,
     scope: 'full' | 'partial' = 'full',
     partialRestrictions?: string[]
@@ -161,7 +178,7 @@ export class ConsentService {
     // Verify user has permission to withdraw consent (must be storyteller)
     const { data: story, error: fetchError } = await this.supabase
       .from('stories')
-      .select('storyteller_id, author_id, title')
+      .select('storyteller_id, author_id, title, organization_id, tenant_id')
       .eq('id', storyId)
       .single()
 
@@ -209,7 +226,8 @@ export class ConsentService {
 
     // Create audit log
     await this.auditService.log({
-      tenant_id: tenantId,
+      tenant_id: resolvedTenantId,
+      organization_id: story.organization_id || null,
       entity_type: 'story',
       entity_id: storyId,
       action: 'consent_withdraw',
@@ -229,11 +247,27 @@ export class ConsentService {
   async verifyConsent(
     storyId: string,
     verifierId: string,
-    tenantId: string,
+    tenantId: string | null | undefined,
     approved: boolean,
     notes?: string
   ): Promise<void> {
     const now = new Date().toISOString()
+
+    const { data: storyContext } = await this.supabase
+      .from('stories')
+      .select('organization_id, tenant_id')
+      .eq('id', storyId)
+      .single()
+
+    const resolvedTenantId = await this.resolveTenantContext(
+      storyContext?.organization_id || null,
+      storyContext?.tenant_id || null,
+      tenantId
+    )
+
+    if (!resolvedTenantId) {
+      throw new Error('Tenant context not found for story')
+    }
 
     const { error: updateError } = await this.supabase
       .from('stories')
@@ -249,7 +283,8 @@ export class ConsentService {
     }
 
     await this.auditService.log({
-      tenant_id: tenantId,
+      tenant_id: resolvedTenantId,
+      organization_id: storyContext?.organization_id || null,
       entity_type: 'story',
       entity_id: storyId,
       action: 'consent_update',
@@ -367,6 +402,27 @@ export class ConsentService {
       stories_with_consent: stories || [],
       consent_history: consentHistory
     }
+  }
+
+  private async resolveTenantContext(
+    organizationId: string | null,
+    storyTenantId: string | null,
+    fallbackTenantId?: string | null
+  ): Promise<string | null> {
+    if (organizationId) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: org } = await (this.supabase as any)
+        .from('organisations')
+        .select('tenant_id')
+        .eq('id', organizationId)
+        .single()
+
+      if (org?.tenant_id) {
+        return org.tenant_id
+      }
+    }
+
+    return storyTenantId || fallbackTenantId || null
   }
 }
 

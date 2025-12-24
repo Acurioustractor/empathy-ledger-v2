@@ -40,6 +40,7 @@ class SyndicationConsentService {
     const supabase = createSupabaseServiceClient()
 
     try {
+      const { organizationId, tenantId } = await this.resolveStoryContext(supabase, grant.storyId)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { data, error } = await (supabase as any)
         .from('story_syndication_consent')
@@ -47,6 +48,8 @@ class SyndicationConsentService {
           story_id: grant.storyId,
           storyteller_id: grant.storytellerId,
           app_id: grant.appId,
+          tenant_id: tenantId,
+          organization_id: organizationId,
           consent_granted: true,
           consent_granted_at: new Date().toISOString(),
           consent_revoked_at: null,
@@ -119,13 +122,25 @@ class SyndicationConsentService {
         .single()
 
       // Update consent to revoked
+      const updateData: AnyRecord = {
+        consent_granted: false,
+        consent_revoked_at: new Date().toISOString()
+      }
+
+      if (!currentConsent?.tenant_id || !currentConsent?.organization_id) {
+        const { organizationId, tenantId } = await this.resolveStoryContext(supabase, storyId)
+        if (organizationId && !currentConsent?.organization_id) {
+          updateData.organization_id = organizationId
+        }
+        if (tenantId && !currentConsent?.tenant_id) {
+          updateData.tenant_id = tenantId
+        }
+      }
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { error } = await (supabase as any)
         .from('story_syndication_consent')
-        .update({
-          consent_granted: false,
-          consent_revoked_at: new Date().toISOString()
-        })
+        .update(updateData)
         .eq('story_id', storyId)
         .eq('app_id', appId)
 
@@ -203,6 +218,14 @@ class SyndicationConsentService {
       }
       if (newSettings.expiresAt !== undefined) {
         updateData.consent_expires_at = newSettings.expiresAt?.toISOString() || null
+      }
+
+      const { organizationId, tenantId } = await this.resolveStoryContext(supabase, storyId)
+      if (organizationId && currentConsent.organization_id !== organizationId) {
+        updateData.organization_id = organizationId
+      }
+      if (tenantId && currentConsent.tenant_id !== tenantId) {
+        updateData.tenant_id = tenantId
       }
 
       // Update consent
@@ -362,6 +385,36 @@ class SyndicationConsentService {
   /**
    * Log consent change for audit trail
    */
+  private async resolveStoryContext(
+    supabase: ReturnType<typeof createSupabaseServiceClient>,
+    storyId: string
+  ): Promise<{ organizationId: string | null; tenantId: string | null }> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: story } = await (supabase as any)
+      .from('stories')
+      .select('organization_id, tenant_id')
+      .eq('id', storyId)
+      .single()
+
+    const organizationId = story?.organization_id ?? null
+    let tenantId = story?.tenant_id ?? null
+
+    if (organizationId) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: org } = await (supabase as any)
+        .from('organisations')
+        .select('tenant_id')
+        .eq('id', organizationId)
+        .single()
+
+      if (org?.tenant_id) {
+        tenantId = org.tenant_id
+      }
+    }
+
+    return { organizationId, tenantId }
+  }
+
   private async logConsentChange(
     consentId: string | null,
     storyId: string,

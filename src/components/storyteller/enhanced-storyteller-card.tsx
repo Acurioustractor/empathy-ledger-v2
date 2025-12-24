@@ -155,13 +155,13 @@ export function EnhancedStorytellerCard({
               {/* Status badges */}
               <div className="flex flex-col gap-1">
                 {storyteller.is_featured && (
-                  <Badge className="bg-amber-100 text-amber-800 text-xs font-medium">
+                  <Badge className="bg-amber-100 text-amber-800 text-xs font-medium touch-target">
                     <Star className="w-3 h-3 mr-1" />
                     Featured
                   </Badge>
                 )}
                 {storyteller.is_elder && (
-                  <Badge className="bg-purple-100 text-purple-800 text-xs font-medium">
+                  <Badge className="bg-purple-100 text-purple-800 text-xs font-medium touch-target">
                     <Crown className="w-3 h-3 mr-1" />
                     Elder
                   </Badge>
@@ -236,7 +236,7 @@ export function EnhancedStorytellerCard({
                 <Badge
                   key={index}
                   variant="outline"
-                  className="text-xs bg-earth-50 text-earth-700 border-earth-200"
+                  className="text-xs bg-earth-50 text-earth-700 border-earth-200 touch-target"
                 >
                   {theme.theme}
                   <span className="ml-1 text-earth-600">{theme.count}</span>
@@ -257,7 +257,7 @@ export function EnhancedStorytellerCard({
                 <Badge
                   key={index}
                   variant="outline"
-                  className="text-xs bg-purple-50 text-purple-700 border-purple-200"
+                  className="text-xs bg-purple-50 text-purple-700 border-purple-200 touch-target"
                 >
                   {marker}
                 </Badge>
@@ -268,11 +268,11 @@ export function EnhancedStorytellerCard({
 
         {/* Community Impact & Expertise */}
         {(storyteller.impact_focus_areas?.length || storyteller.community_roles?.length || storyteller.change_maker_type) && (
-          <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="mb-4 p-3 bg-earth-50 rounded-lg border border-earth-200">
             {/* Impact Focus Areas */}
             {storyteller.impact_focus_areas && storyteller.impact_focus_areas.length > 0 && (
               <div className="mb-3">
-                <div className="flex items-center gap-1 text-sm text-blue-700 font-medium mb-2">
+                <div className="flex items-center gap-1 text-sm text-earth-700 font-medium mb-2">
                   <Target className="w-3 h-3" />
                   <span>Impact Focus:</span>
                 </div>
@@ -281,7 +281,7 @@ export function EnhancedStorytellerCard({
                     <Badge
                       key={index}
                       variant="outline"
-                      className="text-xs bg-blue-100 text-blue-800 border-blue-300"
+                      className="text-xs bg-earth-100 text-earth-800 border-earth-300 touch-target"
                     >
                       {area}
                     </Badge>
@@ -293,7 +293,7 @@ export function EnhancedStorytellerCard({
             {/* Community Roles */}
             {storyteller.community_roles && storyteller.community_roles.length > 0 && (
               <div className="mb-3">
-                <div className="flex items-center gap-1 text-sm text-blue-700 font-medium mb-2">
+                <div className="flex items-center gap-1 text-sm text-earth-700 font-medium mb-2">
                   <Users className="w-3 h-3" />
                   <span>Community Roles:</span>
                 </div>
@@ -302,7 +302,7 @@ export function EnhancedStorytellerCard({
                     <Badge
                       key={index}
                       variant="outline"
-                      className="text-xs bg-green-100 text-green-800 border-green-300"
+                      className="text-xs bg-emerald-100 text-emerald-800 border-emerald-300 touch-target"
                     >
                       {role}
                     </Badge>
@@ -313,10 +313,10 @@ export function EnhancedStorytellerCard({
 
             {/* Change Maker Type */}
             {storyteller.change_maker_type && (
-              <div className="flex items-center gap-1 text-sm text-blue-700">
+              <div className="flex items-center gap-1 text-sm text-earth-700">
                 <Heart className="w-3 h-3" />
                 <span className="font-medium">Change Maker:</span>
-                <span className="text-blue-800 capitalize">{storyteller.change_maker_type}</span>
+                <span className="text-earth-800 capitalize">{storyteller.change_maker_type}</span>
               </div>
             )}
           </div>
@@ -324,11 +324,11 @@ export function EnhancedStorytellerCard({
 
         {/* Storytelling & Availability */}
         {(storyteller.storytelling_methods?.length || storyteller.mentor_availability || storyteller.speaking_availability || storyteller.years_of_community_work) && (
-          <div className="mb-4 p-3 bg-green-50 rounded-lg border border-green-200">
+          <div className="mb-4 p-3 bg-emerald-50 rounded-lg border border-emerald-200">
             {/* Storytelling Methods */}
             {storyteller.storytelling_methods && storyteller.storytelling_methods.length > 0 && (
               <div className="mb-3">
-                <div className="flex items-center gap-1 text-sm text-green-700 font-medium mb-2">
+                <div className="flex items-center gap-1 text-sm text-emerald-700 font-medium mb-2">
                   <Mic className="w-3 h-3" />
                   <span>Storytelling Methods:</span>
                 </div>
@@ -337,7 +337,7 @@ export function EnhancedStorytellerCard({
                     <Badge
                       key={index}
                       variant="outline"
-                      className="text-xs bg-green-100 text-green-800 border-green-300"
+                      className="text-xs bg-emerald-100 text-emerald-800 border-emerald-300 touch-target"
                     >
                       {method}
                     </Badge>
@@ -350,13 +350,13 @@ export function EnhancedStorytellerCard({
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center gap-3">
                 {storyteller.years_of_community_work && storyteller.years_of_community_work > 0 && (
-                  <div className="flex items-center gap-1 text-green-700">
+                  <div className="flex items-center gap-1 text-emerald-700">
                     <GraduationCap className="w-3 h-3" />
                     <span>{storyteller.years_of_community_work}+ years</span>
                   </div>
                 )}
                 {storyteller.geographic_scope && (
-                  <div className="flex items-center gap-1 text-green-700">
+                  <div className="flex items-center gap-1 text-emerald-700">
                     <Globe className="w-3 h-3" />
                     <span className="capitalize">{storyteller.geographic_scope}</span>
                   </div>
@@ -365,12 +365,12 @@ export function EnhancedStorytellerCard({
 
               <div className="flex gap-2">
                 {storyteller.mentor_availability && (
-                  <Badge className="text-xs bg-orange-100 text-orange-800 border-orange-300">
+                  <Badge className="text-xs bg-orange-100 text-orange-800 border-orange-300 touch-target">
                     Mentoring
                   </Badge>
                 )}
                 {storyteller.speaking_availability && (
-                  <Badge className="text-xs bg-purple-100 text-purple-800 border-purple-300">
+                  <Badge className="text-xs bg-purple-100 text-purple-800 border-purple-300 touch-target">
                     Speaking
                   </Badge>
                 )}

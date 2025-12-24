@@ -26,10 +26,17 @@ import {
   List,
   Loader2,
   Mic,
-  Heart
+  Heart,
+  Tag
 } from 'lucide-react'
 import { BottomNav } from '@/components/layout/BottomNav'
 import Link from 'next/link'
+import {
+  STORY_TYPES as THEME_STORY_TYPES,
+  THEME_CATEGORIES,
+  SENSITIVITY_LEVELS,
+  formatThemeLabel
+} from '@/lib/constants/themes'
 
 interface StoryWithRelations extends Story {
   storyteller?: {
@@ -93,6 +100,7 @@ export default function StoriesPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [filters, setFilters] = useState({
     type: 'all',
+    theme: 'all',
     audience: 'all',
     cultural_sensitivity: 'all',
     featured: 'all',
@@ -119,6 +127,7 @@ export default function StoriesPage() {
 
       if (searchTerm) params.append('search', searchTerm)
       if (filters.type && filters.type !== 'all') params.append('type', filters.type)
+      if (filters.theme && filters.theme !== 'all') params.append('theme', filters.theme)
       if (filters.audience && filters.audience !== 'all') params.append('audience', filters.audience)
       if (filters.cultural_sensitivity && filters.cultural_sensitivity !== 'all') params.append('cultural_sensitivity', filters.cultural_sensitivity)
       if (filters.featured && filters.featured !== 'all') params.append('featured', filters.featured)
@@ -150,6 +159,7 @@ export default function StoriesPage() {
   const clearFilters = () => {
     setFilters({
       type: 'all',
+      theme: 'all',
       audience: 'all',
       cultural_sensitivity: 'all',
       featured: 'all',
@@ -169,11 +179,11 @@ export default function StoriesPage() {
   ).length
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-sage-50/20 to-clay-50/10">
+    <div className="min-h-screen bg-background">
       <Header />
-      
+
       {/* Hero Section - Mobile First */}
-      <div className="bg-gradient-to-br from-earth-800 via-earth-700 to-clay-800 text-white py-12 md:py-20">
+      <div className="bg-gradient-to-br from-earth-800 via-earth-700 to-clay-800 dark:from-earth-900 dark:via-earth-800 dark:to-clay-900 text-white py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex justify-center mb-4 md:mb-6">
@@ -227,7 +237,7 @@ export default function StoriesPage() {
           <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-4">
             {/* Search */}
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
                 placeholder="Search stories, themes, or locations..."
                 value={searchTerm}
@@ -238,7 +248,7 @@ export default function StoriesPage() {
 
             {/* View Toggle and Filter Button */}
             <div className="flex items-center gap-2">
-              <div className="flex border border-grey-300 rounded-md">
+              <div className="flex border border-border rounded-md">
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="sm"
@@ -251,21 +261,24 @@ export default function StoriesPage() {
                   variant={viewMode === 'list' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setViewMode('list')}
-                  className="rounded-l-none border-l"
+                  className="rounded-l-none border-l border-border"
                 >
                   <List className="h-4 w-4" />
                 </Button>
               </div>
-              
+
               <Button
                 variant="outline"
                 onClick={() => setShowFilters(!showFilters)}
-                className="relative"
+                className={cn(
+                  "relative transition-all duration-200",
+                  showFilters && "bg-muted border-primary/30"
+                )}
               >
                 <Filter className="h-4 w-4 mr-2" />
                 Filters
                 {activeFilterCount > 0 && (
-                  <Badge className="ml-2 h-5 w-5 rounded-full p-0 text-xs">
+                  <Badge className="ml-2 h-5 w-5 rounded-full p-0 text-xs bg-primary text-primary-foreground">
                     {activeFilterCount}
                   </Badge>
                 )}
@@ -276,9 +289,9 @@ export default function StoriesPage() {
           {/* Filter Panel */}
           {showFilters && (
             <Card className="p-4 mb-4">
-              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Story Type</label>
+                  <label className="text-sm font-medium text-foreground/80 mb-2 block">Story Type</label>
                   <Select value={filters.type} onValueChange={(value) => handleFilterChange('type', value)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Any type" />
@@ -295,7 +308,34 @@ export default function StoriesPage() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Audience</label>
+                  <label className="text-sm font-medium text-foreground/80 mb-2 block">
+                    <Tag className="w-3.5 h-3.5 inline mr-1" />
+                    Theme
+                  </label>
+                  <Select value={filters.theme} onValueChange={(value) => handleFilterChange('theme', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Any theme" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Any theme</SelectItem>
+                      {Object.entries(THEME_CATEGORIES).map(([category, data]) => (
+                        <React.Fragment key={category}>
+                          <SelectItem value={`__category_${category}`} disabled className="font-semibold text-xs text-muted-foreground uppercase tracking-wide">
+                            {data.label}
+                          </SelectItem>
+                          {data.themes.map((theme) => (
+                            <SelectItem key={theme} value={theme} className="pl-6">
+                              {formatThemeLabel(theme)}
+                            </SelectItem>
+                          ))}
+                        </React.Fragment>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-foreground/80 mb-2 block">Audience</label>
                   <Select value={filters.audience} onValueChange={(value) => handleFilterChange('audience', value)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Any audience" />
@@ -311,22 +351,24 @@ export default function StoriesPage() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Content Level</label>
+                  <label className="text-sm font-medium text-foreground/80 mb-2 block">Content Level</label>
                   <Select value={filters.cultural_sensitivity} onValueChange={(value) => handleFilterChange('cultural_sensitivity', value)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Any level" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">Any level</SelectItem>
-                      <SelectItem value="public">Public Stories</SelectItem>
-                      <SelectItem value="sensitive">Culturally Sensitive</SelectItem>
-                      <SelectItem value="community">Community Only</SelectItem>
+                      {SENSITIVITY_LEVELS.map(level => (
+                        <SelectItem key={level.value} value={level.value}>
+                          {level.label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Featured</label>
+                  <label className="text-sm font-medium text-foreground/80 mb-2 block">Featured</label>
                   <Select value={filters.featured} onValueChange={(value) => handleFilterChange('featured', value)}>
                     <SelectTrigger>
                       <SelectValue placeholder="All stories" />
@@ -339,8 +381,8 @@ export default function StoriesPage() {
                 </div>
               </div>
 
-              <div className="flex justify-between items-center mt-4 pt-4 border-t">
-                <Typography variant="small" className="text-grey-600">
+              <div className="flex justify-between items-center mt-4 pt-4 border-t border-border">
+                <Typography variant="small" className="text-muted-foreground">
                   {pagination.total} stories found
                 </Typography>
                 <Button variant="ghost" size="sm" onClick={clearFilters}>
@@ -355,8 +397,8 @@ export default function StoriesPage() {
         {loading && (
           <div className="flex justify-center items-center py-20">
             <div className="text-center">
-              <Loader2 className="h-8 w-8 animate-spin text-earth-600 mx-auto mb-4" />
-              <Typography variant="body" className="text-grey-600">
+              <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+              <Typography variant="body" className="text-muted-foreground">
                 Loading stories...
               </Typography>
             </div>
@@ -383,11 +425,11 @@ export default function StoriesPage() {
             {/* Empty State */}
             {stories.length === 0 && (
               <div className="text-center py-20">
-                <BookOpen className="h-12 w-12 text-grey-400 mx-auto mb-4" />
-                <Typography variant="h3" className="text-grey-600 mb-2">
+                <BookOpen className="h-12 w-12 text-muted-foreground/40 mx-auto mb-4" />
+                <Typography variant="h3" className="text-muted-foreground mb-2">
                   No stories found
                 </Typography>
-                <Typography variant="body" className="text-grey-500 mb-6">
+                <Typography variant="body" className="text-muted-foreground/70 mb-6">
                   Try adjusting your search terms or filters to find more stories.
                 </Typography>
                 <Button variant="outline" onClick={clearFilters}>

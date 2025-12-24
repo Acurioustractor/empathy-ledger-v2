@@ -107,9 +107,9 @@ export function ElegantStorytellerCard({
   const getOrgTypeColor = (type?: string) => {
     switch (type) {
       case 'tribal': return 'bg-amber-50 text-amber-700 border-amber-200'
-      case 'nonprofit': return 'bg-blue-50 text-blue-700 border-blue-200'
-      case 'government': return 'bg-purple-50 text-purple-700 border-purple-200'
-      default: return 'bg-green-50 text-green-700 border-green-200'
+      case 'nonprofit': return 'bg-earth-50 text-earth-700 border-earth-200'
+      case 'government': return 'bg-stone-50 text-stone-700 border-stone-200'
+      default: return 'bg-emerald-50 text-emerald-700 border-emerald-200'
     }
   }
 
@@ -173,13 +173,13 @@ export function ElegantStorytellerCard({
           {/* Status Badges - Top Right */}
           <div className="absolute top-4 right-4 flex flex-col gap-2">
             {isFeatured && (
-              <Badge className="bg-white/90 backdrop-blur-sm text-amber-700 border-amber-200 shadow-lg">
+              <Badge className="bg-white/90 backdrop-blur-sm text-amber-700 border-amber-200 shadow-lg touch-target">
                 <Star className="w-3 h-3 mr-1" />
                 Featured
               </Badge>
             )}
             {isElder && (
-              <Badge className="bg-white/90 backdrop-blur-sm text-purple-700 border-purple-200 shadow-lg">
+              <Badge className="bg-white/90 backdrop-blur-sm text-purple-700 border-purple-200 shadow-lg touch-target">
                 <Crown className="w-3 h-3 mr-1" />
                 Elder
               </Badge>
@@ -189,8 +189,8 @@ export function ElegantStorytellerCard({
           {/* Profile Completeness - Top Left */}
           {storyteller.profile_completeness && storyteller.profile_completeness < 90 && (
             <div className="absolute top-4 left-4">
-              <Badge className="bg-white/90 backdrop-blur-sm text-blue-700 border-blue-200 shadow-lg text-xs">
-                <Sparkles className="w-3 h-3 mr-1" />
+              <Badge className="bg-white/90 backdrop-blur-sm text-accent-foreground border-accent/30 shadow-lg text-xs touch-target">
+                <Sparkles className="w-3 h-3 mr-1 text-accent" />
                 {storyteller.profile_completeness}% complete
               </Badge>
             </div>
@@ -235,7 +235,7 @@ export function ElegantStorytellerCard({
               <Building2 className="w-4 h-4 text-grey-500" />
               <Badge
                 variant="outline"
-                className={cn("text-xs", getOrgTypeColor(storyteller.primary_organization.type))}
+                className={cn("text-xs touch-target", getOrgTypeColor(storyteller.primary_organization.type))}
               >
                 {storyteller.primary_organization.name}
               </Badge>
@@ -248,7 +248,7 @@ export function ElegantStorytellerCard({
               <Target className="w-4 h-4 text-grey-500" />
               <Badge
                 variant="outline"
-                className={cn("text-xs", getProjectTypeColor(storyteller.primary_project.type))}
+                className={cn("text-xs touch-target", getProjectTypeColor(storyteller.primary_project.type))}
               >
                 {storyteller.primary_project.name}
               </Badge>
@@ -259,7 +259,7 @@ export function ElegantStorytellerCard({
           {storyteller.top_themes && storyteller.top_themes.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {storyteller.top_themes.slice(0, 3).map((theme, index) => (
-                <Badge key={index} variant="outline" className="text-xs bg-earth-50 text-earth-700 border-earth-200">
+                <Badge key={index} variant="outline" className="text-xs bg-earth-50 text-earth-700 border-earth-200 touch-target">
                   {theme}
                 </Badge>
               ))}
@@ -272,7 +272,7 @@ export function ElegantStorytellerCard({
               {/* Transcript Count */}
               {storyteller.transcript_count !== undefined && storyteller.transcript_count > 0 && (
                 <div className="flex items-center gap-1">
-                  <FileText className="w-4 h-4 text-blue-600" />
+                  <FileText className="w-4 h-4 text-earth-600" />
                   <Typography variant="small" className="text-grey-700 font-medium">
                     {storyteller.transcript_count} {storyteller.transcript_count === 1 ? 'transcript' : 'transcripts'}
                   </Typography>
@@ -346,7 +346,7 @@ export function transformToElegantCard(storyteller: any): ElegantStorytellerCard
     id: storyteller.id,
     display_name: storyteller.display_name?.trim() || storyteller.displayName?.trim() || storyteller.fullName?.trim() || 'Unknown',
     bio: storyteller.profile?.bio || storyteller.bio || null,
-    avatar_url: storyteller.profile?.avatar_url || storyteller.avatar_url || storyteller.avatarUrl,
+    avatar_url: storyteller.avatar_url || storyteller.profile?.avatar_url || null,
     featured: storyteller.featured || storyteller.isFeatured || false,
     elder_status: storyteller.elder_status || storyteller.isElder || false,
     status: storyteller.status || 'active',

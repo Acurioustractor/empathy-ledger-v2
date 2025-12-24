@@ -159,26 +159,12 @@ export async function POST(
       )
     }
 
-    // Get user's tenant_id from profile
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('tenant_id')
-      .eq('id', user.id)
-      .single()
-
-    if (profileError || !profile) {
-      return NextResponse.json(
-        { error: 'User profile not found', code: 'PROFILE_NOT_FOUND' },
-        { status: 404 }
-      )
-    }
-
     // Register distribution
     const distributionService = getDistributionService()
     const distribution = await distributionService.registerDistribution(
       storyId,
       user.id,
-      profile.tenant_id,
+      null,
       {
         platform,
         platformPostId,
@@ -267,13 +253,6 @@ export async function DELETE(
       )
     }
 
-    // Get user's tenant_id
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('tenant_id')
-      .eq('id', user.id)
-      .single()
-
     const distributionService = getDistributionService()
 
     if (revokeAll) {
@@ -281,7 +260,7 @@ export async function DELETE(
       const count = await distributionService.revokeAllDistributions(
         storyId,
         user.id,
-        profile?.tenant_id,
+        null,
         reason
       )
 
@@ -295,7 +274,7 @@ export async function DELETE(
       await distributionService.revokeDistribution(
         distributionId!,
         user.id,
-        profile?.tenant_id,
+        null,
         reason
       )
 

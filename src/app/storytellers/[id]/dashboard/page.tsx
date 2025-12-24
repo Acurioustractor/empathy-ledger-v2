@@ -55,7 +55,7 @@ interface DetailedTranscript {
   videoThumbnail?: string
   status: string
   createdAt: string
-  metadata: any
+  metadata?: Record<string, unknown>
 }
 
 interface DetailedStory {
@@ -69,7 +69,7 @@ interface DetailedStory {
   themes: string[]
   createdAt: string
   publishedAt?: string
-  metadata: any
+  metadata?: Record<string, unknown>
 }
 
 interface PhotoAsset {
@@ -82,7 +82,7 @@ interface PhotoAsset {
   fileSize: number
   width?: number
   height?: number
-  metadata: any
+  metadata?: Record<string, unknown>
 }
 
 interface StorytellerDetail {
@@ -312,7 +312,7 @@ export default function StorytellerDashboard() {
       videoThumbnail?: string
       createdAt: string
       status?: string
-      metadata?: any
+      metadata?: Record<string, unknown>
     }> = []
 
     // Add videos from transcripts

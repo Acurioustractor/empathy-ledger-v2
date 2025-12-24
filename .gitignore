@@ -90,6 +90,8 @@ comparison-results.txt
 # Supabase
 # ===================
 .supabase/
+supabase_export.md
+Ssuapbase*
 
 # ===================
 # TypeScript

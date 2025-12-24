@@ -39,14 +39,14 @@ export class EmbedService {
   async generateEmbedToken(
     storyId: string,
     userId: string,
-    tenantId: string,
+    tenantId: string | null | undefined,
     options: EmbedOptions
   ): Promise<EmbedToken> {
     // 1. Verify the user owns the story and check cultural safety
     const { data: story, error: storyError } = await this.supabase
       .from('stories')
       .select(`
-        id, author_id, storyteller_id, has_consent, consent_verified, embeds_enabled, title,
+        id, author_id, storyteller_id, has_consent, consent_verified, embeds_enabled, title, organization_id, tenant_id,
         cultural_sensitivity_level, elder_approval, cultural_review_status, requires_elder_review
       `)
       .eq('id', storyId)
@@ -74,6 +74,16 @@ export class EmbedService {
       throw new Error(culturalSafetyResult.reason || 'Cultural safety validation failed')
     }
 
+    const resolvedTenantId = await this.resolveTenantContext(
+      story.organization_id,
+      story.tenant_id,
+      tenantId
+    )
+
+    if (!resolvedTenantId) {
+      throw new Error('Tenant context not found for story')
+    }
+
     // 3. Generate secure token
     const token = this.generateSecureToken()
     const tokenHash = this.hashToken(token)
@@ -81,7 +91,8 @@ export class EmbedService {
     // 4. Create distribution record first
     const distributionData: StoryDistributionInsert = {
       story_id: storyId,
-      tenant_id: tenantId,
+      tenant_id: resolvedTenantId,
+      organization_id: story.organization_id || null,
       platform: 'embed',
       status: 'active',
       created_by: userId,
@@ -106,7 +117,8 @@ export class EmbedService {
     // 5. Store the token
     const tokenData: EmbedTokenInsert = {
       story_id: storyId,
-      tenant_id: tenantId,
+      tenant_id: resolvedTenantId,
+      organization_id: story.organization_id || null,
       token: token, // Store the actual token (could encrypt in production)
       token_hash: tokenHash,
       allowed_domains: options.domains.length > 0 ? options.domains : null,
@@ -131,7 +143,8 @@ export class EmbedService {
 
     // 6. Create audit log
     await this.logAudit({
-      tenant_id: tenantId,
+      tenant_id: resolvedTenantId,
+      organization_id: story.organization_id || null,
       entity_type: 'embed_token',
       entity_id: savedToken.id,
       action: 'token_generate',
@@ -319,12 +332,12 @@ export class EmbedService {
   async revokeEmbedToken(
     tokenId: string,
     userId: string,
-    tenantId: string,
+    tenantId: string | null | undefined,
     reason?: string
   ): Promise<void> {
     const { data: token, error: fetchError } = await this.supabase
       .from('embed_tokens')
-      .select('story_id')
+      .select('story_id, tenant_id, organization_id')
       .eq('id', tokenId)
       .single()
 
@@ -347,8 +360,15 @@ export class EmbedService {
     }
 
     // Create audit log
+    const resolvedTenantId = tenantId || token.tenant_id
+
+    if (!resolvedTenantId) {
+      throw new Error('Tenant context not found for embed token')
+    }
+
     await this.logAudit({
-      tenant_id: tenantId,
+      tenant_id: resolvedTenantId,
+      organization_id: token.organization_id || null,
       entity_type: 'embed_token',
       entity_id: tokenId,
       action: 'token_revoke',
@@ -383,7 +403,7 @@ export class EmbedService {
   async revokeAllStoryEmbeds(
     storyId: string,
     userId: string,
-    tenantId: string,
+    tenantId: string | null | undefined,
     reason?: string
   ): Promise<number> {
     const { data, error } = await this.supabase
@@ -405,8 +425,22 @@ export class EmbedService {
     const count = data?.length || 0
 
     if (count > 0) {
+      const { data: tokenContext } = await this.supabase
+        .from('embed_tokens')
+        .select('tenant_id, organization_id')
+        .eq('story_id', storyId)
+        .limit(1)
+        .single()
+
+      const resolvedTenantId = tenantId || tokenContext?.tenant_id
+
+      if (!resolvedTenantId) {
+        throw new Error('Tenant context not found for embed revocation')
+      }
+
       await this.logAudit({
-        tenant_id: tenantId,
+        tenant_id: resolvedTenantId,
+        organization_id: tokenContext?.organization_id || null,
         entity_type: 'story',
         entity_id: storyId,
         action: 'revoke',
@@ -474,6 +508,27 @@ export class EmbedService {
       allowed: true,
       sensitivityLevel
     }
+  }
+
+  private async resolveTenantContext(
+    organizationId: string | null,
+    storyTenantId: string | null,
+    fallbackTenantId?: string | null
+  ): Promise<string | null> {
+    if (organizationId) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: org } = await (this.supabase as any)
+        .from('organisations')
+        .select('tenant_id')
+        .eq('id', organizationId)
+        .single()
+
+      if (org?.tenant_id) {
+        return org.tenant_id
+      }
+    }
+
+    return storyTenantId || fallbackTenantId || null
   }
 
   private generateSecureToken(): string {

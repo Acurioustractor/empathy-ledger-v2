@@ -236,7 +236,7 @@ export class DistributionService {
   async registerDistribution(
     storyId: string,
     userId: string,
-    tenantId: string,
+    tenantId: string | null | undefined,
     data: {
       platform: DistributionPlatform
       platformPostId?: string
@@ -257,7 +257,7 @@ export class DistributionService {
     // Verify story ownership
     const { data: story, error: storyError } = await this.supabase
       .from('stories')
-      .select('id, author_id, storyteller_id, has_consent, consent_verified, title')
+      .select('id, author_id, storyteller_id, has_consent, consent_verified, title, organization_id, tenant_id')
       .eq('id', storyId)
       .single()
 
@@ -269,10 +269,21 @@ export class DistributionService {
       throw new Error('Unauthorized: You do not own this story')
     }
 
+    const resolvedTenantId = await this.resolveTenantContext(
+      story.organization_id,
+      story.tenant_id,
+      tenantId
+    )
+
+    if (!resolvedTenantId) {
+      throw new Error('Tenant context not found for story')
+    }
+
     // Create distribution record
     const distributionData: StoryDistributionInsert = {
       story_id: storyId,
-      tenant_id: tenantId,
+      tenant_id: resolvedTenantId,
+      organization_id: story.organization_id || null,
       platform: data.platform,
       platform_post_id: data.platformPostId || null,
       distribution_url: data.distributionUrl || null,
@@ -303,7 +314,8 @@ export class DistributionService {
 
     // Create audit log
     await this.logAudit({
-      tenant_id: tenantId,
+      tenant_id: resolvedTenantId,
+      organization_id: story.organization_id || null,
       entity_type: 'distribution',
       entity_id: distribution.id,
       action: 'share',
@@ -323,7 +335,7 @@ export class DistributionService {
   async updateDistribution(
     distributionId: string,
     userId: string,
-    tenantId: string,
+    tenantId: string | null | undefined,
     updates: StoryDistributionUpdate
   ): Promise<StoryDistributionRow> {
     // Verify ownership via story
@@ -357,7 +369,8 @@ export class DistributionService {
 
     // Audit log
     await this.logAudit({
-      tenant_id: tenantId,
+      tenant_id: tenantId || existing.tenant_id,
+      organization_id: existing.organization_id || null,
       entity_type: 'distribution',
       entity_id: distributionId,
       action: 'update',
@@ -463,7 +476,7 @@ export class DistributionService {
   async revokeDistribution(
     distributionId: string,
     userId: string,
-    tenantId: string,
+    tenantId: string | null | undefined,
     reason?: string
   ): Promise<void> {
     // Verify ownership
@@ -505,7 +518,8 @@ export class DistributionService {
 
     // Audit log
     await this.logAudit({
-      tenant_id: tenantId,
+      tenant_id: tenantId || existing.tenant_id,
+      organization_id: existing.organization_id || null,
       entity_type: 'distribution',
       entity_id: distributionId,
       action: 'revoke',
@@ -524,7 +538,7 @@ export class DistributionService {
   async revokeAllDistributions(
     storyId: string,
     userId: string,
-    tenantId: string,
+    tenantId: string | null | undefined,
     reason?: string
   ): Promise<number> {
     // Get all active distributions
@@ -566,8 +580,16 @@ export class DistributionService {
     }
 
     // Audit log
+    const resolvedTenantId = tenantId || distributions?.[0]?.tenant_id || null
+    const resolvedOrganizationId = distributions?.[0]?.organization_id || null
+
+    if (!resolvedTenantId) {
+      throw new Error('Tenant context not found for distributions')
+    }
+
     await this.logAudit({
-      tenant_id: tenantId,
+      tenant_id: resolvedTenantId,
+      organization_id: resolvedOrganizationId,
       entity_type: 'story',
       entity_id: storyId,
       action: 'revoke',
@@ -704,6 +726,27 @@ export class DistributionService {
     } catch (error) {
       console.error('Failed to create audit log:', error)
     }
+  }
+
+  private async resolveTenantContext(
+    organizationId: string | null,
+    storyTenantId: string | null,
+    fallbackTenantId?: string | null
+  ): Promise<string | null> {
+    if (organizationId) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: org } = await (this.supabase as any)
+        .from('organisations')
+        .select('tenant_id')
+        .eq('id', organizationId)
+        .single()
+
+      if (org?.tenant_id) {
+        return org.tenant_id
+      }
+    }
+
+    return storyTenantId || fallbackTenantId || null
   }
 }
 

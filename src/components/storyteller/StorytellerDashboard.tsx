@@ -148,7 +148,7 @@ const StorytellerDashboard: React.FC = () => {
             name={profile?.display_name || profile?.first_name || 'Storyteller'}
             displayName={profile?.display_name}
             bio={profile?.bio}
-            avatarUrl={profile?.avatar_url || profile?.profile_image_url}
+            avatarUrl={profile?.avatar_url}
             culturalBackground={profile?.cultural_background}
             culturalAffiliations={profile?.cultural_affiliations || []}
             isElder={isElder}

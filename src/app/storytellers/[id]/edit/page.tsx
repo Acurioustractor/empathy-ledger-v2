@@ -48,13 +48,13 @@ interface StorytellerFormData {
   elder_status: boolean
   featured: boolean
   status: 'active' | 'inactive' | 'pending'
-  community_recognition: any
-  availability: any
-  cultural_protocols: any
-  performance_preferences: any
-  compensation_preferences: any
-  travel_availability: any
-  technical_requirements: any
+  community_recognition: string[] | Record<string, unknown> | string | null
+  availability: Record<string, unknown> | null
+  cultural_protocols: Record<string, unknown> | null
+  performance_preferences: Record<string, unknown> | null
+  compensation_preferences: Record<string, unknown> | null
+  travel_availability: Record<string, unknown> | null
+  technical_requirements: Record<string, unknown> | null
 }
 
 interface Transcript {

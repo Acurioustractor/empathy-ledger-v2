@@ -131,7 +131,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
         notes: body.notes
       },
       user.id,
-      story.tenant_id
+      null
     )
 
     return NextResponse.json({
@@ -199,7 +199,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     const withdrawal = await consentService.withdrawConsent(
       id,
       user.id,
-      story.tenant_id,
+      null,
       body.reason,
       body.scope || 'full',
       body.partial_restrictions
@@ -245,7 +245,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     // Check if user has verification permissions (admin or elder)
     const { data: profile } = await supabase
       .from('profiles')
-      .select('tenant_roles, tenant_id')
+      .select('tenant_roles')
       .eq('id', user.id)
       .single()
 
@@ -274,7 +274,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     await consentService.verifyConsent(
       id,
       user.id,
-      profile?.tenant_id,
+      null,
       body.approved,
       body.notes
     )

@@ -50,7 +50,7 @@ interface Storyteller {
   created_at: string
   bio?: string
   cultural_background?: string
-  profile_image_url?: string
+  avatar_url?: string
   projects?: string[]
   engagement_rate?: number
   organisations?: Array<{
@@ -588,7 +588,7 @@ export default function AdminStorytellersPage() {
                       <TableCell>
                         <div className="flex items-center space-x-3">
                           <Avatar className="h-10 w-10">
-                            <AvatarImage src={storyteller.profile_image_url || `/placeholder-avatar.jpg`} />
+                            <AvatarImage src={storyteller.avatar_url || `/placeholder-avatar.jpg`} />
                             <AvatarFallback className="bg-gradient-to-br from-blue-400 to-purple-500 text-white font-medium">
                               {getInitials(storyteller.display_name || storyteller.full_name || '')}
                             </AvatarFallback>
