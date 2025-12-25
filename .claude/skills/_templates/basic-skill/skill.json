@@ -1,0 +1,24 @@
+{
+  "name": "skill-name",
+  "description": "Brief description of what this skill does",
+  "version": "1.0.0",
+  "type": "project",
+  "category": "general",
+  "priority": "medium",
+  "triggers": [
+    "keyword1",
+    "keyword2",
+    "keyword3"
+  ],
+  "tags": [
+    "tag1",
+    "tag2"
+  ],
+  "tools": [
+    "Read",
+    "Write",
+    "Bash"
+  ],
+  "author": "Empathy Ledger Team",
+  "lastUpdated": "2025-12-26"
+}

@@ -1,0 +1,340 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-12-26",
+  "totalSkills": 15,
+  "skills": [
+    {
+      "name": "deployment-workflow",
+      "path": "deployment-workflow",
+      "type": "project",
+      "category": "devops",
+      "priority": "high",
+      "triggers": [
+        "deploy",
+        "production",
+        "release",
+        "vercel",
+        "github push",
+        "publish",
+        "rollback"
+      ],
+      "description": "Complete deployment workflow for GitHub and Vercel with version sync",
+      "mainFile": "skill.md",
+      "hasScript": true,
+      "scriptPath": "../../scripts/deploy.sh",
+      "tags": ["deployment", "ci-cd", "vercel", "github", "automation"]
+    },
+    {
+      "name": "codebase-explorer",
+      "path": "codebase-explorer",
+      "type": "project",
+      "category": "architecture",
+      "priority": "high",
+      "triggers": [
+        "codebase",
+        "architecture",
+        "explore",
+        "navigate",
+        "structure",
+        "flow",
+        "data flow"
+      ],
+      "description": "Navigate and understand Empathy Ledger codebase architecture",
+      "mainFile": "SKILL.md",
+      "tags": ["architecture", "navigation", "codebase"]
+    },
+    {
+      "name": "empathy-ledger-codebase",
+      "path": "empathy-ledger-codebase",
+      "type": "project",
+      "category": "architecture",
+      "priority": "high",
+      "triggers": [
+        "best practice",
+        "standards",
+        "patterns",
+        "conventions",
+        "guidelines",
+        "code quality"
+      ],
+      "description": "Best practices for code quality, architecture, and cultural sensitivity",
+      "mainFile": "skill.md",
+      "tags": ["best-practices", "standards", "cultural-sensitivity"]
+    },
+    {
+      "name": "supabase",
+      "path": "supabase",
+      "type": "general",
+      "category": "database",
+      "priority": "high",
+      "triggers": [
+        "database",
+        "schema",
+        "query",
+        "supabase",
+        "sql",
+        "table",
+        "relationship"
+      ],
+      "description": "Navigate database tables, relationships, and query patterns",
+      "mainFile": "SKILL.md",
+      "tags": ["database", "supabase", "schema", "queries"]
+    },
+    {
+      "name": "supabase-sql-manager",
+      "path": "supabase-sql-manager",
+      "type": "general",
+      "category": "database",
+      "priority": "medium",
+      "triggers": [
+        "execute sql",
+        "run query",
+        "migration",
+        "database admin",
+        "create table"
+      ],
+      "description": "Execute SQL queries and manage database operations",
+      "mainFile": "skill.md",
+      "tags": ["database", "sql", "migrations", "admin"]
+    },
+    {
+      "name": "database-navigator",
+      "path": "database-navigator.md",
+      "type": "project",
+      "category": "database",
+      "priority": "medium",
+      "triggers": [
+        "multi-tenant",
+        "rls",
+        "row level security",
+        "tenant isolation",
+        "tenant_id"
+      ],
+      "description": "Navigate complex multi-tenant database schema and RLS policies",
+      "mainFile": "database-navigator.md",
+      "isStandalone": true,
+      "tags": ["multi-tenant", "rls", "security", "database"]
+    },
+    {
+      "name": "data-analysis",
+      "path": "data-analysis",
+      "type": "project",
+      "category": "analytics",
+      "priority": "high",
+      "triggers": [
+        "analyze",
+        "theme",
+        "extract",
+        "quote",
+        "insight",
+        "transcript",
+        "ai enrichment"
+      ],
+      "description": "AI-powered data analysis for themes, quotes, and storyteller connections",
+      "mainFile": "SKILL.md",
+      "tags": ["ai", "analysis", "themes", "insights"]
+    },
+    {
+      "name": "design-component",
+      "path": "design-component",
+      "type": "project",
+      "category": "design",
+      "priority": "high",
+      "triggers": [
+        "design",
+        "card",
+        "component",
+        "storyteller",
+        "ui",
+        "badge",
+        "avatar"
+      ],
+      "description": "Design storyteller cards, UI components, and AI-enriched displays",
+      "mainFile": "SKILL.md",
+      "tags": ["design", "components", "ui", "cards"]
+    },
+    {
+      "name": "cultural-review",
+      "path": "cultural-review",
+      "type": "project",
+      "category": "security",
+      "priority": "critical",
+      "triggers": [
+        "cultural",
+        "sensitivity",
+        "OCAP",
+        "Indigenous",
+        "protocol",
+        "consent",
+        "data sovereignty"
+      ],
+      "description": "Review features for cultural sensitivity and Indigenous data sovereignty",
+      "mainFile": "SKILL.md",
+      "tags": ["cultural", "security", "OCAP", "Indigenous"]
+    },
+    {
+      "name": "gdpr-compliance",
+      "path": "gdpr-compliance",
+      "type": "general",
+      "category": "security",
+      "priority": "high",
+      "triggers": [
+        "gdpr",
+        "privacy",
+        "compliance",
+        "data protection",
+        "user consent"
+      ],
+      "description": "Ensure GDPR and data privacy compliance",
+      "mainFile": "SKILL.md",
+      "tags": ["gdpr", "privacy", "compliance", "security"]
+    },
+    {
+      "name": "storyteller-analytics",
+      "path": "storyteller-analytics.md",
+      "type": "project",
+      "category": "analytics",
+      "priority": "medium",
+      "triggers": [
+        "analytics",
+        "report",
+        "metrics",
+        "storyteller stats",
+        "dashboard",
+        "insights"
+      ],
+      "description": "Generate analytics and insights from storyteller data",
+      "mainFile": "storyteller-analytics.md",
+      "isStandalone": true,
+      "tags": ["analytics", "reporting", "metrics"]
+    },
+    {
+      "name": "gohighlevel-oauth",
+      "path": "gohighlevel-oauth",
+      "type": "integration",
+      "category": "integrations",
+      "priority": "low",
+      "triggers": [
+        "gohighlevel",
+        "oauth",
+        "integration",
+        "external api",
+        "GHL"
+      ],
+      "description": "GoHighLevel OAuth integration patterns",
+      "mainFile": "skill.md",
+      "tags": ["oauth", "integration", "gohighlevel"]
+    },
+    {
+      "name": "supabase-connection",
+      "path": "supabase-connection",
+      "type": "general",
+      "category": "database",
+      "priority": "low",
+      "triggers": [
+        "connection",
+        "supabase error",
+        "environment",
+        "setup",
+        "troubleshoot"
+      ],
+      "description": "Supabase connection setup and troubleshooting",
+      "mainFile": "SKILL.md",
+      "tags": ["supabase", "troubleshooting", "setup"]
+    },
+    {
+      "name": "story-craft",
+      "path": "story-craft",
+      "type": "project",
+      "category": "content",
+      "priority": "medium",
+      "triggers": [
+        "story",
+        "create",
+        "edit",
+        "curate",
+        "content",
+        "moderation"
+      ],
+      "description": "Guide story creation, editing, and curation workflows",
+      "mainFile": "SKILL.md",
+      "tags": ["stories", "content", "curation"]
+    },
+    {
+      "name": "empathy-ledger-dev",
+      "path": "empathy-ledger-dev",
+      "type": "project",
+      "category": "development",
+      "priority": "low",
+      "triggers": [
+        "development environment",
+        "setup",
+        "dev tools",
+        "local environment"
+      ],
+      "description": "Development environment setup and tooling",
+      "mainFile": "SKILL.md",
+      "tags": ["development", "setup", "tools"]
+    }
+  ],
+  "categories": {
+    "architecture": {
+      "name": "Architecture & Codebase",
+      "icon": "🏗️",
+      "skills": ["codebase-explorer", "empathy-ledger-codebase"]
+    },
+    "database": {
+      "name": "Database & Data",
+      "icon": "🗄️",
+      "skills": ["supabase", "supabase-sql-manager", "database-navigator", "supabase-connection"]
+    },
+    "design": {
+      "name": "Design & Components",
+      "icon": "🎨",
+      "skills": ["design-component"]
+    },
+    "security": {
+      "name": "Security & Compliance",
+      "icon": "🔐",
+      "skills": ["cultural-review", "gdpr-compliance"]
+    },
+    "devops": {
+      "name": "Deployment & DevOps",
+      "icon": "🚀",
+      "skills": ["deployment-workflow"]
+    },
+    "analytics": {
+      "name": "Analytics & Reporting",
+      "icon": "📊",
+      "skills": ["data-analysis", "storyteller-analytics"]
+    },
+    "integrations": {
+      "name": "Integrations",
+      "icon": "🔗",
+      "skills": ["gohighlevel-oauth"]
+    },
+    "content": {
+      "name": "Content & Stories",
+      "icon": "✍️",
+      "skills": ["story-craft"]
+    },
+    "development": {
+      "name": "Development Tools",
+      "icon": "🛠️",
+      "skills": ["empathy-ledger-dev"]
+    }
+  },
+  "priorityLevels": {
+    "critical": ["cultural-review"],
+    "high": ["deployment-workflow", "codebase-explorer", "empathy-ledger-codebase", "supabase", "data-analysis", "design-component", "gdpr-compliance"],
+    "medium": ["supabase-sql-manager", "database-navigator", "storyteller-analytics", "story-craft"],
+    "low": ["gohighlevel-oauth", "supabase-connection", "empathy-ledger-dev"]
+  },
+  "metadata": {
+    "projectName": "Empathy Ledger v2",
+    "maintainer": "Development Team",
+    "registry": ".claude/SKILLS_REGISTRY.md",
+    "quickReference": ".claude/SKILLS_QUICK_REFERENCE.md",
+    "interactiveMenu": "scripts/skills-menu.sh"
+  }
+}

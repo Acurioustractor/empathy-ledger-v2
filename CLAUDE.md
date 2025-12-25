@@ -145,4 +145,24 @@ cat .claude/SKILLS_QUICK_REFERENCE.md
 - 🔗 **Integrations**: `gohighlevel-oauth`
 - ✍️ **Content**: `story-craft`
 
+### Skill Trigger Keywords
+
+Skills auto-invoke when these keywords appear in your prompts:
+
+| Keywords | Skill Invoked |
+|----------|---------------|
+| deploy, production, release, vercel, github push, publish | `deployment-workflow` |
+| codebase, architecture, explore, navigate, structure, flow | `codebase-explorer` |
+| best practice, standards, patterns, conventions, guidelines | `empathy-ledger-codebase` |
+| database, schema, query, supabase, sql, table, relationship | `supabase` |
+| execute sql, run query, migration, database admin | `supabase-sql-manager` |
+| multi-tenant, rls, row level security, tenant isolation | `database-navigator` |
+| analyze, theme, extract, quote, insight, transcript, ai | `data-analysis` |
+| design, card, component, storyteller, ui, badge, avatar | `design-component` |
+| cultural, sensitivity, OCAP, Indigenous, protocol, consent | `cultural-review` |
+| gdpr, privacy, compliance, data protection, consent | `gdpr-compliance` |
+| analytics, report, metrics, storyteller stats, dashboard | `storyteller-analytics` |
+| gohighlevel, oauth, integration, external api | `gohighlevel-oauth` |
+| story, create, edit, curate, content, moderation | `story-craft` |
+
 See `.claude/SKILLS_REGISTRY.md` for complete documentation.

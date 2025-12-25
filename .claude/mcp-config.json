@@ -1,0 +1,68 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres"
+      ],
+      "env": {
+        "POSTGRES_CONNECTION_STRING": "postgresql://postgres:[password]@db.[project].supabase.co:5432/postgres"
+      },
+      "description": "Direct Supabase/PostgreSQL database access for skills",
+      "disabled": true,
+      "note": "Enable by setting POSTGRES_CONNECTION_STRING in environment and setting disabled: false"
+    },
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "description": "GitHub integration for PRs, issues, and repository management",
+      "disabled": true,
+      "note": "Enable by setting GITHUB_TOKEN in environment"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/benknight/Code/empathy-ledger-v2"
+      ],
+      "description": "Local filesystem access for project files",
+      "disabled": false
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      },
+      "description": "Web search for documentation and solutions",
+      "disabled": true,
+      "note": "Enable by setting BRAVE_API_KEY in environment"
+    }
+  },
+  "globalShortcut": "Cmd+Shift+Space",
+  "allowedDirectories": [
+    "/Users/benknight/Code/empathy-ledger-v2",
+    "/tmp"
+  ],
+  "metadata": {
+    "project": "Empathy Ledger v2",
+    "description": "MCP server configuration for Claude Code skills integration",
+    "lastUpdated": "2025-12-26"
+  },
+  "notes": {
+    "setup": "To enable MCP servers, set required environment variables and toggle disabled: false",
+    "security": "Never commit API keys or passwords. Use environment variables.",
+    "documentation": "https://modelcontextprotocol.io/docs"
+  }
+}
