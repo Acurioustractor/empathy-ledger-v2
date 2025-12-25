@@ -34,11 +34,34 @@
 - [x] 47 files changed, 6,349+ lines added
 - [x] Ready to push
 
+### 5. Deployment Workflow Skill ✅
+- [x] Claude Code skill created (`.claude/skills/deployment-workflow/`)
+- [x] Automated deployment script (`scripts/deploy.sh`)
+- [x] Pre-deployment checks (build, lint, PWA verification)
+- [x] Version management (semantic versioning)
+- [x] Post-deployment testing checklist
+- [x] Rollback procedures documented
+
 ---
 
 ## 🎯 Next Steps: Deploy to Phone
 
-### Option A: Deploy to Vercel (15 minutes) ⭐ RECOMMENDED
+### Option A: Automated Deployment (15 minutes) ⭐ RECOMMENDED
+
+```bash
+# Use the deployment workflow script
+./scripts/deploy.sh
+
+# The script will:
+# 1. Run pre-deployment checks (build, lint, PWA files)
+# 2. Check database migrations
+# 3. Prompt for version bump (patch/minor/major)
+# 4. Commit and push to GitHub
+# 5. Deploy to Vercel (preview or production)
+# 6. Show post-deployment testing checklist
+```
+
+### Option B: Manual GitHub + Vercel Deploy (15 minutes)
 
 ```bash
 # 1. Push to GitHub
