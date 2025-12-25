@@ -1,0 +1,33 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad-512" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#96643a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#b84a32;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5c6d51;stop-opacity:1" />
+    </linearGradient>
+    <mask id="mask-512">
+      <rect width="512" height="512" fill="white"/>
+    </mask>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" fill="white"/>
+
+  <!-- Left Arc (interlocking circles design) -->
+  <path d="M 179.2 153.6
+           A 204 204 0 1 0
+           179.2 358.4"
+        stroke="url(#grad-512)"
+        stroke-width="51"
+        fill="none"
+        stroke-linecap="round"/>
+
+  <!-- Right Arc -->
+  <path d="M 332.8 358.4
+           A 204 204 0 1 0
+           332.8 153.6"
+        stroke="url(#grad-512)"
+        stroke-width="51"
+        fill="none"
+        stroke-linecap="round"/>
+</svg>
