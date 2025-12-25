@@ -255,10 +255,20 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(response)
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Trending themes error:', error)
+
+    // Return empty themes if tables don't exist
+    if (error?.code === '42P01' || error?.message?.includes('relation') || error?.message?.includes('does not exist')) {
+      return NextResponse.json({
+        themes: [],
+        totalThemes: 0,
+        timeRange: '30d'
+      })
+    }
+
     return NextResponse.json(
-      { error: 'Failed to fetch trending themes' },
+      { error: 'Failed to fetch trending themes', details: error?.message },
       { status: 500 }
     )
   }

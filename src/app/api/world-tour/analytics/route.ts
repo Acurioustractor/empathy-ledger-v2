@@ -291,10 +291,22 @@ export async function GET(request: NextRequest) {
       lastUpdated: new Date().toISOString()
     } as AnalyticsData)
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Analytics API error:', error)
+
+    // Return empty analytics if tables don't exist
+    if (error?.code === '42P01' || error?.message?.includes('relation') || error?.message?.includes('does not exist')) {
+      return NextResponse.json({
+        consent: { byVisibility: {}, totalWithConsent: 0, consentRate: 0 },
+        demographics: { byGender: {}, byAgeGroup: {}, byEthnicity: {} },
+        impact: { totalStorytellers: 0, totalStories: 0, totalReach: 0, communityEngagement: 0 },
+        aiAnalysis: { totalAnalyzed: 0, averageConfidence: 0, themesDiscovered: 0 },
+        timeline: []
+      })
+    }
+
     return NextResponse.json(
-      { error: 'Failed to fetch analytics data' },
+      { error: 'Failed to fetch analytics data', details: error?.message },
       { status: 500 }
     )
   }

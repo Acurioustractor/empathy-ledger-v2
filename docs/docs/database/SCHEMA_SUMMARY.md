@@ -1,0 +1,410 @@
+# Database Schema Summary
+
+**Generated**: 2025-12-25 10:22:45
+**Migration Files**: 52
+
+## Overview
+
+The Empathy Ledger database consists of:
+
+- **106 Tables** - Core data structures
+- **88 Functions** - Stored procedures and utilities
+- **8 Views** - Query abstractions
+- **228 RLS Policies** - Row-level security rules
+
+## Database Systems
+
+### 1. User & Profile System
+1 tables
+
+```
+project_profiles
+```
+
+### 2. Content System (Stories & Transcripts)
+3 tables
+
+```
+public.transcripts
+storyteller_quotes
+storyteller_transcripts
+```
+
+### 3. Media System
+5 tables
+
+```
+public.media_assets
+public.media_import_sessions
+public.media_usage_tracking
+story_media_links
+storyteller_media_library
+```
+
+### 4. Organization & Multi-Tenant
+13 tables
+
+```
+dream_organizations
+organization_contexts
+organization_cross_transcript_insights
+organization_impact_metrics
+organization_invitations
+organization_roles
+organization_storyteller_network
+organization_theme_analytics
+partner_team_members
+profile_organizations
+public.tenant_members
+public.tenants
+tenant_ai_policies
+```
+
+### 5. Project Management
+13 tables
+
+```
+act_projects
+audio_emotion_analysis
+audio_prosodic_analysis
+organization_contexts
+partner_projects
+project_analyses
+project_contexts
+project_profiles
+project_seed_interviews
+public.ai_analysis_jobs
+story_project_features
+story_project_tags
+storyteller_project_features
+```
+
+### 6. Cultural Sensitivity
+7 tables
+
+```
+ai_moderation_logs
+consent_change_log
+cultural_speech_patterns
+moderation_appeals
+moderation_results
+story_syndication_consent
+storyteller_consent_settings
+```
+
+### 7. Analytics & Metrics
+13 tables
+
+```
+analytics_processing_jobs
+geographic_impact_patterns
+organization_impact_metrics
+organization_theme_analytics
+partner_analytics_daily
+platform_analytics
+public.media_usage_tracking
+story_engagement_daily
+story_engagement_events
+storyteller_analytics
+storyteller_engagement
+storyteller_impact_metrics
+theme_evolution_tracking
+```
+
+### 8. Access Control & Sharing
+11 tables
+
+```
+organization_invitations
+partner_analytics_daily
+partner_message_templates
+partner_messages
+partner_projects
+partner_team_members
+public.embed_tokens
+story_access_log
+story_access_tokens
+story_api_access_log
+story_review_invitations
+```
+
+### 9. System & Events
+11 tables
+
+```
+ai_moderation_logs
+ai_safety_logs
+ai_usage_events
+consent_change_log
+notifications
+public.activity_log
+public.audit_logs
+story_access_log
+story_api_access_log
+story_engagement_events
+webhook_delivery_log
+```
+
+## All Tables (Alphabetical)
+
+```
+act_admin_permissions
+act_admins
+act_feature_requests
+act_projects
+ai_agent_registry
+ai_moderation_logs
+ai_safety_logs
+ai_usage_daily
+ai_usage_events
+analytics_processing_jobs
+audio_emotion_analysis
+audio_prosodic_analysis
+community_interpretation_sessions
+community_story_responses
+consent_change_log
+cross_narrative_insights
+cross_sector_insights
+cultural_speech_patterns
+dream_organizations
+elder_review_queue
+external_applications
+geographic_impact_patterns
+harvested_outcomes
+moderation_appeals
+moderation_results
+narrative_themes
+notifications
+organization_contexts
+organization_cross_transcript_insights
+organization_impact_metrics
+organization_invitations
+organization_roles
+organization_storyteller_network
+organization_theme_analytics
+partner_analytics_daily
+partner_message_templates
+partner_messages
+partner_projects
+partner_team_members
+platform_analytics
+profile_organizations
+project_analyses
+project_contexts
+project_profiles
+project_seed_interviews
+public.activity_log
+public.admin_messages
+public.ai_analysis_jobs
+public.audit_logs
+public.deletion_requests
+public.embed_tokens
+public.media_assets
+public.media_import_sessions
+public.media_usage_tracking
+public.message_recipients
+public.platform_stats_cache
+public.story_distributions
+public.tenant_members
+public.tenants
+public.title_suggestions
+public.transcription_jobs
+public.transcripts
+ripple_effects
+seed_interview_templates
+sites
+sroi_calculations
+sroi_inputs
+sroi_outcomes
+story_access_log
+story_access_tokens
+story_api_access_log
+story_drafts
+story_engagement_daily
+story_engagement_events
+story_media_links
+story_narrative_arcs
+story_project_features
+story_project_tags
+story_review_invitations
+story_site_visibility
+story_syndication_consent
+story_syndication_requests
+storyteller_analytics
+storyteller_connections
+storyteller_consent_settings
+storyteller_dashboard_config
+storyteller_demographics
+storyteller_engagement
+storyteller_impact_metrics
+storyteller_media_library
+storyteller_milestones
+storyteller_project_features
+storyteller_quotes
+storyteller_recommendations
+storyteller_themes
+storyteller_transcripts
+storytelling_circle_evaluations
+tenant_ai_policies
+theme_concept_evolution
+theme_evolution
+theme_evolution_tracking
+theory_of_change
+tour_requests
+tour_stops
+webhook_delivery_log
+webhook_subscriptions
+```
+
+## Database Functions
+
+```
+aggregate_daily_engagement
+approve_story_feature
+approve_storyteller_feature
+calculate_connection_strength
+calculate_engagement_score
+calculate_organization_impact_metrics
+calculate_sroi_outcome_value
+calculate_storyteller_analytics
+can_create_share_link
+check_storyteller_milestones
+check_webhook_failures
+cleanup_expired_tokens
+cleanup_old_notifications
+create_default_dashboard_config
+create_default_dashboard_config_trigger
+create_profile_with_media
+detect_storyteller_thematic_connections
+expire_pending_requests
+find_storyteller_connections
+get_justicehub_organizations
+get_justicehub_profiles
+get_justicehub_projects
+get_project_context
+get_site_stories
+get_storyteller_dashboard_summary
+get_storyteller_media_stats
+get_storyteller_recommendations
+get_storyteller_syndication_stats
+get_storyteller_top_themes
+get_syndicated_stories_for_app
+get_user_organization_role
+grant_story_consent
+handle_organization_role_change
+handle_request_approval
+has_story_consent
+is_act_admin
+is_story_syndicated
+link_media_to_story
+log_activity
+notify_elder_review_assigned
+public.archive_story
+public.decrement_story_like_count
+public.get_user_tenant_ids
+public.has_tenant_role
+public.increment_distribution_view
+public.increment_embed_usage
+public.increment_story_like_count
+public.increment_story_share_count
+public.increment_story_view_count
+public.is_organization_admin
+public.is_organization_member
+public.is_super_admin
+public.is_tenant_member
+public.restore_story
+public.revoke_all_story_distributions
+public.sync_tenant_members_from_org
+public.update_updated_at
+public.update_updated_at_column
+public.validate_collaboration_settings
+public.validate_cultural_identity
+public.validate_cultural_protocols
+public.validate_default_permissions
+public.validate_embed_token
+public.validate_governance_structure
+revoke_story_consent
+revoke_tokens_on_story_withdrawal
+trigger_update_org_metrics
+update_ai_usage_daily
+update_cultural_safety_timestamp
+update_draft_last_edited
+update_invitation_updated_at
+update_organization_contexts_updated_at
+update_platform_stats
+update_project_analyses_updated_at
+update_project_contexts_updated_at
+update_project_profiles_updated_at
+update_project_seed_interviews_updated_at
+update_project_stories_count
+update_seed_interview_templates_updated_at
+update_tenant_ai_usage
+update_tour_updated_at
+update_updated_at
+update_updated_at_column
+update_webhook_subscription_timestamp
+user_has_organization_role
+validate_and_increment_token
+validate_archive_consent
+validate_role_hierarchy
+```
+
+## Views
+
+```
+act_featured_storytellers
+elder_review_dashboard
+moderation_statistics
+partner_dashboard_summary
+stories_with_trust_indicators
+syndicated_stories
+v_agent_usage_stats
+v_tenant_ai_usage_summary
+```
+
+## Migration Timeline
+
+```
+20250109_media_system.sql
+20250913000000_rbac_enum_types.sql
+20250913005713_create_organization_roles_table.sql
+20250913030000_enhance_organizations_cultural_identity.sql
+20250916010000_storyteller_dashboard_analytics.sql
+20250916020000_storyteller_network_discovery.sql
+20250916030000_storyteller_analytics_foundation.sql
+20250917_enhance_storyteller_profiles.sql
+20251004_fix_missing_fields.sql
+20251005010000_force_postgrest_refresh.sql
+20251005020000_storyteller_schema_enhancement.sql
+20251010010000_project_analysis_cache_v2.sql
+20251010020000_project_analysis_cache.sql
+20251011000000_organization_contexts.sql
+20251011010000_project_context.sql
+20251011020000_project_contexts.sql
+20251011030000_seed_interview_templates.sql
+20251027_justicehub_integration.sql
+20251207_story_ownership_distribution.sql
+20251209000000_cultural_safety_moderation_tables.sql
+... (52 total)
+```
+
+## Next Steps
+
+To explore a specific system, use the `database-navigator` Claude skill:
+
+```
+/database-navigator "Show me the media system"
+/database-navigator "Document the storyteller tables"
+/database-navigator "What are the RLS policies for organizations?"
+```
+
+## Documentation
+
+- [Complete Schema Reference](./SCHEMA_REFERENCE.md)
+- [Migration Guide](./MIGRATION_GUIDE.md)
+- [Function Reference](./FUNCTION_REFERENCE.md)
+- [Security Policies](./SECURITY_POLICIES.md)
+
+---
+
+**Tip**: Run `./scripts/analyze-database.sh` to regenerate this documentation.

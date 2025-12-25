@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createClient } from '@supabase/supabase-js'
+import { batchResolveAvatarMedia, resolveAvatarUrl } from '@/lib/utils/avatar-resolver'
 
 
 
@@ -123,29 +124,8 @@ export async function GET(
       tenant_roles: p.tenant_roles
     })))
 
-    const avatarMediaIds = Array.from(new Set((allProfiles || [])
-      .filter(profile => !profile.profile_image_url && !profile.avatar_url && profile.avatar_media_id)
-      .map(profile => profile.avatar_media_id)))
-
-    const avatarUrlMap: Record<string, string> = {}
-
-    if (avatarMediaIds.length > 0) {
-      const { data: avatarMedia, error: avatarError } = await supabase
-        .from('media_assets')
-        .select('id, cdn_url')
-        .in('id', avatarMediaIds)
-
-      if (avatarError) {
-        console.error('⚠️  Failed to resolve avatar media assets for organisation storytellers:', avatarError)
-      } else {
-        avatarMedia?.forEach(media => {
-          if (media.cdn_url) {
-            avatarUrlMap[media.id] = media.cdn_url
-          }
-        })
-      }
-    }
-
+    // Batch resolve avatar media using centralized utility
+    const avatarUrlMap = await batchResolveAvatarMedia(allProfiles || [], supabase)
 
     console.log('📊 Found', allProfiles?.length || 0, 'total storytellers')
 
@@ -300,14 +280,15 @@ export async function GET(
       ].filter(Boolean)
       const lastActive = allDates.length > 0 ? allDates.sort().reverse()[0] : undefined
 
-      const resolvedAvatarUrl = profile.profile_image_url || profile.avatar_url || (profile.avatar_media_id ? avatarUrlMap[profile.avatar_media_id] : null)
+      // Use centralized avatar resolution
+      const resolved = resolveAvatarUrl(profile, avatarUrlMap)
 
       storytellers.push({
         id: profile.id,
         fullName: profile.full_name || '',
         displayName: profile.display_name || '',
         bio: profile.bio,
-        avatarUrl: resolvedAvatarUrl || null,
+        avatarUrl: resolved.avatar_url,
         location: undefined,
         culturalBackground: undefined,
         isElder: profile.is_elder || false,

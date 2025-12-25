@@ -21,6 +21,14 @@ import {
   Activity,
   TrendingUp,
   RefreshCw,
+  Database,
+  BarChart3,
+  Network,
+  Globe,
+  FolderOpen,
+  Image,
+  Settings,
+  Layout,
 } from 'lucide-react'
 
 const AdminDashboard: React.FC = () => {
@@ -301,31 +309,104 @@ const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Secondary Actions */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <ActionCard
-          title="Stories"
-          description="View and manage all stories"
-          href="/admin/stories"
-          icon={BookOpen}
-          color="bg-emerald-500"
-          count={stats.totalStories}
-        />
-        <ActionCard
-          title="Organizations"
-          description="Manage organizations"
-          href="/admin/organisations"
-          icon={Building2}
-          color="bg-clay-500"
-          count={stats.totalOrganizations}
-        />
-        <ActionCard
-          title="Activity Log"
-          description="View platform activity"
-          href="/admin/audit-log"
-          icon={Activity}
-          color="bg-stone-600"
-        />
+      {/* Content Management */}
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Content Management</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <ActionCard
+            title="Stories"
+            description="View and manage all stories"
+            href="/admin/stories"
+            icon={BookOpen}
+            color="bg-emerald-500"
+            count={stats.totalStories}
+          />
+          <ActionCard
+            title="Organizations"
+            description="Manage organizations"
+            href="/admin/organisations"
+            icon={Building2}
+            color="bg-clay-500"
+            count={stats.totalOrganizations}
+          />
+          <ActionCard
+            title="Projects"
+            description="Manage storytelling projects"
+            href="/admin/projects"
+            icon={FolderOpen}
+            color="bg-purple-500"
+          />
+        </div>
+      </div>
+
+      {/* Analytics & Visualizations */}
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Analytics & Visualizations</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <ActionCard
+            title="Analytics Dashboard"
+            description="Platform metrics and insights"
+            href="/admin/analytics"
+            icon={BarChart3}
+            color="bg-blue-500"
+          />
+          <ActionCard
+            title="Database Explorer"
+            description="Browse all 106 database tables"
+            href="/admin/database-explorer"
+            icon={Database}
+            color="bg-indigo-500"
+          />
+          <ActionCard
+            title="Network Graph"
+            description="Interactive D3.js visualization"
+            href="/admin/visualizations/network-graph"
+            icon={Network}
+            color="bg-violet-500"
+          />
+          <ActionCard
+            title="Interactive Diagram"
+            description="System-organized table browser"
+            href="/admin/visualizations/interactive-diagram"
+            icon={Layout}
+            color="bg-purple-500"
+          />
+          <ActionCard
+            title="World Tour Analytics"
+            description="Global engagement metrics"
+            href="/admin/world-tour/analytics"
+            icon={Globe}
+            color="bg-cyan-500"
+          />
+        </div>
+      </div>
+
+      {/* System Tools */}
+      <div>
+        <h2 className="text-lg font-semibold mb-4">System Tools</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <ActionCard
+            title="Activity Log"
+            description="View platform activity"
+            href="/admin/audit-log"
+            icon={Activity}
+            color="bg-stone-600"
+          />
+          <ActionCard
+            title="Media Gallery"
+            description="Manage photos and media"
+            href="/admin/galleries"
+            icon={Image}
+            color="bg-pink-500"
+          />
+          <ActionCard
+            title="Settings"
+            description="System configuration"
+            href="/admin/settings"
+            icon={Settings}
+            color="bg-gray-600"
+          />
+        </div>
       </div>
 
       {/* System Status */}

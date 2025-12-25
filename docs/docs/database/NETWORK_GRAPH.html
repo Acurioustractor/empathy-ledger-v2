@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Network</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; overflow: hidden; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: #0f172a; color: white; }
+        #container { width: 100%; height: 100%; position: relative; }
+        #graph { width: 100%; height: 100%; display: block; }
+        .controls {
+            position: fixed; top: 10px; left: 10px;
+            background: rgba(30,41,59,0.95); padding: 15px;
+            border-radius: 8px; max-width: 250px; z-index: 100;
+        }
+        .info-panel {
+            position: fixed; top: 10px; right: 10px;
+            background: rgba(30,41,59,0.95); padding: 15px;
+            border-radius: 8px; max-width: 280px; z-index: 100;
+            max-height: calc(100vh - 20px); overflow-y: auto;
+        }
+        .title { font-size: 16px; font-weight: 700; color: #10b981; margin-bottom: 10px; }
+        .filter-btn {
+            background: rgba(71,85,105,0.5); border: 1px solid rgba(148,163,184,0.2);
+            color: #e2e8f0; padding: 4px 10px; margin: 2px; border-radius: 4px;
+            cursor: pointer; font-size: 11px;
+        }
+        .filter-btn.active { background: #10b981; color: white; }
+        .node { cursor: pointer; }
+        .node.selected { stroke: #10b981 !important; stroke-width: 4 !important; }
+        .link { stroke: #475569; stroke-opacity: 0.3; }
+        .link.highlighted { stroke: #10b981; stroke-opacity: 0.8; }
+        .node-label { font-size: 9px; fill: #e2e8f0; text-anchor: middle; pointer-events: none; }
+        #nodeInfo { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(148,163,184,0.2); }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="controls">
+            <div class="title">🗄️ Database Network</div>
+            <div>
+                <button class="filter-btn active" data-system="all">All</button>
+                <button class="filter-btn" data-system="identity">Identity</button>
+                <button class="filter-btn" data-system="content">Content</button>
+                <button class="filter-btn" data-system="media">Media</button>
+                <button class="filter-btn" data-system="org">Org</button>
+                <button class="filter-btn" data-system="analytics">Analytics</button>
+            </div>
+        </div>
+        <div class="info-panel">
+            <div class="title">Stats</div>
+            <div style="font-size: 11px; color: #cbd5e1;">
+                <div>Tables: <strong style="color: #10b981;">87</strong></div>
+                <div>Functions: <strong style="color: #10b981;">82</strong></div>
+                <div>RLS Policies: <strong style="color: #10b981;">210</strong></div>
+            </div>
+            <div id="nodeInfo" style="display: none; font-size: 11px;"></div>
+        </div>
+        <svg id="graph"></svg>
+    </div>
+    <script>
+        const data = {
+            nodes: [
+                {id:'tenants',label:'Tenants',group:'org',size:24},
+                {id:'profiles',label:'Profiles',group:'identity',size:22},
+                {id:'stories',label:'Stories',group:'content',size:22},
+                {id:'transcripts',label:'Transcripts',group:'content',size:18},
+                {id:'media_assets',label:'Media',group:'media',size:16},
+                {id:'projects',label:'Projects',group:'org',size:16},
+                {id:'themes',label:'Themes',group:'content',size:14},
+                {id:'quotes',label:'Quotes',group:'content',size:12},
+                {id:'galleries',label:'Galleries',group:'media',size:12},
+                {id:'analytics',label:'Analytics',group:'analytics',size:14}
+            ],
+            links: [
+                {source:'tenants',target:'profiles',strength:'strong'},
+                {source:'tenants',target:'stories',strength:'strong'},
+                {source:'profiles',target:'stories',strength:'strong'},
+                {source:'stories',target:'transcripts',strength:'strong'},
+                {source:'stories',target:'themes',strength:'medium'},
+                {source:'stories',target:'quotes',strength:'medium'},
+                {source:'stories',target:'media_assets',strength:'medium'},
+                {source:'media_assets',target:'galleries',strength:'medium'},
+                {source:'projects',target:'stories',strength:'medium'},
+                {source:'profiles',target:'analytics',strength:'medium'}
+            ]
+        };
+
+        const colors = {identity:'#ef4444',content:'#3b82f6',media:'#8b5cf6',org:'#f59e0b',analytics:'#10b981'};
+
+        let svg, g, sim, link, node, label;
+
+        function initGraph() {
+            const container = document.getElementById('container');
+            const rect = container.getBoundingClientRect();
+            const w = rect.width;
+            const h = rect.height;
+
+            // Clear existing
+            d3.select('#graph').selectAll('*').remove();
+
+            // Initialize
+            svg = d3.select('#graph').attr('width', w).attr('height', h);
+            g = svg.append('g');
+
+            // Zoom
+            svg.call(d3.zoom().scaleExtent([0.1, 4]).on('zoom', e => g.attr('transform', e.transform)));
+
+            // Simulation
+            sim = d3.forceSimulation(data.nodes)
+                .force('link', d3.forceLink(data.links).id(d => d.id).distance(80))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(w / 2, h / 2))
+                .force('collision', d3.forceCollide().radius(d => d.size + 10));
+
+            // Links
+            link = g.append('g').selectAll('line').data(data.links).join('line')
+                .attr('class', 'link').attr('stroke-width', 2);
+
+            // Nodes
+            node = g.append('g').selectAll('circle').data(data.nodes).join('circle')
+                .attr('class', 'node').attr('r', d => d.size).attr('fill', d => colors[d.group])
+                .attr('stroke', '#0f172a').attr('stroke-width', 2)
+                .call(d3.drag()
+                    .on('start', e => {
+                        if (!e.active) sim.alphaTarget(0.3).restart();
+                        e.subject.fx = e.subject.x;
+                        e.subject.fy = e.subject.y;
+                    })
+                    .on('drag', e => {
+                        e.subject.fx = e.x;
+                        e.subject.fy = e.y;
+                    })
+                    .on('end', e => {
+                        if (!e.active) sim.alphaTarget(0);
+                        e.subject.fx = null;
+                        e.subject.fy = null;
+                    }))
+                .on('click', (e, d) => {
+                    node.classed('selected', false);
+                    link.classed('highlighted', false);
+                    d3.select(e.target).classed('selected', true);
+                    link.classed('highlighted', l => l.source.id === d.id || l.target.id === d.id);
+                    const c = data.links.filter(l => l.source.id === d.id || l.target.id === d.id)
+                        .map(l => l.source.id === d.id ? l.target.label : l.source.label);
+                    document.getElementById('nodeInfo').style.display = 'block';
+                    document.getElementById('nodeInfo').innerHTML = `
+                        <div style="color:#10b981;font-weight:700;margin:8px 0;">${d.label}</div>
+                        <div style="color:#94a3b8;font-size:10px;margin-bottom:8px;">${d.group}</div>
+                        <div><strong>Connections (${c.length}):</strong><br>${c.map(x => '• ' + x).join('<br>')}</div>
+                        <button onclick="window.parent.location.href='/admin/database-explorer?table=${d.id}'"
+                            style="background:#10b981;color:white;border:none;padding:6px 12px;border-radius:4px;
+                            cursor:pointer;font-size:10px;margin-top:8px;width:100%;">View Table →</button>`;
+                });
+
+            // Labels
+            label = g.append('g').selectAll('text').data(data.nodes).join('text')
+                .attr('class', 'node-label').text(d => d.label).attr('dy', d => d.size + 12);
+
+            // Tick
+            sim.on('tick', () => {
+                link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+                node.attr('cx', d => d.x).attr('cy', d => d.y);
+                label.attr('x', d => d.x).attr('y', d => d.y);
+            });
+        }
+
+        // Initialize on load
+        initGraph();
+
+        // Resize handler
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                initGraph();
+            }, 250);
+        });
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const s = this.dataset.system;
+                if (s === 'all') {
+                    node.style('opacity', 1);
+                    label.style('opacity', 1);
+                    link.style('opacity', 0.3);
+                } else {
+                    node.style('opacity', d => d.group === s ? 1 : 0.15);
+                    label.style('opacity', d => d.group === s ? 1 : 0.15);
+                    link.style('opacity', l => (l.source.group === s || l.target.group === s) ? 0.3 : 0.05);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

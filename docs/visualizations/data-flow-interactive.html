@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empathy Ledger - Data Flow Visualization</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #FAF8F5 0%, #F5F0E8 100%);
+      color: #2E251A;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #A48968;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #6B553D;
+      font-size: 1.1rem;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .tab {
+      padding: 12px 24px;
+      background: #F5F0E8;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #6B553D;
+      transition: all 0.2s;
+    }
+
+    .tab:hover {
+      background: #E8DCC8;
+      transform: translateY(-2px);
+    }
+
+    .tab.active {
+      background: #A48968;
+      color: white;
+    }
+
+    .viz-container {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      min-height: 700px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Network graph styles */
+    .node {
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .node:hover {
+      stroke-width: 3px;
+    }
+
+    .node text {
+      font-size: 11px;
+      font-weight: 600;
+      pointer-events: none;
+    }
+
+    .link {
+      stroke: #D4C4A8;
+      stroke-opacity: 0.6;
+      stroke-width: 2px;
+    }
+
+    .link.strong {
+      stroke: #059669;
+      stroke-width: 4px;
+    }
+
+    .link.medium {
+      stroke: #A48968;
+      stroke-width: 3px;
+    }
+
+    .tooltip {
+      position: absolute;
+      background: white;
+      border: 2px solid #A48968;
+      border-radius: 8px;
+      padding: 12px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      max-width: 300px;
+    }
+
+    .tooltip h4 {
+      color: #A48968;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .tooltip p {
+      color: #6B553D;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .legend {
+      margin-top: 20px;
+      padding: 15px;
+      background: #FAF8F5;
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #6B553D;
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #FAF8F5 0%, #F5F0E8 100%);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #E8DCC8;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #A48968;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #6B553D;
+    }
+
+    .flow-diagram {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .flow-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .flow-box {
+      background: linear-gradient(135deg, #FAF8F5, #F5F0E8);
+      border: 2px solid #A48968;
+      border-radius: 12px;
+      padding: 20px;
+      min-width: 150px;
+      text-align: center;
+      font-weight: 600;
+      color: #6B553D;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .flow-arrow {
+      font-size: 2rem;
+      color: #A48968;
+    }
+
+    .entity-storyteller { background: #E07A5F; color: white; }
+    .entity-organization { background: #059669; color: white; }
+    .entity-project { background: #06B6D4; color: white; }
+    .entity-story { background: #8B5CF6; color: white; }
+    .entity-theme { background: #D97706; color: white; }
+    .entity-analysis { background: #EA580C; color: white; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Empathy Ledger Data Flow</h1>
+      <p class="subtitle">Interactive visualization of how data lives and connects across the platform</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('overview')">Overview</button>
+      <button class="tab" onclick="showTab('network')">Entity Network</button>
+      <button class="tab" onclick="showTab('storyteller')">Storyteller Journey</button>
+      <button class="tab" onclick="showTab('thematic')">Thematic Connections</button>
+      <button class="tab" onclick="showTab('multisite')">Multi-Site Sharing</button>
+    </div>
+
+    <!-- Overview Tab -->
+    <div id="overview-tab" class="viz-container">
+      <h2 style="margin-bottom: 30px; color: #A48968;">Platform Data Overview</h2>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">1,247</div>
+          <div class="stat-label">Stories Created</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">456</div>
+          <div class="stat-label">Active Storytellers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">342</div>
+          <div class="stat-label">Unique Themes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">8,934</div>
+          <div class="stat-label">Connections Discovered</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">4,521</div>
+          <div class="stat-label">Impactful Quotes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">3</div>
+          <div class="stat-label">ACT Sites</div>
+        </div>
+      </div>
+
+      <h3 style="margin: 30px 0 20px; color: #6B553D;">Core Entity Relationships</h3>
+
+      <div class="flow-diagram">
+        <div class="flow-row">
+          <div class="flow-box entity-storyteller">👤 Storyteller</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-arrow">↓</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-box entity-story">📖 Story</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-arrow">↓</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-box entity-analysis">🤖 AI Analysis</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-arrow">↓</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-box entity-theme">Themes</div>
+          <div class="flow-box entity-analysis">Quotes</div>
+          <div class="flow-box entity-analysis">Sentiment</div>
+          <div class="flow-box entity-analysis">Cultural</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-arrow">↓</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-box entity-storyteller">📊 Analytics & Connections</div>
+        </div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-color entity-storyteller"></div>
+          <span>Storyteller/Profile</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color entity-organization"></div>
+          <span>Organization</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color entity-project"></div>
+          <span>Project</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color entity-story"></div>
+          <span>Story/Content</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color entity-theme"></div>
+          <span>Theme/Analysis</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color entity-analysis"></div>
+          <span>AI/Analytics</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Network Tab -->
+    <div id="network-tab" class="viz-container hidden">
+      <h2 style="margin-bottom: 20px; color: #A48968;">Entity Relationship Network</h2>
+      <p style="color: #6B553D; margin-bottom: 30px;">Hover over nodes to see connections. Click to highlight relationships.</p>
+      <div id="network-graph"></div>
+    </div>
+
+    <!-- Storyteller Journey Tab -->
+    <div id="storyteller-tab" class="viz-container hidden">
+      <h2 style="margin-bottom: 20px; color: #A48968;">Storyteller Data Journey</h2>
+      <div id="storyteller-viz"></div>
+    </div>
+
+    <!-- Thematic Tab -->
+    <div id="thematic-tab" class="viz-container hidden">
+      <h2 style="margin-bottom: 20px; color: #A48968;">Thematic Connection Network</h2>
+      <div id="thematic-graph"></div>
+    </div>
+
+    <!-- Multi-Site Tab -->
+    <div id="multisite-tab" class="viz-container hidden">
+      <h2 style="margin-bottom: 20px; color: #A48968;">Multi-Site Story Sharing</h2>
+      <div id="multisite-viz"></div>
+    </div>
+  </div>
+
+  <div class="tooltip" id="tooltip"></div>
+
+  <script>
+    // Tab switching
+    function showTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.viz-container').forEach(tab => {
+        tab.classList.add('hidden')
+      })
+
+      // Remove active class from all buttons
+      document.querySelectorAll('.tab').forEach(btn => {
+        btn.classList.remove('active')
+      })
+
+      // Show selected tab
+      document.getElementById(`${tabName}-tab`).classList.remove('hidden')
+
+      // Add active class to clicked button
+      event.target.classList.add('active')
+
+      // Initialize visualization if needed
+      if (tabName === 'network' && !window.networkInitialized) {
+        initNetworkGraph()
+        window.networkInitialized = true
+      } else if (tabName === 'storyteller' && !window.storytellerInitialized) {
+        initStorytellerViz()
+        window.storytellerInitialized = true
+      } else if (tabName === 'thematic' && !window.thematicInitialized) {
+        initThematicGraph()
+        window.thematicInitialized = true
+      } else if (tabName === 'multisite' && !window.multisiteInitialized) {
+        initMultisiteViz()
+        window.multisiteInitialized = true
+      }
+    }
+
+    // Network graph data
+    const networkData = {
+      nodes: [
+        { id: 'storyteller', label: 'Storyteller', type: 'storyteller', size: 30 },
+        { id: 'organization', label: 'Organization', type: 'organization', size: 25 },
+        { id: 'project', label: 'Project', type: 'project', size: 25 },
+        { id: 'story', label: 'Story', type: 'story', size: 28 },
+        { id: 'transcript', label: 'Transcript', type: 'story', size: 20 },
+        { id: 'media', label: 'Media Assets', type: 'story', size: 18 },
+        { id: 'themes', label: 'Themes', type: 'theme', size: 22 },
+        { id: 'quotes', label: 'Quotes', type: 'theme', size: 20 },
+        { id: 'analytics', label: 'Analytics', type: 'analysis', size: 26 },
+        { id: 'connections', label: 'Connections', type: 'analysis', size: 22 },
+        { id: 'sites', label: 'ACT Sites', type: 'project', size: 24 },
+        { id: 'consent', label: 'Consent', type: 'storyteller', size: 20 }
+      ],
+      links: [
+        { source: 'storyteller', target: 'story', strength: 'strong', label: 'creates' },
+        { source: 'storyteller', target: 'organization', strength: 'medium', label: 'belongs to' },
+        { source: 'storyteller', target: 'analytics', strength: 'strong', label: 'has' },
+        { source: 'storyteller', target: 'consent', strength: 'strong', label: 'controls' },
+        { source: 'organization', target: 'project', strength: 'strong', label: 'manages' },
+        { source: 'project', target: 'story', strength: 'medium', label: 'contains' },
+        { source: 'story', target: 'transcript', strength: 'strong', label: 'has' },
+        { source: 'story', target: 'media', strength: 'medium', label: 'includes' },
+        { source: 'transcript', target: 'themes', strength: 'strong', label: 'extracts' },
+        { source: 'transcript', target: 'quotes', strength: 'strong', label: 'identifies' },
+        { source: 'themes', target: 'analytics', strength: 'medium', label: 'feeds' },
+        { source: 'quotes', target: 'analytics', strength: 'medium', label: 'feeds' },
+        { source: 'analytics', target: 'connections', strength: 'strong', label: 'discovers' },
+        { source: 'story', target: 'sites', strength: 'medium', label: 'shared on' },
+        { source: 'consent', target: 'sites', strength: 'strong', label: 'controls' }
+      ]
+    }
+
+    // Color mapping
+    const typeColors = {
+      storyteller: '#E07A5F',
+      organization: '#059669',
+      project: '#06B6D4',
+      story: '#8B5CF6',
+      theme: '#D97706',
+      analysis: '#EA580C'
+    }
+
+    function initNetworkGraph() {
+      const width = 1000
+      const height = 700
+      const svg = d3.select('#network-graph')
+        .append('svg')
+        .attr('width', '100%')
+        .attr('height', height)
+        .attr('viewBox', [0, 0, width, height])
+
+      const simulation = d3.forceSimulation(networkData.nodes)
+        .force('link', d3.forceLink(networkData.links).id(d => d.id).distance(120))
+        .force('charge', d3.forceManyBody().strength(-400))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('collision', d3.forceCollide().radius(d => d.size + 10))
+
+      const link = svg.append('g')
+        .selectAll('line')
+        .data(networkData.links)
+        .join('line')
+        .attr('class', d => `link ${d.strength}`)
+
+      const node = svg.append('g')
+        .selectAll('g')
+        .data(networkData.nodes)
+        .join('g')
+        .attr('class', 'node')
+        .call(drag(simulation))
+
+      node.append('circle')
+        .attr('r', d => d.size)
+        .attr('fill', d => typeColors[d.type])
+        .attr('stroke', '#fff')
+        .attr('stroke-width', 2)
+
+      node.append('text')
+        .attr('dy', d => d.size + 15)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#2E251A')
+        .text(d => d.label)
+
+      node.on('mouseover', function(event, d) {
+        showTooltip(event, `<h4>${d.label}</h4><p>Type: ${d.type}</p>`)
+        d3.select(this).select('circle').attr('stroke-width', 4)
+      })
+      .on('mouseout', function() {
+        hideTooltip()
+        d3.select(this).select('circle').attr('stroke-width', 2)
+      })
+
+      simulation.on('tick', () => {
+        link
+          .attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y)
+
+        node.attr('transform', d => `translate(${d.x},${d.y})`)
+      })
+    }
+
+    function initStorytellerViz() {
+      const container = d3.select('#storyteller-viz')
+      container.html(`
+        <div class="flow-diagram">
+          <div class="flow-row">
+            <div class="flow-box entity-storyteller" style="min-width: 200px;">
+              <h3>👤 Elder Sarah</h3>
+              <p style="margin-top: 8px; font-size: 12px;">Profile Complete: 87%</p>
+            </div>
+          </div>
+          <div class="flow-row"><div class="flow-arrow">↓</div></div>
+          <div class="flow-row">
+            <div class="flow-box entity-story">📖 Story 1<br/>"Winter Teaching"</div>
+            <div class="flow-box entity-story">📖 Story 2<br/>"Land Connection"</div>
+            <div class="flow-box entity-story">📖 Story 3<br/>"Medicine Ways"</div>
+          </div>
+          <div class="flow-row"><div class="flow-arrow">↓</div></div>
+          <div class="flow-row">
+            <div class="flow-box entity-analysis">🎯 Themes<br/>Wisdom, Land, Family</div>
+            <div class="flow-box entity-analysis">💬 Quotes<br/>14 high-impact quotes</div>
+            <div class="flow-box entity-analysis">🤝 Connections<br/>8 storytellers linked</div>
+          </div>
+          <div class="flow-row"><div class="flow-arrow">↓</div></div>
+          <div class="flow-row">
+            <div class="flow-box entity-project">🌐 Shared on 3 Sites<br/>Main, Youth, Land</div>
+          </div>
+          <div class="flow-row"><div class="flow-arrow">↓</div></div>
+          <div class="flow-row">
+            <div class="flow-box" style="background: linear-gradient(135deg, #059669, #10B981); color: white; min-width: 300px;">
+              <h3>📊 Impact Analytics</h3>
+              <p style="margin-top: 8px;">3,421 total views | 0.92 impact score</p>
+            </div>
+          </div>
+        </div>
+      `)
+    }
+
+    function initThematicGraph() {
+      const width = 1000
+      const height = 700
+
+      // Data for thematic network
+      const thematicData = {
+        nodes: [
+          // Storytellers
+          { id: 'sarah', label: 'Elder Sarah', type: 'storyteller', size: 30 },
+          { id: 'jordan', label: 'Jordan', type: 'storyteller', size: 28 },
+          { id: 'alex', label: 'Alex', type: 'storyteller', size: 28 },
+          { id: 'river', label: 'River', type: 'storyteller', size: 25 },
+          { id: 'maria', label: 'Maria', type: 'storyteller', size: 25 },
+
+          // Themes
+          { id: 'wisdom', label: 'Knowledge\n& Wisdom', type: 'theme', size: 35, category: 'Knowledge & Wisdom' },
+          { id: 'land', label: 'Land &\nTerritory', type: 'theme', size: 38, category: 'Land & Territory' },
+          { id: 'climate', label: 'Climate\nAction', type: 'theme', size: 32, category: 'Climate' },
+          { id: 'family', label: 'Family &\nKinship', type: 'theme', size: 28, category: 'Family' },
+          { id: 'justice', label: 'Justice &\nRights', type: 'theme', size: 30, category: 'Justice' },
+          { id: 'youth', label: 'Youth\nVoices', type: 'theme', size: 30, category: 'Youth' }
+        ],
+        links: [
+          // Sarah's themes
+          { source: 'sarah', target: 'wisdom', strength: 'strong', prominence: 0.95 },
+          { source: 'sarah', target: 'land', strength: 'strong', prominence: 0.85 },
+          { source: 'sarah', target: 'family', strength: 'medium', prominence: 0.72 },
+
+          // Jordan's themes
+          { source: 'jordan', target: 'climate', strength: 'strong', prominence: 0.88 },
+          { source: 'jordan', target: 'youth', strength: 'strong', prominence: 0.92 },
+          { source: 'jordan', target: 'justice', strength: 'medium', prominence: 0.68 },
+
+          // Alex's themes
+          { source: 'alex', target: 'land', strength: 'strong', prominence: 0.92 },
+          { source: 'alex', target: 'justice', strength: 'strong', prominence: 0.85 },
+
+          // River's themes
+          { source: 'river', target: 'land', strength: 'medium', prominence: 0.75 },
+          { source: 'river', target: 'justice', strength: 'medium', prominence: 0.70 },
+
+          // Maria's themes
+          { source: 'maria', target: 'climate', strength: 'strong', prominence: 0.82 },
+          { source: 'maria', target: 'youth', strength: 'medium', prominence: 0.68 },
+
+          // Theme co-occurrences (links between themes)
+          { source: 'wisdom', target: 'land', strength: 'medium', type: 'theme-link' },
+          { source: 'land', target: 'justice', strength: 'strong', type: 'theme-link' },
+          { source: 'climate', target: 'youth', strength: 'medium', type: 'theme-link' }
+        ]
+      }
+
+      const themeColors = {
+        'Knowledge & Wisdom': '#8B5CF6',
+        'Land & Territory': '#059669',
+        'Climate': '#06B6D4',
+        'Family': '#10B981',
+        'Justice': '#EA580C',
+        'Youth': '#D97706'
+      }
+
+      const svg = d3.select('#thematic-graph')
+        .append('svg')
+        .attr('width', '100%')
+        .attr('height', height)
+        .attr('viewBox', [0, 0, width, height])
+
+      const simulation = d3.forceSimulation(thematicData.nodes)
+        .force('link', d3.forceLink(thematicData.links).id(d => d.id).distance(d => {
+          if (d.type === 'theme-link') return 100
+          return d.strength === 'strong' ? 80 : 120
+        }))
+        .force('charge', d3.forceManyBody().strength(d => d.type === 'theme' ? -600 : -300))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('collision', d3.forceCollide().radius(d => d.size + 20))
+
+      // Draw links
+      const link = svg.append('g')
+        .selectAll('line')
+        .data(thematicData.links)
+        .join('line')
+        .attr('class', d => `link ${d.strength}`)
+        .attr('stroke', d => d.type === 'theme-link' ? '#D4C4A8' : '#BFA888')
+        .attr('stroke-width', d => {
+          if (d.type === 'theme-link') return 3
+          return d.strength === 'strong' ? 4 : 2
+        })
+        .attr('stroke-opacity', d => d.type === 'theme-link' ? 0.3 : 0.6)
+        .attr('stroke-dasharray', d => d.type === 'theme-link' ? '5,5' : 'none')
+
+      // Draw nodes
+      const node = svg.append('g')
+        .selectAll('g')
+        .data(thematicData.nodes)
+        .join('g')
+        .attr('class', 'node')
+        .call(drag(simulation))
+
+      node.append('circle')
+        .attr('r', d => d.size)
+        .attr('fill', d => {
+          if (d.type === 'storyteller') return typeColors.storyteller
+          return themeColors[d.category]
+        })
+        .attr('stroke', '#fff')
+        .attr('stroke-width', 3)
+        .attr('opacity', 0.9)
+
+      // Add icons for storytellers
+      node.filter(d => d.type === 'storyteller')
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dy', 5)
+        .attr('font-size', '20px')
+        .text('👤')
+
+      // Add labels
+      node.append('text')
+        .attr('dy', d => d.type === 'theme' ? 5 : d.size + 18)
+        .attr('text-anchor', 'middle')
+        .attr('fill', d => d.type === 'theme' ? '#fff' : '#2E251A')
+        .attr('font-weight', 'bold')
+        .attr('font-size', d => d.type === 'theme' ? '11px' : '10px')
+        .selectAll('tspan')
+        .data(d => d.label.split('\n'))
+        .join('tspan')
+        .attr('x', 0)
+        .attr('dy', (d, i) => i ? '1.2em' : 0)
+        .text(d => d)
+
+      // Add tooltips
+      node.on('mouseover', function(event, d) {
+        if (d.type === 'storyteller') {
+          const themes = thematicData.links
+            .filter(l => l.source.id === d.id || l.source === d.id)
+            .map(l => {
+              const target = typeof l.target === 'object' ? l.target : thematicData.nodes.find(n => n.id === l.target)
+              return `<li>${target.label.replace('\n', ' ')}: ${Math.round(l.prominence * 100)}%</li>`
+            })
+            .join('')
+
+          showTooltip(event, `
+            <h4>${d.label}</h4>
+            <p><strong>Themes:</strong></p>
+            <ul style="margin: 5px 0; padding-left: 20px;">${themes}</ul>
+          `)
+        } else {
+          const storytellers = thematicData.links
+            .filter(l => {
+              const targetId = typeof l.target === 'object' ? l.target.id : l.target
+              return targetId === d.id
+            })
+            .map(l => {
+              const source = typeof l.source === 'object' ? l.source : thematicData.nodes.find(n => n.id === l.source)
+              return source.label
+            })
+            .join(', ')
+
+          showTooltip(event, `
+            <h4>${d.label.replace('\n', ' ')}</h4>
+            <p><strong>Storytellers:</strong> ${storytellers}</p>
+            <p><strong>Category:</strong> ${d.category}</p>
+          `)
+        }
+
+        d3.select(this).select('circle')
+          .attr('stroke-width', 5)
+          .attr('opacity', 1)
+
+        // Highlight connected links
+        link.attr('stroke-opacity', l => {
+          const sourceId = typeof l.source === 'object' ? l.source.id : l.source
+          const targetId = typeof l.target === 'object' ? l.target.id : l.target
+          return (sourceId === d.id || targetId === d.id) ? 1 : 0.1
+        })
+      })
+      .on('mouseout', function() {
+        hideTooltip()
+        d3.select(this).select('circle')
+          .attr('stroke-width', 3)
+          .attr('opacity', 0.9)
+
+        link.attr('stroke-opacity', d => d.type === 'theme-link' ? 0.3 : 0.6)
+      })
+
+      simulation.on('tick', () => {
+        link
+          .attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y)
+
+        node.attr('transform', d => `translate(${d.x},${d.y})`)
+      })
+
+      // Add legend
+      const legendContainer = d3.select('#thematic-graph')
+        .append('div')
+        .attr('class', 'legend')
+        .style('margin-top', '20px')
+
+      const legendData = [
+        { label: 'Storyteller', color: typeColors.storyteller },
+        { label: 'Knowledge & Wisdom', color: themeColors['Knowledge & Wisdom'] },
+        { label: 'Land & Territory', color: themeColors['Land & Territory'] },
+        { label: 'Climate Action', color: themeColors['Climate'] },
+        { label: 'Justice & Rights', color: themeColors['Justice'] },
+        { label: 'Youth Voices', color: themeColors['Youth'] }
+      ]
+
+      legendContainer.selectAll('.legend-item')
+        .data(legendData)
+        .join('div')
+        .attr('class', 'legend-item')
+        .html(d => `
+          <div class="legend-color" style="background: ${d.color};"></div>
+          <span>${d.label}</span>
+        `)
+
+      // Add explanation text
+      d3.select('#thematic-graph')
+        .insert('p', 'svg')
+        .style('color', '#6B553D')
+        .style('margin-bottom', '20px')
+        .html(`
+          <strong>How to explore:</strong> Hover over storytellers to see their themes.
+          Hover over themes to see which storytellers share them.
+          Line thickness shows prominence strength (thicker = stronger connection).
+          Dotted lines show theme co-occurrences.
+        `)
+    }
+
+    function initMultisiteViz() {
+      const container = d3.select('#multisite-viz')
+      container.html(`
+        <div class="flow-diagram">
+          <div class="flow-row">
+            <div class="flow-box entity-story" style="min-width: 250px;">
+              📖 Story: "The Land Remembers"
+            </div>
+          </div>
+          <div class="flow-row"><div class="flow-arrow">↓</div></div>
+          <div class="flow-row">
+            <div class="flow-box entity-storyteller">🔐 Consent Granted by Alex</div>
+          </div>
+          <div class="flow-row"><div class="flow-arrow">↓</div></div>
+          <div class="flow-row">
+            <div class="flow-box entity-project">🌐 ACT Main Site<br/>✓ Featured</div>
+            <div class="flow-box entity-project">🌐 Land Rights Site<br/>✓ Featured</div>
+            <div class="flow-box" style="background: #D4C4A8; color: #6B553D;">🌐 Youth Site<br/>✗ No consent</div>
+          </div>
+          <div class="flow-row"><div class="flow-arrow">↓</div></div>
+          <div class="flow-row">
+            <div class="flow-box entity-analysis">
+              📊 Analytics<br/>
+              Main: 1,234 views<br/>
+              Land: 892 views
+            </div>
+          </div>
+          <div style="margin-top: 40px; padding: 20px; background: #FEF3C7; border-radius: 12px; border: 2px solid #F59E0B;">
+            <h4 style="color: #92400E; margin-bottom: 10px;">💡 Storyteller Can:</h4>
+            <ul style="color: #78350F; padding-left: 20px;">
+              <li>Revoke consent from any site instantly</li>
+              <li>Grant consent to Youth site anytime</li>
+              <li>Set expiration dates for sharing</li>
+              <li>View analytics per site</li>
+            </ul>
+          </div>
+        </div>
+      `)
+    }
+
+    function showTooltip(event, html) {
+      const tooltip = d3.select('#tooltip')
+      tooltip.html(html)
+        .style('left', (event.pageX + 10) + 'px')
+        .style('top', (event.pageY - 10) + 'px')
+        .style('opacity', 1)
+    }
+
+    function hideTooltip() {
+      d3.select('#tooltip').style('opacity', 0)
+    }
+
+    function drag(simulation) {
+      function dragstarted(event) {
+        if (!event.active) simulation.alphaTarget(0.3).restart()
+        event.subject.fx = event.subject.x
+        event.subject.fy = event.subject.y
+      }
+
+      function dragged(event) {
+        event.subject.fx = event.x
+        event.subject.fy = event.y
+      }
+
+      function dragended(event) {
+        if (!event.active) simulation.alphaTarget(0)
+        event.subject.fx = null
+        event.subject.fy = null
+      }
+
+      return d3.drag()
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended)
+    }
+  </script>
+</body>
+</html>

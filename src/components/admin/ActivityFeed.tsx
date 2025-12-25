@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { createSupabaseClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 
 interface ActivityItem {
   id: string;
@@ -42,7 +42,7 @@ export function ActivityFeed({
   const [activities, setActivities] = useState<ActivityItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(category || '');
-  const supabase = createSupabaseClient();
+  const supabase = createClient();
 
   const fetchActivities = useCallback(async () => {
     // Note: activity_log table is new and not yet in generated types

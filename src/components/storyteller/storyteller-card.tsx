@@ -138,12 +138,17 @@ export function StorytellerCard({
           role="img"
           aria-label={`Profile photo of ${storyteller.display_name}`}
         >
-          {(storyteller.avatar_url || storyteller.profile?.avatar_url) ? (
+          {storyteller.avatar_url || storyteller.profile?.avatar_url ? (
             <img
               src={storyteller.avatar_url || storyteller.profile?.avatar_url}
               alt={`Portrait of ${storyteller.display_name}${storyteller.cultural_background ? `, ${storyteller.cultural_background} storyteller` : ''}`}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               loading="lazy"
+              onError={(e) => {
+                console.error('Image failed to load:', storyteller.avatar_url || storyteller.profile?.avatar_url);
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.parentElement!.innerHTML = `<div class="w-full h-full flex items-center justify-center relative bg-gradient-to-br from-earth-100 via-sage-100 to-clay-100 dark:from-earth-900/50 dark:via-sage-900/50 dark:to-clay-900/50"><div class="w-32 h-32 rounded-full bg-gradient-to-br from-earth-200 to-sage-200 dark:from-earth-700 dark:to-sage-700 flex items-center justify-center shadow-2xl"><span class="text-4xl font-bold text-earth-800 dark:text-earth-100">${getInitials(storyteller.display_name)}</span></div></div>`;
+              }}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center relative bg-gradient-to-br from-earth-100 via-sage-100 to-clay-100 dark:from-earth-900/50 dark:via-sage-900/50 dark:to-clay-900/50">

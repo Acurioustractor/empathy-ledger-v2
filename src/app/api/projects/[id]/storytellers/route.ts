@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient, createSupabaseServiceClient } from '@/lib/supabase/client-ssr'
+import { batchResolveAvatarMedia, resolveAvatarUrl } from '@/lib/utils/avatar-resolver'
 
 
 
@@ -61,36 +62,29 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
       return NextResponse.json({ error: 'Failed to fetch storytellers' }, { status: 500 })
     }
 
-    const avatarMediaIds = Array.from(new Set(uniqueStorytellers
-      .map(ps => ps.profiles?.avatar_media_id)
-      .filter(Boolean)))
-
-    let avatarUrlMap: Record<string, string> = {}
-
-    if (avatarMediaIds.length > 0) {
-      const serviceSupabase = createSupabaseServiceClient()
-      const { data: mediaAssets } = await serviceSupabase
-        .from('media_assets')
-        .select('id, cdn_url')
-        .in('id', avatarMediaIds as string[])
-
-      avatarUrlMap = Object.fromEntries((mediaAssets || []).map(asset => [asset.id, asset.cdn_url]))
-    }
+    // Batch resolve avatar media using centralized utility
+    const serviceSupabase = createSupabaseServiceClient()
+    const profiles = uniqueStorytellers.map(ps => ps.profiles).filter(Boolean)
+    const avatarUrlMap = await batchResolveAvatarMedia(profiles as any[], serviceSupabase)
 
     return NextResponse.json({
-      storytellers: uniqueStorytellers.map(ps => ({
-        id: ps.profiles?.id,
-        displayName: ps.profiles?.display_name || ps.profiles?.full_name,
-        bio: ps.profiles?.bio,
-        profileImageUrl: ps.profiles?.profile_image_url || (ps.profiles?.avatar_media_id ? avatarUrlMap[ps.profiles.avatar_media_id] || null : null),
-        culturalBackground: ps.profiles?.cultural_background,
-        isElder: ps.profiles?.is_elder || false,
-        isFeatured: ps.profiles?.is_featured || false,
-        role: ps.role,
-        status: 'active',
-        joinedAt: ps.created_at,
-        linkId: ps.id
-      }))
+      storytellers: uniqueStorytellers.map(ps => {
+        const resolved = resolveAvatarUrl(ps.profiles || {}, avatarUrlMap)
+        return {
+          id: ps.profiles?.id,
+          displayName: ps.profiles?.display_name || ps.profiles?.full_name,
+          bio: ps.profiles?.bio,
+          avatarUrl: resolved.avatar_url, // Use consistent snake_case naming
+          profileImageUrl: resolved.avatar_url, // Keep for backward compatibility
+          culturalBackground: ps.profiles?.cultural_background,
+          isElder: ps.profiles?.is_elder || false,
+          isFeatured: ps.profiles?.is_featured || false,
+          role: ps.role,
+          status: 'active',
+          joinedAt: ps.created_at,
+          linkId: ps.id
+        }
+      })
     })
 
   } catch (error) {

@@ -1,53 +1,67 @@
-import { createClient as createSupabaseClient } from '@supabase/supabase-js'
-import type { Database } from '@/types/database'
+/**
+ * Server-side Supabase client for Empathy Ledger
+ * For use in React Server Components and API routes
+ */
 
-// Get environment variables - validation deferred to runtime
-const getSupabaseEnv = () => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+import { createServerClient as createSupabaseServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
 
-  if (!supabaseUrl) {
-    throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL environment variable')
-  }
+export async function createClient() {
+  const cookieStore = await cookies();
 
-  if (!supabaseServiceKey) {
-    throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable')
-  }
-
-  return { supabaseUrl, supabaseServiceKey }
-}
-
-// Server-side Supabase client with service role key for API routes
-export const createClient = () => {
-  const { supabaseUrl, supabaseServiceKey } = getSupabaseEnv()
-  return createSupabaseClient<Database>(supabaseUrl, supabaseServiceKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-    db: {
-      schema: 'public',
-    },
-    global: {
-      headers: {
-        'x-application-name': 'empathy-ledger-server',
+  return createSupabaseServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {
+            // The `setAll` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
+          }
+        },
       },
-    },
-  })
+    }
+  );
 }
 
-// Admin client with service role permissions
-export const createAdminClient = () => {
-  const { supabaseUrl, supabaseServiceKey } = getSupabaseEnv()
-  return createSupabaseClient<Database>(supabaseUrl, supabaseServiceKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-    db: {
-      schema: 'public',
-    },
-  })
-}
+/**
+ * Create admin client with service role key (bypasses RLS)
+ * Use with caution - only for admin operations
+ */
+export async function createAdminClient() {
+  const cookieStore = await cookies();
 
-export type SupabaseServerClient = ReturnType<typeof createClient>
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY is not set');
+  }
+
+  return createSupabaseServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {
+            // Ignore cookie errors in server components
+          }
+        },
+      },
+    }
+  );
+}

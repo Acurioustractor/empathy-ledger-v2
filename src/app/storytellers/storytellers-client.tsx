@@ -50,6 +50,7 @@ export interface Storyteller {
   status: 'active' | 'inactive' | 'pending'
   elder_status: boolean
   storytelling_style: string[] | null
+  avatar_url?: string // CRITICAL: Top-level avatar URL for card components
   location?: string | null
   traditional_territory?: string | null
   geographic_scope?: 'local' | 'regional' | 'national' | 'international'
@@ -115,6 +116,16 @@ export default function StorytellerDirectoryClient({ initialStorytellers }: Stor
   const [filters, setFilters] = useState<StorytellerFilters>(initialFilters)
   const [showFilters, setShowFilters] = useState(false)
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+
+  // Debug: Check if avatar_url is present
+  if (storytellers.length > 0) {
+    console.log('DEBUG: First storyteller data:', {
+      name: storytellers[0].display_name,
+      avatar_url: storytellers[0].avatar_url,
+      profile_avatar_url: storytellers[0].profile?.avatar_url,
+      has_avatar: !!(storytellers[0].avatar_url || storytellers[0].profile?.avatar_url)
+    })
+  }
 
   // Stats
   const stats = useMemo(() => {

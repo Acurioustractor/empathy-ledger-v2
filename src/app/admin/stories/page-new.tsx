@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { AdminStoryCard } from '@/components/admin/admin-story-card'
 import { useAuth } from '@/lib/context/auth.context'
-import { createSupabaseClient } from '@/lib/supabase/client-ssr'
+import { createClient } from '@/lib/supabase/client-ssr'
 import {
   Search,
   Grid3x3,
@@ -118,7 +118,7 @@ export default function AdminStoriesPage() {
   const fetchStories = async () => {
     setIsLoading(true)
     try {
-      const supabase = createSupabaseClient()
+      const supabase = createClient()
       const { data, error } = await supabase
         .from('stories')
         .select(`
@@ -158,7 +158,7 @@ export default function AdminStoriesPage() {
 
   const fetchShareStatuses = async () => {
     try {
-      const supabase = createSupabaseClient()
+      const supabase = createClient()
       const { data, error } = await supabase
         .from('story_syndication_consent')
         .select('story_id, consent_granted')

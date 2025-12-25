@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/lib/context/auth.context'
-import { createSupabaseClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -26,7 +26,7 @@ interface Story {
 export default function MyStoryPage() {
   const { user, profile, isLoading } = useAuth()
   const router = useRouter()
-  const supabase = createSupabaseClient()
+  const supabase = createClient()
 
   const [stories, setStories] = useState<Story[]>([])
   const [loadingStories, setLoadingStories] = useState(true)

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/lib/context/auth.context';
-import { createSupabaseClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 
 interface PlatformStats {
@@ -43,7 +43,7 @@ interface AIJob {
 export default function CommandCenterPage() {
   const { user, isLoading: authLoading } = useAuth();
   const router = useRouter();
-  const supabase = createSupabaseClient();
+  const supabase = createClient();
 
   const [stats, setStats] = useState<PlatformStats | null>(null);
   const [activities, setActivities] = useState<ActivityItem[]>([]);

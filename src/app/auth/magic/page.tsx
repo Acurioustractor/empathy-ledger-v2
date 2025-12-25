@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { createSupabaseClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase/client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -30,7 +30,7 @@ type PageState =
 export default function MagicAuthPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const supabase = createSupabaseClient()
+  const supabase = createClient()
 
   const [state, setState] = useState<PageState>('loading')
   const [invitation, setInvitation] = useState<InvitationDetails | null>(null)

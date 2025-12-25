@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/lib/context/auth.context';
-import { createSupabaseClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { ActivityFeed } from '@/components/admin/ActivityFeed';
 
@@ -32,7 +32,7 @@ interface Stats {
 export default function AuditLogPage() {
   const { user, isLoading: authLoading } = useAuth();
   const router = useRouter();
-  const supabase = createSupabaseClient();
+  const supabase = createClient();
 
   const [activities, setActivities] = useState<ActivityItem[]>([]);
   const [stats, setStats] = useState<Stats>({ total: 0, today: 0, needsAttention: 0 });

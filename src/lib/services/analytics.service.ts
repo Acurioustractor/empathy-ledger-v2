@@ -4,7 +4,7 @@
  * with OCAP compliance and elder approval workflows
  */
 
-import { createSupabaseClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 import { ai } from 'ai';
 
 export interface CommunityMetrics {
@@ -77,7 +77,7 @@ export interface ImpactAnalytics {
 }
 
 export class AnalyticsService {
-  private supabase = createSupabaseClient();
+  private supabase = createClient();
 
   /**
    * Get comprehensive community impact overview

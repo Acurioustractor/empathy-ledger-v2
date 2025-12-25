@@ -1,5 +1,6 @@
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import StorytellerDirectoryClient, { Storyteller } from './storytellers-client'
+import { resolveProfileAvatars, AVATAR_FIELDS_SELECT } from '@/lib/utils/avatar-resolver'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,8 +22,11 @@ async function getStorytellers(): Promise<Storyteller[]> {
       return []
     }
 
+    // Resolve all avatar URLs in batch
+    const profilesWithAvatars = await resolveProfileAvatars(profiles || [], supabase)
+
     // Transform the data to match the Storyteller interface
-    const storytellers: Storyteller[] = (profiles || []).map((profile: Record<string, unknown>) => {
+    const storytellers: Storyteller[] = profilesWithAvatars.map((profile: Record<string, unknown>) => {
       // Safely extract story count from aggregation query
       const storiesData = profile.stories as Array<{ count: number }> | null | undefined
       const storyCount = Array.isArray(storiesData) && storiesData.length > 0 && typeof storiesData[0].count === 'number'
@@ -43,9 +47,9 @@ async function getStorytellers(): Promise<Storyteller[]> {
         elder_status: (profile.is_elder as boolean) || false,
         storytelling_style: profile.storytelling_style as string[] | null,
         location: profile.location as string | null,
-        avatar_url: profile.avatar_url as string | undefined, // CRITICAL: Top-level for card components
+        avatar_url: profile.avatar_url as string | undefined, // Resolved by avatar-resolver utility
         profile: {
-          avatar_url: profile.avatar_url as string | undefined,
+          avatar_url: profile.avatar_url as string | undefined, // Same resolved URL
           cultural_affiliations: profile.cultural_affiliations as string[] | undefined,
           pronouns: profile.pronouns as string | undefined,
           display_name: profile.display_name as string | undefined,

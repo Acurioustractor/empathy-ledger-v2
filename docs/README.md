@@ -26,6 +26,20 @@ Welcome to the Empathy Ledger documentation. This guide will help you navigate t
 | [Multi-tenant Design](architecture/) | Tenant isolation patterns |
 | [AI System](architecture/) | AI integration architecture |
 
+### Impact Analysis System
+
+| Document | Description |
+|----------|-------------|
+| [Impact System Summary](../IMPACT_SYSTEM_SUMMARY.md) | ⭐ Executive overview - what was built |
+| [Impact System Map](IMPACT_SYSTEM_MAP.md) | ⭐ Complete visual system overview |
+| [Impact Architecture](IMPACT_SYSTEM_ARCHITECTURE.md) | Database schema, ERD, data flow |
+| [Impact User Journeys](IMPACT_USER_JOURNEY.md) | User flows with sequence diagrams |
+| [Impact Integration Guide](IMPACT_INTEGRATION_GUIDE.md) | Code examples and patterns |
+| [Impact Analysis README](IMPACT_ANALYSIS_README.md) | Complete usage guide |
+| [Visualization Quick Reference](VISUALIZATION_QUICK_REFERENCE.md) | Component API reference |
+| [Impact Analysis Strategy](IMPACT_ANALYSIS_STRATEGY.md) | Complete framework (13k+ lines) |
+| [Implementation Progress](IMPLEMENTATION_PROGRESS.md) | What's complete, what's next |
+
 ### Guides
 
 | Document | Description |

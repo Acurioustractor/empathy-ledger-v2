@@ -35,9 +35,9 @@ interface EnhancedMapStory extends MapStory {
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     // Use admin client for queries that need to bypass RLS for accurate counts
-    const adminClient = createAdminClient()
+    const adminClient = await createAdminClient()
 
     // Fetch tour stops (confirmed locations)
     const { data: stops, error: stopsError } = await supabase
@@ -719,10 +719,48 @@ export async function GET(request: NextRequest) {
       stats
     })
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Map data error:', error)
+
+    // Return empty data structure instead of error for missing tables
+    if (error?.code === '42P01' || error?.message?.includes('relation') || error?.message?.includes('does not exist')) {
+      return NextResponse.json({
+        stops: [],
+        requests: [],
+        dreamOrgs: [],
+        stories: [],
+        storiesWithoutLocation: [],
+        storytellers: [],
+        thematicConnections: [],
+        trendingThemes: [],
+        themeColorMap: {},
+        stats: {
+          totalStops: 0,
+          confirmedStops: 0,
+          completedStops: 0,
+          totalRequests: 0,
+          totalDreamOrgs: 0,
+          totalStories: 0,
+          totalStoriesWithoutLocation: 0,
+          totalPublishedStories: 0,
+          totalStorytellers: 0,
+          countriesRequested: 0,
+          totalTranscripts: 0,
+          analyzedTranscripts: 0,
+          uniqueThemes: 0,
+          storiesWithTranscripts: 0,
+          eldersCount: 0,
+          featuredStorytellers: 0,
+          averageImpactScore: 0,
+          consentVerifiedStories: 0,
+          publicStories: 0,
+          aiAnalyzedThemes: 0
+        }
+      })
+    }
+
     return NextResponse.json(
-      { error: 'Failed to fetch map data' },
+      { error: 'Failed to fetch map data', details: error?.message },
       { status: 500 }
     )
   }

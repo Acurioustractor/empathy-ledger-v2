@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { resolveSingleAvatar } from '@/lib/utils/avatar-resolver'
 
 
 
@@ -273,21 +274,8 @@ export async function GET(
     const engagementMetrics = calculateEngagementMetrics()
     const latestInsights = getLatestAnalysisInsights()
 
-    let resolvedAvatarUrl = profile.profile_image_url || profile.avatar_url || null
-
-    if (!resolvedAvatarUrl && profile.avatar_media_id) {
-      const { data: avatarMedia, error: avatarError } = await supabase
-        .from('media_assets')
-        .select('cdn_url')
-        .eq('id', profile.avatar_media_id)
-        .single()
-
-      if (avatarError) {
-        console.error('⚠️  Failed to resolve avatar media asset:', avatarError)
-      } else if (avatarMedia?.cdn_url) {
-        resolvedAvatarUrl = avatarMedia.cdn_url
-      }
-    }
+    // Use centralized avatar resolution
+    const resolvedAvatarUrl = await resolveSingleAvatar(profile, supabase)
 
     const comprehensiveStorytellerProfile = {
       // Core profile information

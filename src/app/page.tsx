@@ -21,7 +21,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { BottomNav } from '@/components/layout/BottomNav'
 import Header from '@/components/layout/header'
-import Footer from '@/components/layout/footer'
+import UnifiedFooter from '@/components/shared/UnifiedFooter'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/lib/context/auth.context'
 
@@ -375,7 +375,17 @@ export default function Home() {
 
         {/* Footer - Hidden on mobile (bottom nav takes over) */}
         <div className="hidden md:block">
-          <Footer />
+          <UnifiedFooter
+            currentProject="Empathy Ledger"
+            showProjects={true}
+            customLinks={[
+              { label: "About", href: "/about" },
+              { label: "Stories", href: "/stories" },
+              { label: "Storytellers", href: "/storytellers" },
+              { label: "Contact", href: "/contact" },
+            ]}
+            contactEmail="hello@empathyledger.com"
+          />
         </div>
       </main>
 
