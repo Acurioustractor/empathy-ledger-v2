@@ -8,6 +8,8 @@ Multi-tenant storytelling platform for Indigenous communities and organizations 
 - ✅ Database types organization completed
 - ✅ ProfileDashboard.tsx optimized (1,191 → 657 lines, 45% reduction)
 - ✅ Context optimization strategy implemented
+- ✅ Complete field storytelling workflow (magic links, notifications, PWA)
+- ✅ Deployment automation system with skills (./scripts/deploy.sh)
 
 ## Key Architecture
 - **Database**: Supabase with multi-tenant architecture
@@ -106,3 +108,41 @@ This project uses [Beads](https://github.com/steveyegge/beads) for AI-native tas
 
 ### Issue Prefix
 All issues use the `el-` prefix (Empathy Ledger): el-1, el-2, etc.
+
+## Claude Skills System
+
+This project has 15+ specialized Claude Code skills for common tasks. Skills are automatically invoked through natural language.
+
+### Quick Access
+```bash
+# Interactive skills menu
+./scripts/skills-menu.sh
+
+# View all skills
+cat .claude/SKILLS_REGISTRY.md
+
+# Quick reference
+cat .claude/SKILLS_QUICK_REFERENCE.md
+```
+
+### Most Common Skills
+| Task | Say This | Skill |
+|------|----------|-------|
+| Deploy | "Deploy to production" | `deployment-workflow` |
+| Explore code | "Help me understand the codebase" | `codebase-explorer` |
+| Database | "Show me database schema" | `supabase` |
+| Design | "Design a storyteller card" | `design-component` |
+| Cultural check | "Is this culturally sensitive?" | `cultural-review` |
+| Data analysis | "Analyze story themes" | `data-analysis` |
+
+### Skill Categories
+- 🏗️ **Architecture**: `codebase-explorer`, `empathy-ledger-codebase`
+- 🗄️ **Database**: `supabase`, `supabase-sql-manager`, `database-navigator`, `data-analysis`
+- 🎨 **Design**: `design-component`
+- 🔐 **Security**: `cultural-review`, `gdpr-compliance`
+- 🚀 **Deployment**: `deployment-workflow`
+- 📊 **Analytics**: `storyteller-analytics`
+- 🔗 **Integrations**: `gohighlevel-oauth`
+- ✍️ **Content**: `story-craft`
+
+See `.claude/SKILLS_REGISTRY.md` for complete documentation.
