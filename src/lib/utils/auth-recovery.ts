@@ -184,7 +184,7 @@ export class AuthRecovery {
       return true
     }
 
-    // TODO: Check database for organisation admin status
+    // TODO: See issue #3 in empathy-ledger-v2: Check database for organisation admin status
     // This would check organization_roles table for admin roles
     // For now, fallback to super admin only
     return false
@@ -197,7 +197,7 @@ export class AuthRecovery {
     const { adminConfig } = require('@/lib/config/admin-config')
     
     // Check if user has organisation admin roles
-    const isOrgAdmin = false // TODO: Check organization_roles table
+    const isOrgAdmin = false // TODO: See issue #4 in empathy-ledger-v2: Check organization_roles table
     
     return adminConfig.getUserPermissions(email, isOrgAdmin)
   }

@@ -357,7 +357,7 @@ export async function POST(request: NextRequest) {
       if (tagArray.length > 0) {
         // Add tags to transcript (if you have a tags system)
         console.log(`🏷️  Tags to add: ${tagArray.join(', ')}`)
-        // TODO: Implement tag linking
+        // TODO: See issue #43 in empathy-ledger-v2: Implement tag linking
       }
     }
 

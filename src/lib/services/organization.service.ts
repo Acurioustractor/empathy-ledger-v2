@@ -227,7 +227,7 @@ export class OrganizationService {
           .slice(0, 10)
           .map(([strength, count]) => ({ strength, count })),
         culturalMarkers: [...new Set(allCulturalMarkers)],
-        skillsDistribution: []  // TODO: Implement skills categorization
+        skillsDistribution: []  // TODO: See issue #5 in empathy-ledger-v2: Implement skills categorization
       }
     } catch (error) {
       console.error('Community insights service error:', error)

@@ -12,7 +12,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-// import { LocationPicker } from '@/components/ui/location-picker' // TODO: Fix command component
+// import { LocationPicker } from '@/components/ui/location-picker' // TODO: See issue #8 in empathy-ledger-v2: Fix command component
 import { Switch } from '@/components/ui/switch'
 import {
   Select,

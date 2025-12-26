@@ -215,7 +215,7 @@ export async function GET(request: NextRequest) {
         if (asset.cultural_sensitivity_level === 'high') culturalTags.push('sacred', 'ceremonial')
         if (asset.cultural_sensitivity_level === 'medium' || asset.cultural_sensitivity_level === 'standard') culturalTags.push('cultural', 'community')
         if (asset.requires_consent) culturalTags.push('consent-required')
-        // TODO: Add traditional knowledge check when column exists
+        // TODO: See issue #45 in empathy-ledger-v2: Add traditional knowledge check when column exists
         // if (asset.traditional_knowledge) culturalTags.push('traditional-knowledge')
         if (assetGalleries.length > 0) culturalTags.push('gallery-featured')
         

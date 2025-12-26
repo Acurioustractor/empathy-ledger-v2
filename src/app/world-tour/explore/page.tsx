@@ -5,7 +5,7 @@ import Link from 'next/link'
 import {
   X, Filter, Maximize2, Minimize2, ChevronLeft, ChevronRight,
   BookOpen, MapPin, Building2, Users, GitBranch, BarChart3,
-  Layers, Info, ZoomIn, ZoomOut, Compass, Globe, User, Award
+  Layers, Info, ZoomIn, ZoomOut, Compass, Globe, User, Award, Sparkles
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -17,6 +17,7 @@ import { FullScreenMap } from './FullScreenMap'
 import { StoryMapSidebar } from '../components/StoryMapSidebar'
 import { ThemeFilterPanel } from '../components/ThemeFilterPanel'
 import { WorldTourNavCompact } from '../components/WorldTourNav'
+import StoryGalaxyViz from '../components/StoryGalaxyViz'
 
 export default function ExplorePage() {
   return (
@@ -50,6 +51,7 @@ function ExploreContent() {
   const [showFilters, setShowFilters] = useState(false)
   const [showLayers, setShowLayers] = useState(false)
   const [showIntro, setShowIntro] = useState(true)
+  const [viewMode, setViewMode] = useState<'2d' | '3d'>('2d')
 
   useEffect(() => {
     fetchMapData()
@@ -90,8 +92,22 @@ function ExploreContent() {
 
   return (
     <div className="fixed inset-0 bg-stone-950">
-      {/* Full Screen Map */}
-      <FullScreenMap />
+      {/* Full Screen Map or 3D Galaxy */}
+      {viewMode === '2d' ? (
+        <FullScreenMap />
+      ) : (
+        <div className="absolute inset-0">
+          <StoryGalaxyViz
+            stories={stories}
+            showControls={true}
+            autoRotate={true}
+            onStorySelect={(storyId) => {
+              // TODO: See issue #9 in empathy-ledger-v2: Handle story selection - could open sidebar with story details
+              console.log('Selected story:', storyId)
+            }}
+          />
+        </div>
+      )}
 
       {/* Intro Overlay */}
       {showIntro && !isLoading && (
@@ -101,13 +117,27 @@ function ExploreContent() {
         >
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center text-white space-y-4 max-w-2xl px-8">
-              <Globe className="w-16 h-16 mx-auto text-sky-400 animate-pulse" />
-              <h1 className="text-4xl md:text-5xl font-bold">
-                Explore Stories Around the World
-              </h1>
-              <p className="text-lg text-stone-300">
-                Click any marker to discover stories. See how themes connect people across continents.
-              </p>
+              {viewMode === '2d' ? (
+                <>
+                  <Globe className="w-16 h-16 mx-auto text-sky-400 animate-pulse" />
+                  <h1 className="text-4xl md:text-5xl font-bold">
+                    Explore Stories Around the World
+                  </h1>
+                  <p className="text-lg text-stone-300">
+                    Click any marker to discover stories. See how themes connect people across continents.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-16 h-16 mx-auto text-sky-400 animate-pulse" />
+                  <h1 className="text-4xl md:text-5xl font-bold">
+                    Story Galaxy
+                  </h1>
+                  <p className="text-lg text-stone-300">
+                    Each node represents a story. Click to explore connections across themes and communities.
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -128,6 +158,29 @@ function ExploreContent() {
 
         {/* Right: Control Buttons */}
         <div className="flex items-center gap-2">
+          {/* View Mode Toggle */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn(
+              "bg-white/10 backdrop-blur-md text-white hover:bg-white/20",
+              viewMode === '3d' && "bg-white/30"
+            )}
+            onClick={() => setViewMode(viewMode === '2d' ? '3d' : '2d')}
+          >
+            {viewMode === '2d' ? (
+              <>
+                <Sparkles className="w-4 h-4 mr-1" />
+                <span className="hidden sm:inline">3D Galaxy</span>
+              </>
+            ) : (
+              <>
+                <Globe className="w-4 h-4 mr-1" />
+                <span className="hidden sm:inline">2D Map</span>
+              </>
+            )}
+          </Button>
+
           <Button
             variant="ghost"
             size="sm"

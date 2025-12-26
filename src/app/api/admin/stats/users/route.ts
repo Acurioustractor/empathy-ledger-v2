@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     const supabase = createSupabaseServerClient()
     
     // Temporarily bypass auth check to get data working
-    // TODO: Fix proper authentication flow later
+    // TODO: See issue #34 in empathy-ledger-v2: Fix proper authentication flow later
     console.log('Bypassing auth check for admin stats')
 
     // Get total users count

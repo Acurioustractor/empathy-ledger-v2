@@ -171,7 +171,7 @@ export async function POST(
 
     console.log('✅ Invitation created successfully:', invitation.id)
 
-    // TODO: Send invitation email here
+    // TODO: See issue #23 in empathy-ledger-v2: Send invitation email here
     // await sendInvitationEmail(invitation)
 
     return NextResponse.json({

@@ -173,7 +173,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to send message' }, { status: 500 })
     }
 
-    // TODO: Send notification to storyteller
+    // TODO: See issue #19 in empathy-ledger-v2: Send notification to storyteller
 
     return NextResponse.json({ message }, { status: 201 })
 

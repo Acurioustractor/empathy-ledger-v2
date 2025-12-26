@@ -147,7 +147,7 @@ export async function GET(request: NextRequest) {
       state: loc.location?.state,
       country: loc.location?.country,
       type: loc.location_type || 'current',
-      isPublic: true, // TODO: Add visibility field to profile_locations
+      isPublic: true, // TODO: See issue #18 in empathy-ledger-v2: Add visibility field to profile_locations
       isPrimary: loc.is_primary || false,
       coordinates: loc.location?.coordinates,
       traditional_territory: loc.location?.traditional_territory

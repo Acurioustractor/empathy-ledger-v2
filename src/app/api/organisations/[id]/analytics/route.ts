@@ -91,7 +91,7 @@ export async function GET(
     console.log('📊 AI Analysis coverage:', analyticsCount, 'analysed transcripts from', memberCount, 'storytellers =', coverage + '%')
 
     // For now, provide dynamic analytics based on the fact that we have analysed transcripts
-    // TODO: Extract actual themes from AI analysis once we understand the exact data structure
+    // TODO: See issue #25 in empathy-ledger-v2: Extract actual themes from AI analysis once we understand the exact data structure
 
     // Generate community insights based on Snow Foundation context and transcript count
     const communityThemes = analyticsCount > 0 ? [

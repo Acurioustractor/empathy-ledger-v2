@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
       joinedAt: profile.created_at,
       lastActive: profile.updated_at,
       status: 'active',
-      // TODO: Roles should come from database (is_admin, is_super_admin fields on profiles)
+      // TODO: See issue #26 in empathy-ledger-v2: Roles should come from database (is_admin, is_super_admin fields on profiles)
       roles: ['user'],
       stats: {
         storiesShared: 0, // Would need to query stories table

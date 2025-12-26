@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Send webhook notification to site
-    // TODO: Implement webhook system
+    // TODO: See issue #13 in empathy-ledger-v2: Implement webhook system
     // await sendWebhook(site.webhook_url, {
     //   event: 'story.consent.granted',
     //   story_id,
@@ -206,7 +206,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Send webhook notification to site
-    // TODO: Implement webhook system
+    // TODO: See issue #14 in empathy-ledger-v2: Implement webhook system
     // if (site?.webhook_url) {
     //   await sendWebhook(site.webhook_url, {
     //     event: 'story.consent.revoked',

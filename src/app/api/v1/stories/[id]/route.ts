@@ -24,7 +24,7 @@ function validateAPIKey(request: NextRequest): {
 
   const apiKey = authHeader.replace('Bearer ', '')
 
-  // TODO: Implement proper API key validation
+  // TODO: See issue #12 in empathy-ledger-v2: Implement proper API key validation
   // For now, extract site from key (format: ACT_SITE_KEY_xxx)
   const match = apiKey.match(/^ACT_([A-Z_]+)_KEY_/)
   if (!match) {

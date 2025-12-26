@@ -25,7 +25,7 @@ export async function POST(
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
     }
 
-    // TODO: Implement proper permission check for media review
+    // TODO: See issue #46 in empathy-ledger-v2: Implement proper permission check for media review
     // For now, all authenticated users can review (this should be restricted later)
 
     const body = await request.json()
@@ -75,7 +75,7 @@ export async function POST(
       updateData.traditional_knowledge = traditional_knowledge
     }
 
-    // TODO: If approved, check if reviewer is an elder and update elder approval
+    // TODO: See issue #47 in empathy-ledger-v2: If approved, check if reviewer is an elder and update elder approval
     // if (decision === 'approved' && profile?.is_elder) {
     //   updateData.elder_approval = true
     //   updateData.elder_approved_by = user.id
@@ -107,10 +107,10 @@ export async function POST(
       return NextResponse.json({ error: 'Failed to update review' }, { status: 500 })
     }
 
-    // TODO: Log the review action for audit purposes
+    // TODO: See issue #48 in empathy-ledger-v2: Log the review action for audit purposes
     // (cultural_access_audit table needs to be created first)
 
-    // TODO: Send notification to media uploader if review is rejected
+    // TODO: See issue #49 in empathy-ledger-v2: Send notification to media uploader if review is rejected
     // (need to implement notification system and fix uploaded_by column)
 
     return NextResponse.json({ 
@@ -179,7 +179,7 @@ export async function GET(
       return NextResponse.json({ error: 'Media asset not found' }, { status: 404 })
     }
 
-    // TODO: Check if user has permission to view review details
+    // TODO: See issue #50 in empathy-ledger-v2: Check if user has permission to view review details
     // For now, allow all authenticated users
 
     // TODO: Get audit log for this media asset's reviews

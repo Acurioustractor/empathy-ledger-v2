@@ -299,7 +299,7 @@ export async function GET(
           addedAt: item.created_at,
           uploader: {
             id: item.media_assets.uploaded_by,
-            name: 'Unknown User', // TODO: Fetch profiles separately if needed
+            name: 'Unknown User', // TODO: See issue #24 in empathy-ledger-v2: Fetch profiles separately if needed
             avatarUrl: null
           },
           tags: [`gallery-${gallery.id.substring(0, 8)}`, 'gallery'],

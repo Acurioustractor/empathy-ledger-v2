@@ -62,11 +62,11 @@ export async function GET(
       // In production, you'd join with stories table to get full details
       stories = (data || []).map((item: any) => ({
         story_id: item.story_id,
-        title: 'Story Title', // TODO: Join with stories table
+        title: 'Story Title', // TODO: See issue #15 in empathy-ledger-v2: Join with stories table
         excerpt: null,
         featured_quote: item.featured_quote,
         storyteller_id: null,
-        storyteller_name: 'Storyteller Name', // TODO: Join with storytellers
+        storyteller_name: 'Storyteller Name', // TODO: See issue #16 in empathy-ledger-v2: Join with storytellers
         published_at: new Date().toISOString(),
         approved_at: item.approved_at,
       }));

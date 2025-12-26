@@ -181,7 +181,7 @@ export async function GET(
         excerpt: story.summary || '',
         fullContent: story.content || '',
         themes,
-        keyQuotes: [], // TODO: Extract from transcripts
+        keyQuotes: [], // TODO: See issue #11 in empathy-ledger-v2: Extract from transcripts
         createdAt: story.created_at,
         location: loc ? {
           name: loc.name || loc.city || 'Unknown',

@@ -314,7 +314,7 @@ export function SimpleStoryCreator({ onComplete }: SimpleStoryCreatorProps) {
     setIsGeneratingTitle(true)
     try {
       // For now, create a simple title from first line
-      // TODO: Replace with AI generation
+      // TODO: See issue #6 in empathy-ledger-v2: Replace with AI generation
       const firstLine = content.split('\n')[0].slice(0, 50)
       const suggestion = firstLine.length > 40
         ? firstLine.slice(0, 40) + '...'
@@ -338,7 +338,7 @@ export function SimpleStoryCreator({ onComplete }: SimpleStoryCreatorProps) {
       recorder.ondataavailable = (e) => chunks.push(e.data)
       recorder.onstop = async () => {
         const blob = new Blob(chunks, { type: 'audio/webm' })
-        // TODO: Send to transcription service
+        // TODO: See issue #7 in empathy-ledger-v2: Send to transcription service
         console.log('Recording complete:', blob)
         stream.getTracks().forEach(track => track.stop())
       }

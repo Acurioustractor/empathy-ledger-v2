@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Failed to update request' }, { status: 500 })
       }
 
-      // TODO: Send notification to storyteller
+      // TODO: See issue #20 in empathy-ledger-v2: Send notification to storyteller
 
       return NextResponse.json({ request: updated })
     }
@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
       .eq('id', story_id)
       .single()
 
-    // TODO: Send notification to storyteller
+    // TODO: See issue #21 in empathy-ledger-v2: Send notification to storyteller
     // This would integrate with your notification system
     // e.g., email, in-app notification, etc.
 

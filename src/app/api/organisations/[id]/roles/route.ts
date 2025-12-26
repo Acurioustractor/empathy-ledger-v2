@@ -204,7 +204,7 @@ export async function POST(
     }
 
     // Assign the role - fallback to profile.current_role due to PostgREST cache issue
-    // TODO: Re-enable organization_roles table once PostgREST cache refreshes
+    // TODO: See issue #22 in empathy-ledger-v2: Re-enable organization_roles table once PostgREST cache refreshes
     console.log('⚠️ Using profile.current_role fallback due to PostgREST cache issue')
     
     const { data: updatedProfile, error: assignError } = await supabase

@@ -62,7 +62,7 @@ export async function GET(
       .select('*', { count: 'exact', head: true })
       .eq('organization_id', organisation.id)
 
-    // TODO: Get story count associated with this organisation
+    // TODO: See issue #44 in empathy-ledger-v2: Get story count associated with this organisation
     // For now, set to 0 since we need proper organisation-story relationships
     const storyCount = 0
 

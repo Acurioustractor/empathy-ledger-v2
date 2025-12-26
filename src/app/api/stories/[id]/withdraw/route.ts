@@ -85,7 +85,7 @@ export async function POST(
       .eq('story_id', params.id)
       .eq('revoked', true)
 
-    // TODO: Send email notifications
+    // TODO: See issue #17 in empathy-ledger-v2: Send email notifications
     // - Email to storyteller confirming withdrawal
     // - Email to organizations using this story (if any)
 

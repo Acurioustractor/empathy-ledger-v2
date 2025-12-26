@@ -25,7 +25,7 @@ export async function POST(
     
     // Temporarily bypass auth for testing
     console.log('⚠️ TEMPORARILY BYPASSING AUTH FOR REVIEW DECISIONS')
-    const reviewerId = 'test-admin-id' // TODO: Get from auth context
+    const reviewerId = 'test-admin-id' // TODO: See issue #38 in empathy-ledger-v2: Get from auth context
 
     const supabase = createSupabaseServerClient()
 
@@ -143,9 +143,9 @@ export async function POST(
       )
     }
 
-    // TODO: Create review history record
-    // TODO: Send email notification to author
-    // TODO: Send notifications to relevant parties
+    // TODO: See issue #39 in empathy-ledger-v2: Create review history record
+    // TODO: See issue #40 in empathy-ledger-v2: Send email notification to author
+    // TODO: See issue #41 in empathy-ledger-v2: Send notifications to relevant parties
 
     console.log(`✅ Review decision processed: ${story.title} → ${newStatus}`)
 
@@ -157,7 +157,7 @@ export async function POST(
       newStatus,
       message: getSuccessMessage(decision.type, story.title),
       notifications: {
-        authorNotified: false, // TODO: Implement email notifications
+        authorNotified: false, // TODO: See issue #42 in empathy-ledger-v2: Implement email notifications
         elderNotified: decision.type === 'escalate_to_elder' ? false : null
       }
     }

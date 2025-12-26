@@ -336,11 +336,11 @@ export async function GET(request: NextRequest) {
       const totalStories = stories.length
 
       // Use real view counts from database only - no fake generation
-      const totalViews = 0 // TODO: Add real view_count field to stories table when available
+      const totalViews = 0 // TODO: See issue #27 in empathy-ledger-v2: Add real view_count field to stories table when available
       
       // No fake theme extraction - use real data only
       const extractThemes = (): string[] => {
-        // TODO: Add real themes/tags field to profiles table when available
+        // TODO: See issue #28 in empathy-ledger-v2: Add real themes/tags field to profiles table when available
         return []
       }
 
@@ -441,7 +441,7 @@ export async function GET(request: NextRequest) {
       }
 
       // No fake engagement rate calculation - use real data only
-      const engagementRate = 0 // TODO: Add real engagement tracking when available
+      const engagementRate = 0 // TODO: See issue #29 in empathy-ledger-v2: Add real engagement tracking when available
 
       const extractedOrg = extractOrganization(profile)
 
@@ -465,16 +465,16 @@ export async function GET(request: NextRequest) {
         lastActive: profile.updated_at,
         verificationStatus: {
           email: !!profile.email,
-          identity: false, // TODO: Add verification_status column to profiles table
+          identity: false, // TODO: See issue #30 in empathy-ledger-v2: Add verification_status column to profiles table
           cultural: profile.is_elder || false
         },
         stats: {
           storiesShared: publishedStories.length,
           storiesDraft: draftStories.length,
           storiesTotal: totalStories,
-          storiesRead: 0, // TODO: Track actual stories read by user
+          storiesRead: 0, // TODO: See issue #31 in empathy-ledger-v2: Track actual stories read by user
           communityEngagement: engagementRate,
-          followersCount: 0, // TODO: Implement follower system with real counts
+          followersCount: 0, // TODO: See issue #32 in empathy-ledger-v2: Implement follower system with real counts
           viewsTotal: totalViews
         },
         languages: ['English'],
@@ -527,7 +527,7 @@ export async function GET(request: NextRequest) {
         transcriptCount: transcripts.length,
         activeTranscripts: transcripts.filter((t: any) => t.status === 'completed' || t.status === 'published').length,
         preferences: {
-          availability: 'weekdays', // TODO: Add preferences column to profiles table
+          availability: 'weekdays', // TODO: See issue #33 in empathy-ledger-v2: Add preferences column to profiles table
           travelWilling: false,
           virtualSessions: true,
           groupSessions: false
