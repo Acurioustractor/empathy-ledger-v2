@@ -84,10 +84,10 @@ export default function ContentReviewDashboard() {
       
       setStats({
         pendingCount,
-        approvedToday: 0, // TODO: Fetch from API
-        rejectedToday: 0, // TODO: Fetch from API
+        approvedToday: 0, // TODO: See issue #52 in empathy-ledger-v2: Fetch from API
+        rejectedToday: 0, // TODO: See issue #53 in empathy-ledger-v2: Fetch from API
         elderReviewQueue,
-        avgReviewTime: 2.5 // TODO: Calculate from API
+        avgReviewTime: 2.5 // TODO: See issue #54 in empathy-ledger-v2: Calculate from API
       })
 
     } catch (err) {
@@ -133,7 +133,7 @@ export default function ContentReviewDashboard() {
     try {
       console.log('Review completed:', { reviewId, action })
       
-      // TODO: Send review decision to API
+      // TODO: See issue #55 in empathy-ledger-v2: Send review decision to API
       const response = await fetch(`/api/admin/reviews/${reviewId}/decide`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -385,20 +385,20 @@ export default function ContentReviewDashboard() {
                         story={{
                           id: review.id,
                           title: review.title,
-                          content: '', // TODO: Fetch full content
+                          content: '', // TODO: See issue #56 in empathy-ledger-v2: Fetch full content
                           author: {
                             name: review.author,
-                            id: 'unknown', // TODO: Get actual author ID
+                            id: 'unknown', // TODO: See issue #57 in empathy-ledger-v2: Get actual author ID
                           },
                           submittedAt: review.submittedAt,
-                          type: 'personal', // TODO: Map review type to story type
+                          type: 'personal', // TODO: See issue #58 in empathy-ledger-v2: Map review type to story type
                           tags: [],
                           culturalSensitive: review.culturalSensitive,
                           requiresElderReview: review.requiresElderReview,
                           status: review.status === 'pending' ? 'pending' : 'in_review',
                           priority: review.priority,
-                          language: 'en', // TODO: Get actual language
-                          visibility: 'community' // TODO: Get actual visibility setting
+                          language: 'en', // TODO: See issue #59 in empathy-ledger-v2: Get actual language
+                          visibility: 'community' // TODO: See issue #60 in empathy-ledger-v2: Get actual visibility setting
                         }}
                         onReviewComplete={(action) => handleReviewComplete(review.id, action)}
                       >

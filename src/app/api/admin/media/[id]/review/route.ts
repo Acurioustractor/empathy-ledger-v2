@@ -182,7 +182,7 @@ export async function GET(
     // TODO: See issue #50 in empathy-ledger-v2: Check if user has permission to view review details
     // For now, allow all authenticated users
 
-    // TODO: Get audit log for this media asset's reviews
+    // TODO: See issue #51 in empathy-ledger-v2: Get audit log for this media asset's reviews
     // (cultural_access_audit table needs to be created first)
     const auditLog: any[] = []
 

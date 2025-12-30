@@ -28,9 +28,10 @@ A culturally respectful platform for Indigenous communities to share, preserve, 
 
 **New to the project?** Start with our comprehensive setup guides:
 
-1. **[NEXT_STEPS.md](NEXT_STEPS.md)** - 15-minute cloud-first setup ⭐ **START HERE**
-2. **[DEVELOPMENT_SETUP_COMPLETE.md](DEVELOPMENT_SETUP_COMPLETE.md)** - Complete setup overview
-3. **[docs/QUICK_START_CLOUD_WORKFLOW.md](docs/QUICK_START_CLOUD_WORKFLOW.md)** - Daily development workflow
+1. **[QUICK_START.md](QUICK_START.md)** - 5-minute quick start ⭐ **START HERE**
+2. **[docs/getting-started/installation.md](docs/getting-started/installation.md)** - Complete installation (15-20 min)
+3. **[docs/getting-started/authentication.md](docs/getting-started/authentication.md)** - Authentication setup (10 min)
+4. **[docs/getting-started/common-tasks.md](docs/getting-started/common-tasks.md)** - Daily workflows (reference)
 
 ### Prerequisites
 - Node.js 18+
@@ -67,7 +68,7 @@ A culturally respectful platform for Indigenous communities to share, preserve, 
    # Opens on http://localhost:3003
    ```
 
-**See [NEXT_STEPS.md](NEXT_STEPS.md) for complete setup guide.**
+**See [QUICK_START.md](QUICK_START.md) and [docs/getting-started/](docs/getting-started/) for complete guides.**
    
    Update the `.env.local` file with your configuration:
    ```env
@@ -218,9 +219,13 @@ We welcome contributions that align with our cultural values and technical stand
 4. Add tests and documentation
 5. Submit a pull request
 
-For the repo’s long-term SaaS + Git process (branches, CI gates, migrations, releases), see `docs/SAAS_GIT_WORKFLOW.md`.
-
-For how organisations and partner systems integrate (embeds, external API syndication, webhooks, consent/revocation), see `docs/SAAS_ORG_INTEGRATION_GUIDE.md`.
+### Documentation
+- **[docs/INDEX.md](docs/INDEX.md)** - Complete documentation index
+- **[docs/getting-started/](docs/getting-started/)** - Getting started guides
+- **[docs/architecture/](docs/architecture/)** - System architecture
+- **[docs/database/](docs/database/)** - Database documentation
+- **[docs/deployment/](docs/deployment/)** - Deployment guides
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines
 
 ## 📄 License
 

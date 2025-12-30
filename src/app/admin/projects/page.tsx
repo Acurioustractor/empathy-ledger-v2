@@ -474,7 +474,7 @@ export default function AdminProjectsPage() {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem className="text-red-600" onClick={() => {
                               if (confirm(`Are you sure you want to archive "${project.name}"?`)) {
-                                // TODO: Implement archive functionality
+                                // TODO: See issue #61 in empathy-ledger-v2: Implement archive functionality
                                 console.log('Archive project:', project.id)
                               }
                             }}>
