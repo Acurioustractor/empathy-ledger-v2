@@ -97,3 +97,10 @@ Ssuapbase*
 # TypeScript
 # ===================
 next-env.d.ts
+
+# IDE and Editor Files
+.cursor/
+.cursorrules
+*.cursor
+.vscode/settings.json
+.vscode/launch.json
