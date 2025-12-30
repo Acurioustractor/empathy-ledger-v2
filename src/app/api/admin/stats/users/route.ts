@@ -11,11 +11,13 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function GET(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth()
+    if (authResult.error) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status })
+    }
+
     const supabase = createSupabaseServerClient()
-    
-    // Temporarily bypass auth check to get data working
-    // TODO: See issue #34 in empathy-ledger-v2: Fix proper authentication flow later
-    console.log('Bypassing auth check for admin stats')
 
     // Get total users count
     const { count: totalUsers } = await supabase
