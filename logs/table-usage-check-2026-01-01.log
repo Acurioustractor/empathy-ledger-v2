@@ -1,0 +1,46 @@
+=========================================
+CONNECTION VERIFICATION
+=========================================
+ database |     environment     | profiles_check | transcripts_check 
+----------+---------------------+----------------+-------------------
+ postgres | Supabase Production |            251 |               251
+(1 row)
+
+
+=========================================
+CHECKING ARCHIVE TABLES (20 tables)
+=========================================
+           table_name            | rows 
+---------------------------------+------
+ _archive_act_admin_permissions  |    1
+ _archive_act_admins             |    1
+ _archive_act_feature_requests   |    0
+ _archive_gallery_photos         |    2
+ _archive_organization_services  |   32
+ _archive_photo_analytics        |    0
+ _archive_photo_faces            |    0
+ _archive_photo_galleries        |    6
+ _archive_photo_gallery_items    |  126
+ _archive_photo_locations        |    0
+ _archive_photo_memories         |    0
+ _archive_photo_organizations    |    0
+ _archive_photo_projects         |    0
+ _archive_photo_storytellers     |    0
+ _archive_photo_tags             |    0
+ _archive_scraped_services       |    0
+ _archive_scraper_health_metrics |    0
+ _archive_scraping_metadata      |    0
+ _archive_service_impact         |    0
+ _archive_services               |    4
+ _photo_system_audit             |   11
+(21 rows)
+
+
+=========================================
+VERIFICATION: Still on Supabase?
+=========================================
+ profile_count 
+---------------
+           251
+(1 row)
+

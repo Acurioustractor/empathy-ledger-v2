@@ -1,0 +1,246 @@
+2025-12-31T05:33:01: 
+2025-12-31T05:33:01: > empathy-ledger-v2@0.1.0 dev
+2025-12-31T05:33:01: > next dev
+2025-12-31T05:33:01: 
+2025-12-31T05:33:02:   ▲ Next.js 14.2.35
+2025-12-31T05:33:02:   - Local:        http://localhost:3001
+2025-12-31T05:33:02:   - Environments: .env.local
+2025-12-31T05:33:02: 
+2025-12-31T05:33:02:  ✓ Starting...
+2025-12-31T05:33:03:  ✓ Ready in 1475ms
+2025-12-31T05:33:13:  ○ Compiling /src/middleware ...
+2025-12-31T05:33:13:  ✓ Compiled /src/middleware in 555ms (167 modules)
+2025-12-31T05:33:14:  ○ Compiling / ...
+2025-12-31T05:33:18:  ✓ Compiled / in 5s (1015 modules)
+2025-12-31T05:33:19: 🔍 Header Auth Values: {
+2025-12-31T05:33:19:   hasUser: false,
+2025-12-31T05:33:19:   hasProfile: false,
+2025-12-31T05:33:19:   isAuthenticated: false,
+2025-12-31T05:33:19:   isAdmin: false,
+2025-12-31T05:33:19:   isSuperAdmin: false,
+2025-12-31T05:33:19:   profileDisplayName: undefined,
+2025-12-31T05:33:19:   userEmail: undefined
+2025-12-31T05:33:19: }
+2025-12-31T05:33:19:  GET / 200 in 5278ms
+2025-12-31T05:33:19:  ○ Compiling /_error ...
+2025-12-31T05:33:22:  ✓ Compiled /_error in 3.4s (1247 modules)
+2025-12-31T05:33:22:  GET /favicon.ico 500 in 3536ms
+2025-12-31T05:33:23:  ✓ Compiled /api/admin/storytellers in 252ms (664 modules)
+2025-12-31T05:33:23: 🚀 Admin storytellers route called - FIXED VERSION
+2025-12-31T05:33:23: 🔓 Bypassing auth check for admin storytellers
+2025-12-31T05:33:23: 📊 Admin storytellers request - page: 1, limit: 5 { page: '1', limit: '5' }
+2025-12-31T05:33:23: About to execute simple Supabase test...
+2025-12-31T05:33:24: Simple query worked. Total profiles: 3
+2025-12-31T05:33:24: Query executed. Data count: undefined Error: {
+2025-12-31T05:33:24:   code: 'PGRST200',
+2025-12-31T05:33:24:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T05:33:24:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T05:33:24:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T05:33:24: }
+2025-12-31T05:33:24:  GET /api/admin/storytellers?page=1&limit=5 500 in 780ms
+2025-12-31T05:36:36: [?25h
+2025-12-31T05:36:36: 
+2025-12-31T05:37:24: 
+2025-12-31T05:37:24: > empathy-ledger-v2@0.1.0 dev
+2025-12-31T05:37:24: > next dev
+2025-12-31T05:37:24: 
+2025-12-31T05:37:25:   ▲ Next.js 14.2.35
+2025-12-31T05:37:25:   - Local:        http://localhost:3001
+2025-12-31T05:37:25:   - Environments: .env.local
+2025-12-31T05:37:25: 
+2025-12-31T05:37:25:  ✓ Starting...
+2025-12-31T05:37:27:  ✓ Ready in 1831ms
+2025-12-31T05:38:46:  ○ Compiling /src/middleware ...
+2025-12-31T05:38:46:  ✓ Compiled /src/middleware in 504ms (167 modules)
+2025-12-31T05:38:46:  ○ Compiling / ...
+2025-12-31T05:38:51:  ✓ Compiled / in 5s (1015 modules)
+2025-12-31T05:38:51: 🔍 Header Auth Values: {
+2025-12-31T05:38:51:   hasUser: false,
+2025-12-31T05:38:51:   hasProfile: false,
+2025-12-31T05:38:51:   isAuthenticated: false,
+2025-12-31T05:38:51:   isAdmin: false,
+2025-12-31T05:38:51:   isSuperAdmin: false,
+2025-12-31T05:38:51:   profileDisplayName: undefined,
+2025-12-31T05:38:51:   userEmail: undefined
+2025-12-31T05:38:51: }
+2025-12-31T05:38:51:  GET / 200 in 5400ms
+2025-12-31T05:38:52:  ○ Compiling /api/admin/storytellers ...
+2025-12-31T05:38:54:  ✓ Compiled /api/admin/storytellers in 1902ms (621 modules)
+2025-12-31T05:38:54: 🚀 Admin storytellers route called - FIXED VERSION
+2025-12-31T05:38:54: 🔓 Bypassing auth check for admin storytellers
+2025-12-31T05:38:54: 📊 Admin storytellers request - page: 1, limit: 5 { page: '1', limit: '5' }
+2025-12-31T05:38:54: About to execute simple Supabase test...
+2025-12-31T05:38:54: Simple query worked. Total profiles: 3
+2025-12-31T05:38:55: Query executed. Data count: undefined Error: {
+2025-12-31T05:38:55:   code: 'PGRST200',
+2025-12-31T05:38:55:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T05:38:55:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T05:38:55:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T05:38:55: }
+2025-12-31T05:38:55:  GET /api/admin/storytellers?page=1&limit=5 500 in 2698ms
+2025-12-31T05:39:36: [?25h
+2025-12-31T05:39:36: 
+2025-12-31T05:56:55: 
+2025-12-31T05:56:55: > empathy-ledger-v2@0.1.0 dev
+2025-12-31T05:56:55: > next dev
+2025-12-31T05:56:55: 
+2025-12-31T05:56:56:   ▲ Next.js 14.2.35
+2025-12-31T05:56:56:   - Local:        http://localhost:3001
+2025-12-31T05:56:56:   - Environments: .env.local
+2025-12-31T05:56:56: 
+2025-12-31T05:56:56:  ✓ Starting...
+2025-12-31T05:56:58:  ✓ Ready in 1932ms
+2025-12-31T05:57:04:  ✓ Compiled /src/middleware in 195ms (167 modules)
+2025-12-31T05:57:04:  ○ Compiling / ...
+2025-12-31T05:57:05:  ✓ Compiled / in 1770ms (1001 modules)
+2025-12-31T05:57:06: 🔍 Header Auth Values: {
+2025-12-31T05:57:06:   hasUser: false,
+2025-12-31T05:57:06:   hasProfile: false,
+2025-12-31T05:57:06:   isAuthenticated: false,
+2025-12-31T05:57:06:   isAdmin: false,
+2025-12-31T05:57:06:   isSuperAdmin: false,
+2025-12-31T05:57:06:   profileDisplayName: undefined,
+2025-12-31T05:57:06:   userEmail: undefined
+2025-12-31T05:57:06: }
+2025-12-31T05:57:06:  GET / 200 in 2174ms
+2025-12-31T05:57:07:  ○ Compiling /api/admin/storytellers ...
+2025-12-31T05:57:07:  ✓ Compiled /api/admin/storytellers in 695ms (621 modules)
+2025-12-31T05:57:07: 🚀 Admin storytellers route called - FIXED VERSION
+2025-12-31T05:57:07: 🔓 Bypassing auth check for admin storytellers
+2025-12-31T05:57:07: 📊 Admin storytellers request - page: 1, limit: 5 { page: '1', limit: '5' }
+2025-12-31T05:57:07: About to execute simple Supabase test...
+2025-12-31T05:57:08: Simple query worked. Total profiles: 3
+2025-12-31T05:57:08: Query executed. Data count: undefined Error: {
+2025-12-31T05:57:08:   code: 'PGRST200',
+2025-12-31T05:57:08:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T05:57:08:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T05:57:08:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T05:57:08: }
+2025-12-31T05:57:08:  GET /api/admin/storytellers?page=1&limit=5 500 in 1137ms
+2025-12-31T09:02:27: 🔍 Header Auth Values: {
+2025-12-31T09:02:27:   hasUser: false,
+2025-12-31T09:02:27:   hasProfile: false,
+2025-12-31T09:02:27:   isAuthenticated: false,
+2025-12-31T09:02:27:   isAdmin: false,
+2025-12-31T09:02:27:   isSuperAdmin: false,
+2025-12-31T09:02:27:   profileDisplayName: undefined,
+2025-12-31T09:02:27:   userEmail: undefined
+2025-12-31T09:02:27: }
+2025-12-31T09:02:27:  GET / 200 in 166ms
+2025-12-31T09:02:28: 🚀 Admin storytellers route called - FIXED VERSION
+2025-12-31T09:02:28: 🔓 Bypassing auth check for admin storytellers
+2025-12-31T09:02:28: 📊 Admin storytellers request - page: 1, limit: 5 { page: '1', limit: '5' }
+2025-12-31T09:02:28: About to execute simple Supabase test...
+2025-12-31T09:02:30: Simple query worked. Total profiles: 3
+2025-12-31T09:02:31: Query executed. Data count: undefined Error: {
+2025-12-31T09:02:31:   code: 'PGRST200',
+2025-12-31T09:02:31:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T09:02:31:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T09:02:31:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T09:02:31: }
+2025-12-31T09:02:31:  GET /api/admin/storytellers?page=1&limit=5 500 in 3034ms
+2025-12-31T09:03:23: [?25h
+2025-12-31T09:03:23: 
+2025-12-31T09:03:33: 
+2025-12-31T09:03:33: > empathy-ledger-v2@0.1.0 dev
+2025-12-31T09:03:33: > next dev
+2025-12-31T09:03:33: 
+2025-12-31T09:03:34:   ▲ Next.js 14.2.35
+2025-12-31T09:03:34:   - Local:        http://localhost:3001
+2025-12-31T09:03:34:   - Environments: .env.local
+2025-12-31T09:03:34: 
+2025-12-31T09:03:34:  ✓ Starting...
+2025-12-31T09:03:38:  ✓ Ready in 4s
+2025-12-31T09:03:42:  ✓ Compiled /src/middleware in 180ms (167 modules)
+2025-12-31T09:03:43:  ○ Compiling / ...
+2025-12-31T09:03:44:  ✓ Compiled / in 2.3s (1001 modules)
+2025-12-31T09:03:45: 🔍 Header Auth Values: {
+2025-12-31T09:03:45:   hasUser: false,
+2025-12-31T09:03:45:   hasProfile: false,
+2025-12-31T09:03:45:   isAuthenticated: false,
+2025-12-31T09:03:45:   isAdmin: false,
+2025-12-31T09:03:45:   isSuperAdmin: false,
+2025-12-31T09:03:45:   profileDisplayName: undefined,
+2025-12-31T09:03:45:   userEmail: undefined
+2025-12-31T09:03:45: }
+2025-12-31T09:03:45:  GET / 200 in 3042ms
+2025-12-31T09:03:46:  ✓ Compiled /api/admin/storytellers in 234ms (621 modules)
+2025-12-31T09:03:46: 🚀 Admin storytellers route called - FIXED VERSION
+2025-12-31T09:03:46: 🔓 Bypassing auth check for admin storytellers
+2025-12-31T09:03:46: 📊 Admin storytellers request - page: 1, limit: 5 { page: '1', limit: '5' }
+2025-12-31T09:03:46: About to execute simple Supabase test...
+2025-12-31T09:03:48: Simple query worked. Total profiles: 3
+2025-12-31T09:03:49: Query executed. Data count: undefined Error: {
+2025-12-31T09:03:49:   code: 'PGRST200',
+2025-12-31T09:03:49:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T09:03:49:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T09:03:49:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T09:03:49: }
+2025-12-31T09:03:49:  GET /api/admin/storytellers?page=1&limit=5 500 in 3510ms
+2025-12-31T09:08:55: [?25h
+2025-12-31T09:08:55: 
+2025-12-31T09:09:02: 
+2025-12-31T09:09:02: > empathy-ledger-v2@0.1.0 dev
+2025-12-31T09:09:02: > next dev
+2025-12-31T09:09:02: 
+2025-12-31T09:09:03:   ▲ Next.js 14.2.35
+2025-12-31T09:09:03:   - Local:        http://localhost:3001
+2025-12-31T09:09:03:   - Environments: .env.local
+2025-12-31T09:09:03: 
+2025-12-31T09:09:03:  ✓ Starting...
+2025-12-31T09:09:07:  ✓ Ready in 3.3s
+2025-12-31T09:09:11:  ✓ Compiled /src/middleware in 239ms (167 modules)
+2025-12-31T09:09:12:  ○ Compiling / ...
+2025-12-31T09:09:13:  ✓ Compiled / in 1581ms (1001 modules)
+2025-12-31T09:09:13: 🔍 Header Auth Values: {
+2025-12-31T09:09:13:   hasUser: false,
+2025-12-31T09:09:13:   hasProfile: false,
+2025-12-31T09:09:13:   isAuthenticated: false,
+2025-12-31T09:09:13:   isAdmin: false,
+2025-12-31T09:09:13:   isSuperAdmin: false,
+2025-12-31T09:09:13:   profileDisplayName: undefined,
+2025-12-31T09:09:13:   userEmail: undefined
+2025-12-31T09:09:13: }
+2025-12-31T09:09:13:  GET / 200 in 1990ms
+2025-12-31T09:09:15:  ✓ Compiled /api/admin/storytellers in 179ms (621 modules)
+2025-12-31T09:09:15: 🚀 Admin storytellers route called - FIXED VERSION
+2025-12-31T09:09:15: 🔓 Bypassing auth check for admin storytellers
+2025-12-31T09:09:15: 📊 Admin storytellers request - page: 1, limit: 5 { page: '1', limit: '5' }
+2025-12-31T09:09:15: About to execute simple Supabase test...
+2025-12-31T09:09:16:  ○ Compiling /_error ...
+2025-12-31T09:09:17: Simple query worked. Total profiles: 3
+2025-12-31T09:09:19: Query executed. Data count: undefined Error: {
+2025-12-31T09:09:19:   code: 'PGRST200',
+2025-12-31T09:09:19:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T09:09:19:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T09:09:19:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T09:09:19: }
+2025-12-31T09:09:19:  GET /api/admin/storytellers?page=1&limit=5 500 in 4066ms
+2025-12-31T09:09:19:  ✓ Compiled /_error in 3.3s (1334 modules)
+2025-12-31T09:09:19:  GET /favicon.ico 500 in 3488ms
+2025-12-31T09:12:12: 🔍 Header Auth Values: {
+2025-12-31T09:12:12:   hasUser: false,
+2025-12-31T09:12:12:   hasProfile: false,
+2025-12-31T09:12:12:   isAuthenticated: false,
+2025-12-31T09:12:12:   isAdmin: false,
+2025-12-31T09:12:12:   isSuperAdmin: false,
+2025-12-31T09:12:12:   profileDisplayName: undefined,
+2025-12-31T09:12:12:   userEmail: undefined
+2025-12-31T09:12:12: }
+2025-12-31T09:12:12:  GET / 200 in 376ms
+2025-12-31T09:12:16: 🚀 Admin storytellers route called - FIXED VERSION
+2025-12-31T09:12:16: 🔓 Bypassing auth check for admin storytellers
+2025-12-31T09:12:16: 📊 Admin storytellers request - page: 1, limit: 5 { page: '1', limit: '5' }
+2025-12-31T09:12:16: About to execute simple Supabase test...
+2025-12-31T09:12:18: Simple query worked. Total profiles: 3
+2025-12-31T09:12:19:  GET /favicon.ico 500 in 13ms
+2025-12-31T09:12:19:  GET /favicon.ico 500 in 5ms
+2025-12-31T09:12:19: Query executed. Data count: undefined Error: {
+2025-12-31T09:12:19:   code: 'PGRST200',
+2025-12-31T09:12:19:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T09:12:19:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T09:12:19:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T09:12:19: }
+2025-12-31T09:12:19:  GET /api/admin/storytellers?page=1&limit=5 500 in 2867ms
+2025-12-31T09:21:38: [?25h
+2025-12-31T09:21:38: 

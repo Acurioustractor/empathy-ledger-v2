@@ -1,0 +1,17 @@
+{
+  "name": "empathy-ledger-codebase",
+  "description": "Complete codebase standards, architecture patterns, and best practices for Empathy Ledger v2. Use for maintaining consistency across database, frontend, API design, and cultural sensitivity protocols.",
+  "version": "2.0.0",
+  "triggers": [
+    "codebase",
+    "architecture",
+    "best practice",
+    "standards",
+    "setup",
+    "structure",
+    "guidelines",
+    "development"
+  ],
+  "tools": ["Read", "Write", "Edit", "Glob", "Grep", "Bash"],
+  "autoActivate": true
+}

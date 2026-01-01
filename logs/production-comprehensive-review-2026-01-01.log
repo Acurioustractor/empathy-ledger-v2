@@ -1,0 +1,35 @@
+         section         | database | profiles | transcripts 
+-------------------------+----------+----------+-------------
+ CONNECTION VERIFICATION | postgres |      251 |         251
+(1 row)
+
+      section      | storytellers | transcripts | stories | media_assets | galleries 
+-------------------+--------------+-------------+---------+--------------+-----------
+ STORYTELLING DATA |          232 |         251 |     310 |          420 |         3
+(1 row)
+
+      section       | total_transcripts | with_themes | with_quotes | with_summary | processed | unprocessed 
+--------------------+-------------------+-------------+-------------+--------------+-----------+-------------
+ AI ANALYSIS STATUS |               251 |         251 |         250 |           34 |         3 |           0
+(1 row)
+
+          section           | tenants | organizations | projects | act_projects 
+----------------------------+---------+---------------+----------+--------------
+ ORGANIZATIONS AND PROJECTS |      33 |            19 |       11 |           41
+(1 row)
+
+    section     | partners | partner_projects | external_apps 
+----------------+----------+------------------+---------------
+ PARTNER PORTAL |       17 |                0 |             2
+(1 row)
+
+      section       | protocols | elder_reviews_pending | content_approvals_pending 
+--------------------+-----------+-----------------------+---------------------------
+ CULTURAL PROTOCOLS |        11 |                     0 |                         2
+(1 row)
+
+    section    | staff_users | notifications | audit_entries 
+---------------+-------------+---------------+---------------
+ USER ACTIVITY |           2 |             0 |             0
+(1 row)
+

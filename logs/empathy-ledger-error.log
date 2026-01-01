@@ -1,0 +1,44 @@
+2025-12-31T05:33:21: <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (130kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+2025-12-31T05:33:24: Error fetching storytellers: {
+2025-12-31T05:33:24:   code: 'PGRST200',
+2025-12-31T05:33:24:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T05:33:24:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T05:33:24:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T05:33:24: }
+2025-12-31T05:38:52: <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (130kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+2025-12-31T05:38:55: Error fetching storytellers: {
+2025-12-31T05:38:55:   code: 'PGRST200',
+2025-12-31T05:38:55:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T05:38:55:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T05:38:55:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T05:38:55: }
+2025-12-31T05:57:08: Error fetching storytellers: {
+2025-12-31T05:57:08:   code: 'PGRST200',
+2025-12-31T05:57:08:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T05:57:08:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T05:57:08:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T05:57:08: }
+2025-12-31T09:02:31: Error fetching storytellers: {
+2025-12-31T09:02:31:   code: 'PGRST200',
+2025-12-31T09:02:31:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T09:02:31:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T09:02:31:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T09:02:31: }
+2025-12-31T09:03:49: Error fetching storytellers: {
+2025-12-31T09:03:49:   code: 'PGRST200',
+2025-12-31T09:03:49:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T09:03:49:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T09:03:49:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T09:03:49: }
+2025-12-31T09:09:19: Error fetching storytellers: {
+2025-12-31T09:09:19:   code: 'PGRST200',
+2025-12-31T09:09:19:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T09:09:19:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T09:09:19:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T09:09:19: }
+2025-12-31T09:12:19: Error fetching storytellers: {
+2025-12-31T09:12:19:   code: 'PGRST200',
+2025-12-31T09:12:19:   details: "Searched for a foreign key relationship between 'profiles' and 'profile_organizations' in the schema 'public', but no matches were found.",
+2025-12-31T09:12:19:   hint: "Perhaps you meant 'organizations' instead of 'profile_organizations'.",
+2025-12-31T09:12:19:   message: "Could not find a relationship between 'profiles' and 'profile_organizations' in the schema cache"
+2025-12-31T09:12:19: }
