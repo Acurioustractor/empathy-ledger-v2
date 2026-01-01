@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp?project_ref=yvnuayzslukamizrlhwb&read_only=true&features=database,docs,debugging,development",
+      "comment": "Supabase MCP - read_only=true for safety, scoped to specific project"
+    },
+    "supabase-write": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp?project_ref=yvnuayzslukamizrlhwb&features=database,docs,debugging,development,functions,branching",
+      "comment": "Supabase MCP with write access - use with caution, requires explicit enable"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@anthropic-ai/mcp-server-playwright"]
+    }
+  }
+}

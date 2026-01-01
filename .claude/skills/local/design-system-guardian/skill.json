@@ -1,0 +1,50 @@
+{
+  "name": "design-system-guardian",
+  "version": "1.0.0",
+  "description": "Monitor and enforce design consistency, brand alignment, accessibility, and cultural sensitivity across all pages and components",
+  "category": "quality-assurance",
+  "priority": "high",
+  "triggers": [
+    "design consistency",
+    "brand alignment",
+    "accessibility audit",
+    "WCAG",
+    "design system",
+    "component consistency",
+    "dark mode",
+    "responsive design",
+    "cultural sensitivity UI",
+    "design review",
+    "style guide",
+    "UI consistency"
+  ],
+  "tags": [
+    "design-system",
+    "accessibility",
+    "brand",
+    "consistency",
+    "cultural-sensitivity",
+    "wcag",
+    "responsive",
+    "dark-mode",
+    "quality-assurance"
+  ],
+  "author": "Empathy Ledger Design Team",
+  "hasScript": false,
+  "dependencies": [
+    "design-component",
+    "cultural-review"
+  ],
+  "relatedSkills": [
+    "design-component",
+    "cultural-review",
+    "review-security",
+    "codebase-explorer"
+  ],
+  "outputs": [
+    "audit-report",
+    "priority-issues",
+    "recommendations",
+    "compliance-score"
+  ]
+}

@@ -1,0 +1,81 @@
+=== INFRASTRUCTURE BLOAT (28 tables) ===
+         tablename          | row_count 
+----------------------------+-----------
+ backup_cleanup_log         |         0
+ backup_config              |         3
+ backup_execution_log       |         0
+ backup_integrity_checks    |         0
+ backup_restoration_tests   |         0
+ monitoring_alerts          |         1
+ monitoring_config          |         5
+ monitoring_metrics         |         1
+ migration_environments     |         0
+ migration_execution_log    |         0
+ migration_locks            |         2
+ migration_phases           |         3
+ migration_rollbacks        |         0
+ migration_validation_rules |         0
+ database_indexes           |         0
+ load_balancer_config       |         0
+ connection_pools           |         0
+ disaster_recovery_config   |         1
+(18 rows)
+
+=== FINANCIAL SYSTEM (9 tables) ===
+            ?column?             | count 
+---------------------------------+-------
+ bank_transfers                  |     0
+ cashflow_forecasts              |     0
+ financial_exceptions            |     0
+ financial_intelligence_insights |     0
+ financial_transactions          |     0
+ discovered_subscriptions        |     0
+(6 rows)
+
+=== TAX COMPLIANCE (2 tables) ===
+     ?column?     | count 
+------------------+-------
+ bas_preparations |     0
+ bas_tracking     |     0
+(2 rows)
+
+=== DOCUMENT SYSTEM (15 tables) ===
+         ?column?          | count 
+---------------------------+-------
+ documents                 |     5
+ document_chunks           |     2
+ document_quotes           |     2
+ document_themes           |     2
+ document_collections      |     2
+ document_collection_items |     2
+ document_comments         |     0
+ document_tags             |     4
+ document_tag_assignments  |     4
+ document_relationships    |     1
+ document_versions         |     1
+ document_change_log       |     1
+ document_edit_sessions    |     1
+ document_edits            |     0
+(14 rows)
+
+=== ANALYTICS LAYERS (9 tables) ===
+              ?column?              | count 
+------------------------------------+-------
+ bronze_interactions_raw            |     0
+ bronze_stories_raw                 |     0
+ gold_community_empowerment_metrics |     0
+ gold_community_intelligence        |     0
+ gold_impact_attribution            |     0
+(5 rows)
+
+=== COMPARISON: CORE STORYTELLING ===
+   ?column?    | count 
+---------------+-------
+ stories       |    51
+ profiles      |     6
+ organizations |     1
+ quotes        |  1165
+ galleries     |     1
+ media_assets  |    80
+(6 rows)
+

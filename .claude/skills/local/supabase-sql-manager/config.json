@@ -1,0 +1,17 @@
+{
+  "name": "supabase-sql-manager",
+  "description": "Manage Supabase migrations, SQL functions, RLS policies with CLI automation. Prevents drift between local and remote database.",
+  "version": "1.0.0",
+  "triggers": [
+    "supabase",
+    "migration",
+    "database",
+    "sql",
+    "rls",
+    "policy",
+    "schema",
+    "function"
+  ],
+  "tools": ["Bash", "Write", "Read", "Edit", "Glob"],
+  "autoActivate": true
+}

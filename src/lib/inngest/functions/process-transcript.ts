@@ -20,6 +20,9 @@ export const processTranscriptFunction = inngest.createFunction(
     id: 'process-transcript',
     name: 'Process Transcript with AI',
     retries: 3, // Retry up to 3 times on failure
+    // Increase timeout for Claude Sonnet 4.5 (takes 35-60 seconds)
+    // Note: Requires Inngest Cloud plan for >60s timeout
+    timeout: '5m', // 5 minute timeout
   },
   { event: 'transcript/process' },
   async ({ event, step }) => {

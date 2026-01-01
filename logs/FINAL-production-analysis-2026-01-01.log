@@ -1,0 +1,214 @@
+=========================================
+PRODUCTION DATABASE VERIFICATION
+=========================================
+ database |   user   |                                     pg_version                                     
+----------+----------+------------------------------------------------------------------------------------
+ postgres | postgres | PostgreSQL 17.4 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 13.2.0, 64-bit
+(1 row)
+
+ profiles | transcripts | stories | total_tables 
+----------+-------------+---------+--------------
+      251 |         251 |     310 |          184
+(1 row)
+
+
+=========================================
+ALL 184 TABLES WITH SIZES
+=========================================
+               tablename                |    size    | columns 
+----------------------------------------+------------+---------
+ _archive_act_admin_permissions         | 16 kB      |      15
+ _archive_act_admins                    | 16 kB      |       9
+ _archive_act_feature_requests          | 8192 bytes |      14
+ _archive_gallery_photos                | 16 kB      |      11
+ _archive_organization_services         | 16 kB      |      19
+ _archive_photo_analytics               | 0 bytes    |      22
+ _archive_photo_faces                   | 8192 bytes |      21
+ _archive_photo_galleries               | 16 kB      |      22
+ _archive_photo_gallery_items           | 40 kB      |       8
+ _archive_photo_locations               | 8192 bytes |      10
+ _archive_photo_memories                | 8192 bytes |      27
+ _archive_photo_organizations           | 8192 bytes |       8
+ _archive_photo_projects                | 8192 bytes |       8
+ _archive_photo_storytellers            | 8192 bytes |      11
+ _archive_photo_tags                    | 8192 bytes |      22
+ _archive_scraped_services              | 8192 bytes |      21
+ _archive_scraper_health_metrics        | 8192 bytes |      12
+ _archive_scraping_metadata             | 8192 bytes |      14
+ _archive_service_impact                | 8192 bytes |      56
+ _archive_services                      | 16 kB      |      11
+ _photo_system_audit                    | 16 kB      |       4
+ act_projects                           | 160 kB     |      16
+ activities                             | 56 kB      |      50
+ activity_log                           | 64 kB      |      17
+ admin_messages                         | 40 kB      |      21
+ ai_agent_registry                      | 48 kB      |      21
+ ai_analysis_jobs                       | 40 kB      |      17
+ ai_moderation_logs                     | 48 kB      |      14
+ ai_processing_logs                     | 40 kB      |      14
+ ai_safety_logs                         | 48 kB      |       8
+ ai_usage_daily                         | 40 kB      |      20
+ ai_usage_events                        | 72 kB      |      27
+ analysis_jobs                          | 80 kB      |      12
+ analytics_processing_jobs              | 64 kB      |      27
+ annual_report_stories                  | 40 kB      |      14
+ annual_reports                         | 56 kB      |      42
+ audio_emotion_analysis                 | 40 kB      |      12
+ audio_prosodic_analysis                | 24 kB      |      23
+ audit_logs                             | 72 kB      |      20
+ blog_posts                             | 496 kB     |      22
+ campaign_consent_workflows             | 104 kB     |      34
+ campaigns                              | 104 kB     |      42
+ community_interpretation_sessions      | 32 kB      |      14
+ community_story_responses              | 32 kB      |      11
+ consent_change_log                     | 32 kB      |      13
+ content_approval_queue                 | 96 kB      |      26
+ content_cache                          | 56 kB      |      14
+ cross_narrative_insights               | 72 kB      |      33
+ cross_sector_insights                  | 56 kB      |      17
+ cultural_protocols                     | 128 kB     |      16
+ cultural_speech_patterns               | 32 kB      |      12
+ cultural_tags                          | 32 kB      |       8
+ data_quality_metrics                   | 40 kB      |      10
+ data_sources                           | 48 kB      |      17
+ deletion_requests                      | 56 kB      |      25
+ development_plans                      | 64 kB      |      18
+ document_outcomes                      | 80 kB      |      13
+ dream_organizations                    | 80 kB      |      17
+ elder_review_queue                     | 56 kB      |      16
+ embed_tokens                           | 56 kB      |      22
+ empathy_entries                        | 112 kB     |      28
+ empathy_sync_log                       | 80 kB      |      13
+ events                                 | 0 bytes    |      13
+ events_2024_01                         | 72 kB      |      13
+ events_2025_08                         | 384 kB     |      13
+ events_2025_09                         | 72 kB      |      13
+ external_applications                  | 64 kB      |      12
+ extracted_quotes                       | 288 kB     |      14
+ galleries                              | 64 kB      |      20
+ gallery_media                          | 152 kB     |      10
+ gallery_media_associations             | 464 kB     |       8
+ geographic_impact_patterns             | 64 kB      |      19
+ harvested_outcomes                     | 32 kB      |      19
+ impact_stats                           | 32 kB      |      10
+ impact_stories                         | 88 kB      |      17
+ locations                              | 48 kB      |      10
+ media_assets                           | 1072 kB    |      66
+ media_files                            | 80 kB      |      19
+ media_import_sessions                  | 32 kB      |      11
+ media_usage_tracking                   | 32 kB      |       9
+ message_recipients                     | 40 kB      |      10
+ moderation_appeals                     | 40 kB      |      11
+ moderation_results                     | 40 kB      |      10
+ narrative_themes                       | 320 kB     |      13
+ notifications                          | 56 kB      |      13
+ opportunity_recommendations            | 80 kB      |      20
+ organization_analytics                 | 64 kB      |      18
+ organization_contexts                  | 32 kB      |      23
+ organization_cross_transcript_insights | 56 kB      |      18
+ organization_duplicates                | 48 kB      |      11
+ organization_enrichment                | 56 kB      |      13
+ organization_impact_metrics            | 96 kB      |      27
+ organization_invitations               | 64 kB      |      12
+ organization_members                   | 112 kB     |      15
+ organization_roles                     | 56 kB      |      10
+ organization_storyteller_network       | 64 kB      |      15
+ organization_theme_analytics           | 64 kB      |      19
+ organizations                          | 744 kB     |      65
+ outcomes                               | 176 kB     |      37
+ partner_analytics_daily                | 40 kB      |      16
+ partner_message_templates              | 32 kB      |       9
+ partner_messages                       | 48 kB      |      18
+ partner_projects                       | 40 kB      |      17
+ partner_team_members                   | 48 kB      |      11
+ partners                               | 32 kB      |       8
+ personal_insights                      | 64 kB      |      15
+ platform_analytics                     | 40 kB      |      40
+ platform_stats_cache                   | 16 kB      |      23
+ privacy_changes                        | 24 kB      |       9
+ processing_jobs                        | 48 kB      |      19
+ professional_competencies              | 96 kB      |      13
+ profile_galleries                      | 32 kB      |       5
+ profile_locations                      | 200 kB     |       6
+ profile_organizations                  | 456 kB     |       7
+ profile_projects                       | 240 kB     |       6
+ profiles                               | 6792 kB    |     171
+ project_analyses                       | 632 kB     |       9
+ project_analytics                      | 32 kB      |      21
+ project_contexts                       | 192 kB     |      24
+ project_media                          | 24 kB      |       7
+ project_organizations                  | 80 kB      |       6
+ project_participants                   | 48 kB      |       9
+ project_profiles                       | 64 kB      |      32
+ project_seed_interviews                | 96 kB      |       9
+ project_storytellers                   | 112 kB     |       8
+ project_updates                        | 64 kB      |       5
+ projects                               | 232 kB     |      20
+ quotes                                 | 144 kB     |      30
+ report_feedback                        | 16 kB      |      16
+ report_sections                        | 32 kB      |      21
+ report_templates                       | 48 kB      |      17
+ ripple_effects                         | 32 kB      |      15
+ sroi_calculations                      | 16 kB      |      11
+ sroi_inputs                            | 32 kB      |      10
+ sroi_outcomes                          | 32 kB      |      17
+ stories                                | 15 MB      |      99
+ story_access_log                       | 40 kB      |       8
+ story_access_tokens                    | 64 kB      |      14
+ story_distributions                    | 64 kB      |      27
+ story_engagement_daily                 | 40 kB      |      16
+ story_engagement_events                | 80 kB      |      19
+ story_images                           | 40 kB      |      23
+ story_media                            | 48 kB      |      21
+ story_narrative_arcs                   | 48 kB      |      19
+ story_project_features                 | 48 kB      |      13
+ story_project_tags                     | 64 kB      |      20
+ story_review_invitations               | 112 kB     |      14
+ story_syndication_consent              | 112 kB     |      19
+ story_syndication_requests             | 64 kB      |      12
+ storyteller_analytics                  | 472 kB     |      24
+ storyteller_connections                | 80 kB      |      33
+ storyteller_dashboard_config           | 64 kB      |      17
+ storyteller_demographics               | 168 kB     |      35
+ storyteller_engagement                 | 96 kB      |      40
+ storyteller_impact_metrics             | 72 kB      |      40
+ storyteller_locations                  | 176 kB     |       8
+ storyteller_media_links                | 72 kB      |      16
+ storyteller_milestones                 | 48 kB      |      22
+ storyteller_organizations              | 392 kB     |      10
+ storyteller_project_features           | 56 kB      |      18
+ storyteller_projects                   | 104 kB     |      10
+ storyteller_quotes                     | 408 kB     |      28
+ storyteller_recommendations            | 72 kB      |      35
+ storyteller_themes                     | 56 kB      |      14
+ storytelling_circle_evaluations        | 32 kB      |      13
+ team_members                           | 32 kB      |      11
+ tenant_ai_policies                     | 24 kB      |      23
+ tenants                                | 160 kB     |      16
+ testimonials                           | 32 kB      |      14
+ theme_associations                     | 32 kB      |       7
+ theme_concept_evolution                | 24 kB      |       9
+ theme_evolution                        | 24 kB      |      10
+ theme_evolution_tracking               | 56 kB      |      16
+ themes                                 | 24 kB      |       9
+ theory_of_change                       | 24 kB      |      13
+ title_suggestions                      | 24 kB      |       9
+ tour_requests                          | 56 kB      |      19
+ tour_stops                             | 88 kB      |      20
+ transcription_jobs                     | 32 kB      |      12
+ transcripts                            | 11 MB      |      59
+ users                                  | 112 kB     |      18
+ videos                                 | 136 kB     |      26
+ webhook_delivery_log                   | 32 kB      |      13
+ webhook_subscriptions                  | 40 kB      |      15
+(184 rows)
+
+
+=========================================
+VERIFICATION: Connected to correct database
+=========================================
+            confirmed_database            | profile_count 
+------------------------------------------+---------------
+ Supabase Production yvnuayzslukamizrlhwb |           251
+(1 row)
+

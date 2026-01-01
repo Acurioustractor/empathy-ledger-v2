@@ -1,0 +1,168 @@
+================================
+Phase 3 Consolidation Investigation
+================================
+
+Expanded display is off.
+Border style is 2.
+
+--- 1. PHOTO SYSTEM TABLES ---
+Hypothesis: Legacy remnants from Phase 2 cleanup
+
++------------+--------------+------------+
+| table_name | column_count | total_size |
++------------+--------------+------------+
++------------+--------------+------------+
+(0 rows)
+
+
+Row counts for photo tables:
+
+DO
+
+--- 2. THEME EVOLUTION TABLES ---
+Hypothesis: Overlapping purpose - can consolidate
+
++------------+--------------+------------+
+| table_name | column_count | total_size |
++------------+--------------+------------+
++------------+--------------+------------+
+(0 rows)
+
+
+Compare theme table schemas:
+
+--- theme_evolution ---
++-------------+-----------+-------------+
+| column_name | data_type | is_nullable |
++-------------+-----------+-------------+
++-------------+-----------+-------------+
+(0 rows)
+
+
+--- theme_evolution_tracking ---
++-------------+-----------+-------------+
+| column_name | data_type | is_nullable |
++-------------+-----------+-------------+
++-------------+-----------+-------------+
+(0 rows)
+
+
+--- theme_concept_evolution ---
++-------------+-----------+-------------+
+| column_name | data_type | is_nullable |
++-------------+-----------+-------------+
++-------------+-----------+-------------+
+(0 rows)
+
+
+Row counts for theme tables:
+
+psql:scripts/investigate-table-usage.sql:130: ERROR:  relation "theme_evolution" does not exist
+LINE 3:   (SELECT COUNT(*) FROM theme_evolution) as rows,
+                                ^
+
+--- 3. ANALYSIS JOB TABLES ---
+Hypothesis: Multiple job queues - potentially redundant
+
++------------+--------------+------------+
+| table_name | column_count | total_size |
++------------+--------------+------------+
++------------+--------------+------------+
+(0 rows)
+
+
+Compare analysis job schemas:
+
+--- ai_analysis_jobs ---
++-------------+-----------+-------------+
+| column_name | data_type | is_nullable |
++-------------+-----------+-------------+
++-------------+-----------+-------------+
+(0 rows)
+
+
+--- analysis_jobs ---
++-------------+-----------+-------------+
+| column_name | data_type | is_nullable |
++-------------+-----------+-------------+
++-------------+-----------+-------------+
+(0 rows)
+
+
+--- analytics_processing_jobs (31 columns!) ---
++-------------+-----------+-------------+
+| column_name | data_type | is_nullable |
++-------------+-----------+-------------+
++-------------+-----------+-------------+
+(0 rows)
+
+
+Row counts and status distribution:
+
+psql:scripts/investigate-table-usage.sql:197: ERROR:  relation "ai_analysis_jobs" does not exist
+LINE 3:   (SELECT COUNT(*) FROM ai_analysis_jobs) as total_rows,
+                                ^
+
+--- 4. EVENT PARTITIONING TABLES ---
+Hypothesis: Old partition strategy - some may be stale
+
++------------+--------------+------------+
+| table_name | column_count | total_size |
++------------+--------------+------------+
++------------+--------------+------------+
+(0 rows)
+
+
+Event partition analysis:
+
+psql:scripts/investigate-table-usage.sql:239: ERROR:  relation "events" does not exist
+LINE 3:   (SELECT COUNT(*) FROM events) as rows,
+                                ^
+
+--- 5. PROFESSIONAL DEVELOPMENT TABLES ---
+Hypothesis: Not mission-aligned - Oonchiumpa HR remnants?
+
++------------+--------------+------------+
+| table_name | column_count | total_size |
++------------+--------------+------------+
++------------+--------------+------------+
+(0 rows)
+
+
+Row counts for professional development tables:
+
+psql:scripts/investigate-table-usage.sql:275: ERROR:  relation "professional_competencies" does not exist
+LINE 3:   (SELECT COUNT(*) FROM professional_competencies) as rows,
+                                ^
+
+--- 6. ASPIRATIONAL TABLES ---
+
+psql:scripts/investigate-table-usage.sql:285: ERROR:  relation "dream_organizations" does not exist
+LINE 3:   (SELECT COUNT(*) FROM dream_organizations) as rows,
+                                ^
+
+--- 7. RESEARCH FEATURES ---
+
++------------+--------------+------------+
+| table_name | column_count | total_size |
++------------+--------------+------------+
++------------+--------------+------------+
+(0 rows)
+
+
+Row counts for research tables:
+
+psql:scripts/investigate-table-usage.sql:317: ERROR:  relation "audio_emotion_analysis" does not exist
+LINE 3:   (SELECT COUNT(*) FROM audio_emotion_analysis) as rows,
+                                ^
+
+================================
+Investigation Complete
+================================
+
+Next Steps:
+1. Review findings in PHASE3_CONSOLIDATION_CHECKLIST.md
+2. Grep codebase for each table (scripts/grep-table-references.sh)
+3. Make KEEP/REMOVE decisions
+4. Create consolidation migrations
+

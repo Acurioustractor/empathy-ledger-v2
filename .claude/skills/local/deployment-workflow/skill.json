@@ -1,0 +1,32 @@
+{
+  "name": "deployment-workflow",
+  "description": "Deploy to GitHub and Vercel ensuring app/web version sync",
+  "version": "1.0.0",
+  "type": "project",
+  "triggers": [
+    "deploy",
+    "deployment",
+    "push to production",
+    "release",
+    "publish",
+    "vercel deploy",
+    "github deploy"
+  ],
+  "tags": [
+    "deployment",
+    "vercel",
+    "github",
+    "pwa",
+    "version-sync",
+    "production"
+  ],
+  "author": "Empathy Ledger Team",
+  "tools": ["Bash", "Read", "Write"],
+  "invocation_examples": [
+    "I need to deploy to production",
+    "Help me deploy this to Vercel",
+    "Ready to release - run deployment workflow",
+    "Deploy the PWA updates",
+    "Push to GitHub and ensure version sync"
+  ]
+}

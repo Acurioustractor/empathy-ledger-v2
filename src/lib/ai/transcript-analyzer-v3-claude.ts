@@ -17,7 +17,6 @@
 
 import Anthropic from '@anthropic-ai/sdk'
 import { z } from 'zod'
-import { indigenousImpactAnalyzer } from './indigenous-impact-analyzer'
 import { mapToStandardizedTheme, THEMATIC_TAXONOMY, type ThemeKey } from './thematic-taxonomy'
 
 const anthropic = new Anthropic({
@@ -198,10 +197,10 @@ export class ClaudeTranscriptAnalyzer {
 
     console.log('🔍 Starting Claude 3.5 Sonnet transcript analysis...')
 
-    // Phase 1: Fast pattern matching (existing system)
-    console.log('📊 Phase 1: Pattern matching...')
-    const patternInsights = indigenousImpactAnalyzer.analyzeIndigenousImpact(transcript)
-    console.log(`✅ Found ${patternInsights.length} pattern-based insights`)
+    // Phase 1: Skip pattern matching (indigenous impact analyzer removed for now)
+    console.log('📊 Phase 1: Skipping pattern matching...')
+    const patternInsights: any[] = []
+    console.log(`✅ Pattern insights disabled`)
 
     // Phase 2: Deep Claude analysis
     console.log('🤖 Phase 2: Claude 3.5 Sonnet analysis...')
