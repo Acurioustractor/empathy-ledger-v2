@@ -1,6 +1,6 @@
 import { inngest } from '../client'
 import { createClient } from '@supabase/supabase-js'
-import { claudeTranscriptAnalyzer } from '@/lib/ai/transcript-analyzer-v3-claude'
+import { hybridTranscriptAnalyzer } from '@/lib/ai/transcript-analyzer-v2'
 import { generateBioFromTranscript } from '@/lib/ai/bio-generator'
 
 /**
@@ -20,9 +20,6 @@ export const processTranscriptFunction = inngest.createFunction(
     id: 'process-transcript',
     name: 'Process Transcript with AI',
     retries: 3, // Retry up to 3 times on failure
-    // Increase timeout for Claude Sonnet 4.5 (takes 35-60 seconds)
-    // Note: Requires Inngest Cloud plan for >60s timeout
-    timeout: '5m', // 5 minute timeout
   },
   { event: 'transcript/process' },
   async ({ event, step }) => {
@@ -63,9 +60,9 @@ export const processTranscriptFunction = inngest.createFunction(
       return data
     })
 
-    // Step 2: Run Claude 3.5 Sonnet AI analysis (upgraded from GPT-4o-mini)
+    // Step 2: Run hybrid AI analysis
     const analysis = await step.run('analyze-content', async () => {
-      console.log('🤖 Running Claude 3.5 Sonnet AI analysis...')
+      console.log('🤖 Running AI analysis...')
 
       const content = transcript.content || transcript.transcript_content || ''
 
@@ -73,7 +70,7 @@ export const processTranscriptFunction = inngest.createFunction(
         throw new Error('Transcript content too short for analysis')
       }
 
-      return await claudeTranscriptAnalyzer.analyzeTranscript(content, {
+      return await hybridTranscriptAnalyzer.analyzeTranscript(content, {
         title: transcript.title,
         storyteller_name: transcript.profile?.display_name,
         cultural_context: transcript.profile?.cultural_background
@@ -95,14 +92,12 @@ export const processTranscriptFunction = inngest.createFunction(
           metadata: {
             ...transcript.metadata,
             ai_analysis: {
-              model: 'claude-sonnet-4-5',
               emotional_tone: analysis.emotional_tone,
               cultural_sensitivity_level: analysis.cultural_sensitivity_level,
               requires_elder_review: analysis.requires_elder_review,
               key_insights: analysis.key_insights,
               related_topics: analysis.related_topics,
               processing_time_ms: analysis.processing_time_ms,
-              verification_stats: analysis.verification_stats,
               analyzed_at: new Date().toISOString()
             }
           },

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Storyteller Summaries</title>
+</head>
+<body>
+    <h1>Batch Create Storyteller Summaries</h1>
+    <button id="createSummaries">Create Summaries</button>
+    <div id="output"></div>
+
+    <script>
+        const summaryTemplates = [
+            "A community storyteller passionate about sharing experiences that bring people together.",
+            "Shares stories of resilience, community connection, and the wisdom found in everyday moments.",
+            "A natural storyteller who believes in the power of shared experiences to heal and inspire.",
+            "Passionate about preserving community stories and helping others find their voice.",
+            "Tells stories that celebrate the strength and spirit of community life.",
+            "A storyteller who weaves together personal experience with community wisdom.",
+            "Shares authentic stories about life, family, and the connections that matter most.",
+            "Believes every person has a story worth telling and helps others discover theirs.",
+            "A community voice sharing stories of hope, challenge, and the human experience.",
+            "Passionate about storytelling as a way to bridge differences and build understanding.",
+            "Tells stories that honor both personal journey and community heritage.",
+            "A storyteller focused on the moments that shape us and connect us to others.",
+            "Shares experiences that highlight the beauty and complexity of community life.",
+            "Passionate about using storytelling to create spaces for healing and connection.",
+            "Tells stories that celebrate the everyday heroes and moments in our communities."
+        ];
+
+        function getRandomSummary() {
+            return summaryTemplates[Math.floor(Math.random() * summaryTemplates.length)];
+        }
+
+        document.getElementById('createSummaries').addEventListener('click', async () => {
+            const output = document.getElementById('output');
+            output.innerHTML = '<p>Creating summaries...</p>';
+
+            try {
+                // Get all storytellers first
+                const response = await fetch('/api/storytellers?status=active&limit=1000');
+                const data = await response.json();
+
+                output.innerHTML += `<p>Found ${data.storytellers.length} storytellers</p>`;
+
+                // Update each storyteller with a summary if they don't have one
+                let updated = 0;
+                for (const storyteller of data.storytellers) {
+                    if (!storyteller.profile?.bio || storyteller.profile.bio.trim() === '') {
+                        const summary = getRandomSummary();
+
+                        try {
+                            const updateResponse = await fetch(`/api/storytellers/${storyteller.id}/summary`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ summary })
+                            });
+
+                            if (updateResponse.ok) {
+                                output.innerHTML += `<p>✅ Updated ${storyteller.display_name}</p>`;
+                                updated++;
+                            } else {
+                                output.innerHTML += `<p>❌ Failed to update ${storyteller.display_name}</p>`;
+                            }
+                        } catch (err) {
+                            output.innerHTML += `<p>❌ Error updating ${storyteller.display_name}: ${err.message}</p>`;
+                        }
+
+                        // Small delay to avoid overwhelming the API
+                        await new Promise(resolve => setTimeout(resolve, 200));
+                    }
+                }
+
+                output.innerHTML += `<h3>✅ Complete! Updated ${updated} storytellers</h3>`;
+
+            } catch (error) {
+                output.innerHTML += `<p>❌ Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🇦🇺 Running pre-commit checks with Australian spelling..."
+
+# Run type checking
+echo "📝 Type checking..."
+npm run type-check || {
+  echo "❌ Type check failed. Fix TypeScript errors before committing."
+  exit 1
+}
+
+# Run linting
+echo "🔍 Linting..."
+npm run lint || {
+  echo "❌ Linting failed. Fix lint errors before committing."
+  exit 1
+}
+
+# Check for American spellings in new/modified files
+echo "🔤 Checking spelling conventions..."
+git diff --cached --name-only | grep -E '\.(ts|tsx|js|jsx)$' | while read file; do
+  if grep -E 'organization[^s]|color|center[^e]|analyze' "$file" > /dev/null 2>&1; then
+    echo "⚠️  Warning: American spelling detected in $file"
+    echo "   Please use Australian spelling: organisation, colour, centre, analyse"
+  fi
+done
+
+echo "✅ Pre-commit checks passed!"

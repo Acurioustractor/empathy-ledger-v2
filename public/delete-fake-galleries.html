@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Fake Galleries</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .button {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .button:hover {
+            background: #b91c1c;
+        }
+        .log {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+            margin-top: 20px;
+        }
+        .warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗑️ Delete Fake Galleries</h1>
+        <p>This tool will delete the fake galleries you identified:</p>
+        <ul>
+            <li>Community Ceremonies</li>
+            <li>Youth Cultural Activities</li>
+            <li>Elder Knowledge Keepers</li>
+            <li>Healing Through Storytelling - Photo Collection</li>
+        </ul>
+
+        <div class="warning">
+            ⚠️ <strong>Warning:</strong> This action cannot be undone. Make sure you want to delete these galleries permanently.
+        </div>
+
+        <button class="button" onclick="deleteFakeGalleries()">Delete Fake Galleries</button>
+        <button class="button" onclick="listAllGalleries()" style="background: #3b82f6;">List All Galleries</button>
+
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            logDiv.textContent += message + '\n';
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(message);
+        }
+
+        async function listAllGalleries() {
+            log('📋 Fetching all galleries...');
+
+            try {
+                const response = await fetch('/api/admin/galleries');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                log(`\n📊 Found ${data.galleries?.length || 0} galleries:\n`);
+
+                if (data.galleries) {
+                    data.galleries.forEach((gallery, index) => {
+                        log(`${index + 1}. "${gallery.title}" (ID: ${gallery.id})`);
+                        log(`   Created: ${gallery.created_at}`);
+                        log(`   Privacy: ${gallery.privacy_level}`);
+                        log(`   Creator: ${gallery.created_by_profile?.display_name || 'Unknown'}\n`);
+                    });
+                }
+            } catch (error) {
+                log(`❌ Error fetching galleries: ${error.message}`);
+            }
+        }
+
+        async function deleteFakeGalleries() {
+            if (!confirm('Are you sure you want to delete all fake galleries? This cannot be undone.')) {
+                return;
+            }
+
+            log('🗑️ Starting fake gallery deletion...');
+
+            const fakeGalleryTitles = [
+                'Community Ceremonies',
+                'Youth Cultural Activities',
+                'Elder Knowledge Keepers',
+                'Healing Through Storytelling - Photo Collection'
+            ];
+
+            try {
+                // First, get all galleries
+                const response = await fetch('/api/admin/galleries');
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch galleries: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const galleries = data.galleries || [];
+
+                // Find fake galleries
+                const fakeGalleries = galleries.filter(gallery =>
+                    fakeGalleryTitles.some(title => gallery.title.includes(title))
+                );
+
+                log(`🎯 Found ${fakeGalleries.length} fake galleries to delete:`);
+                fakeGalleries.forEach(gallery => {
+                    log(`  - "${gallery.title}" (ID: ${gallery.id})`);
+                });
+
+                if (fakeGalleries.length === 0) {
+                    log('✅ No fake galleries found');
+                    return;
+                }
+
+                // Delete each fake gallery
+                for (const gallery of fakeGalleries) {
+                    log(`\n🗑️ Deleting "${gallery.title}"...`);
+
+                    try {
+                        const deleteResponse = await fetch(`/api/galleries/${gallery.id}`, {
+                            method: 'DELETE'
+                        });
+
+                        if (deleteResponse.ok) {
+                            log(`✅ Successfully deleted "${gallery.title}"`);
+                        } else {
+                            const errorData = await deleteResponse.text();
+                            log(`❌ Failed to delete "${gallery.title}": ${errorData}`);
+                        }
+                    } catch (error) {
+                        log(`💥 Error deleting "${gallery.title}": ${error.message}`);
+                    }
+                }
+
+                log('\n🎉 Finished deletion process!');
+
+                // Show remaining galleries
+                setTimeout(() => {
+                    log('\n📊 Remaining galleries:');
+                    listAllGalleries();
+                }, 1000);
+
+            } catch (error) {
+                log(`💥 Unexpected error: ${error.message}`);
+            }
+        }
+
+        // Auto-load galleries on page load
+        window.addEventListener('load', () => {
+            listAllGalleries();
+        });
+    </script>
+</body>
+</html>
