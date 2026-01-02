@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowLeft, User, FileText, Video, FolderOpen, Upload, Plus, X } from 'lucide-react'
 import { useOrganizationContext } from '@/lib/contexts/OrganizationContext'
@@ -13,7 +13,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 
-export default function QuickAddPage() {
+function QuickAddContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { selectedOrgId, setSelectedOrgId } = useOrganizationContext()
@@ -577,5 +577,13 @@ export default function QuickAddPage() {
         </div>
       </form>
     </div>
+  )
+}
+
+export default function QuickAddPage() {
+  return (
+    <Suspense fallback={<div className="p-8">Loading...</div>}>
+      <QuickAddContent />
+    </Suspense>
   )
 }
