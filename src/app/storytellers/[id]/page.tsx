@@ -12,6 +12,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { StoryCard } from '@/components/story/story-card'
 import { Card } from '@/components/ui/card'
 import { EditableSummary } from '@/components/storyteller/EditableSummary'
+import { PrivacyBadge } from '@/components/profile/PrivacyBadge'
+import { ProtocolsBadge } from '@/components/profile/ProtocolsBadge'
+import { CulturalAffiliations } from '@/components/profile/CulturalAffiliations'
 import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
 import { cn } from '@/lib/utils'
@@ -287,6 +290,24 @@ export default function StorytellerProfilePage() {
                           <Award className="w-3 h-3 mr-1" aria-hidden="true" />
                           {experienceLevel.label}
                         </Badge>
+
+                        {/* Privacy Badge */}
+                        <PrivacyBadge
+                          level={(storyteller.profile?.privacy_level as any) || 'public'}
+                        />
+
+                        {/* Cultural Protocols Badge */}
+                        <ProtocolsBadge
+                          status={
+                            storyteller.profile?.requires_elder_review
+                              ? 'review-required'
+                              : storyteller.profile?.cultural_protocols
+                              ? 'active'
+                              : 'none'
+                          }
+                          linkToSettings={isAuthenticated}
+                          settingsUrl={`/storytellers/${storytellerId}/dashboard?tab=privacy`}
+                        />
                       </div>
                     </div>
 
@@ -296,40 +317,19 @@ export default function StorytellerProfilePage() {
                       </Typography>
                     )}
 
-                    {/* Enhanced Location & Cultural Context */}
-                    <div className="mb-4 space-y-2">
-                      {(storyteller as any).location && (
-                        <div className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4 text-earth-500 flex-shrink-0" aria-hidden="true" />
-                          <Typography variant="body" className="text-grey-700">
-                            {(storyteller as any).location}
-                          </Typography>
-                          {(storyteller as any).geographic_scope && (
-                            <Badge variant="secondary" className="text-xs ml-2">
-                              {(storyteller as any).geographic_scope}
-                            </Badge>
-                          )}
-                        </div>
-                      )}
-
-                      {(storyteller as any).traditional_territory && (
-                        <div className="flex items-center gap-2">
-                          <Landmark className="w-4 h-4 text-amber-600 flex-shrink-0" aria-hidden="true" />
-                          <Typography variant="body" className="text-grey-600 italic text-sm">
-                            {(storyteller as any).traditional_territory}
-                          </Typography>
-                        </div>
-                      )}
-
-                      {storyteller.cultural_background && (
-                        <div className="flex items-center gap-2">
-                          <Globe2 className="w-4 h-4 text-sage-500 flex-shrink-0" aria-hidden="true" />
-                          <Typography variant="body" className="text-grey-700">
-                            {storyteller.cultural_background}
-                          </Typography>
-                        </div>
-                      )}
-                    </div>
+                    {/* Cultural Affiliations - Using new component */}
+                    <CulturalAffiliations
+                      culturalAffiliations={storyteller.profile?.cultural_affiliations || []}
+                      culturalBackground={storyteller.cultural_background}
+                      indigenousAffiliation={(storyteller as any).indigenous_affiliation}
+                      territories={
+                        (storyteller as any).traditional_territory
+                          ? [(storyteller as any).traditional_territory]
+                          : []
+                      }
+                      languages={storyteller.profile?.languages_spoken || []}
+                      className="mb-4"
+                    />
 
                     {/* Cultural Markers */}
                     {(storyteller.profile?.languages_spoken?.length ||
