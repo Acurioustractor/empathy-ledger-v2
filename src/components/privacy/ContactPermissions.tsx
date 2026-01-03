@@ -46,23 +46,42 @@ const contactGroups: ContactGroup[] = [
 ]
 
 interface ContactPermissionsProps {
-  allowedGroups: string[]
-  onChange: (groups: string[]) => void
+  allowedGroups?: string[]
+  onChange?: (groups: string[]) => void
   disabled?: boolean
   className?: string
+  // Legacy props for backward compatibility
+  storytellerId?: string
+  onSettingsChange?: (settings: Record<string, unknown>) => void
 }
 
 export function ContactPermissions({
   allowedGroups,
   onChange,
   disabled = false,
-  className
+  className,
+  storytellerId,
+  onSettingsChange
 }: ContactPermissionsProps) {
+  // Use local state if allowedGroups/onChange not provided (backward compatibility)
+  const [localGroups, setLocalGroups] = React.useState<string[]>(() =>
+    contactGroups.filter(g => g.defaultEnabled).map(g => g.id)
+  )
+
+  const currentGroups = allowedGroups || localGroups
+
   const handleToggle = (groupId: string, checked: boolean) => {
-    if (checked) {
-      onChange([...allowedGroups, groupId])
+    const newGroups = checked
+      ? [...currentGroups, groupId]
+      : currentGroups.filter(id => id !== groupId)
+
+    if (onChange) {
+      onChange(newGroups)
     } else {
-      onChange(allowedGroups.filter(id => id !== groupId))
+      setLocalGroups(newGroups)
+      if (onSettingsChange) {
+        onSettingsChange({ allowedContactGroups: newGroups })
+      }
     }
   }
 
@@ -81,7 +100,7 @@ export function ContactPermissions({
       <div className="space-y-3">
         {contactGroups.map((group) => {
           const Icon = group.icon
-          const isChecked = allowedGroups.includes(group.id)
+          const isChecked = currentGroups.includes(group.id)
 
           return (
             <div

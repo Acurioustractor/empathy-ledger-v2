@@ -51,18 +51,38 @@ const sovereigntyPreferences: DataSovereigntyPreference[] = [
 ]
 
 interface DataSovereigntyPreferencesProps {
-  values: Record<string, boolean>
-  onChange: (id: string, value: boolean) => void
+  values?: Record<string, boolean>
+  onChange?: (id: string, value: boolean) => void
   disabled?: boolean
   className?: string
+  // Legacy props for backward compatibility
+  storytellerId?: string
+  onSettingsChange?: (settings: Record<string, unknown>) => void
 }
 
 export function DataSovereigntyPreferences({
   values,
   onChange,
   disabled = false,
-  className
+  className,
+  storytellerId,
+  onSettingsChange
 }: DataSovereigntyPreferencesProps) {
+  // Use local state if values/onChange not provided (backward compatibility)
+  const [localValues, setLocalValues] = React.useState<Record<string, boolean>>({})
+
+  const currentValues = values || localValues
+  const handleChange = (id: string, value: boolean) => {
+    if (onChange) {
+      onChange(id, value)
+    } else {
+      setLocalValues(prev => ({ ...prev, [id]: value }))
+      if (onSettingsChange) {
+        onSettingsChange({ [id]: value })
+      }
+    }
+  }
+
   return (
     <div className={cn("space-y-6", className)}>
       <div>
@@ -78,7 +98,7 @@ export function DataSovereigntyPreferences({
       <div className="space-y-4">
         {sovereigntyPreferences.map((pref) => {
           const Icon = pref.icon
-          const isEnabled = values[pref.id] ?? pref.defaultValue
+          const isEnabled = currentValues[pref.id] ?? pref.defaultValue
 
           return (
             <div
@@ -129,7 +149,7 @@ export function DataSovereigntyPreferences({
               <Switch
                 id={`sovereignty-${pref.id}`}
                 checked={isEnabled}
-                onCheckedChange={(checked) => onChange(pref.id, checked)}
+                onCheckedChange={(checked) => handleChange(pref.id, checked)}
                 disabled={disabled || (pref.criticalForIndigenous && isEnabled)}
                 aria-label={pref.label}
               />
@@ -149,7 +169,7 @@ export function DataSovereigntyPreferences({
               Settings marked as "Indigenous Data Sovereignty" follow OCAP® principles:
               <strong className="block mt-1">
                 Ownership, Control, Access, and Possession
-strong>.
+              </strong>.
               Your data is yours, stored on your terms, accessible by you, in your control.
             </p>
           </div>

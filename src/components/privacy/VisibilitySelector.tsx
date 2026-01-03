@@ -64,18 +64,39 @@ const visibilityOptions: VisibilityOption[] = [
 ]
 
 interface VisibilitySelectorProps {
-  value: VisibilityLevel
-  onChange: (value: VisibilityLevel) => void
+  value?: VisibilityLevel
+  onChange?: (value: VisibilityLevel) => void
   disabled?: boolean
   className?: string
+  // Legacy props for backward compatibility
+  storytellerId?: string
+  onSettingsChange?: (settings: Record<string, unknown>) => void
 }
 
 export function VisibilitySelector({
   value,
   onChange,
   disabled = false,
-  className
+  className,
+  storytellerId,
+  onSettingsChange
 }: VisibilitySelectorProps) {
+  // Use local state if value/onChange not provided (backward compatibility)
+  const [localValue, setLocalValue] = React.useState<VisibilityLevel>('community')
+
+  const currentValue = value || localValue
+
+  const handleChange = (newValue: VisibilityLevel) => {
+    if (onChange) {
+      onChange(newValue)
+    } else {
+      setLocalValue(newValue)
+      if (onSettingsChange) {
+        onSettingsChange({ default_story_visibility: newValue })
+      }
+    }
+  }
+
   return (
     <div className={cn("space-y-4", className)}>
       <div className="mb-4">
@@ -88,14 +109,14 @@ export function VisibilitySelector({
       </div>
 
       <RadioGroup
-        value={value}
-        onValueChange={onChange}
+        value={currentValue}
+        onValueChange={handleChange}
         disabled={disabled}
         className="space-y-3"
       >
         {visibilityOptions.map((option) => {
           const Icon = option.icon
-          const isSelected = value === option.value
+          const isSelected = currentValue === option.value
 
           return (
             <div
