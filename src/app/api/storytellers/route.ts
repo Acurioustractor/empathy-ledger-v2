@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
 
     const supabase = createSupabaseServerClient()
 
-    // Query storytellers table with profile and story data
+    // Query storytellers table
     let query = supabase
       .from('storytellers')
       .select(`
@@ -35,15 +35,7 @@ export async function GET(request: NextRequest) {
         avatar_url,
         is_active,
         created_at,
-        updated_at,
-        profiles!storytellers_profile_id_fkey(
-          occupation,
-          interests,
-          current_organization,
-          cultural_affiliations,
-          preferred_pronouns,
-          languages_spoken
-        )
+        updated_at
       `, { count: 'exact' })
 
     // Apply elder filter (skip for now until we know database schema)
@@ -97,17 +89,6 @@ export async function GET(request: NextRequest) {
         .eq('storyteller_id', storyteller.id)
         .eq('status', 'published')
 
-      // Get organization from profile if available
-      const profile = storyteller.profiles
-      let organisations = []
-      if (profile?.current_organization) {
-        organisations = [{
-          id: null,
-          name: profile.current_organization,
-          role: 'Member'
-        }]
-      }
-
       return {
         id: storyteller.id,
         display_name: storyteller.display_name,
@@ -115,22 +96,22 @@ export async function GET(request: NextRequest) {
         cultural_background: storyteller.cultural_background,
         specialties: [],
         years_of_experience: null,
-        preferred_topics: profile?.interests || [],
+        preferred_topics: [],
         story_count: storyCount || 0,
         featured: false,
         status: storyteller.is_active ? 'active' as const : 'inactive' as const,
         elder_status: false,
         storytelling_style: null,
         location: null,
-        occupation: profile?.occupation,
-        languages: storyteller.language_skills || profile?.languages_spoken || [],
-        organisations: organisations,
+        occupation: null,
+        languages: storyteller.language_skills || [],
+        organisations: [],
         projects: [],
         profile: {
           avatar_url: storyteller.avatar_url,
           profile_image_url: storyteller.avatar_url,
-          cultural_affiliations: profile?.cultural_affiliations || [],
-          pronouns: profile?.preferred_pronouns,
+          cultural_affiliations: [],
+          pronouns: null,
           display_name: storyteller.display_name,
           bio: storyteller.bio
         },
