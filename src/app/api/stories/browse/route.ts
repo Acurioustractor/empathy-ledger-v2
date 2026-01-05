@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
           id,
           display_name,
           cultural_background,
-          profiles!inner (
+          profile:profiles!storytellers_profile_id_fkey (
             avatar_url
           )
         )
@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
         id: story.storyteller?.id,
         display_name: story.storyteller?.display_name || 'Anonymous',
         cultural_background: story.storyteller?.cultural_background,
-        avatar_url: story.storyteller?.profiles?.[0]?.avatar_url
+        avatar_url: story.storyteller?.profile?.avatar_url
       }
     }))
 
