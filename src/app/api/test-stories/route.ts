@@ -14,7 +14,14 @@ export async function GET() {
 
     const { data, error, count } = await supabase
       .from('stories')
-      .select('id, title, status, is_public', { count: 'exact' })
+      .select(`
+        id,
+        title,
+        storyteller:storytellers!storyteller_id (
+          id,
+          display_name
+        )
+      `, { count: 'exact' })
       .eq('status', 'published')
       .eq('is_public', true)
       .limit(2)
