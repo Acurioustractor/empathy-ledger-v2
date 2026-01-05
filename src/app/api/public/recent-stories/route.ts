@@ -20,14 +20,15 @@ export async function GET(request: NextRequest) {
         excerpt,
         content,
         story_type,
-        featured_image_url,
-        reading_time_minutes,
+        story_image_url,
+        reading_time,
         views_count,
         created_at,
         storyteller:storytellers!storyteller_id (
           id,
           display_name,
-          cultural_background
+          cultural_background,
+          avatar_url
         )
       `)
       .eq('status', 'published')
@@ -49,13 +50,14 @@ export async function GET(request: NextRequest) {
       title: story.title,
       excerpt: story.excerpt || story.content?.substring(0, 150) + '...',
       story_type: story.story_type,
-      featured_image_url: story.featured_image_url,
-      reading_time_minutes: story.reading_time_minutes,
+      featured_image_url: story.story_image_url,
+      reading_time_minutes: story.reading_time,
       views_count: story.views_count || 0,
       created_at: story.created_at,
       storyteller: {
         display_name: story.storyteller?.display_name || 'Anonymous',
-        cultural_background: story.storyteller?.cultural_background
+        cultural_background: story.storyteller?.cultural_background,
+        avatar_url: story.storyteller?.avatar_url
       }
     }))
 

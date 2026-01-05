@@ -18,19 +18,11 @@ export async function GET(request: NextRequest) {
         id,
         display_name,
         cultural_background,
-        cultural_affiliations,
         bio,
-        location,
-        elder_status,
-        featured,
-        profiles!inner (
-          avatar_url
-        ),
-        stories:stories!storyteller_id (
-          count
-        )
+        avatar_url,
+        is_active,
+        created_at
       `)
-      .eq('featured', true)
       .eq('is_active', true)
       .order('created_at', { ascending: false })
       .limit(limit)
@@ -57,13 +49,9 @@ export async function GET(request: NextRequest) {
           id: storyteller.id,
           display_name: storyteller.display_name,
           cultural_background: storyteller.cultural_background,
-          cultural_affiliations: storyteller.cultural_affiliations || [],
           bio: storyteller.bio,
-          avatar_url: storyteller.profiles?.[0]?.avatar_url,
-          location: storyteller.location,
-          story_count: count || 0,
-          elder_status: storyteller.elder_status || false,
-          featured: storyteller.featured || false
+          avatar_url: storyteller.avatar_url,
+          story_count: count || 0
         }
       })
     )
