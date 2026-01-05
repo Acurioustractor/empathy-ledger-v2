@@ -56,9 +56,7 @@ export async function GET(request: NextRequest) {
           id,
           display_name,
           cultural_background,
-          profile:profiles!storytellers_profile_id_fkey (
-            avatar_url
-          )
+          avatar_url
         )
       `, { count: 'exact' })
       .eq('status', 'published')
@@ -118,7 +116,7 @@ export async function GET(request: NextRequest) {
         id: story.storyteller?.id,
         display_name: story.storyteller?.display_name || 'Anonymous',
         cultural_background: story.storyteller?.cultural_background,
-        avatar_url: story.storyteller?.profile?.avatar_url
+        avatar_url: story.storyteller?.avatar_url
       }
     }))
 
