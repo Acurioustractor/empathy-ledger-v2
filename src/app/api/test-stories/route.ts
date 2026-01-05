@@ -20,7 +20,7 @@ export async function GET() {
         excerpt,
         content,
         story_type,
-        featured_image_url,
+        story_image_url,
         reading_time_minutes,
         views_count,
         cultural_tags,
