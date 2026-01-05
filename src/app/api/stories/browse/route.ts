@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
         story_image_url,
         reading_time,
         views_count,
-        cultural_tags,
+        cultural_themes,
         language,
         created_at,
         storyteller:storytellers!storyteller_id (
@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
     const themes = searchParams.get('themes')
     if (themes) {
       const themeArray = themes.split(',')
-      query = query.contains('cultural_tags', themeArray)
+      query = query.contains('cultural_themes', themeArray)
     }
 
     const culturalGroups = searchParams.get('cultural_groups')
@@ -112,7 +112,7 @@ export async function GET(request: NextRequest) {
       featured_image_url: story.story_image_url,
       reading_time_minutes: story.reading_time,
       views_count: story.views_count || 0,
-      cultural_tags: story.cultural_tags || [],
+      cultural_tags: story.cultural_themes || [],
       language: story.language,
       created_at: story.created_at,
       storyteller: {

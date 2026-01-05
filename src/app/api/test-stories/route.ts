@@ -23,7 +23,7 @@ export async function GET() {
         story_image_url,
         reading_time,
         views_count,
-        cultural_tags,
+        cultural_themes,
         language,
         created_at,
         storyteller:storytellers!storyteller_id (
