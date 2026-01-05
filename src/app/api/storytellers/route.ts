@@ -2,8 +2,7 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
-
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { createClient } from '@supabase/supabase-js'
 
 import type { Storyteller, StorytellerInsert } from '@/types/database'
 
@@ -20,7 +19,9 @@ export async function GET(request: NextRequest) {
     const elder = searchParams.get('elder')
     const culturalBackground = searchParams.get('cultural_background')
 
-    const supabase = createSupabaseServerClient()
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+    const supabase = createClient(supabaseUrl, serviceKey)
 
     // Query storytellers table
     let query = supabase
@@ -141,7 +142,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    
+
     // Validate required fields
     if (!body.display_name || !body.profile_id) {
       return NextResponse.json(
@@ -150,7 +151,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+    const supabase = createClient(supabaseUrl, serviceKey)
 
     // Update the profile to become a storyteller - using only confirmed working fields
     const profileUpdateData = {
