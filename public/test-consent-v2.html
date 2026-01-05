@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Consent API v2</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 { color: #4ec9b0; }
+    .story-info {
+      background: #252526;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 15px 0;
+      border-left: 4px solid #4ec9b0;
+    }
+    button {
+      background: #0e639c;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px;
+    }
+    button:hover { background: #1177bb; }
+    button:disabled { background: #555; cursor: not-allowed; }
+    .output {
+      background: #252526;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 15px 0;
+      border: 1px solid #3e3e42;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    .success { color: #4ec9b0; }
+    .error { color: #f48771; }
+    .info { color: #569cd6; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Syndication Consent API Test (v2)</h1>
+
+  <div class="story-info">
+    <strong>Testing with YOUR story:</strong><br>
+    Story ID: <code>1c8bdfb9-fcf1-458a-aed7-ffdc6b272ab6</code><br>
+    Title: "Young person returns to school after cultural healing"<br>
+    Project: Deadly Hearts Trek (Snow Foundation)<br>
+    Syndication Site: JusticeHub
+  </div>
+
+  <div>
+    <p class="info">
+      ℹ️ Make sure you're logged in at <a href="http://localhost:3030" target="_blank">http://localhost:3030</a> first!
+    </p>
+  </div>
+
+  <div>
+    <button onclick="testCreateConsent()">1. Create Consent</button>
+    <button onclick="testCheckConsent()">2. Check Consent Status</button>
+    <button onclick="testRevokeConsent()" id="revokeBtn" disabled>3. Revoke Consent</button>
+    <button onclick="clearOutput()">Clear Output</button>
+  </div>
+
+  <div id="output" class="output">Ready to test...</div>
+
+  <script>
+    const STORY_ID = '1c8bdfb9-fcf1-458a-aed7-ffdc6b272ab6';
+    const SITE_SLUG = 'justicehub';
+    let lastConsentId = null;
+
+    function log(message, type = 'info') {
+      const output = document.getElementById('output');
+      const timestamp = new Date().toLocaleTimeString();
+      const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+      output.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+      output.scrollTop = output.scrollHeight;
+    }
+
+    function clearOutput() {
+      document.getElementById('output').innerHTML = 'Ready to test...';
+      lastConsentId = null;
+      document.getElementById('revokeBtn').disabled = true;
+    }
+
+    async function testCreateConsent() {
+      try {
+        log(`Creating consent for story ${STORY_ID} → ${SITE_SLUG}...`, 'info');
+
+        const response = await fetch('/api/syndication/consent', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            storyId: STORY_ID,
+            siteSlug: SITE_SLUG,
+            culturalPermissionLevel: 'public',
+            requestReason: 'Testing via browser v2 - your story!'
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          log(`❌ Error: ${data.error}`, 'error');
+          log(`Status: ${response.status}`, 'error');
+          log('Full response:', 'error');
+          log(JSON.stringify(data, null, 2), 'error');
+          return;
+        }
+
+        if (data.success) {
+          log('✅ CONSENT CREATED SUCCESSFULLY!', 'success');
+          log('', 'info');
+          log(`Consent ID: ${data.consent.id}`, 'success');
+          log(`Status: ${data.consent.status}`, 'success');
+          log(`Approved at: ${data.consent.approved_at}`, 'success');
+          log(`Story ID: ${data.consent.story_id}`, 'success');
+          log(`Site ID: ${data.consent.site_id}`, 'success');
+          log('', 'info');
+          log('Embed Token:', 'success');
+          log(`  Token: ${data.embedToken?.token}`, 'success');
+          log(`  Status: ${data.embedToken?.status}`, 'success');
+          log(`  Allowed domains: ${data.embedToken?.allowed_domains?.join(', ')}`, 'success');
+
+          lastConsentId = data.consent.id;
+          document.getElementById('revokeBtn').disabled = false;
+
+          log('', 'info');
+          log('🎉 Next steps:', 'success');
+          log('1. Check the Syndication Dashboard at /syndication/dashboard', 'success');
+          log('2. Click button #2 to verify consent status', 'success');
+          log('3. Click button #3 to test revocation', 'success');
+
+          log('', 'info');
+          log('Full response:', 'info');
+          log(JSON.stringify(data, null, 2), 'info');
+        } else {
+          log('❌ Unexpected response format', 'error');
+          log(JSON.stringify(data, null, 2), 'error');
+        }
+      } catch (error) {
+        log(`❌ Exception: ${error.message}`, 'error');
+        console.error(error);
+      }
+    }
+
+    async function testCheckConsent() {
+      try {
+        log('Checking consent status...', 'info');
+
+        const response = await fetch(
+          `/api/syndication/consent?storyId=${STORY_ID}&siteSlug=${SITE_SLUG}`,
+          { credentials: 'include' }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          log(`❌ Error: ${data.error}`, 'error');
+          log(`Status: ${response.status}`, 'error');
+          return;
+        }
+
+        if (data.exists) {
+          log('✅ Consent found!', 'success');
+          log('', 'info');
+          log(`Consent ID: ${data.consent.id}`, 'success');
+          log(`Status: ${data.consent.status}`, 'success');
+          log(`Site: ${data.consent.site?.name} (${data.consent.site?.slug})`, 'success');
+          log(`Story: ${data.consent.story?.title}`, 'success');
+          log(`Approved at: ${data.consent.approved_at}`, 'success');
+
+          lastConsentId = data.consent.id;
+          document.getElementById('revokeBtn').disabled = false;
+
+          log('', 'info');
+          log('Full response:', 'info');
+          log(JSON.stringify(data, null, 2), 'info');
+        } else {
+          log('ℹ️ No consent found for this story-site pair', 'info');
+          log('Run test #1 to create one!', 'info');
+          log(JSON.stringify(data, null, 2), 'info');
+        }
+      } catch (error) {
+        log(`❌ Exception: ${error.message}`, 'error');
+        console.error(error);
+      }
+    }
+
+    async function testRevokeConsent() {
+      if (!lastConsentId) {
+        log('❌ No consent ID available. Create or check consent first.', 'error');
+        return;
+      }
+
+      if (!confirm(`Revoke consent ${lastConsentId}?\n\nThis will immediately stop sharing your story to JusticeHub.`)) {
+        return;
+      }
+
+      try {
+        log(`Revoking consent ${lastConsentId}...`, 'info');
+
+        const response = await fetch(`/api/syndication/consent/${lastConsentId}/revoke`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            reason: 'Testing revocation via browser v2'
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          log(`❌ Error: ${data.error}`, 'error');
+          log(`Status: ${response.status}`, 'error');
+          return;
+        }
+
+        if (data.success) {
+          log('✅ CONSENT REVOKED SUCCESSFULLY!', 'success');
+          log('', 'info');
+          log(`Consent ID: ${data.consent?.id}`, 'success');
+          log(`Status: ${data.consent?.status}`, 'success');
+          log(`Revoked at: ${data.consent?.revoked_at}`, 'success');
+          log('', 'info');
+          log('The story is no longer shared to JusticeHub!', 'success');
+
+          log('', 'info');
+          log('Full response:', 'info');
+          log(JSON.stringify(data, null, 2), 'info');
+
+          document.getElementById('revokeBtn').disabled = true;
+          lastConsentId = null;
+        } else {
+          log('❌ Unexpected response format', 'error');
+          log(JSON.stringify(data, null, 2), 'error');
+        }
+      } catch (error) {
+        log(`❌ Exception: ${error.message}`, 'error');
+        console.error(error);
+      }
+    }
+
+    // Check auth status on load
+    window.addEventListener('load', async () => {
+      log('✅ Test page loaded!', 'success');
+      log('', 'info');
+      log('Story ID: ' + STORY_ID, 'info');
+      log('Site: ' + SITE_SLUG, 'info');
+      log('', 'info');
+      log('Make sure you\'re logged in at http://localhost:3030', 'info');
+      log('Then click button #1 to create a consent!', 'info');
+      log('', 'info');
+    });
+  </script>
+</body>
+</html>

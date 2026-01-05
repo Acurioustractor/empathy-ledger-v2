@@ -1,19 +1,20 @@
 import { inngest } from '../client'
 import { createClient } from '@supabase/supabase-js'
-import { hybridTranscriptAnalyzer } from '@/lib/ai/transcript-analyzer-v2'
+import { analyzeTranscriptV3 } from '@/lib/ai/transcript-analyzer-v3-claude'
+import { normalizeThemes } from '@/lib/ai/thematic-taxonomy'
 import { generateBioFromTranscript } from '@/lib/ai/bio-generator'
 
 /**
- * Background job for processing transcripts with AI
+ * Background job for processing transcripts with AI (UPGRADED TO V3)
  *
  * Steps:
  * 1. Fetch transcript
- * 2. Run hybrid analysis (patterns + LLM)
- * 3. Extract and store themes
+ * 2. Run v3 Claude analysis (90-95% accuracy)
+ * 3. Normalize themes using thematic taxonomy
  * 4. Extract and store quotes
- * 5. Generate and store summary
+ * 5. Store analysis in transcript_analysis_results
  * 6. Update status
- * 7. Trigger real-time updates
+ * 7. Generate bio if needed
  */
 export const processTranscriptFunction = inngest.createFunction(
   {
@@ -60,9 +61,9 @@ export const processTranscriptFunction = inngest.createFunction(
       return data
     })
 
-    // Step 2: Run hybrid AI analysis
-    const analysis = await step.run('analyze-content', async () => {
-      console.log('🤖 Running AI analysis...')
+    // Step 2: Run v3 Claude AI analysis
+    const analysis = await step.run('analyze-content-v3', async () => {
+      console.log('🤖 Running v3 Claude AI analysis...')
 
       const content = transcript.content || transcript.transcript_content || ''
 
@@ -70,11 +71,29 @@ export const processTranscriptFunction = inngest.createFunction(
         throw new Error('Transcript content too short for analysis')
       }
 
-      return await hybridTranscriptAnalyzer.analyzeTranscript(content, {
-        title: transcript.title,
-        storyteller_name: transcript.profile?.display_name,
-        cultural_context: transcript.profile?.cultural_background
+      const result = await analyzeTranscriptV3(content, {
+        extractQuotes: true,
+        identifyThemes: true,
+        assessCulturalSensitivity: true,
+        suggestStoryStructure: false
       })
+
+      // Normalize themes using thematic taxonomy
+      const normalizedThemes = normalizeThemes(result.themes)
+
+      return {
+        ...result,
+        themes: normalizedThemes,
+        summary: result.summary || '',
+        key_quotes: result.quotes || [],
+        emotional_tone: result.culturalSensitivity?.tone || 'neutral',
+        cultural_sensitivity_level: result.culturalSensitivity?.level || 'standard',
+        requires_elder_review: result.culturalSensitivity?.requiresElderReview || false,
+        key_insights: result.themes.slice(0, 5),
+        related_topics: result.themes.map(t => t.name),
+        processing_time_ms: result.processingTimeMs || 0,
+        pattern_insights: [] // v3 doesn't use pattern insights
+      }
     })
 
     // Step 3: Store themes and quotes

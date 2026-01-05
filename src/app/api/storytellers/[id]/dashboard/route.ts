@@ -92,9 +92,113 @@ export async function GET(
 
     console.log('🔍 Fetching storyteller dashboard:', storytellerId, 'Org context:', organizationId)
 
-    // Handle development mode with fake user
+    // Handle development mode with fake user - fetch REAL data from database
     if (process.env.NODE_ENV === 'development' && storytellerId === 'dev-super-admin') {
-      console.log('🔧 Development mode: Creating fake dashboard for dev-super-admin')
+      console.log('🔧 Development mode: Fetching REAL stories from database for dev-super-admin')
+
+      // Get ALL 315 real stories from database
+      const { data: realStories, error: storiesError } = await supabase
+        .from('stories')
+        .select(`
+          id,
+          title,
+          content,
+          summary,
+          status,
+          created_at,
+          published_at,
+          themes,
+          tags,
+          video_embed_code
+        `)
+        .order('created_at', { ascending: false })
+
+      if (storiesError) {
+        console.error('❌ Error fetching real stories:', storiesError)
+      }
+
+      // Map real stories - NO FAKE DATA
+      const stories: DetailedStory[] = (realStories || []).map(story => ({
+        id: story.id,
+        title: story.title || 'Untitled Story',
+        content: story.content,
+        summary: story.summary,
+        status: story.status || 'draft',
+        hasVideo: !!story.video_embed_code,
+        videoEmbedCode: story.video_embed_code,
+        themes: Array.isArray(story.themes) ? story.themes : (Array.isArray(story.tags) ? story.tags : []),
+        createdAt: story.created_at,
+        publishedAt: story.published_at,
+        // NO metadata - will show as empty/zero
+        metadata: {}
+      }))
+
+      console.log(`✅ Loaded ${stories.length} REAL stories from database (no fake data)`)
+
+      // Get ALL 251 real transcripts from database
+      const { data: realTranscripts, error: transcriptsError } = await supabase
+        .from('transcripts')
+        .select(`
+          id,
+          title,
+          transcript_content,
+          word_count,
+          character_count,
+          created_at,
+          status
+        `)
+        .order('created_at', { ascending: false })
+
+      if (transcriptsError) {
+        console.error('❌ Error fetching real transcripts:', transcriptsError)
+      }
+
+      const transcripts: DetailedTranscript[] = (realTranscripts || []).map(t => ({
+        id: t.id,
+        title: t.title || 'Untitled Transcript',
+        content: t.transcript_content || '',
+        wordCount: t.word_count || 0,
+        characterCount: t.character_count || 0,
+        hasVideo: false,
+        status: t.status || 'pending',
+        createdAt: t.created_at,
+        metadata: {}
+      }))
+
+      // Get ALL 420 real photos from database
+      const { data: realPhotos, error: photosError } = await supabase
+        .from('media_assets')
+        .select(`
+          id,
+          original_filename,
+          display_name,
+          cdn_url,
+          thumbnail_url,
+          description,
+          file_size,
+          width,
+          height,
+          created_at
+        `)
+        .eq('file_type', 'image')
+        .order('created_at', { ascending: false })
+
+      if (photosError) {
+        console.error('❌ Error fetching real photos:', photosError)
+      }
+
+      const photos: PhotoAsset[] = (realPhotos || []).map(p => ({
+        id: p.id,
+        filename: p.original_filename,
+        title: p.display_name,
+        url: p.cdn_url || p.thumbnail_url || '',
+        description: p.description,
+        fileSize: p.file_size || 0,
+        width: p.width,
+        height: p.height,
+        createdAt: p.created_at,
+        metadata: {}
+      }))
 
       const fakeStorytellerDetail: StorytellerDetail = {
         id: 'dev-super-admin',
@@ -105,18 +209,18 @@ export async function GET(
         email: 'benjamin@act.place',
         culturalBackground: 'Development',
         location: 'Development Environment',
-        transcripts: [],
-        stories: [],
-        photos: [],
+        transcripts,
+        stories,
+        photos,
         stats: {
-          totalTranscripts: 0,
-          totalStories: 0,
-          totalVideos: 0,
-          totalPhotos: 0,
-          totalCharacters: 0,
-          draftStories: 0,
-          publishedStories: 0,
-          pendingTranscripts: 0
+          totalTranscripts: transcripts.length,
+          totalStories: stories.length,
+          totalVideos: stories.filter(s => s.hasVideo).length,
+          totalPhotos: photos.length,
+          totalCharacters: stories.reduce((sum, s) => sum + (s.content?.length || 0), 0),
+          draftStories: stories.filter(s => s.status === 'draft').length,
+          publishedStories: stories.filter(s => s.status === 'published').length,
+          pendingTranscripts: transcripts.filter(t => t.status === 'pending').length
         },
         organizationContext: organizationId ? {
           id: organizationId,
@@ -124,6 +228,7 @@ export async function GET(
         } : undefined
       }
 
+      console.log(`✅ Loaded ${stories.length} stories, ${transcripts.length} transcripts, ${photos.length} photos from database`)
       return NextResponse.json({
         success: true,
         storyteller: fakeStorytellerDetail

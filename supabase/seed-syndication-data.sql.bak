@@ -1,0 +1,339 @@
+-- Seed Data for Syndication System Testing
+-- Purpose: Create test sites, consent records, and sample data for development
+
+-- NOTE: Replace these UUIDs with actual values from your database
+-- Get tenant_id: SELECT id FROM tenants LIMIT 1;
+-- Get user_id: SELECT id FROM auth.users LIMIT 1;
+-- Get story_id: SELECT id FROM stories LIMIT 1;
+
+-- ============================================================================
+-- 1. Register ACT Ecosystem Sites
+-- ============================================================================
+
+-- JusticeHub (Youth Justice Stories)
+INSERT INTO syndication_sites (
+  slug,
+  name,
+  description,
+  purpose,
+  audience,
+  contact_email,
+  contact_name,
+  webhook_url,
+  api_base_url,
+  api_key_hash, -- In production: bcrypt hash of actual API key
+  allowed_domains,
+  status,
+  tenant_id
+) VALUES (
+  'justicehub',
+  'JusticeHub',
+  'Youth justice stories that inspire policy change',
+  'Your story could help change laws and support systems for young people',
+  'Policymakers, advocates, and community leaders',
+  'admin@justicehub.org.au',
+  'JusticeHub Team',
+  'https://justicehub.org.au/api/webhooks/empathy-ledger',
+  'https://justicehub.org.au/api',
+  'dev-justicehub-key-hash', -- Replace with actual hash in production
+  ARRAY['justicehub.org.au', 'www.justicehub.org.au'],
+  'active',
+  (SELECT id FROM tenants LIMIT 1)
+) ON CONFLICT (slug) DO NOTHING;
+
+-- The Harvest (Community Growth Stories)
+INSERT INTO syndication_sites (
+  slug,
+  name,
+  description,
+  purpose,
+  audience,
+  contact_email,
+  contact_name,
+  webhook_url,
+  api_base_url,
+  api_key_hash,
+  allowed_domains,
+  status,
+  tenant_id
+) VALUES (
+  'theharvest',
+  'The Harvest',
+  'Community stories of growth and connection',
+  'Your story could inspire others on their healing journey',
+  'Volunteers, participants, and families',
+  'admin@theharvest.org.au',
+  'The Harvest Team',
+  'https://theharvest.org.au/api/webhooks/empathy-ledger',
+  'https://theharvest.org.au/api',
+  'dev-theharvest-key-hash',
+  ARRAY['theharvest.org.au', 'www.theharvest.org.au'],
+  'active',
+  (SELECT id FROM tenants LIMIT 1)
+) ON CONFLICT (slug) DO NOTHING;
+
+-- ACT Farm (Conservation & Country)
+INSERT INTO syndication_sites (
+  slug,
+  name,
+  description,
+  purpose,
+  audience,
+  contact_email,
+  contact_name,
+  webhook_url,
+  api_base_url,
+  api_key_hash,
+  allowed_domains,
+  status,
+  tenant_id
+) VALUES (
+  'actfarm',
+  'ACT Farm',
+  'Conservation stories and connection to Country',
+  'Your story could help protect land and share cultural knowledge',
+  'Conservationists, landowners, and community',
+  'admin@actfarm.org.au',
+  'ACT Farm Team',
+  'https://actfarm.org.au/api/webhooks/empathy-ledger',
+  'https://actfarm.org.au/api',
+  'dev-actfarm-key-hash',
+  ARRAY['actfarm.org.au', 'www.actfarm.org.au'],
+  'active',
+  (SELECT id FROM tenants LIMIT 1)
+) ON CONFLICT (slug) DO NOTHING;
+
+-- ACT Placemat (Master Content Hub)
+INSERT INTO syndication_sites (
+  slug,
+  name,
+  description,
+  purpose,
+  audience,
+  contact_email,
+  contact_name,
+  webhook_url,
+  api_base_url,
+  api_key_hash,
+  allowed_domains,
+  status,
+  tenant_id
+) VALUES (
+  'actplacemat',
+  'ACT Placemat',
+  'Master content hub connecting all ACT programs',
+  'Your story could reach the entire ACT ecosystem',
+  'ACT community members, partners, and stakeholders',
+  'admin@actplacemat.org.au',
+  'ACT Placemat Team',
+  'https://actplacemat.org.au/api/webhooks/empathy-ledger',
+  'https://actplacemat.org.au/api',
+  'dev-actplacemat-key-hash',
+  ARRAY['actplacemat.org.au', 'www.actplacemat.org.au'],
+  'active',
+  (SELECT id FROM tenants LIMIT 1)
+) ON CONFLICT (slug) DO NOTHING;
+
+-- ============================================================================
+-- 2. Sample Consent Records (for testing)
+-- ============================================================================
+
+-- NOTE: These are examples - you'll need to replace the IDs with actual values
+
+-- Example: Approve a story for JusticeHub
+-- INSERT INTO syndication_consent (
+--   story_id,
+--   site_id,
+--   storyteller_id,
+--   tenant_id,
+--   status,
+--   approved_at,
+--   allow_full_content,
+--   allow_media_assets,
+--   cultural_permission_level,
+--   revenue_share_percentage
+-- ) VALUES (
+--   'YOUR-STORY-ID-HERE'::uuid,
+--   (SELECT id FROM syndication_sites WHERE slug = 'justicehub'),
+--   'YOUR-USER-ID-HERE'::uuid,
+--   'YOUR-TENANT-ID-HERE'::uuid,
+--   'approved',
+--   NOW(),
+--   true,
+--   true,
+--   'public',
+--   15.00
+-- );
+
+-- ============================================================================
+-- 3. Helper Functions for Development
+-- ============================================================================
+
+-- Function to generate a test embed token for a story
+CREATE OR REPLACE FUNCTION generate_test_embed_token(
+  p_story_id UUID,
+  p_site_slug TEXT
+)
+RETURNS UUID AS $$
+DECLARE
+  v_consent_id UUID;
+  v_site_id UUID;
+  v_token_id UUID;
+  v_tenant_id UUID;
+BEGIN
+  -- Get site ID
+  SELECT id, tenant_id INTO v_site_id, v_tenant_id
+  FROM syndication_sites
+  WHERE slug = p_site_slug;
+
+  IF v_site_id IS NULL THEN
+    RAISE EXCEPTION 'Site not found: %', p_site_slug;
+  END IF;
+
+  -- Get or create consent
+  SELECT id INTO v_consent_id
+  FROM syndication_consent
+  WHERE story_id = p_story_id
+    AND site_id = v_site_id;
+
+  IF v_consent_id IS NULL THEN
+    -- Create approved consent
+    INSERT INTO syndication_consent (
+      story_id,
+      site_id,
+      storyteller_id,
+      tenant_id,
+      status,
+      approved_at,
+      allow_full_content,
+      cultural_permission_level
+    )
+    SELECT
+      p_story_id,
+      v_site_id,
+      s.storyteller_id,
+      v_tenant_id,
+      'approved',
+      NOW(),
+      true,
+      'public'
+    FROM stories s
+    WHERE s.id = p_story_id
+    RETURNING id INTO v_consent_id;
+  END IF;
+
+  -- Create embed token
+  INSERT INTO embed_tokens (
+    token,
+    consent_id,
+    story_id,
+    site_id,
+    tenant_id,
+    allowed_domains,
+    expires_at
+  )
+  SELECT
+    gen_random_uuid()::text,
+    v_consent_id,
+    p_story_id,
+    v_site_id,
+    v_tenant_id,
+    ss.allowed_domains,
+    NOW() + INTERVAL '30 days'
+  FROM syndication_sites ss
+  WHERE ss.id = v_site_id
+  RETURNING id INTO v_token_id;
+
+  RETURN v_token_id;
+END;
+$$ LANGUAGE plpgsql;
+
+-- ============================================================================
+-- 4. Development Utilities
+-- ============================================================================
+
+-- View: Active Story Distributions (for debugging)
+CREATE OR REPLACE VIEW v_active_story_distributions AS
+SELECT
+  sd.id,
+  s.title AS story_title,
+  ss.name AS site_name,
+  sd.status,
+  sd.total_views,
+  sd.unique_visitors,
+  sd.distributed_at,
+  sd.external_url
+FROM story_distributions sd
+JOIN stories s ON sd.story_id = s.id
+JOIN syndication_sites ss ON sd.site_id = ss.id
+WHERE sd.status = 'active'
+ORDER BY sd.distributed_at DESC;
+
+-- View: Pending Consent Requests (for storyteller dashboard)
+CREATE OR REPLACE VIEW v_pending_consent_requests AS
+SELECT
+  sc.id,
+  s.title AS story_title,
+  ss.name AS site_name,
+  ss.description AS site_description,
+  sc.request_reason,
+  sc.requested_at,
+  sc.storyteller_id
+FROM syndication_consent sc
+JOIN stories s ON sc.story_id = s.id
+JOIN syndication_sites ss ON sc.site_id = ss.id
+WHERE sc.status = 'pending'
+ORDER BY sc.requested_at DESC;
+
+-- View: Storyteller Revenue Summary
+CREATE OR REPLACE VIEW v_storyteller_revenue_summary AS
+SELECT
+  p.id AS storyteller_id,
+  p.display_name,
+  p.total_earned_revenue,
+  COUNT(DISTINCT sp.id) AS total_payouts,
+  SUM(sp.net_payout_amount) AS total_paid_out,
+  p.total_earned_revenue - COALESCE(SUM(sp.net_payout_amount), 0) AS pending_balance,
+  MAX(sp.completed_at) AS last_payout_date
+FROM profiles p
+LEFT JOIN storyteller_payouts sp ON p.id = sp.storyteller_id AND sp.status = 'completed'
+GROUP BY p.id, p.display_name, p.total_earned_revenue;
+
+-- ============================================================================
+-- 5. Test Data Validation Queries
+-- ============================================================================
+
+-- Check that sites were created
+-- SELECT slug, name, status FROM syndication_sites ORDER BY slug;
+
+-- Check if any consent records exist
+-- SELECT COUNT(*) FROM syndication_consent;
+
+-- Check if any embed tokens exist
+-- SELECT COUNT(*) FROM embed_tokens;
+
+-- ============================================================================
+-- Migration Notes
+-- ============================================================================
+
+/*
+To apply this seed data:
+
+1. Local development:
+   npm run db:reset
+   psql $DATABASE_URL -f supabase/seed-syndication-data.sql
+
+2. Staging/Production:
+   psql $DATABASE_URL -f supabase/seed-syndication-data.sql
+
+3. Verify:
+   SELECT * FROM syndication_sites;
+   SELECT * FROM v_active_story_distributions;
+
+4. Generate test token for a story:
+   SELECT generate_test_embed_token('your-story-id'::uuid, 'justicehub');
+*/
+
+-- ============================================================================
+-- Seed Complete
+-- ============================================================================

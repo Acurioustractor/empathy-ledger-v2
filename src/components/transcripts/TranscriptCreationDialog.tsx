@@ -202,17 +202,19 @@ export function TranscriptCreationDialog({
               </p>
             </div>
 
-            {/* Transcript Text */}
+            {/* Transcript Text - Large input for easy pasting */}
             <div className="space-y-2">
               <Label htmlFor="text">Transcript Content *</Label>
               <Textarea
                 id="text"
-                placeholder="Paste or type the transcript content here..."
+                placeholder="Paste or type the transcript content here...
+
+You can paste long text - the box will expand to fit your content."
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 disabled={isSubmitting}
-                rows={12}
-                className="font-mono text-sm"
+                rows={16}
+                className="font-mono text-sm min-h-[300px] resize-y"
               />
               <div className="flex justify-between text-xs text-grey-600">
                 <span>{wordCount} words</span>

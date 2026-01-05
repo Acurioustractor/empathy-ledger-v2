@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { AuthProvider } from "@/lib/context/auth.context";
 import { ThemeProvider } from "@/lib/context/theme.context";
 import GlobalProviders from "@/components/providers/GlobalProviders";
+import { FloatingHelpButton } from "@/components/support/FloatingHelpButton";
 import "./globals.css";
 
 const inter = Inter({
@@ -46,6 +47,7 @@ export default function RootLayout({
           <AuthProvider>
             <GlobalProviders>
               {children}
+              <FloatingHelpButton />
             </GlobalProviders>
           </AuthProvider>
         </ThemeProvider>

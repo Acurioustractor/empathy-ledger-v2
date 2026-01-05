@@ -101,10 +101,10 @@ export function MediaUploader({
     formData.append('title', mediaFile.file.name)
 
     try {
-      // Update status to uploading
-      setFiles(prev => prev.map(f => 
-        f.id === mediaFile.id 
-          ? { ...f, status: 'uploading', progress: 10 }
+      // Update status to uploading with initial progress
+      setFiles(prev => prev.map(f =>
+        f.id === mediaFile.id
+          ? { ...f, status: 'uploading', progress: 0 }
           : f
       ))
 
@@ -114,19 +114,41 @@ export function MediaUploader({
         throw new Error('Not authenticated')
       }
 
-      const response = await fetch('/api/media/upload', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`,
-        },
-        body: formData
+      // Use XMLHttpRequest for real progress tracking
+      const data = await new Promise<any>((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+
+        // Track upload progress
+        xhr.upload.addEventListener('progress', (event) => {
+          if (event.lengthComputable) {
+            const percentComplete = Math.round((event.loaded / event.total) * 100)
+            setFiles(prev => prev.map(f =>
+              f.id === mediaFile.id
+                ? { ...f, progress: percentComplete }
+                : f
+            ))
+          }
+        })
+
+        xhr.addEventListener('load', () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              resolve(JSON.parse(xhr.responseText))
+            } catch {
+              reject(new Error('Invalid response'))
+            }
+          } else {
+            reject(new Error('Upload failed'))
+          }
+        })
+
+        xhr.addEventListener('error', () => reject(new Error('Upload failed')))
+        xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')))
+
+        xhr.open('POST', '/api/media/upload')
+        xhr.setRequestHeader('Authorization', `Bearer ${session.access_token}`)
+        xhr.send(formData)
       })
-
-      if (!response.ok) {
-        throw new Error('Upload failed')
-      }
-
-      const data = await response.json()
       
       // Update with upload results
       setFiles(prev => prev.map(f => 
@@ -287,15 +309,30 @@ export function MediaUploader({
                   {(file.file.size / 1024 / 1024).toFixed(2)} MB
                 </p>
                 
-                {/* Progress bar */}
+                {/* Progress bar with percentage */}
                 {(file.status === 'uploading' || file.status === 'transcribing') && (
-                  <Progress value={file.progress} className="h-1 mt-2" />
+                  <div className="mt-2">
+                    <div className="flex items-center justify-between text-xs text-grey-600 mb-1">
+                      <span>
+                        {file.status === 'uploading' ? 'Uploading...' : 'Transcribing...'}
+                      </span>
+                      <span className="font-medium">{file.progress}%</span>
+                    </div>
+                    <Progress value={file.progress} className="h-2" />
+                  </div>
                 )}
-                
+
                 {/* Status text */}
                 {file.status === 'transcribing' && (
                   <p className="text-xs text-blue-600 mt-1">
-                    Generating transcript...
+                    Generating transcript - this may take a few minutes for longer files
+                  </p>
+                )}
+
+                {/* Upload status text */}
+                {file.status === 'uploading' && file.progress < 100 && (
+                  <p className="text-xs text-grey-500 mt-1">
+                    Please keep this window open while uploading
                   </p>
                 )}
                 

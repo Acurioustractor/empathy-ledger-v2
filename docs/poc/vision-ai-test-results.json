@@ -1,0 +1,183 @@
+{
+  "test_date": "2026-01-02T05:12:15.878Z",
+  "images_processed": 10,
+  "total_cost_usd": 0.09999999999999999,
+  "avg_cost": 0.009999999999999998,
+  "success_criteria": {
+    "face_accuracy": 0,
+    "avg_cost": 0.009999999999999998,
+    "cultural_detection": 0
+  },
+  "recommendation": "NO-GO",
+  "results": [
+    {
+      "media_id": "8424c8c8-d2bf-4ecd-b98e-19f01f39084d",
+      "filename": "1756707297434_y6d56frro7k.jpg",
+      "category": "everyday",
+      "faces_detected": 15,
+      "objects_detected": [
+        "t-shirts",
+        "hats",
+        "sunglasses",
+        "rocks",
+        "water",
+        "trees"
+      ],
+      "scene_description": "A group of people wearing matching t-shirts posing on a rocky terrain near water.",
+      "cultural_markers": [],
+      "content_flags": [],
+      "confidence_score": 0.95,
+      "processing_time_ms": 9772,
+      "cost_usd": 0.01
+    },
+    {
+      "media_id": "b0fbd905-3730-45ac-a04d-fe2c4c6c777c",
+      "filename": "1756707186303_99g03wl4hta.jpg",
+      "category": "everyday",
+      "faces_detected": 1,
+      "objects_detected": [
+        "t-shirt"
+      ],
+      "scene_description": "A person smiling at the camera, wearing a shirt with the words 'DEADLY HEART' and a heart graphic.",
+      "cultural_markers": [],
+      "content_flags": [],
+      "confidence_score": 0.9,
+      "processing_time_ms": 6505,
+      "cost_usd": 0.01
+    },
+    {
+      "media_id": "c1da2f37-cd64-4191-9274-3138d2a46a13",
+      "filename": "1756707291765_dfxmps2aa4m.jpg",
+      "category": "everyday",
+      "faces_detected": 5,
+      "objects_detected": [
+        "rocks",
+        "trees",
+        "river",
+        "hiking clothing"
+      ],
+      "scene_description": "A rocky landscape with people hiking near a river.",
+      "cultural_markers": [],
+      "content_flags": [],
+      "confidence_score": 0.95,
+      "processing_time_ms": 6295,
+      "cost_usd": 0.01
+    },
+    {
+      "media_id": "c4d62ec5-9e80-4a60-b246-37b88af64411",
+      "filename": "1756707319500_xvgun1jqrbn.jpg",
+      "category": "everyday",
+      "faces_detected": 1,
+      "objects_detected": [
+        "person",
+        "glasses",
+        "microphone",
+        "chair",
+        "plants"
+      ],
+      "scene_description": "An older person speaking in an indoor setting with a plant in the background.",
+      "cultural_markers": [],
+      "content_flags": [],
+      "confidence_score": 0.95,
+      "processing_time_ms": 5846,
+      "cost_usd": 0.01
+    },
+    {
+      "media_id": "74bba72d-5093-4d29-8812-5498d047b3c0",
+      "filename": "1756707305973_57e8vclmz1.jpg",
+      "category": "everyday",
+      "faces_detected": 1,
+      "objects_detected": [],
+      "scene_description": "An older person sitting indoors, possibly engaged in a conversation or listening.",
+      "cultural_markers": [],
+      "content_flags": [],
+      "confidence_score": 0.9,
+      "processing_time_ms": 4933,
+      "cost_usd": 0.01
+    },
+    {
+      "media_id": "292def64-3cc5-4e61-9587-bcfd63207f35",
+      "filename": "1756707198022_08oedydlh3t8.jpg",
+      "category": "everyday",
+      "faces_detected": 1,
+      "objects_detected": [
+        "t-shirt",
+        "earrings"
+      ],
+      "scene_description": "A person smiling in front of a plain dark background.",
+      "cultural_markers": [],
+      "content_flags": [],
+      "confidence_score": 0.95,
+      "processing_time_ms": 6228,
+      "cost_usd": 0.01
+    },
+    {
+      "media_id": "3b3a3d83-a9fe-41d1-bca5-8287cdfad64b",
+      "filename": "1756707198024_nik8czacsal.jpg",
+      "category": "everyday",
+      "faces_detected": 1,
+      "objects_detected": [
+        "shirt",
+        "name tag"
+      ],
+      "scene_description": "A person smiling in front of a plain background.",
+      "cultural_markers": [
+        "shirt with the phrase 'DEADLY HEART'"
+      ],
+      "content_flags": [],
+      "confidence_score": 0.95,
+      "processing_time_ms": 5097,
+      "cost_usd": 0.01
+    },
+    {
+      "media_id": "148cceea-a715-456d-8015-616618a30e3d",
+      "filename": "1756707181645_zg2a0xs42dg.jpg",
+      "category": "everyday",
+      "faces_detected": 21,
+      "objects_detected": [],
+      "scene_description": "A group of people wearing matching black shirts with a design on the front, sitting outdoors on tiered seating with green grass and trees in the background under a clear blue sky.",
+      "cultural_markers": [],
+      "content_flags": [],
+      "confidence_score": 0.95,
+      "processing_time_ms": 7272,
+      "cost_usd": 0.01
+    },
+    {
+      "media_id": "4c2a03a0-18b3-4d0f-8001-eef0cfd764f9",
+      "filename": "1756707243803_40o1bgs3uh8.jpg",
+      "category": "everyday",
+      "faces_detected": 0,
+      "objects_detected": [
+        "people",
+        "wooden pathway",
+        "trees",
+        "rocky cliffs"
+      ],
+      "scene_description": "A group of people standing on a wooden observation platform overlooking rocky cliffs and greenery.",
+      "cultural_markers": [],
+      "content_flags": [],
+      "confidence_score": 0.9,
+      "processing_time_ms": 6217,
+      "cost_usd": 0.01
+    },
+    {
+      "media_id": "3cb5897e-bb40-401c-9438-230cc857e6f9",
+      "filename": "1756707313966_xbe6mn4r9qs.jpg",
+      "category": "everyday",
+      "faces_detected": 1,
+      "objects_detected": [
+        "projector screen",
+        "water bottle",
+        "pool table",
+        "table",
+        "chairs"
+      ],
+      "scene_description": "An indoor setting with a person speaking to a small audience seated in a casual environment.",
+      "cultural_markers": [],
+      "content_flags": [],
+      "confidence_score": 0.9,
+      "processing_time_ms": 6192,
+      "cost_usd": 0.01
+    }
+  ]
+}

@@ -16,13 +16,15 @@ import { cn } from '@/lib/utils'
 interface ALMASettingsPanelProps {
   storytellerId: string
   className?: string
+  testMode?: boolean // If true, don't actually save to API (for test pages)
 }
 
 type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
 
 export function ALMASettingsPanel({
   storytellerId,
-  className
+  className,
+  testMode = false
 }: ALMASettingsPanelProps) {
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
   const [activeTab, setActiveTab] = useState('ai-consent')
@@ -40,6 +42,16 @@ export function ALMASettingsPanel({
       [category]: newSettings,
     }
     setSettings(updatedSettings)
+
+    // In test mode, just update state without saving to API
+    if (testMode) {
+      setSaveStatus('saving')
+      // Simulate save delay
+      await new Promise(resolve => setTimeout(resolve, 500))
+      setSaveStatus('saved')
+      setTimeout(() => setSaveStatus('idle'), 3000)
+      return
+    }
 
     // Auto-save to backend
     setSaveStatus('saving')

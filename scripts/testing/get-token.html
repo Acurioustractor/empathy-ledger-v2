@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Extract Supabase Auth Token</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      background: #1e1e1e;
+      color: #d4d4d4;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #252526;
+      padding: 30px;
+      border-radius: 8px;
+    }
+    h1 {
+      color: #4ec9b0;
+      margin-bottom: 20px;
+    }
+    .token-box {
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 15px 0;
+      border: 1px solid #3e3e42;
+      word-break: break-all;
+    }
+    .copy-btn {
+      background: #0e639c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .copy-btn:hover {
+      background: #1177bb;
+    }
+    .success {
+      color: #4ec9b0;
+      margin-top: 10px;
+    }
+    .error {
+      color: #f48771;
+      margin-top: 10px;
+    }
+    .instructions {
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 20px 0;
+      border-left: 4px solid #4ec9b0;
+    }
+    code {
+      background: #1e1e1e;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #ce9178;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Extract Supabase Auth Token</h1>
+
+    <div class="instructions">
+      <strong>Instructions:</strong><br>
+      1. Make sure you're logged in at <code>http://localhost:3030</code><br>
+      2. Open this page while on localhost:3030 (or paste URL in console)<br>
+      3. Click the button below to extract your token<br>
+      4. Copy the token and use it in your test scripts
+    </div>
+
+    <button class="copy-btn" onclick="extractToken()">Extract Token</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    async function extractToken() {
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = '<p>🔍 Searching for auth token...</p>';
+
+      try {
+        // Method 1: Check localStorage
+        let token = null;
+        let source = '';
+
+        // Check common localStorage keys
+        const localStorageKeys = [
+          'sb-localhost-auth-token',
+          'supabase.auth.token',
+          'sb-auth-token'
+        ];
+
+        for (const key of localStorageKeys) {
+          const value = localStorage.getItem(key);
+          if (value) {
+            try {
+              const parsed = JSON.parse(value);
+              if (parsed.access_token) {
+                token = parsed.access_token;
+                source = `localStorage.${key}.access_token`;
+                break;
+              }
+            } catch {
+              // Not JSON, might be the token itself
+              if (value.startsWith('eyJ')) {
+                token = value;
+                source = `localStorage.${key}`;
+                break;
+              }
+            }
+          }
+        }
+
+        // Check all localStorage keys for anything with 'supabase'
+        if (!token) {
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.includes('supabase')) {
+              const value = localStorage.getItem(key);
+              if (value) {
+                try {
+                  const parsed = JSON.parse(value);
+                  if (parsed.access_token) {
+                    token = parsed.access_token;
+                    source = `localStorage.${key}.access_token`;
+                    break;
+                  }
+                } catch {
+                  continue;
+                }
+              }
+            }
+          }
+        }
+
+        // Method 2: Get from Supabase client
+        if (!token && typeof window.supabase !== 'undefined') {
+          try {
+            const { data: { session } } = await window.supabase.auth.getSession();
+            if (session?.access_token) {
+              token = session.access_token;
+              source = 'supabase.auth.getSession()';
+            }
+          } catch (error) {
+            console.error('Supabase client not available:', error);
+          }
+        }
+
+        // Method 3: Check cookies
+        if (!token) {
+          const cookies = document.cookie.split(';');
+          for (const cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name.includes('sb-') && name.includes('auth')) {
+              // Decode cookie value
+              const decoded = decodeURIComponent(value);
+              if (decoded.startsWith('eyJ')) {
+                token = decoded;
+                source = `cookie.${name}`;
+                break;
+              }
+            }
+          }
+        }
+
+        if (token) {
+          resultDiv.innerHTML = `
+            <div class="success">
+              <p>✅ Token found! Source: ${source}</p>
+            </div>
+            <div class="token-box" id="tokenValue">${token}</div>
+            <button class="copy-btn" onclick="copyToken()">📋 Copy Token</button>
+            <div id="copyStatus"></div>
+
+            <div class="instructions" style="margin-top: 20px;">
+              <strong>Next steps:</strong><br>
+              1. Copy the token above<br>
+              2. Open <code>test-consent-manual.sh</code><br>
+              3. Replace <code>AUTH_TOKEN="YOUR_TOKEN_HERE"</code><br>
+              4. Save and run: <code>./test-consent-manual.sh</code>
+            </div>
+          `;
+        } else {
+          resultDiv.innerHTML = `
+            <div class="error">
+              <p>❌ No token found. Troubleshooting:</p>
+              <ul>
+                <li>Are you logged in at localhost:3030?</li>
+                <li>Try refreshing the page after login</li>
+                <li>Check browser console for errors</li>
+              </ul>
+            </div>
+
+            <div class="instructions">
+              <strong>Manual extraction:</strong><br>
+              1. Open DevTools (F12)<br>
+              2. Go to Application tab<br>
+              3. Expand Local Storage → http://localhost:3030<br>
+              4. Look for keys containing "supabase"<br>
+              5. Find the one with "access_token" property<br>
+              6. Copy the access_token value
+            </div>
+          `;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <div class="error">
+            <p>❌ Error: ${error.message}</p>
+            <p>Make sure you're running this page on localhost:3030</p>
+          </div>
+        `;
+      }
+    }
+
+    function copyToken() {
+      const tokenValue = document.getElementById('tokenValue').textContent;
+      navigator.clipboard.writeText(tokenValue).then(() => {
+        document.getElementById('copyStatus').innerHTML = '<p class="success">✅ Token copied to clipboard!</p>';
+      }).catch(err => {
+        document.getElementById('copyStatus').innerHTML = '<p class="error">❌ Copy failed. Please select and copy manually.</p>';
+      });
+    }
+  </script>
+</body>
+</html>

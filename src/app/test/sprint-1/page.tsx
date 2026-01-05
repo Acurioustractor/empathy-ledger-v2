@@ -178,7 +178,9 @@ export default function Sprint1TestPage() {
                   </h3>
                   <div className="bg-slate-50 p-6 rounded-lg">
                     <CulturalAffiliations
-                      affiliations={mockProfile.cultural_affiliations}
+                      culturalAffiliations={mockProfile.cultural_affiliations.nations}
+                      territories={mockProfile.cultural_affiliations.territories}
+                      languages={mockProfile.cultural_affiliations.languages}
                     />
                   </div>
                   <p className="text-sm text-slate-600 mt-2">
@@ -203,6 +205,7 @@ export default function Sprint1TestPage() {
                   <PrivacySettingsPanel
                     storytellerId={selectedStorytellerId}
                     storytellerEmail={mockProfile.email}
+                    testMode={true}
                   />
                 </div>
                 <div className="mt-6 space-y-2 text-sm text-slate-600">
@@ -234,7 +237,10 @@ export default function Sprint1TestPage() {
               </CardHeader>
               <CardContent>
                 <div className="bg-slate-50 p-6 rounded-lg">
-                  <ALMASettingsPanel storytellerId={selectedStorytellerId} />
+                  <ALMASettingsPanel
+                    storytellerId={selectedStorytellerId}
+                    testMode={true}
+                  />
                 </div>
                 <div className="mt-6 space-y-2 text-sm text-slate-600">
                   <p className="font-semibold">Components included (5 total):</p>

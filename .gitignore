@@ -40,3 +40,34 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 comparison-results.txt
+
+# Development artifacts
+backups/
+logs/
+test-results/
+test-pages/
+
+# Archive (optional - remove if you want to commit archives)
+# archive/
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-*
+
+# Additional Next.js
+.next/
+out/
+
+# Supabase
+.supabase/
+
+# Vercel
+.vercel/

@@ -23,10 +23,10 @@ interface AIConsentControlsProps {
 export function AIConsentControls({
   storytellerId,
   initialConsent = {
-    themeExtraction: false,
-    networkDiscovery: false,
-    impactAnalytics: false,
-    voiceAnalysis: false,
+    themeExtraction: true,
+    networkDiscovery: true,
+    impactAnalytics: true,
+    voiceAnalysis: true,
   },
   onConsentChange,
   className
@@ -82,8 +82,8 @@ export function AIConsentControls({
       <Alert className="bg-purple-50 border-purple-200">
         <Brain className="h-4 w-4 text-purple-600" />
         <AlertDescription className="text-purple-800">
-          <strong>AI is Optional:</strong> All AI processing requires your explicit consent.
-          You can enable or disable these features anytime. Your stories remain yours regardless of your choices.
+          <strong>AI is Your Choice:</strong> AI features are enabled by default to help you discover themes and connections.
+          You can disable any feature anytime. Your stories remain yours regardless of your choices.
         </AlertDescription>
       </Alert>
 
@@ -185,12 +185,12 @@ export function AIConsentControls({
         </CardContent>
       </Card>
 
-      {/* Opt-In Philosophy */}
+      {/* All Disabled Notice */}
       {consentedCount === 0 && (
         <Alert className="bg-sage-50 border-sage-200">
           <AlertDescription className="text-sage-800">
-            No AI features are enabled. Your stories will be shared exactly as you create them, without any
-            automated analysis. You can enable AI features above if you'd like help discovering themes,
+            All AI features are currently disabled. Your stories will be shared exactly as you create them, without any
+            automated analysis. You can re-enable AI features above if you'd like help discovering themes,
             connecting with other storytellers, or measuring your impact.
           </AlertDescription>
         </Alert>

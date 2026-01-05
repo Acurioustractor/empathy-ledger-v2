@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -9,16 +9,18 @@ import { Typography } from '@/components/ui/typography'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import type { Story } from '@/types/database'
 import { cn } from '@/lib/utils'
-import { 
-  Clock, 
-  Eye, 
-  Heart, 
-  Share2, 
-  User, 
-  MapPin, 
+import {
+  Clock,
+  Eye,
+  Heart,
+  Share2,
+  User,
+  MapPin,
   Shield,
   Crown,
-  CheckCircle
+  CheckCircle,
+  BookmarkPlus,
+  MessageCircle
 } from 'lucide-react'
 
 interface StoryCardProps {
@@ -68,17 +70,21 @@ const statusColors = {
   archived: 'bg-grey-100 text-grey-600'
 }
 
-export function StoryCard({ 
-  story, 
-  variant = 'default', 
+export function StoryCard({
+  story,
+  variant = 'default',
   showActions = true,
-  className 
+  className
 }: StoryCardProps) {
+  const [liked, setLiked] = useState(false)
+  const [likesCount, setLikesCount] = useState(story.likes_count || 0)
+  const [showShareMenu, setShowShareMenu] = useState(false)
+
   const isPublished = story.status === 'published'
   const isFeatured = story.featured
   const hasElderApproval = story.elder_approval
   const isCulturallyReviewed = story.cultural_review_status === 'approved'
-  
+
   const getInitials = (name?: string) => {
     if (!name) return 'ST'
     return name.split(' ').map(n => n[0]).join('').toUpperCase()
@@ -87,6 +93,100 @@ export function StoryCard({
   const truncateContent = (content: string, maxLength: number = 150) => {
     if (content.length <= maxLength) return content
     return content.substring(0, maxLength) + '...'
+  }
+
+  const handleLike = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setLiked(!liked)
+    setLikesCount(prev => liked ? prev - 1 : prev + 1)
+    // TODO: Call API to save like
+  }
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    try {
+      // Call the share API to track the share and verify permissions
+      const response = await fetch(`/api/stories/${story.id}/share`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          method: 'link',
+          platform: navigator.share ? 'native_share' : 'copy_link'
+        })
+      })
+
+      const data = await response.json()
+
+      // Handle cultural sensitivity warning
+      if (data.requiresConfirmation) {
+        const confirmed = window.confirm(
+          `⚠️ Cultural Sensitivity Notice\n\n${data.warning}\n\nDo you want to continue sharing this story?`
+        )
+        if (!confirmed) return
+
+        // Re-submit with confirmation
+        const confirmedResponse = await fetch(`/api/stories/${story.id}/share`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            method: 'link',
+            platform: navigator.share ? 'native_share' : 'copy_link',
+            confirmed: true
+          })
+        })
+        const confirmedData = await confirmedResponse.json()
+        if (!confirmedData.success) {
+          alert(confirmedData.error || 'Failed to share story')
+          return
+        }
+      }
+
+      // Handle permission errors
+      if (!response.ok) {
+        alert(data.error || 'This story cannot be shared at this time.')
+        return
+      }
+
+      if (!data.success) {
+        alert(data.error || 'Failed to share story')
+        return
+      }
+
+      // Use native share if available
+      const shareUrl = data.shareUrl || `${window.location.origin}/stories/${story.id}`
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: data.shareTitle || story.title,
+            text: data.shareText || truncateContent(story.content, 100),
+            url: shareUrl
+          })
+        } catch (error) {
+          console.log('Share cancelled')
+        }
+      } else {
+        // Fallback to clipboard
+        await navigator.clipboard.writeText(shareUrl)
+        alert(`Link copied! This story has been shared ${data.shareCount} times.`)
+      }
+    } catch (error) {
+      console.error('Share error:', error)
+      alert('Failed to share story. Please try again.')
+    }
+  }
+
+  const formatNumber = (num: number) => {
+    if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'k'
+    }
+    return num.toString()
   }
 
   // Render different layouts for grid vs list view
@@ -170,16 +270,26 @@ export function StoryCard({
               </div>
 
               {showActions && (
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className="text-xs h-7"
-                  asChild
-                >
-                  <Link href={`/stories/${story.id}`}>
-                    Read
-                  </Link>
-                </Button>
+                <div className="flex gap-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-xs h-7 w-7 p-0"
+                    onClick={handleShare}
+                  >
+                    <Share2 className="w-3 h-3" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-xs h-7"
+                    asChild
+                  >
+                    <Link href={`/stories/${story.id}`}>
+                      Read
+                    </Link>
+                  </Button>
+                </div>
               )}
             </div>
           </div>
@@ -274,34 +384,45 @@ export function StoryCard({
           </div>
         )}
 
-        {/* Footer */}
-        <div className="flex items-center justify-between pt-4 border-t border-grey-100">
-          <div className="flex items-center gap-4 text-sm text-grey-500">
-            {story.reading_time_minutes && (
-              <div className="flex items-center gap-1">
-                <Clock className="w-4 h-4" />
-                <span>{story.reading_time_minutes} min</span>
-              </div>
-            )}
-            {story.location && (
-              <div className="flex items-center gap-1">
-                <MapPin className="w-4 h-4" />
-                <span className="truncate max-w-20">{story.location}</span>
-              </div>
-            )}
-          </div>
+        {/* Story Info */}
+        <div className="flex items-center gap-4 text-sm text-grey-500 mb-4">
+          {story.reading_time_minutes && (
+            <div className="flex items-center gap-1">
+              <Clock className="w-4 h-4" />
+              <span>{story.reading_time_minutes} min read</span>
+            </div>
+          )}
+          {story.location && (
+            <div className="flex items-center gap-1">
+              <MapPin className="w-4 h-4" />
+              <span className="truncate max-w-32">{story.location}</span>
+            </div>
+          )}
+        </div>
 
+        {/* Footer Actions */}
+        <div className="flex items-center gap-2 pt-4 border-t border-grey-100">
           {showActions && (
-            <Button 
-              variant="default" 
-              size="sm"
-              className="text-xs bg-blue-600 hover:bg-blue-700"
-              asChild
-            >
-              <Link href={`/stories/${story.id}`}>
-                Read Story
-              </Link>
-            </Button>
+            <>
+              <Button
+                variant="default"
+                size="sm"
+                className="flex-1 text-xs bg-blue-600 hover:bg-blue-700"
+                asChild
+              >
+                <Link href={`/stories/${story.id}`}>
+                  Read Story
+                </Link>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-xs"
+                onClick={handleShare}
+              >
+                <Share2 className="w-4 h-4" />
+              </Button>
+            </>
           )}
         </div>
       </div>

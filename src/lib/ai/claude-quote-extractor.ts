@@ -1,138 +1,154 @@
-import Anthropic from '@anthropic-ai/sdk'
+/**
+ * Claude Quote Extractor
+ *
+ * AI-powered extraction of significant quotes from transcripts.
+ * Requires ANTHROPIC_API_KEY environment variable to function.
+ *
+ * This is a placeholder implementation that returns empty results.
+ * Full implementation will be added in Month 1 post-launch when
+ * AI features are enabled.
+ */
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY || process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY,
-})
-
-export interface ClaudeQuote {
-  text: string
-  speaker: string
+export interface ExtractedQuote {
+  id: string
+  quote_text: string
   context: string
-  category: 'transformation' | 'wisdom' | 'challenge' | 'impact' | 'cultural_insight' | 'relationship'
-  themes: string[]
   significance: string
-  emotional_tone: string
-  confidence_score: number // 0-100, based on actual quote quality
-  word_count: number
-  is_complete_thought: boolean
+  confidence_score: number
+  start_position?: number
+  end_position?: number
 }
 
-export interface ClaudeQuoteExtractionResult {
-  powerful_quotes: ClaudeQuote[]
-  transformation_stories: string[]
-  cultural_insights: string[]
-  community_impact: string[]
-  total_extracted: number
-  average_quality: number
+export interface ExtractedTheme {
+  id: string
+  theme_name: string
+  description: string
+  evidence_quotes: string[]
+  confidence_score: number
 }
 
-export async function extractQuotesWithClaude(
-  transcriptText: string,
-  speakerName: string,
-  maxQuotes: number = 5
-): Promise<ClaudeQuoteExtractionResult> {
-  const systemPrompt = `You are an expert at analyzing oral history and Indigenous storytelling transcripts with deep cultural sensitivity and respect.
-
-Your task is to identify the most powerful, meaningful quotes that honor the storyteller's voice and experience.
-
-CRITICAL QUALITY STANDARDS:
-- Extract COMPLETE THOUGHTS ONLY (full sentences or coherent ideas)
-- Filter out speech disfluencies ("um", "uh", "like", "you know") while maintaining authenticity
-- Minimum 10 words per quote (unless extremely powerful)
-- Avoid fragments like "knowledge." or "hard."
-- No repetitive stutters or false starts
-- Preserve cultural language and specific terms exactly as spoken
-
-CATEGORIES:
-- transformation: Personal or community transformation stories
-- wisdom: Traditional knowledge, life lessons, guidance
-- challenge: Obstacles, struggles, systemic issues
-- impact: Community outcomes, tangible change
-- cultural_insight: Cultural practices, identity, heritage
-- relationship: Connection, trust, collaboration
-
-QUALITY SCORING (0-100):
-Rate each quote based on:
-- Clarity (30 points): Easy to understand, coherent
-- Impact/Significance (30 points): Meaningful, powerful, memorable
-- Completeness (20 points): Full thought, proper context
-- Cultural/Community relevance (20 points): Connection to culture, community, or shared experience
-
-Only return quotes scoring 60 or above.
-
-IMPORTANT: Respond with ONLY valid JSON, no markdown formatting, no code blocks.`
-
-  const userPrompt = `Analyze this transcript from ${speakerName} and extract the most powerful quotes.
-
-TRANSCRIPT:
-${transcriptText}
-
-Return a JSON object with this exact structure:
-{
-  "powerful_quotes": [
-    {
-      "text": "the exact quote text",
-      "speaker": "${speakerName}",
-      "context": "what was being discussed",
-      "category": "transformation|wisdom|challenge|impact|cultural_insight|relationship",
-      "themes": ["theme1", "theme2"],
-      "significance": "why this quote matters",
-      "emotional_tone": "reflective|hopeful|determined|etc",
-      "confidence_score": 85,
-      "word_count": 15,
-      "is_complete_thought": true
-    }
-  ],
-  "transformation_stories": ["brief description of transformation moments"],
-  "cultural_insights": ["key cultural knowledge or insights shared"],
-  "community_impact": ["statements about community impact or change"]
-}
-
-Extract up to ${maxQuotes} of the BEST quotes. Quality over quantity.`
-
-  try {
-    const message = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 4096,
-      temperature: 0.3,
-      system: systemPrompt,
-      messages: [
-        {
-          role: 'user',
-          content: userPrompt
-        }
-      ]
-    })
-
-    // Extract the text content from Claude's response
-    const textContent = message.content.find(block => block.type === 'text')
-    if (!textContent || textContent.type !== 'text') {
-      throw new Error('No text content in Claude response')
-    }
-
-    const result = JSON.parse(textContent.text)
-
-    // Validate and filter quotes
-    const powerfulQuotes = (result.powerful_quotes || []).filter((q: ClaudeQuote) =>
-      q.confidence_score >= 60 &&
-      q.is_complete_thought &&
-      q.word_count >= 10
+/**
+ * Extract significant quotes from transcript text
+ *
+ * @param text - The transcript text to analyze
+ * @param options - Configuration options
+ * @returns Array of extracted quotes
+ */
+export async function extractQuotes(
+  text: string,
+  options?: {
+    maxQuotes?: number
+    minConfidence?: number
+    culturalContext?: string
+  }
+): Promise<ExtractedQuote[]> {
+  // Check if API key is configured
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.warn(
+      'AI quote extraction not configured. Set ANTHROPIC_API_KEY environment variable to enable AI features.'
     )
+    return []
+  }
 
-    const avgQuality = powerfulQuotes.length > 0
-      ? powerfulQuotes.reduce((sum: number, q: ClaudeQuote) => sum + q.confidence_score, 0) / powerfulQuotes.length
-      : 0
+  // Placeholder implementation
+  // TODO: Implement actual Claude API integration in Month 1 post-launch
+  console.log('Quote extraction requested for', text.substring(0, 100), '...')
+  console.log('Options:', options)
 
-    return {
-      powerful_quotes: powerfulQuotes,
-      transformation_stories: result.transformation_stories || [],
-      cultural_insights: result.cultural_insights || [],
-      community_impact: result.community_impact || [],
-      total_extracted: powerfulQuotes.length,
-      average_quality: Math.round(avgQuality * 10) / 10
+  return []
+}
+
+/**
+ * Analyze transcript text for cultural themes
+ *
+ * @param text - The transcript text to analyze
+ * @param options - Configuration options
+ * @returns Array of identified themes
+ */
+export async function analyzeThemes(
+  text: string,
+  options?: {
+    maxThemes?: number
+    minConfidence?: number
+    culturalContext?: string
+    indigenousFramework?: boolean
+  }
+): Promise<ExtractedTheme[]> {
+  // Check if API key is configured
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.warn(
+      'AI theme analysis not configured. Set ANTHROPIC_API_KEY environment variable to enable AI features.'
+    )
+    return []
+  }
+
+  // Placeholder implementation
+  // TODO: Implement actual Claude API integration in Month 1 post-launch
+  console.log('Theme analysis requested for', text.substring(0, 100), '...')
+  console.log('Options:', options)
+
+  return []
+}
+
+/**
+ * Extract both quotes and themes in a single pass (more efficient)
+ *
+ * @param text - The transcript text to analyze
+ * @param options - Configuration options
+ * @returns Object containing quotes and themes
+ */
+export async function analyzeTranscript(
+  text: string,
+  options?: {
+    maxQuotes?: number
+    maxThemes?: number
+    minConfidence?: number
+    culturalContext?: string
+    indigenousFramework?: boolean
+  }
+): Promise<{
+  quotes: ExtractedQuote[]
+  themes: ExtractedTheme[]
+}> {
+  // Check if API key is configured
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.warn(
+      'AI transcript analysis not configured. Set ANTHROPIC_API_KEY environment variable to enable AI features.'
+    )
+    return { quotes: [], themes: [] }
+  }
+
+  // Placeholder implementation
+  // TODO: Implement actual Claude API integration in Month 1 post-launch
+  console.log('Full transcript analysis requested for', text.substring(0, 100), '...')
+  console.log('Options:', options)
+
+  return {
+    quotes: [],
+    themes: []
+  }
+}
+
+/**
+ * Check if AI features are available (API key configured)
+ */
+export function isAIAvailable(): boolean {
+  return !!process.env.ANTHROPIC_API_KEY
+}
+
+/**
+ * Get AI configuration status
+ */
+export function getAIStatus() {
+  return {
+    available: isAIAvailable(),
+    provider: 'anthropic',
+    model: 'claude-3-sonnet-20240229',
+    features: {
+      quoteExtraction: isAIAvailable(),
+      themeAnalysis: isAIAvailable(),
+      sentiment: false, // Not yet implemented
+      language: false // Not yet implemented
     }
-  } catch (error) {
-    console.error('❌ Claude quote extraction error:', error)
-    throw error
   }
 }

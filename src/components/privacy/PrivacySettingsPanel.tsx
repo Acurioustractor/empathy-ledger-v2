@@ -17,6 +17,7 @@ interface PrivacySettingsPanelProps {
   storytellerId: string
   storytellerEmail: string
   className?: string
+  testMode?: boolean // If true, don't actually save to API (for test pages)
 }
 
 type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
@@ -24,12 +25,23 @@ type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
 export function PrivacySettingsPanel({
   storytellerId,
   storytellerEmail,
-  className
+  className,
+  testMode = false
 }: PrivacySettingsPanelProps) {
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
   const [activeTab, setActiveTab] = useState('visibility')
 
   const handleSettingsChange = async (settings: Record<string, unknown>) => {
+    // In test mode, just update state without saving to API
+    if (testMode) {
+      setSaveStatus('saving')
+      // Simulate save delay
+      await new Promise(resolve => setTimeout(resolve, 500))
+      setSaveStatus('saved')
+      setTimeout(() => setSaveStatus('idle'), 3000)
+      return
+    }
+
     setSaveStatus('saving')
 
     try {

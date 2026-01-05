@@ -19,6 +19,95 @@ export async function GET(
     const { id: storytellerId } = await params
     const { searchParams } = new URL(request.url)
 
+    // Handle dev-super-admin mode FIRST
+    if (process.env.NODE_ENV === 'development' && storytellerId === 'dev-super-admin') {
+      console.log('🔧 Development mode: Returning demo analytics for dev-super-admin')
+
+      return NextResponse.json({
+        success: true,
+        storyteller: {
+          id: 'dev-super-admin',
+          name: 'Development Super Admin',
+          tenantId: null,
+          impactFocusAreas: ['Cultural Preservation', 'Community Leadership', 'Knowledge Transmission'],
+          expertiseAreas: ['Storytelling', 'Community Engagement', 'Cultural Protocols'],
+          communityRoles: ['Elder', 'Mentor', 'Community Leader'],
+          changeMakerType: 'Storyteller'
+        },
+        period: {
+          start: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(),
+          end: new Date().toISOString(),
+          days: 90
+        },
+        impactMetrics: {
+          storyteller_id: 'dev-super-admin',
+          tenant_id: null,
+          measurement_period_start: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          measurement_period_end: new Date().toISOString().split('T')[0],
+          community_engagement_score: 85,
+          cultural_preservation_score: 92,
+          system_change_influence_score: 78,
+          mentorship_impact_score: 88,
+          cross_sector_collaboration_score: 76,
+          stories_created_count: 315,
+          transcripts_analyzed_count: 251,
+          documented_outcomes: [
+            'Community storytelling workshops conducted',
+            'Cultural preservation initiatives led',
+            'Intergenerational knowledge transfer programs'
+          ],
+          calculation_method: 'ai_enhanced_community_metrics_v1'
+        },
+        communityImpact: [
+          {
+            impactType: 'cultural_protocol',
+            impactScore: 90,
+            evidence: {
+              quotes: ['Traditional practices documented', 'Cultural ceremonies recorded'],
+              stories: ['story-1', 'story-2', 'story-3'],
+              transcripts: ['transcript-1', 'transcript-2'],
+              confidence: 85
+            },
+            geographicReach: ['Australia', 'Global'],
+            timeframe: {
+              start: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
+              end: new Date(),
+              trend: 'growing'
+            }
+          }
+        ],
+        networkConnections: [
+          {
+            storytellerId: 'storyteller-1',
+            name: 'Community Elder',
+            sharedThemes: ['Cultural Heritage', 'Traditional Knowledge', 'Community Building'],
+            connectionStrength: 8
+          }
+        ],
+        contentAnalytics: {
+          totalStories: 315,
+          totalTranscripts: 251,
+          totalWords: 714317,
+          averageWordCount: 2844,
+          topThemes: [
+            { theme: 'Cultural Heritage', count: 45 },
+            { theme: 'Community Leadership', count: 38 },
+            { theme: 'Healing', count: 32 },
+            { theme: 'Family', count: 28 },
+            { theme: 'Traditional Knowledge', count: 25 }
+          ],
+          contentVelocity: 3.5
+        },
+        influenceMetrics: {
+          influenceScore: 82,
+          reachEstimate: 1250,
+          citationCount: 15,
+          mentionCount: 34,
+          crossSectorReach: 5
+        }
+      })
+    }
+
     // Get time period parameters (default to last 90 days)
     const periodDays = parseInt(searchParams.get('days') || '90')
     const periodEnd = new Date()

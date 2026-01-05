@@ -1,121 +1,114 @@
-// Force dynamic rendering for API routes
-export const dynamic = 'force-dynamic'
-
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
 
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
-
-import type { StoryUpdate } from '@/types/database'
-
-
-
-interface RouteParams {
-  params: {
-    id: string
-  }
-}
-
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { id } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createClient()
     
-    const { data: story, error } = await supabase
+    // Check authentication
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const body = await request.json()
+
+    // Get current story
+    const { data: currentStory } = await supabase
       .from('stories')
-      .select(`
-        *,
-        author:profiles!stories_author_id_fkey(
-          id,
-          display_name,
-          full_name,
-          profile_image_url,
-          cultural_background
-        )
-      `)
+      .select('*, storyteller:storytellers!storyteller_id(id)')
       .eq('id', id)
       .single()
 
-    if (error) {
-      if (error.code === 'PGRST116') {
-        return NextResponse.json(
-          { error: 'Story not found' },
-          { status: 404 }
-        )
-      }
-      console.error('Error fetching story:', error)
+    if (!currentStory) {
       return NextResponse.json(
-        { error: 'Failed to fetch story' },
-        { status: 500 }
+        { error: 'Story not found' },
+        { status: 404 }
       )
     }
 
-    // View counting functionality would need to be implemented with analytics table
-
-    return NextResponse.json(story)
-
-  } catch (error) {
-    console.error('Story fetch error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
-  }
-}
-
-export async function PUT(request: NextRequest, { params }: RouteParams) {
-  try {
-    const { id } = params
-    const body = await request.json()
-    const supabase = createSupabaseServerClient()
-    
-    // Calculate reading time if content is being updated
-    const updateData: StoryUpdate = {
-      updated_at: new Date().toISOString(),
-      ...body
-    }
-
-    // Remove fields that shouldn't be updated directly or don't exist in schema
-    delete updateData.id
-    delete updateData.created_at
-    delete updateData.views_count
-    delete updateData.likes_count
-    delete updateData.shares_count
-    delete updateData.reading_time_minutes
-
-    const { data: story, error } = await supabase
-      .from('stories')
-      .update(updateData)
-      .eq('id', id)
-      .select(`
-        *,
-        author:profiles!stories_author_id_fkey(
-          id,
-          display_name,
-          full_name,
-          profile_image_url,
-          cultural_background
-        )
-      `)
+    // Check permissions
+    const { data: profile } = await supabase
+      .from('storytellers')
+      .select('id')
+      .eq('user_id', user.id)
       .single()
 
-    if (error) {
-      if (error.code === 'PGRST116') {
-        return NextResponse.json(
-          { error: 'Story not found' },
-          { status: 404 }
-        )
-      }
-      console.error('Error updating story:', error)
+    const isOwner = currentStory.storyteller_id === profile?.id
+
+    const { data: collaboration } = await supabase
+      .from('story_collaborators')
+      .select('can_edit')
+      .eq('story_id', id)
+      .eq('collaborator_id', profile?.id)
+      .eq('status', 'accepted')
+      .single()
+
+    const canEdit = isOwner || collaboration?.can_edit
+
+    if (!canEdit) {
+      return NextResponse.json(
+        { error: 'Permission denied' },
+        { status: 403 }
+      )
+    }
+
+    // Update story
+    const { data: story, error: updateError } = await supabase
+      .from('stories')
+      .update({
+        ...body,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', id)
+      .select('*')
+      .single()
+
+    if (updateError) {
+      console.error('Error updating story:', updateError)
       return NextResponse.json(
         { error: 'Failed to update story' },
         { status: 500 }
       )
     }
 
-    return NextResponse.json(story)
+    // Create version if significant change
+    const contentChanged = body.content && body.content !== currentStory.content
+    const titleChanged = body.title && body.title !== currentStory.title
 
+    if (contentChanged || titleChanged) {
+      // Get latest version number
+      const { data: latestVersion } = await supabase
+        .from('story_versions')
+        .select('version_number')
+        .eq('story_id', id)
+        .order('version_number', { ascending: false })
+        .limit(1)
+        .single()
+
+      const nextVersionNumber = (latestVersion?.version_number || 0) + 1
+
+      await supabase.from('story_versions').insert({
+        story_id: id,
+        version_number: nextVersionNumber,
+        title: story.title,
+        content: story.content,
+        metadata: {
+          story_type: story.story_type,
+          cultural_sensitivity_level: story.cultural_sensitivity_level
+        },
+        created_by: user.id,
+        change_summary: body.change_summary || null
+      })
+    }
+
+    return NextResponse.json({ story })
   } catch (error) {
-    console.error('Story update error:', error)
+    console.error('Error in PATCH /api/stories/[id]:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -123,18 +116,56 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const { id } = params
-    const supabase = createSupabaseServerClient()
+    const { id } = await params
+    const supabase = await createClient()
     
-    const { error } = await supabase
+    // Check authentication
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Get story
+    const { data: story } = await supabase
       .from('stories')
-      .delete()
+      .select('storyteller_id')
+      .eq('id', id)
+      .single()
+
+    if (!story) {
+      return NextResponse.json(
+        { error: 'Story not found' },
+        { status: 404 }
+      )
+    }
+
+    // Check if user is owner (only owner can delete)
+    const { data: profile } = await supabase
+      .from('storytellers')
+      .select('id')
+      .eq('user_id', user.id)
+      .single()
+
+    if (story.storyteller_id !== profile?.id) {
+      return NextResponse.json(
+        { error: 'Permission denied - only owner can delete' },
+        { status: 403 }
+      )
+    }
+
+    // Soft delete by setting deleted_at
+    const { error: deleteError } = await supabase
+      .from('stories')
+      .update({ deleted_at: new Date().toISOString() })
       .eq('id', id)
 
-    if (error) {
-      console.error('Error deleting story:', error)
+    if (deleteError) {
+      console.error('Error deleting story:', deleteError)
       return NextResponse.json(
         { error: 'Failed to delete story' },
         { status: 500 }
@@ -142,9 +173,8 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     }
 
     return NextResponse.json({ success: true })
-
   } catch (error) {
-    console.error('Story deletion error:', error)
+    console.error('Error in DELETE /api/stories/[id]:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

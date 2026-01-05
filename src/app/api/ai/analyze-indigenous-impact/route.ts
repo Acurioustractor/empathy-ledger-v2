@@ -5,9 +5,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { createClient } from '@supabase/supabase-js'
 
-import { indigenousImpactAnalyzer } from '@/lib/ai/indigenous-impact-analyzer'
-
-
+import { assessIndigenousImpact, aggregateIndigenousImpact } from '@/lib/ai/intelligent-indigenous-impact-analyzer'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -18,8 +16,8 @@ if (!supabaseUrl || !supabaseServiceKey) {
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
-// REVOLUTIONARY AI ENDPOINT - ANALYZES REAL INDIGENOUS COMMUNITY STORIES
-// Tests our AI system on actual stories from Aunty Vicky, Aunty May, Joe Kwon, etc.
+// UPGRADED AI ENDPOINT - Uses intelligent depth-based impact analysis
+// Replaced pattern-based analyzer with v3 intelligent analyzer (depth scoring)
 
 export async function POST(request: NextRequest) {
   try {
@@ -60,61 +58,57 @@ export async function POST(request: NextRequest) {
     console.log('📖 Analyzing transcript:', transcript.title)
     console.log('📊 Content length:', content.length, 'characters')
 
-    // 2. Run Indigenous impact analysis
-    const insights = indigenousImpactAnalyzer.analyzeIndigenousImpact(content)
+    // 2. Run intelligent Indigenous impact analysis (depth-based scoring)
+    const storytellerName = transcript.storyteller_name || 'Community Member'
+    const analysis = await assessIndigenousImpact(content, storytellerName)
 
-    console.log('✨ Found', insights.length, 'Indigenous impact insights')
+    console.log('✨ Analysis complete in', analysis.processing_time_ms, 'ms')
+    console.log('📈 Assessments:', analysis.assessments.length)
 
-    if (insights.length === 0) {
-      return NextResponse.json({
-        transcriptId,
-        title: transcript.title,
-        insights: [],
-        summary: {
-          totalInsights: 0,
-          message: 'No specific Indigenous impact patterns detected in this transcript'
-        }
+    // 3. Store analysis in transcript_analysis_results
+    const avgConfidence = analysis.assessments.length > 0
+      ? analysis.assessments.reduce((sum, a) => sum + a.confidence, 0) / analysis.assessments.length
+      : 0
+
+    const { error: insertError } = await supabase
+      .from('transcript_analysis_results')
+      .upsert({
+        transcript_id: transcriptId,
+        analyzer_version: 'v3-intelligent-impact',
+        themes: [], // No theme extraction in this endpoint
+        quotes: analysis.community_voice_highlights?.map(q => ({ quote: q })) || [],
+        impact_assessment: {
+          assessments: analysis.assessments,
+          overall_summary: analysis.overall_impact_summary,
+          key_strengths: analysis.key_strengths
+        },
+        cultural_flags: {
+          community_voice_centered: true,
+          depth_based_scoring: true
+        },
+        quality_metrics: {
+          avg_confidence: avgConfidence
+        },
+        processing_time_ms: analysis.processing_time_ms
       })
+
+    if (insertError) {
+      console.warn('Failed to store analysis results:', insertError)
     }
 
-    // 3. Set transcript ID on insights
-    insights.forEach(insight => {
-      insight.transcript_id = transcriptId
-    })
-
-    // 4. Generate community impact summary
-    const summary = indigenousImpactAnalyzer.aggregateCommunityImpact(insights)
-
-    // 5. Store insights in database (if we want to persist them)
-    // Note: Would need to create the tables first
-    // const { error: insertError } = await supabase
-    //   .from('community_impact_insights')
-    //   .insert(insights.map(insight => ({
-    //     transcript_id: transcriptId,
-    //     storyteller_id: transcript.storyteller_id,
-    //     tenant_id: transcript.tenant_id,
-    //     impact_type: insight.impactType,
-    //     quote_text: insight.evidence.quote,
-    //     context_text: insight.evidence.context,
-    //     confidence_score: insight.evidence.confidence,
-    //     // ... map other fields
-    //   })))
-
-    console.log('🎯 Analysis complete!')
-    console.log('📈 Impact types found:', Object.keys(summary.impactTypes))
-    console.log('🗣️  Featured community voices:', summary.featuredCommunityVoices.length)
+    console.log('🎯 Impact analysis complete!')
 
     return NextResponse.json({
       transcriptId,
       title: transcript.title,
       storytellerId: transcript.storyteller_id,
-      insights,
-      summary,
+      analysis,
       analysisMetadata: {
         contentLength: content.length,
         analysisTimestamp: new Date().toISOString(),
-        aiModel: 'indigenous-impact-analyzer-v1',
-        culturalSafety: 'community-voice-centred'
+        aiModel: 'intelligent-indigenous-impact-analyzer-v3',
+        culturalSafety: 'depth-based-community-voice-centered',
+        storedInDatabase: !insertError
       }
     })
 

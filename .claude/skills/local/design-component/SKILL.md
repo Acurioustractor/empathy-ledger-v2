@@ -426,6 +426,284 @@ WHERE p1.id != p2.id
 | `QuoteCard` | `src/components/ui/quote-card.tsx` | Quote display |
 | `ThemeBadge` | `src/components/ui/theme-badge.tsx` | Theme display |
 
+## Syndication Dashboard Design Patterns (NEW - Sprint 4)
+
+### Consent Status Badge
+
+**Purpose:** Visual indicator of syndication consent status
+
+**Variants:**
+```typescript
+type ConsentStatus = 'approved' | 'pending' | 'revoked' | 'expired'
+
+const statusConfig = {
+  approved: { color: 'sage', icon: CheckCircle, label: 'Active' },
+  pending: { color: 'amber', icon: Clock, label: 'Pending' },
+  revoked: { color: 'ember', icon: XCircle, label: 'Revoked' },
+  expired: { color: 'muted', icon: AlertCircle, label: 'Expired' }
+}
+```
+
+**Design:**
+```tsx
+<Badge className={cn(
+  "flex items-center gap-1.5",
+  status === 'approved' && "bg-sage-100 text-sage-900",
+  status === 'pending' && "bg-amber-100 text-amber-900",
+  status === 'revoked' && "bg-ember-100 text-ember-900",
+  status === 'expired' && "bg-muted text-muted-foreground"
+)}>
+  <Icon className="h-3 w-3" />
+  {label}
+</Badge>
+```
+
+---
+
+### Consent Card Layout
+
+**Purpose:** Display individual syndication consent with site info and controls
+
+**Structure:**
+```
+┌─────────────────────────────────────────────┐
+│ [Site Logo]  JusticeHub                    │
+│              justicehub.org.au              │
+│                                             │
+│ Status: [Active Badge]                      │
+│ Cultural Level: Public                      │
+│ Created: Jan 5, 2026                        │
+│                                             │
+│ 📊 456 views • Last accessed 2 hours ago    │
+│                                             │
+│ [View Analytics] [Revoke Access]            │
+└─────────────────────────────────────────────┘
+```
+
+**Colors:**
+- **Card Border:** Use site brand color (if provided)
+- **Status Badge:** Follow status config above
+- **Cultural Level:** Use cultural color (clay/sage/sky)
+- **Actions:** Primary (sage) for analytics, destructive (ember) for revoke
+
+---
+
+### Embed Token Display
+
+**Purpose:** Show token with security-conscious masking
+
+**Pattern:**
+```tsx
+<div className="flex items-center gap-2">
+  <code className="flex-1 px-3 py-2 bg-muted rounded font-mono text-sm">
+    {tokenMasked ? 'LRK••••••••••XA' : token}
+  </code>
+  <Button variant="ghost" size="sm" onClick={() => setTokenMasked(!tokenMasked)}>
+    {tokenMasked ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+  </Button>
+  <Button variant="ghost" size="sm" onClick={handleCopy}>
+    <Copy className="h-4 w-4" />
+  </Button>
+</div>
+```
+
+**Security:**
+- Default: Token masked
+- Click to reveal (temporary, 10 seconds)
+- Copy button with confirmation toast
+- Never log unmasked tokens
+
+---
+
+### Analytics Chart Styling
+
+**Purpose:** Consistent chart design across dashboards
+
+**Colors (Recharts):**
+```typescript
+const siteColors = {
+  justicehub: '#C85A54', // Ember
+  actfarm: '#6B8E72',    // Sage
+  theharvest: '#D97757', // Clay
+  actplacemat: '#4A90A4' // Sky
+}
+
+// Usage
+<Line
+  type="monotone"
+  dataKey="justicehub"
+  stroke={siteColors.justicehub}
+  strokeWidth={2}
+  dot={{ fill: siteColors.justicehub, r: 4 }}
+  activeDot={{ r: 6 }}
+/>
+```
+
+**Grid & Axes:**
+```typescript
+<CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+<XAxis
+  dataKey="date"
+  stroke="hsl(var(--muted-foreground))"
+  fontSize={12}
+/>
+<YAxis
+  stroke="hsl(var(--muted-foreground))"
+  fontSize={12}
+/>
+```
+
+---
+
+### Revocation Dialog
+
+**Purpose:** Confirm consent revocation with cultural messaging
+
+**Layout:**
+```tsx
+<Dialog>
+  <DialogHeader>
+    <DialogTitle className="text-ember-900">
+      Revoke Consent for JusticeHub?
+    </DialogTitle>
+    <DialogDescription>
+      This will immediately remove JusticeHub's access to your story.
+      They will no longer be able to display it on their platform.
+    </DialogDescription>
+  </DialogHeader>
+
+  <div className="space-y-4">
+    <div className="rounded-lg bg-sky-50 p-4 border border-sky-200">
+      <p className="text-sm text-sky-900 font-medium">
+        ✨ You maintain full control
+      </p>
+      <p className="text-sm text-sky-700 mt-1">
+        Your story remains on Empathy Ledger. You can grant consent
+        again at any time.
+      </p>
+    </div>
+
+    <div className="space-y-2">
+      <Label htmlFor="reason">Reason for revoking (optional)</Label>
+      <Textarea
+        id="reason"
+        placeholder="E.g., Story needs updating, not ready for external sharing..."
+        rows={3}
+      />
+      <p className="text-xs text-muted-foreground">
+        This helps us improve the platform (shared anonymously with
+        JusticeHub if consent was active).
+      </p>
+    </div>
+  </div>
+
+  <DialogFooter>
+    <Button variant="outline" onClick={onCancel}>
+      Keep Consent
+    </Button>
+    <Button variant="destructive" onClick={handleRevoke}>
+      Revoke Access
+    </Button>
+  </DialogFooter>
+</Dialog>
+```
+
+**Messaging Principles:**
+- ✅ Affirm storyteller control ("You maintain full control")
+- ✅ Explain consequences clearly ("immediately remove access")
+- ✅ Reassure reversibility ("grant consent again")
+- ❌ No guilt-tripping ("Are you sure?")
+- ❌ No fear language ("This cannot be undone")
+
+---
+
+### Cultural Permission Level Indicator
+
+**Purpose:** Show content sensitivity level with cultural context
+
+**Levels:**
+```typescript
+const culturalLevels = {
+  public: {
+    color: 'sage',
+    icon: Globe,
+    label: 'Public',
+    description: 'Safe to share widely'
+  },
+  community: {
+    color: 'clay',
+    icon: Users,
+    label: 'Community',
+    description: 'Indigenous communities only'
+  },
+  restricted: {
+    color: 'amber',
+    icon: Lock,
+    label: 'Restricted',
+    description: 'Requires elder approval'
+  },
+  sacred: {
+    color: 'ember',
+    icon: ShieldAlert,
+    label: 'Sacred',
+    description: 'Not for external sharing'
+  }
+}
+```
+
+**Component:**
+```tsx
+<div className="flex items-center gap-2">
+  <Icon className="h-4 w-4 text-{color}-700" />
+  <div>
+    <p className="text-sm font-medium">{label}</p>
+    <p className="text-xs text-muted-foreground">{description}</p>
+  </div>
+</div>
+```
+
+---
+
+### Empty States for Syndication
+
+**No Consents Yet:**
+```tsx
+<div className="text-center py-12 space-y-4">
+  <div className="mx-auto w-16 h-16 rounded-full bg-sage-100 flex items-center justify-center">
+    <Share2 className="h-8 w-8 text-sage-700" />
+  </div>
+  <div>
+    <h3 className="text-lg font-semibold">No syndication consents yet</h3>
+    <p className="text-muted-foreground mt-1">
+      Your stories are safe with you. When you're ready to share with
+      external platforms like JusticeHub, you'll see them here.
+    </p>
+  </div>
+  <Button onClick={handleCreateConsent}>
+    <Plus className="mr-2 h-4 w-4" />
+    Share a Story
+  </Button>
+</div>
+```
+
+**All Consents Revoked:**
+```tsx
+<div className="text-center py-12 space-y-4">
+  <div className="mx-auto w-16 h-16 rounded-full bg-sky-100 flex items-center justify-center">
+    <ShieldCheck className="h-8 w-8 text-sky-700" />
+  </div>
+  <div>
+    <h3 className="text-lg font-semibold">You're in control</h3>
+    <p className="text-muted-foreground mt-1">
+      All your stories have been removed from external platforms.
+      You can re-share whenever you're ready.
+    </p>
+  </div>
+</div>
+```
+
+---
+
 ## When to Use This Skill
 
 Invoke when:
@@ -437,3 +715,7 @@ Invoke when:
 - Adding cultural indicators to UI
 - Implementing hover/expand states
 - Creating loading skeletons
+- **Designing syndication dashboard UI**
+- **Building consent management interfaces**
+- **Creating analytics visualizations**
+- **Implementing revocation workflows**

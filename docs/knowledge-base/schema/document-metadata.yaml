@@ -1,0 +1,295 @@
+# Empathy Ledger Knowledge Base - Document Metadata Schema
+# Based on ACT Personal AI RAG_LLM_BEST_PRACTICES.md patterns
+
+DocumentMetadata:
+  id: UUID                            # Unique document identifier
+  title: string                       # Document title
+  category: PMPP                      # Principle | Method | Practice | Procedure
+  subcategory: string                 # e.g., "Cultural Protocol", "Database Schema", "AI Enhancement"
+  knowledge_type: KnowledgeType       # Factual | Procedural | Strategic | Cultural
+  confidence: float                   # 0.0-1.0 (extraction confidence)
+  source_file: string                 # Relative path from docs/ root
+  created_date: ISO8601              # Original creation date
+  last_updated: ISO8601              # Last modification date
+  dependencies: [UUID]                # Related document IDs
+  tags: [string]                      # Searchable keywords
+  cultural_sensitivity: CulturalLevel # None | Low | Medium | High | Sacred
+  extraction_status: ExtractionStatus # Pending | Extracted | Reviewed | Published | Archived
+  author: string                      # Document creator (optional)
+  version: string                     # Semantic versioning (optional)
+
+  # Metrics for value demonstration
+  metrics:
+    word_count: int
+    code_examples: int
+    diagrams: int
+    external_references: int
+    internal_references: int
+
+  # PMPP classification
+  pmpp_attributes:
+    is_principle: boolean             # Why we do things
+    is_method: boolean                # Frameworks and approaches
+    is_practice: boolean              # How we regularly work
+    is_procedure: boolean             # Step-by-step guides
+
+  # ACT Farmhand specific
+  farmhand_attributes:
+    has_sacred_boundaries: boolean    # Contains "NEVER" statements
+    has_cultural_protocols: boolean   # References OCAP, Elder authority
+    has_examples: boolean             # Contains code or procedural examples
+    has_time_saved_metric: boolean    # Quantifies efficiency gains
+
+KnowledgeChunk:
+  id: UUID                            # Unique chunk identifier
+  document_id: UUID                   # Parent document (FK to DocumentMetadata)
+  chunk_type: ChunkType               # Heading | Paragraph | Code | List | Table | Quote
+  content: text                       # Raw content
+  semantic_summary: text              # AI-generated summary (50-100 words)
+  embedding_vector: float[1536]       # OpenAI text-embedding-3-small
+  token_count: int                    # Token count for LLM context
+  position_in_doc: int                # Sequential position in source doc
+  section_path: [string]              # Breadcrumb path (e.g., ["Database", "Setup", "Local"])
+
+  # References and relationships
+  references:
+    internal_links: [UUID]            # Links to other chunks
+    external_links: [URL]             # External URLs
+    code_references: [FilePath]       # Referenced code files
+
+  # Metadata for retrieval
+  retrieval_metadata:
+    similarity_threshold: float       # Minimum similarity for retrieval (default 0.7)
+    boost_factor: float               # Retrieval ranking boost (default 1.0)
+    requires_context: boolean         # Needs surrounding chunks for understanding
+    standalone: boolean               # Can be understood in isolation
+
+KnowledgeExtraction:
+  id: UUID                            # Unique extraction identifier
+  chunk_id: UUID                      # Source chunk (FK to KnowledgeChunk)
+  extraction_type: ExtractionType     # Principle | Method | Practice | Procedure | Fact | Process | Warning
+
+  # Q&A format for training
+  question: text                      # What question does this answer?
+  answer: text                        # Extracted knowledge
+  context: text                       # Optional surrounding context
+
+  # Quality and validation
+  confidence: float                   # 0.0-1.0 (extraction confidence)
+  validation_status: ValidationStatus # Auto | Human-Reviewed | Verified | Rejected
+  validated_by: string                # Reviewer name (if human-reviewed)
+  validated_at: ISO8601              # Review timestamp
+
+  # Training data flags
+  used_in_training: boolean           # Included in SLM training corpus
+  training_category: string           # Training data categorization
+  culturally_safe: boolean            # Passed cultural safety review
+
+  # Value metrics
+  usefulness_score: float             # 0.0-1.0 (how useful for users)
+  query_frequency: int                # How often this knowledge is queried
+
+KnowledgeGraph:
+  id: UUID                            # Unique relationship identifier
+  source_chunk_id: UUID               # Source chunk (FK)
+  target_chunk_id: UUID               # Target chunk (FK)
+  relationship_type: RelationType     # depends_on | implements | examples_of | contradicts | extends
+  strength: float                     # 0.0-1.0 (relationship strength)
+  bidirectional: boolean              # Is relationship bidirectional?
+  created_at: ISO8601                # Relationship discovery date
+  created_by: string                  # AI | Human | Automated
+
+  # Relationship metadata
+  evidence: text                      # Why this relationship exists
+  confidence: float                   # 0.0-1.0 (relationship confidence)
+
+# Enums
+
+PMPP:
+  - Principle   # Why we do things (cultural values, philosophy)
+  - Method      # Frameworks and approaches (AI enhancement, revenue attribution)
+  - Practice    # How we regularly work (development workflow, testing)
+  - Procedure   # Step-by-step guides (database setup, deployment)
+
+KnowledgeType:
+  - Factual      # Concrete facts (database has 47 tables)
+  - Procedural   # How-to knowledge (setup database)
+  - Strategic    # Why and when decisions (OCAP principles)
+  - Cultural     # Cultural protocols and boundaries
+
+CulturalLevel:
+  - None         # No cultural sensitivity
+  - Low          # Mentions Indigenous concepts
+  - Medium       # Discusses cultural protocols
+  - High         # Contains sacred boundaries or Elder authority
+  - Sacred       # Restricted knowledge requiring Elder approval
+
+ExtractionStatus:
+  - Pending      # Not yet processed
+  - Extracted    # AI extraction complete
+  - Reviewed     # Human reviewed
+  - Published    # Available in knowledge base
+  - Archived     # Outdated but preserved
+
+ChunkType:
+  - Heading      # Section header
+  - Paragraph    # Text block
+  - Code         # Code example
+  - List         # Bulleted or numbered list
+  - Table        # Tabular data
+  - Quote        # Blockquote or citation
+  - Diagram      # Diagram description or ASCII art
+
+ExtractionType:
+  - Principle    # Fundamental belief or value
+  - Method       # Framework or approach
+  - Practice     # Regular operational pattern
+  - Procedure    # Step-by-step process
+  - Fact         # Concrete information
+  - Process      # Workflow or pipeline
+  - Warning      # Sacred boundary or "NEVER" statement
+
+ValidationStatus:
+  - Auto         # AI-generated, not reviewed
+  - Human-Reviewed  # Reviewed by human
+  - Verified     # Confirmed accurate
+  - Rejected     # Marked as incorrect
+
+RelationType:
+  - depends_on   # Target is prerequisite for source
+  - implements   # Source implements target concept
+  - examples_of  # Source is example of target
+  - contradicts  # Source contradicts target (flag for review)
+  - extends      # Source extends target concept
+  - related_to   # General relationship
+  - replaces     # Source supersedes target
+  - references   # Source cites target
+
+# Database Schema (PostgreSQL with pgvector)
+
+CREATE EXTENSION IF NOT EXISTS vector;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TABLE knowledge_documents (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title TEXT NOT NULL,
+  category TEXT NOT NULL,  -- PMPP
+  subcategory TEXT,
+  knowledge_type TEXT NOT NULL,
+  confidence FLOAT DEFAULT 0.8,
+  source_file TEXT NOT NULL UNIQUE,
+  created_date TIMESTAMPTZ,
+  last_updated TIMESTAMPTZ DEFAULT NOW(),
+  dependencies UUID[],
+  tags TEXT[],
+  cultural_sensitivity TEXT DEFAULT 'None',
+  extraction_status TEXT DEFAULT 'Pending',
+  author TEXT,
+  version TEXT,
+  metrics JSONB,
+  pmpp_attributes JSONB,
+  farmhand_attributes JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE knowledge_chunks (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  document_id UUID REFERENCES knowledge_documents(id) ON DELETE CASCADE,
+  chunk_type TEXT NOT NULL,
+  content TEXT NOT NULL,
+  semantic_summary TEXT,
+  embedding vector(1536),  -- OpenAI text-embedding-3-small
+  token_count INT,
+  position_in_doc INT,
+  section_path TEXT[],
+  references JSONB,
+  retrieval_metadata JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE knowledge_extractions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  chunk_id UUID REFERENCES knowledge_chunks(id) ON DELETE CASCADE,
+  extraction_type TEXT NOT NULL,
+  question TEXT NOT NULL,
+  answer TEXT NOT NULL,
+  context TEXT,
+  confidence FLOAT DEFAULT 0.7,
+  validation_status TEXT DEFAULT 'Auto',
+  validated_by TEXT,
+  validated_at TIMESTAMPTZ,
+  used_in_training BOOLEAN DEFAULT FALSE,
+  training_category TEXT,
+  culturally_safe BOOLEAN DEFAULT TRUE,
+  usefulness_score FLOAT,
+  query_frequency INT DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE knowledge_graph (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  source_chunk_id UUID REFERENCES knowledge_chunks(id) ON DELETE CASCADE,
+  target_chunk_id UUID REFERENCES knowledge_chunks(id) ON DELETE CASCADE,
+  relationship_type TEXT NOT NULL,
+  strength FLOAT DEFAULT 0.5,
+  bidirectional BOOLEAN DEFAULT FALSE,
+  evidence TEXT,
+  confidence FLOAT DEFAULT 0.7,
+  created_by TEXT DEFAULT 'Automated',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes for performance
+CREATE INDEX idx_knowledge_chunks_embedding ON knowledge_chunks
+  USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+
+CREATE INDEX idx_knowledge_chunks_document ON knowledge_chunks(document_id);
+
+CREATE INDEX idx_knowledge_extractions_chunk ON knowledge_extractions(chunk_id);
+
+CREATE INDEX idx_knowledge_graph_source ON knowledge_graph(source_chunk_id);
+CREATE INDEX idx_knowledge_graph_target ON knowledge_graph(target_chunk_id);
+
+-- Full-text search
+CREATE INDEX idx_knowledge_chunks_content_fts ON knowledge_chunks
+  USING gin(to_tsvector('english', content));
+
+-- RPC function for vector similarity search
+CREATE OR REPLACE FUNCTION search_knowledge(
+  query_embedding vector(1536),
+  match_threshold float DEFAULT 0.7,
+  match_count int DEFAULT 5,
+  filter_category text DEFAULT NULL,
+  filter_cultural_sensitivity text[] DEFAULT NULL
+)
+RETURNS TABLE (
+  chunk_id uuid,
+  document_id uuid,
+  document_title text,
+  chunk_content text,
+  similarity float,
+  cultural_sensitivity text,
+  section_path text[]
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    kc.id AS chunk_id,
+    kd.id AS document_id,
+    kd.title AS document_title,
+    kc.content AS chunk_content,
+    1 - (kc.embedding <=> query_embedding) AS similarity,
+    kd.cultural_sensitivity,
+    kc.section_path
+  FROM knowledge_chunks kc
+  JOIN knowledge_documents kd ON kc.document_id = kd.id
+  WHERE
+    (filter_category IS NULL OR kd.category = filter_category)
+    AND (filter_cultural_sensitivity IS NULL OR kd.cultural_sensitivity = ANY(filter_cultural_sensitivity))
+    AND 1 - (kc.embedding <=> query_embedding) > match_threshold
+  ORDER BY kc.embedding <=> query_embedding
+  LIMIT match_count;
+END;
+$$;

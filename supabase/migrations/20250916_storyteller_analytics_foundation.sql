@@ -323,50 +323,56 @@ ALTER TABLE storyteller_quotes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE analytics_processing_jobs ENABLE ROW LEVEL SECURITY;
 
 -- Storyteller Analytics Policies
+DROP POLICY IF EXISTS "Storytellers can view their own analytics" ON storyteller_analytics;
 CREATE POLICY "Storytellers can view their own analytics" ON storyteller_analytics
     FOR SELECT USING (
         storyteller_id = auth.uid() OR
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
+DROP POLICY IF EXISTS "System can manage analytics" ON storyteller_analytics;
 CREATE POLICY "System can manage analytics" ON storyteller_analytics
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
 -- Narrative Themes Policies (Public themes, admin management)
+DROP POLICY IF EXISTS "Public themes are viewable" ON narrative_themes;
 CREATE POLICY "Public themes are viewable" ON narrative_themes
     FOR SELECT TO authenticated USING (true);
 
+DROP POLICY IF EXISTS "Admins can manage themes" ON narrative_themes;
 CREATE POLICY "Admins can manage themes" ON narrative_themes
     FOR ALL USING (
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
 -- Storyteller Themes Policies
+DROP POLICY IF EXISTS "Storytellers can view their own themes" ON storyteller_themes;
 CREATE POLICY "Storytellers can view their own themes" ON storyteller_themes
     FOR SELECT USING (
         storyteller_id = auth.uid() OR
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
 -- Quotes Policies (Respect privacy settings)
+DROP POLICY IF EXISTS "Public quotes are viewable" ON storyteller_quotes;
 CREATE POLICY "Public quotes are viewable" ON storyteller_quotes
     FOR SELECT USING (
         (is_public = true AND (requires_approval = false OR approved_at IS NOT NULL)) OR
@@ -374,18 +380,19 @@ CREATE POLICY "Public quotes are viewable" ON storyteller_quotes
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 
 -- Analytics Jobs Policies
+DROP POLICY IF EXISTS "Users can view relevant jobs" ON analytics_processing_jobs;
 CREATE POLICY "Users can view relevant jobs" ON analytics_processing_jobs
     FOR SELECT USING (
         storyteller_id = auth.uid() OR
         EXISTS (
             SELECT 1 FROM profiles p
             WHERE p.id = auth.uid()
-            AND (p.tenant_roles ? 'admin' OR p.tenant_roles ? 'super_admin')
+            AND ('admin' = ANY(p.tenant_roles) OR 'super_admin' = ANY(p.tenant_roles))
         )
     );
 

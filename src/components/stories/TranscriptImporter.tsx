@@ -23,7 +23,7 @@ import {
   Clock
 } from 'lucide-react'
 import { StoryTemplate, STORY_TEMPLATES } from './StoryTemplates'
-import { transcriptAnalyzer, TranscriptAnalysis } from '@/lib/ai/transcript-analyzer'
+import { analyzeTranscriptV3, type TranscriptAnalysisResult } from '@/lib/ai/transcript-analyzer-v3-claude'
 import { storyGenerator, StoryGenerationOptions } from '@/lib/ai/story-generator'
 
 interface TranscriptImporterProps {
@@ -46,7 +46,7 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
   const [currentStep, setCurrentStep] = useState<ImportStep>('input')
   const [transcriptText, setTranscriptText] = useState('')
   const [transcriptTitle, setTranscriptTitle] = useState('')
-  const [analysis, setAnalysis] = useState<TranscriptAnalysis | null>(null)
+  const [analysis, setAnalysis] = useState<TranscriptAnalysisResult | null>(null)
   const [selectedTemplate, setSelectedTemplate] = useState<StoryTemplate | null>(null)
   const [transcriptSections, setTranscriptSections] = useState<TranscriptSection[]>([])
   const [loading, setLoading] = useState(false)
@@ -78,10 +78,15 @@ export function TranscriptImporter({ onStoryCreated, onCancel }: TranscriptImpor
 
     setLoading(true)
     try {
-      // Run AI analysis
-      const result = transcriptAnalyzer.analyzeTranscript(transcriptText)
+      // Run AI analysis with v3 analyzer
+      const result = await analyzeTranscriptV3(transcriptText, {
+        extractQuotes: true,
+        identifyThemes: true,
+        suggestStoryStructure: true
+      })
       setAnalysis(result)
-      setSelectedTemplate(result.suggestedTemplate)
+      // Note: v3 analyzer returns different structure, may need to adapt template logic
+      setSelectedTemplate(null) // Template selection needs to be manual with v3
 
       // Convert suggested sections to selectable sections
       const sections: TranscriptSection[] = result.suggestedSections.map((section, index) => ({

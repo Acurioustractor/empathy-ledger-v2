@@ -28,7 +28,8 @@ import {
   Users,
   Camera,
   Loader2,
-  BarChart3
+  BarChart3,
+  Shield
 } from 'lucide-react'
 import { TranscriptList } from '@/components/storyteller/TranscriptList'
 import { VideoPlayer } from '@/components/media/VideoPlayer'
@@ -40,6 +41,10 @@ import { Label } from '@/components/ui/label'
 import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
 import { StorytellerAnalyticsTest } from '@/components/analytics/StorytellerAnalyticsTest'
+import { PrivacySettingsPanel } from '@/components/privacy/PrivacySettingsPanel'
+import { ALMASettingsPanel } from '@/components/alma/ALMASettingsPanel'
+import { StoryCreationForm } from '@/components/stories/StoryCreationForm'
+import { StoryDashboard } from '@/components/storyteller/StoryDashboard'
 
 interface DetailedTranscript {
   id: string
@@ -128,6 +133,7 @@ export default function StorytellerDashboard() {
   const [activeTab, setActiveTab] = useState('stories')
   const [showMediaUploader, setShowMediaUploader] = useState(false)
   const [showTextTranscriptDialog, setShowTextTranscriptDialog] = useState(false)
+  const [showStoryCreationDialog, setShowStoryCreationDialog] = useState(false)
   const [textTranscriptForm, setTextTranscriptForm] = useState({
     title: '',
     text: ''
@@ -447,7 +453,7 @@ export default function StorytellerDashboard() {
 
       {/* Main Content Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="transcripts" className="flex items-center gap-2">
             <FileText className="h-4 w-4" />
             Transcripts ({data.stats.totalTranscripts})
@@ -467,6 +473,10 @@ export default function StorytellerDashboard() {
           <TabsTrigger value="analytics" className="flex items-center gap-2">
             <BarChart3 className="h-4 w-4" />
             Analytics
+          </TabsTrigger>
+          <TabsTrigger value="settings" className="flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            Settings
           </TabsTrigger>
         </TabsList>
 
@@ -499,64 +509,46 @@ export default function StorytellerDashboard() {
 
         {/* Stories Tab */}
         <TabsContent value="stories" className="space-y-4">
-          <div className="flex items-center justify-between">
-<Typography variant="story-title" className="text-earth-800">
-              Stories ({data.stats.totalStories})
-            </Typography>
-            <Button variant="earth-primary" size="cultural">
-              <PlusCircle className="h-4 w-4 mr-2" />
-              Share New Story
-            </Button>
-          </div>
-          
-          <div className="grid gap-6">
-            {data.stories.map((story) => (
-              <StoryCard
-                key={story.id}
-                storyId={story.id}
-                title={story.title}
-                excerpt={story.summary}
-                storytellerId={storytellerId}
-                storytellerName={data.displayName || data.fullName}
-                storytellerAvatar={data.avatarUrl}
-                culturalSensitivity={story.status === 'published' ? 'public' : 'community'}
-                themes={story.themes}
-                publishedDate={story.publishedAt || story.createdAt}
-                hasVideo={story.hasVideo}
-                status={story.status as any}
-                variant={story.status === 'published' ? 'featured' : 'default'}
-                className="hover:shadow-cultural transition-all duration-300"
-              />
-            ))}
-            
-            {data.stories.length === 0 && (
-              <Card className="border-2 border-dashed border-stone-300 bg-stone-50">
-                <CardContent className="text-center py-16">
-                  <BookOpen className="h-16 w-16 mx-auto mb-4 text-earth-400" />
-                  <Typography variant="story-title" className="mb-3 text-stone-700">
-                    Your Story Collection Awaits
-                  </Typography>
-                  <Typography variant="cultural-body" className="text-stone-600 mb-6 max-w-md mx-auto">
-                    Every story preserves wisdom. Start sharing your cultural heritage and personal experiences with your community.
-                  </Typography>
-                  <div className="flex gap-3 justify-center">
-                    <Button variant="earth-outline" asChild>
-                      <Link href="/stories/create">
-                        <BookOpen className="w-4 h-4 mr-2" />
-                        Write New Story
-                      </Link>
-                    </Button>
-                    {data.transcripts.length > 0 && (
-                      <Button variant="sage-primary" onClick={() => setActiveTab('transcripts')}>
-                        <FileText className="h-4 w-4 mr-2" />
-                        Create from Transcript
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </div>
+          <StoryDashboard
+            stories={data.stories}
+            storytellerId={storytellerId}
+            storytellerName={data.displayName || data.fullName}
+            storytellerAvatar={data.avatarUrl}
+            onCreateStory={() => setShowStoryCreationDialog(true)}
+            onEditStory={(storyId) => {
+              window.location.href = `/stories/${storyId}/edit`
+            }}
+            onDeleteStory={async (storyId) => {
+              if (!confirm('Are you sure you want to delete this story? This cannot be undone.')) {
+                return
+              }
+              try {
+                const response = await fetch(`/api/stories/${storyId}`, {
+                  method: 'DELETE',
+                })
+                if (response.ok) {
+                  window.location.reload()
+                } else {
+                  alert('Failed to delete story')
+                }
+              } catch (error) {
+                console.error('Error deleting story:', error)
+                alert('Failed to delete story')
+              }
+            }}
+            onShareStory={(storyId) => {
+              const shareUrl = `${window.location.origin}/stories/${storyId}`
+              if (navigator.share) {
+                navigator.share({
+                  title: 'Share Story',
+                  url: shareUrl,
+                })
+              } else {
+                navigator.clipboard.writeText(shareUrl)
+                alert('Link copied to clipboard!')
+              }
+            }}
+          />
         </TabsContent>
 
         {/* Photos Tab */}
@@ -632,6 +624,33 @@ export default function StorytellerDashboard() {
         {/* Analytics Tab */}
         <TabsContent value="analytics" className="space-y-4">
           <StorytellerAnalyticsTest storytellerId={storytellerId} />
+        </TabsContent>
+
+        {/* Settings Tab */}
+        <TabsContent value="settings" className="space-y-6">
+          <Tabs defaultValue="privacy" className="space-y-4">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="privacy" className="gap-2">
+                <Shield className="h-4 w-4" />
+                Privacy & Data
+              </TabsTrigger>
+              <TabsTrigger value="alma" className="gap-2">
+                <Shield className="h-4 w-4" />
+                ALMA & Cultural Safety
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="privacy">
+              <PrivacySettingsPanel
+                storytellerId={storytellerId}
+                storytellerEmail={data.email || ''}
+              />
+            </TabsContent>
+
+            <TabsContent value="alma">
+              <ALMASettingsPanel storytellerId={storytellerId} />
+            </TabsContent>
+          </Tabs>
         </TabsContent>
       </Tabs>
       </div>
@@ -717,7 +736,25 @@ export default function StorytellerDashboard() {
           </div>
         </DialogContent>
       </Dialog>
-      
+
+      {/* Story Creation Dialog */}
+      <Dialog open={showStoryCreationDialog} onOpenChange={setShowStoryCreationDialog}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-clay-900">Share Your Story</DialogTitle>
+          </DialogHeader>
+          <StoryCreationForm
+            storytellerId={storytellerId}
+            onSuccess={(storyId) => {
+              setShowStoryCreationDialog(false)
+              // Refresh the dashboard to show the new story
+              window.location.reload()
+            }}
+            onCancel={() => setShowStoryCreationDialog(false)}
+          />
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   )
