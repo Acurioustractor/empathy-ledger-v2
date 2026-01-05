@@ -17,9 +17,20 @@ export async function GET() {
       .select(`
         id,
         title,
+        excerpt,
+        content,
+        story_type,
+        featured_image_url,
+        reading_time_minutes,
+        views_count,
+        cultural_tags,
+        language,
+        created_at,
         storyteller:storytellers!storyteller_id (
           id,
-          display_name
+          display_name,
+          cultural_background,
+          avatar_url
         )
       `, { count: 'exact' })
       .eq('status', 'published')
