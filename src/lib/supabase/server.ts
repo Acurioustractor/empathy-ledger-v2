@@ -50,4 +50,7 @@ export const createAdminClient = () => {
   })
 }
 
+// Alias for backwards compatibility with API routes
+export const createSupabaseServerClient = createClient
+
 export type SupabaseServerClient = ReturnType<typeof createClient>
