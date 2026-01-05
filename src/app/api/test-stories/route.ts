@@ -21,7 +21,7 @@ export async function GET() {
         content,
         story_type,
         story_image_url,
-        reading_time_minutes,
+        reading_time,
         views_count,
         cultural_tags,
         language,

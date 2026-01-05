@@ -35,7 +35,8 @@ export async function GET(request: NextRequest) {
         orderBy = { column: 'title', ascending: true }
         break
       case 'most-commented':
-        orderBy = { column: 'comments_count', ascending: false }
+        // Note: comments_count column doesn't exist yet, falling back to recent
+        orderBy = { column: 'created_at', ascending: false }
         break
     }
 
@@ -49,7 +50,7 @@ export async function GET(request: NextRequest) {
         content,
         story_type,
         story_image_url,
-        reading_time_minutes,
+        reading_time,
         views_count,
         cultural_tags,
         language,
@@ -109,7 +110,7 @@ export async function GET(request: NextRequest) {
       excerpt: story.excerpt || story.content?.substring(0, 200) + '...',
       story_type: story.story_type,
       featured_image_url: story.story_image_url,
-      reading_time_minutes: story.reading_time_minutes,
+      reading_time_minutes: story.reading_time,
       views_count: story.views_count || 0,
       cultural_tags: story.cultural_tags || [],
       language: story.language,
