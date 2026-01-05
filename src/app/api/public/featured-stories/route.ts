@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       `)
       .eq('status', 'published')
       .eq('is_public', true)
-      .eq('featured', true)
+      .eq('is_featured', true)
       .order('created_at', { ascending: false })
       .limit(8)
 
