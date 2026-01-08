@@ -38,6 +38,7 @@ import {
   Loader2,
   Search
 } from 'lucide-react'
+import { VideoLocationPicker } from './VideoLocationPicker'
 
 interface VideoTaggerProps {
   videoId: string
@@ -95,9 +96,6 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
 
   // Location state
   const [location, setLocation] = useState<Location | null>(null)
-  const [locationSearch, setLocationSearch] = useState('')
-  const [loadingLocation, setLoadingLocation] = useState(true)
-  const [savingLocation, setSavingLocation] = useState(false)
 
   // Fetch current tags
   useEffect(() => {
@@ -157,18 +155,15 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
     fetchStorytellers()
   }, [videoId])
 
-  // Fetch current location
+  // Fetch current location (VideoLocationPicker will handle loading state)
   useEffect(() => {
     const fetchLocation = async () => {
-      setLoadingLocation(true)
       try {
         const res = await fetch(`/api/videos/${videoId}/location`)
         const data = await res.json()
         setLocation(data.location)
       } catch (err) {
         console.error('Error fetching location:', err)
-      } finally {
-        setLoadingLocation(false)
       }
     }
 
@@ -269,21 +264,6 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
       ))
     } catch (err) {
       console.error('Error updating relationship:', err)
-    }
-  }
-
-  // Clear location
-  const clearLocation = async () => {
-    setSavingLocation(true)
-    try {
-      await fetch(`/api/videos/${videoId}/location`, {
-        method: 'DELETE'
-      })
-      setLocation(null)
-    } catch (err) {
-      console.error('Error clearing location:', err)
-    } finally {
-      setSavingLocation(false)
     }
   }
 
@@ -501,47 +481,19 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
       </TabsContent>
 
       {/* Location Tab */}
-      <TabsContent value="location" className="space-y-4 mt-4">
-        {loadingLocation ? (
-          <Skeleton className="h-32 w-full" />
-        ) : location ? (
-          <div className="p-4 bg-stone-50 rounded-lg">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="font-medium">{location.placeName}</p>
-                <p className="text-sm text-muted-foreground">
-                  {[location.locality, location.region, location.country]
-                    .filter(Boolean)
-                    .join(', ')}
-                </p>
-                {location.indigenousTerritory && (
-                  <p className="text-sm text-sage-600 mt-1">
-                    {location.indigenousTerritory}
-                  </p>
-                )}
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={clearLocation}
-                disabled={savingLocation}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <div className="text-center py-8 bg-stone-50 rounded-lg">
-            <MapPin className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-            <p className="text-sm text-muted-foreground mb-4">
-              No location set
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Location tagging requires Mapbox integration.
-              Coming soon!
-            </p>
-          </div>
-        )}
+      <TabsContent value="location" className="mt-4">
+        <VideoLocationPicker
+          videoId={videoId}
+          initialLocation={location}
+          onSave={(newLocation) => {
+            setLocation(newLocation)
+            onSave?.()
+          }}
+          onRemove={() => {
+            setLocation(null)
+            onSave?.()
+          }}
+        />
       </TabsContent>
     </Tabs>
   )
