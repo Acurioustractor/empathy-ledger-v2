@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Home, Users, BookOpen, Building2, FolderOpen, Settings, BarChart, Image, Camera, FileText, Shield } from 'lucide-react'
+import { Home, Users, BookOpen, Building2, FolderOpen, Settings, BarChart, Image, Camera, FileText, Shield, ImagePlus, Sparkles, PlusCircle, Video, Search, Layers } from 'lucide-react'
 import Header from '@/components/layout/header'
 
 export default function Layout({
@@ -53,6 +53,25 @@ export default function Layout({
             </Button>
           </Link>
 
+          {/* Quick Actions */}
+          <div className="pt-4">
+            <div className="text-xs font-semibold text-grey-500 uppercase tracking-wide mb-2 px-3">
+              Quick Actions
+            </div>
+            <Link href="/admin/workflow">
+              <Button variant="ghost" className="w-full justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+                <Sparkles className="w-4 h-4 mr-3" />
+                Story Workflow
+              </Button>
+            </Link>
+            <Link href="/admin/quick-add">
+              <Button variant="ghost" className="w-full justify-start">
+                <PlusCircle className="w-4 h-4 mr-3" />
+                Quick Add
+              </Button>
+            </Link>
+          </div>
+
           {/* Media Section */}
           <div className="pt-4">
             <div className="text-xs font-semibold text-grey-500 uppercase tracking-wide mb-2 px-3">
@@ -70,10 +89,34 @@ export default function Layout({
                 Photos
               </Button>
             </Link>
+            <Link href="/admin/story-images">
+              <Button variant="ghost" className="w-full justify-start">
+                <ImagePlus className="w-4 h-4 mr-3" />
+                Story Images
+              </Button>
+            </Link>
             <Link href="/admin/transcripts">
               <Button variant="ghost" className="w-full justify-start">
                 <FileText className="w-4 h-4 mr-3" />
                 Transcripts
+              </Button>
+            </Link>
+            <Link href="/admin/videos">
+              <Button variant="ghost" className="w-full justify-start">
+                <Video className="w-4 h-4 mr-3" />
+                Videos
+              </Button>
+            </Link>
+            <Link href="/admin/smart-gallery">
+              <Button variant="ghost" className="w-full justify-start">
+                <Layers className="w-4 h-4 mr-3" />
+                Smart Gallery
+              </Button>
+            </Link>
+            <Link href="/admin/search">
+              <Button variant="ghost" className="w-full justify-start">
+                <Search className="w-4 h-4 mr-3" />
+                Smart Search
               </Button>
             </Link>
           </div>
