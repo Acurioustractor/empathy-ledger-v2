@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
         break
     }
 
-    // Build query
+    // Build query - fetch stories without join to avoid FK issues
     let query = supabase
       .from('stories')
       .select(`
@@ -55,12 +55,7 @@ export async function GET(request: NextRequest) {
         cultural_themes,
         language,
         created_at,
-        storyteller:storytellers!storyteller_id (
-          id,
-          display_name,
-          cultural_background,
-          avatar_url
-        )
+        storyteller_id
       `, { count: 'exact' })
       .eq('status', 'published')
       .eq('is_public', true)
@@ -72,11 +67,8 @@ export async function GET(request: NextRequest) {
       query = query.contains('cultural_themes', themeArray)
     }
 
-    const culturalGroups = searchParams.get('cultural_groups')
-    if (culturalGroups) {
-      const groups = culturalGroups.split(',')
-      query = query.in('storytellers.cultural_background', groups)
-    }
+    // Note: cultural_groups filter would require a join - skipping for now
+    // const culturalGroups = searchParams.get('cultural_groups')
 
     const mediaTypes = searchParams.get('media_types')
     if (mediaTypes) {
@@ -103,25 +95,43 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Transform data
-    const transformedStories = (stories || []).map(story => ({
-      id: story.id,
-      title: story.title,
-      excerpt: story.excerpt || story.content?.substring(0, 200) + '...',
-      story_type: story.story_type,
-      featured_image_url: story.story_image_url,
-      reading_time_minutes: story.reading_time,
-      view_count: story.views_count || 0,
-      cultural_tags: story.cultural_themes || [],
-      language: story.language,
-      created_at: story.created_at,
-      storyteller: {
-        id: story.storyteller?.id,
-        display_name: story.storyteller?.display_name || 'Anonymous',
-        cultural_background: story.storyteller?.cultural_background,
-        avatar_url: story.storyteller?.avatar_url
+    // Fetch storytellers for the stories
+    const storytellerIds = [...new Set((stories || []).map(s => s.storyteller_id).filter(Boolean))]
+    let storytellersMap: Record<string, { id: string; display_name: string; cultural_background?: string; public_avatar_url?: string }> = {}
+
+    if (storytellerIds.length > 0) {
+      const { data: storytellers } = await supabase
+        .from('storytellers')
+        .select('id, display_name, cultural_background, public_avatar_url')
+        .in('id', storytellerIds)
+
+      for (const st of storytellers || []) {
+        storytellersMap[st.id] = st
       }
-    }))
+    }
+
+    // Transform data
+    const transformedStories = (stories || []).map(story => {
+      const storyteller = story.storyteller_id ? storytellersMap[story.storyteller_id] : null
+      return {
+        id: story.id,
+        title: story.title,
+        excerpt: story.excerpt || story.content?.substring(0, 200) + '...',
+        story_type: story.story_type,
+        featured_image_url: story.story_image_url,
+        reading_time_minutes: story.reading_time,
+        view_count: story.views_count || 0,
+        cultural_tags: story.cultural_themes || [],
+        language: story.language,
+        created_at: story.created_at,
+        storyteller: {
+          id: storyteller?.id,
+          display_name: storyteller?.display_name || 'Anonymous',
+          cultural_background: storyteller?.cultural_background,
+          avatar_url: storyteller?.public_avatar_url
+        }
+      }
+    })
 
     const totalPages = Math.ceil((count || 0) / limit)
 
