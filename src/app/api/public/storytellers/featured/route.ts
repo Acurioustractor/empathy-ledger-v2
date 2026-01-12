@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createSupabaseServerClient } from '@/lib/supabase/server'
+import { createClient } from '@supabase/supabase-js'
 
 /**
  * GET /api/public/storytellers/featured
@@ -7,11 +7,14 @@ import { createSupabaseServerClient } from '@/lib/supabase/server'
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    )
     const { searchParams } = new URL(request.url)
     const limit = parseInt(searchParams.get('limit') || '4')
 
-    // Fetch featured storytellers with story counts
+    // Fetch featured storytellers
     const { data: storytellers, error } = await supabase
       .from('storytellers')
       .select(`
@@ -19,7 +22,7 @@ export async function GET(request: NextRequest) {
         display_name,
         cultural_background,
         bio,
-        avatar_url,
+        public_avatar_url,
         is_active,
         created_at
       `)
@@ -44,13 +47,14 @@ export async function GET(request: NextRequest) {
           .select('*', { count: 'exact', head: true })
           .eq('storyteller_id', storyteller.id)
           .eq('status', 'published')
+          .eq('is_public', true)
 
         return {
           id: storyteller.id,
           display_name: storyteller.display_name,
           cultural_background: storyteller.cultural_background,
           bio: storyteller.bio,
-          avatar_url: storyteller.avatar_url,
+          avatar_url: storyteller.public_avatar_url,
           story_count: count || 0
         }
       })
