@@ -27,8 +27,12 @@ import {
   Lock,
   Users,
   AlertTriangle,
-  CheckCircle
+  CheckCircle,
+  User,
+  Building2,
+  FolderKanban
 } from 'lucide-react'
+import EntityTagPicker from '@/components/admin/EntityTagPicker'
 
 interface Photo {
   id: string
@@ -45,6 +49,10 @@ interface Photo {
   uploaderName: string
   organizationId?: string
   organizationName?: string
+  projectId?: string
+  projectName?: string
+  taggedStorytellerIds: string[]
+  taggedStorytellers: Array<{ id: string; name: string; avatarUrl?: string }>
   visibility: 'public' | 'community' | 'private'
   consentStatus: 'pending' | 'granted' | 'denied'
   culturalSensitivityLevel: 'low' | 'medium' | 'high'
@@ -94,6 +102,8 @@ export default function PhotosAdminPage() {
   const [photoToLink, setPhotoToLink] = useState<Photo | null>(null)
   const [availableGalleries, setAvailableGalleries] = useState<Array<{id: string, title: string}>>([])
   const [selectedGalleryIds, setSelectedGalleryIds] = useState<Set<string>>(new Set())
+  const [isEntityTaggingOpen, setIsEntityTaggingOpen] = useState(false)
+  const [photoToEntityTag, setPhotoToEntityTag] = useState<Photo | null>(null)
 
   // Stats
   const [organisations, setOrganizations] = useState<string[]>([])
@@ -326,6 +336,45 @@ export default function PhotosAdminPage() {
     }
   }
 
+  const saveEntityTags = async (data: {
+    storytellerIds: string[]
+    projectId: string | null
+    organizationId: string | null
+  }) => {
+    if (!photoToEntityTag) return
+
+    try {
+      const response = await fetch('/api/admin/media', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: photoToEntityTag.id,
+          taggedStorytellerIds: data.storytellerIds,
+          projectId: data.projectId,
+          organizationId: data.organizationId
+        })
+      })
+
+      if (response.ok) {
+        // Update local state - will need to refetch to get full entity names
+        fetchPhotos()
+        setIsEntityTaggingOpen(false)
+        setPhotoToEntityTag(null)
+      } else {
+        console.error('Failed to update entity tags')
+        alert('Failed to update entity tags. Please try again.')
+      }
+    } catch (error) {
+      console.error('Error updating entity tags:', error)
+      alert('Error updating entity tags. Please try again.')
+    }
+  }
+
+  const openEntityTagging = (photo: Photo) => {
+    setPhotoToEntityTag(photo)
+    setIsEntityTaggingOpen(true)
+  }
+
   const togglePhotoSelection = (photoId: string) => {
     setSelectedPhotos(prev => {
       const newSet = new Set(prev)
@@ -480,28 +529,28 @@ This will help organise your media collection.`
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800'
-      case 'flagged': return 'bg-red-100 text-red-800'
-      case 'hidden': return 'bg-grey-100 text-grey-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'active': return 'bg-sage-100 text-sage-700 border border-sage-200'
+      case 'flagged': return 'bg-clay-100 text-clay-700 border border-clay-200'
+      case 'hidden': return 'bg-stone-100 text-stone-600 border border-stone-200'
+      default: return 'bg-stone-100 text-stone-600 border border-stone-200'
     }
   }
 
   const getVisibilityColor = (visibility: string) => {
     switch (visibility) {
-      case 'public': return 'bg-blue-100 text-blue-800'
-      case 'community': return 'bg-purple-100 text-purple-800'
-      case 'private': return 'bg-grey-100 text-grey-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'public': return 'bg-sage-100 text-sage-700 border border-sage-200'
+      case 'community': return 'bg-earth-100 text-earth-700 border border-earth-200'
+      case 'private': return 'bg-stone-100 text-stone-600 border border-stone-200'
+      default: return 'bg-stone-100 text-stone-600 border border-stone-200'
     }
   }
 
   const getSensitivityColor = (level: string) => {
     switch (level) {
-      case 'high': return 'bg-red-100 text-red-800'
-      case 'medium': return 'bg-yellow-100 text-yellow-800'
-      case 'low': return 'bg-green-100 text-green-800'
-      default: return 'bg-grey-100 text-grey-800'
+      case 'high': return 'bg-clay-100 text-clay-700 border border-clay-200'
+      case 'medium': return 'bg-amber-100 text-amber-700 border border-amber-200'
+      case 'low': return 'bg-sage-100 text-sage-700 border border-sage-200'
+      default: return 'bg-stone-100 text-stone-600 border border-stone-200'
     }
   }
 
@@ -518,8 +567,8 @@ This will help organise your media collection.`
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
-          <span className="ml-2">Loading photos...</span>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sage-600"></div>
+          <span className="ml-2 text-stone-600">Loading photos...</span>
         </div>
       </div>
     )
@@ -528,91 +577,100 @@ This will help organise your media collection.`
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-grey-900 mb-2">Photos Admin</h1>
-        <p className="text-grey-600">
-          Manage all photos with advanced filtering and cultural protocols
-        </p>
+      <div className="bg-gradient-to-r from-stone-50 via-sage-50/30 to-earth-50/20 border border-stone-200 rounded-xl px-6 py-6">
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-display-sm font-bold tracking-tight text-stone-900">Photos Admin</h1>
+            <p className="text-body-md text-stone-600 mt-1">
+              Manage all photos with advanced filtering and cultural protocols
+            </p>
+          </div>
+          <div className="flex-shrink-0">
+            <div className="w-12 h-12 bg-gradient-to-br from-sage-500 to-earth-600 rounded-xl flex items-center justify-center shadow-lg">
+              <Camera className="w-6 h-6 text-white" />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-        <Card>
+        <Card className="bg-gradient-to-br from-stone-50 to-stone-100/50 border-stone-200">
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-blue-600">{totalPhotos}</p>
-              <p className="text-xs text-grey-600">Total Photos</p>
+              <p className="text-2xl font-bold text-stone-800">{totalPhotos}</p>
+              <p className="text-xs text-stone-600">Total Photos</p>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-gradient-to-br from-sage-50 to-sage-100/50 border-sage-200">
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-green-600">{activePhotos}</p>
-              <p className="text-xs text-grey-600">Active</p>
+              <p className="text-2xl font-bold text-sage-700">{activePhotos}</p>
+              <p className="text-xs text-stone-600">Active</p>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-gradient-to-br from-clay-50 to-clay-100/50 border-clay-200">
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-red-600">{flaggedPhotos}</p>
-              <p className="text-xs text-grey-600">Flagged</p>
+              <p className="text-2xl font-bold text-clay-700">{flaggedPhotos}</p>
+              <p className="text-xs text-stone-600">Flagged</p>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-gradient-to-br from-earth-50 to-earth-100/50 border-earth-200">
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-purple-600">{linkedPhotos}</p>
-              <p className="text-xs text-grey-600">Gallery Linked</p>
+              <p className="text-2xl font-bold text-earth-700">{linkedPhotos}</p>
+              <p className="text-xs text-stone-600">Gallery Linked</p>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-gradient-to-br from-amber-50 to-amber-100/50 border-amber-200">
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-orange-600">{unlinkedPhotos}</p>
-              <p className="text-xs text-grey-600">Unlinked</p>
+              <p className="text-2xl font-bold text-amber-700">{unlinkedPhotos}</p>
+              <p className="text-xs text-stone-600">Unlinked</p>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-gradient-to-br from-clay-50 to-clay-100/50 border-clay-200">
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-yellow-600">{highSensitivityPhotos}</p>
-              <p className="text-xs text-grey-600">High Sensitivity</p>
+              <p className="text-2xl font-bold text-clay-700">{highSensitivityPhotos}</p>
+              <p className="text-xs text-stone-600">High Sensitivity</p>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-gradient-to-br from-sage-50 to-sage-100/50 border-sage-200">
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-indigo-600">{Math.round(totalSize)}</p>
-              <p className="text-xs text-grey-600">MB Total</p>
+              <p className="text-2xl font-bold text-sage-700">{Math.round(totalSize)}</p>
+              <p className="text-xs text-stone-600">MB Total</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Filters */}
-      <Card>
+      <Card className="border-stone-200">
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-grey-400" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-stone-400" />
               <Input
                 placeholder="Search photos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 border-stone-300 focus:ring-sage-500 focus:border-sage-500"
               />
             </div>
 
             <select
               value={selectedOrganization}
               onChange={(e) => setSelectedOrganization(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sage-500 text-stone-700"
             >
               <option value="all">All Organizations</option>
               {organisations.map(org => (
@@ -623,7 +681,7 @@ This will help organise your media collection.`
             <select
               value={selectedProject}
               onChange={(e) => setSelectedProject(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sage-500 text-stone-700"
             >
               <option value="all">All Projects</option>
               {projects.map(project => (
@@ -634,7 +692,7 @@ This will help organise your media collection.`
             <select
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sage-500 text-stone-700"
             >
               <option value="all">All Locations</option>
               {locations.map(location => (
@@ -647,7 +705,7 @@ This will help organise your media collection.`
             <select
               value={selectedVisibility}
               onChange={(e) => setSelectedVisibility(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sage-500 text-stone-700"
             >
               <option value="all">All Visibility</option>
               <option value="public">Public</option>
@@ -658,7 +716,7 @@ This will help organise your media collection.`
             <select
               value={selectedSensitivity}
               onChange={(e) => setSelectedSensitivity(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sage-500 text-stone-700"
             >
               <option value="all">All Sensitivity</option>
               <option value="low">Low</option>
@@ -669,7 +727,7 @@ This will help organise your media collection.`
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sage-500 text-stone-700"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -680,7 +738,7 @@ This will help organise your media collection.`
             <select
               value={linkedFilter}
               onChange={(e) => setLinkedFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-4 py-2 border border-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sage-500 text-stone-700"
             >
               <option value="all">All Photos</option>
               <option value="linked">Gallery Linked</option>
@@ -694,7 +752,7 @@ This will help organise your media collection.`
                 variant={viewMode === 'grid' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setViewMode('grid')}
-                className="bg-orange-600 hover:bg-orange-700"
+                className={viewMode === 'grid' ? 'bg-gradient-to-r from-sage-600 to-sage-700 hover:from-sage-700 hover:to-sage-800' : 'border-stone-300'}
               >
                 <Grid3x3 className="w-4 h-4 mr-2" />
                 Grid
@@ -703,7 +761,7 @@ This will help organise your media collection.`
                 variant={viewMode === 'list' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setViewMode('list')}
-                className="bg-orange-600 hover:bg-orange-700"
+                className={viewMode === 'list' ? 'bg-gradient-to-r from-sage-600 to-sage-700 hover:from-sage-700 hover:to-sage-800' : 'border-stone-300'}
               >
                 <List className="w-4 h-4 mr-2" />
                 List
@@ -718,7 +776,7 @@ This will help organise your media collection.`
                   setIsBatchMode(!isBatchMode)
                   setSelectedPhotos(new Set())
                 }}
-                className={isBatchMode ? 'bg-orange-600 hover:bg-orange-700' : ''}
+                className={isBatchMode ? 'bg-gradient-to-r from-sage-600 to-sage-700 hover:from-sage-700 hover:to-sage-800' : 'border-stone-300'}
               >
                 {isBatchMode ? 'Exit Select' : 'Select'}
               </Button>
@@ -730,6 +788,7 @@ This will help organise your media collection.`
                     size="sm"
                     onClick={selectAllFilteredPhotos}
                     disabled={filteredPhotos.length === 0}
+                    className="border-stone-300"
                   >
                     Select All ({filteredPhotos.length})
                   </Button>
@@ -739,6 +798,7 @@ This will help organise your media collection.`
                     size="sm"
                     onClick={clearSelection}
                     disabled={selectedPhotos.size === 0}
+                    className="border-stone-300"
                   >
                     Clear ({selectedPhotos.size})
                   </Button>
@@ -749,7 +809,7 @@ This will help organise your media collection.`
                         variant="outline"
                         size="sm"
                         onClick={handleBatchTag}
-                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                        className="text-sage-700 border-sage-300 hover:bg-sage-50"
                       >
                         <Tag className="w-4 h-4 mr-2" />
                         Tag ({selectedPhotos.size})
@@ -759,7 +819,7 @@ This will help organise your media collection.`
                         variant="outline"
                         size="sm"
                         onClick={handleBatchDelete}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        className="text-clay-600 border-clay-300 hover:bg-clay-50"
                       >
                         <Trash2 className="w-4 h-4 mr-2" />
                         Delete ({selectedPhotos.size})
@@ -769,21 +829,21 @@ This will help organise your media collection.`
                 </>
               )}
 
-              <div className="border-l pl-2 ml-2">
-                <span className="text-sm text-grey-600">
+              <div className="border-l border-stone-200 pl-2 ml-2">
+                <span className="text-sm text-stone-600">
                   Showing {filteredPhotos.length} of {totalPhotos} photos
                 </span>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="ml-2"
+                  className="ml-2 border-stone-300"
                   onClick={() => handleBulkLink()}
                   disabled={unlinkedPhotos === 0}
                 >
                   <Link className="w-4 h-4 mr-2" />
                   Link {unlinkedPhotos} Unlinked
                 </Button>
-                <Button variant="outline" size="sm" className="ml-2">
+                <Button variant="outline" size="sm" className="ml-2 border-stone-300">
                   <Download className="w-4 h-4 mr-2" />
                   Export
                 </Button>
@@ -799,7 +859,7 @@ This will help organise your media collection.`
           {filteredPhotos.map((photo, index) => (
             <Card key={photo.id} className="overflow-hidden hover:shadow-lg transition-all duration-200 cursor-pointer group">
               <div onClick={() => handleViewPhoto(photo)} className="relative">
-                <div className="aspect-[4/3] bg-gradient-to-br from-grey-50 to-grey-100 flex items-center justify-center relative overflow-hidden">
+                <div className="aspect-[4/3] bg-gradient-to-br from-stone-100 to-earth-100 flex items-center justify-center relative overflow-hidden">
                   {photo.publicUrl ? (
                     <img
                       src={photo.publicUrl}
@@ -811,7 +871,7 @@ This will help organise your media collection.`
                       }}
                     />
                   ) : null}
-                  <div className="w-full h-full flex flex-col items-center justify-center text-grey-400" style={{ display: photo.publicUrl ? 'none' : 'flex' }}>
+                  <div className="w-full h-full flex flex-col items-center justify-center text-stone-400" style={{ display: photo.publicUrl ? 'none' : 'flex' }}>
                     <Camera className="w-12 h-12 mb-2" />
                     <p className="text-sm font-medium">Photo Preview</p>
                     <p className="text-xs">{photo.mimeType}</p>
@@ -850,6 +910,7 @@ This will help organise your media collection.`
                         e.stopPropagation();
                         handleTagPhoto(photo);
                       }}
+                      title="Cultural Tags"
                     >
                       <Tag className="w-4 h-4" />
                     </Button>
@@ -859,8 +920,21 @@ This will help organise your media collection.`
                       className="bg-white bg-opacity-90 hover:bg-opacity-100"
                       onClick={(e) => {
                         e.stopPropagation();
+                        openEntityTagging(photo);
+                      }}
+                      title="Tag People & Projects"
+                    >
+                      <User className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="bg-white bg-opacity-90 hover:bg-opacity-100"
+                      onClick={(e) => {
+                        e.stopPropagation();
                         handleLinkPhoto(photo);
                       }}
+                      title="Link to Galleries"
                     >
                       <Link className="w-4 h-4" />
                     </Button>
@@ -878,11 +952,11 @@ This will help organise your media collection.`
                       />
                     </div>
                   )}
-                  <Badge className="bg-blue-600 text-white text-xs font-medium shadow-sm">
+                  <Badge className="bg-sage-600 text-white text-xs font-medium shadow-sm">
                     #{index + 1}
                   </Badge>
                   {photo.galleries.length > 0 && (
-                    <Badge className="bg-green-600 text-white text-xs font-medium shadow-sm">
+                    <Badge className="bg-earth-600 text-white text-xs font-medium shadow-sm">
                       <Link className="w-3 h-3 mr-1" />
                       {photo.galleries.length}
                     </Badge>
@@ -899,8 +973,8 @@ This will help organise your media collection.`
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4">
                   <p className="text-white text-sm font-semibold truncate mb-1">{photo.title}</p>
                   <div className="flex items-center justify-between">
-                    <p className="text-grey-200 text-xs truncate">{photo.organizationName}</p>
-                    <p className="text-grey-300 text-xs font-medium">
+                    <p className="text-earth-200 text-xs truncate">{photo.organizationName}</p>
+                    <p className="text-earth-300 text-xs font-medium">
                       {(photo.fileSize / 1024 / 1024).toFixed(1)} MB
                     </p>
                   </div>
@@ -912,7 +986,7 @@ This will help organise your media collection.`
                       {photo.visibility}
                     </Badge>
                     {photo.consentStatus === 'granted' && (
-                      <Badge className="bg-green-100 text-green-800" size="sm">
+                      <Badge className="bg-sage-100 text-sage-800" size="sm">
                         <CheckCircle className="w-3 h-3 mr-1" />
                         Consented
                       </Badge>
@@ -925,7 +999,7 @@ This will help organise your media collection.`
               <CardContent className="p-4">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-grey-600">
+                    <span className="text-sm text-stone-600">
                       {new Date(photo.createdAt).toLocaleDateString()}
                     </span>
                     <Badge variant="outline" className="text-xs">
@@ -948,26 +1022,62 @@ This will help organise your media collection.`
                     </div>
                   )}
 
+                  {/* Entity Tags (People, Projects, Organizations) */}
+                  {(photo.taggedStorytellers?.length > 0 || photo.projectName || photo.organizationName) && (
+                    <div className="flex flex-wrap gap-1">
+                      {photo.taggedStorytellers?.slice(0, 2).map(person => (
+                        <Badge key={person.id} variant="outline" className="text-xs bg-sage-50 border-sage-200 text-sage-700">
+                          <User className="w-3 h-3 mr-1" />
+                          {person.name}
+                        </Badge>
+                      ))}
+                      {photo.taggedStorytellers?.length > 2 && (
+                        <Badge variant="outline" className="text-xs bg-sage-50 border-sage-200 text-sage-700">
+                          +{photo.taggedStorytellers.length - 2} more
+                        </Badge>
+                      )}
+                      {photo.projectName && (
+                        <Badge variant="outline" className="text-xs bg-earth-50 border-earth-200 text-earth-700">
+                          <FolderKanban className="w-3 h-3 mr-1" />
+                          {photo.projectName}
+                        </Badge>
+                      )}
+                    </div>
+                  )}
+
                   {/* Quick action buttons */}
-                  <div className="flex items-center justify-between pt-2 border-t border-grey-100">
+                  <div className="flex items-center justify-between pt-2 border-t border-stone-200">
+                    <div className="flex items-center gap-1">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (photo.publicUrl) {
+                            window.open(photo.publicUrl, '_blank');
+                          }
+                        }}
+                      >
+                        <Download className="w-3 h-3 mr-1" />
+                        Download
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-sage-600 hover:text-sage-700 hover:bg-sage-50"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openEntityTagging(photo);
+                        }}
+                        title="Tag People & Projects"
+                      >
+                        <User className="w-3 h-3" />
+                      </Button>
+                    </div>
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        // Open image in new tab for download
-                        if (photo.publicUrl) {
-                          window.open(photo.publicUrl, '_blank');
-                        }
-                      }}
-                    >
-                      <Download className="w-3 h-3 mr-1" />
-                      Download
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      className="text-clay-600 hover:text-clay-700 hover:bg-clay-50"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDeletePhoto(photo);
@@ -987,10 +1097,10 @@ This will help organise your media collection.`
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-grey-50">
+                <thead className="bg-stone-50">
                   <tr>
                     {isBatchMode && (
-                      <th className="px-4 py-3 text-left text-xs font-medium text-grey-500 uppercase">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase">
                         <Checkbox
                           checked={selectedPhotos.size === filteredPhotos.length && filteredPhotos.length > 0}
                           onCheckedChange={(checked) => {
@@ -1003,19 +1113,19 @@ This will help organise your media collection.`
                         />
                       </th>
                     )}
-                    <th className="px-4 py-3 text-left text-xs font-medium text-grey-500 uppercase">#</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-grey-500 uppercase">Photo</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-grey-500 uppercase">Organization</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-grey-500 uppercase">Project</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-grey-500 uppercase">Size</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-grey-500 uppercase">Status</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-grey-500 uppercase">Galleries</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-grey-500 uppercase">Actions</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase">#</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase">Photo</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase">Organization</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase">Project</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase">Size</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase">Status</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase">Galleries</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-grey-200">
+                <tbody className="divide-y divide-stone-200">
                   {filteredPhotos.map((photo, index) => (
-                    <tr key={photo.id} className="hover:bg-grey-50">
+                    <tr key={photo.id} className="hover:bg-stone-50">
                       {isBatchMode && (
                         <td className="px-4 py-4">
                           <Checkbox
@@ -1024,12 +1134,12 @@ This will help organise your media collection.`
                           />
                         </td>
                       )}
-                      <td className="px-4 py-4 text-sm text-grey-500">
+                      <td className="px-4 py-4 text-sm text-stone-500">
                         #{index + 1}
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center">
-                          <div className="w-16 h-16 bg-grey-100 rounded-lg overflow-hidden mr-4 flex-shrink-0">
+                          <div className="w-16 h-16 bg-earth-100 rounded-lg overflow-hidden mr-4 flex-shrink-0">
                             {photo.publicUrl ? (
                               <img
                                 src={photo.publicUrl}
@@ -1041,15 +1151,15 @@ This will help organise your media collection.`
                                 }}
                               />
                             ) : null}
-                            <div className="w-full h-full flex items-center justify-center text-grey-400" style={{ display: photo.publicUrl ? 'none' : 'flex' }}>
+                            <div className="w-full h-full flex items-center justify-center text-stone-400" style={{ display: photo.publicUrl ? 'none' : 'flex' }}>
                               <Camera className="w-6 h-6" />
                             </div>
                           </div>
                           <div className="min-w-0 flex-1">
-                            <p className="text-sm font-medium text-grey-900 truncate">
+                            <p className="text-sm font-medium text-stone-900 truncate">
                               {photo.title}
                             </p>
-                            <p className="text-sm text-grey-500 truncate">
+                            <p className="text-sm text-stone-500 truncate">
                               {photo.filename}
                             </p>
                             <div className="flex items-center gap-2 mt-1">
@@ -1063,13 +1173,13 @@ This will help organise your media collection.`
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-4 text-sm text-grey-900">
+                      <td className="px-4 py-4 text-sm text-stone-900">
                         {photo.organizationName || 'None'}
                       </td>
-                      <td className="px-4 py-4 text-sm text-grey-500">
+                      <td className="px-4 py-4 text-sm text-stone-500">
                         {photo.culturalTags.find(tag => tag.includes('foundation') || tag.includes('trek')) || 'None'}
                       </td>
-                      <td className="px-4 py-4 text-sm text-grey-500">
+                      <td className="px-4 py-4 text-sm text-stone-500">
                         {(photo.fileSize / 1024 / 1024).toFixed(1)} MB
                       </td>
                       <td className="px-4 py-4">
@@ -1082,13 +1192,13 @@ This will help organise your media collection.`
                           </Badge>
                         </div>
                       </td>
-                      <td className="px-4 py-4 text-sm text-grey-500">
+                      <td className="px-4 py-4 text-sm text-stone-500">
                         {photo.galleries.length > 0 ? (
-                          <Badge className="bg-green-100 text-green-800">
+                          <Badge className="bg-sage-100 text-sage-800 border border-sage-200">
                             {photo.galleries.length} galleries
                           </Badge>
                         ) : (
-                          <span className="text-grey-400">Unlinked</span>
+                          <span className="text-stone-400">Unlinked</span>
                         )}
                       </td>
                       <td className="px-4 py-4">
@@ -1113,9 +1223,9 @@ This will help organise your media collection.`
 
       {filteredPhotos.length === 0 && (
         <div className="text-center py-12">
-          <Camera className="w-12 h-12 text-grey-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-grey-900 mb-2">No photos found</h3>
-          <p className="text-grey-600">Try adjusting your search or filter criteria.</p>
+          <Camera className="w-12 h-12 text-stone-400 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-stone-900 mb-2">No photos found</h3>
+          <p className="text-stone-600">Try adjusting your search or filter criteria.</p>
         </div>
       )}
 
@@ -1130,7 +1240,7 @@ This will help organise your media collection.`
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Photo Preview */}
               <div className="space-y-4">
-                <div className="aspect-square bg-gradient-to-br from-grey-50 to-grey-100 rounded-lg overflow-hidden relative">
+                <div className="aspect-square bg-gradient-to-br from-stone-100 to-earth-100 rounded-lg overflow-hidden relative">
                   {selectedPhoto.publicUrl ? (
                     <img
                       src={selectedPhoto.publicUrl}
@@ -1142,32 +1252,61 @@ This will help organise your media collection.`
                       }}
                     />
                   ) : null}
-                  <div className="w-full h-full flex flex-col items-center justify-center text-grey-500" style={{ display: selectedPhoto.publicUrl ? 'none' : 'flex' }}>
+                  <div className="w-full h-full flex flex-col items-center justify-center text-stone-500" style={{ display: selectedPhoto.publicUrl ? 'none' : 'flex' }}>
                     <Camera className="w-20 h-20 mx-auto mb-4" />
                     <p className="font-semibold text-lg mb-2">{selectedPhoto.title}</p>
                     <p className="text-sm mb-1">({selectedPhoto.mimeType})</p>
                     <p className="text-sm">{selectedPhoto.width} × {selectedPhoto.height}</p>
-                    <p className="text-sm text-grey-400 mt-2">Original image not available</p>
+                    <p className="text-sm text-stone-400 mt-2">Original image not available</p>
                   </div>
 
                   {/* Image overlay with info */}
                   {selectedPhoto.publicUrl && (
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/50 to-transparent p-4">
                       <p className="text-white font-semibold">{selectedPhoto.title}</p>
-                      <p className="text-grey-200 text-sm">{selectedPhoto.width} × {selectedPhoto.height}</p>
+                      <p className="text-earth-200 text-sm">{selectedPhoto.width} × {selectedPhoto.height}</p>
                     </div>
                   )}
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      if (selectedPhoto.publicUrl) {
+                        window.open(selectedPhoto.publicUrl, '_blank')
+                      }
+                    }}
+                    disabled={!selectedPhoto.publicUrl}
+                  >
                     <Download className="w-4 h-4 mr-2" />
                     Download
                   </Button>
-                  <Button variant="outline" size="sm">
-                    <Edit className="w-4 h-4 mr-2" />
-                    Edit
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setIsDetailModalOpen(false)
+                        openEntityTagging(selectedPhoto)
+                      }}
+                    >
+                      <User className="w-4 h-4 mr-2" />
+                      Tag People
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setIsDetailModalOpen(false)
+                        handleTagPhoto(selectedPhoto)
+                      }}
+                    >
+                      <Edit className="w-4 h-4 mr-2" />
+                      Edit Tags
+                    </Button>
+                  </div>
                 </div>
               </div>
 
@@ -1216,9 +1355,9 @@ This will help organise your media collection.`
                     <div className="flex items-center justify-between">
                       <span>Consent Status:</span>
                       <Badge className={
-                        selectedPhoto.consentStatus === 'granted' ? 'bg-green-100 text-green-800' :
-                        selectedPhoto.consentStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-red-100 text-red-800'
+                        selectedPhoto.consentStatus === 'granted' ? 'bg-sage-100 text-sage-800 border border-sage-200' :
+                        selectedPhoto.consentStatus === 'pending' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
+                        'bg-clay-100 text-clay-800 border border-clay-200'
                       }>
                         {selectedPhoto.consentStatus}
                       </Badge>
@@ -1234,14 +1373,14 @@ This will help organise your media collection.`
                     {selectedPhoto.galleries.length > 0 ? (
                       <div className="space-y-2">
                         {selectedPhoto.galleries.map(gallery => (
-                          <div key={gallery.id} className="flex items-center justify-between p-2 bg-grey-50 rounded">
+                          <div key={gallery.id} className="flex items-center justify-between p-2 bg-stone-50 rounded">
                             <span className="font-medium">{gallery.title}</span>
                             <Badge variant="outline">{gallery.slug}</Badge>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-grey-500 text-center py-4">Not linked to any galleries</p>
+                      <p className="text-stone-500 text-center py-4">Not linked to any galleries</p>
                     )}
                   </CardContent>
                 </Card>
@@ -1270,7 +1409,7 @@ This will help organise your media collection.`
       <Dialog open={isDeleteConfirmOpen} onOpenChange={setIsDeleteConfirmOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-red-600">
+            <DialogTitle className="flex items-center gap-2 text-clay-600">
               <AlertTriangle className="w-5 h-5" />
               Confirm Delete
             </DialogTitle>
@@ -1278,8 +1417,8 @@ This will help organise your media collection.`
 
           {photoToDelete && (
             <div className="space-y-4">
-              <div className="flex items-center gap-4 p-4 bg-grey-50 rounded-lg">
-                <div className="w-16 h-16 bg-grey-200 rounded-lg overflow-hidden flex-shrink-0">
+              <div className="flex items-center gap-4 p-4 bg-stone-50 rounded-lg">
+                <div className="w-16 h-16 bg-earth-100 rounded-lg overflow-hidden flex-shrink-0">
                   {photoToDelete.publicUrl ? (
                     <img
                       src={photoToDelete.publicUrl}
@@ -1288,21 +1427,21 @@ This will help organise your media collection.`
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <Camera className="w-6 h-6 text-grey-400" />
+                      <Camera className="w-6 h-6 text-stone-400" />
                     </div>
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium truncate">{photoToDelete.title}</p>
-                  <p className="text-sm text-grey-500 truncate">{photoToDelete.filename}</p>
-                  <p className="text-xs text-grey-400">
+                  <p className="text-sm text-stone-500 truncate">{photoToDelete.filename}</p>
+                  <p className="text-xs text-stone-400">
                     {(photoToDelete.fileSize / 1024 / 1024).toFixed(1)} MB
                   </p>
                 </div>
               </div>
 
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                <p className="text-sm text-yellow-800">
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                <p className="text-sm text-amber-800">
                   <strong>Warning:</strong> This action cannot be undone.
                   {photoToDelete.galleries.length > 0 && (
                     <span className="block mt-1">
@@ -1328,7 +1467,7 @@ This will help organise your media collection.`
                   variant="destructive"
                   onClick={confirmDelete}
                   disabled={isDeleting}
-                  className="bg-red-600 hover:bg-red-700"
+                  className="bg-clay-600 hover:bg-clay-700"
                 >
                   {isDeleting ? (
                     <>
@@ -1360,8 +1499,8 @@ This will help organise your media collection.`
 
           {photoToTag && (
             <div className="space-y-4">
-              <div className="flex items-center gap-4 p-4 bg-grey-50 rounded-lg">
-                <div className="w-16 h-16 bg-grey-200 rounded-lg overflow-hidden flex-shrink-0">
+              <div className="flex items-center gap-4 p-4 bg-stone-50 rounded-lg">
+                <div className="w-16 h-16 bg-earth-100 rounded-lg overflow-hidden flex-shrink-0">
                   {photoToTag.publicUrl ? (
                     <img
                       src={photoToTag.publicUrl}
@@ -1370,13 +1509,13 @@ This will help organise your media collection.`
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <Camera className="w-6 h-6 text-grey-400" />
+                      <Camera className="w-6 h-6 text-stone-400" />
                     </div>
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium truncate">{photoToTag.title}</p>
-                  <p className="text-sm text-grey-500 truncate">{photoToTag.filename}</p>
+                  <p className="text-sm text-stone-500 truncate">{photoToTag.filename}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Badge className={getSensitivityColor(photoToTag.culturalSensitivityLevel)} size="sm">
                       {photoToTag.culturalSensitivityLevel}
@@ -1396,14 +1535,14 @@ This will help organise your media collection.`
                   placeholder="Enter tags separated by commas (e.g., sacred, ceremonial, snow-foundation)"
                   className="w-full"
                 />
-                <p className="text-xs text-grey-500">
+                <p className="text-xs text-stone-500">
                   Separate multiple tags with commas. Common tags: sacred, ceremonial, cultural, community,
                   consent-required, gallery-featured, snow-foundation, deadly-hearts-trek
                 </p>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                <p className="text-sm text-blue-800">
+              <div className="bg-sage-50 border border-sage-200 rounded-lg p-3">
+                <p className="text-sm text-sage-800">
                   <strong>Cultural Protocol:</strong> Please ensure tags accurately reflect the cultural sensitivity
                   and ceremonial significance of this content. Improper tagging may affect visibility and access permissions.
                 </p>
@@ -1422,7 +1561,7 @@ This will help organise your media collection.`
                 </Button>
                 <Button
                   onClick={savePhotoTags}
-                  className="bg-orange-600 hover:bg-orange-700"
+                  className="bg-gradient-to-r from-sage-600 to-sage-700 hover:from-sage-700 hover:to-sage-800"
                 >
                   <Tag className="w-4 h-4 mr-2" />
                   Save Tags
@@ -1445,8 +1584,8 @@ This will help organise your media collection.`
 
           {photoToLink && (
             <div className="space-y-4">
-              <div className="flex items-center gap-4 p-4 bg-grey-50 rounded-lg">
-                <div className="w-16 h-16 bg-grey-200 rounded-lg overflow-hidden flex-shrink-0">
+              <div className="flex items-center gap-4 p-4 bg-stone-50 rounded-lg">
+                <div className="w-16 h-16 bg-earth-100 rounded-lg overflow-hidden flex-shrink-0">
                   {photoToLink.publicUrl ? (
                     <img
                       src={photoToLink.publicUrl}
@@ -1455,14 +1594,14 @@ This will help organise your media collection.`
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <Camera className="w-6 h-6 text-grey-400" />
+                      <Camera className="w-6 h-6 text-stone-400" />
                     </div>
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium truncate">{photoToLink.title}</p>
-                  <p className="text-sm text-grey-500 truncate">{photoToLink.filename}</p>
-                  <p className="text-xs text-grey-400">
+                  <p className="text-sm text-stone-500 truncate">{photoToLink.filename}</p>
+                  <p className="text-xs text-stone-400">
                     Currently linked to {photoToLink.galleries.length} galller{photoToLink.galleries.length !== 1 ? 'ies' : 'y'}
                   </p>
                 </div>
@@ -1474,10 +1613,10 @@ This will help organise your media collection.`
                   {availableGalleries.map(gallery => (
                     <div
                       key={gallery.id}
-                      className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colours ${
+                      className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${
                         selectedGalleryIds.has(gallery.id)
-                          ? 'bg-blue-50 border-blue-300'
-                          : 'bg-white border-grey-200 hover:bg-grey-50'
+                          ? 'bg-sage-50 border-sage-300'
+                          : 'bg-white border-stone-200 hover:bg-stone-50'
                       }`}
                       onClick={() => {
                         const newSet = new Set(selectedGalleryIds)
@@ -1496,11 +1635,11 @@ This will help organise your media collection.`
                         />
                         <div>
                           <p className="font-medium">{gallery.title}</p>
-                          <p className="text-xs text-grey-500">Gallery ID: {gallery.id}</p>
+                          <p className="text-xs text-stone-500">Gallery ID: {gallery.id}</p>
                         </div>
                       </div>
                       {photoToLink.galleries.some(g => g.id === gallery.id) && (
-                        <Badge variant="outline" className="bg-green-50 text-green-700 border-green-300">
+                        <Badge variant="outline" className="bg-sage-50 text-sage-700 border-sage-300">
                           Currently Linked
                         </Badge>
                       )}
@@ -1509,12 +1648,12 @@ This will help organise your media collection.`
                 </div>
 
                 {availableGalleries.length === 0 && (
-                  <p className="text-grey-500 text-center py-4">No galleries available</p>
+                  <p className="text-stone-500 text-center py-4">No galleries available</p>
                 )}
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                <p className="text-sm text-blue-800">
+              <div className="bg-sage-50 border border-sage-200 rounded-lg p-3">
+                <p className="text-sm text-sage-800">
                   <strong>Gallery Management:</strong> Linking photos to galleries will make them visible
                   in gallery views and searchable by gallery context. You can link a photo to multiple galleries.
                 </p>
@@ -1533,7 +1672,7 @@ This will help organise your media collection.`
                 </Button>
                 <Button
                   onClick={saveLinkToGalleries}
-                  className="bg-orange-600 hover:bg-orange-700"
+                  className="bg-gradient-to-r from-sage-600 to-sage-700 hover:from-sage-700 hover:to-sage-800"
                 >
                   <Link className="w-4 h-4 mr-2" />
                   Save Links ({selectedGalleryIds.size})
@@ -1543,6 +1682,21 @@ This will help organise your media collection.`
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Entity Tagging Dialog */}
+      <EntityTagPicker
+        open={isEntityTaggingOpen}
+        onOpenChange={setIsEntityTaggingOpen}
+        selectedStorytellerIds={photoToEntityTag?.taggedStorytellerIds || []}
+        selectedProjectId={photoToEntityTag?.projectId || null}
+        selectedOrganizationId={photoToEntityTag?.organizationId || null}
+        onSave={saveEntityTags}
+        title="Tag People & Projects"
+        photoPreview={photoToEntityTag ? {
+          url: photoToEntityTag.publicUrl,
+          title: photoToEntityTag.title
+        } : undefined}
+      />
     </div>
   )
 }

@@ -1,14 +1,21 @@
-// Force dynamic rendering for API routes
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
-
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import {
+  notifyStoryApproved,
+  notifyStoryPublished,
+  notifyChangesRequested,
+  notifyStoryRejected,
+  notifyElderEscalation,
+  logEmailNotification,
+  type EmailTemplateType
+} from '@/lib/services/email-notification.service'
 
-
+type ReviewDecisionType = 'approve' | 'reject' | 'request_changes' | 'escalate_to_elder' | 'flag_content'
 
 interface ReviewDecision {
-  type: 'approve' | 'reject' | 'request_changes' | 'escalate_to_elder' | 'flag_content'
+  type: ReviewDecisionType
   reason: string
   notes: string
   changes_requested?: string[]
@@ -31,10 +38,17 @@ export async function POST(
 
     console.log('📝 Processing review decision:', { reviewId, decision: decision.type })
 
-    // Get the story/content being reviewed
+    // Get the story/content being reviewed with author details
     const { data: story, error: fetchError } = await supabase
       .from('stories')
-      .select('*')
+      .select(`
+        *,
+        author:author_id (
+          id,
+          email,
+          display_name
+        )
+      `)
       .eq('id', reviewId)
       .single()
 
@@ -51,83 +65,62 @@ export async function POST(
       updated_at: new Date().toISOString()
     }
 
-    // Process decision based on type
-    switch (decision.type) {
-      case 'approve':
-        newStatus = 'published'
-        updateData = {
-          ...updateData,
-          status: 'published',
-          cultural_review_status: 'approved',
-          reviewed_at: new Date().toISOString(),
-          reviewed_by: reviewerId,
-          review_notes: decision.notes
-        }
-        console.log('✅ Approving story for publication')
-        break
+    const now = new Date().toISOString()
+    const baseUpdate = { ...updateData, review_notes: decision.notes }
 
-      case 'reject':
-        newStatus = 'rejected'
-        updateData = {
-          ...updateData,
-          status: 'rejected',
-          cultural_review_status: 'rejected',
-          reviewed_at: new Date().toISOString(),
+    const decisionConfig: Record<
+      ReviewDecisionType,
+      { status: string; culturalStatus: string; extraData: any }
+    > = {
+      approve: {
+        status: 'published',
+        culturalStatus: 'approved',
+        extraData: { reviewed_at: now, reviewed_by: reviewerId }
+      },
+      reject: {
+        status: 'rejected',
+        culturalStatus: 'rejected',
+        extraData: { reviewed_at: now, reviewed_by: reviewerId, rejection_reason: decision.reason }
+      },
+      request_changes: {
+        status: 'needs_revision',
+        culturalStatus: 'changes_requested',
+        extraData: {
+          reviewed_at: now,
           reviewed_by: reviewerId,
-          review_notes: decision.notes,
-          rejection_reason: decision.reason
-        }
-        console.log('❌ Rejecting story')
-        break
-
-      case 'request_changes':
-        newStatus = 'needs_revision'
-        updateData = {
-          ...updateData,
-          status: 'needs_revision',
-          cultural_review_status: 'changes_requested',
-          reviewed_at: new Date().toISOString(),
-          reviewed_by: reviewerId,
-          review_notes: decision.notes,
           requested_changes: decision.changes_requested
         }
-        console.log('📝 Requesting changes to story')
-        break
-
-      case 'escalate_to_elder':
-        newStatus = 'elder_review'
-        updateData = {
-          ...updateData,
-          status: 'elder_review',
-          cultural_review_status: 'escalated',
-          escalated_at: new Date().toISOString(),
+      },
+      escalate_to_elder: {
+        status: 'elder_review',
+        culturalStatus: 'escalated',
+        extraData: {
+          escalated_at: now,
           escalated_by: reviewerId,
-          escalation_reason: decision.elder_consultation_reason,
-          review_notes: decision.notes
+          escalation_reason: decision.elder_consultation_reason
         }
-        console.log('🏛️ Escalating to elder review')
-        break
-
-      case 'flag_content':
-        newStatus = 'flagged'
-        updateData = {
-          ...updateData,
-          status: 'flagged',
-          cultural_review_status: 'flagged',
-          flagged_at: new Date().toISOString(),
-          flagged_by: reviewerId,
-          flag_reason: decision.reason,
-          review_notes: decision.notes
-        }
-        console.log('🚩 Flagging content for attention')
-        break
-
-      default:
-        return NextResponse.json(
-          { error: 'Invalid review decision type' },
-          { status: 400 }
-        )
+      },
+      flag_content: {
+        status: 'flagged',
+        culturalStatus: 'flagged',
+        extraData: { flagged_at: now, flagged_by: reviewerId, flag_reason: decision.reason }
+      }
     }
+
+    const config = decisionConfig[decision.type]
+    if (!config) {
+      return NextResponse.json({ error: 'Invalid review decision type' }, { status: 400 })
+    }
+
+    newStatus = config.status
+    updateData = {
+      ...baseUpdate,
+      status: config.status,
+      cultural_review_status: config.culturalStatus,
+      ...config.extraData
+    }
+
+    console.log(`Processing review: ${decision.type} for story: ${story.title}`)
 
     // Update the story with the review decision
     const { error: updateError } = await supabase
@@ -143,49 +136,100 @@ export async function POST(
       )
     }
 
-    // TODO: Create review history record
-    // TODO: Send email notification to author
-    // TODO: Send notifications to relevant parties
+    // Create review history record
+    await supabase.from('story_status_history').insert({
+      story_id: reviewId,
+      status: newStatus,
+      changed_by: reviewerId,
+      notes: decision.notes,
+      created_at: new Date().toISOString()
+    })
 
-    console.log(`✅ Review decision processed: ${story.title} → ${newStatus}`)
+    let emailSent = false
+    let elderNotified = false
 
-    // Prepare response data
-    const responseData = {
+    if (story.author) {
+      const notificationData = {
+        storyId: story.id,
+        storyTitle: story.title,
+        storySlug: story.slug,
+        authorName: story.author.display_name || 'Author',
+        authorEmail: story.author.email,
+        reviewerName: 'Review Team',
+        requestedChanges: decision.changes_requested?.map((desc) => ({
+          category: 'other',
+          description: desc,
+          required: true
+        })),
+        rejectionReason: decision.reason,
+        escalationReason: decision.elder_consultation_reason
+      }
+
+      try {
+        let emailResult
+        let emailType: EmailTemplateType
+
+        if (decision.type === 'approve') {
+          emailResult = await notifyStoryApproved(notificationData)
+          await notifyStoryPublished(notificationData)
+          emailType = 'story_published'
+        } else if (decision.type === 'reject') {
+          emailResult = await notifyStoryRejected(notificationData)
+          emailType = 'story_rejected'
+        } else if (decision.type === 'request_changes') {
+          emailResult = await notifyChangesRequested(notificationData)
+          emailType = 'changes_requested'
+        } else if (decision.type === 'escalate_to_elder') {
+          emailResult = await notifyElderEscalation(notificationData)
+          elderNotified = emailResult?.success || false
+          emailType = 'elder_escalation'
+        } else {
+          emailResult = null
+          emailType = 'story_submitted'
+        }
+
+        if (emailResult) {
+          emailSent = emailResult.success
+          await logEmailNotification({
+            userId: story.author.id,
+            email: story.author.email,
+            type: emailType,
+            subject: `Story ${decision.type}: ${story.title}`,
+            status: emailResult.success ? 'sent' : 'failed',
+            messageId: emailResult.messageId,
+            error: emailResult.error
+          })
+        }
+      } catch (emailError) {
+        console.error('Failed to send notification email:', emailError)
+      }
+    }
+
+    console.log(`Review decision processed: ${story.title} → ${newStatus}`)
+
+    return NextResponse.json({
       success: true,
       reviewId,
       decision: decision.type,
       newStatus,
       message: getSuccessMessage(decision.type, story.title),
-      notifications: {
-        authorNotified: false, // TODO: Implement email notifications
-        elderNotified: decision.type === 'escalate_to_elder' ? false : null
-      }
-    }
-
-    return NextResponse.json(responseData)
-
+      notifications: { authorNotified: emailSent, elderNotified }
+    })
   } catch (error) {
     console.error('Review decision error:', error)
-    return NextResponse.json(
-      { error: 'Failed to process review decision' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to process review decision' }, { status: 500 })
   }
 }
 
-function getSuccessMessage(decisionType: string, storyTitle: string): string {
-  switch (decisionType) {
-    case 'approve':
-      return `"${storyTitle}" has been approved and published to the community.`
-    case 'reject':
-      return `"${storyTitle}" has been rejected. The author will be notified.`
-    case 'request_changes':
-      return `Changes have been requested for "${storyTitle}". The author will be notified.`
-    case 'escalate_to_elder':
-      return `"${storyTitle}" has been escalated to the elder review queue.`
-    case 'flag_content':
-      return `"${storyTitle}" has been flagged for administrative attention.`
-    default:
-      return `Review decision processed for "${storyTitle}".`
-  }
+const SUCCESS_MESSAGES: Record<ReviewDecisionType, (title: string) => string> = {
+  approve: (title) => `"${title}" has been approved and published to the community.`,
+  reject: (title) => `"${title}" has been rejected. The author will be notified.`,
+  request_changes: (title) => `Changes have been requested for "${title}". The author will be notified.`,
+  escalate_to_elder: (title) => `"${title}" has been escalated to the elder review queue.`,
+  flag_content: (title) => `"${title}" has been flagged for administrative attention.`
+}
+
+function getSuccessMessage(decisionType: ReviewDecisionType, storyTitle: string): string {
+  const messageFn = SUCCESS_MESSAGES[decisionType]
+  return messageFn ? messageFn(storyTitle) : `Review decision processed for "${storyTitle}".`
 }

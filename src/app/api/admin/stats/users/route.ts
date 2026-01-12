@@ -2,47 +2,45 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
-
-import { requireAdminAuth } from '@/lib/middleware/admin-auth'
-
-
+// Use service role to bypass RLS for admin stats
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
-    
-    // Temporarily bypass auth check to get data working
-    // TODO: Fix proper authentication flow later
-    console.log('Bypassing auth check for admin stats')
-
-    // Get total users count
-    const { count: totalUsers } = await supabase
-      .from('profiles')
+    // Get total storytellers count
+    const { count: totalStorytellers } = await supabase
+      .from('storytellers')
       .select('*', { count: 'exact', head: true })
 
-    // Get recently active users (last 30 days)
+    // Get storytellers with published stories (active)
+    const { count: activeStorytellers } = await supabase
+      .from('storytellers')
+      .select('*', { count: 'exact', head: true })
+      .eq('is_active', true)
+
+    // Get recently updated storytellers (last 30 days)
     const thirtyDaysAgo = new Date()
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
-    
-    const { count: activeUsers } = await supabase
-      .from('profiles')
+
+    const { count: recentActivity } = await supabase
+      .from('storytellers')
       .select('*', { count: 'exact', head: true })
       .gte('updated_at', thirtyDaysAgo.toISOString())
 
-    // Get recent activity (last 7 days)
-    const sevenDaysAgo = new Date()
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
-    
-    const { count: recentActivity } = await supabase
-      .from('profiles')
+    // Get featured storytellers count
+    const { count: featuredStorytellers } = await supabase
+      .from('storytellers')
       .select('*', { count: 'exact', head: true })
-      .gte('updated_at', sevenDaysAgo.toISOString())
+      .eq('is_featured', true)
 
     return NextResponse.json({
-      total: totalUsers || 0,
-      active: activeUsers || 0,
+      total: totalStorytellers || 0,
+      active: activeStorytellers || 0,
+      featured: featuredStorytellers || 0,
       recentActivity: recentActivity || 0
     })
 

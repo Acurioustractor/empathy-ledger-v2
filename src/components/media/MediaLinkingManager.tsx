@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -236,6 +237,9 @@ export default function MediaLinkingManager({
           <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Link Media to {contentType}</DialogTitle>
+              <DialogDescription className="sr-only">
+                Select media and add context for how it is used in this {contentType}.
+              </DialogDescription>
             </DialogHeader>
             
             <div className="space-y-4">

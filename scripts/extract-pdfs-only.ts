@@ -1,5 +1,5 @@
 import { createServiceRoleClient } from '../src/lib/supabase/service-role-client'
-// @ts-ignore
+// @ts-expect-error pdf-parse has no TS types and default ESM build typing is missing
 const pdfParse = require('pdf-parse')
 
 async function extractPDFs() {

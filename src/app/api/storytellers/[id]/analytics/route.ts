@@ -117,31 +117,59 @@ export async function GET(
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
-    // Get storyteller profile to determine tenant
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('id, display_name, tenant_id, tenant_roles, impact_focus_areas, expertise_areas, community_roles, change_maker_type')
+    // First, check storytellers table (new data model)
+    const { data: storytellerRecord, error: storytellerError } = await supabase
+      .from('storytellers')
+      .select('*')
       .eq('id', storytellerId)
       .single()
 
-    if (profileError || !profile) {
-      return NextResponse.json(
-        { error: 'Storyteller not found' },
-        { status: 404 }
-      )
-    }
+    let profile: any
+    let tenantId: string | null = null
 
-    if (!profile.tenant_roles?.includes('storyteller')) {
-      return NextResponse.json(
-        { error: 'Profile is not a storyteller' },
-        { status: 400 }
-      )
+    if (storytellerRecord && !storytellerError) {
+      // Use storytellers data
+      profile = {
+        id: storytellerRecord.id,
+        display_name: storytellerRecord.display_name,
+        tenant_id: storytellerRecord.tenant_id,
+        tenant_roles: ['storyteller'],
+        impact_focus_areas: [],
+        expertise_areas: [],
+        community_roles: [],
+        change_maker_type: storytellerRecord.is_elder ? 'Elder' : 'Storyteller'
+      }
+      tenantId = storytellerRecord.tenant_id
+    } else {
+      // Fall back to profiles table for backwards compatibility
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('id, display_name, tenant_id, tenant_roles, impact_focus_areas, expertise_areas, community_roles, change_maker_type')
+        .eq('id', storytellerId)
+        .single()
+
+      if (profileError || !profileData) {
+        return NextResponse.json(
+          { error: 'Storyteller not found' },
+          { status: 404 }
+        )
+      }
+
+      if (!profileData.tenant_roles?.includes('storyteller')) {
+        return NextResponse.json(
+          { error: 'Profile is not a storyteller' },
+          { status: 400 }
+        )
+      }
+
+      profile = profileData
+      tenantId = profileData.tenant_id
     }
 
     // Calculate comprehensive analytics directly
     const impactMetrics = {
       storyteller_id: storytellerId,
-      tenant_id: profile.tenant_id,
+      tenant_id: tenantId,
       measurement_period_start: periodStart.toISOString().split('T')[0],
       measurement_period_end: periodEnd.toISOString().split('T')[0],
       community_engagement_score: 75,
@@ -156,16 +184,16 @@ export async function GET(
     }
 
     // Calculate community impact insights
-    const communityImpact = await calculateCommunityImpactInsights(supabase, storytellerId, profile.tenant_id, periodStart, periodEnd)
+    const communityImpact = await calculateCommunityImpactInsights(supabase, storytellerId, tenantId, periodStart, periodEnd)
 
     // Get storyteller's network connections
-    const networkConnections = await calculateNetworkConnections(supabase, storytellerId, profile.tenant_id)
+    const networkConnections = await calculateNetworkConnections(supabase, storytellerId, tenantId)
 
     // Calculate content analytics
     const contentAnalytics = await calculateContentAnalytics(supabase, storytellerId, periodStart, periodEnd)
 
     // Calculate influence metrics
-    const influenceMetrics = await calculateInfluenceMetrics(supabase, storytellerId, profile.tenant_id)
+    const influenceMetrics = await calculateInfluenceMetrics(supabase, storytellerId, tenantId)
 
     console.log(`✅ Advanced impact analytics calculated for ${profile.display_name}`)
 
@@ -380,8 +408,8 @@ async function calculateInfluenceMetrics(supabase: any, storytellerId: string, t
     .not('metadata', 'is', null)
 
   // Simple influence based on how many storytellers share similar themes
-  let influenceScore = 0
-  let reachEstimate = 0
+  const influenceScore = 0
+  const reachEstimate = 0
 
   // This would be much more sophisticated in production
   return {

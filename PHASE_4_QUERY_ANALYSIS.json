@@ -1,0 +1,1024 @@
+{
+  "summary": {
+    "total": 144,
+    "keep": 48,
+    "migrate": 26,
+    "review": 70
+  },
+  "queries": {
+    "keep": [
+      {
+        "file": "src/app/auth/callback/route.ts",
+        "line": 31,
+        "context": "src/app/auth/callback/route.ts-29-        // Check if profile exists, create if missing src/app/auth/callback/route.ts-30-        const { data: profile } = await supabase           .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth route - requires profiles table"
+      },
+      {
+        "file": "src/app/auth/callback/route.ts",
+        "line": 40,
+        "context": "src/app/auth/callback/route.ts-32-          .select('id') src/app/auth/callback/route.ts-33-          .eq('id', data.user.id) src/app/auth/callback/route.ts-38- src/app/auth/callback/route.ts-39-          const { error: profileError } = await supabase             .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth route - requires profiles table"
+      },
+      {
+        "file": "src/app/test-analytics/page.tsx",
+        "line": 29,
+        "context": "src/app/auth/callback/route.ts-41-            .insert({ src/app/auth/callback/route.ts-42-              id: data.user.id, src/app/test-analytics/page.tsx-27-    try { src/app/test-analytics/page.tsx-28-      const { data, error } = await supabase         .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: auth"
+      },
+      {
+        "file": "src/app/organisations/[id]/settings/page.tsx",
+        "line": 37,
+        "context": "src/app/test-analytics/page.tsx-30-        .select('id, display_name, full_name, is_storyteller') src/app/test-analytics/page.tsx-31-        .eq('is_storyteller', true) src/app/organisations/[id]/settings/page.tsx-35-  // Get member count src/app/organisations/[id]/settings/page.tsx-36-  const { count: memberCount } = await supabase     .from('profiles')",
+        "category": "KEEP",
+        "reason": "Settings page - user profile updates"
+      },
+      {
+        "file": "src/app/organisations/[id]/members/page.tsx",
+        "line": 42,
+        "context": "src/app/organisations/[id]/layout.tsx-64-    .select('tenant_roles, email') src/app/organisations/[id]/layout.tsx-65-    .eq('id', user.id) src/app/organisations/[id]/members/page.tsx-40-    // Check if user is super admin src/app/organisations/[id]/members/page.tsx-41-    const { data: profile } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/organisations/[id]/members/page.tsx",
+        "line": 76,
+        "context": "src/app/organisations/[id]/members/page.tsx-43-      .select('is_super_admin') src/app/organisations/[id]/members/page.tsx-44-      .eq('id', user.id) src/app/organisations/[id]/members/page.tsx-74-  // Third check: How many profiles have this org in tenant_roles? src/app/organisations/[id]/members/page.tsx-75-  const { count: profilesWithTenant } = await supabase     .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/organisations/[id]/members/page.tsx",
+        "line": 122,
+        "context": "src/app/organisations/[id]/members/page.tsx-77-    .select('*', { count: 'exact', head: true }) src/app/organisations/[id]/members/page.tsx-78-    .eq('tenant_id', organisation.tenant_id) src/app/organisations/[id]/members/page.tsx-120- src/app/organisations/[id]/members/page.tsx-121-    const { data: tenantProfiles, error: tenantError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/comments/[id]/route.ts",
+        "line": 86,
+        "context": "src/app/organisations/[id]/members/page.tsx-123-      .select(` src/app/organisations/[id]/members/page.tsx-124-        id, src/app/api/comments/[id]/route.ts-84-    // Get commenter profile src/app/api/comments/[id]/route.ts-85-    const { data: profile } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/projects/[id]/updates/route.ts",
+        "line": 67,
+        "context": "src/app/api/projects/[id]/storytellers/route.ts-128-      .select('id, display_name, full_name') src/app/api/projects/[id]/storytellers/route.ts-129-      .eq('id', storyteller_id) src/app/api/projects/[id]/updates/route.ts-65-    // Get user's profile src/app/api/projects/[id]/updates/route.ts-66-    const { data: profile } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/route.ts",
+        "line": 696,
+        "context": "src/app/api/admin/storytellers/route.ts-255-      .select('*', { count: 'exact', head: true }) src/app/api/admin/storytellers/route.ts-256- src/app/api/admin/storytellers/route.ts-694-    // Check if email already exists src/app/api/admin/storytellers/route.ts-695-    const { data: existingProfile, error: checkError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: email"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/route.ts",
+        "line": 710,
+        "context": "src/app/api/admin/storytellers/route.ts-697-      .select('id, email') src/app/api/admin/storytellers/route.ts-698-      .eq('email', finalEmail) src/app/api/admin/storytellers/route.ts-708-    // Create new profile with all required fields src/app/api/admin/storytellers/route.ts-709-    const { data: newProfile, error: profileError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: email"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/route.ts",
+        "line": 812,
+        "context": "src/app/api/admin/storytellers/route.ts-711-      .insert({ src/app/api/admin/storytellers/route.ts-712-        id: profileId, src/app/api/admin/storytellers/route.ts-810-    // Update profile in database src/app/api/admin/storytellers/route.ts-811-    const { data: updatedProfile, error: profileError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/admin/quick-add/route.ts",
+        "line": 233,
+        "context": "src/app/api/admin/quick-add/route.ts-139-        .insert({ src/app/api/admin/quick-add/route.ts-140-          id: profileId, src/app/api/admin/quick-add/route.ts-231-            // Update profile with image URL src/app/api/admin/quick-add/route.ts-232-            const { error: updateError } = await supabase               .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/admin/members/route.ts",
+        "line": 187,
+        "context": "src/app/api/admin/fix-profile/route.ts-18-    .update({ src/app/api/admin/fix-profile/route.ts-19-      tenant_id: '8891e1a9-92ae-423f-928b-cec602660011', src/app/api/admin/members/route.ts-185-    const [memberResult, orgResult] = await Promise.all([ src/app/api/admin/members/route.ts-186-      supabase         .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/admin/profiles/bulk-update/route.ts",
+        "line": 89,
+        "context": "src/app/api/admin/members/route.ts-320-      .select('display_name, full_name') src/app/api/admin/members/route.ts-321-      .eq('id', memberId) src/app/api/admin/profiles/bulk-update/route.ts-87-      // Get the profile src/app/api/admin/profiles/bulk-update/route.ts-88-      const { data: profile, error: profileError } = await supabase         .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/admin/profiles/bulk-update/route.ts",
+        "line": 122,
+        "context": "src/app/api/admin/profiles/bulk-update/route.ts-90-        .select('*') src/app/api/admin/profiles/bulk-update/route.ts-91-        .eq('id', profileId) src/app/api/admin/profiles/bulk-update/route.ts-120-      if (hasUpdates) { src/app/api/admin/profiles/bulk-update/route.ts-121-        const { error: updateError } = await supabase           .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/admin/profiles/bulk-update/route.ts",
+        "line": 175,
+        "context": "src/app/api/admin/profiles/bulk-update/route.ts-123-          .update(updates) src/app/api/admin/profiles/bulk-update/route.ts-124-          .eq('id', profileId) src/app/api/admin/profiles/bulk-update/route.ts-173-      // Get current specialties src/app/api/admin/profiles/bulk-update/route.ts-174-      const { data: profile, error: profileError } = await supabase         .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/admin/profiles/bulk-update/route.ts",
+        "line": 194,
+        "context": "src/app/api/admin/profiles/bulk-update/route.ts-176-        .select('specialties') src/app/api/admin/profiles/bulk-update/route.ts-177-        .eq('id', profileId) src/app/api/admin/profiles/bulk-update/route.ts-192- src/app/api/admin/profiles/bulk-update/route.ts-193-      const { error: updateError } = await supabase         .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/admin/profiles/bulk-update/route.ts",
+        "line": 239,
+        "context": "src/app/api/admin/profiles/bulk-update/route.ts-195-        .update({ specialties: newSpecialties }) src/app/api/admin/profiles/bulk-update/route.ts-196-        .eq('id', profileId) src/app/api/admin/profiles/bulk-update/route.ts-237-    try { src/app/api/admin/profiles/bulk-update/route.ts-238-      const { error: updateError } = await supabase         .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/admin/profiles/enhance/route.ts",
+        "line": 50,
+        "context": "src/app/api/admin/profiles/bulk-update/route.ts-240-        .update({ cultural_background: culturalBackground }) src/app/api/admin/profiles/bulk-update/route.ts-241-        .eq('id', profileId) src/app/api/admin/profiles/enhance/route.ts-48-  // Get storyteller profile src/app/api/admin/profiles/enhance/route.ts-49-  const { data: profile, error: profileError } = await supabase     .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/storytellers/search/route.ts",
+        "line": 29,
+        "context": "src/app/api/admin/media/route.ts-118-      .select('id, display_name, email, full_name') src/app/api/admin/media/route.ts-119- src/app/api/storytellers/search/route.ts-27-    // Search profiles by display name src/app/api/storytellers/search/route.ts-28-    const { data: profiles, error } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: email"
+      },
+      {
+        "file": "src/app/api/storytellers/[id]/profile-with-impact/route.ts",
+        "line": 25,
+        "context": "src/app/api/storytellers/route.ts-168-      .update(profileUpdateData) src/app/api/storytellers/route.ts-169-      .eq('id', body.profile_id) src/app/api/storytellers/[id]/profile-with-impact/route.ts-23-    // Fetch complete profile with all fields including new impact measurements src/app/api/storytellers/[id]/profile-with-impact/route.ts-24-    const { data: profile, error } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/user/privacy-settings/route.ts",
+        "line": 20,
+        "context": "src/app/api/storytellers/[id]/analytics/route.ts-123-      .select('id, display_name, tenant_id, tenant_roles, impact_focus_areas, expertise_areas, community_roles, change_maker_type') src/app/api/storytellers/[id]/analytics/route.ts-124-      .eq('id', storytellerId) src/app/api/user/privacy-settings/route.ts-18-    // Verify user owns this storyteller profile src/app/api/user/privacy-settings/route.ts-19-    const { data: profile, error: profileError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: user.*settings"
+      },
+      {
+        "file": "src/app/api/user/privacy-settings/route.ts",
+        "line": 35,
+        "context": "src/app/api/user/privacy-settings/route.ts-21-      .select('id') src/app/api/user/privacy-settings/route.ts-22-      .eq('id', storytellerId) src/app/api/user/privacy-settings/route.ts-33-    // Update privacy settings in profiles table src/app/api/user/privacy-settings/route.ts-34-    const { error: updateError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: user.*settings"
+      },
+      {
+        "file": "src/app/api/user/alma-settings/route.ts",
+        "line": 20,
+        "context": "src/app/api/user/privacy-settings/route.ts-36-      .update({ src/app/api/user/privacy-settings/route.ts-37-        privacy_settings: settings, src/app/api/user/alma-settings/route.ts-18-    // Verify user owns this storyteller profile src/app/api/user/alma-settings/route.ts-19-    const { data: profile, error: profileError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: user.*settings"
+      },
+      {
+        "file": "src/app/api/user/alma-settings/route.ts",
+        "line": 36,
+        "context": "src/app/api/user/alma-settings/route.ts-21-      .select('id') src/app/api/user/alma-settings/route.ts-22-      .eq('id', storytellerId) src/app/api/user/alma-settings/route.ts-34-    // Store in consent_preferences and cultural_permissions JSONB fields src/app/api/user/alma-settings/route.ts-35-    const { error: updateError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: user.*settings"
+      },
+      {
+        "file": "src/app/api/cultural-tags/route.ts",
+        "line": 104,
+        "context": "src/app/api/user/alma-settings/route.ts-37-      .update({ src/app/api/user/alma-settings/route.ts-38-        consent_preferences: settings.aiConsent, src/app/api/cultural-tags/route.ts-102-    // This should typically be restricted to elders or cultural administrators src/app/api/cultural-tags/route.ts-103-    const { data: profile } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: user.*settings"
+      },
+      {
+        "file": "src/app/api/organisations/route.ts",
+        "line": 50,
+        "context": "src/app/api/stories/[id]/comments/route.ts-176-      .select('display_name, avatar_url') src/app/api/stories/[id]/comments/route.ts-177-      .eq('id', user.id) src/app/api/organisations/route.ts-48-          // Count members (profiles in this tenant) src/app/api/organisations/route.ts-49-          const { count: memberCount } = await supabase             .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/transcripts/route.ts",
+        "line": 64,
+        "context": "src/app/api/organisations/route.ts-51-            .select('*', { count: 'exact', head: true }) src/app/api/organisations/route.ts-52-            .eq('tenant_id', org.tenant_id) src/app/api/organisations/[id]/transcripts/route.ts-62-    // This ensures storyteller content remains visible even if they're removed as members src/app/api/organisations/[id]/transcripts/route.ts-63-    const { data: storytellers, error: storytellersError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/storytellers/route.ts",
+        "line": 452,
+        "context": "src/app/api/organisations/[id]/storytellers/route.ts-419-      .select('display_name, full_name, tenant_roles, tenant_id') src/app/api/organisations/[id]/storytellers/route.ts-420-      .eq('id', userId) src/app/api/organisations/[id]/storytellers/route.ts-450-    // Update the profile to add storyteller role and set tenant_id src/app/api/organisations/[id]/storytellers/route.ts-451-    const { error: updateError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/storytellers/create/route.ts",
+        "line": 52,
+        "context": "src/app/api/organisations/[id]/storytellers/create/route.ts-30-      .select('*') src/app/api/organisations/[id]/storytellers/create/route.ts-31-      .eq('id', profileId) src/app/api/organisations/[id]/storytellers/create/route.ts-50- src/app/api/organisations/[id]/storytellers/create/route.ts-51-    const { error: updateError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/roles/route.ts",
+        "line": 87,
+        "context": "src/app/api/organisations/[id]/storytellers/create/route.ts-53-      .update({ src/app/api/organisations/[id]/storytellers/create/route.ts-54-        tenant_roles: [...currentRoles, 'storyteller'] src/app/api/organisations/[id]/roles/route.ts-85- src/app/api/organisations/[id]/roles/route.ts-86-    const { data: membersWithoutRoles } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/roles/route.ts",
+        "line": 169,
+        "context": "src/app/api/organisations/[id]/roles/route.ts-88-      .select('id, display_name, full_name, email, profile_image_url') src/app/api/organisations/[id]/roles/route.ts-89-      .eq('tenant_id', organisation?.tenant_id) src/app/api/organisations/[id]/roles/route.ts-167-    // Verify target user is in organisation src/app/api/organisations/[id]/roles/route.ts-168-    const { data: targetProfile } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: email"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/roles/route.ts",
+        "line": 215,
+        "context": "src/app/api/organisations/[id]/roles/route.ts-170-      .select('id, display_name, tenant_id') src/app/api/organisations/[id]/roles/route.ts-171-      .eq('id', profileId) src/app/api/organisations/[id]/roles/route.ts-213- src/app/api/organisations/[id]/roles/route.ts-214-    const { data: updatedProfile, error: assignError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: profile.*update"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/dashboard/route.ts",
+        "line": 55,
+        "context": "src/app/api/organisations/[id]/roles/route.ts-216-      .update({ src/app/api/organisations/[id]/roles/route.ts-217-        current_role: role, src/app/api/organisations/[id]/dashboard/route.ts-53-    // Get all organisation members src/app/api/organisations/[id]/dashboard/route.ts-54-    const { data: members } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/members/add-existing/route.ts",
+        "line": 43,
+        "context": "src/app/api/organisations/[id]/dashboard/route.ts-56-      .select(` src/app/api/organisations/[id]/dashboard/route.ts-57-        id, src/app/api/organisations/[id]/members/add-existing/route.ts-41-    // Get the storyteller profile src/app/api/organisations/[id]/members/add-existing/route.ts-42-    const { data: storyteller } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/members/add-existing/route.ts",
+        "line": 64,
+        "context": "src/app/api/organisations/[id]/members/add-existing/route.ts-44-      .select('*') src/app/api/organisations/[id]/members/add-existing/route.ts-45-      .eq('id', storytellerId) src/app/api/organisations/[id]/members/add-existing/route.ts-62-    // Update the storyteller's tenant_id to add them to the organisation src/app/api/organisations/[id]/members/add-existing/route.ts-63-    const { data: updatedMember, error } = await serviceSupabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/members/route.ts",
+        "line": 54,
+        "context": "src/app/api/organisations/[id]/members/add-existing/route.ts-65-      .update({ src/app/api/organisations/[id]/members/add-existing/route.ts-66-        tenant_id: organisation.tenant_id, src/app/api/organisations/[id]/members/route.ts-52-    // Create the profile/member with only fields that exist src/app/api/organisations/[id]/members/route.ts-53-    const { data: member, error } = await serviceSupabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/members/route.ts",
+        "line": 191,
+        "context": "src/app/api/organisations/[id]/members/route.ts-55-      .insert({ src/app/api/organisations/[id]/members/route.ts-56-        id: profileId, src/app/api/organisations/[id]/members/route.ts-189-    if (user) { src/app/api/organisations/[id]/members/route.ts-190-      const { data: profile } = await supabase         .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/members/route.ts",
+        "line": 238,
+        "context": "src/app/api/organisations/[id]/members/route.ts-192-        .select('is_super_admin') src/app/api/organisations/[id]/members/route.ts-193-        .eq('id', user.id) src/app/api/organisations/[id]/members/route.ts-236-    // Get member name for response src/app/api/organisations/[id]/members/route.ts-237-    const { data: member } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/analyze-all/route.ts",
+        "line": 44,
+        "context": "src/app/api/organisations/[id]/members/route.ts-239-      .select('display_name, full_name') src/app/api/organisations/[id]/members/route.ts-240-      .eq('id', memberId) src/app/api/organisations/[id]/analyze-all/route.ts-42-    // Get all storytellers for this organization src/app/api/organisations/[id]/analyze-all/route.ts-43-    const { data: storytellers, error: storytellersError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/analytics/route.ts",
+        "line": 41,
+        "context": "src/app/api/organisations/[id]/philanthropy-intelligence/route.ts-40-      .select('id, display_name, tenant_id, tenant_roles, impact_focus_areas, expertise_areas, community_roles, change_maker_type') src/app/api/organisations/[id]/philanthropy-intelligence/route.ts-41-      .eq('tenant_id', organisation.tenant_id) src/app/api/organisations/[id]/analytics/route.ts-39-    // Get all storytellers in this organisation's tenant (regardless of membership status) src/app/api/organisations/[id]/analytics/route.ts-40-    const { data: storytellers, error: storytellersError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: org.*member"
+      },
+      {
+        "file": "src/app/api/ai/cultural-safety/route.ts",
+        "line": 32,
+        "context": "src/app/api/ai/generate-short-bios/route.ts-142-            .update({ bio: updatedBio }) src/app/api/ai/generate-short-bios/route.ts-143-            .eq('id', storyteller.id) src/app/api/ai/cultural-safety/route.ts-30-    const supabase = createSupabaseServerClient() src/app/api/ai/cultural-safety/route.ts-31-    const { data: author, error: authorError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: auth"
+      },
+      {
+        "file": "src/app/api/ai/cultural-safety/route.ts",
+        "line": 146,
+        "context": "src/app/api/ai/cultural-safety/route.ts-33-      .select('id, display_name, is_elder') src/app/api/ai/cultural-safety/route.ts-34-      .eq('id', author_id) src/app/api/ai/cultural-safety/route.ts-144-    const supabase = createSupabaseServerClient() src/app/api/ai/cultural-safety/route.ts-145-    const { data: elder, error: elderError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: auth"
+      },
+      {
+        "file": "src/app/api/users/search/route.ts",
+        "line": 31,
+        "context": "src/app/api/locations/[id]/route.ts-156-      supabase.from('organizations').select('*', { count: 'exact', head: true }).eq('location_id', id), src/app/api/locations/[id]/route.ts-157-      supabase.from('projects').select('*', { count: 'exact', head: true }).eq('location_id', id) src/app/api/users/search/route.ts-29-    // Search for users by name or email src/app/api/users/search/route.ts-30-    let searchQuery = supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: email"
+      },
+      {
+        "file": "src/app/api/debug/schema/route.ts",
+        "line": 16,
+        "context": "src/app/api/analytics/export/route.ts-67-        .select('id, display_name, email, created_at') src/app/api/analytics/export/route.ts-68-        .eq('tenant_id', organizationId) src/app/api/debug/schema/route.ts-14-    // Get profiles table structure src/app/api/debug/schema/route.ts-15-    const { data: profilesData, error: profilesError } = await supabase       .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: email"
+      },
+      {
+        "file": "src/app/api/invitations/[code]/accept/route.ts",
+        "line": 62,
+        "context": "src/app/api/media/[id]/usage/route.ts-107-                .select('id, display_name, avatar_url, is_storyteller') src/app/api/media/[id]/usage/route.ts-108-                .eq('id', usage.used_in_id) src/app/api/invitations/[code]/accept/route.ts-60-      // Look up profile by email src/app/api/invitations/[code]/accept/route.ts-61-      const { data: existingProfile } = await supabase         .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: email"
+      },
+      {
+        "file": "src/app/api/invitations/[code]/accept/route.ts",
+        "line": 72,
+        "context": "src/app/api/invitations/[code]/accept/route.ts-63-        .select('id') src/app/api/invitations/[code]/accept/route.ts-64-        .eq('email', body.email.toLowerCase()) src/app/api/invitations/[code]/accept/route.ts-70-        // Create new profile if needed (this would typically happen during signup) src/app/api/invitations/[code]/accept/route.ts-71-        const { data: newProfile, error: profileError } = await supabase           .from('profiles')",
+        "category": "KEEP",
+        "reason": "Auth/user operation: email"
+      }
+    ],
+    "migrate": [
+      {
+        "file": "src/app/api/transcripts/route.ts",
+        "line": 147,
+        "context": "src/app/api/comments/[id]/route.ts-87-      .select('display_name, avatar_url') src/app/api/comments/[id]/route.ts-88-      .eq('id', user.id) src/app/api/transcripts/route.ts-145-    // Get tenant_id from the storyteller profile src/app/api/transcripts/route.ts-146-    const { data: profile } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: avatar_url"
+      },
+      {
+        "file": "src/app/api/admin/organizations/[orgId]/storytellers/route.ts",
+        "line": 48,
+        "context": "src/app/api/admin/organizations/[orgId]/transcripts/route.ts-51-      .select('id, tenant_roles, display_name') src/app/api/admin/organizations/[orgId]/transcripts/route.ts-52-      .eq('tenant_id', organization.tenant_id) src/app/api/admin/organizations/[orgId]/storytellers/route.ts-46-    // Get profiles filtered by tenant_id (organization's tenant) src/app/api/admin/organizations/[orgId]/storytellers/route.ts-47-    const { data: profiles, error, count } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/route.ts",
+        "line": 21,
+        "context": "src/app/api/admin/projects/[id]/storytellers/route.ts-169-      .select('id, display_name, tenant_id') src/app/api/admin/projects/[id]/storytellers/route.ts-170-      .eq('id', body.storytellerId) src/app/api/admin/storytellers/route.ts-19-    // Get total profile counts src/app/api/admin/storytellers/route.ts-20-    const { count: totalProfiles } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: storyteller.*display"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/route.ts",
+        "line": 858,
+        "context": "src/app/api/admin/storytellers/route.ts-813-      .update({ src/app/api/admin/storytellers/route.ts-814-        display_name: updateData.displayName, src/app/api/admin/storytellers/route.ts-856-    // Instead of hard delete, we'll set their storyteller status to false src/app/api/admin/storytellers/route.ts-857-    const { error: profileError } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: storyteller.*display"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/[id]/route.ts",
+        "line": 219,
+        "context": "src/app/api/admin/storytellers/[id]/route.ts-181-      .update({ src/app/api/admin/storytellers/[id]/route.ts-182-        display_name: body.display_name, src/app/api/admin/storytellers/[id]/route.ts-217-    // First get the profile src/app/api/admin/storytellers/[id]/route.ts-218-    const { data: storyteller, error } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: storyteller.*display"
+      },
+      {
+        "file": "src/app/api/admin/connections/route.ts",
+        "line": 173,
+        "context": "src/app/api/admin/connections/route.ts-76-    .select('id, display_name, cultural_background') src/app/api/admin/connections/route.ts-77-    .eq('id', data.storytellerId) src/app/api/admin/connections/route.ts-171-    if (org?.tenant_id) { src/app/api/admin/connections/route.ts-172-      await supabase         .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/admin/users/[id]/route.ts",
+        "line": 211,
+        "context": "src/app/api/admin/users/[id]/route.ts-165-      .update({ src/app/api/admin/users/[id]/route.ts-166-        full_name: body.first_name && body.last_name ? `${body.first_name} ${body.last_name}` : body.display_name, src/app/api/admin/users/[id]/route.ts-209-    // Verify super admin access (only super admins can delete users) src/app/api/admin/users/[id]/route.ts-210-    const { data: profile } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/admin/members/route.ts",
+        "line": 319,
+        "context": "src/app/api/admin/members/route.ts-188-        .select('display_name, full_name') src/app/api/admin/members/route.ts-189-        .eq('id', memberId) src/app/api/admin/members/route.ts-317-    // Get member name for response src/app/api/admin/members/route.ts-318-    const { data: member } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/admin/stats/users/route.ts",
+        "line": 22,
+        "context": "src/app/api/admin/galleries/route.ts-90-        .select('id, display_name, full_name') src/app/api/admin/galleries/route.ts-91-        .eq('id', gallery.created_by) src/app/api/admin/stats/users/route.ts-20-    // Get total users count src/app/api/admin/stats/users/route.ts-21-    const { count: totalUsers } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/storytellers/[id]/videos/route.ts",
+        "line": 59,
+        "context": "src/app/api/storytellers/[id]/videos/route.ts-31-      .select('id, display_name, full_name') src/app/api/storytellers/[id]/videos/route.ts-32-      .eq('id', storytellerId) src/app/api/storytellers/[id]/videos/route.ts-57- src/app/api/storytellers/[id]/videos/route.ts-58-    const { error: updateError } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: storyteller.*display"
+      },
+      {
+        "file": "src/app/api/storytellers/[id]/summary/route.ts",
+        "line": 69,
+        "context": "src/app/api/storytellers/[id]/summary/route.ts-20-      .select('id, display_name, bio, summary') src/app/api/storytellers/[id]/summary/route.ts-21-      .eq('id', storytellerId) src/app/api/storytellers/[id]/summary/route.ts-67-    // Update the profile summary src/app/api/storytellers/[id]/summary/route.ts-68-    const { data, error } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: storyteller.*display"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts",
+        "line": 54,
+        "context": "src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts-38-      .select('display_name, full_name') src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts-39-      .eq('id', storytellerId) src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts-52-    // Remove storyteller role from tenant_roles array src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts-53-    const { data: currentProfile, error: fetchError } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: storyteller.*display"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/analyze-all/route.ts",
+        "line": 165,
+        "context": "src/app/api/organisations/[id]/analyze-all/route.ts-45-      .select('id, display_name, full_name, bio') src/app/api/organisations/[id]/analyze-all/route.ts-46-      .eq('tenant_id', org.tenant_id) src/app/api/organisations/[id]/analyze-all/route.ts-163-    // Get all storytellers src/app/api/organisations/[id]/analyze-all/route.ts-164-    const { data: storytellers } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/galleries/route.ts",
+        "line": 61,
+        "context": "src/app/api/organisations/[id]/analyze-all/route.ts-166-      .select('id, display_name, full_name, bio, cultural_background, expertise_areas, community_roles') src/app/api/organisations/[id]/analyze-all/route.ts-167-      .eq('tenant_id', org.tenant_id) src/app/api/organisations/[id]/galleries/route.ts-59-    if (storytellerIds.length > 0) { src/app/api/organisations/[id]/galleries/route.ts-60-      const { data: storytellers, error: storytellersError } = await supabase         .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/galleries/route.ts",
+        "line": 189,
+        "context": "src/app/api/organisations/[id]/galleries/route.ts-62-        .select('id, display_name, full_name') src/app/api/organisations/[id]/galleries/route.ts-63-        .in('id', storytellerIds) src/app/api/organisations/[id]/galleries/route.ts-187-    // Get all users in this organization's tenant src/app/api/organisations/[id]/galleries/route.ts-188-    const { data: orgUsers } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/philanthropy-intelligence/route.ts",
+        "line": 39,
+        "context": "src/app/api/organisations/[id]/galleries/route.ts-363-        .select('id, display_name, full_name, profile_image_url, avatar_url') src/app/api/organisations/[id]/galleries/route.ts-364-        .eq('tenant_id', org.tenant_id) src/app/api/organisations/[id]/philanthropy-intelligence/route.ts-37-    // Get all storytellers in this organisation's tenant src/app/api/organisations/[id]/philanthropy-intelligence/route.ts-38-    const { data: storytellers } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: avatar_url"
+      },
+      {
+        "file": "src/app/api/ai/regenerate-bios/route.ts",
+        "line": 20,
+        "context": "src/app/api/organisations/[id]/analytics/route.ts-42-      .select('id, display_name, full_name, tenant_roles') src/app/api/organisations/[id]/analytics/route.ts-43-      .eq('tenant_id', organisation.tenant_id) src/app/api/ai/regenerate-bios/route.ts-18-    // Get all storytellers with their stories and transcripts src/app/api/ai/regenerate-bios/route.ts-19-    const { data: storytellers, error } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/ai/cultural-safety/route.ts",
+        "line": 239,
+        "context": "src/app/api/ai/cultural-safety/route.ts-147-      .select('id, display_name, is_elder') src/app/api/ai/cultural-safety/route.ts-148-      .eq('id', elderId) src/app/api/ai/cultural-safety/route.ts-237-    const supabase = createSupabaseServerClient() src/app/api/ai/cultural-safety/route.ts-238-    const { data: elder, error: elderError } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/ai/cultural-safety/route.ts",
+        "line": 344,
+        "context": "src/app/api/ai/cultural-safety/route.ts-240-      .select('id, display_name, is_elder') src/app/api/ai/cultural-safety/route.ts-241-      .eq('id', elder_id) src/app/api/ai/cultural-safety/route.ts-342-    const supabase = createSupabaseServerClient() src/app/api/ai/cultural-safety/route.ts-343-    const { data: user } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/ai/enhance-profile/route.ts",
+        "line": 37,
+        "context": "src/app/api/ai/cultural-safety/route.ts-345-      .select('id, display_name') src/app/api/ai/cultural-safety/route.ts-346-      .eq('id', user_id) src/app/api/ai/enhance-profile/route.ts-35-    const [profileResult, storiesResult, transcriptsResult, quotesResult] = await Promise.all([ src/app/api/ai/enhance-profile/route.ts-36-      supabase         .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/ai/recommendations/route.ts",
+        "line": 55,
+        "context": "src/app/api/ai/recommendations/route.ts-37-      .select('id, display_name, cultural_affiliations, is_elder') src/app/api/ai/recommendations/route.ts-38-      .eq('id', userId) src/app/api/ai/recommendations/route.ts-53-        // Get similar storytellers based on profile src/app/api/ai/recommendations/route.ts-54-        const { data: currentUser } = await supabase           .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/ai/search/route.ts",
+        "line": 40,
+        "context": "src/app/api/ai/recommendations/route.ts-234-      .select('id, display_name, cultural_affiliations, is_elder') src/app/api/ai/recommendations/route.ts-235-      .eq('id', user_id) src/app/api/ai/search/route.ts-38-    const supabase = createSupabaseServerClient() src/app/api/ai/search/route.ts-39-    const { data: user, error: userError } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/ai/search/route.ts",
+        "line": 210,
+        "context": "src/app/api/ai/search/route.ts-41-      .select('id, display_name, cultural_affiliations, is_elder') src/app/api/ai/search/route.ts-42-      .eq('id', userId) src/app/api/ai/search/route.ts-208-    const supabase = createSupabaseServerClient() src/app/api/ai/search/route.ts-209-    const { data: user, error: userError } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/ai/search/route.ts",
+        "line": 313,
+        "context": "src/app/api/ai/search/route.ts-211-      .select('id, display_name, cultural_affiliations, is_elder') src/app/api/ai/search/route.ts-212-      .eq('id', user_id) src/app/api/ai/search/route.ts-311-    const supabase = createSupabaseServerClient() src/app/api/ai/search/route.ts-312-    const { data: user, error: userError } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/ai/story-connections/route.ts",
+        "line": 229,
+        "context": "src/app/api/ai/story-connections/route.ts-39-      .select('id, display_name, cultural_affiliations, is_elder') src/app/api/ai/story-connections/route.ts-40-      .eq('id', userId) src/app/api/ai/story-connections/route.ts-227-    const supabase = createSupabaseServerClient() src/app/api/ai/story-connections/route.ts-228-    const { data: user, error: userError } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      },
+      {
+        "file": "src/app/api/ai/story-connections/route.ts",
+        "line": 416,
+        "context": "src/app/api/ai/story-connections/route.ts-230-      .select('id, display_name, cultural_affiliations, is_elder') src/app/api/ai/story-connections/route.ts-231-      .eq('id', user_id) src/app/api/ai/story-connections/route.ts-414-    const supabase = createSupabaseServerClient() src/app/api/ai/story-connections/route.ts-415-    const { data: user, error: userError } = await supabase       .from('profiles')",
+        "category": "MIGRATE",
+        "reason": "Storyteller-specific: display_name"
+      }
+    ],
+    "review": [
+      {
+        "file": "src/app/organisations/[id]/layout.tsx",
+        "line": 63,
+        "context": "src/app/organisations/[id]/settings/page.tsx-38-    .select('*', { count: 'exact', head: true }) src/app/organisations/[id]/settings/page.tsx-39-    .eq('tenant_id', organisation.tenant_id) src/app/organisations/[id]/layout.tsx-61-  // ALWAYS check for super admin access first src/app/organisations/[id]/layout.tsx-62-  const { data: profile, error: profileError } = await supabase     .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/projects/[id]/storytellers/route.ts",
+        "line": 127,
+        "context": "src/app/api/transcripts/route.ts-148-      .select('tenant_id') src/app/api/transcripts/route.ts-149-      .eq('id', createdBy) src/app/api/projects/[id]/storytellers/route.ts-125-    // Check if storyteller exists src/app/api/projects/[id]/storytellers/route.ts-126-    const { data: storyteller } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/organizations/[orgId]/transcripts/route.ts",
+        "line": 50,
+        "context": "src/app/api/projects/[id]/updates/route.ts-68-      .select('tenant_id, is_super_admin') src/app/api/projects/[id]/updates/route.ts-69-      .eq('id', user.id) src/app/api/admin/organizations/[orgId]/transcripts/route.ts-48-    // Get all storyteller IDs for this organization's tenant src/app/api/admin/organizations/[orgId]/transcripts/route.ts-49-    const { data: storytellers, error: storytellersError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/transcripts/route.ts",
+        "line": 168,
+        "context": "src/app/api/admin/organizations/[orgId]/storytellers/route.ts-49-      .select(` src/app/api/admin/organizations/[orgId]/storytellers/route.ts-50-        id, src/app/api/admin/transcripts/route.ts-166-    // Get the storyteller's tenant_id from their profile src/app/api/admin/transcripts/route.ts-167-    const { data: storytellerProfile, error: profileError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/projects/[id]/storytellers/route.ts",
+        "line": 32,
+        "context": "src/app/api/admin/transcripts/route.ts-169-      .select('tenant_id') src/app/api/admin/transcripts/route.ts-170-      .eq('id', storyteller_id) src/app/api/admin/projects/[id]/storytellers/route.ts-30-    // This allows storytellers from any organization to be assigned to projects src/app/api/admin/projects/[id]/storytellers/route.ts-31-    const { data: profiles, error: profilesError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/projects/[id]/storytellers/route.ts",
+        "line": 168,
+        "context": "src/app/api/admin/projects/[id]/storytellers/route.ts-33-      .select(` src/app/api/admin/projects/[id]/storytellers/route.ts-34-        id, src/app/api/admin/projects/[id]/storytellers/route.ts-166-    // Verify the storyteller exists - ALLOW CROSS-TENANT for super admin src/app/api/admin/projects/[id]/storytellers/route.ts-167-    const { data: profile, error: profileError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/route.ts",
+        "line": 26,
+        "context": "src/app/api/admin/storytellers/route.ts-22-      .select('*', { count: 'exact', head: true }) src/app/api/admin/storytellers/route.ts-23- src/app/api/admin/storytellers/route.ts-24-    // Get featured count src/app/api/admin/storytellers/route.ts-25-    const { count: featuredCount } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/route.ts",
+        "line": 32,
+        "context": "src/app/api/admin/storytellers/route.ts-27-      .select('*', { count: 'exact', head: true }) src/app/api/admin/storytellers/route.ts-28-      .eq('is_featured', true) src/app/api/admin/storytellers/route.ts-30-    // Get elders count src/app/api/admin/storytellers/route.ts-31-    const { count: eldersCount } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/route.ts",
+        "line": 38,
+        "context": "src/app/api/admin/storytellers/route.ts-33-      .select('*', { count: 'exact', head: true }) src/app/api/admin/storytellers/route.ts-34-      .eq('is_elder', true) src/app/api/admin/storytellers/route.ts-36-    // Get active count (assuming active means they exist and aren't suspended) src/app/api/admin/storytellers/route.ts-37-    const { count: activeCount } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/route.ts",
+        "line": 178,
+        "context": "src/app/api/admin/storytellers/route.ts-39-      .select('*', { count: 'exact', head: true }) src/app/api/admin/storytellers/route.ts-40-      .neq('id', null) // All profiles are considered \"active\" unless marked otherwise src/app/api/admin/storytellers/route.ts-176-    // Will manually fetch stories after getting profiles src/app/api/admin/storytellers/route.ts-177-    let query = supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/route.ts",
+        "line": 254,
+        "context": "src/app/api/admin/storytellers/route.ts-179-      .select(` src/app/api/admin/storytellers/route.ts-180-        id, src/app/api/admin/storytellers/route.ts-252-    // Test with a very simple query first src/app/api/admin/storytellers/route.ts-253-    const { count: totalProfiles, error: countError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/[id]/route.ts",
+        "line": 46,
+        "context": "src/app/api/admin/storytellers/route.ts-859-      .update({ is_storyteller: false }) src/app/api/admin/storytellers/route.ts-860-      .eq('id', id) src/app/api/admin/storytellers/[id]/route.ts-44- src/app/api/admin/storytellers/[id]/route.ts-45-      const { error: avatarError } = await supabase         .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/[id]/route.ts",
+        "line": 134,
+        "context": "src/app/api/admin/storytellers/[id]/route.ts-47-        .update({ src/app/api/admin/storytellers/[id]/route.ts-48-          avatar_media_id: mediaIdToStore src/app/api/admin/storytellers/[id]/route.ts-132- src/app/api/admin/storytellers/[id]/route.ts-133-      const { error: statusError } = await supabase         .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/[id]/route.ts",
+        "line": 180,
+        "context": "src/app/api/admin/storytellers/[id]/route.ts-135-        .update({ src/app/api/admin/storytellers/[id]/route.ts-136-          profile_visibility: status src/app/api/admin/storytellers/[id]/route.ts-178- src/app/api/admin/storytellers/[id]/route.ts-179-    const { data: storyteller, error } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/storytellers/[id]/relationships/route.ts",
+        "line": 95,
+        "context": "src/app/api/admin/storytellers/[id]/route.ts-220-      .select('*') src/app/api/admin/storytellers/[id]/route.ts-221-      .eq('id', storytellerId) src/app/api/admin/storytellers/[id]/relationships/route.ts-93-      // Update profile tenant_id to match their primary organisation src/app/api/admin/storytellers/[id]/relationships/route.ts-94-      await supabase         .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/tenants/route.ts",
+        "line": 52,
+        "context": "src/app/api/admin/storytellers/[id]/relationships/route.ts-96-        .update({ tenant_id: newTenantId }) src/app/api/admin/storytellers/[id]/relationships/route.ts-97-        .eq('id', storytellerId) src/app/api/admin/tenants/route.ts-50-    // Get member counts for each tenant src/app/api/admin/tenants/route.ts-51-    const { data: memberCounts } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/connections/suggest/route.ts",
+        "line": 49,
+        "context": "src/app/api/admin/tenants/route.ts-53-      .select('tenant_id') src/app/api/admin/tenants/route.ts-54-      .not('tenant_id', 'is', null) src/app/api/admin/connections/suggest/route.ts-47-    // Get storyteller profile with full context src/app/api/admin/connections/suggest/route.ts-48-    const { data: storyteller, error: storytellerError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/connections/route.ts",
+        "line": 75,
+        "context": "src/app/api/admin/connections/suggest/route.ts-50-      .select(` src/app/api/admin/connections/suggest/route.ts-51-        *, src/app/api/admin/connections/route.ts-73-  // Check if storyteller exists src/app/api/admin/connections/route.ts-74-  const { data: storyteller, error: storytellerError } = await supabase     .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/quick-add/route.ts",
+        "line": 121,
+        "context": "src/app/api/admin/connections/route.ts-174-        .update({ tenant_id: org.tenant_id }) src/app/api/admin/connections/route.ts-175-        .eq('id', data.storytellerId) src/app/api/admin/quick-add/route.ts-119-      if (fullVideoUrl) { src/app/api/admin/quick-add/route.ts-120-        await supabase           .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/quick-add/route.ts",
+        "line": 138,
+        "context": "src/app/api/admin/quick-add/route.ts-122-          .update({ video_intro_url: fullVideoUrl }) src/app/api/admin/quick-add/route.ts-123-          .eq('id', storytellerId) src/app/api/admin/quick-add/route.ts-136- src/app/api/admin/quick-add/route.ts-137-      const { data: newProfile, error: profileError } = await supabase         .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/users/route.ts",
+        "line": 21,
+        "context": "src/app/api/admin/quick-add/route.ts-234-              .update({ profile_image_url: publicUrl }) src/app/api/admin/quick-add/route.ts-235-              .eq('id', profileId) src/app/api/admin/users/route.ts-19-    // Get all users with their profiles src/app/api/admin/users/route.ts-20-    const { data: profiles, error } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/users/[id]/status/route.ts",
+        "line": 29,
+        "context": "src/app/api/admin/users/route.ts-22-      .select(` src/app/api/admin/users/route.ts-23-        id, src/app/api/admin/users/[id]/status/route.ts-27-    // Update the user status src/app/api/admin/users/[id]/status/route.ts-28-    const { data, error } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/users/[id]/route.ts",
+        "line": 22,
+        "context": "src/app/api/admin/users/[id]/status/route.ts-30-      .update({ src/app/api/admin/users/[id]/status/route.ts-31-        status, src/app/api/admin/users/[id]/route.ts-20-    // Fetch the user's profile and metadata src/app/api/admin/users/[id]/route.ts-21-    let { data: userData, error: userError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/users/[id]/route.ts",
+        "line": 164,
+        "context": "src/app/api/admin/users/[id]/route.ts-23-      .select(` src/app/api/admin/users/[id]/route.ts-24-        id, src/app/api/admin/users/[id]/route.ts-162-    // Update the user profile src/app/api/admin/users/[id]/route.ts-163-    const { data, error } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/fix-profile/route.ts",
+        "line": 17,
+        "context": "src/app/api/admin/users/[id]/route.ts-212-      .select('is_super_admin') src/app/api/admin/users/[id]/route.ts-213-      .eq('id', user.id) src/app/api/admin/fix-profile/route.ts-15- src/app/api/admin/fix-profile/route.ts-16-  const { data, error } = await supabase     .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/profiles/enhance/route.ts",
+        "line": 100,
+        "context": "src/app/api/admin/profiles/enhance/route.ts-51-    .select('*') src/app/api/admin/profiles/enhance/route.ts-52-    .eq('id', storytellerId) src/app/api/admin/profiles/enhance/route.ts-98-  // Get all storytellers in the tenant src/app/api/admin/profiles/enhance/route.ts-99-  const { data: storytellers, error: storytellersError } = await supabase     .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/storytellers-working/route.ts",
+        "line": 20,
+        "context": "src/app/api/admin/profiles/enhance/route.ts-101-    .select('*') src/app/api/admin/profiles/enhance/route.ts-102-    .eq('tenant_id', tenantId) src/app/api/admin/storytellers-working/route.ts-18-    // Get all storytellers from profiles src/app/api/admin/storytellers-working/route.ts-19-    const { data: profiles, error: profilesError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/galleries/route.ts",
+        "line": 89,
+        "context": "src/app/api/admin/storytellers-working/route.ts-21-      .select(` src/app/api/admin/storytellers-working/route.ts-22-        id, src/app/api/admin/galleries/route.ts-87-      // Get creator information src/app/api/admin/galleries/route.ts-88-      const { data: creator } = await supabase         .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/stats/users/route.ts",
+        "line": 30,
+        "context": "src/app/api/admin/stats/users/route.ts-23-      .select('*', { count: 'exact', head: true }) src/app/api/admin/stats/users/route.ts-24- src/app/api/admin/stats/users/route.ts-28- src/app/api/admin/stats/users/route.ts-29-    const { count: activeUsers } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/stats/users/route.ts",
+        "line": 39,
+        "context": "src/app/api/admin/stats/users/route.ts-31-      .select('*', { count: 'exact', head: true }) src/app/api/admin/stats/users/route.ts-32-      .gte('updated_at', thirtyDaysAgo.toISOString()) src/app/api/admin/stats/users/route.ts-37- src/app/api/admin/stats/users/route.ts-38-    const { count: recentActivity } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/analytics/overview/route.ts",
+        "line": 26,
+        "context": "src/app/api/admin/stats/users/route.ts-40-      .select('*', { count: 'exact', head: true }) src/app/api/admin/stats/users/route.ts-41-      .gte('updated_at', sevenDaysAgo.toISOString()) src/app/api/admin/analytics/overview/route.ts-24-    // User metrics src/app/api/admin/analytics/overview/route.ts-25-    const { count: totalUsers } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/analytics/overview/route.ts",
+        "line": 30,
+        "context": "src/app/api/admin/analytics/overview/route.ts-27-      .select('*', { count: 'exact', head: true }) src/app/api/admin/analytics/overview/route.ts-28- src/app/api/admin/analytics/overview/route.ts-29-    const { count: newUsersThisMonth } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/analytics/overview/route.ts",
+        "line": 35,
+        "context": "src/app/api/admin/analytics/overview/route.ts-31-      .select('*', { count: 'exact', head: true }) src/app/api/admin/analytics/overview/route.ts-32-      .gte('created_at', lastMonth.toISOString()) src/app/api/admin/analytics/overview/route.ts-33- src/app/api/admin/analytics/overview/route.ts-34-    const { count: activeUsersThisWeek } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/admin/media/route.ts",
+        "line": 117,
+        "context": "src/app/api/admin/analytics/overview/route.ts-36-      .select('*', { count: 'exact', head: true }) src/app/api/admin/analytics/overview/route.ts-37-      .gte('updated_at', lastWeek.toISOString()) src/app/api/admin/media/route.ts-115-    // Get profiles for uploader names src/app/api/admin/media/route.ts-116-    const { data: profiles, error: profilesError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/storytellers/route.ts",
+        "line": 167,
+        "context": "src/app/api/storytellers/search/route.ts-30-      .select(` src/app/api/storytellers/search/route.ts-31-        id, src/app/api/storytellers/route.ts-165- src/app/api/storytellers/route.ts-166-    const { data: profile, error } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/storytellers/[id]/dashboard/route.ts",
+        "line": 240,
+        "context": "src/app/api/storytellers/[id]/profile-with-impact/route.ts-26-      .select(` src/app/api/storytellers/[id]/profile-with-impact/route.ts-27-        id, src/app/api/storytellers/[id]/dashboard/route.ts-238-    // Get storyteller profile src/app/api/storytellers/[id]/dashboard/route.ts-239-    const { data: profile, error: profileError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/storytellers/[id]/videos/route.ts",
+        "line": 30,
+        "context": "src/app/api/storytellers/[id]/dashboard/route.ts-241-      .select(` src/app/api/storytellers/[id]/dashboard/route.ts-242-        id, src/app/api/storytellers/[id]/videos/route.ts-28-    // Validate the storyteller exists src/app/api/storytellers/[id]/videos/route.ts-29-    const { data: profile, error: profileError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/storytellers/[id]/route.ts",
+        "line": 41,
+        "context": "src/app/api/storytellers/[id]/videos/route.ts-60-      .update(updateData) src/app/api/storytellers/[id]/videos/route.ts-61-      .eq('id', storytellerId) src/app/api/storytellers/[id]/route.ts-39-      // 1. Core profile data src/app/api/storytellers/[id]/route.ts-40-      supabase         .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/storytellers/[id]/summary/route.ts",
+        "line": 19,
+        "context": "src/app/api/storytellers/[id]/route.ts-42-        .select(` src/app/api/storytellers/[id]/route.ts-43-          *, src/app/api/storytellers/[id]/summary/route.ts-17- src/app/api/storytellers/[id]/summary/route.ts-18-    const { data: profile, error } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/storytellers/[id]/analytics/route.ts",
+        "line": 122,
+        "context": "src/app/api/storytellers/[id]/summary/route.ts-70-      .update({ src/app/api/storytellers/[id]/summary/route.ts-71-        summary: summary.trim(), src/app/api/storytellers/[id]/analytics/route.ts-120-    // Get storyteller profile to determine tenant src/app/api/storytellers/[id]/analytics/route.ts-121-    const { data: profile, error: profileError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/stories/[id]/comments/route.ts",
+        "line": 175,
+        "context": "src/app/api/cultural-tags/route.ts-105-      .select('is_elder, cultural_permissions') src/app/api/cultural-tags/route.ts-106-      .eq('id', user.id) src/app/api/stories/[id]/comments/route.ts-173-    // Get commenter profile src/app/api/stories/[id]/comments/route.ts-174-    const { data: profile } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts",
+        "line": 37,
+        "context": "src/app/api/organisations/[id]/transcripts/route.ts-65-      .select(` src/app/api/organisations/[id]/transcripts/route.ts-66-        id, src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts-35-    // Get storyteller details for response src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts-36-    const { data: storyteller, error: storytellerError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts",
+        "line": 74,
+        "context": "src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts-55-      .select('tenant_roles') src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts-56-      .eq('id', storytellerId) src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts-72-    // Note: We keep the tenant_id even if they have no roles to avoid constraint violations src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts-73-    const { error: updateError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/storytellers/route.ts",
+        "line": 109,
+        "context": "src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts-75-      .update({ src/app/api/organisations/[id]/storytellers/[storytellerId]/route.ts-76-        tenant_roles: updatedRoles src/app/api/organisations/[id]/storytellers/route.ts-107- src/app/api/organisations/[id]/storytellers/route.ts-108-    const { data: allProfiles, error: profilesError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/storytellers/route.ts",
+        "line": 418,
+        "context": "src/app/api/organisations/[id]/storytellers/route.ts-110-      .select('*') src/app/api/organisations/[id]/storytellers/route.ts-111-      .eq('tenant_id', organisation.tenant_id) src/app/api/organisations/[id]/storytellers/route.ts-416-    // Get user details src/app/api/organisations/[id]/storytellers/route.ts-417-    const { data: user, error: userError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/storytellers/create/route.ts",
+        "line": 29,
+        "context": "src/app/api/organisations/[id]/storytellers/route.ts-453-      .update({ src/app/api/organisations/[id]/storytellers/route.ts-454-        tenant_roles: updatedRoles, src/app/api/organisations/[id]/storytellers/create/route.ts-27-    // Get the profile to create storyteller from src/app/api/organisations/[id]/storytellers/create/route.ts-28-    const { data: profile, error: profileError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/organisations/[id]/galleries/route.ts",
+        "line": 362,
+        "context": "src/app/api/organisations/[id]/galleries/route.ts-190-      .select('id') src/app/api/organisations/[id]/galleries/route.ts-191-      .eq('tenant_id', organization.tenant_id) src/app/api/organisations/[id]/galleries/route.ts-360-      // First, get storytellers in this organisation src/app/api/organisations/[id]/galleries/route.ts-361-      const { data: storytellers, error: storytellersError } = await supabase         .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/regenerate-bios/route.ts",
+        "line": 105,
+        "context": "src/app/api/ai/regenerate-bios/route.ts-21-      .select(` src/app/api/ai/regenerate-bios/route.ts-22-        id, src/app/api/ai/regenerate-bios/route.ts-103-          // Update the bio in the database src/app/api/ai/regenerate-bios/route.ts-104-          const { error: updateError } = await supabase             .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/regenerate-bios/force/route.ts",
+        "line": 20,
+        "context": "src/app/api/ai/regenerate-bios/route.ts-106-            .update({ bio: newBio.trim() }) src/app/api/ai/regenerate-bios/route.ts-107-            .eq('id', storyteller.id) src/app/api/ai/regenerate-bios/force/route.ts-18- src/app/api/ai/regenerate-bios/force/route.ts-19-    let query = supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/regenerate-bios/force/route.ts",
+        "line": 117,
+        "context": "src/app/api/ai/regenerate-bios/force/route.ts-21-      .select(` src/app/api/ai/regenerate-bios/force/route.ts-22-        id, src/app/api/ai/regenerate-bios/force/route.ts-115-          // Update the bio in the database src/app/api/ai/regenerate-bios/force/route.ts-116-          const { error: updateError } = await supabase             .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/generate-short-bios/route.ts",
+        "line": 20,
+        "context": "src/app/api/ai/regenerate-bios/force/route.ts-118-            .update({ bio: newBio.trim() }) src/app/api/ai/regenerate-bios/force/route.ts-119-            .eq('id', storyteller.id) src/app/api/ai/generate-short-bios/route.ts-18- src/app/api/ai/generate-short-bios/route.ts-19-    let query = supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/generate-short-bios/route.ts",
+        "line": 141,
+        "context": "src/app/api/ai/generate-short-bios/route.ts-21-      .select(` src/app/api/ai/generate-short-bios/route.ts-22-        id, src/app/api/ai/generate-short-bios/route.ts-139- src/app/api/ai/generate-short-bios/route.ts-140-          const { error: updateError } = await supabase             .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/analyze-transcript/route.ts",
+        "line": 153,
+        "context": "src/app/api/ai/enhance-profile/route.ts-38-        .select('*') src/app/api/ai/enhance-profile/route.ts-39-        .eq('id', storytellerId) src/app/api/ai/analyze-transcript/route.ts-151-      // Check if user has admin/org permissions src/app/api/ai/analyze-transcript/route.ts-152-      const { data: profile } = await supabase         .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/recommendations/route.ts",
+        "line": 36,
+        "context": "src/app/api/ai/analyze-transcript/route.ts-154-        .select('tenant_roles') src/app/api/ai/analyze-transcript/route.ts-155-        .eq('id', user.id) src/app/api/ai/recommendations/route.ts-34-    const supabase = createSupabaseServerClient() src/app/api/ai/recommendations/route.ts-35-    const { data: user, error: userError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/recommendations/route.ts",
+        "line": 62,
+        "context": "src/app/api/ai/recommendations/route.ts-56-          .select('cultural_background, specialties, cultural_affiliations') src/app/api/ai/recommendations/route.ts-57-          .eq('id', userId) src/app/api/ai/recommendations/route.ts-60-        if (currentUser) { src/app/api/ai/recommendations/route.ts-61-          const { data: similarStorytellers } = await supabase             .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/recommendations/route.ts",
+        "line": 233,
+        "context": "src/app/api/ai/recommendations/route.ts-63-            .select(` src/app/api/ai/recommendations/route.ts-64-              id, src/app/api/ai/recommendations/route.ts-231-    const supabase = createSupabaseServerClient() src/app/api/ai/recommendations/route.ts-232-    const { data: user, error: userError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/enhance-content/route.ts",
+        "line": 54,
+        "context": "src/app/api/ai/search/route.ts-314-      .select('id, is_elder, community_roles') src/app/api/ai/search/route.ts-315-      .eq('id', user_id) src/app/api/ai/enhance-content/route.ts-52-    // Check if user has permission to enhance this content src/app/api/ai/enhance-content/route.ts-53-    const { data: user } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/enhance-content/route.ts",
+        "line": 222,
+        "context": "src/app/api/ai/enhance-content/route.ts-55-      .select('id, is_elder, cultural_permissions') src/app/api/ai/enhance-content/route.ts-56-      .eq('id', user_id) src/app/api/ai/enhance-content/route.ts-220-    // Check user permissions for accessing enhancement results src/app/api/ai/enhance-content/route.ts-221-    const { data: user } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/enhance-content/route.ts",
+        "line": 328,
+        "context": "src/app/api/ai/enhance-content/route.ts-223-      .select('id, is_elder, cultural_affiliations') src/app/api/ai/enhance-content/route.ts-224-      .eq('id', userId) src/app/api/ai/enhance-content/route.ts-326-    const supabase = createSupabaseServerClient() src/app/api/ai/enhance-content/route.ts-327-    const { data: user } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/analyze-content-quality/route.ts",
+        "line": 29,
+        "context": "src/app/api/ai/enhance-content/route.ts-329-      .select('id, is_elder, cultural_permissions') src/app/api/ai/enhance-content/route.ts-330-      .eq('id', user_id) src/app/api/ai/analyze-content-quality/route.ts-27-      // Analyze all storytellers src/app/api/ai/analyze-content-quality/route.ts-28-      const { data: profiles, error: profilesError } = await supabase         .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/analyze-content-quality/route.ts",
+        "line": 97,
+        "context": "src/app/api/ai/analyze-content-quality/route.ts-30-        .select(` src/app/api/ai/analyze-content-quality/route.ts-31-          id, src/app/api/ai/analyze-content-quality/route.ts-95-  const [profileResult, storiesResult, transcriptsResult] = await Promise.all([ src/app/api/ai/analyze-content-quality/route.ts-96-    supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/ai/story-connections/route.ts",
+        "line": 38,
+        "context": "src/app/api/ai/analyze-content-quality/route.ts-98-      .select('*') src/app/api/ai/analyze-content-quality/route.ts-99-      .eq('id', storytellerId) src/app/api/ai/story-connections/route.ts-36-    const supabase = createSupabaseServerClient() src/app/api/ai/story-connections/route.ts-37-    const { data: user, error: userError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/locations/[id]/route.ts",
+        "line": 155,
+        "context": "src/app/api/ai/story-connections/route.ts-417-      .select('id, is_elder, community_roles') src/app/api/ai/story-connections/route.ts-418-      .eq('id', user_id) src/app/api/locations/[id]/route.ts-153-      supabase.from('stories').select('*', { count: 'exact', head: true }).eq('location_id', id), src/app/api/locations/[id]/route.ts-154-      supabase.from('transcripts').select('*', { count: 'exact', head: true }).eq('location_id', id),       supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('location_id', id),",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/execute-rls-deployment/route.ts",
+        "line": 169,
+        "context": "src/app/api/users/search/route.ts-32-      .select(` src/app/api/users/search/route.ts-33-        id, src/app/api/execute-rls-deployment/route.ts-167-    // Test database connectivity src/app/api/execute-rls-deployment/route.ts-168-    const { data: connectionTest, error: connectionError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/execute-rls-deployment/route.ts",
+        "line": 213,
+        "context": "src/app/api/execute-rls-deployment/route.ts-170-      .select('count', { count: 'exact', head: true }); src/app/api/execute-rls-deployment/route.ts-171- src/app/api/execute-rls-deployment/route.ts-211-        test: async () => { src/app/api/execute-rls-deployment/route.ts-212-          const { data, error } = await supabase             .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/profiles/me/route.ts",
+        "line": 33,
+        "context": "src/app/api/execute-rls-deployment/route.ts-214-            .select('count', { count: 'exact', head: true }); src/app/api/execute-rls-deployment/route.ts-215-          return { success: !error, data, error: error?.message }; src/app/api/profiles/me/route.ts-31-    // Fetch profile src/app/api/profiles/me/route.ts-32-    const { data: profile, error: profileError } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/profiles/create/route.ts",
+        "line": 146,
+        "context": "src/app/api/profiles/me/route.ts-34-      .select('*') src/app/api/profiles/me/route.ts-35-      .eq('id', user.id) src/app/api/profiles/create/route.ts-144- src/app/api/profiles/create/route.ts-145-    const { data, error } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/analytics/export/route.ts",
+        "line": 66,
+        "context": "src/app/api/profiles/create/route.ts-147-      .insert(profileData) src/app/api/profiles/create/route.ts-148-      .select() src/app/api/analytics/export/route.ts-64-    if (includeStorytellers) { src/app/api/analytics/export/route.ts-65-      let storytellersQuery = supabase         .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/media/[id]/usage/route.ts",
+        "line": 42,
+        "context": "src/app/api/debug/schema/route.ts-17-      .select('*') src/app/api/debug/schema/route.ts-18-      .limit(1) src/app/api/media/[id]/usage/route.ts-40-    const isOwner = mediaAsset.uploaded_by === user.id src/app/api/media/[id]/usage/route.ts-41-    const { data: profile } = await supabase       .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      },
+      {
+        "file": "src/app/api/media/[id]/usage/route.ts",
+        "line": 106,
+        "context": "src/app/api/media/[id]/usage/route.ts-43-      .select('community_roles') src/app/api/media/[id]/usage/route.ts-44-      .eq('id', user.id) src/app/api/media/[id]/usage/route.ts-104-            case 'profile': src/app/api/media/[id]/usage/route.ts-105-              const { data: profileData } = await supabase                 .from('profiles')",
+        "category": "REVIEW",
+        "reason": "Ambiguous - needs manual review"
+      }
+    ]
+  }
+}

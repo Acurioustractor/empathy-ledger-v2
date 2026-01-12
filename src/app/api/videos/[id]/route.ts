@@ -54,7 +54,7 @@ export async function GET(
           storyteller_id,
           relationship,
           consent_status,
-          storytellers:storyteller_id(id, display_name, profile_image_url)
+          storytellers:storyteller_id(id, display_name, avatar_url)
         ),
         video_link_locations(
           id,
@@ -109,7 +109,7 @@ export async function GET(
         storytellers: (video.video_link_storytellers || []).map((vs: any) => ({
           id: vs.storytellers?.id,
           name: vs.storytellers?.display_name,
-          imageUrl: vs.storytellers?.profile_image_url,
+          imageUrl: vs.storytellers?.avatar_url,
           relationship: vs.relationship,
           consentStatus: vs.consent_status
         })).filter((s: any) => s.id),
@@ -151,6 +151,8 @@ export async function PUT(
       duration,
       recordedAt,
       projectCode,
+      organizationId,
+      projectId,
       culturalSensitivityLevel,
       requiresElderApproval,
       status,
@@ -167,6 +169,8 @@ export async function PUT(
     if (duration !== undefined) updates.duration = duration
     if (recordedAt !== undefined) updates.recorded_at = recordedAt
     if (projectCode !== undefined) updates.project_code = projectCode
+    if (organizationId !== undefined) updates.organization_id = organizationId || null
+    if (projectId !== undefined) updates.project_id = projectId || null
     if (culturalSensitivityLevel !== undefined) updates.cultural_sensitivity_level = culturalSensitivityLevel
     if (requiresElderApproval !== undefined) updates.requires_elder_approval = requiresElderApproval
     if (status !== undefined) updates.status = status

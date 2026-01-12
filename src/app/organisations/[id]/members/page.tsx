@@ -1,14 +1,18 @@
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { createClient } from '@supabase/supabase-js'
 import { MemberDirectory } from '@/components/organization/MemberDirectory'
 import MemberInvitations from '@/components/organization/MemberInvitations'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+
+// Use service role to bypass RLS for organization data
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 interface MembersPageProps {
   params: Promise<{ id: string }>
 }
 
 async function getOrganizationData(organizationId: string) {
-  const supabase = createSupabaseServerClient()
+  const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
   // Get organisation details including slug
   const { data: organisation } = await supabase
@@ -231,14 +235,14 @@ export default async function MembersPage({ params }: MembersPageProps) {
   console.log('🎯 MembersPage - Member names:', members.map(m => m.display_name || m.full_name))
 
   return (
-    <div className="space-y-8">
-      <div className="bg-gradient-to-r from-earth-50 to-sage-50 border-b border-stone-200 px-8 py-8 -mx-6 mb-8">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold text-grey-900 mb-3">Members & Invitations</h1>
-          <p className="text-grey-700 text-lg">
-            Manage your organisation's members and send invitations
-          </p>
-        </div>
+    <div className="space-y-6">
+      <div className="bg-gradient-to-r from-stone-50 via-sage-50/30 to-earth-50/20 border-b border-stone-200 px-6 py-6 -mx-6 -mt-6 rounded-t-xl">
+        <h1 className="text-display-sm font-bold tracking-tight text-stone-900">
+          Members & Invitations
+        </h1>
+        <p className="text-body-md text-stone-600 mt-1">
+          Manage your organisation's members and send invitations
+        </p>
       </div>
 
       <Tabs defaultValue="members" className="space-y-6">

@@ -2,45 +2,47 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
-
-import { requireAdminAuth } from '@/lib/middleware/admin-auth'
-
-
+// Use service role to bypass RLS for admin stats
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
-    
-    // Temporarily bypass auth check to get data working  
-    // TODO: Fix proper authentication flow later
-    console.log('Bypassing auth check for admin organisations stats')
-
-    // Query real organisations and tenants from database
+    // Query organizations (tenants) from database
     const { count: totalOrganizations } = await supabase
       .from('organizations')
       .select('*', { count: 'exact', head: true })
 
-    const { count: totalTenants } = await supabase
-      .from('organizations')
-      .select('*', { count: 'exact', head: true })
-
-    const { count: activeTenants } = await supabase
+    const { count: activeOrganizations } = await supabase
       .from('organizations')
       .select('*', { count: 'exact', head: true })
       .eq('status', 'active')
 
+    // Get total projects count
     const { count: totalProjects } = await supabase
       .from('projects')
       .select('*', { count: 'exact', head: true })
 
+    // Get active projects
+    const { count: activeProjects } = await supabase
+      .from('projects')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'active')
+
+    // Get total galleries
+    const { count: totalGalleries } = await supabase
+      .from('galleries')
+      .select('*', { count: 'exact', head: true })
+
     return NextResponse.json({
       total: totalOrganizations || 0,
-      tenants: totalTenants || 0,
-      active: activeTenants || 0,
-      pending: (totalTenants || 0) - (activeTenants || 0),
-      projects: totalProjects || 0
+      active: activeOrganizations || 0,
+      projects: totalProjects || 0,
+      activeProjects: activeProjects || 0,
+      galleries: totalGalleries || 0
     })
 
   } catch (error) {

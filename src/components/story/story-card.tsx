@@ -50,24 +50,24 @@ interface StoryCardProps {
 }
 
 const culturalColors = {
-  low: 'bg-green-100 text-green-800 border-green-200',
-  medium: 'bg-amber-100 text-amber-800 border-amber-200',
-  high: 'bg-red-100 text-red-800 border-red-200'
+  low: 'bg-sage-100 text-sage-800 border-sage-200',
+  medium: 'bg-ochre-100 text-ochre-800 border-ochre-200',
+  high: 'bg-terracotta-100 text-terracotta-800 border-terracotta-200'
 }
 
 const storyTypeColors = {
-  traditional: 'bg-purple-100 text-purple-800',
-  personal: 'bg-blue-100 text-blue-800',
-  historical: 'bg-indigo-100 text-indigo-800',
-  educational: 'bg-emerald-100 text-emerald-800',
-  healing: 'bg-rose-100 text-rose-800'
+  traditional: 'bg-ochre-100 text-ochre-800',
+  personal: 'bg-sage-100 text-sage-800',
+  historical: 'bg-charcoal-100 text-charcoal-700',
+  educational: 'bg-sage-100 text-sage-700',
+  healing: 'bg-terracotta-100 text-terracotta-800'
 }
 
 const statusColors = {
-  draft: 'bg-grey-100 text-grey-800',
-  review: 'bg-yellow-100 text-yellow-800',
-  published: 'bg-green-100 text-green-800',
-  archived: 'bg-grey-100 text-grey-600'
+  draft: 'bg-charcoal-100 text-charcoal-700',
+  review: 'bg-ochre-100 text-ochre-800',
+  published: 'bg-sage-100 text-sage-800',
+  archived: 'bg-charcoal-100 text-charcoal-600'
 }
 
 export function StoryCard({
@@ -200,7 +200,7 @@ export function StoryCard({
       )}>
         <div className="flex">
           {/* Left: Profile Image */}
-          <div className="relative w-32 h-32 bg-gradient-to-br from-blue-50 to-indigo-100 flex-shrink-0">
+          <div className="relative w-32 h-32 bg-gradient-to-br from-cream to-ochre-100 flex-shrink-0">
             {story.author?.profile_image_url ? (
               <img
                 src={story.author.profile_image_url}
@@ -208,9 +208,9 @@ export function StoryCard({
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100">
+              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-cream to-ochre-100">
                 <div className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center shadow-lg">
-                  <span className="text-lg font-bold text-blue-700">
+                  <span className="text-lg font-bold text-ochre-700">
                     {getInitials(story.author?.display_name || story.author?.full_name)}
                   </span>
                 </div>
@@ -239,9 +239,9 @@ export function StoryCard({
 
             {/* Title */}
             <Link href={`/stories/${story.id}`}>
-              <Typography 
-                variant="h4" 
-                className="group-hover:text-blue-700 transition-colours cursor-pointer line-clamp-1 mb-2 text-base font-bold"
+              <Typography
+                variant="h4"
+                className="group-hover:text-terracotta transition-colours cursor-pointer line-clamp-1 mb-2 text-base font-bold"
               >
                 {story.title}
               </Typography>
@@ -306,7 +306,7 @@ export function StoryCard({
       className
     )}>
       {/* Profile Image Header */}
-      <div className="relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="relative h-48 bg-gradient-to-br from-cream to-ochre-100">
         {story.author?.profile_image_url ? (
           <img
             src={story.author.profile_image_url}
@@ -314,9 +314,9 @@ export function StoryCard({
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100">
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-cream to-ochre-100">
             <div className="w-20 h-20 rounded-full bg-white/80 flex items-center justify-center shadow-lg">
-              <span className="text-2xl font-bold text-blue-700">
+              <span className="text-2xl font-bold text-ochre-700">
                 {getInitials(story.author?.display_name || story.author?.full_name)}
               </span>
             </div>
@@ -353,9 +353,9 @@ export function StoryCard({
 
         {/* Title */}
         <Link href={`/stories/${story.id}`}>
-          <Typography 
-            variant="h3" 
-            className="group-hover:text-blue-700 transition-colours cursor-pointer line-clamp-2 mb-3 text-lg font-bold"
+          <Typography
+            variant="h3"
+            className="group-hover:text-terracotta transition-colours cursor-pointer line-clamp-2 mb-3 text-lg font-bold"
           >
             {story.title}
           </Typography>
@@ -407,7 +407,7 @@ export function StoryCard({
               <Button
                 variant="default"
                 size="sm"
-                className="flex-1 text-xs bg-blue-600 hover:bg-blue-700"
+                className="flex-1 text-xs bg-terracotta hover:bg-terracotta-dark"
                 asChild
               >
                 <Link href={`/stories/${story.id}`}>

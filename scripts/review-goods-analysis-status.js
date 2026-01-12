@@ -69,7 +69,7 @@ async function reviewGoodsAnalysisStatus() {
   let totalTranscripts = 0;
   let completedAnalysis = 0;
   let missingAnalysis = 0;
-  let needsAnalysis = [];
+  const needsAnalysis = [];
 
   for (const [storytellerId, data] of storytellerMap.entries()) {
     console.log(`👤 ${data.name}`);

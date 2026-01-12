@@ -422,7 +422,7 @@ const uatModules: TestModule[] = [
 ]
 
 // Flatten all tasks for the default session
-const defaultTasks: TestTask[] = uatModules.flatMap(module => module.tasks)
+const defaultTasks: TestTask[] = uatModules.flatMap(testModule => testModule.tasks)
 
 export default function UserTestingDashboard() {
   const [session, setSession] = useState<TestSession>({
@@ -552,8 +552,8 @@ export default function UserTestingDashboard() {
   const filteredTasks = selectedModule === 'all'
     ? session.tasks
     : session.tasks.filter(t => {
-        const module = uatModules.find(m => m.tasks.some(mt => mt.id === t.id))
-        return module?.id === selectedModule
+        const testModule = uatModules.find(m => m.tasks.some(mt => mt.id === t.id))
+        return testModule?.id === selectedModule
       })
 
   return (
@@ -623,20 +623,20 @@ export default function UserTestingDashboard() {
         >
           All Modules ({session.tasks.length})
         </Button>
-        {uatModules.map(module => {
-          const moduleTaskCount = module.tasks.length
+        {uatModules.map(testModule => {
+          const moduleTaskCount = testModule.tasks.length
           const moduleCompletedCount = session.tasks.filter(t =>
-            module.tasks.some(mt => mt.id === t.id) && t.status === 'completed'
+            testModule.tasks.some(mt => mt.id === t.id) && t.status === 'completed'
           ).length
           return (
             <Button
-              key={module.id}
-              variant={selectedModule === module.id ? 'default' : 'outline'}
+              key={testModule.id}
+              variant={selectedModule === testModule.id ? 'default' : 'outline'}
               size="sm"
-              onClick={() => setSelectedModule(module.id)}
-              className={selectedModule === module.id ? 'bg-purple-600 hover:bg-purple-700' : ''}
+              onClick={() => setSelectedModule(testModule.id)}
+              className={selectedModule === testModule.id ? 'bg-purple-600 hover:bg-purple-700' : ''}
             >
-              {module.name} ({moduleCompletedCount}/{moduleTaskCount})
+              {testModule.name} ({moduleCompletedCount}/{moduleTaskCount})
             </Button>
           )
         })}

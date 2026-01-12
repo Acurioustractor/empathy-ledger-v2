@@ -43,7 +43,7 @@ async function checkAllTables() {
     console.log('='.repeat(groupName.length + 10))
     
     let deployed = 0
-    let total = tables.length
+    const total = tables.length
     
     for (const table of tables) {
       try {

@@ -2,10 +2,11 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
-
 import { createClient } from '@supabase/supabase-js'
 
-
+// Use service role to bypass RLS for admin operations
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 interface OrganizationRelationship {
   organization_id: string
@@ -26,75 +27,69 @@ interface UpdateRelationshipsRequest {
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
-    const storytellerId = params.id
+    const { id: storytellerId } = await params
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
-    // Bypass auth temporarily for admin access
-    console.log('🔓 Bypassing auth check for storyteller relationships update')
+    console.log('🔓 Admin relationships update for storyteller:', storytellerId)
 
     const body: UpdateRelationshipsRequest = await request.json()
     const { type, relationships } = body
 
     if (type === 'organisation') {
-      // Handle organisation relationships
       const orgRelationships = relationships as OrganizationRelationship[]
 
       // First, remove all existing organisation relationships for this storyteller
-      await supabase
-        .from('profile_organizations')
+      // Try storyteller_organizations first (new table)
+      const { error: deleteStorytellerOrgsError } = await supabase
+        .from('storyteller_organizations')
         .delete()
-        .eq('profile_id', storytellerId)
+        .eq('storyteller_id', storytellerId)
 
-      // Then, insert the new relationships
+      if (deleteStorytellerOrgsError) {
+        // Fall back to profile_organizations
+        console.log('🔄 Falling back to profile_organizations for delete')
+        await supabase
+          .from('profile_organizations')
+          .delete()
+          .eq('profile_id', storytellerId)
+      }
+
+      // Insert new relationships
       if (orgRelationships.length > 0) {
-        const insertData = orgRelationships.map(rel => ({
-          profile_id: storytellerId,
+        // Try storyteller_organizations first
+        const storytellerOrgData = orgRelationships.map(rel => ({
+          storyteller_id: storytellerId,
           organization_id: rel.organization_id,
-          role: rel.role,
-          is_active: true
+          role: rel.role
         }))
 
         const { error: insertError } = await supabase
-          .from('profile_organizations')
-          .insert(insertData)
+          .from('storyteller_organizations')
+          .insert(storytellerOrgData)
 
         if (insertError) {
-          console.error('Error inserting organisation relationships:', insertError)
-          return NextResponse.json({ error: 'Failed to update organisation relationships' }, { status: 500 })
+          // Fall back to profile_organizations
+          console.log('🔄 Falling back to profile_organizations for insert')
+          const profileOrgData = orgRelationships.map(rel => ({
+            profile_id: storytellerId,
+            organization_id: rel.organization_id,
+            role: rel.role,
+            is_active: true
+          }))
+
+          const { error: profileInsertError } = await supabase
+            .from('profile_organizations')
+            .insert(profileOrgData)
+
+          if (profileInsertError) {
+            console.error('Error inserting organisation relationships:', profileInsertError)
+            return NextResponse.json({ error: 'Failed to update organisation relationships' }, { status: 500 })
+          }
         }
       }
-
-      // Update tenant_id based on organisation relationships
-      // Get the tenant_id for the primary organisation (first one, or admin role if available)
-      let newTenantId = null
-
-      if (orgRelationships.length > 0) {
-        // Find an admin role first, otherwise use the first organisation
-        const primaryOrg = orgRelationships.find(rel => rel.role === 'admin') || orgRelationships[0]
-
-        // Get the tenant_id for this organisation
-        const { data: orgData } = await supabase
-          .from('organizations')
-          .select('tenant_id')
-          .eq('id', primaryOrg.organization_id)
-          .single()
-
-        if (orgData) {
-          newTenantId = orgData.tenant_id
-        }
-      }
-
-      // Update profile tenant_id to match their primary organisation
-      await supabase
-        .from('profiles')
-        .update({ tenant_id: newTenantId })
-        .eq('id', storytellerId)
 
       return NextResponse.json({
         message: 'Organization relationships updated successfully',
@@ -102,17 +97,49 @@ export async function PUT(
       })
 
     } else if (type === 'project') {
-      // Handle project relationships
       const projectRelationships = relationships as ProjectRelationship[]
 
-      // First, remove all existing project relationships for this storyteller
+      // Check if the storyteller_id is from storytellers table (has profile_id) or profiles table directly
+      // The project_storytellers FK points to profiles.id, so we need to use the correct ID
+      let idForProjectStorytellers = storytellerId
+
+      // Check if this is a storytellers table ID by looking up the record
+      const { data: storytellerRecord } = await supabase
+        .from('storytellers')
+        .select('id, profile_id')
+        .eq('id', storytellerId)
+        .single()
+
+      if (storytellerRecord) {
+        // If storyteller has a profile_id, use that for the FK
+        // If not, the FK constraint will need to be updated to reference storytellers.id
+        if (storytellerRecord.profile_id) {
+          idForProjectStorytellers = storytellerRecord.profile_id
+          console.log('📝 Using profile_id for project_storytellers:', idForProjectStorytellers)
+        } else {
+          // No profile_id - try using storyteller ID directly
+          // This may fail if FK constraint points to profiles
+          console.log('⚠️ No profile_id found, using storyteller_id directly:', storytellerId)
+        }
+      }
+
+      // Remove all existing project relationships for this storyteller
+      // Delete using both possible IDs to ensure cleanup
       await supabase
         .from('project_storytellers')
         .delete()
         .eq('storyteller_id', storytellerId)
 
-      // Then, insert the new relationships
+      if (idForProjectStorytellers !== storytellerId) {
+        await supabase
+          .from('project_storytellers')
+          .delete()
+          .eq('storyteller_id', idForProjectStorytellers)
+      }
+
+      // Insert new relationships
       if (projectRelationships.length > 0) {
+        // Try with the storyteller_id first (in case FK was updated to reference storytellers)
         const insertData = projectRelationships.map(rel => ({
           storyteller_id: storytellerId,
           project_id: rel.project_id,
@@ -125,8 +152,32 @@ export async function PUT(
           .insert(insertData)
 
         if (insertError) {
-          console.error('Error inserting project relationships:', insertError)
-          return NextResponse.json({ error: 'Failed to update project relationships' }, { status: 500 })
+          console.error('Error inserting project relationships with storyteller_id:', insertError)
+
+          // If FK error, try with profile_id instead
+          if (insertError.code === '23503' && idForProjectStorytellers !== storytellerId) {
+            console.log('🔄 Retrying with profile_id:', idForProjectStorytellers)
+            const profileInsertData = projectRelationships.map(rel => ({
+              storyteller_id: idForProjectStorytellers,
+              project_id: rel.project_id,
+              role: rel.role,
+              status: 'active'
+            }))
+
+            const { error: profileInsertError } = await supabase
+              .from('project_storytellers')
+              .insert(profileInsertData)
+
+            if (profileInsertError) {
+              console.error('Error inserting project relationships with profile_id:', profileInsertError)
+              return NextResponse.json({
+                error: 'Failed to update project relationships. The storyteller may not have a linked profile.',
+                details: profileInsertError.message
+              }, { status: 500 })
+            }
+          } else {
+            return NextResponse.json({ error: 'Failed to update project relationships' }, { status: 500 })
+          }
         }
       }
 
@@ -146,45 +197,52 @@ export async function PUT(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
-    const storytellerId = params.id
+    const { id: storytellerId } = await params
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
-    // Get current organisation relationships
-    const { data: orgRelationships, error: orgError } = await supabase
-      .from('profile_organizations')
+    console.log('🔍 Fetching relationships for storyteller:', storytellerId)
+
+    // Try storyteller_organizations first (new table)
+    let orgRelationships: any[] = []
+    const { data: storytellerOrgs, error: storytellerOrgsError } = await supabase
+      .from('storyteller_organizations')
       .select(`
         organization_id,
         role,
-        is_active,
-        organisation:organizations(
-          id,
-          name
-        )
+        organization:organizations(id, name)
       `)
-      .eq('profile_id', storytellerId)
-      .eq('is_active', true)
+      .eq('storyteller_id', storytellerId)
 
-    if (orgError) {
-      console.error('Error fetching organisation relationships:', orgError)
+    if (storytellerOrgs && !storytellerOrgsError) {
+      orgRelationships = storytellerOrgs
+    } else {
+      // Fall back to profile_organizations
+      console.log('🔄 Falling back to profile_organizations for GET')
+      const { data: profileOrgs } = await supabase
+        .from('profile_organizations')
+        .select(`
+          organization_id,
+          role,
+          is_active,
+          organisation:organizations(id, name)
+        `)
+        .eq('profile_id', storytellerId)
+        .eq('is_active', true)
+
+      orgRelationships = profileOrgs || []
     }
 
-    // Get current project relationships
+    // Get project relationships
     const { data: projectRelationships, error: projectError } = await supabase
       .from('project_storytellers')
       .select(`
         project_id,
         role,
         status,
-        projects!inner(
-          id,
-          name
-        )
+        projects!inner(id, name)
       `)
       .eq('storyteller_id', storytellerId)
 
@@ -195,7 +253,7 @@ export async function GET(
     // Transform the data
     const organisations = (orgRelationships || []).map(rel => ({
       organization_id: rel.organization_id,
-      organization_name: rel.organisation?.name || 'Unknown',
+      organization_name: rel.organization?.name || rel.organisation?.name || 'Unknown',
       role: rel.role
     }))
 

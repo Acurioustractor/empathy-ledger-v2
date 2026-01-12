@@ -2,6 +2,7 @@ import { inngest } from './client';
 import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
 import { processTranscriptFunction } from './functions/process-transcript';
+import { publishScheduledStories } from './functions/publish-scheduled-stories';
 
 // Create Supabase admin client for background jobs
 const supabaseAdmin = createClient(
@@ -17,12 +18,18 @@ const openai = new OpenAI({
 // AI Analysis Functions
 // ============================================
 
-// Process a single transcript for analysis
+// ⚠️ DEPRECATED: Process a single transcript for analysis (OLD SYSTEM)
+// Use processTranscriptFunction instead (V3 Claude Sonnet analyzer)
+// This function will be removed in April 2026
 export const analyzeTranscript = inngest.createFunction(
-  { id: 'analyze-transcript', name: 'Analyze Transcript' },
+  { id: 'analyze-transcript', name: '[DEPRECATED] Analyze Transcript' },
   { event: 'transcript/analyze' },
   async ({ event, step }) => {
     const { transcriptId, jobId } = event.data;
+
+    console.warn('⚠️ DEPRECATED: analyzeTranscript function called. Use processTranscriptFunction instead.')
+    console.warn('   This function uses deprecated ai_analysis_jobs table.')
+    console.warn('   Migration path: Use event "transcript/process" instead of "transcript/analyze"')
 
     // Update job status
     await step.run('mark-started', async () => {
@@ -121,15 +128,20 @@ ${text.slice(0, 6000)}`
   }
 );
 
-// Scheduled job to process pending analysis jobs
+// ⚠️ DEPRECATED: Scheduled job to process pending analysis jobs (OLD SYSTEM)
+// This function will be removed in April 2026
+// Migration: Use direct event triggers with processTranscriptFunction instead
 export const processAnalysisQueue = inngest.createFunction(
   {
     id: 'process-analysis-queue',
-    name: 'Process Analysis Queue',
+    name: '[DEPRECATED] Process Analysis Queue',
     throttle: { limit: 10, period: '1m' }, // Max 10 per minute
   },
   { cron: '*/5 * * * *' }, // Every 5 minutes
   async ({ step }) => {
+    console.warn('⚠️ DEPRECATED: processAnalysisQueue called. This uses ai_analysis_jobs table.')
+    console.warn('   Migration: Use direct event triggers instead of job queue system.')
+
     // Fetch pending jobs
     const pendingJobs = await step.run('fetch-pending', async () => {
       const { data } = await supabaseAdmin
@@ -241,6 +253,7 @@ export const updatePlatformStats = inngest.createFunction(
 // Export all functions
 export const functions = [
   processTranscriptFunction, // NEW: Claude Sonnet 4.5 analyzer
+  publishScheduledStories, // NEW: Auto-publish scheduled stories
   analyzeTranscript,
   processAnalysisQueue,
   refreshStaleAnalyses,

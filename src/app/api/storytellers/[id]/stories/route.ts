@@ -25,15 +25,14 @@ export async function GET(
       .select(`
         id,
         title,
+        excerpt,
         summary,
         created_at,
         updated_at,
         status,
-        story_image_url,
-        themes,
         cultural_themes
       `)
-      .eq('author_id', storytellerId)
+      .eq('storyteller_id', storytellerId)
       .order('created_at', { ascending: false })
 
     if (status !== 'all') {

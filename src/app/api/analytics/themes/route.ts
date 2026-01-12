@@ -1,14 +1,84 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import {
+  getTopThemes,
+  getThemesByCategory,
+  searchThemes,
+  findSimilarThemes,
+  getStoriesForTheme,
+  getThemeSystemStats
+} from '@/lib/analytics/theme-analytics'
 
 /**
  * GET /api/analytics/themes
  * Get theme analytics (distribution, trends, growth)
+ *
+ * Views:
+ * - registry_stats: Global theme registry statistics
+ * - registry_top: Top themes from registry by usage
+ * - registry_categories: Themes grouped by category
+ * - registry_search: Search theme registry (q=keyword)
+ * - registry_similar: Find similar themes (theme=name)
+ * - registry_stories: Get stories for theme (theme=name)
+ * - (default): Project/org-scoped theme trends (legacy)
  */
 export async function GET(request: NextRequest) {
   try {
     const supabase = await createClient()
     const { searchParams } = new URL(request.url)
+
+    // Check for new registry views first
+    const view = searchParams.get('view')
+
+    // New registry endpoints (no auth required for read-only registry data)
+    if (view === 'registry_stats') {
+      const stats = await getThemeSystemStats()
+      return NextResponse.json({ success: true, data: stats })
+    }
+
+    if (view === 'registry_top') {
+      const limit = parseInt(searchParams.get('limit') || '20')
+      const themes = await getTopThemes(limit)
+      return NextResponse.json({ success: true, data: themes, count: themes.length })
+    }
+
+    if (view === 'registry_categories') {
+      const categories = await getThemesByCategory()
+      return NextResponse.json({ success: true, data: categories, count: categories.length })
+    }
+
+    if (view === 'registry_search') {
+      const query = searchParams.get('q')
+      if (!query) {
+        return NextResponse.json({ success: false, error: 'Missing query parameter "q"' }, { status: 400 })
+      }
+      const limit = parseInt(searchParams.get('limit') || '20')
+      const themes = await searchThemes(query, limit)
+      return NextResponse.json({ success: true, data: themes, count: themes.length, query })
+    }
+
+    if (view === 'registry_similar') {
+      const themeName = searchParams.get('theme')
+      if (!themeName) {
+        return NextResponse.json({ success: false, error: 'Missing query parameter "theme"' }, { status: 400 })
+      }
+      const limit = parseInt(searchParams.get('limit') || '5')
+      const threshold = parseFloat(searchParams.get('threshold') || '0.7')
+      const similarThemes = await findSimilarThemes(themeName, threshold, limit)
+      return NextResponse.json({ success: true, data: similarThemes, count: similarThemes.length, query: themeName, threshold })
+    }
+
+    if (view === 'registry_stories') {
+      const themeName = searchParams.get('theme')
+      if (!themeName) {
+        return NextResponse.json({ success: false, error: 'Missing query parameter "theme"' }, { status: 400 })
+      }
+      const limit = parseInt(searchParams.get('limit') || '10')
+      const stories = await getStoriesForTheme(themeName, limit)
+      return NextResponse.json({ success: true, data: stories, count: stories.length, theme: themeName })
+    }
+
+    // Legacy: Project/org-scoped theme trends (requires auth)
     const organizationId = searchParams.get('organization_id')
     const projectId = searchParams.get('project_id')
     const timeRange = searchParams.get('time_range') || '30days'

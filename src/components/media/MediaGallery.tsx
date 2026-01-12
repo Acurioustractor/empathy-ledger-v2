@@ -1,11 +1,17 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import {
   Image as ImageIcon,
   Video,
@@ -17,9 +23,12 @@ import {
   Download,
   Eye,
   CheckCircle2,
-  Circle
+  Circle,
+  Tags
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { BatchTaggingBar } from './BatchTaggingBar'
+import { EnhancedMediaTagger } from './EnhancedMediaTagger'
 
 interface MediaItem {
   id: string
@@ -43,6 +52,10 @@ interface MediaGalleryProps {
   selectable?: boolean
   className?: string
   testMode?: boolean
+  /** Enable batch tagging mode with BatchTaggingBar */
+  enableBatchTagging?: boolean
+  /** Callback when tags/metadata are updated */
+  onMediaUpdated?: () => void
 }
 
 type ViewMode = 'grid' | 'list'
@@ -56,12 +69,20 @@ export function MediaGallery({
   onDelete,
   selectable = false,
   className,
-  testMode = false
+  testMode = false,
+  enableBatchTagging = false,
+  onMediaUpdated
 }: MediaGalleryProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [mediaItems, setMediaItems] = useState<MediaItem[]>(media)
+  const [editingMediaId, setEditingMediaId] = useState<string | null>(null)
+
+  // Get the media item being edited
+  const editingMedia = editingMediaId
+    ? mediaItems.find(m => m.id === editingMediaId)
+    : null
 
   // Filter media based on search
   const filteredMedia = mediaItems.filter(item => {
@@ -108,6 +129,30 @@ export function MediaGallery({
     const mb = bytes / (1024 * 1024)
     return `${mb.toFixed(2)} MB`
   }
+
+  // Handle batch tagging completion
+  const handleBatchComplete = useCallback(() => {
+    onMediaUpdated?.()
+  }, [onMediaUpdated])
+
+  // Clear batch selection
+  const handleClearSelection = useCallback(() => {
+    setSelectedIds(new Set())
+    onSelect?.([])
+  }, [onSelect])
+
+  // Open media tagger dialog
+  const handleOpenTagger = (mediaId: string) => {
+    setEditingMediaId(mediaId)
+  }
+
+  // Close media tagger dialog
+  const handleCloseTagger = () => {
+    setEditingMediaId(null)
+  }
+
+  // Determine if we should show batch tagging bar
+  const showBatchBar = enableBatchTagging && selectedIds.size > 0
 
   return (
     <div className={cn('space-y-4', className)}>
@@ -252,6 +297,19 @@ export function MediaGallery({
 
                 {/* Hover Actions */}
                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                  {enableBatchTagging && (
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleOpenTagger(item.id)
+                      }}
+                      title="Edit Tags & Metadata"
+                    >
+                      <Tags className="h-4 w-4" />
+                    </Button>
+                  )}
                   {onEdit && (
                     <Button
                       size="sm"
@@ -377,6 +435,19 @@ export function MediaGallery({
 
                   {/* Actions */}
                   <div className="flex-shrink-0 flex items-center gap-2">
+                    {enableBatchTagging && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleOpenTagger(item.id)
+                        }}
+                        title="Edit Tags & Metadata"
+                      >
+                        <Tags className="h-4 w-4" />
+                      </Button>
+                    )}
                     {onEdit && (
                       <Button
                         size="sm"
@@ -406,6 +477,63 @@ export function MediaGallery({
           </CardContent>
         </Card>
       )}
+
+      {/* BatchTaggingBar - fixed at bottom when items selected */}
+      {showBatchBar && (
+        <BatchTaggingBar
+          selectedIds={Array.from(selectedIds)}
+          onClearSelection={handleClearSelection}
+          onComplete={handleBatchComplete}
+        />
+      )}
+
+      {/* Media Tagger Dialog */}
+      <Dialog open={!!editingMediaId} onOpenChange={(open) => !open && handleCloseTagger()}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Tags className="h-5 w-5" />
+              Edit Media: {editingMedia?.title || 'Untitled'}
+            </DialogTitle>
+          </DialogHeader>
+
+          {editingMediaId && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Media Preview */}
+              <div className="space-y-4">
+                {editingMedia?.type === 'image' ? (
+                  <img
+                    src={editingMedia.url}
+                    alt={editingMedia.alt_text || editingMedia.title || 'Media'}
+                    className="w-full rounded-lg"
+                  />
+                ) : (
+                  <video
+                    src={editingMedia?.url}
+                    controls
+                    className="w-full rounded-lg"
+                  />
+                )}
+                <div className="text-sm text-muted-foreground">
+                  <p><strong>Type:</strong> {editingMedia?.type}</p>
+                  <p><strong>Size:</strong> {formatFileSize(editingMedia?.file_size)}</p>
+                  <p><strong>Created:</strong> {editingMedia?.created_at ? new Date(editingMedia.created_at).toLocaleDateString() : 'Unknown'}</p>
+                </div>
+              </div>
+
+              {/* Enhanced Tagger */}
+              <EnhancedMediaTagger
+                mediaId={editingMediaId}
+                mediaUrl={editingMedia?.url || ''}
+                onSave={() => {
+                  handleCloseTagger()
+                  onMediaUpdated?.()
+                }}
+              />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

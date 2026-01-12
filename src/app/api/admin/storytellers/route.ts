@@ -2,42 +2,66 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
-
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
 import { requireAdminAuth } from '@/lib/middleware/admin-auth'
+import type { Database } from '@/types/database'
 
-import { validateRequest, ValidationPatterns } from '@/lib/utils/validation'
+// Use service role to bypass RLS for admin operations
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
-import { ApiErrors, createSuccessResponse } from '@/lib/utils/api-responses'
-
-
-
-// Helper function to calculate summary stats from the entire database
-async function calculateSummaryStats(supabase: any) {
+// Helper function to calculate summary stats from storytellers table
+async function calculateSummaryStats(supabase: SupabaseClient<Database>) {
   try {
-    // Get total profile counts
-    const { count: totalProfiles } = await supabase
-      .from('profiles')
+    // Get total storytellers count
+    const { count: totalStorytellers } = await supabase
+      .from('storytellers')
       .select('*', { count: 'exact', head: true })
 
-    // Get featured count
-    const { count: featuredCount } = await supabase
-      .from('profiles')
+    // Get active storytellers count
+    const { count: activeCount } = await supabase
+      .from('storytellers')
+      .select('*', { count: 'exact', head: true })
+      .eq('is_active', true)
+
+    // Get featured count - try storytellers table first, fall back to profiles
+    let featuredCount = 0
+    const { count: featuredInStorytellers, error: featuredError } = await supabase
+      .from('storytellers')
       .select('*', { count: 'exact', head: true })
       .eq('is_featured', true)
 
-    // Get elders count
-    const { count: eldersCount } = await supabase
-      .from('profiles')
+    if (!featuredError && featuredInStorytellers !== null) {
+      featuredCount = featuredInStorytellers
+    } else {
+      // Fall back to profiles table
+      const { count: featuredInProfiles } = await supabase
+        .from('profiles')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_featured', true)
+        .eq('is_storyteller', true)
+      featuredCount = featuredInProfiles || 0
+    }
+
+    // Get elders count - try storytellers table first, fall back to profiles
+    let eldersCount = 0
+    const { count: eldersInStorytellers, error: eldersError } = await supabase
+      .from('storytellers')
       .select('*', { count: 'exact', head: true })
       .eq('is_elder', true)
 
-    // Get active count (assuming active means they exist and aren't suspended)
-    const { count: activeCount } = await supabase
-      .from('profiles')
-      .select('*', { count: 'exact', head: true })
-      .neq('id', null) // All profiles are considered "active" unless marked otherwise
+    if (!eldersError && eldersInStorytellers !== null) {
+      eldersCount = eldersInStorytellers
+    } else {
+      // Fall back to profiles table
+      const { count: eldersInProfiles } = await supabase
+        .from('profiles')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_elder', true)
+        .eq('is_storyteller', true)
+      eldersCount = eldersInProfiles || 0
+    }
 
     // Get total stories count
     const { count: totalStories } = await supabase
@@ -45,13 +69,13 @@ async function calculateSummaryStats(supabase: any) {
       .select('*', { count: 'exact', head: true })
 
     return {
-      total: totalProfiles || 0,
+      total: totalStorytellers || 0,
       active: activeCount || 0,
-      featured: featuredCount || 0,
-      elders: eldersCount || 0,
+      featured: featuredCount,
+      elders: eldersCount,
       totalStories: totalStories || 0,
-      totalViews: 0, // This would need a more complex query
-      averageEngagement: 0 // This would need a more complex calculation
+      totalViews: 0,
+      averageEngagement: 0
     }
   } catch (error) {
     console.error('Error calculating summary stats:', error)
@@ -67,720 +91,326 @@ async function calculateSummaryStats(supabase: any) {
   }
 }
 
-interface AdminStoryteller {
-  id: string
-  displayName: string
-  email: string
-  bio: string
-  culturalBackground: string
-  occupation: string
-  location: string
-  storyCount: number
-  engagementRate: number
-  isElder: boolean
-  isFeatured: boolean
-  status: 'active' | 'pending' | 'suspended' | 'inactive'
-  createdAt: string
-  lastActive: string
-  transcriptCount: number
-  activeTranscripts: number
-  verificationStatus: {
-    email: boolean
-    identity: boolean
-    cultural: boolean
-  }
-  stats: {
-    storiesShared: number
-    storiesDraft: number
-    storiesTotal: number
-    storiesRead: number
-    communityEngagement: number
-    followersCount: number
-    viewsTotal: number
-  }
-  organisation: string
-  projects: string[]
-  organisations?: Array<{
-    organization_id: string
-    organization_name: string
-    role: 'storyteller' | 'member'
-  }>
-  project_relationships?: Array<{
-    project_id: string
-    project_name: string
-    role: string
-  }>
-  profileImageUrl?: string
-  languages: string[]
-  specialties: string[]
-  preferences: {
-    availability: string
-    travelWilling: boolean
-    virtualSessions: boolean
-    groupSessions: boolean
-  }
-}
-
 export async function GET(request: NextRequest) {
-  console.log('🚀 Admin storytellers route called - FIXED VERSION')
-
   try {
-    // Use service role key to bypass RLS policies
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
-
-    // Bypass auth temporarily for admin access
-    console.log('🔓 Using service role key for admin storytellers')
-
-    const user = {
-      id: 'd0a162d2-282e-4653-9d12-aa934c9dfa4e',
-      email: 'benjamin@act.place',
-      tenant_id: null // Will be set dynamically based on organisation filtering
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
     }
+
+    const supabase = createClient<Database>(supabaseUrl, supabaseServiceKey)
 
     const { searchParams } = new URL(request.url)
     const search = searchParams.get('search') || ''
     const status = searchParams.get('status') || 'all'
-    const featured = searchParams.get('featured') || 'all'
-    const elder = searchParams.get('elder') || 'all'
     const organisation = searchParams.get('organisation') || ''
     const location = searchParams.get('location') || ''
-    const project = searchParams.get('project') || ''
     const sortBy = searchParams.get('sortBy') || 'name'
     const sortOrder = searchParams.get('sortOrder') || 'asc'
     const page = parseInt(searchParams.get('page') || '1', 10)
     const limit = parseInt(searchParams.get('limit') || '20', 10)
     const offset = (page - 1) * limit
 
-    console.log(`📊 Admin storytellers request - page: ${page}, limit: ${limit}${organisation ? `, org filter: "${organisation}"` : ''}`, Object.fromEntries(searchParams.entries()))
-
-    // Apply organisation filtering at database level using tenant_id for all organisations
-    let organizationTenantId = null
-    if (organisation && organisation !== 'all') {
-      // Find the tenant_id for the selected organization
-      const { data: orgData } = await supabase
-        .from('organizations')
-        .select('tenant_id')
-        .eq('name', organisation)
-        .single()
-
-      if (orgData) {
-        organizationTenantId = orgData.tenant_id
-      }
-    }
-
-    // Get profiles with their relationships via tenant and direct joins
-    // Note: Cannot use stories foreign key directly as stories_author_id_fkey isn't defined
-    // Will manually fetch stories after getting profiles
+    // Build query for storytellers table
     let query = supabase
-      .from('profiles')
-      .select(`
-        id,
-        email,
-        display_name,
-        full_name,
-        bio,
-        cultural_background,
-        profile_image_url,
-        created_at,
-        updated_at,
-        is_elder,
-        is_featured,
-        profile_visibility,
-        primary_organization_id,
-        primary_organization:organizations!primary_organization_id(
-          id,
-          name
-        ),
-        profile_organizations!left(
-          organisation:organizations(
-            id,
-            name
-          ),
-          role
-        ),
-        project_storytellers!left(
-          project_id,
-          role,
-          status,
-          projects!inner(
-            id,
-            name
-          )
-        ),
-        profile_locations!left(
-          location:locations(
-            name,
-            city,
-            state,
-            country
-          ),
-          is_primary
-        )
-      `)
+      .from('storytellers')
+      .select('*', { count: 'exact' })
 
-    // Apply database-level organisation filtering using tenant_id for any organisation
-    if (organizationTenantId) {
-      query = query.eq('tenant_id', organizationTenantId)
-    }
-
-    // Apply filters
+    // Apply search filter (note: cultural_background is a text array, so we use a different approach)
     if (search) {
-      query = query.or(`display_name.ilike.%${search}%,email.ilike.%${search}%,cultural_background.ilike.%${search}%,full_name.ilike.%${search}%`)
+      query = query.or(`display_name.ilike.%${search}%,email.ilike.%${search}%,bio.ilike.%${search}%`)
     }
 
+    // Apply status filter (using is_active)
     if (status !== 'all') {
-      // Add status filtering when we have a status field
-      // For now, all profiles are considered 'active'
-      if (status !== 'active') {
-        query = query.eq('id', 'no-match') // Filter out all if non-active status requested
+      if (status === 'active' || status === 'public') {
+        query = query.eq('is_active', true)
+      } else if (status === 'inactive' || status === 'suspended') {
+        query = query.eq('is_active', false)
       }
     }
 
-    if (featured !== 'all') {
-      query = query.eq('is_featured', featured === 'true')
+    // Apply featured filter (column may not exist in all deployments)
+    // Skip for now as column may not exist - will filter post-query if needed
+
+    // Apply elder filter (column may not exist in all deployments)
+    // Skip for now as column may not exist - will filter post-query if needed
+
+    // Apply location filter
+    if (location) {
+      query = query.ilike('location', `%${location}%`)
     }
 
-    if (elder !== 'all') {
-      query = query.eq('is_elder', elder === 'true')
-    }
-
-    console.log('About to execute simple Supabase test...')
-    
-    // Test with a very simple query first
-    const { count: totalProfiles, error: countError } = await supabase
-      .from('profiles')
-      .select('*', { count: 'exact', head: true })
-      
-    if (countError) {
-      console.error('Count query failed:', countError)
-      return NextResponse.json({ error: 'Database connection failed' }, { status: 500 })
-    }
-    
-    console.log('Simple query worked. Total profiles:', totalProfiles)
-    
     // Apply sorting
     const sortField = sortBy === 'name' ? 'display_name' :
-                     sortBy === 'recent' ? 'created_at' : 'created_at'
+                     sortBy === 'recent' ? 'updated_at' :
+                     sortBy === 'stories' ? 'display_name' : 'display_name'
     const ascending = sortOrder === 'asc'
 
-    const { data: profiles, error } = await query
-      .order(sortField, { ascending })
+    query = query
+      .order(sortField, { ascending, nullsFirst: false })
       .range(offset, offset + limit - 1)
-    console.log('Query executed. Data count:', profiles?.length, 'Error:', error)
+
+    const { data: storytellers, error, count } = await query
 
     if (error) {
       console.error('Error fetching storytellers:', error)
       return NextResponse.json({ error: 'Failed to fetch storytellers' }, { status: 500 })
     }
 
-    // Manually fetch stories and transcripts for each profile by author_id
-    const profilesWithData = []
-    if (profiles && profiles.length > 0) {
-      const profileIds = profiles.map(p => p.id)
-      
-      // Batch fetch all stories for these profiles
-      // Note: Stories use author_id not storyteller_id
-      const { data: allStories, error: storiesError } = await supabase
+    // Get story counts for each storyteller
+    const storytellerIds = (storytellers || []).map(s => s.id)
+    const profileIds = (storytellers || []).map(s => s.profile_id).filter(Boolean)
+    const storyCounts: Record<string, { total: number; published: number; draft: number }> = {}
+    const transcriptCounts: Record<string, number> = {}
+    const organizationRelationshipsMap: Record<string, Array<{ organization_id: string; organization_name: string; role: string }>> = {}
+    const profileDataMap: Record<string, { is_featured: boolean; is_elder: boolean; email?: string }> = {}
+    const locationMap: Record<string, string> = {}
+    const projectRelationshipsMap: Record<string, Array<{ project_id: string; project_name: string; role: string }>> = {}
+
+    if (storytellerIds.length > 0) {
+      // Batch fetch story counts
+      const { data: storiesData } = await supabase
         .from('stories')
-        .select('id, title, status, created_at, author_id')
-        .in('author_id', profileIds)
-      
-      if (storiesError) {
-        console.error('Error fetching stories:', storiesError)
-        // Continue without stories data rather than failing completely
+        .select('storyteller_id, status')
+        .in('storyteller_id', storytellerIds)
+
+      if (storiesData) {
+        storiesData.forEach(story => {
+          const storytellerId = story.storyteller_id
+          if (!storytellerId) return
+
+          if (!storyCounts[storytellerId]) {
+            storyCounts[storytellerId] = { total: 0, published: 0, draft: 0 }
+          }
+          storyCounts[storytellerId].total++
+          if (story.status === 'published') {
+            storyCounts[storytellerId].published++
+          } else if (story.status === 'draft') {
+            storyCounts[storytellerId].draft++
+          }
+        })
       }
 
-      // Batch fetch all transcripts for these profiles - with graceful fallback
-      let allTranscripts: any[] = []
-      try {
-        const { data, error: transcriptsError } = await supabase
-          .from('transcripts')
-          .select('id, title, status, created_at, storyteller_id, project_id')
-          .in('storyteller_id', profileIds)
-        
-        if (transcriptsError) {
-          console.warn('Transcripts table not accessible or doesn\'t exist:', transcriptsError.message)
-          allTranscripts = [] // Use empty array as fallback
-        } else {
-          allTranscripts = data || []
-        }
-      } catch (error) {
-        console.warn('Transcripts query failed completely - using fallback:', error)
-        allTranscripts = [] // Use empty array as fallback
-      }
-      
-      // Attach stories and transcripts to profiles
-      profiles.forEach(profile => {
-        const profileStories = allStories?.filter(story => story.author_id === profile.id) || []
-        const profileTranscripts = allTranscripts?.filter(transcript => transcript.storyteller_id === profile.id) || []
-        profilesWithData.push({
-          ...profile,
-          stories: profileStories,
-          transcripts: profileTranscripts
+      // Batch fetch transcript counts
+      const { data: transcriptsData } = await supabase
+        .from('transcripts')
+        .select('storyteller_id')
+        .in('storyteller_id', storytellerIds)
+
+      if (transcriptsData) {
+        transcriptsData.forEach(t => {
+          if (!t.storyteller_id) return
+          transcriptCounts[t.storyteller_id] = (transcriptCounts[t.storyteller_id] || 0) + 1
         })
-      })
-    } else {
-      profilesWithData.push(...(profiles || []))
+      }
+
+      // Fetch organization relationships if needed
+      const { data: orgRelations } = await supabase
+        .from('storyteller_organizations')
+        .select('storyteller_id, organization_id, role, organization:organizations(id, name)')
+        .in('storyteller_id', storytellerIds)
+
+      if (orgRelations) {
+        orgRelations.forEach(rel => {
+          if (!rel.storyteller_id || !rel.organization?.id) return
+          if (!organizationRelationshipsMap[rel.storyteller_id]) {
+            organizationRelationshipsMap[rel.storyteller_id] = []
+          }
+          organizationRelationshipsMap[rel.storyteller_id].push({
+            organization_id: rel.organization_id || rel.organization.id,
+            organization_name: rel.organization.name || 'Unknown',
+            role: rel.role || 'storyteller'
+          })
+        })
+      }
+
+      // Fetch project relationships
+      const { data: projectRelations } = await supabase
+        .from('project_storytellers')
+        .select('storyteller_id, project_id, role, projects:project_id(id, name)')
+        .in('storyteller_id', storytellerIds)
+
+      if (projectRelations) {
+        projectRelations.forEach(rel => {
+          if (!rel.storyteller_id) return
+          if (!projectRelationshipsMap[rel.storyteller_id]) {
+            projectRelationshipsMap[rel.storyteller_id] = []
+          }
+          projectRelationshipsMap[rel.storyteller_id].push({
+            project_id: rel.project_id,
+            project_name: rel.projects?.name || 'Unknown',
+            role: rel.role || 'contributor'
+          })
+        })
+      }
+
+      // Fetch featured/elder status from profiles table if storytellers have profile_id
+      if (profileIds.length > 0) {
+        const { data: profilesData } = await supabase
+          .from('profiles')
+          .select('id, is_featured, is_elder, email')
+          .in('id', profileIds)
+
+        if (profilesData) {
+          profilesData.forEach(profile => {
+            profileDataMap[profile.id] = {
+              is_featured: profile.is_featured || false,
+              is_elder: profile.is_elder || false,
+              email: profile.email || null
+            }
+          })
+        }
+
+        // Fetch locations from profile_locations junction table
+        const { data: locationsData } = await supabase
+          .from('profile_locations')
+          .select('profile_id, location:locations(name)')
+          .in('profile_id', profileIds)
+          .eq('is_primary', true)
+
+        if (locationsData) {
+          locationsData.forEach(loc => {
+            if (loc.profile_id && loc.location?.name) {
+              locationMap[loc.profile_id] = loc.location.name
+            }
+          })
+        }
+      }
     }
 
-    // Transform profiles to admin storyteller format
-    const storytellers: AdminStoryteller[] = profilesWithData.map(profile => {
-      // Use real stories and transcripts data from the manually attached data
-      const stories = profile.stories || []
-      const transcripts = profile.transcripts || []
-      // Count all stories regardless of status for more accurate counts
-      const publishedStories = stories.filter((s: any) => s.status === 'published')
-      const draftStories = stories.filter((s: any) => s.status === 'draft')
-      const totalStories = stories.length
-
-      // Use real view counts from database only - no fake generation
-      const totalViews = 0 // TODO: Add real view_count field to stories table when available
-      
-      // No fake theme extraction - use real data only
-      const extractThemes = (): string[] => {
-        // TODO: Add real themes/tags field to profiles table when available
-        return []
-      }
-
-      // Extract location from profile relationships
-      const extractLocation = (profile: any): string | null => {
-        console.log(`🗺️ Profile locations for ${profile.display_name}:`, JSON.stringify(profile.profile_locations, null, 2))
-        const locations = profile.profile_locations || []
-        if (locations.length > 0) {
-          const primaryLocation = locations.find((l: any) => l.is_primary) || locations[0]
-          if (primaryLocation?.location) {
-            const loc = primaryLocation.location
-
-            // Build location string without duplicates
-            const parts = []
-
-            // Add name if it exists
-            if (loc.name) {
-              parts.push(loc.name)
-            }
-
-            // Add city only if it's different from name and not already in name
-            if (loc.city &&
-                loc.city !== loc.name &&
-                !loc.name?.includes(loc.city)) {
-              parts.push(loc.city)
-            }
-
-            // Add state only if it's different and not already included
-            if (loc.state &&
-                loc.state !== loc.name &&
-                loc.state !== loc.city &&
-                !loc.name?.includes(loc.state)) {
-              parts.push(loc.state)
-            }
-
-            // Add country only if it's not already included in the name
-            if (loc.country &&
-                loc.country !== loc.name &&
-                loc.country !== loc.city &&
-                loc.country !== loc.state &&
-                !loc.name?.includes(loc.country)) {
-              parts.push(loc.country)
-            }
-
-            return parts.length > 0 ? parts.join(', ') : null
-          }
-        }
-        return null
-      }
-
-      // Extract organisation - REAL DATA ONLY
-      const extractOrganization = (profile: any): string | null => {
-        // Only use real database relationships - no fake mappings
-
-        // If we're filtering by organisation and profile has matching tenant_id, use that organisation name
-        if (organisation && organisation !== 'all' && organizationTenantId && profile.tenant_id === organizationTenantId) {
-          return organisation
-        }
-
-        // First try the junction table approach
-        const orgs = profile.profile_organizations || []
-        if (orgs.length > 0) {
-          const primaryOrg = orgs.find((o: any) => o.role === 'admin') || orgs[0]
-          const orgName = primaryOrg?.organisation?.name
-          if (orgName) {
-            return orgName
-          }
-        }
-
-        // Try tenant-based relationship (profiles -> tenants -> organisations)
-        if (profile.tenant?.organisation?.name) {
-          return profile.tenant.organisation.name
-        }
-
-        // Try to find organisation by tenant_id if not found through relationships
-        if (profile.tenant_id) {
-          // Look up organisation name by tenant_id (this will be cached from the query above)
-          // For now, try tenant-based relationship first
-          if (profile.tenant?.organisation?.name) {
-            return profile.tenant.organisation.name
-          }
-        }
-
-        // No fake email domain inference - only real database connections
-        return null
-      }
-
-      // Extract projects - REAL DATA ONLY
-      const extractProjects = (profile: any): string[] => {
-        // Only use real database relationships - no fake project generation
-        const projects = profile.project_participants || []
-        const projectNames = projects.map((p: any) => p.project?.name).filter((name: string) =>
-          name && typeof name === 'string' && name.length > 0
-        )
-
-        // Return only real project names from database relationships
-        return [...new Set(projectNames)]
-      }
-
-      // No fake engagement rate calculation - use real data only
-      const engagementRate = 0 // TODO: Add real engagement tracking when available
-
-      const extractedOrg = extractOrganization(profile)
-
-
+    // Transform to frontend format
+    const frontendStorytellers = (storytellers || []).map(storyteller => {
+      const storyData = storyCounts[storyteller.id] || { total: 0, published: 0, draft: 0 }
+      const transcripts = transcriptCounts[storyteller.id] || 0
+      const orgRelationships = organizationRelationshipsMap[storyteller.id] || []
+      const profileData = storyteller.profile_id ? profileDataMap[storyteller.profile_id] : null
+      const profileLocation = storyteller.profile_id ? locationMap[storyteller.profile_id] : null
+      // Get first org name for backward compatibility
+      const primaryOrgName = orgRelationships.length > 0 ? orgRelationships[0].organization_name : null
 
       return {
-        id: profile.id,
-        displayName: profile.display_name || profile.full_name || 'Unknown',
-        email: profile.email || 'No email',
-        bio: profile.bio || '',
-        culturalBackground: profile.cultural_background || '',
-        occupation: '',
-        location: extractLocation(profile),
-        profileImageUrl: profile.profile_image_url || undefined,
-        storyCount: totalStories, // Total stories including drafts
-        engagementRate,
-        isElder: profile.is_elder || false,
-        isFeatured: profile.is_featured || false, // Only use real database flag
-        status: profile.profile_visibility || 'active',
-        createdAt: profile.created_at,
-        lastActive: profile.updated_at,
-        verificationStatus: {
-          email: !!profile.email,
-          identity: false, // TODO: Add verification_status column to profiles table
-          cultural: profile.is_elder || false
-        },
-        stats: {
-          storiesShared: publishedStories.length,
-          storiesDraft: draftStories.length,
-          storiesTotal: totalStories,
-          storiesRead: 0, // TODO: Track actual stories read by user
-          communityEngagement: engagementRate,
-          followersCount: 0, // TODO: Implement follower system with real counts
-          viewsTotal: totalViews
-        },
-        languages: ['English'],
-        specialties: extractThemes(), // No fake themes from bio text
-        organisation: extractedOrg,
-        projects: extractProjects(profile),
-        organisations: (() => {
-          console.log(`🔍 Profile organisations for ${profile.display_name}:`, JSON.stringify(profile.profile_organizations, null, 2))
-
-          // If junction table has data, use it
-          if (profile.profile_organizations && profile.profile_organizations.length > 0) {
-            return profile.profile_organizations.map((org: any) => ({
-              organization_id: org.organisation?.id,
-              organization_name: org.organisation?.name,
-              role: org.role
-            }))
-          }
-
-          // Otherwise, create relationships from existing data patterns
-          const currentOrgs = []
-
-          // Use the already extracted organisation
-          if (extractedOrg && extractedOrg !== 'Independent Storytellers') {
-            // For now, just omit the organization_id since we can't do async lookups here
-            // The UI will handle relationship management through the dedicated endpoints
-            currentOrgs.push({
-              organization_id: 'unknown', // Will be resolved by relationship management
-              organization_name: extractedOrg,
-              role: 'storyteller' // Default role for now
-            })
-          }
-
-          return currentOrgs
-        })(),
-        project_relationships: (() => {
-          console.log(`🔍 Profile projects for ${profile.display_name}:`, JSON.stringify(profile.project_storytellers, null, 2))
-
-          // Use project_storytellers junction table
-          if (profile.project_storytellers && profile.project_storytellers.length > 0) {
-            return profile.project_storytellers.map((proj: any) => ({
-              project_id: proj.projects?.id,
-              project_name: proj.projects?.name,
-              role: proj.role,
-              status: proj.status
-            }))
-          }
-
-          return []
-        })(),
-        transcriptCount: transcripts.length,
-        activeTranscripts: transcripts.filter((t: any) => t.status === 'completed' || t.status === 'published').length,
-        preferences: {
-          availability: 'weekdays', // TODO: Add preferences column to profiles table
-          travelWilling: false,
-          virtualSessions: true,
-          groupSessions: false
-        }
+        id: storyteller.id,
+        display_name: storyteller.display_name || 'Unnamed',
+        full_name: storyteller.display_name || 'Unnamed',
+        email: storyteller.email || profileData?.email || null,
+        profile_visibility: storyteller.is_active ? 'public' : 'inactive',
+        featured: storyteller.is_featured || profileData?.is_featured || false,
+        elder: storyteller.is_elder || profileData?.is_elder || false,
+        justicehub_featured: storyteller.is_justicehub_featured || false,
+        story_count: storyData.total,
+        published_stories: storyData.published,
+        draft_stories: storyData.draft,
+        last_active: storyteller.updated_at,
+        location: storyteller.location || profileLocation || null,
+        organisation: primaryOrgName,
+        created_at: storyteller.created_at,
+        bio: storyteller.bio || null,
+        cultural_background: storyteller.cultural_background || null,
+        profile_image_url: storyteller.avatar_url || storyteller.profile_image_url || null,
+        projects: (projectRelationshipsMap[storyteller.id] || []).map(pr => ({
+          id: pr.project_id,
+          name: pr.project_name,
+          role: pr.role
+        })),
+        engagement_rate: 0,
+        total_views: 0,
+        transcript_count: transcripts,
+        active_transcripts: transcripts,
+        organisations: orgRelationships,
+        project_relationships: projectRelationshipsMap[storyteller.id] || []
       }
     })
 
-    // Apply additional filters (post-processing for complex filters)
-    let filteredStorytellers = storytellers
-
-    if (status !== 'all') {
-      filteredStorytellers = filteredStorytellers.filter(s => s.status === status)
+    // Apply organization filter post-query if needed
+    let filteredStorytellers = frontendStorytellers
+    if (organisation && organisation !== 'all') {
+      if (organisation === 'Independent' || organisation === 'Independent Storytellers') {
+        filteredStorytellers = filteredStorytellers.filter(s => !s.organisation)
+      } else {
+        filteredStorytellers = filteredStorytellers.filter(s =>
+          s.organisation?.toLowerCase().includes(organisation.toLowerCase())
+        )
+      }
     }
 
-    if (featured !== 'all') {
-      filteredStorytellers = filteredStorytellers.filter(s => s.isFeatured === (featured === 'true'))
-    }
-
-    // Skip organisation filtering if we applied it at database level
-    if (organisation && organisation !== 'all' && !organizationTenantId) {
-      filteredStorytellers = filteredStorytellers.filter(s => {
-        if (organisation === 'Independent') {
-          return !s.organisation
-        }
-        return s.organisation === organisation
-      })
-    }
-
-    if (location) {
-      filteredStorytellers = filteredStorytellers.filter(s =>
-        s.location && s.location.toLowerCase().includes(location.toLowerCase())
-      )
-    }
-
-    // Transform to match frontend interface exactly
-    const frontendStorytellers = filteredStorytellers.map(s => ({
-      id: s.id,
-      display_name: s.displayName,
-      full_name: s.displayName,
-      email: s.email,
-      status: s.status,
-      featured: s.isFeatured,
-      elder: s.isElder,
-      story_count: s.stats.storiesTotal,
-      published_stories: s.stats.storiesShared,
-      draft_stories: s.stats.storiesDraft,
-      last_active: s.lastActive || s.createdAt,
-      location: s.location,
-      organisation: s.organisation,
-      created_at: s.createdAt,
-      bio: s.bio,
-      cultural_background: s.culturalBackground,
-      profile_image_url: s.profileImageUrl,
-      projects: s.projects,
-      engagement_rate: s.engagementRate,
-      total_views: s.stats.viewsTotal,
-      transcript_count: s.transcriptCount,
-      active_transcripts: s.activeTranscripts,
-      organisations: s.organisations,
-      project_relationships: s.project_relationships
-    }))
-
-    // Calculate correct totals based on filtered results
-    const filteredTotal = filteredStorytellers.length
-    const actualTotal = search || organisation || location || status !== 'all' || featured !== 'all' || elder !== 'all' ?
-      filteredTotal : totalProfiles || 0
+    const totalCount = count || 0
 
     return NextResponse.json({
-      storytellers: frontendStorytellers,
-      total: actualTotal,
+      storytellers: filteredStorytellers,
+      total: totalCount,
       page,
       limit,
-      totalPages: Math.ceil(actualTotal / limit),
+      totalPages: Math.ceil(totalCount / limit),
       summary: await calculateSummaryStats(supabase)
     })
 
   } catch (error) {
     console.error('Admin storytellers error:', error)
-    console.error('Full error details:', JSON.stringify(error, null, 2))
-    if (error instanceof Error) {
-      console.error('Error message:', error.message)
-      console.error('Error stack:', error.stack)
-    }
     return NextResponse.json({ error: 'Failed to fetch storytellers' }, { status: 500 })
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    // Use service role key to bypass RLS policies
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
-
-    // Temporarily bypass auth for development
-    console.log('🔓 Bypassing auth check for admin storytellers POST')
-    const user = {
-      id: 'd0a162d2-282e-4653-9d12-aa934c9dfa4e',
-      email: 'benjamin@act.place',
-      tenant_id: null
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
     }
 
+    const supabase = createClient<Database>(supabaseUrl, supabaseServiceKey)
     const requestData = await request.json()
-
-    // Comprehensive input validation
-    const validationError = validateRequest(requestData, [
-      ValidationPatterns.displayName,
-      ValidationPatterns.email,
-      {
-        field: 'bio',
-        type: 'string',
-        maxLength: 1000
-      },
-      {
-        field: 'years_of_experience',
-        type: 'number',
-        min: 0,
-        max: 100
-      },
-      {
-        field: 'is_elder',
-        type: 'boolean'
-      },
-      {
-        field: 'cultural_background',
-        type: 'string',
-        maxLength: 200
-      },
-      {
-        field: 'location',
-        type: 'string',
-        maxLength: 100
-      },
-      {
-        field: 'organisation',
-        type: 'string',
-        maxLength: 200
-      }
-    ])
-
-    if (validationError) {
-      return validationError
-    }
 
     const {
       display_name,
       email,
       bio,
-      years_of_experience,
       is_elder,
       cultural_background,
-      location,
-      organisation,
-      created_via
+      location
     } = requestData
+
+    if (!display_name) {
+      return NextResponse.json({ error: 'Display name is required' }, { status: 400 })
+    }
 
     // Generate email if not provided
     const finalEmail = email || `${display_name.toLowerCase().replace(/\s+/g, '.')}@storyteller.local`
 
-    console.log('Creating storyteller with data:', { display_name, email, bio, cultural_background, is_elder })
-
     // Check if email already exists
-    const { data: existingProfile, error: checkError } = await supabase
-      .from('profiles')
-      .select('id, email')
+    const { data: existingStoryteller } = await supabase
+      .from('storytellers')
+      .select('id')
       .eq('email', finalEmail)
       .single()
 
-    if (existingProfile && !checkError) {
-      return NextResponse.json({ error: 'A profile with this email already exists' }, { status: 400 })
+    if (existingStoryteller) {
+      return NextResponse.json({ error: 'A storyteller with this email already exists' }, { status: 400 })
     }
 
-    // Generate a UUID for the new profile
-    const profileId = crypto.randomUUID()
-
-    // Create new profile with all required fields
-    const { data: newProfile, error: profileError } = await supabase
-      .from('profiles')
+    // Create new storyteller
+    const { data: newStoryteller, error } = await supabase
+      .from('storytellers')
       .insert({
-        id: profileId,
-        email: finalEmail,
         display_name,
+        email: finalEmail,
         bio: bio || null,
-        cultural_background: cultural_background || null,
         is_elder: is_elder || false,
-        is_storyteller: true,
-        is_featured: false,
-        onboarding_completed: true, // Admin-created profiles are considered complete
-        profile_visibility: 'public', // Make admin-created storytellers public by default
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        tenant_id: user.tenant_id || null // Use admin user's tenant_id
+        cultural_background: cultural_background || null,
+        location: location || null,
+        is_active: true,
+        is_featured: false
       })
       .select()
       .single()
 
-    if (profileError) {
-      console.error('Error creating profile:', profileError)
-      return NextResponse.json({
-        error: `Failed to create storyteller: ${profileError.message}`
-      }, { status: 500 })
-    }
-
-    console.log('Successfully created profile:', newProfile.id)
-
-    // Optionally create location relationship if provided
-    if (location && newProfile.id) {
-      try {
-        // Check if location exists, create if not
-        const { data: existingLocation, error: locationCheckError } = await supabase
-          .from('locations')
-          .select('id')
-          .eq('name', location)
-          .single()
-
-        let locationId = existingLocation?.id
-
-        if (!existingLocation && !locationCheckError) {
-          // Create new location
-          const { data: newLocation, error: locationCreateError } = await supabase
-            .from('locations')
-            .insert({
-              name: location,
-              tenant_id: user.tenant_id || null
-            })
-            .select('id')
-            .single()
-
-          if (!locationCreateError && newLocation) {
-            locationId = newLocation.id
-          }
-        }
-
-        // Create profile-location relationship
-        if (locationId) {
-          await supabase
-            .from('profile_locations')
-            .insert({
-              profile_id: newProfile.id,
-              location_id: locationId,
-              is_primary: true
-            })
-        }
-      } catch (error) {
-        console.warn('Failed to create location relationship:', error)
-        // Don't fail the entire request for location issues
-      }
+    if (error) {
+      console.error('Error creating storyteller:', error)
+      return NextResponse.json({ error: `Failed to create storyteller: ${error.message}` }, { status: 500 })
     }
 
     return NextResponse.json({
-      storyteller: newProfile,
+      storyteller: newStoryteller,
       message: 'Storyteller created successfully'
     })
 
@@ -792,41 +422,41 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    // Use service role key to bypass RLS policies
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
 
-    // Temporarily bypass auth check
-    console.log('🔓 Using service role key for admin storytellers update')
-
+    const supabase = createClient<Database>(supabaseUrl, supabaseServiceKey)
     const { id, ...updateData } = await request.json()
 
     if (!id) {
       return NextResponse.json({ error: 'Storyteller ID is required' }, { status: 400 })
     }
 
-    // Update profile in database
-    const { data: updatedProfile, error: profileError } = await supabase
-      .from('profiles')
+    const { data: updatedStoryteller, error } = await supabase
+      .from('storytellers')
       .update({
-        display_name: updateData.displayName,
+        display_name: updateData.displayName || updateData.display_name,
         bio: updateData.bio,
-        cultural_background: updateData.culturalBackground
+        cultural_background: updateData.culturalBackground || updateData.cultural_background,
+        location: updateData.location,
+        is_elder: updateData.is_elder,
+        is_featured: updateData.is_featured,
+        updated_at: new Date().toISOString()
       })
       .eq('id', id)
       .select()
       .single()
 
-    if (profileError) {
-      console.error('Error updating storyteller:', profileError)
+    if (error) {
+      console.error('Error updating storyteller:', error)
       return NextResponse.json({ error: 'Failed to update storyteller' }, { status: 500 })
     }
 
-    return NextResponse.json({ 
-      storyteller: updatedProfile, 
-      message: 'Storyteller updated successfully' 
+    return NextResponse.json({
+      storyteller: updatedStoryteller,
+      message: 'Storyteller updated successfully'
     })
 
   } catch (error) {
@@ -837,15 +467,12 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    // Use service role key to bypass RLS policies
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
 
-    // Temporarily bypass auth check
-    console.log('🔓 Using service role key for admin storytellers delete')
-
+    const supabase = createClient<Database>(supabaseUrl, supabaseServiceKey)
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
 
@@ -853,14 +480,14 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Storyteller ID is required' }, { status: 400 })
     }
 
-    // Instead of hard delete, we'll set their storyteller status to false
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .update({ is_storyteller: false })
+    // Soft delete by setting is_active to false
+    const { error } = await supabase
+      .from('storytellers')
+      .update({ is_active: false })
       .eq('id', id)
 
-    if (profileError) {
-      console.error('Error deactivating storyteller:', profileError)
+    if (error) {
+      console.error('Error deactivating storyteller:', error)
       return NextResponse.json({ error: 'Failed to deactivate storyteller' }, { status: 500 })
     }
 

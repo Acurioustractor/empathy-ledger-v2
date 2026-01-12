@@ -40,7 +40,7 @@ async function checkAnalyticsTables() {
 
   let analyticsDeployed = 0
   let otherDeployed = 0
-  let analyticsTotal = analyticsTablesList.length
+  const analyticsTotal = analyticsTablesList.length
 
   console.log('📊 INDIVIDUAL ANALYTICS TABLES:')
   console.log('================================')

@@ -579,14 +579,26 @@ export class IndividualAnalyticsService {
 
   // Helper methods
   private async getStorytellerProfile(storytellerId: string): Promise<StorytellerProfile> {
-    const { data, error } = await this.supabase
-      .from('photo_storytellers')
+    // First, check storytellers table (new data model)
+    const { data: storytellerData, error: storytellerError } = await this.supabase
+      .from('storytellers')
       .select('*')
       .eq('id', storytellerId)
       .single();
 
-    if (error) throw error;
-    return data;
+    if (storytellerData && !storytellerError) {
+      return storytellerData;
+    }
+
+    // Fall back to profiles table for backwards compatibility
+    const { data: profileData, error: profileError } = await this.supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', storytellerId)
+      .single();
+
+    if (profileError) throw profileError;
+    return profileData;
   }
 
   private async getStorytellerTranscripts(storytellerId: string): Promise<TranscriptAnalysis[]> {

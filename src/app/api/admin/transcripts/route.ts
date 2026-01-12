@@ -59,15 +59,10 @@ export async function GET(request: NextRequest) {
     }
 
     // Admin view - fetch all transcripts with pagination and filtering
+    // First, try to get transcripts without the join to see if there's data
     let query = supabase
       .from('transcripts')
-      .select(`
-        *,
-        profiles!storyteller_id(
-          display_name,
-          email
-        )
-      `, { count: 'exact' })
+      .select('*', { count: 'exact' })
 
     // Apply filters
     if (search) {
@@ -94,7 +89,44 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Admin transcripts GET error:', error)
-      return NextResponse.json({ error: 'Failed to fetch transcripts' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to fetch transcripts', details: error.message }, { status: 500 })
+    }
+
+    // Now fetch storyteller names separately if we have transcripts
+    // Try matching by both id and auth_id since some transcripts may use old profile IDs
+    const storytellerMap: Record<string, { display_name: string; email: string }> = {}
+    if (data && data.length > 0) {
+      const storytellerIds = [...new Set(data.map((t: any) => t.storyteller_id).filter(Boolean))]
+      if (storytellerIds.length > 0) {
+        // Try to find by id first
+        const { data: storytellersById } = await supabase
+          .from('storytellers')
+          .select('id, display_name, email')
+          .in('id', storytellerIds)
+
+        if (storytellersById) {
+          storytellersById.forEach((s: any) => {
+            storytellerMap[s.id] = { display_name: s.display_name, email: s.email }
+          })
+        }
+
+        // Also try to find by auth_id for backwards compatibility
+        const unmatchedIds = storytellerIds.filter(id => !storytellerMap[id])
+        if (unmatchedIds.length > 0) {
+          const { data: storytellersByAuth } = await supabase
+            .from('storytellers')
+            .select('id, auth_id, display_name, email')
+            .in('auth_id', unmatchedIds)
+
+          if (storytellersByAuth) {
+            storytellersByAuth.forEach((s: any) => {
+              if (s.auth_id) {
+                storytellerMap[s.auth_id] = { display_name: s.display_name, email: s.email }
+              }
+            })
+          }
+        }
+      }
     }
 
     // Data successfully fetched
@@ -107,24 +139,36 @@ export async function GET(request: NextRequest) {
         ? textContent.split(/\s+/).filter((word: string) => word.length > 0).length
         : 0
 
+      const storyteller = storytellerMap[transcript.storyteller_id]
+
+      // Try to extract name from title if it follows "Name - Date" pattern
+      let extractedName = null
+      if (transcript.title && transcript.title.includes(' - ')) {
+        const parts = transcript.title.split(' - ')
+        if (parts[0] && parts[0].length > 2 && parts[0].length < 50) {
+          extractedName = parts[0].trim()
+        }
+      }
+
       return {
         id: transcript.id,
         title: transcript.title,
-        storyteller_name: transcript.profiles?.display_name ||
-                         transcript.profiles?.email ||
-                         (transcript.storyteller_id ? `Profile ID: ${transcript.storyteller_id}` : 'No Storyteller ID'),
+        storyteller_name: storyteller?.display_name ||
+                         storyteller?.email ||
+                         extractedName ||
+                         (transcript.storyteller_id ? 'Unknown Storyteller' : 'No Storyteller'),
         storyteller_id: transcript.storyteller_id,
         status: transcript.status || 'pending',
-        duration: transcript.duration_seconds || transcript.duration || 0, // Check both fields
+        duration: transcript.duration_seconds || transcript.duration || 0,
         file_size: transcript.file_size || 0,
         word_count: wordCount,
         language: transcript.language || 'en',
         location: transcript.location || null,
         created_at: transcript.created_at,
         updated_at: transcript.updated_at,
-        has_story: false, // We'll need to check this separately if needed
-        project_name: null, // Add if projects are linked
-        organization_name: null // We'll add organisation lookup later if needed
+        has_story: false,
+        project_name: null,
+        organization_name: null
       }
     })
 

@@ -13,7 +13,7 @@ async function cleanupTargetedBios() {
 
   // Get profiles with problematic patterns
   const patterns = ['chars)', 'Klan', 'Erman', 'storyteller from Katherine'];
-  let allProblematicProfiles = [];
+  const allProblematicProfiles = [];
 
   for (const pattern of patterns) {
     const { data: profiles } = await supabase

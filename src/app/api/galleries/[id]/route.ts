@@ -89,7 +89,7 @@ export async function GET(
       .eq('gallery_id', gallery.id)
       .order('sort_order', { ascending: true })
 
-    let galleryWithPhotos = { ...gallery, media_associations: [] }
+    const galleryWithPhotos = { ...gallery, media_associations: [] }
 
     if (mediaAssociations && mediaAssociations.length > 0) {
       const mediaIds = mediaAssociations.map(assoc => assoc.media_asset_id)

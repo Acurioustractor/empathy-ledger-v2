@@ -22,7 +22,14 @@ import {
   Search,
   User,
   Eye,
-  Camera
+  Camera,
+  PlusCircle,
+  Video,
+  Sparkles,
+  Layers,
+  Film,
+  FrameRectangle,
+  LayoutGrid
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -40,18 +47,46 @@ interface AdminLayoutProps {
   children: React.ReactNode
 }
 
-const menuItems = [
-  { icon: Home, label: 'Dashboard', href: '/admin' },
-  { icon: Eye, label: 'Content Reviews', href: '/admin/reviews' },
-  { icon: Users, label: 'Storytellers', href: '/admin/storytellers' },
-  { icon: BookOpen, label: 'Stories', href: '/admin/stories' },
-  { icon: Building2, label: 'Organizations', href: '/admin/organisations' },
-  { icon: FolderOpen, label: 'Projects', href: '/admin/projects' },
-  { icon: Mic, label: 'Transcripts', href: '/admin/transcripts' },
-  { icon: Camera, label: 'Photos', href: '/admin/photos' },
-  { icon: ImageIcon, label: 'Galleries', href: '/admin/galleries' },
-  { icon: BarChart, label: 'Analytics', href: '/admin/analytics' },
-  { icon: Settings, label: 'Settings', href: '/admin/settings' },
+const sections = [
+  {
+    title: 'Platform Management',
+    items: [
+      { icon: Home, label: 'Dashboard', href: '/admin' },
+      { icon: Users, label: 'Users', href: '/admin/users' },
+      { icon: BookOpen, label: 'Stories', href: '/admin/stories' },
+      { icon: LayoutGrid, label: 'Stories (Cards)', href: '/admin/stories/cards' },
+      { icon: Building2, label: 'Organizations', href: '/admin/organisations' },
+      { icon: FolderOpen, label: 'Projects', href: '/admin/projects' }
+    ]
+  },
+  {
+    title: 'Quick Actions',
+    items: [
+      { icon: Layers, label: 'Story Workflow', href: '/admin/storyflow' },
+      { icon: PlusCircle, label: 'Quick Add', href: '/admin/quick-add' }
+    ]
+  },
+  {
+    title: 'Media',
+    items: [
+      { icon: ImageIcon, label: 'Galleries', href: '/admin/galleries' },
+      { icon: Camera, label: 'Photos', href: '/admin/photos' },
+      { icon: FolderOpen, label: 'Compendium Media', href: '/admin/compendium-media' },
+      { icon: FrameRectangle, label: 'Story Images', href: '/admin/story-images' },
+      { icon: Mic, label: 'Transcripts', href: '/admin/transcripts' },
+      { icon: Video, label: 'Videos', href: '/admin/videos' },
+      { icon: Sparkles, label: 'Smart Gallery', href: '/admin/smart-gallery' },
+      { icon: Search, label: 'Smart Search', href: '/admin/smart-search' }
+    ]
+  },
+  {
+    title: 'Management',
+    items: [
+      { icon: Eye, label: 'Reviews', href: '/admin/reviews' },
+      { icon: BarChart, label: 'Analytics', href: '/admin/analytics' },
+      { icon: Settings, label: 'Settings', href: '/admin/settings' }
+    ]
+  }
 ]
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
@@ -88,35 +123,47 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
         {/* Navigation */}
         <nav className="flex-1 py-4">
-          <ul className="space-y-1 px-2">
-            {menuItems.map((item) => {
-              const isActive = pathname === item.href || 
-                (item.href !== '/admin' && pathname.startsWith(item.href))
-              const Icon = item.icon
+          <div className="space-y-6 px-2">
+            {sections.map((section) => (
+              <div key={section.title}>
+                {!sidebarCollapsed && (
+                  <p className="text-xs uppercase tracking-[0.3em] text-grey-500 mb-2">
+                    {section.title}
+                  </p>
+                )}
+                <ul className="space-y-1">
+                  {section.items.map((item) => {
+                    const isActive =
+                      pathname === item.href ||
+                      (item.href !== '/admin' && pathname.startsWith(item.href))
+                    const Icon = item.icon
 
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      'flex items-center gap-3 px-3 py-2 rounded-lg transition-colours',
-                      'hover:bg-grey-100',
-                      isActive && 'bg-blue-50 text-blue-600 hover:bg-blue-100',
-                      sidebarCollapsed && 'justify-center'
-                    )}
-                    title={sidebarCollapsed ? item.label : undefined}
-                  >
-                    <Icon className={cn('h-5 w-5', isActive && 'text-blue-600')} />
-                    {!sidebarCollapsed && (
-                      <span className={cn('font-medium', isActive && 'text-blue-600')}>
-                        {item.label}
-                      </span>
-                    )}
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
+                    return (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          className={cn(
+                            'flex items-center gap-3 px-3 py-2 rounded-lg transition-colours',
+                            'hover:bg-grey-100',
+                            isActive && 'bg-blue-50 text-blue-600 hover:bg-blue-100',
+                            sidebarCollapsed && 'justify-center'
+                          )}
+                          title={sidebarCollapsed ? item.label : undefined}
+                        >
+                          <Icon className={cn('h-5 w-5', isActive && 'text-blue-600')} />
+                          {!sidebarCollapsed && (
+                            <span className={cn('font-medium', isActive && 'text-blue-600')}>
+                              {item.label}
+                            </span>
+                          )}
+                        </Link>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
         </nav>
 
         {/* User Section */}
@@ -156,31 +203,40 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </div>
 
             <nav className="flex-1 py-4">
-              <ul className="space-y-1 px-2">
-                {menuItems.map((item) => {
-                  const isActive = pathname === item.href
-                  const Icon = item.icon
+              <div className="space-y-6 px-2">
+                {sections.map((section) => (
+                  <div key={section.title}>
+                    <p className="text-xs uppercase tracking-[0.3em] text-grey-500 mb-2">
+                      {section.title}
+                    </p>
+                    <ul className="space-y-1">
+                      {section.items.map((item) => {
+                        const isActive = pathname === item.href
+                        const Icon = item.icon
 
-                  return (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={cn(
-                          'flex items-center gap-3 px-3 py-2 rounded-lg transition-colours',
-                          'hover:bg-grey-100',
-                          isActive && 'bg-blue-50 text-blue-600'
-                        )}
-                      >
-                        <Icon className={cn('h-5 w-5', isActive && 'text-blue-600')} />
-                        <span className={cn('font-medium', isActive && 'text-blue-600')}>
-                          {item.label}
-                        </span>
-                      </Link>
-                    </li>
-                  )
-                })}
-              </ul>
+                        return (
+                          <li key={item.href}>
+                            <Link
+                              href={item.href}
+                              onClick={() => setMobileMenuOpen(false)}
+                              className={cn(
+                                'flex items-center gap-3 px-3 py-2 rounded-lg transition-colours',
+                                'hover:bg-grey-100',
+                                isActive && 'bg-blue-50 text-blue-600'
+                              )}
+                            >
+                              <Icon className={cn('h-5 w-5', isActive && 'text-blue-600')} />
+                              <span className={cn('font-medium', isActive && 'text-blue-600')}>
+                                {item.label}
+                              </span>
+                            </Link>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </nav>
           </aside>
         </div>

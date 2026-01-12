@@ -158,20 +158,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Gallery title is required' }, { status: 400 })
     }
 
-    if (!galleryData.organizationId) {
-      return NextResponse.json({ error: 'Organization ID is required' }, { status: 400 })
-    }
+    const requestedOrganizationId = galleryData.organizationId || null
+    let organizationName: string | null = null
+    let organizationId: string | null = null
 
-    // Get organisation details
-    const { data: organisation, error: orgError } = await supabase
-      .from('organizations')
-      .select('name')
-      .eq('id', galleryData.organizationId)
-      .single()
+    if (requestedOrganizationId) {
+      const { data: organization, error: orgError } = await supabase
+        .from('organizations')
+        .select('name')
+        .eq('id', requestedOrganizationId)
+        .maybeSingle()
 
-    if (orgError || !organisation) {
-      console.error('Error fetching organisation:', orgError)
-      return NextResponse.json({ error: 'Invalid organisation' }, { status: 400 })
+      if (orgError) {
+        console.warn('Error fetching organisation:', orgError)
+      } else if (!organization) {
+        console.warn('Organisation not found for id:', requestedOrganizationId)
+      } else {
+        organizationId = requestedOrganizationId
+        organizationName = organization.name
+      }
     }
 
     // Generate slug from title
@@ -181,17 +186,19 @@ export async function POST(request: Request) {
       .replace(/^-+|-+$/g, '')
 
     // Create gallery record (only include fields that exist in the table)
+    const createdBy = galleryData.createdBy || 'd0a162d2-282e-4653-9d12-aa934c9dfa4e'
     const { data: newGallery, error: galleryError } = await supabase
       .from('galleries')
       .insert({
         title: galleryData.title,
         slug: slug,
         description: galleryData.description || null,
-        created_by: galleryData.createdBy || 'd0a162d2-282e-4653-9d12-aa934c9dfa4e', // Default to Benjamin Knight
+        created_by: createdBy, // Default to Benjamin Knight
         visibility: galleryData.visibility || 'private',
         cultural_sensitivity_level: galleryData.culturalSensitivityLevel || 'low',
         status: galleryData.status || 'active',
-        featured: galleryData.featured || false
+        featured: galleryData.featured || false,
+        organization_id: organizationId
       })
       .select()
       .single()
@@ -206,18 +213,46 @@ export async function POST(request: Request) {
 
     console.log('Successfully created gallery:', newGallery.id)
 
+    const { data: creator } = await supabase
+      .from('profiles')
+      .select('id, display_name, full_name')
+      .eq('id', newGallery.created_by)
+      .maybeSingle()
+
+    const resolvedVisibility = newGallery.visibility || galleryData.visibility || 'private'
+    const resolvedSensitivity = newGallery.cultural_sensitivity_level || galleryData.culturalSensitivityLevel || 'low'
+
     return NextResponse.json({
       gallery: {
         id: newGallery.id,
         title: newGallery.title,
         description: newGallery.description,
-        organization_name: organisation.name,
-        visibility: newGallery.visibility,
-        cultural_sensitivity_level: newGallery.cultural_sensitivity_level,
-        status: newGallery.status,
-        featured: newGallery.featured,
         created_at: newGallery.created_at,
-        media_count: 0
+        created_by: newGallery.created_by,
+        cover_image_id: newGallery.cover_image_id,
+        media_count: 0,
+        visibility: resolvedVisibility,
+        cultural_sensitivity_level: resolvedSensitivity,
+        organization_name: organizationName,
+        tags: [],
+        location: null,
+        featured: newGallery.featured || false,
+        status: newGallery.status || 'active',
+        creator: {
+          id: newGallery.created_by,
+          display_name: creator?.display_name || creator?.full_name || 'Unknown Creator',
+          community_roles: ['storyteller']
+        },
+        stats: {
+          views_count: 0,
+          likes_count: 0,
+          comments_count: 0,
+          shares_count: 0
+        },
+        elder_approved: false,
+        ceremonial_content: resolvedSensitivity === 'high',
+        traditional_knowledge: false,
+        consent_status: 'granted'
       },
       message: 'Gallery created successfully'
     })

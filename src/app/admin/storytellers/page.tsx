@@ -39,6 +39,7 @@ interface Storyteller {
   profile_visibility: 'active' | 'pending' | 'suspended' | 'inactive' | 'public' | 'private' | 'draft'
   featured: boolean
   elder: boolean
+  justicehub_featured: boolean
   story_count: number
   published_stories?: number
   draft_stories?: number
@@ -236,6 +237,93 @@ export default function AdminStorytellersPage() {
       )
     } catch (error) {
       console.error('Error updating status:', error)
+    }
+  }
+
+  const handleFeaturedUpdate = async (storytellerId: string, featured: boolean) => {
+    try {
+      const response = await fetch(`/api/admin/storytellers/${storytellerId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          is_featured: featured
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update featured status')
+      }
+
+      // Update only the specific storyteller's featured status in local state
+      setStorytellers(prevStorytellers =>
+        prevStorytellers.map(storyteller =>
+          storyteller.id === storytellerId
+            ? { ...storyteller, featured }
+            : storyteller
+        )
+      )
+    } catch (error) {
+      console.error('Error updating featured status:', error)
+    }
+  }
+
+  const handleElderUpdate = async (storytellerId: string, elder: boolean) => {
+    try {
+      const response = await fetch(`/api/admin/storytellers/${storytellerId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          is_elder: elder
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update elder status')
+      }
+
+      // Update only the specific storyteller's elder status in local state
+      setStorytellers(prevStorytellers =>
+        prevStorytellers.map(storyteller =>
+          storyteller.id === storytellerId
+            ? { ...storyteller, elder }
+            : storyteller
+        )
+      )
+    } catch (error) {
+      console.error('Error updating elder status:', error)
+    }
+  }
+
+  const handleJusticeHubFeaturedUpdate = async (storytellerId: string, justicehubFeatured: boolean) => {
+    try {
+      const response = await fetch(`/api/admin/storytellers/${storytellerId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          is_justicehub_featured: justicehubFeatured
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update JusticeHub featured status')
+      }
+
+      // Update only the specific storyteller's JusticeHub featured status in local state
+      setStorytellers(prevStorytellers =>
+        prevStorytellers.map(storyteller =>
+          storyteller.id === storytellerId
+            ? { ...storyteller, justicehub_featured: justicehubFeatured }
+            : storyteller
+        )
+      )
+    } catch (error) {
+      console.error('Error updating JusticeHub featured status:', error)
     }
   }
 
@@ -549,6 +637,9 @@ export default function AdminStorytellersPage() {
                   </TableHead>
                   <TableHead>Storyteller</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead className="w-20 text-center">Featured</TableHead>
+                  <TableHead className="w-16 text-center">Elder</TableHead>
+                  <TableHead className="w-24 text-center">JusticeHub</TableHead>
                   <TableHead>Stories</TableHead>
                   <TableHead>Transcripts</TableHead>
                   <TableHead>Projects</TableHead>
@@ -562,13 +653,13 @@ export default function AdminStorytellersPage() {
               <TableBody>
                 {loading ? (
                   <TableRow>
-                    <TableCell colSpan={10} className="text-center py-8">
+                    <TableCell colSpan={14} className="text-center py-8">
                       Loading storytellers...
                     </TableCell>
                   </TableRow>
                 ) : storytellers.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={10} className="text-center py-8">
+                    <TableCell colSpan={14} className="text-center py-8">
                       No storytellers found
                     </TableCell>
                   </TableRow>
@@ -632,6 +723,33 @@ export default function AdminStorytellersPage() {
                             compact={true}
                           />
                         </div>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <input
+                          type="checkbox"
+                          checked={storyteller.featured || false}
+                          onChange={(e) => handleFeaturedUpdate(storyteller.id, e.target.checked)}
+                          className="h-4 w-4 rounded border-gray-300 text-yellow-600 focus:ring-yellow-500 cursor-pointer"
+                          title="Featured storyteller"
+                        />
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <input
+                          type="checkbox"
+                          checked={storyteller.elder || false}
+                          onChange={(e) => handleElderUpdate(storyteller.id, e.target.checked)}
+                          className="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500 cursor-pointer"
+                          title="Elder status"
+                        />
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <input
+                          type="checkbox"
+                          checked={storyteller.justicehub_featured || false}
+                          onChange={(e) => handleJusticeHubFeaturedUpdate(storyteller.id, e.target.checked)}
+                          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                          title="Featured on JusticeHub"
+                        />
                       </TableCell>
                       <TableCell>
                         <span className="font-medium">{storyteller.story_count > 0 ? storyteller.story_count : '—'}</span>

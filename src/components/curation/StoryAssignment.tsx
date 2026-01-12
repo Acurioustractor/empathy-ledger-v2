@@ -81,7 +81,7 @@ export function StoryAssignment({ organizationId, projectId, onAssignmentComplet
 
   // Filter stories
   useEffect(() => {
-    let filtered = stories.filter(story => {
+    const filtered = stories.filter(story => {
       const matchesSearch = searchTerm === '' ||
         story.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         story.storyteller_name.toLowerCase().includes(searchTerm.toLowerCase())

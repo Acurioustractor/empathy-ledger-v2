@@ -1,4 +1,4 @@
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { createClient } from '@supabase/supabase-js'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -15,12 +15,16 @@ import {
   Sparkles
 } from 'lucide-react'
 
+// Use service role to bypass RLS for organization data
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+
 interface SettingsPageProps {
   params: Promise<{ id: string }>
 }
 
 async function getOrganizationSettings(organizationId: string) {
-  const supabase = createSupabaseServerClient()
+  const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
   const { data: organisation, error } = await supabase
     .from('organizations')
@@ -47,7 +51,7 @@ async function getOrganizationSettings(organizationId: string) {
       .from('profile_organizations')
       .select('role')
       .eq('profile_id', user.id)
-      .eq('organization_id', organisationId)
+      .eq('organization_id', organizationId)
       .eq('is_active', true)
       .single()
 

@@ -1,17 +1,71 @@
 # Empathy Ledger v2 - Development Workflow Guide
 
-**Last Updated:** January 2, 2026
+**Last Updated:** January 6, 2026
 **Purpose:** Recommended workflows for common development tasks using Claude Code skills
 
 ---
 
 ## Table of Contents
+- [Skill Index](#skill-index)
 - [Feature Development Workflow](#feature-development-workflow)
 - [Database Management Workflow](#database-management-workflow)
 - [Content Management Workflow](#content-management-workflow)
 - [Deployment Workflow](#deployment-workflow)
 - [Code Review Workflow](#code-review-workflow)
 - [Onboarding Workflow](#onboarding-workflow)
+
+---
+
+## Skill Index
+
+All skills follow lean architecture: ~60-100 lines max, with detailed content in `refs/` subdirectories.
+
+### Core Development (Optimized)
+| Skill | Purpose | Lines |
+|-------|---------|-------|
+| `empathy-ledger-codebase` | Codebase patterns & architecture | ~60 |
+| `design-system-guardian` | Design token enforcement | ~61 |
+| `design-component` | UI component patterns | ~73 |
+| `data-analysis` | Theme/quote analysis patterns | ~67 |
+| `supabase-connection` | Database clients & migrations | ~54 |
+| `database-navigator` | Schema exploration & queries | ~60 |
+
+### Compliance & Review
+| Skill | Purpose | Status |
+|-------|---------|--------|
+| `cultural-review` | OCAP principles, cultural safety | MANDATORY |
+| `gdpr-compliance` | Data protection compliance | As-needed |
+| `data-integrity-guardian` | Data quality checks | As-needed |
+| `frontend-backend-auditor` | API contract validation | As-needed |
+
+### Deployment & Ops
+| Skill | Purpose |
+|-------|---------|
+| `local-deployment` | ACT Ecosystem (all 6 sites) |
+| `local-dev-server` | PM2 setup, port 3030 |
+| `deployment-workflow` | Production deployment |
+| `supabase-deployment` | Database deployment |
+| `sprint-tracker` | Sprint status tracking |
+
+### Content & Features
+| Skill | Purpose |
+|-------|---------|
+| `story-craft` | Story quality standards |
+| `analytics-dashboard-dev` | Dashboard development |
+| `api-integration-webhooks` | External integrations |
+| `empathy-ledger-mission` | Mission & values context |
+
+### Skill Structure
+```
+skills/local/
+├── [skill-name]/
+│   ├── skill.md          # Lean (<100 lines) - "map" to references
+│   └── refs/             # Detailed reference files
+│       ├── patterns.md
+│       ├── queries.md
+│       └── ...
+└── _archived/            # Legacy files
+```
 
 ---
 
@@ -217,6 +271,47 @@ const { data } = await supabase
 ---
 
 ## Deployment Workflow
+
+### Local Development (ACT Ecosystem)
+
+**All 6 ACT sites managed from one place.** Use this after sprints/major tasks to review all local sites.
+
+**Quick Commands (from anywhere in terminal):**
+```bash
+act-start      # Start all 6 sites + open Chrome with 6 tabs
+act-stop       # Stop all sites
+act-restart    # Restart all sites (use after code changes)
+act-status     # Show which sites are running
+act-logs       # View live logs from all sites
+act-monitor    # Open PM2 monitoring dashboard
+```
+
+**Sites & Ports:**
+| Site | Port | URL |
+|------|------|-----|
+| ACT Regenerative Studio | 3002 | http://localhost:3002 |
+| **Empathy Ledger** | 3030 | http://localhost:3030 |
+| JusticeHub | 3003 | http://localhost:3003 |
+| The Harvest Website | 3004 | http://localhost:3004 |
+| ACT Farm | 3005 | http://localhost:3005 |
+| ACT Placemat | 3999 | http://localhost:3999 |
+
+**Sprint Review Workflow:**
+1. Run `act-restart` to ensure fresh builds
+2. Chrome opens automatically with 6 tabs
+3. Test Empathy Ledger at http://localhost:3030
+4. Verify features and cross-site integrations
+
+**Troubleshooting:**
+```bash
+act-logs                       # Check for errors
+pm2 logs empathy-ledger        # Logs for just Empathy Ledger
+pm2 restart empathy-ledger     # Restart just one site
+```
+
+**Full Documentation:** `/Users/benknight/act-global-infrastructure/deployment/`
+
+---
 
 ### Pre-Deployment Checklist
 
@@ -476,6 +571,7 @@ Closes #123
 | "Review for cultural sensitivity" | `cultural-review` |
 | "Check GDPR compliance" | `gdpr-compliance` |
 | "Review story quality" | `story-craft` |
+| "Start local dev servers" | `local-deployment` |
 | "Deploy to production" | `deployment-workflow` |
 | "Debug database connection" | `supabase-connection` |
 | "Extract themes from stories" | `data-analysis` |

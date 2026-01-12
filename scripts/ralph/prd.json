@@ -1,0 +1,103 @@
+{
+  "name": "Dramatic Hero Section with Network Visualization",
+  "description": "Create an immersive hero section with animated network graph background and inline search",
+  "created": "2026-01-07T00:00:00Z",
+  "priority_order": "Stories ordered by implementation dependency",
+  "stories": [
+    {
+      "id": "HERO-001",
+      "title": "Network graph supports hero variant",
+      "description": "As a developer, I want the NetworkGraph component to support a 'hero' variant so that it renders appropriately as a full-width background",
+      "priority": 1,
+      "passes": false,
+      "acceptance_criteria": [
+        "NetworkGraph accepts variant prop: 'hero' | 'card' | 'default'",
+        "Hero variant uses softer colors for better text contrast",
+        "Hero variant detects mobile and reduces nodes to ~8 for performance",
+        "Component exports correctly and builds without type errors"
+      ],
+      "files_to_modify": [
+        "src/components/ui/network-graph.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Use brand colors: Terracotta (#D97757), Sage (#2D5F4F), Ochre (#D4A373), Cream (#F8F6F1)"
+    },
+    {
+      "id": "HERO-002",
+      "title": "Create HeroSearch component with dropdown",
+      "description": "As a visitor, I want a prominent search bar in the hero so that I can quickly discover stories",
+      "priority": 2,
+      "passes": false,
+      "acceptance_criteria": [
+        "Large search input with search icon",
+        "Debounced API call to /api/search/global on typing",
+        "Dropdown shows results grouped by: Stories, Storytellers, Themes",
+        "Keyboard navigation (arrows, enter, escape)",
+        "Clicking result or pressing enter navigates to result",
+        "Suggested search chips below input (clickable)"
+      ],
+      "files_to_modify": [
+        "src/components/public/HeroSearch.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Suggestions: Elder wisdom, Land connection, Youth stories, Healing journeys"
+    },
+    {
+      "id": "HERO-003",
+      "title": "Rebuild HeroSection with network background",
+      "description": "As a visitor, I want an immersive hero section so that I understand what Empathy Ledger is about",
+      "priority": 3,
+      "passes": false,
+      "acceptance_criteria": [
+        "Full-width NetworkGraph as background (hero variant)",
+        "Semi-transparent overlay for text readability",
+        "Centered content: headline, tagline, HeroSearch component",
+        "Framer Motion staggered entrance animations",
+        "CTA buttons: Browse Stories, Meet Storytellers",
+        "Mobile responsive"
+      ],
+      "files_to_modify": [
+        "src/components/public/HeroSection.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes",
+        "Visual test captures new hero design"
+      ],
+      "notes": "Animation timing: 0ms graph, 200ms logo, 400ms headline, 600ms tagline, 800ms search, 1000ms chips"
+    },
+    {
+      "id": "HERO-004",
+      "title": "Create global search API endpoint",
+      "description": "As a system, I need a search API so that the hero search can query stories, storytellers, and themes",
+      "priority": 4,
+      "passes": false,
+      "acceptance_criteria": [
+        "GET /api/search/global?q={query} endpoint",
+        "Returns results grouped by type: stories, storytellers, themes",
+        "Limits results to 5 per category",
+        "Handles empty query gracefully",
+        "Returns within 500ms"
+      ],
+      "files_to_modify": [
+        "src/app/api/search/global/route.ts"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Use existing Supabase queries, add text search on title/name fields"
+    }
+  ],
+  "completion_criteria": {
+    "all_stories_pass": true,
+    "ci_green": true,
+    "no_type_errors": true
+  }
+}

@@ -40,12 +40,22 @@ export async function GET(request: NextRequest) {
     const offset = (page - 1) * limit
 
     // Build base query - NO organization_id filter (platform view)
-    // Using * to get all available columns, then transform
+    // Include storyteller information for admin dashboard
     let query = supabase
       .from('stories')
       .select(`
         *,
-        organization:organization_id(id, name, slug)
+        organization:organization_id(id, name, slug),
+        storyteller:storyteller_id(
+          id,
+          profile_id,
+          display_name,
+          avatar_url,
+          cultural_background,
+          bio,
+          language_skills,
+          is_active
+        )
       `, { count: 'exact' })
 
     // Apply filters
@@ -72,10 +82,25 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    console.log(`✅ Found ${stories?.length || 0} stories (total: ${count})`)
+    // Enrich stories with stats calculation
+    const enrichedStories = (stories || []).map(story => {
+      const wordCount = story.content?.split(/\s+/).length || 0
+      return {
+        ...story,
+        stats: {
+          views_count: story.views_count || 0,
+          likes_count: story.likes_count || 0,
+          comments_count: story.comments_count || 0,
+          shares_count: story.shares_count || 0,
+          reading_time: story.reading_time_minutes || Math.ceil(wordCount / 200)
+        }
+      }
+    })
+
+    console.log(`✅ Found ${enrichedStories.length} stories (total: ${count})`)
 
     return NextResponse.json({
-      stories: stories || [],
+      stories: enrichedStories,
       pagination: {
         page,
         limit,

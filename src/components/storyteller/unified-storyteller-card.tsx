@@ -113,10 +113,10 @@ export interface UnifiedStorytellerCardProps {
 }
 
 const organizationTypeColors = {
-  nonprofit: 'bg-blue-50 text-blue-700 border-blue-200',
-  community: 'bg-green-50 text-green-700 border-green-200',
-  government: 'bg-purple-50 text-purple-700 border-purple-200',
-  tribal: 'bg-amber-50 text-amber-700 border-amber-200'
+  nonprofit: 'bg-sage-50 text-sage-700 border-sage-200',
+  community: 'bg-sage-50 text-sage-700 border-sage-200',
+  government: 'bg-ochre-50 text-ochre-700 border-ochre-200',
+  tribal: 'bg-terracotta-50 text-terracotta-700 border-terracotta-200'
 }
 
 const projectTypeColors = {
@@ -127,10 +127,10 @@ const projectTypeColors = {
 }
 
 const statusColors = {
-  active: 'bg-green-100 text-green-800 border-green-200',
-  completed: 'bg-grey-100 text-grey-600 border-grey-200',
-  planning: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-  paused: 'bg-orange-100 text-orange-600 border-orange-200'
+  active: 'bg-sage-100 text-sage-800 border-sage-200',
+  completed: 'bg-charcoal-100 text-charcoal-600 border-charcoal-200',
+  planning: 'bg-ochre-100 text-ochre-800 border-ochre-200',
+  paused: 'bg-terracotta-100 text-terracotta-600 border-terracotta-200'
 }
 
 export function UnifiedStorytellerCard({
@@ -175,9 +175,9 @@ export function UnifiedStorytellerCard({
   }
 
   const getProfileCompletenessColor = (score: number) => {
-    if (score >= 80) return 'text-green-600'
-    if (score >= 60) return 'text-yellow-600'
-    return 'text-red-600'
+    if (score >= 80) return 'text-sage-600'
+    if (score >= 60) return 'text-ochre-600'
+    return 'text-terracotta-600'
   }
 
   const renderLocationContext = () => {
@@ -225,7 +225,7 @@ export function UnifiedStorytellerCard({
         {visibleOrgs && visibleOrgs.length > 0 && (
           <div>
             <div className="flex items-center gap-1 mb-2">
-              <Building2 className="w-4 h-4 text-blue-600" />
+              <Building2 className="w-4 h-4 text-sage-600" />
               <Typography variant="small" className="text-grey-600 font-medium">
                 Organizations
               </Typography>
@@ -273,7 +273,7 @@ export function UnifiedStorytellerCard({
         {visibleProjects && visibleProjects.length > 0 && (
           <div>
             <div className="flex items-center gap-1 mb-2">
-              <Target className="w-4 h-4 text-green-600" />
+              <Target className="w-4 h-4 text-ochre-600" />
               <Typography variant="small" className="text-grey-600 font-medium">
                 Projects
               </Typography>
@@ -326,11 +326,11 @@ export function UnifiedStorytellerCard({
     const { profile_completeness, top_themes, suggested_tags, cultural_markers } = storyteller.ai_insights
 
     return (
-      <div className="space-y-3 p-3 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-200">
+      <div className="space-y-3 p-3 bg-gradient-to-r from-ochre-50 to-sage-50 rounded-lg border border-ochre-200">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-purple-600" />
-            <Typography variant="small" className="text-purple-700 font-medium">
+            <Sparkles className="w-4 h-4 text-ochre-600" />
+            <Typography variant="small" className="text-ochre-700 font-medium">
               AI Insights
             </Typography>
           </div>
@@ -374,7 +374,7 @@ export function UnifiedStorytellerCard({
                 <Badge
                   key={index}
                   variant="outline"
-                  className="text-xs bg-purple-50 text-purple-700 border-purple-200"
+                  className="text-xs bg-ochre-50 text-ochre-700 border-ochre-200"
                 >
                   {marker}
                 </Badge>
@@ -393,7 +393,7 @@ export function UnifiedStorytellerCard({
               {suggested_tags.slice(0, 2).map((suggestion, index) => (
                 <div key={index} className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+                    <Badge variant="outline" className="bg-ochre-50 text-ochre-700 border-ochre-200">
                       {suggestion.category}: {suggestion.value}
                     </Badge>
                     <span className="text-grey-500">
@@ -470,8 +470,8 @@ export function UnifiedStorytellerCard({
       className={cn(
         'group transition-all duration-300 hover:shadow-lg overflow-hidden bg-white border border-grey-200',
         'rounded-lg relative',
-        isFeatured && 'ring-2 ring-amber-200',
-        isElder && 'ring-2 ring-purple-200',
+        isFeatured && 'ring-2 ring-ochre-200',
+        isElder && 'ring-2 ring-terracotta-200',
         !isActive && 'opacity-80',
         className
       )}
@@ -513,7 +513,7 @@ export function UnifiedStorytellerCard({
                   </Badge>
                 )}
                 {isElder && (
-                  <Badge className="bg-purple-100 text-purple-800 text-xs font-medium">
+                  <Badge className="bg-terracotta-100 text-terracotta-800 text-xs font-medium">
                     <Crown className="w-3 h-3 mr-1" />
                     Elder
                   </Badge>

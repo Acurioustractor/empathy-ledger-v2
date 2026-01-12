@@ -65,7 +65,7 @@ export function ReviewHistory({ elderId }: ReviewHistoryProps) {
 
   // Filter history
   useEffect(() => {
-    let filtered = history.filter(item => {
+    const filtered = history.filter(item => {
       const matchesSearch = searchTerm === '' ||
         item.story_title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.storyteller_name.toLowerCase().includes(searchTerm.toLowerCase())

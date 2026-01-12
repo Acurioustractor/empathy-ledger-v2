@@ -96,33 +96,77 @@ export const processTranscriptFunction = inngest.createFunction(
       }
     })
 
-    // Step 3: Store themes and quotes
+    // Step 3: Store themes and quotes (DUAL-WRITE PATTERN)
     await step.run('store-analysis', async () => {
       console.log('💾 Storing analysis results...')
 
-      // Update transcript with AI results
-      await supabase
-        .from('transcripts')
-        .update({
-          ai_summary: analysis.summary,
-          themes: analysis.themes,
-          key_quotes: analysis.key_quotes.map(q => q.text), // Simple array for now
-          ai_processing_status: 'completed',
-          metadata: {
-            ...transcript.metadata,
-            ai_analysis: {
-              emotional_tone: analysis.emotional_tone,
-              cultural_sensitivity_level: analysis.cultural_sensitivity_level,
-              requires_elder_review: analysis.requires_elder_review,
-              key_insights: analysis.key_insights,
-              related_topics: analysis.related_topics,
-              processing_time_ms: analysis.processing_time_ms,
-              analyzed_at: new Date().toISOString()
-            }
-          },
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', transcriptId)
+      // Prepare analysis record for transcript_analysis_results table
+      const analysisRecord = {
+        transcript_id: transcriptId,
+        analyzer_version: 'v3',
+        themes: analysis.themes,
+        quotes: analysis.key_quotes,
+        cultural_flags: {
+          emotional_tone: analysis.emotional_tone,
+          cultural_sensitivity_level: analysis.cultural_sensitivity_level,
+          requires_elder_review: analysis.requires_elder_review
+        },
+        quality_metrics: {
+          themes_count: analysis.themes.length,
+          quotes_count: analysis.key_quotes.length,
+          summary_length: analysis.summary.length,
+          processing_time_ms: analysis.processing_time_ms
+        },
+        processing_time_ms: analysis.processing_time_ms
+      }
+
+      // DUAL-WRITE: Update both tables in parallel
+      const [transcriptResult, analysisResult] = await Promise.allSettled([
+        // Write 1: Update transcript fields (existing pattern)
+        supabase
+          .from('transcripts')
+          .update({
+            ai_summary: analysis.summary,
+            themes: analysis.themes,
+            key_quotes: analysis.key_quotes.map(q => q.text), // Simple array for now
+            ai_processing_status: 'completed',
+            metadata: {
+              ...transcript.metadata,
+              ai_analysis: {
+                emotional_tone: analysis.emotional_tone,
+                cultural_sensitivity_level: analysis.cultural_sensitivity_level,
+                requires_elder_review: analysis.requires_elder_review,
+                key_insights: analysis.key_insights,
+                related_topics: analysis.related_topics,
+                processing_time_ms: analysis.processing_time_ms,
+                analyzed_at: new Date().toISOString()
+              }
+            },
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', transcriptId),
+
+        // Write 2: Create versioned analysis record (NEW)
+        supabase
+          .from('transcript_analysis_results')
+          .upsert(analysisRecord, {
+            onConflict: 'transcript_id,analyzer_version',
+            ignoreDuplicates: false
+          })
+      ])
+
+      // Check for errors
+      if (transcriptResult.status === 'rejected') {
+        console.error('❌ Failed to update transcript:', transcriptResult.reason)
+        throw new Error('Failed to update transcript table')
+      }
+
+      if (analysisResult.status === 'rejected') {
+        console.error('⚠️ Failed to store analysis record:', analysisResult.reason)
+        // Log warning but don't fail the job - transcript update succeeded
+      } else {
+        console.log('✅ Stored analysis in transcript_analysis_results (v3)')
+      }
 
       console.log(`✅ Stored ${analysis.themes.length} themes and ${analysis.key_quotes.length} quotes`)
     })

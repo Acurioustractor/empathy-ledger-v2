@@ -19,7 +19,7 @@ async function deployIndividualAnalyticsSchema() {
     
     // Create personal_insights table
     console.log('📊 Creating personal_insights table...')
-    let { error } = await supabase.rpc('exec', {
+    const { error } = await supabase.rpc('exec', {
       sql: `
         CREATE TABLE IF NOT EXISTS personal_insights (
           id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),

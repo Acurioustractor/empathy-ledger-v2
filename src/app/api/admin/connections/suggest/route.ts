@@ -208,7 +208,7 @@ function calculateOrganizationMatch(storyteller: any, organisation: any) {
   const reasons: string[] = []
   let culturalAlignment = false
   let geographicalProximity = false
-  let skillMatch = false
+  const skillMatch = false
 
   // Cultural alignment (high weight)
   if (storyteller.cultural_background && organisation.cultural_significance) {
@@ -270,7 +270,7 @@ function calculateProjectMatch(storyteller: any, project: any) {
   let score = 0
   const reasons: string[] = []
   let culturalAlignment = false
-  let geographicalProximity = false
+  const geographicalProximity = false
   let skillMatch = false
 
   // Project name and description analysis

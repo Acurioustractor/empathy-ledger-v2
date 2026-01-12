@@ -35,13 +35,15 @@ interface MediaLibraryProps {
   multiSelect?: boolean
   allowedTypes?: Array<'image' | 'audio' | 'video' | 'document'>
   className?: string
+  apiEndpoint?: string // Custom API endpoint (default: /api/media/library)
 }
 
 export function MediaLibrary({
   onSelect,
   multiSelect = false,
   allowedTypes = ['image', 'audio', 'video', 'document'],
-  className
+  className,
+  apiEndpoint = '/api/media/library'
 }: MediaLibraryProps) {
   const [media, setMedia] = useState<MediaAsset[]>([])
   const [loading, setLoading] = useState(true)
@@ -62,7 +64,7 @@ export function MediaLibrary({
       const params = new URLSearchParams()
       if (typeFilter !== 'all') params.set('type', typeFilter)
 
-      const response = await fetch(`/api/media/library?${params}`)
+      const response = await fetch(`${apiEndpoint}?${params}`)
       if (!response.ok) throw new Error('Failed to load media')
 
       const data = await response.json()

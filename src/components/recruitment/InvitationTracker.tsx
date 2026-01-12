@@ -75,7 +75,7 @@ export function InvitationTracker({ organizationId, projectId }: InvitationTrack
 
   // Filter invitations
   useEffect(() => {
-    let filtered = invitations.filter(invitation => {
+    const filtered = invitations.filter(invitation => {
       const matchesSearch = searchTerm === '' ||
         invitation.recipient_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         invitation.recipient_contact?.toLowerCase().includes(searchTerm.toLowerCase())

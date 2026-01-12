@@ -2,7 +2,8 @@
 
 **Purpose**: Central navigation for all Empathy Ledger documentation
 
-**Last Updated**: January 2, 2026
+**Last Updated**: January 11, 2026
+**Last Reorganization**: January 11, 2026 (Consolidated duplicate directories)
 
 ---
 
@@ -79,8 +80,7 @@
 | [13-platform/](./13-platform/) | Platform overview | 5 | EMPATHY_LEDGER_WIKI.md |
 | [14-poc/](./14-poc/) | Proof of concepts | 10 | POC results and testing |
 | [15-reports/](./15-reports/) | Status reports | TBD | Session reports, analysis |
-| [16-legacy/](./16-legacy/) | Archived documentation | 10 | Legacy reports |
-| [99-archive/](./99-archive/) | Outdated docs | TBD | Superseded documentation |
+| [.archive/](./. archive/) | Historical/deprecated docs | TBD | Pre-2026 archives, legacy docs |
 
 ---
 

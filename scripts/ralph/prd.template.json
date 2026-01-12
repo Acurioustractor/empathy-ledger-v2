@@ -1,0 +1,47 @@
+{
+  "name": "Feature Name",
+  "description": "Brief description of the feature being built",
+  "created": "2026-01-07T00:00:00Z",
+  "priority_order": "Stories are ordered by priority (first = highest)",
+  "stories": [
+    {
+      "id": "STORY-001",
+      "title": "User can do X",
+      "description": "As a [user type], I want [action] so that [benefit]",
+      "priority": 1,
+      "passes": false,
+      "acceptance_criteria": [
+        "Criterion 1",
+        "Criterion 2",
+        "Criterion 3"
+      ],
+      "files_to_modify": [
+        "src/components/example.tsx",
+        "src/lib/example.ts"
+      ],
+      "tests_required": [
+        "Unit test for X",
+        "Integration test for Y"
+      ],
+      "notes": "Any additional context or constraints"
+    },
+    {
+      "id": "STORY-002",
+      "title": "Another user story",
+      "description": "As a [user type], I want [action] so that [benefit]",
+      "priority": 2,
+      "passes": false,
+      "acceptance_criteria": [
+        "Criterion 1"
+      ],
+      "files_to_modify": [],
+      "tests_required": [],
+      "notes": ""
+    }
+  ],
+  "completion_criteria": {
+    "all_stories_pass": true,
+    "ci_green": true,
+    "no_type_errors": true
+  }
+}

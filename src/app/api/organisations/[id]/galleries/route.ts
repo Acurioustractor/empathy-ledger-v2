@@ -68,23 +68,26 @@ export async function POST(
       }
     }
 
-    // Create gallery using standard galleries table
+    // Generate slug from title
+    const slug = galleryData.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      || 'untitled'
+
+    // Create gallery using standard galleries table (only fields that exist)
     const { data: newGallery, error: galleryError } = await supabase
       .from('galleries')
       .insert([{
         title: galleryData.title,
+        slug: slug,
         description: galleryData.description || '',
-        visibility: galleryData.privacyLevel || 'organisation',
-        cultural_sensitivity_level: galleryData.culturalSensitivityLevel || 'low',
+        visibility: galleryData.privacyLevel || 'organization',
+        cultural_sensitivity_level: galleryData.culturalSensitivityLevel === 'standard' ? 'low' : (galleryData.culturalSensitivityLevel || 'low'),
         organization_id: organizationId,
-        project_id: galleryData.projectId || null,
-        storyteller_id: primaryStorytellerId,
-        tenant_id: organization.tenant_id,
-        created_by: primaryStorytellerId || 'system',
+        created_by: primaryStorytellerId || 'd0a162d2-282e-4653-9d12-aa934c9dfa4e', // Default to Benjamin Knight
         status: 'active',
-        featured: false,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        featured: false
       }])
       .select()
       .single()
@@ -171,11 +174,19 @@ export async function GET(
     console.log('🔍 Fetching galleries for organisation:', organizationId)
 
     // 1. Get organization and its tenant info
-    const { data: organization } = await supabase
+    const { data: organization, error: orgFetchError } = await supabase
       .from('organizations')
       .select('id, tenant_id')
       .eq('id', organizationId)
       .single()
+
+    if (orgFetchError) {
+      console.error('❌ Error fetching organization:', orgFetchError)
+      return NextResponse.json({
+        error: 'Failed to fetch organization',
+        details: orgFetchError.message
+      }, { status: 500 })
+    }
 
     if (!organization) {
       return NextResponse.json({ error: 'Organization not found' }, { status: 404 })
@@ -353,7 +364,7 @@ export async function GET(
       .eq('id', organizationId)
       .single()
 
-    let storytellerVideos = []
+    const storytellerVideos = []
     if (org && !orgError) {
       console.log(`🔍 Looking for content videos in tenant: ${org.tenant_id}`)
 

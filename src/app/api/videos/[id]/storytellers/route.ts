@@ -31,7 +31,7 @@ export async function GET(
         consent_status,
         source,
         created_at,
-        storytellers:storyteller_id(id, display_name, profile_image_url, bio)
+        storytellers:storyteller_id(id, display_name, avatar_url, bio)
       `)
       .eq('video_link_id', id)
 
@@ -41,7 +41,7 @@ export async function GET(
       storytellers: (data || []).map(vs => ({
         id: vs.storytellers?.id,
         name: vs.storytellers?.display_name,
-        imageUrl: vs.storytellers?.profile_image_url,
+        imageUrl: vs.storytellers?.avatar_url,
         bio: vs.storytellers?.bio,
         relationship: vs.relationship,
         consentStatus: vs.consent_status,
@@ -92,7 +92,7 @@ export async function POST(
         id,
         relationship,
         consent_status,
-        storytellers:storyteller_id(id, display_name, profile_image_url)
+        storytellers:storyteller_id(id, display_name, avatar_url)
       `)
 
     if (error) throw error
@@ -101,7 +101,7 @@ export async function POST(
       storytellers: (data || []).map(vs => ({
         id: vs.storytellers?.id,
         name: vs.storytellers?.display_name,
-        imageUrl: vs.storytellers?.profile_image_url,
+        imageUrl: vs.storytellers?.avatar_url,
         relationship: vs.relationship,
         consentStatus: vs.consent_status
       })).filter(s => s.id)

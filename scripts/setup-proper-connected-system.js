@@ -79,7 +79,7 @@ async function setupProperConnectedSystem() {
       .select('*')
       .eq('tenant_id', org.tenant_id);
 
-    let createdUsers = existingUsers || [];
+    const createdUsers = existingUsers || [];
     console.log(`✅ Found ${existingUsers?.length || 0} existing users`);
 
     // Only create users if we don't have enough

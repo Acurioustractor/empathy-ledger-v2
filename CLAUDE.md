@@ -130,10 +130,29 @@ ls docs/01-principles/
 
 See [Skills Cleanup Summary](.claude/SKILLS_CLEANUP_SUMMARY.md) for details.
 
+### Vibe Kanban (Task Orchestration)
+
+For parallel agent execution and multi-task development:
+
+```bash
+# Launch Vibe Kanban
+npx vibe-kanban
+```
+
+**Features:**
+- Run multiple Claude Code agents in parallel
+- Git worktree isolation per task
+- Built-in code review before merge
+- Real-time agent monitoring
+
+**When to use:** Sprint tasks, parallel features, large refactors
+**Full docs:** [.claude/skills/global/agent-kanban/skill.md](.claude/skills/global/agent-kanban/skill.md)
+
 ### Common Workflows
 
 **"I need to build a feature"**
 → Claude invokes: `empathy-ledger-dev`, `codebase-explorer`
+→ Use Vibe Kanban for multi-step features
 
 **"Design a component"**
 → Claude invokes: `design-component`

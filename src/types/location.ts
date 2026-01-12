@@ -110,13 +110,9 @@ export type LocationParser = (text: string) => Partial<LocationInput>
 /**
  * Utility type for entities with location - used in Stories, Transcripts, etc.
  */
-export interface StoryLocation extends WithLocation {
-  // Additional story-specific location fields if needed
-}
+export type StoryLocation = WithLocation
 
-export interface TranscriptLocation extends WithLocation {
-  // Additional transcript-specific location fields if needed
-}
+export type TranscriptLocation = WithLocation
 
 export interface ProfileLocation extends WithLocation {
   // Profiles might have additional location complexity
@@ -124,10 +120,6 @@ export interface ProfileLocation extends WithLocation {
   geographic_connections?: string[]
 }
 
-export interface OrganizationLocation extends WithLocation {
-  // Organizations use location as text currently
-}
+export type OrganizationLocation = WithLocation
 
-export interface ProjectLocation extends WithLocation {
-  // Projects use location as text currently
-}
+export type ProjectLocation = WithLocation

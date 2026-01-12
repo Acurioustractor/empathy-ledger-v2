@@ -1,4 +1,6 @@
 import type { Config } from 'tailwindcss'
+import forms from '@tailwindcss/forms'
+import typography from '@tailwindcss/typography'
 
 const config: Config = {
   darkMode: 'class',
@@ -10,7 +12,80 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Primary Brand Colors - Warm Earth Tones
+        // Brand Guide Colors (Editorial Warmth Palette)
+        ochre: {
+          DEFAULT: '#96643a',
+          50: '#faf7f4',
+          100: '#f0e8df',
+          200: '#e0d0bf',
+          300: '#cdb393',
+          400: '#b89468',
+          500: '#96643a', // Primary
+          600: '#7d5330',
+          700: '#644228',
+          800: '#4b3220',
+          900: '#322118',
+        },
+        terracotta: {
+          DEFAULT: '#b84a32',
+          dark: '#a03a28',
+          50: '#fdf5f3',
+          100: '#fce8e3',
+          200: '#fbd5cc',
+          300: '#f6b5a5',
+          400: '#ee8b72',
+          500: '#e26548',
+          600: '#b84a32', // Primary
+          700: '#a03a28',
+          800: '#7c3324',
+          900: '#672e23',
+        },
+        sage: {
+          DEFAULT: '#5c6d51',
+          dark: '#4a5741',
+          50: '#f5f7f4',
+          100: '#e8ebe5',
+          200: '#d2d9cc',
+          300: '#b3c0a8',
+          400: '#8fa27f',
+          500: '#6f8560',
+          600: '#5c6d51', // Primary
+          700: '#4a5741',
+          800: '#3d4736',
+          900: '#333b2e',
+        },
+        charcoal: {
+          DEFAULT: '#42291a',
+          50: '#f9f6f4',
+          100: '#f0e9e4',
+          200: '#e0d1c7',
+          300: '#c9b3a3',
+          400: '#ae8f7a',
+          500: '#8f7058',
+          600: '#6b5545',
+          700: '#574538',
+          800: '#42291a', // Primary
+          900: '#2e1c12',
+        },
+        cream: {
+          DEFAULT: '#faf6f1',
+          50: '#fdfcfa',
+          100: '#faf6f1', // Primary
+          200: '#f5ede3',
+          300: '#ede0ce',
+          400: '#e2cfb5',
+          500: '#d4ba96',
+        },
+        // Cultural Theme Colors
+        cultural: '#d97706',
+        family: '#059669',
+        land: '#0284c7',
+        resilience: '#dc2626',
+        knowledge: '#7c3aed',
+        justice: '#ea580c',
+        arts: '#06b6d4',
+        everyday: '#65a30d',
+        // Primary Brand Colors - Warm Earth Tones (Legacy - kept for compatibility)
         earth: {
           50: '#fefefe',
           100: '#f7f5f3',
@@ -122,6 +197,8 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['Georgia', 'Times New Roman', 'serif'],
+        mono: ['Courier New', 'Courier', 'monospace'],
       },
       fontSize: {
         // Display sizes
@@ -191,8 +268,8 @@ const config: Config = {
     },
   },
   plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
+    forms,
+    typography,
   ],
 }
 

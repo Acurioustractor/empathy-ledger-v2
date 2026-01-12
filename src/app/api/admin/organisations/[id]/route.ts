@@ -2,10 +2,11 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
-
-
+// Use service role to bypass RLS for admin operations
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 export async function GET(
   request: NextRequest,
@@ -13,7 +14,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params
-    
+
     if (!id) {
       return NextResponse.json(
         { error: 'Organization ID is required' },
@@ -21,7 +22,9 @@ export async function GET(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+    console.log('🔓 Using admin bypass for organisation detail')
     
     // Get specific organisation with details
     const { data: organisation, error } = await supabase
@@ -100,7 +103,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params
-    
+
     if (!id) {
       return NextResponse.json(
         { error: 'Organization ID is required' },
@@ -108,12 +111,9 @@ export async function DELETE(
       )
     }
 
-    // Use service role client to bypass RLS
-    const { createClient } = await import('@supabase/supabase-js')
-    const serviceSupabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    )
+    const serviceSupabase = createClient(supabaseUrl, supabaseServiceKey)
+
+    console.log('🔓 Using admin bypass for organisation delete')
 
     // Get the organisation to find its tenant_id
     const { data: org } = await serviceSupabase
@@ -178,7 +178,7 @@ export async function PUT(
   try {
     const { id } = await params
     const body = await request.json()
-    
+
     if (!id) {
       return NextResponse.json(
         { error: 'Organization ID is required' },
@@ -186,12 +186,9 @@ export async function PUT(
       )
     }
 
-    // Use service role client to bypass RLS
-    const { createClient } = await import('@supabase/supabase-js')
-    const serviceSupabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    )
+    const serviceSupabase = createClient(supabaseUrl, supabaseServiceKey)
+
+    console.log('🔓 Using admin bypass for organisation update')
 
     // If we're fixing the tenant (giving organisation its own clean tenant)
     if (body.action === 'fix_tenant') {

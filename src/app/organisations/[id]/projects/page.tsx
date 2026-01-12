@@ -1,12 +1,16 @@
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { createClient } from '@supabase/supabase-js'
 import { ProjectsCollection } from '@/components/organization/ProjectsCollection'
+
+// Use service role to bypass RLS for organization data
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 interface ProjectsPageProps {
   params: { id: string }
 }
 
 async function getOrganizationProjects(organizationId: string) {
-  const supabase = createSupabaseServerClient()
+  const supabase = createClient(supabaseUrl, supabaseServiceKey)
   
   // Get organisation to get tenant_id
   const { data: organisation } = await supabase

@@ -86,7 +86,7 @@ export async function GET(request: Request) {
           .eq('gallery_id', gallery.id)
 
         // If no cover image is set, get the first photo as thumbnail
-        let coverImage = gallery.cover_image
+        const coverImage = gallery.cover_image
         let coverImageData = null
 
         if (!coverImage && photoCount && photoCount > 0) {

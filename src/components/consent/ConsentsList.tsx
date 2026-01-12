@@ -89,7 +89,7 @@ export function ConsentsList({
 
   // Filter consents
   useEffect(() => {
-    let filtered = consents.filter(consent => {
+    const filtered = consents.filter(consent => {
       const matchesSearch = searchTerm === '' ||
         consent.content_title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         consent.purpose.toLowerCase().includes(searchTerm.toLowerCase()) ||

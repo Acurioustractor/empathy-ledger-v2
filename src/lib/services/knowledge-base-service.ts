@@ -903,7 +903,7 @@ export async function extractAllQA(options?: {
   }
 
   // Get chunks that need extraction
-  let query = getSupabase()
+  const query = getSupabase()
     .from('knowledge_chunks')
     .select(`
       id,
@@ -1007,6 +1007,19 @@ export async function exportTrainingData(options?: {
     validationStatus = ['Auto', 'Human-Reviewed', 'Verified'],
   } = options || {};
 
+  type KnowledgeExtractionRow = {
+    extraction_type: string;
+    question: string;
+    answer: string;
+    context: string | null;
+    confidence: number | null;
+    training_category?: string | null;
+    knowledge_chunks?: {
+      section_path?: string[];
+      knowledge_documents?: { title?: string; category?: string } | null;
+    } | null;
+  };
+
   let query = getSupabase()
     .from('knowledge_extractions')
     .select(`
@@ -1024,6 +1037,7 @@ export async function exportTrainingData(options?: {
         )
       )
     `)
+    .returns<KnowledgeExtractionRow[]>()
     .gte('confidence', minConfidence)
     .in('validation_status', validationStatus);
 

@@ -1,16 +1,20 @@
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { createClient } from '@supabase/supabase-js'
 import { OrganizationMetrics } from '@/components/organization/OrganizationMetrics'
 import { RecentActivity } from '@/components/organization/RecentActivity'
 import { MemberHighlights } from '@/components/organization/MemberHighlights'
 import { RecentProjects } from '@/components/organization/RecentProjects'
 import { DashboardQuickActions } from '@/components/organization/DashboardQuickActions'
 
+// Use service role to bypass RLS for organization data
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+
 interface OrganizationDashboardProps {
   params: { id: string }
 }
 
 async function getOrganizationData(organizationId: string) {
-  const supabase = createSupabaseServerClient()
+  const supabase = createClient(supabaseUrl, supabaseServiceKey)
   
   // Get organisation details
   const { data: organisation } = await supabase
@@ -102,39 +106,43 @@ export default async function OrganizationDashboard({
   const data = await getOrganizationData(id)
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Welcome Header with Quick Actions */}
-      <div className="bg-gradient-to-r from-earth-50 to-sage-50 border-b border-stone-200 px-6 py-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-start justify-between">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight text-earth-900">
-                Welcome back to {data.organisation.name}
-              </h1>
-              <p className="text-earth-600 mt-2 text-lg">
-                Your community overview and insights dashboard
-              </p>
-            </div>
-
-            {/* Quick Action Buttons */}
-            <DashboardQuickActions organizationId={id} />
+      <div className="bg-gradient-to-r from-stone-50 via-sage-50/30 to-earth-50/20 border-b border-stone-200 px-6 py-6 -mx-6 -mt-6 rounded-t-xl">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-display-sm font-bold tracking-tight text-stone-900">
+              Welcome back to {data.organisation.name}
+            </h1>
+            <p className="text-body-md text-stone-600 mt-1">
+              Your community overview and insights dashboard
+            </p>
           </div>
+
+          {/* Quick Action Buttons */}
+          <DashboardQuickActions organizationId={id} />
         </div>
       </div>
 
-      <div className="px-6 space-y-8">
+      <div className="space-y-6">
         {/* Metrics Overview */}
-        <div>
-          <h2 className="text-xl font-semibold text-grey-900 mb-6">Community Metrics</h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <section>
+          <div className="flex items-center gap-2 mb-4">
+            <h2 className="text-body-lg font-semibold text-stone-800">Community Metrics</h2>
+            <div className="h-px flex-1 bg-gradient-to-r from-stone-200 to-transparent"></div>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             <OrganizationMetrics metrics={data.metrics} />
           </div>
-        </div>
+        </section>
 
         {/* Recent Activity Grid */}
-        <div>
-          <h2 className="text-xl font-semibold text-grey-900 mb-6">Recent Activity</h2>
-          <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+        <section>
+          <div className="flex items-center gap-2 mb-4">
+            <h2 className="text-body-lg font-semibold text-stone-800">Recent Activity</h2>
+            <div className="h-px flex-1 bg-gradient-to-r from-stone-200 to-transparent"></div>
+          </div>
+          <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
             <RecentActivity
               stories={data.recentStories}
               organizationId={id}
@@ -150,7 +158,7 @@ export default async function OrganizationDashboard({
               organizationId={id}
             />
           </div>
-        </div>
+        </section>
       </div>
     </div>
   )

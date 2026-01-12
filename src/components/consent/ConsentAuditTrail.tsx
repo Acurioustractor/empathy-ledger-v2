@@ -66,7 +66,7 @@ export function ConsentAuditTrail({ storytellerId, organizationId }: ConsentAudi
 
   // Filter events
   useEffect(() => {
-    let filtered = events.filter(event => {
+    const filtered = events.filter(event => {
       const matchesSearch = searchTerm === '' ||
         event.content_title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         event.performed_by.toLowerCase().includes(searchTerm.toLowerCase())

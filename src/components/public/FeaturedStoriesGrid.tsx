@@ -45,11 +45,11 @@ const getStoryTypeIcon = (type: string) => {
 const getStoryTypeColor = (type: string) => {
   switch (type) {
     case 'video':
-      return 'bg-[#D97757] text-white'
+      return 'bg-terracotta text-white'
     case 'audio':
-      return 'bg-[#D4A373] text-[#2C2C2C]'
+      return 'bg-ochre text-charcoal'
     default:
-      return 'bg-[#2D5F4F] text-white'
+      return 'bg-sage text-white'
   }
 }
 
@@ -65,14 +65,14 @@ export function FeaturedStoriesGrid({ stories, className }: FeaturedStoriesGridP
         <div className="text-center space-y-4 mb-12">
           <Badge
             variant="outline"
-            className="border-[#D97757] text-[#D97757] bg-[#D97757]/5"
+            className="border-terracotta text-terracotta bg-terracotta/5"
           >
             Featured Stories
           </Badge>
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#2C2C2C]">
+          <h2 className="font-serif text-3xl md:text-4xl font-bold text-charcoal">
             Stories That Inspire
           </h2>
-          <p className="text-lg text-[#2C2C2C]/70 max-w-2xl mx-auto">
+          <p className="text-lg text-charcoal/70 max-w-2xl mx-auto">
             Curated stories from our community, shared with consent and cultural respect
           </p>
         </div>
@@ -85,9 +85,9 @@ export function FeaturedStoriesGrid({ stories, className }: FeaturedStoriesGridP
               href={`/stories/${story.id}`}
               className="group"
             >
-              <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-xl border-2 hover:border-[#D97757]">
-                {/* Story Image */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#F8F6F1]">
+              <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-xl border-2 hover:border-terracotta">
+                {/* Story Image - falls back to storyteller avatar */}
+                <div className="relative aspect-[4/3] overflow-hidden bg-cream">
                   {story.featured_image_url ? (
                     <Image
                       src={story.featured_image_url}
@@ -95,9 +95,20 @@ export function FeaturedStoriesGrid({ stories, className }: FeaturedStoriesGridP
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />
+                  ) : story.storyteller.avatar_url ? (
+                    <Image
+                      src={story.storyteller.avatar_url}
+                      alt={story.storyteller.display_name}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-[#D97757]/20 via-[#D4A373]/20 to-[#2D5F4F]/20 flex items-center justify-center">
-                      <div className="text-6xl opacity-40">🌾</div>
+                    <div className="w-full h-full bg-gradient-to-br from-terracotta/20 via-ochre/20 to-sage/20 flex items-center justify-center">
+                      <div className="w-24 h-24 rounded-full bg-white/80 flex items-center justify-center shadow-lg">
+                        <span className="text-3xl font-bold text-ochre-700">
+                          {story.storyteller.display_name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                        </span>
+                      </div>
                     </div>
                   )}
 
@@ -116,7 +127,7 @@ export function FeaturedStoriesGrid({ stories, className }: FeaturedStoriesGridP
                         <Badge
                           key={index}
                           variant="secondary"
-                          className="text-xs bg-white/90 text-[#2C2C2C] backdrop-blur-sm"
+                          className="text-xs bg-white/90 text-charcoal backdrop-blur-sm"
                         >
                           {tag}
                         </Badge>
@@ -127,16 +138,16 @@ export function FeaturedStoriesGrid({ stories, className }: FeaturedStoriesGridP
 
                 {/* Story Content */}
                 <div className="p-5 space-y-3">
-                  <h3 className="font-serif text-xl font-bold text-[#2C2C2C] line-clamp-2 group-hover:text-[#D97757] transition-colors">
+                  <h3 className="font-serif text-xl font-bold text-charcoal line-clamp-2 group-hover:text-terracotta transition-colors">
                     {story.title}
                   </h3>
 
-                  <p className="text-[#2C2C2C]/70 text-sm line-clamp-3 leading-relaxed">
+                  <p className="text-charcoal/70 text-sm line-clamp-3 leading-relaxed">
                     {story.excerpt}
                   </p>
 
                   {/* Storyteller Info */}
-                  <div className="flex items-center gap-3 pt-2 border-t border-[#F8F6F1]">
+                  <div className="flex items-center gap-3 pt-2 border-t border-cream">
                     <div className="flex-shrink-0">
                       {story.storyteller.avatar_url ? (
                         <div className="relative w-10 h-10 rounded-full overflow-hidden">
@@ -148,8 +159,8 @@ export function FeaturedStoriesGrid({ stories, className }: FeaturedStoriesGridP
                           />
                         </div>
                       ) : (
-                        <div className="w-10 h-10 rounded-full bg-[#D97757]/20 flex items-center justify-center">
-                          <span className="text-[#D97757] font-medium text-sm">
+                        <div className="w-10 h-10 rounded-full bg-terracotta/20 flex items-center justify-center">
+                          <span className="text-terracotta font-medium text-sm">
                             {story.storyteller.display_name.charAt(0)}
                           </span>
                         </div>
@@ -157,11 +168,11 @@ export function FeaturedStoriesGrid({ stories, className }: FeaturedStoriesGridP
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[#2C2C2C] truncate">
+                      <p className="text-sm font-medium text-charcoal truncate">
                         {story.storyteller.display_name}
                       </p>
                       {story.storyteller.cultural_background && (
-                        <p className="text-xs text-[#2C2C2C]/60 truncate">
+                        <p className="text-xs text-charcoal/60 truncate">
                           {story.storyteller.cultural_background}
                         </p>
                       )}
@@ -169,7 +180,7 @@ export function FeaturedStoriesGrid({ stories, className }: FeaturedStoriesGridP
                   </div>
 
                   {/* Story Meta */}
-                  <div className="flex items-center gap-4 text-xs text-[#2C2C2C]/60 pt-2">
+                  <div className="flex items-center gap-4 text-xs text-charcoal/60 pt-2">
                     {story.reading_time_minutes && (
                       <div className="flex items-center gap-1">
                         <Clock className="w-3 h-3" />
@@ -200,7 +211,7 @@ export function FeaturedStoriesGrid({ stories, className }: FeaturedStoriesGridP
           <div className="text-center mt-12">
             <Link
               href="/stories"
-              className="inline-flex items-center gap-2 text-[#D97757] hover:text-[#D97757]/80 font-medium transition-colors"
+              className="inline-flex items-center gap-2 text-terracotta hover:text-terracotta/80 font-medium transition-colors"
             >
               View All Stories
               <span className="text-2xl">→</span>

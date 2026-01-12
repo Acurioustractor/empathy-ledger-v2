@@ -15,7 +15,8 @@ import {
   Images,
   User,
   FileText,
-  Activity
+  Activity,
+  Radar
 } from 'lucide-react'
 
 interface OrganizationNavigationProps {
@@ -74,6 +75,12 @@ const navigationItems = [
     description: 'Community projects'
   },
   {
+    name: 'ALMA Impact',
+    href: '/impact',
+    icon: Radar,
+    description: 'ALMA-aligned impact intelligence'
+  },
+  {
     name: 'Impact Analysis',
     href: '/analysis',
     icon: Activity,
@@ -118,83 +125,95 @@ export function OrganizationNavigation({ organizationId }: OrganizationNavigatio
   }, [organizationId])
 
   return (
-    <nav className="space-y-4">
-      <div className="px-4 py-3">
-        <h2 className="mb-4 px-2 text-display-sm font-semibold text-earth-800">
-          Organization
-        </h2>
-        <div className="space-y-2">
+    <nav className="space-y-5">
+      {/* Navigation Section */}
+      <div className="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
+        <div className="px-4 py-3 border-b border-stone-100 bg-gradient-to-r from-stone-50 to-transparent">
+          <h2 className="text-body-md font-semibold text-stone-800">
+            Navigation
+          </h2>
+        </div>
+        <div className="p-2">
           {navigationItems.map((item) => {
             const href = `${basePath}${item.href}`
             const isActive = pathname === href
-            
+
             return (
               <Link
                 key={item.name}
                 href={href}
                 className={cn(
-                  'flex items-center gap-4 rounded-lg px-4 py-3 text-body-md font-medium transition-all duration-200',
+                  'flex items-center gap-3 rounded-lg px-3 py-2.5 text-body-sm font-medium transition-all duration-200',
                   isActive
-                    ? 'bg-earth-100 text-earth-800 border-l-4 border-earth-600 shadow-sm'
-                    : 'text-stone-600 hover:bg-stone-50 hover:text-stone-800 hover:shadow-sm'
+                    ? 'bg-gradient-to-r from-sage-100 to-sage-50 text-sage-800 shadow-sm'
+                    : 'text-stone-600 hover:bg-stone-50 hover:text-stone-800'
                 )}
               >
-                <item.icon className={cn(
-                  "h-5 w-5 transition-colours",
-                  isActive ? "text-earth-600" : "text-stone-400"
-                )} />
+                <div className={cn(
+                  "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
+                  isActive ? "bg-sage-200" : "bg-stone-100"
+                )}>
+                  <item.icon className={cn(
+                    "h-4 w-4",
+                    isActive ? "text-sage-700" : "text-stone-500"
+                  )} />
+                </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-body-md font-medium truncate">{item.name}</div>
                   <div className={cn(
-                    "text-body-xs leading-tight mt-0.5",
-                    isActive ? "text-earth-600" : "text-stone-500"
-                  )}>
-                    {item.description}
-                  </div>
+                    "text-body-sm font-medium truncate",
+                    isActive ? "text-sage-800" : "text-stone-700"
+                  )}>{item.name}</div>
                 </div>
               </Link>
             )
           })}
         </div>
       </div>
-      
-      <div className="px-4 py-3">
-        <div className="rounded-xl bg-gradient-to-br from-sage-50 to-stone-50 border border-sage-200 p-4 shadow-sm">
-          <div className="flex items-center gap-3 text-body-md font-semibold mb-4 text-sage-700">
-            <TrendingUp className="h-5 w-5" />
-            Quick Stats
+
+      {/* Quick Stats Section */}
+      <div className="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
+        <div className="px-4 py-3 border-b border-stone-100 bg-gradient-to-r from-sage-50/50 to-transparent">
+          <div className="flex items-center gap-2">
+            <TrendingUp className="h-4 w-4 text-sage-600" />
+            <h2 className="text-body-md font-semibold text-stone-800">Quick Stats</h2>
           </div>
-          
+        </div>
+        <div className="p-4">
           {isLoading ? (
-            <div className="text-body-sm text-stone-500">
-              Loading stats...
+            <div className="space-y-2">
+              {[1,2,3,4,5].map(i => (
+                <div key={i} className="flex justify-between items-center animate-pulse">
+                  <div className="h-4 w-16 bg-stone-100 rounded"></div>
+                  <div className="h-4 w-8 bg-stone-100 rounded"></div>
+                </div>
+              ))}
             </div>
           ) : stats ? (
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-body-sm text-stone-600">Photos</span>
-                <span className="text-body-sm font-semibold text-sage-700">{stats.photos.toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-body-sm text-stone-600">Projects</span>
-                <span className="text-body-sm font-semibold text-sage-700">{stats.projects}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-body-sm text-stone-600">Galleries</span>
-                <span className="text-body-sm font-semibold text-sage-700">{stats.galleries}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-body-sm text-stone-600">Stories</span>
-                <span className="text-body-sm font-semibold text-sage-700">{stats.stories}</span>
-              </div>
-              <div className="flex justify-between items-center">
+            <div className="space-y-2.5">
+              <div className="flex justify-between items-center py-1.5 px-2 rounded-md hover:bg-stone-50 transition-colors">
                 <span className="text-body-sm text-stone-600">Members</span>
-                <span className="text-body-sm font-semibold text-sage-700">{stats.members}</span>
+                <span className="text-body-sm font-semibold text-sage-700 bg-sage-50 px-2 py-0.5 rounded-md">{stats.members}</span>
+              </div>
+              <div className="flex justify-between items-center py-1.5 px-2 rounded-md hover:bg-stone-50 transition-colors">
+                <span className="text-body-sm text-stone-600">Stories</span>
+                <span className="text-body-sm font-semibold text-earth-700 bg-earth-50 px-2 py-0.5 rounded-md">{stats.stories}</span>
+              </div>
+              <div className="flex justify-between items-center py-1.5 px-2 rounded-md hover:bg-stone-50 transition-colors">
+                <span className="text-body-sm text-stone-600">Projects</span>
+                <span className="text-body-sm font-semibold text-clay-700 bg-clay-50 px-2 py-0.5 rounded-md">{stats.projects}</span>
+              </div>
+              <div className="flex justify-between items-center py-1.5 px-2 rounded-md hover:bg-stone-50 transition-colors">
+                <span className="text-body-sm text-stone-600">Galleries</span>
+                <span className="text-body-sm font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md">{stats.galleries}</span>
+              </div>
+              <div className="flex justify-between items-center py-1.5 px-2 rounded-md hover:bg-stone-50 transition-colors">
+                <span className="text-body-sm text-stone-600">Photos</span>
+                <span className="text-body-sm font-semibold text-stone-700 bg-stone-100 px-2 py-0.5 rounded-md">{stats.photos?.toLocaleString() || 0}</span>
               </div>
             </div>
           ) : (
-            <div className="text-body-sm text-stone-500">
-              Unable to load stats
+            <div className="text-center py-4">
+              <p className="text-body-sm text-stone-500">Unable to load stats</p>
             </div>
           )}
         </div>

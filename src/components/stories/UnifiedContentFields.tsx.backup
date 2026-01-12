@@ -1,0 +1,445 @@
+'use client'
+
+import React from 'react'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
+import { Switch } from '@/components/ui/switch'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { Badge } from '@/components/ui/badge'
+import { Checkbox } from '@/components/ui/checkbox'
+import {
+  FileText,
+  Globe,
+  Tag,
+  Building2,
+  Shield,
+  Share2,
+  Sparkles,
+  Info
+} from 'lucide-react'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+
+// Article types for editorial content
+const ARTICLE_TYPES = [
+  { value: null, label: 'Story (Default)', description: 'Traditional storytelling format' },
+  { value: 'story_feature', label: 'Story Feature', description: 'Featured story highlighting a particular narrative' },
+  { value: 'program_spotlight', label: 'Program Spotlight', description: 'Highlighting a program or initiative' },
+  { value: 'research_summary', label: 'Research Summary', description: 'Summary of research findings' },
+  { value: 'community_news', label: 'Community News', description: 'News and updates from the community' },
+  { value: 'editorial', label: 'Editorial', description: 'Opinion pieces and editorials' },
+  { value: 'impact_report', label: 'Impact Report', description: 'Reports on program impact and outcomes' },
+  { value: 'project_update', label: 'Project Update', description: 'Updates on ongoing projects' },
+  { value: 'tutorial', label: 'Tutorial', description: 'How-to guides and educational content' }
+]
+
+// ACT Sites for syndication
+const ACT_SITES = [
+  { slug: 'act-farm', name: 'ACT Farm' },
+  { slug: 'justicehub', name: 'JusticeHub' },
+  { slug: 'empathy-ledger', name: 'Empathy Ledger' },
+  { slug: 'storytellers-network', name: 'Storytellers Network' },
+  { slug: 'community-portal', name: 'Community Portal' }
+]
+
+// Social Media Platforms (Phase 4)
+const SOCIAL_PLATFORMS = [
+  { slug: 'linkedin', name: 'LinkedIn', icon: 'linkedin', enabled: false },
+  { slug: 'bluesky', name: 'Bluesky', icon: 'cloud', enabled: false },
+  { slug: 'youtube', name: 'YouTube', icon: 'video', enabled: false },
+  { slug: 'twitter', name: 'Twitter/X', icon: 'twitter', enabled: false }
+]
+
+interface UnifiedContentFieldsProps {
+  formData: any
+  onChange: (field: string, value: any) => void
+  isSuperAdmin?: boolean
+  organizations?: Array<{ id: string; name: string }>
+  currentOrgId?: string
+}
+
+export default function UnifiedContentFields({
+  formData,
+  onChange,
+  isSuperAdmin = false,
+  organizations = [],
+  currentOrgId
+}: UnifiedContentFieldsProps) {
+
+  const handleDestinationToggle = (destination: string, checked: boolean) => {
+    const current = formData.syndication_destinations || []
+    const updated = checked
+      ? [...current, destination]
+      : current.filter((d: string) => d !== destination)
+    onChange('syndication_destinations', updated)
+  }
+
+  const isArticleType = formData.article_type !== null && formData.article_type !== undefined
+
+  return (
+    <div className="space-y-6">
+
+      {/* Article Type Selection */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5" />
+            Content Type
+          </CardTitle>
+          <CardDescription>
+            Choose the type of content you're creating
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="article_type">Content Type</Label>
+            <Select
+              value={formData.article_type || 'null'}
+              onValueChange={(val) => onChange('article_type', val === 'null' ? null : val)}
+            >
+              <SelectTrigger id="article_type">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {ARTICLE_TYPES.map(type => (
+                  <SelectItem key={type.value || 'null'} value={type.value || 'null'}>
+                    <div className="flex flex-col">
+                      <span className="font-medium">{type.label}</span>
+                      <span className="text-xs text-muted-foreground">{type.description}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {isArticleType && (
+            <Alert>
+              <Info className="h-4 w-4" />
+              <AlertDescription>
+                Article content includes SEO fields and syndication options below.
+              </AlertDescription>
+            </Alert>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* SEO Fields (for articles) */}
+      {isArticleType && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Globe className="h-5 w-5" />
+              SEO & Metadata
+            </CardTitle>
+            <CardDescription>
+              Optimize for search engines and social sharing
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="meta_title">SEO Title</Label>
+              <Input
+                id="meta_title"
+                value={formData.meta_title || ''}
+                onChange={(e) => onChange('meta_title', e.target.value)}
+                placeholder="Custom title for search engines (defaults to story title)"
+                maxLength={60}
+              />
+              <p className="text-xs text-muted-foreground">
+                {(formData.meta_title || '').length}/60 characters
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="meta_description">SEO Description</Label>
+              <Textarea
+                id="meta_description"
+                value={formData.meta_description || ''}
+                onChange={(e) => onChange('meta_description', e.target.value)}
+                placeholder="Brief description for search results (defaults to excerpt)"
+                rows={3}
+                maxLength={160}
+              />
+              <p className="text-xs text-muted-foreground">
+                {(formData.meta_description || '').length}/160 characters
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="slug">URL Slug</Label>
+              <Input
+                id="slug"
+                value={formData.slug || ''}
+                onChange={(e) => onChange('slug', e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))}
+                placeholder="custom-url-slug (auto-generated from title if blank)"
+              />
+              <p className="text-xs text-muted-foreground">
+                Preview: /stories/{formData.slug || 'auto-generated'}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Tags & Themes */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Tag className="h-5 w-5" />
+            Tags & Themes
+          </CardTitle>
+          <CardDescription>
+            Categorize and organize your content
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="tags">Tags</Label>
+            <Input
+              id="tags"
+              value={formData.tags_input || ''}
+              onChange={(e) => onChange('tags_input', e.target.value)}
+              placeholder="trauma, healing, justice (comma-separated)"
+            />
+            <p className="text-xs text-muted-foreground">
+              Separate tags with commas
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="themes">Themes</Label>
+            <Input
+              id="themes"
+              value={formData.themes_input || ''}
+              onChange={(e) => onChange('themes_input', e.target.value)}
+              placeholder="Resilience, Community, Cultural Identity (comma-separated)"
+            />
+            <p className="text-xs text-muted-foreground">
+              Major thematic elements of your content
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="primary_project">Primary Project</Label>
+            <Input
+              id="primary_project"
+              value={formData.primary_project || ''}
+              onChange={(e) => onChange('primary_project', e.target.value)}
+              placeholder="e.g., GOODS, Oonchiumpa, Community Archive"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Super-Admin: Publish to Organization */}
+      {isSuperAdmin && organizations.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Shield className="h-5 w-5 text-purple-600" />
+              Super-Admin Publishing
+            </CardTitle>
+            <CardDescription>
+              Cross-organization publishing options
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="organization_id">Publish as Organization</Label>
+              <Select
+                value={formData.organization_id || currentOrgId || ''}
+                onValueChange={(val) => onChange('organization_id', val)}
+              >
+                <SelectTrigger id="organization_id">
+                  <SelectValue placeholder="Select organization" />
+                </SelectTrigger>
+                <SelectContent>
+                  {organizations.map(org => (
+                    <SelectItem key={org.id} value={org.id}>
+                      <div className="flex items-center gap-2">
+                        <Building2 className="h-4 w-4" />
+                        {org.name}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                This content will be associated with the selected organization
+              </p>
+            </div>
+
+            <Alert>
+              <Shield className="h-4 w-4" />
+              <AlertDescription>
+                Super-admin privileges: You can publish to any organization and manage syndication across all sites.
+              </AlertDescription>
+            </Alert>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Syndication & Distribution */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Share2 className="h-5 w-5" />
+            Syndication & Distribution
+          </CardTitle>
+          <CardDescription>
+            Choose where to publish this content
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Enable Syndication */}
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label>Enable Syndication</Label>
+              <p className="text-sm text-muted-foreground">
+                Allow this content to be distributed to multiple sites
+              </p>
+            </div>
+            <Switch
+              checked={formData.syndication_enabled ?? true}
+              onCheckedChange={(checked) => onChange('syndication_enabled', checked)}
+            />
+          </div>
+
+          {formData.syndication_enabled !== false && (
+            <>
+              <Separator />
+
+              {/* ACT Sites */}
+              <div className="space-y-3">
+                <Label className="text-sm font-semibold">ACT Ecosystem Sites</Label>
+                <div className="grid grid-cols-2 gap-3">
+                  {ACT_SITES.map(site => (
+                    <label
+                      key={site.slug}
+                      className="flex items-center gap-2 p-3 border rounded-md hover:bg-accent cursor-pointer"
+                    >
+                      <Checkbox
+                        checked={formData.syndication_destinations?.includes(site.slug) || false}
+                        onCheckedChange={(checked) => handleDestinationToggle(site.slug, checked as boolean)}
+                      />
+                      <div className="flex-1">
+                        <span className="text-sm font-medium">{site.name}</span>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* Social Media (Phase 4 placeholder) */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Label className="text-sm font-semibold">Social Media</Label>
+                  <Badge variant="outline" className="text-xs">
+                    Phase 4
+                  </Badge>
+                </div>
+                <div className="grid grid-cols-2 gap-3 opacity-50">
+                  {SOCIAL_PLATFORMS.map(platform => (
+                    <label
+                      key={platform.slug}
+                      className="flex items-center gap-2 p-3 border rounded-md cursor-not-allowed"
+                      title="Social media publishing coming in Phase 4"
+                    >
+                      <Checkbox disabled />
+                      <div className="flex-1">
+                        <span className="text-sm">{platform.name}</span>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Social media publishing will be available in Phase 4
+                </p>
+              </div>
+
+              {/* Selected Destinations Summary */}
+              {formData.syndication_destinations && formData.syndication_destinations.length > 0 && (
+                <>
+                  <Separator />
+                  <div className="space-y-2">
+                    <Label className="text-sm">Selected Destinations:</Label>
+                    <div className="flex flex-wrap gap-2">
+                      {formData.syndication_destinations.map((dest: string) => {
+                        const site = ACT_SITES.find(s => s.slug === dest)
+                        return (
+                          <Badge key={dest} variant="secondary">
+                            {site?.name || dest}
+                          </Badge>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Import Metadata Display (if imported content) */}
+      {formData.source_platform && formData.source_platform !== 'empathy_ledger' && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5" />
+              Imported Content
+            </CardTitle>
+            <CardDescription>
+              This content was imported from an external source
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <Label className="text-xs text-muted-foreground">Source Platform</Label>
+                <p className="font-medium capitalize">{formData.source_platform}</p>
+              </div>
+              {formData.source_url && (
+                <div>
+                  <Label className="text-xs text-muted-foreground">Original URL</Label>
+                  <a
+                    href={formData.source_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline block truncate"
+                  >
+                    View original
+                  </a>
+                </div>
+              )}
+              {formData.imported_at && (
+                <div>
+                  <Label className="text-xs text-muted-foreground">Imported</Label>
+                  <p>{new Date(formData.imported_at).toLocaleDateString()}</p>
+                </div>
+              )}
+              {formData.import_metadata?.original_author && (
+                <div>
+                  <Label className="text-xs text-muted-foreground">Original Author</Label>
+                  <p>{formData.import_metadata.original_author}</p>
+                </div>
+              )}
+            </div>
+
+            <Alert>
+              <Info className="h-4 w-4" />
+              <AlertDescription>
+                You can edit this content. Changes won't affect the original source.
+              </AlertDescription>
+            </Alert>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  )
+}

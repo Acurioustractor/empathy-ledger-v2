@@ -83,6 +83,14 @@ interface StorytellerProfile {
   display_name: string;
   bio: string | null;
   cultural_background: string | null;
+  content_stats?: {
+    story_count: number;
+    transcript_count: number;
+    gallery_count: number;
+    media_count: number;
+    quote_count: number;
+    total_content_pieces: number;
+  };
 }
 
 export default function StorytellerAnalyticsPage() {
@@ -337,24 +345,49 @@ export default function StorytellerAnalyticsPage() {
       setLoading(true)
       setAnalysisProgress(10)
 
-      // Simulate API call with delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // First, get storyteller data to check content stats
+      const storytellerResponse = await fetch(`/api/storytellers/${storytellerId}`)
+      const storytellerData = storytellerResponse.ok ? await storytellerResponse.json() : null
+
+      setAnalysisProgress(30)
+
+      // Check if user has any stories/transcripts
+      const storyCount = storytellerData?.content_stats?.story_count || 0
+      const transcriptCount = storytellerData?.content_stats?.transcript_count || 0
+      const userHasContent = storyCount > 0 || transcriptCount > 0
+
+      if (!userHasContent) {
+        // Return empty insights for fresh users with no content
+        setInsights(null)
+        setAnalysisProgress(100)
+        return
+      }
+
       setAnalysisProgress(50)
 
-      // Check if user has any stories/content first
-      // For fresh users with no content, show empty state instead of mock data
-      const userHasContent = false // This would check actual user data
-      
-      if (!userHasContent) {
-        // Return empty insights for fresh users
-        setInsights(null)
+      // Try to fetch existing analysis from the transcript-analysis endpoint
+      const analysisResponse = await fetch(`/api/storytellers/${storytellerId}/transcript-analysis`)
+
+      if (analysisResponse.ok) {
+        const analysisData = await analysisResponse.json()
+        setAnalysisProgress(80)
+
+        if (analysisData.success && analysisData.insights) {
+          // Use real analysis data
+          setInsights(analysisData.insights)
+        } else {
+          // User has content but no analysis yet - show mock with real counts
+          const mockData = getMockInsights()
+          setInsights(mockData)
+        }
       } else {
-        // Use mock data for demonstration when user has content
+        // Fallback to mock data for demonstration
         const mockData = getMockInsights()
         setInsights(mockData)
       }
+
       setAnalysisProgress(100)
-      
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error loading analytics')
     } finally {
@@ -366,16 +399,37 @@ export default function StorytellerAnalyticsPage() {
     try {
       setLoading(true)
       setAnalysisProgress(0)
+      setError(null)
 
-      const response = await fetch(`/api/storytellers/${storytellerId}/transcript-analysis`, {
-        method: 'POST'
+      // Trigger analysis for all unprocessed transcripts
+      const response = await fetch(`/api/storytellers/${storytellerId}/trigger-analysis`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
       })
 
-      if (response.ok) {
-        await loadAnalytics()
-      } else {
-        throw new Error('Failed to generate analysis')
+      setAnalysisProgress(30)
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to trigger analysis')
       }
+
+      const result = await response.json()
+      setAnalysisProgress(60)
+
+      if (result.queued > 0) {
+        // Analysis triggered in background - show progress message
+        console.log(`Analysis triggered for ${result.queued} transcripts`)
+      }
+
+      // Wait a moment for background processing to start, then reload
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      setAnalysisProgress(80)
+
+      // Reload analytics to show updated data
+      await loadAnalytics()
+      setAnalysisProgress(100)
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error generating analysis')
     } finally {

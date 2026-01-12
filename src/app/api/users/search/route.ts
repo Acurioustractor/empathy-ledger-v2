@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     console.log('🔍 Searching users with query:', query)
 
     // Search for users by name or email
-    let searchQuery = supabase
+    const searchQuery = supabase
       .from('profiles')
       .select(`
         id,

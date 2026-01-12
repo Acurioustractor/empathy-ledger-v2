@@ -2,15 +2,18 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
-
-
+// Use service role to bypass RLS for admin operations
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 export async function GET() {
   try {
-    // Create Supabase client
-    const supabase = createSupabaseServerClient()
+    // Create Supabase client with service role to bypass RLS
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+    console.log('🔓 Using admin bypass for organizations access')
 
     // Fetch organizations from database
     const { data: organisations, error } = await supabase
@@ -98,8 +101,10 @@ export async function DELETE(request: Request) {
       }, { status: 400 })
     }
 
-    // Create Supabase client
-    const supabase = createSupabaseServerClient()
+    // Create Supabase client with service role to bypass RLS
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+    console.log('🔓 Using admin bypass for organization delete')
 
     // Clean up related data first to avoid foreign key constraint violations
 

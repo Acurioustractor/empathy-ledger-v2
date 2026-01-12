@@ -73,7 +73,7 @@ export function ReviewQueue({ elderId, onStorySelected, onRefresh }: ReviewQueue
 
   // Filter queue
   useEffect(() => {
-    let filtered = queue.filter(item => {
+    const filtered = queue.filter(item => {
       const matchesSearch = searchTerm === '' ||
         item.story.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.storyteller.display_name.toLowerCase().includes(searchTerm.toLowerCase())

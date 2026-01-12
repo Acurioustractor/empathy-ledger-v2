@@ -71,7 +71,20 @@ interface VideoLink {
   customThumbnailUrl: string | null
   duration: number | null
   recordedAt: string | null
-  project: string | null
+  project: string | null // Legacy field
+  organizationId: string | null
+  projectId: string | null
+  organization: {
+    id: string
+    name: string
+    slug: string
+    shortName: string | null
+    logoUrl: string | null
+  } | null
+  projectDetails: {
+    id: string
+    name: string
+  } | null
   sensitivityLevel: string
   requiresElderApproval: boolean
   status: string
@@ -88,15 +101,21 @@ interface VideoLink {
   } | null
 }
 
-const PROJECTS = [
-  { code: 'empathy-ledger', name: 'Empathy Ledger' },
-  { code: 'justicehub', name: 'JusticeHub' },
-  { code: 'act-farm', name: 'ACT Farm' },
-  { code: 'harvest', name: 'The Harvest' },
-  { code: 'goods', name: 'Goods on Country' },
-  { code: 'placemat', name: 'ACT Placemat' },
-  { code: 'studio', name: 'ACT Studio' },
-]
+interface Organization {
+  id: string
+  name: string
+  slug: string
+  shortName: string | null
+  logoUrl: string | null
+  projects: Array<{ id: string; name: string; status: string }>
+}
+
+interface Project {
+  id: string
+  name: string
+  organizationId: string
+  organizationName: string | null
+}
 
 const PLATFORMS = [
   { value: 'descript', label: 'Descript' },
@@ -132,10 +151,17 @@ export default function VideoLibraryPage() {
     description: '',
     videoUrl: '',
     platform: '',
-    projectCode: '',
+    organizationId: '',
+    projectId: '',
     customThumbnailUrl: '',
+    recordedAt: '',
   })
   const [saving, setSaving] = useState(false)
+
+  // Organizations and projects from database
+  const [organizations, setOrganizations] = useState<Organization[]>([])
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loadingOrgs, setLoadingOrgs] = useState(true)
 
   // Pagination
   const [page, setPage] = useState(1)
@@ -180,6 +206,27 @@ export default function VideoLibraryPage() {
     fetchVideos()
   }, [fetchVideos])
 
+  // Fetch organizations with their projects
+  useEffect(() => {
+    const fetchOrganizations = async () => {
+      try {
+        const [orgsResponse, projectsResponse] = await Promise.all([
+          fetch('/api/organizations?withProjects=true'),
+          fetch('/api/projects')
+        ])
+        const orgsData = await orgsResponse.json()
+        const projectsData = await projectsResponse.json()
+        setOrganizations(orgsData.organizations || [])
+        setProjects(projectsData.projects || [])
+      } catch (err) {
+        console.error('Failed to fetch organizations:', err)
+      } finally {
+        setLoadingOrgs(false)
+      }
+    }
+    fetchOrganizations()
+  }, [])
+
   // Handle add video
   const handleAddVideo = async () => {
     if (!formData.title || !formData.videoUrl) return
@@ -194,8 +241,10 @@ export default function VideoLibraryPage() {
           description: formData.description,
           videoUrl: formData.videoUrl,
           platform: formData.platform || undefined,
-          projectCode: formData.projectCode || undefined,
+          organizationId: formData.organizationId || undefined,
+          projectId: formData.projectId || undefined,
           customThumbnailUrl: formData.customThumbnailUrl || undefined,
+          recordedAt: formData.recordedAt || undefined,
         }),
       })
 
@@ -203,7 +252,7 @@ export default function VideoLibraryPage() {
       if (!response.ok) throw new Error(data.error)
 
       setShowAddDialog(false)
-      setFormData({ title: '', description: '', videoUrl: '', platform: '', projectCode: '', customThumbnailUrl: '' })
+      setFormData({ title: '', description: '', videoUrl: '', platform: '', organizationId: '', projectId: '', customThumbnailUrl: '', recordedAt: '' })
       fetchVideos()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to add video')
@@ -224,8 +273,10 @@ export default function VideoLibraryPage() {
         body: JSON.stringify({
           title: formData.title,
           description: formData.description,
-          projectCode: formData.projectCode || null,
+          organizationId: formData.organizationId || null,
+          projectId: formData.projectId || null,
           customThumbnailUrl: formData.customThumbnailUrl || null,
+          recordedAt: formData.recordedAt || null,
         }),
       })
 
@@ -266,8 +317,10 @@ export default function VideoLibraryPage() {
       description: video.description || '',
       videoUrl: video.videoUrl,
       platform: video.platform,
-      projectCode: video.project || '',
+      organizationId: video.organizationId || '',
+      projectId: video.projectId || '',
       customThumbnailUrl: video.customThumbnailUrl || '',
+      recordedAt: video.recordedAt ? video.recordedAt.split('T')[0] : '',
     })
     setShowEditDialog(true)
   }
@@ -370,22 +423,55 @@ export default function VideoLibraryPage() {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label>Project</Label>
+                      <Label>Organization</Label>
                       <Select
-                        value={formData.projectCode}
-                        onValueChange={(v) => setFormData({ ...formData, projectCode: v })}
+                        value={formData.organizationId || '_none'}
+                        onValueChange={(v) => setFormData({ ...formData, organizationId: v === '_none' ? '' : v, projectId: '' })}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select project" />
+                          <SelectValue placeholder="Select organization" />
                         </SelectTrigger>
                         <SelectContent>
-                          {PROJECTS.map((p) => (
-                            <SelectItem key={p.code} value={p.code}>
-                              {p.name}
+                          <SelectItem value="_none">No Organization</SelectItem>
+                          {organizations.map((org) => (
+                            <SelectItem key={org.id} value={org.id}>
+                              {org.name}
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>Project</Label>
+                      <Select
+                        value={formData.projectId || '_none'}
+                        onValueChange={(v) => setFormData({ ...formData, projectId: v === '_none' ? '' : v })}
+                        disabled={!formData.organizationId}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder={formData.organizationId ? "Select project" : "Select org first"} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="_none">No Project</SelectItem>
+                          {projects
+                            .filter(p => p.organizationId === formData.organizationId)
+                            .map((p) => (
+                              <SelectItem key={p.id} value={p.id}>
+                                {p.name}
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Recording Date</Label>
+                      <Input
+                        type="date"
+                        value={formData.recordedAt}
+                        onChange={(e) => setFormData({ ...formData, recordedAt: e.target.value })}
+                      />
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -445,19 +531,19 @@ export default function VideoLibraryPage() {
               </SelectContent>
             </Select>
 
-            {/* Project filter */}
+            {/* Organization filter */}
             <Select
               value={projectFilter || '_all'}
               onValueChange={(v) => { setProjectFilter(v === '_all' ? '' : v); setPage(1) }}
             >
-              <SelectTrigger className="w-[160px]">
-                <SelectValue placeholder="Project" />
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Organization" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="_all">All Projects</SelectItem>
-                {PROJECTS.map((p) => (
-                  <SelectItem key={p.code} value={p.code}>
-                    {p.name}
+                <SelectItem value="_all">All Organizations</SelectItem>
+                {organizations.map((org) => (
+                  <SelectItem key={org.id} value={org.id}>
+                    {org.name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -524,7 +610,7 @@ export default function VideoLibraryPage() {
               )}
               {projectFilter && (
                 <Badge variant="secondary" className="gap-1">
-                  {PROJECTS.find(p => p.code === projectFilter)?.name}
+                  {projects.find(p => p.slug === projectFilter)?.title}
                   <X className="h-3 w-3 cursor-pointer" onClick={() => setProjectFilter('')} />
                 </Badge>
               )}
@@ -624,7 +710,7 @@ export default function VideoLibraryPage() {
                     </h3>
                     <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
                       {video.project && (
-                        <span>{PROJECTS.find(p => p.code === video.project)?.name || video.project}</span>
+                        <span>{projects.find(p => p.slug === video.project)?.title || video.project}</span>
                       )}
                       {video.tags.length > 0 && (
                         <span className="flex items-center gap-1">
@@ -708,7 +794,7 @@ export default function VideoLibraryPage() {
                   <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
                     <Badge variant="outline" className="capitalize">{video.platform}</Badge>
                     {video.project && (
-                      <span>{PROJECTS.find(p => p.code === video.project)?.name}</span>
+                      <span>{projects.find(p => p.slug === video.project)?.title}</span>
                     )}
                     {video.duration && (
                       <span className="flex items-center gap-1">
@@ -808,23 +894,53 @@ export default function VideoLibraryPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>Project</Label>
+                <Label>Organization</Label>
                 <Select
-                  value={formData.projectCode || '_none'}
-                  onValueChange={(v) => setFormData({ ...formData, projectCode: v === '_none' ? '' : v })}
+                  value={formData.organizationId || '_none'}
+                  onValueChange={(v) => setFormData({ ...formData, organizationId: v === '_none' ? '' : v, projectId: '' })}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select project" />
+                    <SelectValue placeholder="Select organization" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="_none">None</SelectItem>
-                    {PROJECTS.map((p) => (
-                      <SelectItem key={p.code} value={p.code}>
-                        {p.name}
+                    {organizations.map((org) => (
+                      <SelectItem key={org.id} value={org.id}>
+                        {org.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Project</Label>
+                <Select
+                  value={formData.projectId || '_none'}
+                  onValueChange={(v) => setFormData({ ...formData, projectId: v === '_none' ? '' : v })}
+                  disabled={!formData.organizationId}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={formData.organizationId ? "Select project" : "Select org first"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="_none">None</SelectItem>
+                    {projects
+                      .filter(p => p.organizationId === formData.organizationId)
+                      .map((p) => (
+                        <SelectItem key={p.id} value={p.id}>
+                          {p.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Recording Date</Label>
+                <Input
+                  type="date"
+                  value={formData.recordedAt}
+                  onChange={(e) => setFormData({ ...formData, recordedAt: e.target.value })}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Video URL</Label>
@@ -954,9 +1070,14 @@ export default function VideoLibraryPage() {
                 </p>
               )}
               <div className="flex items-center gap-4 mt-4 pt-4 border-t">
-                {selectedVideo.project && (
+                {selectedVideo.organization && (
                   <Badge variant="outline">
-                    {PROJECTS.find(p => p.code === selectedVideo.project)?.name}
+                    {selectedVideo.organization.name}
+                  </Badge>
+                )}
+                {selectedVideo.projectDetails && (
+                  <Badge variant="outline" className="bg-green-50">
+                    {selectedVideo.projectDetails.name}
                   </Badge>
                 )}
                 {selectedVideo.tags.slice(0, 5).map((tag) => (

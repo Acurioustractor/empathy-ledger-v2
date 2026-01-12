@@ -117,6 +117,19 @@ export async function GET(request: NextRequest) {
   }
 }
 
+const VALID_ARTICLE_TYPES = [
+  'story_feature',
+  'program_spotlight',
+  'research_summary',
+  'community_news',
+  'editorial',
+  'impact_report',
+  'project_update',
+  'tutorial',
+  'personal_story',
+  'oral_history'
+]
+
 export async function POST(request: NextRequest) {
   try {
     // Use service client to bypass RLS for inserts
@@ -124,65 +137,162 @@ export async function POST(request: NextRequest) {
     const supabase = createSupabaseServiceClient()
     const body = await request.json()
 
+    // Get author_id (required) and storyteller_id (optional)
+    const authorId = body.author_id
+    let storytellerId = body.storyteller_id || null
+
     // Validate required fields
-    if (!body.title || !body.content || !body.storyteller_id) {
+    if (!body.title || !body.content || !authorId) {
       return NextResponse.json(
-        { error: 'Missing required fields: title, content, storyteller_id' },
+        { error: 'Missing required fields: title, content, author_id' },
         { status: 400 }
       )
     }
 
-    // Use tenant_id and organization_id from request body or default to null
-    // Avoid querying profiles table to prevent RLS infinite recursion issues
-    const tenantId = body.tenant_id || null
+    // Validate article_type if provided
+    if (body.article_type && !VALID_ARTICLE_TYPES.includes(body.article_type)) {
+      return NextResponse.json(
+        { error: `Invalid article_type. Must be one of: ${VALID_ARTICLE_TYPES.join(', ')}` },
+        { status: 400 }
+      )
+    }
+
+    // If storyteller_id is provided, verify it exists in storytellers table
+    // Otherwise set to null (author may not be a storyteller)
+    if (storytellerId) {
+      const { data: storyteller } = await supabase
+        .from('storytellers')
+        .select('id')
+        .eq('id', storytellerId)
+        .single()
+
+      if (!storyteller) {
+        // storyteller_id provided but doesn't exist - set to null instead
+        console.warn(`Storyteller ID ${storytellerId} not found in storytellers table, setting to null`)
+        storytellerId = null
+      }
+    }
+
+    // Get tenant_id - REQUIRED field (NOT NULL constraint)
+    // Try from request body first, then get first available tenant as fallback
+    let tenantId = body.tenant_id
+
+    if (!tenantId) {
+      // Get first tenant from database as fallback
+      const { data: tenantData } = await supabase
+        .from('tenants')
+        .select('id')
+        .limit(1)
+        .single()
+
+      if (!tenantData) {
+        return NextResponse.json(
+          { error: 'No tenant found. Please provide tenant_id or create a tenant first.' },
+          { status: 400 }
+        )
+      }
+
+      tenantId = tenantData.id
+    }
+
     const organizationId = body.organization_id || null
 
-    // Sprint 2 Story Creation
-    const storyData: StoryInsert = {
+    // Build story data with ONLY fields that actually exist in the database
+    // Based on successful test insert
+    const storyData: any = {
+      // Required fields
       title: body.title,
       content: body.content,
-      excerpt: body.excerpt || null,
-      storyteller_id: body.storyteller_id,
-      author_id: body.storyteller_id,
       tenant_id: tenantId,
+      storyteller_id: storytellerId, // Can be null if author is not a storyteller
+      author_id: authorId,
+
+      // Optional core fields
+      summary: body.excerpt || body.summary || null,
       organization_id: organizationId,
       project_id: body.project_id || null,
 
-      // Story type
-      story_type: body.story_type || 'text',
-      video_link: body.video_link || null,
+      // Status and privacy fields (using actual column names from schema)
+      status: body.status || 'draft',
+      community_status: body.community_status || 'draft',
+      has_explicit_consent: body.has_explicit_consent !== false, // Default true
+      permission_tier: body.visibility || body.privacy_level || 'private',
+      privacy_level: body.privacy_level || body.visibility || 'private',
 
-      // Location and categorization
-      location: body.location || null,
+      // JSONB fields that actually exist
+      sharing_permissions: body.sharing_permissions || {},
+
+      // Note: Fields like story_type, audience, cultural_sensitivity_level, etc.
+      // exist as direct columns, not in a metadata field
+      story_type: body.story_type || 'personal_narrative',
+      cultural_sensitivity_level: body.cultural_sensitivity_level || 'standard',
+
+      // Tags, themes, and location
       tags: body.tags || [],
-      language: body.language || 'en',
+      themes: body.themes || [],
+      location: body.location || null,
 
-      // Cultural safety
-      cultural_sensitivity_level: body.cultural_sensitivity_level || 'none',
+      // Editorial fields
+      article_type: body.article_type || null,
+      slug: body.slug || null,
+      meta_title: body.meta_title || null,
+      meta_description: body.meta_description || null,
+      featured_image_id: body.featured_image_id || null,
+      syndication_destinations: body.syndication_destinations || [],
+      audience: body.audience || null,
+
+      // Elder review
       requires_elder_review: body.requires_elder_review || false,
 
-      // Privacy (using existing schema fields)
-      status: 'draft', // Always start as draft
-      privacy_level: body.privacy_level || body.visibility || 'private',
-      is_public: body.is_public !== undefined ? body.is_public : (body.visibility === 'public'),
+      // Media fields that exist as direct columns
+      video_embed_code: body.video_embed_code || null,
+      media_url: body.hero_image_url || body.video_url || null,
 
-      // AI processing preferences
-      enable_ai_processing: body.enable_ai_processing !== undefined ? body.enable_ai_processing : true,
-      notify_community: body.notify_community !== undefined ? body.notify_community : true,
-
-      // Consent tracking (using existing schema fields)
-      has_explicit_consent: body.has_explicit_consent || false,
-      consent_details: body.consent_details || null,
-
-      // Media metadata (word_count and reading_time auto-calculated by trigger)
-      media_metadata: body.media_metadata || null
+      // Language and features
+      language: body.language || 'en',
+      enable_ai_processing: body.enable_ai_processing !== false,
+      notify_community: body.notify_community !== false
     }
 
-    const { data: story, error } = await supabase
-      .from('stories')
-      .insert([storyData])
-      .select()
-      .single()
+    // TEMPORARY WORKAROUND: Use RPC to bypass PostgREST schema cache issue
+    // TODO: Remove this workaround once PostgREST cache is fixed by Supabase support
+    // See: POSTGREST_CACHE_STATUS.md for details
+    const USE_RPC_WORKAROUND = true
+
+    let story, error
+
+    if (USE_RPC_WORKAROUND) {
+      // Use RPC function to bypass schema cache
+      const { data: rpcData, error: rpcError } = await supabase
+        .rpc('insert_story', { story_data: storyData })
+
+      if (rpcError) {
+        console.error('Error creating story via RPC:', rpcError)
+        return NextResponse.json(
+          { error: 'Failed to create story', details: rpcError.message },
+          { status: 500 }
+        )
+      }
+
+      // Return the RPC result directly (don't fetch back - cache issue)
+      // Once PostgREST cache is fixed, we can fetch the full story
+      return NextResponse.json({
+        id: rpcData.id,
+        created_at: rpcData.created_at,
+        ...storyData,
+        success: true
+      }, { status: 201 })
+    } else {
+      // Normal PostgREST insert (use this after cache is fixed)
+      const { data: insertData, error: insertError } = await supabase
+        .from('stories')
+        .insert([storyData])
+        .select()
+        .single()
+
+      story = insertData
+      error = insertError
+    }
 
     if (error) {
       console.error('Error creating story:', error)

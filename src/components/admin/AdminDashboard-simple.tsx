@@ -9,68 +9,88 @@ import {
   Users,
   BookOpen,
   Shield,
-  Settings,
   BarChart3,
   Eye,
   Building2,
   Clock,
   CheckCircle,
   XCircle,
-  Flag,
+  FileText,
+  Image,
+  AlertTriangle,
+  FolderOpen,
+  ImagePlus,
+  Camera,
 } from 'lucide-react'
 
 const AdminDashboard: React.FC = () => {
-  console.log('🔧 AdminDashboard: Component rendering...')
-
   const [stats, setStats] = useState({
-    totalUsers: 0,
-    activeUsers: 0,
+    // Users
+    totalStorytellers: 0,
+    activeStorytellers: 0,
+    featuredStorytellers: 0,
+    // Stories
     totalStories: 0,
-    pendingReviews: 0,
+    publishedStories: 0,
+    draftStories: 0,
+    featuredStories: 0,
+    storiesWithImages: 0,
+    // Content
+    totalTranscripts: 0,
+    transcriptsWithoutStories: 0,
+    featuredWithoutImages: 0,
+    // Organizations
     totalOrganizations: 0,
-    flaggedContent: 0,
-    elderApprovals: 0,
-    recentActivity: 0
+    totalProjects: 0,
+    totalGalleries: 0,
   })
   const [isLoadingStats, setIsLoadingStats] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   // Fetch real admin statistics
   const fetchAdminStats = async () => {
-    console.log('🔧 AdminDashboard: Fetching admin stats...')
     try {
       setIsLoadingStats(true)
       setError(null)
 
-      // Fetch users count
-      const usersResponse = await fetch('/api/admin/stats/users')
-      if (!usersResponse.ok) throw new Error('Failed to fetch users stats')
-      const usersData = await usersResponse.json()
+      // Fetch all stats in parallel
+      const [usersRes, storiesRes, reviewsRes, orgsRes] = await Promise.all([
+        fetch('/api/admin/stats/users'),
+        fetch('/api/admin/stats/stories'),
+        fetch('/api/admin/stats/reviews'),
+        fetch('/api/admin/stats/organisations')
+      ])
 
-      // Fetch stories count
-      const storiesResponse = await fetch('/api/admin/stats/stories')
-      if (!storiesResponse.ok) throw new Error('Failed to fetch stories stats')
-      const storiesData = await storiesResponse.json()
+      if (!usersRes.ok || !storiesRes.ok || !reviewsRes.ok || !orgsRes.ok) {
+        throw new Error('Failed to fetch some stats')
+      }
 
-      // Fetch pending reviews count
-      const reviewsResponse = await fetch('/api/admin/stats/reviews')
-      if (!reviewsResponse.ok) throw new Error('Failed to fetch reviews stats')
-      const reviewsData = await reviewsResponse.json()
-
-      // Fetch organisations count
-      const orgsResponse = await fetch('/api/admin/stats/organisations')
-      if (!orgsResponse.ok) throw new Error('Failed to fetch organisations stats')
-      const orgsData = await orgsResponse.json()
+      const [usersData, storiesData, reviewsData, orgsData] = await Promise.all([
+        usersRes.json(),
+        storiesRes.json(),
+        reviewsRes.json(),
+        orgsRes.json()
+      ])
 
       setStats({
-        totalUsers: usersData.total || 0,
-        activeUsers: usersData.active || 0,
+        // Users
+        totalStorytellers: usersData.total || 0,
+        activeStorytellers: usersData.active || 0,
+        featuredStorytellers: usersData.featured || 0,
+        // Stories
         totalStories: storiesData.total || 0,
-        pendingReviews: reviewsData.pending || 0,
+        publishedStories: storiesData.published || 0,
+        draftStories: storiesData.draft || 0,
+        featuredStories: storiesData.featured || 0,
+        storiesWithImages: storiesData.withImages || 0,
+        // Content
+        totalTranscripts: storiesData.transcripts || 0,
+        transcriptsWithoutStories: reviewsData.transcriptsWithoutStories || 0,
+        featuredWithoutImages: reviewsData.featuredWithoutImages || 0,
+        // Organizations
         totalOrganizations: orgsData.total || 0,
-        flaggedContent: reviewsData.flagged || 0,
-        elderApprovals: reviewsData.elderApprovals || 0,
-        recentActivity: usersData.recentActivity || 0
+        totalProjects: orgsData.projects || 0,
+        totalGalleries: orgsData.galleries || 0,
       })
     } catch (err) {
       console.error('Failed to fetch admin stats:', err)
@@ -82,9 +102,38 @@ const AdminDashboard: React.FC = () => {
 
   // Load data on mount
   useEffect(() => {
-    console.log('🔧 AdminDashboard: Component mounted, fetching data...')
     fetchAdminStats()
   }, [])
+
+  // Calculate attention items
+  const attentionItems = []
+  if (stats.featuredWithoutImages > 0) {
+    attentionItems.push({
+      label: 'Featured stories need images',
+      count: stats.featuredWithoutImages,
+      link: '/admin/story-images',
+      color: 'text-orange-600',
+      bgColor: 'bg-orange-50'
+    })
+  }
+  if (stats.transcriptsWithoutStories > 0) {
+    attentionItems.push({
+      label: 'Transcripts ready for stories',
+      count: stats.transcriptsWithoutStories,
+      link: '/admin/transcripts',
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-50'
+    })
+  }
+  if (stats.draftStories > 0) {
+    attentionItems.push({
+      label: 'Draft stories to review',
+      count: stats.draftStories,
+      link: '/admin/stories',
+      color: 'text-purple-600',
+      bgColor: 'bg-purple-50'
+    })
+  }
 
   return (
     <div className="space-y-6 p-6">
@@ -94,6 +143,10 @@ const AdminDashboard: React.FC = () => {
           <h1 className="text-3xl font-bold text-grey-900">Dashboard</h1>
           <p className="text-grey-600">Overview and platform management</p>
         </div>
+        <Button variant="outline" onClick={fetchAdminStats} disabled={isLoadingStats}>
+          <Clock className="w-4 h-4 mr-2" />
+          {isLoadingStats ? 'Loading...' : 'Refresh'}
+        </Button>
       </div>
 
       {/* Error Display */}
@@ -111,60 +164,92 @@ const AdminDashboard: React.FC = () => {
         </Card>
       )}
 
-      {/* Stats Cards */}
-      <div className="grid gap-6 md:grid-cols-4">
+      {/* Main Stats Cards */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Storytellers</CardTitle>
+            <Users className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {isLoadingStats ? '...' : stats.totalUsers?.toLocaleString() || '0'}
+              {isLoadingStats ? '...' : stats.totalStorytellers.toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground">Active community members</p>
+            <p className="text-xs text-muted-foreground">
+              {stats.activeStorytellers} active
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Stories</CardTitle>
-            <BookOpen className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Stories</CardTitle>
+            <BookOpen className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {isLoadingStats ? '...' : stats.totalStories?.toLocaleString() || '0'}
+              {isLoadingStats ? '...' : stats.totalStories.toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground">Published content</p>
+            <p className="text-xs text-muted-foreground">
+              {stats.publishedStories} published, {stats.draftStories} drafts
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Reviews</CardTitle>
-            <Shield className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Transcripts</CardTitle>
+            <FileText className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {isLoadingStats ? '...' : stats.pendingReviews?.toLocaleString() || '0'}
+              {isLoadingStats ? '...' : stats.totalTranscripts.toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground">Awaiting moderation</p>
+            <p className="text-xs text-muted-foreground">
+              Audio recordings processed
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Organizations</CardTitle>
-            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+            <Building2 className="h-4 w-4 text-orange-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {isLoadingStats ? '...' : stats.totalOrganizations?.toLocaleString() || '0'}
+              {isLoadingStats ? '...' : stats.totalOrganizations.toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground">Active tenants</p>
+            <p className="text-xs text-muted-foreground">
+              {stats.totalProjects} projects, {stats.totalGalleries} galleries
+            </p>
           </CardContent>
         </Card>
       </div>
+
+      {/* Attention Required Section */}
+      {attentionItems.length > 0 && (
+        <Card className="border-orange-200">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-orange-800">
+              <AlertTriangle className="h-5 w-5" />
+              Needs Attention
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-3 md:grid-cols-3">
+              {attentionItems.map((item, index) => (
+                <Link key={index} href={item.link}>
+                  <div className={`p-4 rounded-lg ${item.bgColor} hover:opacity-80 transition-opacity cursor-pointer`}>
+                    <div className={`text-2xl font-bold ${item.color}`}>{item.count}</div>
+                    <p className="text-sm text-grey-700">{item.label}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Storytelling Workflow Highlight */}
       <Card className="border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50">
@@ -200,76 +285,171 @@ const AdminDashboard: React.FC = () => {
       </Card>
 
       {/* Quick Actions Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-sm font-medium text-grey-600">Manage Users</h3>
-                <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.totalUsers}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4">
+            <Link href="/admin/storytellers" className="block">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Users className="h-5 w-5 text-blue-600" />
+                </div>
+                <div>
+                  <h3 className="font-medium">Storytellers</h3>
+                  <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.totalStorytellers}</p>
+                </div>
               </div>
-              <Users className="h-8 w-8 text-blue-600" />
-            </div>
-            <Link href="/admin/storytellers">
-              <Button className="w-full">
-                <Users className="w-4 h-4 mr-2" />
-                Storytellers
-              </Button>
             </Link>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-sm font-medium text-grey-600">Content</h3>
-                <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.totalStories}</p>
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4">
+            <Link href="/admin/stories" className="block">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 bg-green-100 rounded-lg">
+                  <BookOpen className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-medium">Stories</h3>
+                  <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.totalStories}</p>
+                </div>
               </div>
-              <BookOpen className="h-8 w-8 text-green-600" />
-            </div>
-            <Link href="/admin/stories">
-              <Button className="w-full">
-                <BookOpen className="w-4 h-4 mr-2" />
-                Stories
-              </Button>
             </Link>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-sm font-medium text-grey-600">Organizations</h3>
-                <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.totalOrganizations}</p>
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4">
+            <Link href="/admin/transcripts" className="block">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 bg-purple-100 rounded-lg">
+                  <FileText className="h-5 w-5 text-purple-600" />
+                </div>
+                <div>
+                  <h3 className="font-medium">Transcripts</h3>
+                  <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.totalTranscripts}</p>
+                </div>
               </div>
-              <Building2 className="h-8 w-8 text-purple-600" />
-            </div>
-            <Link href="/admin/organisations">
-              <Button className="w-full">
-                <Building2 className="w-4 h-4 mr-2" />
-                Organizations
-              </Button>
             </Link>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-sm font-medium text-grey-600">Reviews</h3>
-                <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.pendingReviews}</p>
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4">
+            <Link href="/admin/story-images" className="block">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 bg-orange-100 rounded-lg">
+                  <ImagePlus className="h-5 w-5 text-orange-600" />
+                </div>
+                <div>
+                  <h3 className="font-medium">Story Images</h3>
+                  <p className="text-2xl font-bold">{isLoadingStats ? '...' : stats.storiesWithImages}</p>
+                </div>
               </div>
-              <Flag className="h-8 w-8 text-orange-600" />
-            </div>
-            <Link href="/admin/reviews">
-              <Button className="w-full">
-                <Eye className="w-4 h-4 mr-2" />
-                Reviews
-              </Button>
             </Link>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4">
+            <Link href="/admin/photos" className="block">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 bg-pink-100 rounded-lg">
+                  <Camera className="h-5 w-5 text-pink-600" />
+                </div>
+                <div>
+                  <h3 className="font-medium">Media Library</h3>
+                  <p className="text-sm text-grey-600">Manage photos</p>
+                </div>
+              </div>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Content Stats */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Story Status</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-grey-600">Published</span>
+                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                  {stats.publishedStories}
+                </Badge>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-grey-600">Drafts</span>
+                <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+                  {stats.draftStories}
+                </Badge>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-grey-600">Featured</span>
+                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                  {stats.featuredStories}
+                </Badge>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-grey-600">With Images</span>
+                <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
+                  {stats.storiesWithImages}
+                </Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Content Pipeline</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-grey-600">Total Transcripts</span>
+                <span className="font-semibold">{stats.totalTranscripts}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-grey-600">Ready for Stories</span>
+                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                  {stats.transcriptsWithoutStories}
+                </Badge>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-grey-600">Conversion Rate</span>
+                <span className="font-semibold">
+                  {stats.totalTranscripts > 0
+                    ? Math.round(((stats.totalTranscripts - stats.transcriptsWithoutStories) / stats.totalTranscripts) * 100)
+                    : 0}%
+                </span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Platform</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-grey-600">Organizations</span>
+                <span className="font-semibold">{stats.totalOrganizations}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-grey-600">Projects</span>
+                <span className="font-semibold">{stats.totalProjects}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-grey-600">Galleries</span>
+                <span className="font-semibold">{stats.totalGalleries}</span>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -278,7 +458,7 @@ const AdminDashboard: React.FC = () => {
       <Card>
         <CardHeader>
           <CardTitle>Platform Status</CardTitle>
-          <CardDescription>Current system status and quick actions</CardDescription>
+          <CardDescription>Current system status</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-2">

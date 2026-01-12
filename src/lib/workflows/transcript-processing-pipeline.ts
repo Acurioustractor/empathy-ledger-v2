@@ -2,7 +2,7 @@
 // Handles everything from upload → AI analysis → multi-level impact aggregation
 
 import { createClient } from '@supabase/supabase-js'
-import { indigenousImpactAnalyzer } from '@/lib/ai/indigenous-impact-analyzer'
+import { analyzeIndigenousImpact } from '@/lib/ai/indigenous-impact-analyzer'
 import { impactEvents } from '@/lib/websocket/impact-events'
 
 export interface TranscriptProcessingResult {
@@ -36,10 +36,10 @@ export interface TranscriptProcessingResult {
 }
 
 export class TranscriptProcessingPipeline {
-  private supabase: ReturnType<typeof createClient>
+  private supabase: ReturnType<typeof createClient<any>>
 
   constructor(supabaseUrl: string, supabaseServiceKey: string) {
-    this.supabase = createClient(supabaseUrl, supabaseServiceKey)
+    this.supabase = createClient<any>(supabaseUrl, supabaseServiceKey)
   }
 
   // MAIN PROCESSING WORKFLOW
@@ -127,6 +127,19 @@ export class TranscriptProcessingPipeline {
 
   // STEP 1: FETCH TRANSCRIPT
   private async fetchTranscript(transcriptId: string) {
+    type TranscriptRecord = {
+      id: string
+      storyteller_id: string
+      organization_id?: string | null
+      project_id?: string | null
+      tenant_id?: string | null
+      title?: string | null
+      transcript_content?: string | null
+      content?: string | null
+      text?: string | null
+      [key: string]: any
+    }
+
     const { data, error } = await this.supabase
       .from('transcripts')
       .select(`
@@ -135,7 +148,7 @@ export class TranscriptProcessingPipeline {
         organisation:organizations(id, name, type)
       `)
       .eq('id', transcriptId)
-      .single()
+      .single() as unknown as { data: TranscriptRecord | null; error: any }
 
     if (error) {
       console.error('Error fetching transcript:', error)
@@ -152,10 +165,13 @@ export class TranscriptProcessingPipeline {
       throw new Error('No transcript content found')
     }
 
-    const insights = indigenousImpactAnalyzer.analyzeIndigenousImpact(content)
+    const insights = (await analyzeIndigenousImpact(content)) as any
+    if (!insights) {
+      return []
+    }
 
     // Set transcript metadata on insights
-    insights.forEach(insight => {
+    insights.forEach((insight: any) => {
       insight.transcript_id = transcript.id
     })
 

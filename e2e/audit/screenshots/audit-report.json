@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-01-06T21:03:19.440Z",
+  "routes": [
+    {
+      "path": "/storytellers",
+      "name": "storytellers-list",
+      "category": "public",
+      "screenshots": [
+        {
+          "viewport": "desktop",
+          "file": "public/storytellers-list-desktop.png",
+          "status": "captured"
+        },
+        {
+          "viewport": "tablet",
+          "file": "public/storytellers-list-tablet.png",
+          "status": "captured"
+        },
+        {
+          "viewport": "mobile",
+          "file": "public/storytellers-list-mobile.png",
+          "status": "captured"
+        }
+      ]
+    },
+    {
+      "path": "/browse",
+      "name": "browse",
+      "category": "public",
+      "screenshots": [
+        {
+          "viewport": "desktop",
+          "file": "public/browse-desktop.png",
+          "status": "captured"
+        },
+        {
+          "viewport": "tablet",
+          "file": "public/browse-tablet.png",
+          "status": "captured"
+        },
+        {
+          "viewport": "mobile",
+          "file": "public/browse-mobile.png",
+          "status": "captured"
+        }
+      ]
+    },
+    {
+      "path": "/how-it-works",
+      "name": "how-it-works",
+      "category": "public",
+      "screenshots": [
+        {
+          "viewport": "desktop",
+          "file": "public/how-it-works-desktop.png",
+          "status": "captured"
+        },
+        {
+          "viewport": "tablet",
+          "file": "public/how-it-works-tablet.png",
+          "status": "captured"
+        },
+        {
+          "viewport": "mobile",
+          "file": "public/how-it-works-mobile.png",
+          "status": "captured"
+        }
+      ]
+    }
+  ]
+}

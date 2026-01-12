@@ -13,6 +13,7 @@ export async function GET(
     const { id } = await params
     const supabase = createSupabaseServerClient()
 
+    // First get the story with storyteller
     const { data: story, error } = await supabase
       .from('stories')
       .select(`
@@ -21,20 +22,8 @@ export async function GET(
           id,
           display_name,
           cultural_background,
-          cultural_affiliations,
           bio,
-          elder_status,
-          profiles!inner (
-            avatar_url
-          )
-        ),
-        media:media_assets (
-          id,
-          url,
-          type,
-          caption,
-          cultural_tags,
-          alt_text
+          avatar_url
         )
       `)
       .eq('id', id)
@@ -43,11 +32,18 @@ export async function GET(
       .single()
 
     if (error || !story) {
+      console.error('Error fetching public story:', error)
       return NextResponse.json(
         { error: 'Story not found' },
         { status: 404 }
       )
     }
+
+    // Fetch media assets separately (no direct FK relationship)
+    const { data: media } = await supabase
+      .from('media_assets')
+      .select('id, url, type, caption, cultural_tags, alt_text')
+      .eq('story_id', id)
 
     const { count: storyCount } = await supabase
       .from('stories')
@@ -61,13 +57,11 @@ export async function GET(
         id: story.storyteller.id,
         display_name: story.storyteller.display_name,
         cultural_background: story.storyteller.cultural_background,
-        cultural_affiliations: story.storyteller.cultural_affiliations,
         bio: story.storyteller.bio,
-        elder_status: story.storyteller.elder_status,
-        avatar_url: story.storyteller.profiles?.[0]?.avatar_url,
+        avatar_url: story.storyteller.avatar_url,
         story_count: storyCount || 1
       } : null,
-      media: story.media || []
+      media: media || []
     }
 
     return NextResponse.json({ story: transformedStory }, { status: 200 })

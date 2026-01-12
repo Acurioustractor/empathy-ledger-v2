@@ -3,19 +3,21 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { 
-  Home, 
-  Users, 
-  BookOpen, 
-  Image, 
-  Settings, 
+import {
+  Home,
+  Users,
+  BookOpen,
+  Image,
+  Settings,
   Shield,
   BarChart3,
   FileVideo,
   UserCog,
   Building2,
   Eye,
-  Clock
+  Clock,
+  FolderKanban,
+  Share2
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -33,6 +35,20 @@ export default function AdminNavigation({ className }: AdminNavigationProps) {
       label: 'Dashboard',
       icon: BarChart3,
       description: 'Overview & Stats'
+    },
+    {
+      href: '/admin/super-dashboard',
+      label: 'Super Admin',
+      icon: Shield,
+      description: 'Cross-org content management',
+      superAdminOnly: true
+    },
+    {
+      href: '/admin/content-control',
+      label: 'Content Control',
+      icon: Shield,
+      description: 'Moderation & audit trails',
+      superAdminOnly: true
     },
     {
       href: '/admin/workflow',
@@ -60,9 +76,9 @@ export default function AdminNavigation({ className }: AdminNavigationProps) {
     },
     {
       href: '/admin/stories',
-      label: 'Stories',
+      label: 'Content & Stories',
       icon: BookOpen,
-      description: 'Story moderation & management'
+      description: 'All content: stories, articles, and editorial'
     },
     {
       href: '/admin/media-review',
@@ -75,6 +91,18 @@ export default function AdminNavigation({ className }: AdminNavigationProps) {
       label: 'Galleries',
       icon: Image,
       description: 'Gallery management'
+    },
+    {
+      href: '/admin/compendium-media',
+      label: 'Compendium Media',
+      icon: FolderKanban,
+      description: 'Compendium 2026 media library'
+    },
+    {
+      href: '/admin/editorial',
+      label: 'Editorial',
+      icon: Share2,
+      description: 'Cross-project sharing & syndication'
     },
     {
       href: '/admin/organisations',

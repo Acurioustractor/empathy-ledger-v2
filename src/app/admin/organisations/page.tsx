@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import {
@@ -11,7 +11,6 @@ import {
   Building2,
   Edit,
   Eye,
-  Calendar,
   MapPin,
   Globe,
   Mail,
@@ -19,16 +18,23 @@ import {
   BookOpen,
   Plus,
   Trash2,
-  Shield,
-  Clock,
-  Hash,
-  ExternalLink,
-  CheckCircle,
-  XCircle,
+  LayoutGrid,
+  LayoutList,
+  ChevronUp,
+  ChevronDown,
+  CheckCircle2,
   AlertCircle,
-  Activity,
-  MoreHorizontal
+  ExternalLink,
+  MoreHorizontal,
+  Filter,
+  X
 } from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface Organization {
   id: string
@@ -54,29 +60,28 @@ interface Organization {
   member_count?: number
 }
 
+type SortField = 'name' | 'type' | 'story_count' | 'member_count' | 'created_at' | 'days_since_update'
+type SortDirection = 'asc' | 'desc'
+type ViewMode = 'table' | 'cards'
+
 export default function OrganizationsAdminPage() {
   const router = useRouter()
   const [organisations, setOrganizations] = useState<Organization[]>([])
-  const [filteredOrganizations, setFilteredOrganizations] = useState<Organization[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
-  const [statusFilter, setStatusFilter] = useState<string>('all')
   const [typeFilter, setTypeFilter] = useState<string>('all')
-  const [verificationFilter, setVerificationFilter] = useState<string>('all')
-  const [activityFilter, setActivityFilter] = useState<string>('all')
+  const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [viewMode, setViewMode] = useState<ViewMode>('table')
+  const [sortField, setSortField] = useState<SortField>('name')
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
 
   useEffect(() => {
     fetchOrganizations()
   }, [])
 
-  useEffect(() => {
-    filterOrganizations()
-  }, [organisations, searchTerm, statusFilter, typeFilter, verificationFilter, activityFilter])
-
   const fetchOrganizations = async () => {
     try {
       setLoading(true)
-      
       const response = await fetch('/api/admin/orgs')
       if (response.ok) {
         const data = await response.json()
@@ -94,7 +99,7 @@ export default function OrganizationsAdminPage() {
   }
 
   const deleteOrganization = async (organizationId: string, organizationName: string) => {
-    if (!confirm(`Are you sure you want to delete "${organizationName}"? This action cannot be undone and will remove all associated data including projects, stories, and member relationships.`)) {
+    if (!confirm(`Are you sure you want to delete "${organizationName}"? This action cannot be undone.`)) {
       return
     }
 
@@ -104,9 +109,7 @@ export default function OrganizationsAdminPage() {
       })
 
       if (response.ok) {
-        // Remove from local state
         setOrganizations(prev => prev.filter(org => org.id !== organizationId))
-        alert('Organization deleted successfully')
       } else {
         const data = await response.json()
         alert(`Failed to delete organisation: ${data.error}`)
@@ -117,17 +120,17 @@ export default function OrganizationsAdminPage() {
     }
   }
 
-  const filterOrganizations = () => {
+  // Filtered and sorted organizations
+  const filteredOrganizations = useMemo(() => {
     let filtered = organisations
 
     // Text search
     if (searchTerm) {
+      const term = searchTerm.toLowerCase()
       filtered = filtered.filter(org =>
-        org.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        org.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        org.type?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        org.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        org.cultural_significance?.toLowerCase().includes(searchTerm.toLowerCase())
+        org.name.toLowerCase().includes(term) ||
+        org.description?.toLowerCase().includes(term) ||
+        org.location?.toLowerCase().includes(term)
       )
     }
 
@@ -141,376 +144,559 @@ export default function OrganizationsAdminPage() {
       filtered = filtered.filter(org => org.status === statusFilter)
     }
 
-    // Verification filter
-    if (verificationFilter !== 'all') {
-      filtered = filtered.filter(org => org.verification_status === verificationFilter)
-    }
+    // Sort
+    filtered = [...filtered].sort((a, b) => {
+      let aVal: string | number = ''
+      let bVal: string | number = ''
 
-    // Activity filter
-    if (activityFilter !== 'all') {
-      if (activityFilter === 'active') {
-        filtered = filtered.filter(org => org.is_recently_active)
-      } else if (activityFilter === 'inactive') {
-        filtered = filtered.filter(org => !org.is_recently_active)
+      switch (sortField) {
+        case 'name':
+          aVal = a.name.toLowerCase()
+          bVal = b.name.toLowerCase()
+          break
+        case 'type':
+          aVal = a.type || ''
+          bVal = b.type || ''
+          break
+        case 'story_count':
+          aVal = a.story_count || 0
+          bVal = b.story_count || 0
+          break
+        case 'member_count':
+          aVal = a.member_count || 0
+          bVal = b.member_count || 0
+          break
+        case 'created_at':
+          aVal = new Date(a.created_at).getTime()
+          bVal = new Date(b.created_at).getTime()
+          break
+        case 'days_since_update':
+          aVal = a.days_since_update || 0
+          bVal = b.days_since_update || 0
+          break
       }
-    }
 
-    setFilteredOrganizations(filtered)
+      if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1
+      if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1
+      return 0
+    })
+
+    return filtered
+  }, [organisations, searchTerm, typeFilter, statusFilter, sortField, sortDirection])
+
+  // Stats
+  const stats = useMemo(() => ({
+    total: organisations.length,
+    active: organisations.filter(o => o.status === 'active').length,
+    verified: organisations.filter(o => o.verification_status === 'verified').length,
+    totalStories: organisations.reduce((sum, o) => sum + (o.story_count || 0), 0),
+    totalMembers: organisations.reduce((sum, o) => sum + (o.member_count || 0), 0),
+  }), [organisations])
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortField(field)
+      setSortDirection('asc')
+    }
   }
 
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case 'nonprofit': return 'bg-blue-100 text-blue-800'
-      case 'community': return 'bg-green-100 text-green-800' 
-      case 'educational': return 'bg-purple-100 text-purple-800'
-      case 'cultural_center': return 'bg-orange-100 text-orange-800'
-      default: return 'bg-grey-100 text-grey-800'
-    }
+  const SortIcon = ({ field }: { field: SortField }) => {
+    if (sortField !== field) return <ChevronUp className="w-4 h-4 opacity-0 group-hover:opacity-30" />
+    return sortDirection === 'asc'
+      ? <ChevronUp className="w-4 h-4 text-blue-600" />
+      : <ChevronDown className="w-4 h-4 text-blue-600" />
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return 'border-green-300 text-green-700'
-      case 'inactive': return 'border-red-300 text-red-700'
-      case 'pending': return 'border-yellow-300 text-yellow-700'
-      default: return 'border-grey-300 text-grey-700'
+  const getTypeLabel = (type: string) => {
+    const labels: Record<string, string> = {
+      'community': 'Community',
+      'nonprofit': 'Nonprofit',
+      'educational': 'Educational',
+      'cultural_center': 'Cultural',
+      'aboriginal_community': 'Aboriginal',
+      'philanthropy': 'Philanthropy',
     }
+    return labels[type] || type
   }
 
-  const getVerificationColor = (verification: string) => {
-    switch (verification) {
-      case 'verified': return 'border-green-300 text-green-700'
-      case 'unverified': return 'border-red-300 text-red-700'
-      case 'pending': return 'border-yellow-300 text-yellow-700'
-      default: return 'border-grey-300 text-grey-700'
+  const getTypeBadgeStyle = (type: string) => {
+    const styles: Record<string, string> = {
+      'community': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      'nonprofit': 'bg-blue-50 text-blue-700 border-blue-200',
+      'educational': 'bg-purple-50 text-purple-700 border-purple-200',
+      'cultural_center': 'bg-amber-50 text-amber-700 border-amber-200',
+      'aboriginal_community': 'bg-orange-50 text-orange-700 border-orange-200',
+      'philanthropy': 'bg-pink-50 text-pink-700 border-pink-200',
     }
+    return styles[type] || 'bg-slate-50 text-slate-700 border-slate-200'
+  }
+
+  const hasActiveFilters = searchTerm || typeFilter !== 'all' || statusFilter !== 'all'
+
+  const clearFilters = () => {
+    setSearchTerm('')
+    setTypeFilter('all')
+    setStatusFilter('all')
   }
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
-        <span className="ml-2">Loading organisations...</span>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <span className="ml-3 text-slate-600">Loading organisations...</span>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      <div>
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-grey-900 mb-2">
-              Organizations Admin
-            </h1>
-            <p className="text-grey-600">
-              Manage organisations and their tenant settings
-            </p>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold text-slate-900">Organizations</h1>
+          <p className="text-sm text-slate-500 mt-1">
+            {stats.total} organizations · {stats.totalStories} stories · {stats.totalMembers} members
+          </p>
+        </div>
+        <Button
+          onClick={() => router.push('/admin/organisations/create')}
+          className="bg-blue-600 hover:bg-blue-700"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Add Organization
+        </Button>
+      </div>
+
+      {/* Quick Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="bg-white rounded-lg border border-slate-200 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-2xl font-semibold text-slate-900">{stats.total}</p>
+              <p className="text-sm text-slate-500">Total</p>
+            </div>
+            <Building2 className="w-8 h-8 text-slate-300" />
           </div>
-          <Button
-            onClick={() => router.push('/admin/organisations/create')}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Organization
-          </Button>
+        </div>
+        <div className="bg-white rounded-lg border border-slate-200 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-2xl font-semibold text-emerald-600">{stats.active}</p>
+              <p className="text-sm text-slate-500">Active</p>
+            </div>
+            <CheckCircle2 className="w-8 h-8 text-emerald-200" />
+          </div>
+        </div>
+        <div className="bg-white rounded-lg border border-slate-200 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-2xl font-semibold text-blue-600">{stats.totalStories}</p>
+              <p className="text-sm text-slate-500">Stories</p>
+            </div>
+            <BookOpen className="w-8 h-8 text-blue-200" />
+          </div>
+        </div>
+        <div className="bg-white rounded-lg border border-slate-200 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-2xl font-semibold text-purple-600">{stats.totalMembers}</p>
+              <p className="text-sm text-slate-500">Members</p>
+            </div>
+            <Users className="w-8 h-8 text-purple-200" />
+          </div>
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <Building2 className="w-8 h-8 text-blue-600" />
-              <div className="ml-4">
-                <p className="text-2xl font-bold">{organisations.length}</p>
-                <p className="text-grey-600">Total Organizations</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Filters & View Toggle */}
+      <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="flex flex-col sm:flex-row gap-4">
+          {/* Search */}
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Input
+              type="text"
+              placeholder="Search by name, location..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 bg-slate-50 border-slate-200"
+            />
+          </div>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <Users className="w-8 h-8 text-green-600" />
-              <div className="ml-4">
-                <p className="text-2xl font-bold">{organisations.filter(o => o.type === 'community').length}</p>
-                <p className="text-grey-600">Community</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <BookOpen className="w-8 h-8 text-purple-600" />
-              <div className="ml-4">
-                <p className="text-2xl font-bold">{organisations.filter(o => o.type === 'nonprofit').length}</p>
-                <p className="text-grey-600">Nonprofit</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <Plus className="w-8 h-8 text-orange-600" />
-              <div className="ml-4">
-                <p className="text-2xl font-bold">{organisations.filter(o => o.type === 'cultural_center').length}</p>
-                <p className="text-grey-600">Cultural Centers</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters */}
-      <Card className="mb-8">
-        <CardContent className="p-6">
-          <div className="flex flex-wrap gap-4">
-            <div className="flex-1 min-w-64">
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-grey-400" />
-                <Input
-                  type="text"
-                  placeholder="Search organisations..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-
+          {/* Filters */}
+          <div className="flex items-center gap-2">
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="h-10 px-3 py-2 text-sm border border-slate-200 rounded-md bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Types</option>
-              <option value="nonprofit">Nonprofit</option>
               <option value="community">Community</option>
+              <option value="nonprofit">Nonprofit</option>
+              <option value="aboriginal_community">Aboriginal</option>
+              <option value="philanthropy">Philanthropy</option>
               <option value="educational">Educational</option>
               <option value="cultural_center">Cultural Center</option>
             </select>
-            
+
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="h-10 px-3 py-2 text-sm border border-slate-200 rounded-md bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
-              <option value="pending">Pending</option>
             </select>
 
-            <select
-              value={verificationFilter}
-              onChange={(e) => setVerificationFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-            >
-              <option value="all">All Verification</option>
-              <option value="verified">Verified</option>
-              <option value="unverified">Unverified</option>
-              <option value="pending">Pending</option>
-            </select>
+            {hasActiveFilters && (
+              <Button
+                onClick={clearFilters}
+                variant="ghost"
+                size="sm"
+                className="text-slate-500 hover:text-slate-700"
+              >
+                <X className="w-4 h-4 mr-1" />
+                Clear
+              </Button>
+            )}
 
-            <select
-              value={activityFilter}
-              onChange={(e) => setActivityFilter(e.target.value)}
-              className="px-4 py-2 border border-grey-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-            >
-              <option value="all">All Activity</option>
-              <option value="active">Recently Active</option>
-              <option value="inactive">Inactive 30+ days</option>
-            </select>
-            
-            <Button
-              onClick={() => {
-                setSearchTerm('')
-                setTypeFilter('all')
-                setStatusFilter('all')
-                setVerificationFilter('all')
-                setActivityFilter('all')
-              }}
-              variant="outline"
-              size="sm"
-            >
-              Clear All Filters
-            </Button>
+            {/* View Toggle */}
+            <div className="flex items-center border border-slate-200 rounded-md overflow-hidden ml-2">
+              <button
+                onClick={() => setViewMode('table')}
+                className={`p-2 ${viewMode === 'table' ? 'bg-slate-100 text-slate-900' : 'bg-white text-slate-400 hover:text-slate-600'}`}
+                title="Table view"
+              >
+                <LayoutList className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode('cards')}
+                className={`p-2 ${viewMode === 'cards' ? 'bg-slate-100 text-slate-900' : 'bg-white text-slate-400 hover:text-slate-600'}`}
+                title="Card view"
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
-      {/* Organizations Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {filteredOrganizations.map((org) => (
-          <Card key={org.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
-              <div className="flex items-start justify-between mb-2">
-                <CardTitle className="text-lg truncate mr-2">
-                  {org.name}
-                </CardTitle>
-                <div className="flex items-center space-x-2">
-                  <Badge className={getTypeColor(org.type)}>
-                    {org.type}
-                  </Badge>
-                </div>
-              </div>
-              
-              {/* Status and Verification Badges */}
-              <div className="flex items-center space-x-2">
-                {/* Status Badge */}
-                <Badge className={getStatusColor(org.status || 'active')} variant="outline">
-                  <div className="flex items-center space-x-1">
-                    {org.status === 'active' ? <CheckCircle className="w-3 h-3" /> :
-                     org.status === 'inactive' ? <XCircle className="w-3 h-3" /> :
-                     <AlertCircle className="w-3 h-3" />}
-                    <span className="text-xs">{org.status || 'active'}</span>
-                  </div>
-                </Badge>
-                
-                {/* Verification Badge */}
-                <Badge className={getVerificationColor(org.verification_status || 'verified')} variant="outline">
-                  <div className="flex items-center space-x-1">
-                    {org.verification_status === 'verified' ? <CheckCircle className="w-3 h-3" /> :
-                     org.verification_status === 'unverified' ? <XCircle className="w-3 h-3" /> :
-                     <AlertCircle className="w-3 h-3" />}
-                    <span className="text-xs">{org.verification_status || 'verified'}</span>
-                  </div>
-                </Badge>
-                
-                {/* Activity Indicator */}
-                {org.is_recently_active && (
-                  <Badge className="bg-green-100 text-green-800" variant="outline">
-                    <Activity className="w-3 h-3 mr-1" />
-                    <span className="text-xs">Active</span>
-                  </Badge>
-                )}
-              </div>
-            </CardHeader>
-
-            <CardContent className="space-y-4">
-              {/* Description */}
-              {org.description && (
-                <p className="text-sm text-grey-600 line-clamp-2">
-                  {org.description}
-                </p>
-              )}
-
-              {/* Details */}
-              <div className="space-y-2 text-sm">
-                {org.location && (
-                  <div className="flex items-center text-grey-600">
-                    <MapPin className="w-4 h-4 mr-2" />
-                    <span>{org.location}</span>
-                  </div>
-                )}
-
-                <div className="flex items-center text-grey-600">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  <span>{new Date(org.created_at).toLocaleDateString()}</span>
-                </div>
-
-                {org.contact_email && (
-                  <div className="flex items-center text-grey-600">
-                    <Mail className="w-4 h-4 mr-2" />
-                    <span className="truncate">{org.contact_email}</span>
-                  </div>
-                )}
-
-                {org.website_url && (
-                  <div className="flex items-center text-grey-600">
-                    <Globe className="w-4 h-4 mr-2" />
-                    <a href={org.website_url} target="_blank" rel="noopener noreferrer" 
-                       className="text-blue-600 hover:underline truncate flex items-center">
-                      {org.website_url.replace(/https?:\/\//g, '')}
-                      <ExternalLink className="w-3 h-3 ml-1" />
-                    </a>
-                  </div>
-                )}
-              </div>
-
-              {/* Cultural Significance */}
-              {org.cultural_significance && (
-                <div className="p-3 bg-orange-50 rounded-md">
-                  <p className="text-sm text-orange-800 font-medium">Cultural Focus</p>
-                  <p className="text-xs text-orange-700 mt-1">{org.cultural_significance}</p>
-                </div>
-              )}
-
-
-              {/* Activity Metrics */}
-              <div className="grid grid-cols-2 gap-4 p-3 bg-grey-50 rounded-md">
-                <div className="text-center">
-                  <div className="text-lg font-bold text-grey-900">{org.story_count || 0}</div>
-                  <div className="text-xs text-grey-600">Stories</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold text-grey-900">{org.member_count || 0}</div>
-                  <div className="text-xs text-grey-600">Members</div>
-                </div>
-              </div>
-
-              {/* Organization Details */}
-              <div className="flex items-center justify-between text-xs text-grey-500">
-                <div className="flex items-center">
-                  <Hash className="w-3 h-3 mr-1" />
-                  <span>ID: {org.id.slice(0, 8)}...</span>
-                </div>
-                <div className="flex items-center">
-                  <Clock className="w-3 h-3 mr-1" />
-                  <span>{org.days_since_update || 0} days ago</span>
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div className="flex space-x-2 pt-2">
-                <Button
-                  onClick={() => router.push(`/organisations/${org.id}/dashboard`)}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700"
-                  size="sm"
-                >
-                  <Eye className="w-4 h-4 mr-2" />
-                  Dashboard
-                </Button>
-                <Button
-                  onClick={() => router.push(`/admin/organisations/${org.id}/edit`)}
-                  variant="outline"
-                  size="sm"
-                  className="flex-1"
-                >
-                  <Edit className="w-4 h-4 mr-2" />
-                  Edit
-                </Button>
-                <Button
-                  onClick={() => deleteOrganization(org.id, org.name)}
-                  variant="outline"
-                  size="sm"
-                  className="px-3 text-red-600 hover:text-red-700 hover:bg-red-50"
-                  title="Delete organisation"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        {/* Active filter count */}
+        {hasActiveFilters && (
+          <div className="mt-3 flex items-center gap-2 text-sm text-slate-500">
+            <Filter className="w-4 h-4" />
+            <span>Showing {filteredOrganizations.length} of {organisations.length} organizations</span>
+          </div>
+        )}
       </div>
 
-      {filteredOrganizations.length === 0 && (
-        <div className="text-center py-12">
-          <Building2 className="w-12 h-12 text-grey-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-grey-900 mb-2">No organisations found</h3>
-          <p className="text-grey-600">
-            {searchTerm || typeFilter !== 'all' 
-              ? 'Try adjusting your search or filter criteria.' 
-              : 'No organisations have been created yet.'}
-          </p>
+      {/* Table View */}
+      {viewMode === 'table' && (
+        <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-slate-50 border-b border-slate-200">
+                  <th
+                    className="text-left px-4 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer group"
+                    onClick={() => handleSort('name')}
+                  >
+                    <div className="flex items-center gap-1">
+                      Organization
+                      <SortIcon field="name" />
+                    </div>
+                  </th>
+                  <th
+                    className="text-left px-4 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer group"
+                    onClick={() => handleSort('type')}
+                  >
+                    <div className="flex items-center gap-1">
+                      Type
+                      <SortIcon field="type" />
+                    </div>
+                  </th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider">
+                    Location
+                  </th>
+                  <th
+                    className="text-center px-4 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer group"
+                    onClick={() => handleSort('story_count')}
+                  >
+                    <div className="flex items-center justify-center gap-1">
+                      Stories
+                      <SortIcon field="story_count" />
+                    </div>
+                  </th>
+                  <th
+                    className="text-center px-4 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer group"
+                    onClick={() => handleSort('member_count')}
+                  >
+                    <div className="flex items-center justify-center gap-1">
+                      Members
+                      <SortIcon field="member_count" />
+                    </div>
+                  </th>
+                  <th className="text-right px-4 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {filteredOrganizations.map((org) => (
+                  <tr key={org.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                          {org.logo_url ? (
+                            <img src={org.logo_url} alt="" className="w-10 h-10 rounded-lg object-cover" />
+                          ) : (
+                            <Building2 className="w-5 h-5 text-slate-400" />
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-medium text-slate-900 truncate">{org.name}</p>
+                          {org.contact_email && (
+                            <p className="text-xs text-slate-500 truncate">{org.contact_email}</p>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <Badge variant="outline" className={`text-xs ${getTypeBadgeStyle(org.type)}`}>
+                        {getTypeLabel(org.type)}
+                      </Badge>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-1.5">
+                        <span className={`w-2 h-2 rounded-full ${org.status === 'active' ? 'bg-emerald-500' : 'bg-slate-300'}`} />
+                        <span className="text-sm text-slate-600 capitalize">{org.status || 'active'}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">
+                      {org.location ? (
+                        <span className="text-sm text-slate-600 truncate block max-w-[180px]">{org.location}</span>
+                      ) : (
+                        <span className="text-sm text-slate-400">—</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <span className="text-sm font-medium text-slate-900">{org.story_count || 0}</span>
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <span className="text-sm font-medium text-slate-900">{org.member_count || 0}</span>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="flex items-center justify-end gap-1">
+                        <Button
+                          onClick={() => router.push(`/organisations/${org.id}/dashboard`)}
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 px-2 text-slate-600"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          onClick={() => router.push(`/admin/organisations/${org.id}/edit`)}
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 px-2 text-slate-600"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm" className="h-8 px-2 text-slate-600">
+                              <MoreHorizontal className="w-4 h-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            {org.website_url && (
+                              <DropdownMenuItem onClick={() => window.open(org.website_url, '_blank')}>
+                                <Globe className="w-4 h-4 mr-2" />
+                                Visit Website
+                              </DropdownMenuItem>
+                            )}
+                            <DropdownMenuItem
+                              onClick={() => deleteOrganization(org.id, org.name)}
+                              className="text-red-600 focus:text-red-600"
+                            >
+                              <Trash2 className="w-4 h-4 mr-2" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {filteredOrganizations.length === 0 && (
+            <div className="text-center py-12">
+              <Building2 className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+              <p className="text-slate-500">No organizations found</p>
+              {hasActiveFilters && (
+                <Button onClick={clearFilters} variant="link" className="mt-2 text-blue-600">
+                  Clear filters
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Card View */}
+      {viewMode === 'cards' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {filteredOrganizations.map((org) => (
+            <Card key={org.id} className="overflow-hidden hover:shadow-md transition-shadow border-slate-200">
+              <CardContent className="p-0">
+                {/* Card Header */}
+                <div className="p-4 border-b border-slate-100">
+                  <div className="flex items-start gap-3">
+                    <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                      {org.logo_url ? (
+                        <img src={org.logo_url} alt="" className="w-12 h-12 rounded-lg object-cover" />
+                      ) : (
+                        <Building2 className="w-6 h-6 text-slate-400" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-slate-900 truncate">{org.name}</h3>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Badge variant="outline" className={`text-xs ${getTypeBadgeStyle(org.type)}`}>
+                          {getTypeLabel(org.type)}
+                        </Badge>
+                        <span className="flex items-center gap-1 text-xs text-slate-500">
+                          <span className={`w-1.5 h-1.5 rounded-full ${org.status === 'active' ? 'bg-emerald-500' : 'bg-slate-300'}`} />
+                          {org.status || 'active'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Body */}
+                <div className="p-4 space-y-3">
+                  {/* Description */}
+                  {org.description && (
+                    <p className="text-sm text-slate-600 line-clamp-2">{org.description}</p>
+                  )}
+
+                  {/* Details */}
+                  <div className="space-y-1.5 text-sm">
+                    {org.location && (
+                      <div className="flex items-center text-slate-500">
+                        <MapPin className="w-4 h-4 mr-2 flex-shrink-0" />
+                        <span className="truncate">{org.location}</span>
+                      </div>
+                    )}
+                    {org.contact_email && (
+                      <div className="flex items-center text-slate-500">
+                        <Mail className="w-4 h-4 mr-2 flex-shrink-0" />
+                        <span className="truncate">{org.contact_email}</span>
+                      </div>
+                    )}
+                    {org.website_url && (
+                      <div className="flex items-center text-slate-500">
+                        <Globe className="w-4 h-4 mr-2 flex-shrink-0" />
+                        <a
+                          href={org.website_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline truncate flex items-center"
+                        >
+                          {org.website_url.replace(/https?:\/\/(www\.)?/g, '')}
+                          <ExternalLink className="w-3 h-3 ml-1 flex-shrink-0" />
+                        </a>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Stats */}
+                  <div className="flex items-center gap-4 pt-2">
+                    <div className="flex items-center gap-1.5 text-sm">
+                      <BookOpen className="w-4 h-4 text-slate-400" />
+                      <span className="font-medium text-slate-900">{org.story_count || 0}</span>
+                      <span className="text-slate-500">stories</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-sm">
+                      <Users className="w-4 h-4 text-slate-400" />
+                      <span className="font-medium text-slate-900">{org.member_count || 0}</span>
+                      <span className="text-slate-500">members</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Footer */}
+                <div className="px-4 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-xs text-slate-400">
+                    Created {new Date(org.created_at).toLocaleDateString()}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      onClick={() => router.push(`/organisations/${org.id}/dashboard`)}
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 text-xs"
+                    >
+                      <Eye className="w-3.5 h-3.5 mr-1" />
+                      View
+                    </Button>
+                    <Button
+                      onClick={() => router.push(`/admin/organisations/${org.id}/edit`)}
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 text-xs"
+                    >
+                      <Edit className="w-3.5 h-3.5 mr-1" />
+                      Edit
+                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-8 px-2">
+                          <MoreHorizontal className="w-4 h-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        {org.website_url && (
+                          <DropdownMenuItem onClick={() => window.open(org.website_url, '_blank')}>
+                            <Globe className="w-4 h-4 mr-2" />
+                            Visit Website
+                          </DropdownMenuItem>
+                        )}
+                        <DropdownMenuItem
+                          onClick={() => deleteOrganization(org.id, org.name)}
+                          className="text-red-600 focus:text-red-600"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {viewMode === 'cards' && filteredOrganizations.length === 0 && (
+        <div className="text-center py-12 bg-white rounded-lg border border-slate-200">
+          <Building2 className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+          <p className="text-slate-500">No organizations found</p>
+          {hasActiveFilters && (
+            <Button onClick={clearFilters} variant="link" className="mt-2 text-blue-600">
+              Clear filters
+            </Button>
+          )}
         </div>
       )}
     </div>

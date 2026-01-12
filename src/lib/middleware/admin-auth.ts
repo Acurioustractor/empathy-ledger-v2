@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { createServiceRoleClient } from '@/lib/supabase/service-role-client'
 import { ApiErrors } from '@/lib/utils/api-responses'
 
 export interface AuthenticatedUser {
@@ -30,8 +31,9 @@ export async function requireAdminAuth(request: NextRequest): Promise<{ user: Au
       return ApiErrors.Unauthorized('Authentication required')
     }
 
-    // Get user profile with tenant roles
-    const { data: profile, error: profileError } = await supabase
+    // Get user profile with tenant roles using service role to bypass RLS
+    const serviceClient = createServiceRoleClient()
+    const { data: profile, error: profileError } = await serviceClient
       .from('profiles')
       .select('id, email, tenant_roles, tenant_id')
       .eq('id', user.id)
@@ -47,7 +49,7 @@ export async function requireAdminAuth(request: NextRequest): Promise<{ user: Au
     // Check if user has admin privileges via tenant_roles
     const roles = profile.tenant_roles || []
     const is_admin = roles.includes('admin')
-    const is_super_admin = profile.email === 'benjamin@act.place' // Temporary super admin check
+    const is_super_admin = roles.includes('super_admin') || profile.email === 'benjamin@act.place'
 
     console.log('👤 User roles check:', { roles, is_admin, is_super_admin })
 

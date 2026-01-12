@@ -150,24 +150,36 @@ DialogDescription.displayName = DialogPrimitive.Description.displayName;
 const CulturalDialog = {
   Root: Dialog,
   Trigger: DialogTrigger,
-  Content: React.forwardRef<
-    React.ElementRef<typeof DialogContent>,
-    Omit<React.ComponentPropsWithoutRef<typeof DialogContent>, "cultural">
-  >((props, ref) => <DialogContent ref={ref} cultural {...props} />),
+  Content: (() => {
+    const Content = React.forwardRef<
+      React.ElementRef<typeof DialogContent>,
+      Omit<React.ComponentPropsWithoutRef<typeof DialogContent>, "cultural">
+    >((props, ref) => <DialogContent ref={ref} cultural {...props} />);
+    Content.displayName = 'CulturalDialogContent';
+    return Content;
+  })(),
   Header: (props: React.HTMLAttributes<HTMLDivElement>) => (
     <DialogHeader cultural {...props} />
   ),
   Footer: (props: React.HTMLAttributes<HTMLDivElement>) => (
     <DialogFooter cultural {...props} />
   ),
-  Title: React.forwardRef<
-    React.ElementRef<typeof DialogTitle>,
-    Omit<React.ComponentPropsWithoutRef<typeof DialogTitle>, "cultural">
-  >((props, ref) => <DialogTitle ref={ref} cultural {...props} />),
-  Description: React.forwardRef<
-    React.ElementRef<typeof DialogDescription>,
-    Omit<React.ComponentPropsWithoutRef<typeof DialogDescription>, "cultural">
-  >((props, ref) => <DialogDescription ref={ref} cultural {...props} />),
+  Title: (() => {
+    const Title = React.forwardRef<
+      React.ElementRef<typeof DialogTitle>,
+      Omit<React.ComponentPropsWithoutRef<typeof DialogTitle>, "cultural">
+    >((props, ref) => <DialogTitle ref={ref} cultural {...props} />);
+    Title.displayName = 'CulturalDialogTitle';
+    return Title;
+  })(),
+  Description: (() => {
+    const Description = React.forwardRef<
+      React.ElementRef<typeof DialogDescription>,
+      Omit<React.ComponentPropsWithoutRef<typeof DialogDescription>, "cultural">
+    >((props, ref) => <DialogDescription ref={ref} cultural {...props} />);
+    Description.displayName = 'CulturalDialogDescription';
+    return Description;
+  })(),
   Close: DialogClose,
 };
 

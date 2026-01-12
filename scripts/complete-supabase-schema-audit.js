@@ -42,7 +42,7 @@ async function completeSchemaAudit() {
     "SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE'"
   ]
 
-  let discoveredTables = new Set()
+  const discoveredTables = new Set()
 
   // Method 2: Try known table names by attempting to access them
   const possibleTables = [

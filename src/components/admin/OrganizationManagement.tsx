@@ -182,7 +182,7 @@ const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ adminLe
 
   // Filter organisations
   useEffect(() => {
-    let filtered = organisations.filter(org => {
+    const filtered = organisations.filter(org => {
       const matchesSearch = searchTerm === '' || 
         (org.name && org.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (org.slug && org.slug.toLowerCase().includes(searchTerm.toLowerCase())) ||

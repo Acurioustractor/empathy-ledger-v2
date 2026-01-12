@@ -426,7 +426,7 @@ Today, I share these stories not just as memories, but as a bridge between past 
             <CardHeader>
               <CardTitle>MediaGallery (5/8)</CardTitle>
               <CardDescription>
-                View and manage media with grid/list views, search, and bulk actions
+                View and manage media with grid/list views, search, bulk actions, and enhanced tagging
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -434,9 +434,11 @@ Today, I share these stories not just as memories, but as a bridge between past 
                 storytellerId={mockStorytellerId}
                 media={mockMediaItems}
                 selectable={true}
+                enableBatchTagging={true}
                 onSelect={(ids) => console.log('Selected:', ids)}
                 onEdit={(id) => alert(`Edit media: ${id}`)}
                 onDelete={(ids) => alert(`Delete ${ids.length} items`)}
+                onMediaUpdated={() => console.log('Media updated - refresh data')}
                 testMode={true}
               />
             </CardContent>

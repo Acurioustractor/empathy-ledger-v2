@@ -23,6 +23,100 @@ export async function GET(
 
     const supabase = createSupabaseServerClient()
 
+    // First, check if this ID is from the storytellers table
+    // If so, get the storyteller data directly
+    const { data: storytellerRecord, error: storytellerError } = await supabase
+      .from('storytellers')
+      .select('*')
+      .eq('id', storytellerId)
+      .single()
+
+    // If found in storytellers table, return that data directly
+    if (storytellerRecord && !storytellerError) {
+      // Get story count
+      const { count: storyCount } = await supabase
+        .from('stories')
+        .select('*', { count: 'exact', head: true })
+        .eq('storyteller_id', storytellerId)
+
+      // Get transcript count
+      const { count: transcriptCount } = await supabase
+        .from('transcripts')
+        .select('*', { count: 'exact', head: true })
+        .eq('storyteller_id', storytellerId)
+
+      // Get stories
+      const { data: stories } = await supabase
+        .from('stories')
+        .select('*')
+        .eq('storyteller_id', storytellerId)
+        .order('created_at', { ascending: false })
+
+      // Get organization if linked
+      const { data: orgRelations } = await supabase
+        .from('storyteller_organizations')
+        .select('organization:organizations(id, name)')
+        .eq('storyteller_id', storytellerId)
+        .limit(1)
+
+      const organization = orgRelations?.[0]?.organization
+
+      return NextResponse.json({
+        id: storytellerRecord.id,
+        display_name: storytellerRecord.display_name || 'Unknown Storyteller',
+        bio: storytellerRecord.bio,
+        cultural_background: storytellerRecord.cultural_background,
+        cultural_affiliations: [],
+        languages_spoken: storytellerRecord.language_skills || [],
+        specialties: [],
+        years_of_experience: null,
+        preferred_topics: [],
+        status: storytellerRecord.is_active ? 'active' : 'inactive',
+        elder_status: storytellerRecord.is_elder || false,
+        featured: storytellerRecord.is_featured || false,
+        justicehub_enabled: storytellerRecord.justicehub_enabled || false,
+        justicehub_featured: storytellerRecord.justicehub_featured || false,
+        avatar_url: storytellerRecord.avatar_url || storytellerRecord.profile_image_url,
+        story_count: storyCount || 0,
+        profile: {
+          avatar_url: storytellerRecord.avatar_url || storytellerRecord.profile_image_url,
+          profile_image_url: storytellerRecord.avatar_url || storytellerRecord.profile_image_url,
+          pronouns: null,
+          bio: storytellerRecord.bio,
+          display_name: storytellerRecord.display_name,
+          cultural_affiliations: [],
+          languages_spoken: storytellerRecord.language_skills || [],
+        },
+        organisations: organization ? [{
+          id: organization.id,
+          name: organization.name,
+          display_name: organization.name,
+          role: 'storyteller'
+        }] : [],
+        stories: (stories || []).map(story => ({
+          id: story.id,
+          title: story.title,
+          description: story.description,
+          content: story.content?.substring(0, 500) + '...',
+          themes: story.themes || [],
+          cultural_tags: story.cultural_tags || [],
+          created_at: story.created_at,
+          published_at: story.published_at,
+          is_featured: story.is_featured,
+          language: story.language,
+        })),
+        content_stats: {
+          story_count: storyCount || 0,
+          transcript_count: transcriptCount || 0,
+          gallery_count: 0,
+          media_count: 0,
+          quote_count: 0,
+          total_content_pieces: (storyCount || 0) + (transcriptCount || 0)
+        }
+      })
+    }
+
+    // Fall back to profiles table lookup (for backwards compatibility)
     // Fetch comprehensive storyteller profile with all related data
     const [
       profileResult,

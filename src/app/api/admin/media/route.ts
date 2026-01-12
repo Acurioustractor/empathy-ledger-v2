@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { createSupabaseServiceClient } from '@/lib/supabase/client-ssr'
 
 import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
@@ -26,6 +26,10 @@ interface AdminMediaAsset {
   uploaderEmail: string
   organizationId?: string
   organizationName?: string
+  projectId?: string
+  projectName?: string
+  taggedStorytellerIds: string[]
+  taggedStorytellers: Array<{ id: string; name: string; avatarUrl?: string }>
   visibility: 'public' | 'community' | 'private'
   consentStatus: 'pending' | 'granted' | 'denied'
   culturalSensitivityLevel: 'low' | 'medium' | 'high'
@@ -75,7 +79,7 @@ interface MediaResponse {
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = createSupabaseServiceClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin media')
@@ -130,13 +134,22 @@ export async function GET(request: NextRequest) {
       console.log('Organizations error:', orgsError.message)
     }
 
-    // Get projects for context  
+    // Get projects for context
     const { data: projects, error: projectsError } = await supabase
       .from('projects')
-      .select('id, name, organization_id')
+      .select('id, name, title, organization_id')
 
     if (projectsError) {
       console.log('Projects error:', projectsError.message)
+    }
+
+    // Get storytellers for entity tagging
+    const { data: storytellers, error: storytellersError } = await supabase
+      .from('storytellers')
+      .select('id, display_name, avatar_url')
+
+    if (storytellersError) {
+      console.log('Storytellers error:', storytellersError.message)
     }
 
     // Get all galleries with their photo counts
@@ -191,7 +204,21 @@ export async function GET(request: NextRequest) {
 
         // Use the first gallery organisation, or fallback to current organisation context
         const primaryOrg = galleryOrgs[0] || org
-        
+
+        // Get project info
+        const assetProject = asset.project_id ? projects?.find(p => p.id === asset.project_id) : null
+
+        // Get tagged storyteller info
+        const taggedStorytellerIds = asset.detected_people_ids || []
+        const taggedStorytellersData = taggedStorytellerIds
+          .map((id: string) => storytellers?.find(s => s.id === id))
+          .filter(Boolean)
+          .map((s: any) => ({
+            id: s.id,
+            name: s.display_name || 'Unknown',
+            avatarUrl: s.avatar_url
+          }))
+
         // Generate cultural tags based on content
         const culturalTags = []
         if (asset.cultural_sensitivity_level === 'high') culturalTags.push('sacred', 'ceremonial')
@@ -225,8 +252,14 @@ export async function GET(request: NextRequest) {
           uploadedBy: asset.uploader_id,
           uploaderName,
           uploaderEmail,
-          organizationId: primaryOrg?.id,
-          organizationName: primaryOrg?.name || 'Empathy Ledger',
+          organizationId: asset.organization_id || primaryOrg?.id,
+          organizationName: asset.organization_id
+            ? organisations?.find(o => o.id === asset.organization_id)?.name
+            : (primaryOrg?.name || 'Empathy Ledger'),
+          projectId: asset.project_id || undefined,
+          projectName: assetProject?.title || assetProject?.name || undefined,
+          taggedStorytellerIds,
+          taggedStorytellers: taggedStorytellersData,
           visibility: asset.privacy_level === 'public' ? 'public' : 
                      asset.privacy_level === 'private' ? 'private' : 'community',
           consentStatus: asset.consent_granted ? 'granted' : 
@@ -342,15 +375,35 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
-    
+    const supabase = createSupabaseServiceClient()
+
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin media update')
 
     const { id, ...updateData } = await request.json()
 
+    console.log('Received update request for media ID:', id)
+    console.log('Update data:', updateData)
+
     if (!id) {
       return NextResponse.json({ error: 'Media asset ID is required' }, { status: 400 })
+    }
+
+    // First check if the media asset exists
+    const { data: existingAsset, error: checkError } = await supabase
+      .from('media_assets')
+      .select('id')
+      .eq('id', id)
+      .maybeSingle()
+
+    if (checkError) {
+      console.error('Error checking media asset existence:', checkError)
+      return NextResponse.json({ error: 'Failed to check media asset' }, { status: 500 })
+    }
+
+    if (!existingAsset) {
+      console.error('Media asset not found with ID:', id)
+      return NextResponse.json({ error: 'Media asset not found' }, { status: 404 })
     }
 
     // Build update object
@@ -366,22 +419,36 @@ export async function PUT(request: NextRequest) {
     if (updateData.culturalSensitivityLevel !== undefined) updateObject.cultural_sensitivity_level = updateData.culturalSensitivityLevel
     if (updateData.altText !== undefined) updateObject.alt_text = updateData.altText
 
+    // Entity tagging fields
+    if (updateData.taggedStorytellerIds !== undefined) updateObject.detected_people_ids = updateData.taggedStorytellerIds
+    if (updateData.projectId !== undefined) updateObject.project_id = updateData.projectId
+    if (updateData.organizationId !== undefined) updateObject.organization_id = updateData.organizationId
+
+    console.log('Update object:', updateObject)
+
     // Update media asset in database
     const { data: updatedAsset, error: updateError } = await supabase
       .from('media_assets')
       .update(updateObject)
       .eq('id', id)
       .select()
-      .single()
+      .maybeSingle()
 
     if (updateError) {
       console.error('Error updating media asset:', updateError)
-      return NextResponse.json({ error: 'Failed to update media asset' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to update media asset', details: updateError }, { status: 500 })
     }
 
-    return NextResponse.json({ 
-      media: updatedAsset, 
-      message: 'Media asset updated successfully' 
+    if (!updatedAsset) {
+      console.error('No asset returned after update for ID:', id)
+      return NextResponse.json({ error: 'Update succeeded but no data returned' }, { status: 500 })
+    }
+
+    console.log('✅ Media asset updated successfully:', id)
+
+    return NextResponse.json({
+      media: updatedAsset,
+      message: 'Media asset updated successfully'
     })
 
   } catch (error) {
@@ -392,7 +459,7 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = createSupabaseServiceClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin media delete')

@@ -34,7 +34,7 @@ async function callOllama(
   } = options
 
   // For JSON requests, add explicit JSON format instruction to system message
-  let modifiedMessages = [...messages]
+  const modifiedMessages = [...messages]
   if (response_format?.type === 'json_object') {
     const systemMessage = modifiedMessages.find(m => m.role === 'system')
     if (systemMessage) {

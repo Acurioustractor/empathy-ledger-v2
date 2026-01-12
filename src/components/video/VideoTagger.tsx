@@ -1,26 +1,11 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import React, { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
 import {
   Select,
   SelectContent,
@@ -34,9 +19,9 @@ import {
   MapPin,
   Plus,
   X,
-  Check,
   Loader2,
-  Search
+  Search,
+  ChevronDown
 } from 'lucide-react'
 import { VideoLocationPicker } from './VideoLocationPicker'
 
@@ -79,19 +64,104 @@ const RELATIONSHIP_OPTIONS = [
   { value: 'featured', label: 'Featured' },
 ]
 
+// Simple searchable dropdown component
+function SearchableDropdown<T extends { id: string; name: string }>({
+  items,
+  onSelect,
+  placeholder,
+  renderItem,
+  disabled,
+}: {
+  items: T[]
+  onSelect: (item: T) => void
+  placeholder: string
+  renderItem: (item: T) => React.ReactNode
+  disabled?: boolean
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [search, setSearch] = useState('')
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const filteredItems = items.filter(item =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  )
+
+  return (
+    <div ref={dropdownRef} className="relative">
+      <Button
+        variant="outline"
+        className="w-full justify-start gap-2"
+        onClick={() => setIsOpen(!isOpen)}
+        disabled={disabled}
+        type="button"
+      >
+        <Plus className="h-4 w-4" />
+        {placeholder}
+        <ChevronDown className="h-4 w-4 ml-auto" />
+      </Button>
+
+      {isOpen && (
+        <div className="absolute z-50 w-full mt-1 bg-white border rounded-lg shadow-lg">
+          <div className="p-2 border-b">
+            <div className="relative">
+              <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
+              <Input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search..."
+                className="pl-8 h-8"
+                autoFocus
+              />
+            </div>
+          </div>
+          <div className="max-h-[200px] overflow-y-auto">
+            {filteredItems.length === 0 ? (
+              <p className="text-sm text-stone-500 text-center py-4">No results found</p>
+            ) : (
+              filteredItems.slice(0, 20).map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className="w-full px-3 py-2 text-left text-sm hover:bg-stone-100 cursor-pointer"
+                  onClick={() => {
+                    onSelect(item)
+                    setIsOpen(false)
+                    setSearch('')
+                  }}
+                >
+                  {renderItem(item)}
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
   // Tags state
   const [tags, setTags] = useState<TagItem[]>([])
   const [availableTags, setAvailableTags] = useState<TagItem[]>([])
   const [loadingTags, setLoadingTags] = useState(true)
-  const [tagSearchOpen, setTagSearchOpen] = useState(false)
   const [savingTags, setSavingTags] = useState(false)
 
   // Storytellers state
   const [storytellers, setStorytellers] = useState<Storyteller[]>([])
   const [availableStorytellers, setAvailableStorytellers] = useState<Storyteller[]>([])
   const [loadingStorytellers, setLoadingStorytellers] = useState(true)
-  const [storytellerSearchOpen, setStorytellerSearchOpen] = useState(false)
   const [savingStorytellers, setSavingStorytellers] = useState(false)
 
   // Location state
@@ -155,7 +225,7 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
     fetchStorytellers()
   }, [videoId])
 
-  // Fetch current location (VideoLocationPicker will handle loading state)
+  // Fetch current location
   useEffect(() => {
     const fetchLocation = async () => {
       try {
@@ -183,7 +253,6 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
       })
 
       setTags([...tags, tag])
-      setTagSearchOpen(false)
     } catch (err) {
       console.error('Error adding tag:', err)
     } finally {
@@ -226,7 +295,6 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
       })
 
       setStorytellers([...storytellers, { ...storyteller, relationship: 'appears_in', consentStatus: 'pending' }])
-      setStorytellerSearchOpen(false)
     } catch (err) {
       console.error('Error adding storyteller:', err)
     } finally {
@@ -274,23 +342,23 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
   const filteredStorytellers = availableStorytellers.filter(s => !storytellers.some(ss => ss.id === s.id))
 
   return (
-    <Tabs defaultValue="tags" className="w-full">
+    <Tabs defaultValue="tagger-tags" className="w-full">
       <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="tags" className="gap-2">
+        <TabsTrigger value="tagger-tags" className="gap-2">
           <Tag className="h-4 w-4" />
           Tags
           {tags.length > 0 && (
             <Badge variant="secondary" className="ml-1">{tags.length}</Badge>
           )}
         </TabsTrigger>
-        <TabsTrigger value="people" className="gap-2">
+        <TabsTrigger value="tagger-people" className="gap-2">
           <Users className="h-4 w-4" />
           People
           {storytellers.length > 0 && (
             <Badge variant="secondary" className="ml-1">{storytellers.length}</Badge>
           )}
         </TabsTrigger>
-        <TabsTrigger value="location" className="gap-2">
+        <TabsTrigger value="tagger-location" className="gap-2">
           <MapPin className="h-4 w-4" />
           Location
           {location && (
@@ -300,7 +368,7 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
       </TabsList>
 
       {/* Tags Tab */}
-      <TabsContent value="tags" className="space-y-4 mt-4">
+      <TabsContent value="tagger-tags" className="space-y-4 mt-4">
         {loadingTags ? (
           <div className="space-y-2">
             <Skeleton className="h-10 w-full" />
@@ -308,38 +376,20 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
           </div>
         ) : (
           <>
-            <Popover open={tagSearchOpen} onOpenChange={setTagSearchOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-start gap-2">
-                  <Plus className="h-4 w-4" />
-                  Add Tags
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[300px] p-0" align="start">
-                <Command>
-                  <CommandInput placeholder="Search tags..." />
-                  <CommandList>
-                    <CommandEmpty>No tags found.</CommandEmpty>
-                    <CommandGroup>
-                      {filteredTags.slice(0, 20).map((tag) => (
-                        <CommandItem
-                          key={tag.id}
-                          onSelect={() => addTag(tag)}
-                          className="cursor-pointer"
-                        >
-                          <div className="flex items-center justify-between w-full">
-                            <span>{tag.name}</span>
-                            <Badge variant="outline" className="text-xs">
-                              {tag.category}
-                            </Badge>
-                          </div>
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
+            <SearchableDropdown
+              items={filteredTags}
+              onSelect={addTag}
+              placeholder="Add Tags"
+              disabled={savingTags}
+              renderItem={(tag) => (
+                <div className="flex items-center justify-between w-full">
+                  <span>{tag.name}</span>
+                  <Badge variant="outline" className="text-xs">
+                    {tag.category}
+                  </Badge>
+                </div>
+              )}
+            />
 
             {tags.length > 0 ? (
               <div className="flex flex-wrap gap-2">
@@ -350,15 +400,14 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
                     className="gap-1 pr-1"
                   >
                     {tag.name}
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-4 w-4 p-0 hover:bg-destructive/20"
+                    <button
+                      type="button"
+                      className="h-4 w-4 p-0 hover:bg-destructive/20 rounded inline-flex items-center justify-center"
                       onClick={() => removeTag(tag.id)}
                       disabled={savingTags}
                     >
                       <X className="h-3 w-3" />
-                    </Button>
+                    </button>
                   </Badge>
                 ))}
               </div>
@@ -372,7 +421,7 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
       </TabsContent>
 
       {/* People Tab */}
-      <TabsContent value="people" className="space-y-4 mt-4">
+      <TabsContent value="tagger-people" className="space-y-4 mt-4">
         {loadingStorytellers ? (
           <div className="space-y-2">
             <Skeleton className="h-10 w-full" />
@@ -380,46 +429,28 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
           </div>
         ) : (
           <>
-            <Popover open={storytellerSearchOpen} onOpenChange={setStorytellerSearchOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-start gap-2">
-                  <Plus className="h-4 w-4" />
-                  Add People
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[300px] p-0" align="start">
-                <Command>
-                  <CommandInput placeholder="Search people..." />
-                  <CommandList>
-                    <CommandEmpty>No people found.</CommandEmpty>
-                    <CommandGroup>
-                      {filteredStorytellers.slice(0, 20).map((s) => (
-                        <CommandItem
-                          key={s.id}
-                          onSelect={() => addStoryteller(s)}
-                          className="cursor-pointer"
-                        >
-                          <div className="flex items-center gap-2">
-                            {s.imageUrl ? (
-                              <img
-                                src={s.imageUrl}
-                                alt={s.name}
-                                className="w-6 h-6 rounded-full object-cover"
-                              />
-                            ) : (
-                              <div className="w-6 h-6 rounded-full bg-stone-200 flex items-center justify-center">
-                                <Users className="h-3 w-3 text-stone-500" />
-                              </div>
-                            )}
-                            <span>{s.name}</span>
-                          </div>
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
+            <SearchableDropdown
+              items={filteredStorytellers}
+              onSelect={addStoryteller}
+              placeholder="Add People"
+              disabled={savingStorytellers}
+              renderItem={(s) => (
+                <div className="flex items-center gap-2">
+                  {s.imageUrl ? (
+                    <img
+                      src={s.imageUrl}
+                      alt={s.name}
+                      className="w-6 h-6 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-6 h-6 rounded-full bg-stone-200 flex items-center justify-center">
+                      <Users className="h-3 w-3 text-stone-500" />
+                    </div>
+                  )}
+                  <span>{s.name}</span>
+                </div>
+              )}
+            />
 
             {storytellers.length > 0 ? (
               <div className="space-y-2">
@@ -481,7 +512,7 @@ export function VideoTagger({ videoId, onSave }: VideoTaggerProps) {
       </TabsContent>
 
       {/* Location Tab */}
-      <TabsContent value="location" className="mt-4">
+      <TabsContent value="tagger-location" className="mt-4">
         <VideoLocationPicker
           videoId={videoId}
           initialLocation={location}

@@ -25,6 +25,7 @@ interface MediaSelectorProps {
   multiSelect?: boolean
   allowedTypes?: Array<'image' | 'audio' | 'video' | 'document'>
   title?: string
+  apiEndpoint?: string // Custom API endpoint for MediaLibrary
 }
 
 export function MediaSelector({
@@ -33,7 +34,8 @@ export function MediaSelector({
   onSelect,
   multiSelect = false,
   allowedTypes = ['image', 'audio', 'video', 'document'],
-  title = 'Select Media'
+  title = 'Select Media',
+  apiEndpoint
 }: MediaSelectorProps) {
   const [activeTab, setActiveTab] = useState<'library' | 'upload'>('library')
   const [selectedMedia, setSelectedMedia] = useState<MediaAsset[]>([])
@@ -93,6 +95,7 @@ export function MediaSelector({
               onSelect={handleLibrarySelect}
               multiSelect={multiSelect}
               allowedTypes={allowedTypes}
+              apiEndpoint={apiEndpoint}
             />
           </TabsContent>
 

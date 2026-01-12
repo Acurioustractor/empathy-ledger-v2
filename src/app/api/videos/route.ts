@@ -139,7 +139,8 @@ export async function GET(request: NextRequest) {
 
     // Filters
     const platform = searchParams.get('platform')
-    const project = searchParams.get('project')
+    const project = searchParams.get('project') // Can be organization_id or legacy project_code
+    const organizationId = searchParams.get('organizationId')
     const search = searchParams.get('q') || searchParams.get('search')
     const status = searchParams.get('status') || 'active'
     const tag = searchParams.get('tag')
@@ -164,11 +165,15 @@ export async function GET(request: NextRequest) {
         duration,
         recorded_at,
         project_code,
+        organization_id,
+        project_id,
         cultural_sensitivity_level,
         requires_elder_approval,
         status,
         created_at,
         updated_at,
+        organization:organization_id(id, name, slug, short_name, logo_url),
+        project:project_id(id, name, organization_id),
         video_link_tags(
           tag_id,
           tags:tag_id(id, name, slug, category)
@@ -196,8 +201,16 @@ export async function GET(request: NextRequest) {
       query = query.eq('platform', platform)
     }
 
-    if (project) {
-      query = query.eq('project_code', project)
+    if (organizationId) {
+      query = query.eq('organization_id', organizationId)
+    } else if (project) {
+      // Support filtering by organization_id passed as 'project' param (for backwards compatibility)
+      // Check if it looks like a UUID
+      if (project.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
+        query = query.eq('organization_id', project)
+      } else {
+        query = query.eq('project_code', project)
+      }
     }
 
     if (search) {
@@ -251,7 +264,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Format response
-    const formattedVideos = filteredVideos.map(video => ({
+    const formattedVideos = filteredVideos.map((video: any) => ({
       id: video.id,
       title: video.title,
       description: video.description,
@@ -262,7 +275,20 @@ export async function GET(request: NextRequest) {
       customThumbnailUrl: video.custom_thumbnail_url,
       duration: video.duration,
       recordedAt: video.recorded_at,
-      project: video.project_code,
+      project: video.project_code, // Legacy field
+      organizationId: video.organization_id,
+      projectId: video.project_id,
+      organization: video.organization ? {
+        id: video.organization.id,
+        name: video.organization.name,
+        slug: video.organization.slug,
+        shortName: video.organization.short_name,
+        logoUrl: video.organization.logo_url
+      } : null,
+      projectDetails: video.project ? {
+        id: video.project.id,
+        name: video.project.name
+      } : null,
       sensitivityLevel: video.cultural_sensitivity_level,
       requiresElderApproval: video.requires_elder_approval,
       status: video.status,
@@ -326,6 +352,8 @@ export async function POST(request: NextRequest) {
       duration,
       recordedAt,
       projectCode,
+      organizationId,
+      projectId,
       culturalSensitivityLevel,
       requiresElderApproval,
       tags,
@@ -358,6 +386,8 @@ export async function POST(request: NextRequest) {
         duration,
         recorded_at: recordedAt,
         project_code: projectCode,
+        organization_id: organizationId || null,
+        project_id: projectId || null,
         cultural_sensitivity_level: culturalSensitivityLevel || 'public',
         requires_elder_approval: requiresElderApproval || false
       })

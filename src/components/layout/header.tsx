@@ -318,8 +318,8 @@ export default function Header() {
             {/* User Profile or Auth Buttons */}
             {isLoading && !forceShowAuth ? (
               <div className="hidden sm:flex items-center space-x-2">
-                <div className="animate-pulse bg-grey-200 rounded px-4 py-2 w-20 h-8"></div>
-                <div className="animate-pulse bg-grey-200 rounded px-4 py-2 w-24 h-8"></div>
+                <div className="animate-pulse bg-ochre-100 rounded px-4 py-2 w-20 h-8"></div>
+                <div className="animate-pulse bg-ochre-100 rounded px-4 py-2 w-24 h-8"></div>
               </div>
             ) : actualIsAuthenticated ? (
               <div className="hidden sm:flex items-center">
@@ -503,11 +503,11 @@ export default function Header() {
               {actualIsAuthenticated ? (
                 <>
                   {actualProfile && (
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
+                    <Button
+                      variant="outline"
+                      size="sm"
                       asChild
-                      className="w-full justify-start border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400 hover:text-blue-800 transition-all duration-200 font-semibold mb-2"
+                      className="w-full justify-start border-sage-300 text-sage-700 hover:bg-sage-50 hover:border-sage-400 hover:text-sage-800 transition-all duration-200 font-semibold mb-2"
                     >
                       <Link href="/profile" onClick={closeMobileMenu} className="flex items-center gap-3">
                         <User className="w-4 h-4" />
@@ -517,7 +517,7 @@ export default function Header() {
                           </span>
                           <div className="flex space-x-1 mt-1">
                             {(isAdmin || isSuperAdmin) && (
-                              <Badge variant="outline" size="sm" className="text-xs bg-purple-50 text-purple-700 border-purple-200">
+                              <Badge variant="outline" size="sm" className="text-xs bg-ochre-50 text-ochre-700 border-ochre-200">
                                 Admin
                               </Badge>
                             )}
@@ -537,7 +537,7 @@ export default function Header() {
                       variant="outline"
                       size="sm"
                       asChild
-                      className="w-full justify-start border-grey-300 text-grey-700 hover:bg-grey-50 font-semibold mb-2"
+                      className="w-full justify-start border-charcoal-200 text-charcoal-700 hover:bg-cream font-semibold mb-2"
                     >
                       <Link href={`/storytellers/${actualUser.id}/dashboard`} onClick={closeMobileMenu} className="flex items-center gap-2">
                         <Layout className="w-4 h-4" />
@@ -548,10 +548,10 @@ export default function Header() {
 
 
                   {(isAdmin || isSuperAdmin) && (
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       asChild
-                      className="w-full justify-start bg-purple-600 hover:bg-purple-700 text-white shadow-md hover:shadow-lg transition-all duration-200 font-semibold border-0 mb-2"
+                      className="w-full justify-start bg-ochre hover:bg-ochre-700 text-white shadow-md hover:shadow-lg transition-all duration-200 font-semibold border-0 mb-2"
                     >
                       <Link href="/admin" onClick={closeMobileMenu} className="flex items-center gap-2">
                         <Settings className="w-4 h-4" />
@@ -567,7 +567,7 @@ export default function Header() {
                       handleSignOut()
                       closeMobileMenu()
                     }}
-                    className="w-full justify-start border-grey-400 text-red-600 hover:bg-red-50 hover:text-red-700 font-semibold"
+                    className="w-full justify-start border-charcoal-300 text-terracotta hover:bg-terracotta-50 hover:text-terracotta-700 font-semibold"
                   >
                     Sign Out
                   </Button>
@@ -585,10 +585,10 @@ export default function Header() {
                       Sign In
                     </Link>
                   </Button>
-                  <Button 
-                    size="sm" 
-                    asChild 
-                    className="w-full justify-start bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 font-semibold border-0"
+                  <Button
+                    size="sm"
+                    asChild
+                    className="w-full justify-start bg-terracotta hover:bg-terracotta-dark text-white shadow-lg hover:shadow-xl transition-all duration-200 font-semibold border-0"
                   >
                     <Link href="/auth/signup" onClick={closeMobileMenu} className="flex items-center gap-2">
                       <Heart className="w-4 h-4" />

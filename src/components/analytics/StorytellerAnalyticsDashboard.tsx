@@ -151,10 +151,10 @@ export function StorytellerAnalyticsDashboard({
         {/* Quote Gallery */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <MessageSquote className="h-5 w-5" />
-              Powerful Quotes
-            </CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <MessageSquare className="h-5 w-5" />
+                Powerful Quotes
+              </CardTitle>
           </CardHeader>
           <CardContent>
             {quotes && quotes.length > 0 ? (

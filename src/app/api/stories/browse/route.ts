@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
         orderBy = { column: 'created_at', ascending: true }
         break
       case 'popular':
-        orderBy = { column: 'views_count', ascending: false }
+        orderBy = { column: 'view_count', ascending: false }
         break
       case 'alphabetical':
         orderBy = { column: 'title', ascending: true }
@@ -111,7 +111,7 @@ export async function GET(request: NextRequest) {
       story_type: story.story_type,
       featured_image_url: story.story_image_url,
       reading_time_minutes: story.reading_time,
-      views_count: story.views_count || 0,
+      view_count: story.views_count || 0,
       cultural_tags: story.cultural_themes || [],
       language: story.language,
       created_at: story.created_at,

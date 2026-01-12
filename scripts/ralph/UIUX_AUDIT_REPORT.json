@@ -1,0 +1,3746 @@
+{
+  "generated": "2026-01-06T21:01:09.098Z",
+  "summary": {
+    "totalRoutes": 124,
+    "totalComponents": 364,
+    "screenshotsCaptured": 0,
+    "brandIssues": 5892
+  },
+  "routes": {
+    "public": [
+      {
+        "path": "/",
+        "name": "homepage",
+        "category": "public",
+        "description": "Page at /",
+        "file": "src/app/page.tsx"
+      },
+      {
+        "path": "/stories",
+        "name": "stories",
+        "category": "public",
+        "description": "Page at /stories",
+        "file": "src/app/stories/page.tsx"
+      },
+      {
+        "path": "/projects",
+        "name": "projects",
+        "category": "public",
+        "description": "Page at /projects",
+        "file": "src/app/projects/page.tsx"
+      },
+      {
+        "path": "/privacy",
+        "name": "privacy",
+        "category": "public",
+        "description": "Page at /privacy",
+        "file": "src/app/privacy/page.tsx"
+      },
+      {
+        "path": "/guidelines",
+        "name": "guidelines",
+        "category": "public",
+        "description": "Page at /guidelines",
+        "file": "src/app/guidelines/page.tsx"
+      },
+      {
+        "path": "/how-it-works",
+        "name": "how-it-works",
+        "category": "public",
+        "description": "Page at /how-it-works",
+        "file": "src/app/how-it-works/page.tsx"
+      },
+      {
+        "path": "/galleries",
+        "name": "galleries",
+        "category": "public",
+        "description": "Page at /galleries",
+        "file": "src/app/galleries/page.tsx"
+      },
+      {
+        "path": "/about",
+        "name": "about",
+        "category": "public",
+        "description": "Page at /about",
+        "file": "src/app/about/page.tsx"
+      },
+      {
+        "path": "/stories/create-modern",
+        "name": "stories-create-modern",
+        "category": "public",
+        "description": "Page at /stories/create-modern",
+        "file": "src/app/stories/create-modern/page.tsx"
+      },
+      {
+        "path": "/stories/create",
+        "name": "stories-create",
+        "category": "public",
+        "description": "Page at /stories/create",
+        "file": "src/app/stories/create/page.tsx"
+      },
+      {
+        "path": "/stories/create-ai",
+        "name": "stories-create-ai",
+        "category": "public",
+        "description": "Page at /stories/create-ai",
+        "file": "src/app/stories/create-ai/page.tsx"
+      },
+      {
+        "path": "/projects/:id",
+        "name": "projects-:id",
+        "category": "public",
+        "description": "Page at /projects/:id",
+        "file": "src/app/projects/[id]/page.tsx"
+      },
+      {
+        "path": "/galleries/create",
+        "name": "galleries-create",
+        "category": "public",
+        "description": "Page at /galleries/create",
+        "file": "src/app/galleries/create/page.tsx"
+      },
+      {
+        "path": "/galleries/:id",
+        "name": "galleries-:id",
+        "category": "public",
+        "description": "Page at /galleries/:id",
+        "file": "src/app/galleries/[id]/page.tsx"
+      },
+      {
+        "path": "//browse",
+        "name": "browse",
+        "category": "public",
+        "description": "Page at //browse",
+        "file": "src/app/(public)/browse/page.tsx"
+      },
+      {
+        "path": "//syndication-poc",
+        "name": "syndication-poc",
+        "category": "public",
+        "description": "Page at //syndication-poc",
+        "file": "src/app/(authenticated)/syndication-poc/page.tsx"
+      },
+      {
+        "path": "/projects/:id/analysis",
+        "name": "projects-:id-analysis",
+        "category": "public",
+        "description": "Page at /projects/:id/analysis",
+        "file": "src/app/projects/[id]/analysis/page.tsx"
+      },
+      {
+        "path": "/galleries/:id/edit",
+        "name": "galleries-:id-edit",
+        "category": "public",
+        "description": "Page at /galleries/:id/edit",
+        "file": "src/app/galleries/[id]/edit/page.tsx"
+      },
+      {
+        "path": "//stories/:id",
+        "name": "stories-:id",
+        "category": "public",
+        "description": "Page at //stories/:id",
+        "file": "src/app/(public)/stories/[id]/page.tsx"
+      }
+    ],
+    "auth": [
+      {
+        "path": "/auth/signup",
+        "name": "auth-signup",
+        "category": "auth",
+        "description": "Page at /auth/signup",
+        "file": "src/app/auth/signup/page.tsx"
+      },
+      {
+        "path": "/auth/signin",
+        "name": "auth-signin",
+        "category": "auth",
+        "description": "Page at /auth/signin",
+        "file": "src/app/auth/signin/page.tsx"
+      },
+      {
+        "path": "/auth/forgot-password",
+        "name": "auth-forgot-password",
+        "category": "auth",
+        "description": "Page at /auth/forgot-password",
+        "file": "src/app/auth/forgot-password/page.tsx"
+      }
+    ],
+    "admin": [
+      {
+        "path": "/admin",
+        "name": "admin",
+        "category": "admin",
+        "description": "Page at /admin",
+        "file": "src/app/admin/page.tsx"
+      },
+      {
+        "path": "/admin/transcripts",
+        "name": "admin-transcripts",
+        "category": "admin",
+        "description": "Page at /admin/transcripts",
+        "file": "src/app/admin/transcripts/page.tsx"
+      },
+      {
+        "path": "/admin/workflow",
+        "name": "admin-workflow",
+        "category": "admin",
+        "description": "Page at /admin/workflow",
+        "file": "src/app/admin/workflow/page.tsx"
+      },
+      {
+        "path": "/admin/testing",
+        "name": "admin-testing",
+        "category": "admin",
+        "description": "Page at /admin/testing",
+        "file": "src/app/admin/testing/page.tsx"
+      },
+      {
+        "path": "/admin/reviews",
+        "name": "admin-reviews",
+        "category": "admin",
+        "description": "Page at /admin/reviews",
+        "file": "src/app/admin/reviews/page.tsx"
+      },
+      {
+        "path": "/admin/stories",
+        "name": "admin-stories",
+        "category": "admin",
+        "description": "Page at /admin/stories",
+        "file": "src/app/admin/stories/page.tsx"
+      },
+      {
+        "path": "/admin/storytellers",
+        "name": "admin-storytellers",
+        "category": "admin",
+        "description": "Page at /admin/storytellers",
+        "file": "src/app/admin/storytellers/page.tsx"
+      },
+      {
+        "path": "/admin/settings",
+        "name": "admin-settings",
+        "category": "admin",
+        "description": "Page at /admin/settings",
+        "file": "src/app/admin/settings/page.tsx"
+      },
+      {
+        "path": "/admin/quick-add",
+        "name": "admin-quick-add",
+        "category": "admin",
+        "description": "Page at /admin/quick-add",
+        "file": "src/app/admin/quick-add/page.tsx"
+      },
+      {
+        "path": "/admin/photos",
+        "name": "admin-photos",
+        "category": "admin",
+        "description": "Page at /admin/photos",
+        "file": "src/app/admin/photos/page.tsx"
+      },
+      {
+        "path": "/admin/projects",
+        "name": "admin-projects",
+        "category": "admin",
+        "description": "Page at /admin/projects",
+        "file": "src/app/admin/projects/page.tsx"
+      },
+      {
+        "path": "/admin/platform-value",
+        "name": "admin-platform-value",
+        "category": "admin",
+        "description": "Page at /admin/platform-value",
+        "file": "src/app/admin/platform-value/page.tsx"
+      },
+      {
+        "path": "/admin/organisations",
+        "name": "admin-organisations",
+        "category": "admin",
+        "description": "Page at /admin/organisations",
+        "file": "src/app/admin/organisations/page.tsx"
+      },
+      {
+        "path": "/admin/media-review",
+        "name": "admin-media-review",
+        "category": "admin",
+        "description": "Page at /admin/media-review",
+        "file": "src/app/admin/media-review/page.tsx"
+      },
+      {
+        "path": "/admin/member-management",
+        "name": "admin-member-management",
+        "category": "admin",
+        "description": "Page at /admin/member-management",
+        "file": "src/app/admin/member-management/page.tsx"
+      },
+      {
+        "path": "/admin/modern",
+        "name": "admin-modern",
+        "category": "admin",
+        "description": "Page at /admin/modern",
+        "file": "src/app/admin/modern/page.tsx"
+      },
+      {
+        "path": "/admin/locations",
+        "name": "admin-locations",
+        "category": "admin",
+        "description": "Page at /admin/locations",
+        "file": "src/app/admin/locations/page.tsx"
+      },
+      {
+        "path": "/admin/cleanup",
+        "name": "admin-cleanup",
+        "category": "admin",
+        "description": "Page at /admin/cleanup",
+        "file": "src/app/admin/cleanup/page.tsx"
+      },
+      {
+        "path": "/admin/galleries",
+        "name": "admin-galleries",
+        "category": "admin",
+        "description": "Page at /admin/galleries",
+        "file": "src/app/admin/galleries/page.tsx"
+      },
+      {
+        "path": "/admin/bulk-edit",
+        "name": "admin-bulk-edit",
+        "category": "admin",
+        "description": "Page at /admin/bulk-edit",
+        "file": "src/app/admin/bulk-edit/page.tsx"
+      },
+      {
+        "path": "/admin/analytics",
+        "name": "admin-analytics",
+        "category": "admin",
+        "description": "Page at /admin/analytics",
+        "file": "src/app/admin/analytics/page.tsx"
+      },
+      {
+        "path": "/admin/storytellers/create",
+        "name": "admin-storytellers-create",
+        "category": "admin",
+        "description": "Page at /admin/storytellers/create",
+        "file": "src/app/admin/storytellers/create/page.tsx"
+      },
+      {
+        "path": "/admin/transcripts/:id",
+        "name": "admin-transcripts-:id",
+        "category": "admin",
+        "description": "Page at /admin/transcripts/:id",
+        "file": "src/app/admin/transcripts/[id]/page.tsx"
+      },
+      {
+        "path": "/admin/organisations/:id",
+        "name": "admin-organisations-:id",
+        "category": "admin",
+        "description": "Page at /admin/organisations/:id",
+        "file": "src/app/admin/organisations/[id]/page.tsx"
+      },
+      {
+        "path": "/admin/organisations/create",
+        "name": "admin-organisations-create",
+        "category": "admin",
+        "description": "Page at /admin/organisations/create",
+        "file": "src/app/admin/organisations/create/page.tsx"
+      },
+      {
+        "path": "/admin/modern/storytellers",
+        "name": "admin-modern-storytellers",
+        "category": "admin",
+        "description": "Page at /admin/modern/storytellers",
+        "file": "src/app/admin/modern/storytellers/page.tsx"
+      },
+      {
+        "path": "/admin/transcripts/:id/edit",
+        "name": "admin-transcripts-:id-edit",
+        "category": "admin",
+        "description": "Page at /admin/transcripts/:id/edit",
+        "file": "src/app/admin/transcripts/[id]/edit/page.tsx"
+      },
+      {
+        "path": "/admin/storytellers/:id/edit",
+        "name": "admin-storytellers-:id-edit",
+        "category": "admin",
+        "description": "Page at /admin/storytellers/:id/edit",
+        "file": "src/app/admin/storytellers/[id]/edit/page.tsx"
+      },
+      {
+        "path": "/admin/projects/:id/storytellers",
+        "name": "admin-projects-:id-storytellers",
+        "category": "admin",
+        "description": "Page at /admin/projects/:id/storytellers",
+        "file": "src/app/admin/projects/[id]/storytellers/page.tsx"
+      },
+      {
+        "path": "/admin/organisations/:id/edit",
+        "name": "admin-organisations-:id-edit",
+        "category": "admin",
+        "description": "Page at /admin/organisations/:id/edit",
+        "file": "src/app/admin/organisations/[id]/edit/page.tsx"
+      }
+    ],
+    "analytics": [
+      {
+        "path": "/analytics",
+        "name": "analytics",
+        "category": "analytics",
+        "description": "Page at /analytics",
+        "file": "src/app/analytics/page.tsx"
+      },
+      {
+        "path": "/analytics/themes",
+        "name": "analytics-themes",
+        "category": "analytics",
+        "description": "Page at /analytics/themes",
+        "file": "src/app/analytics/themes/page.tsx"
+      },
+      {
+        "path": "/analytics/storyteller-network",
+        "name": "analytics-storyteller-network",
+        "category": "analytics",
+        "description": "Page at /analytics/storyteller-network",
+        "file": "src/app/analytics/storyteller-network/page.tsx"
+      },
+      {
+        "path": "/analytics/quotes",
+        "name": "analytics-quotes",
+        "category": "analytics",
+        "description": "Page at /analytics/quotes",
+        "file": "src/app/analytics/quotes/page.tsx"
+      },
+      {
+        "path": "/analytics/geographic",
+        "name": "analytics-geographic",
+        "category": "analytics",
+        "description": "Page at /analytics/geographic",
+        "file": "src/app/analytics/geographic/page.tsx"
+      },
+      {
+        "path": "/analytics/demographics",
+        "name": "analytics-demographics",
+        "category": "analytics",
+        "description": "Page at /analytics/demographics",
+        "file": "src/app/analytics/demographics/page.tsx"
+      },
+      {
+        "path": "/analytics/community-impact",
+        "name": "analytics-community-impact",
+        "category": "analytics",
+        "description": "Page at /analytics/community-impact",
+        "file": "src/app/analytics/community-impact/page.tsx"
+      }
+    ],
+    "organisation": [
+      {
+        "path": "/organisations",
+        "name": "organisations",
+        "category": "organisation",
+        "description": "Page at /organisations",
+        "file": "src/app/organisations/page.tsx"
+      },
+      {
+        "path": "/organisations/snow-foundation",
+        "name": "organisations-snow-foundation",
+        "category": "organisation",
+        "description": "Page at /organisations/snow-foundation",
+        "file": "src/app/organisations/snow-foundation/page.tsx"
+      },
+      {
+        "path": "/organisations/simple-dashboard",
+        "name": "organisations-simple-dashboard",
+        "category": "organisation",
+        "description": "Page at /organisations/simple-dashboard",
+        "file": "src/app/organisations/simple-dashboard/page.tsx"
+      },
+      {
+        "path": "/organisations/create",
+        "name": "organisations-create",
+        "category": "organisation",
+        "description": "Page at /organisations/create",
+        "file": "src/app/organisations/create/page.tsx"
+      },
+      {
+        "path": "/organisations/:id",
+        "name": "organisations-:id",
+        "category": "organisation",
+        "description": "Page at /organisations/:id",
+        "file": "src/app/organisations/[id]/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/transcripts",
+        "name": "organisations-:id-transcripts",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/transcripts",
+        "file": "src/app/organisations/[id]/transcripts/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/storytellers",
+        "name": "organisations-:id-storytellers",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/storytellers",
+        "file": "src/app/organisations/[id]/storytellers/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/test-simple",
+        "name": "organisations-:id-test-simple",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/test-simple",
+        "file": "src/app/organisations/[id]/test-simple/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/stories",
+        "name": "organisations-:id-stories",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/stories",
+        "file": "src/app/organisations/[id]/stories/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/members",
+        "name": "organisations-:id-members",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/members",
+        "file": "src/app/organisations/[id]/members/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/projects",
+        "name": "organisations-:id-projects",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/projects",
+        "file": "src/app/organisations/[id]/projects/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/settings",
+        "name": "organisations-:id-settings",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/settings",
+        "file": "src/app/organisations/[id]/settings/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/impact-analytics",
+        "name": "organisations-:id-impact-analytics",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/impact-analytics",
+        "file": "src/app/organisations/[id]/impact-analytics/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/galleries",
+        "name": "organisations-:id-galleries",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/galleries",
+        "file": "src/app/organisations/[id]/galleries/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/dashboard",
+        "name": "organisations-:id-dashboard",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/dashboard",
+        "file": "src/app/organisations/[id]/dashboard/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/analytics",
+        "name": "organisations-:id-analytics",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/analytics",
+        "file": "src/app/organisations/[id]/analytics/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/analysis",
+        "name": "organisations-:id-analysis",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/analysis",
+        "file": "src/app/organisations/[id]/analysis/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/storytellers/add",
+        "name": "organisations-:id-storytellers-add",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/storytellers/add",
+        "file": "src/app/organisations/[id]/storytellers/add/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/projects/:projectId/manage",
+        "name": "organisations-:id-projects-:projectId-manage",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/projects/:projectId/manage",
+        "file": "src/app/organisations/[id]/projects/[projectId]/manage/page.tsx"
+      },
+      {
+        "path": "/organisations/:id/projects/:projectId/analysis",
+        "name": "organisations-:id-projects-:projectId-analysis",
+        "category": "organisation",
+        "description": "Page at /organisations/:id/projects/:projectId/analysis",
+        "file": "src/app/organisations/[id]/projects/[projectId]/analysis/page.tsx"
+      }
+    ],
+    "storyteller": [
+      {
+        "path": "/storytellers",
+        "name": "storytellers",
+        "category": "storyteller",
+        "description": "Page at /storytellers",
+        "file": "src/app/storytellers/page.tsx"
+      },
+      {
+        "path": "/storytellers/dashboard",
+        "name": "storytellers-dashboard",
+        "category": "storyteller",
+        "description": "Page at /storytellers/dashboard",
+        "file": "src/app/storytellers/dashboard/page.tsx"
+      },
+      {
+        "path": "/storytellers/create",
+        "name": "storytellers-create",
+        "category": "storyteller",
+        "description": "Page at /storytellers/create",
+        "file": "src/app/storytellers/create/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id",
+        "name": "storytellers-:id",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id",
+        "file": "src/app/storytellers/[id]/page.tsx"
+      },
+      {
+        "path": "/storyteller/dashboard",
+        "name": "storyteller-dashboard",
+        "category": "storyteller",
+        "description": "Page at /storyteller/dashboard",
+        "file": "src/app/storyteller/dashboard/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/syndication",
+        "name": "storytellers-:id-syndication",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/syndication",
+        "file": "src/app/storytellers/[id]/syndication/page.tsx"
+      },
+      {
+        "path": "/storytellers/modern/dashboard",
+        "name": "storytellers-modern-dashboard",
+        "category": "storyteller",
+        "description": "Page at /storytellers/modern/dashboard",
+        "file": "src/app/storytellers/modern/dashboard/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/stories",
+        "name": "storytellers-:id-stories",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/stories",
+        "file": "src/app/storytellers/[id]/stories/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/skills",
+        "name": "storytellers-:id-skills",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/skills",
+        "file": "src/app/storytellers/[id]/skills/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/opportunities",
+        "name": "storytellers-:id-opportunities",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/opportunities",
+        "file": "src/app/storytellers/[id]/opportunities/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/media-hub",
+        "name": "storytellers-:id-media-hub",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/media-hub",
+        "file": "src/app/storytellers/[id]/media-hub/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/insights",
+        "name": "storytellers-:id-insights",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/insights",
+        "file": "src/app/storytellers/[id]/insights/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/galleries",
+        "name": "storytellers-:id-galleries",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/galleries",
+        "file": "src/app/storytellers/[id]/galleries/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/immersive",
+        "name": "storytellers-:id-immersive",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/immersive",
+        "file": "src/app/storytellers/[id]/immersive/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/impact",
+        "name": "storytellers-:id-impact",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/impact",
+        "file": "src/app/storytellers/[id]/impact/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/enhanced",
+        "name": "storytellers-:id-enhanced",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/enhanced",
+        "file": "src/app/storytellers/[id]/enhanced/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/edit",
+        "name": "storytellers-:id-edit",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/edit",
+        "file": "src/app/storytellers/[id]/edit/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/dashboard",
+        "name": "storytellers-:id-dashboard",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/dashboard",
+        "file": "src/app/storytellers/[id]/dashboard/page.tsx"
+      },
+      {
+        "path": "/storytellers/:id/analytics",
+        "name": "storytellers-:id-analytics",
+        "category": "storyteller",
+        "description": "Page at /storytellers/:id/analytics",
+        "file": "src/app/storytellers/[id]/analytics/page.tsx"
+      }
+    ],
+    "other": [
+      {
+        "path": "/test-storyteller-cards",
+        "name": "test-storyteller-cards",
+        "category": "other",
+        "description": "Page at /test-storyteller-cards",
+        "file": "src/app/test-storyteller-cards/page.tsx"
+      },
+      {
+        "path": "/test-simple",
+        "name": "test-simple",
+        "category": "other",
+        "description": "Page at /test-simple",
+        "file": "src/app/test-simple/page.tsx"
+      },
+      {
+        "path": "/test-orgs",
+        "name": "test-orgs",
+        "category": "other",
+        "description": "Page at /test-orgs",
+        "file": "src/app/test-orgs/page.tsx"
+      },
+      {
+        "path": "/test-modern-cards",
+        "name": "test-modern-cards",
+        "category": "other",
+        "description": "Page at /test-modern-cards",
+        "file": "src/app/test-modern-cards/page.tsx"
+      },
+      {
+        "path": "/test-minimal",
+        "name": "test-minimal",
+        "category": "other",
+        "description": "Page at /test-minimal",
+        "file": "src/app/test-minimal/page.tsx"
+      },
+      {
+        "path": "/test-location-picker",
+        "name": "test-location-picker",
+        "category": "other",
+        "description": "Page at /test-location-picker",
+        "file": "src/app/test-location-picker/page.tsx"
+      },
+      {
+        "path": "/test-auth",
+        "name": "test-auth",
+        "category": "other",
+        "description": "Page at /test-auth",
+        "file": "src/app/test-auth/page.tsx"
+      },
+      {
+        "path": "/test-analytics",
+        "name": "test-analytics",
+        "category": "other",
+        "description": "Page at /test-analytics",
+        "file": "src/app/test-analytics/page.tsx"
+      },
+      {
+        "path": "/terms",
+        "name": "terms",
+        "category": "other",
+        "description": "Page at /terms",
+        "file": "src/app/terms/page.tsx"
+      },
+      {
+        "path": "/profile",
+        "name": "profile",
+        "category": "other",
+        "description": "Page at /profile",
+        "file": "src/app/profile/page.tsx"
+      },
+      {
+        "path": "/my-analytics",
+        "name": "my-analytics",
+        "category": "other",
+        "description": "Page at /my-analytics",
+        "file": "src/app/my-analytics/page.tsx"
+      },
+      {
+        "path": "/transcripts/create",
+        "name": "transcripts-create",
+        "category": "other",
+        "description": "Page at /transcripts/create",
+        "file": "src/app/transcripts/create/page.tsx"
+      },
+      {
+        "path": "/transcripts/:id",
+        "name": "transcripts-:id",
+        "category": "other",
+        "description": "Page at /transcripts/:id",
+        "file": "src/app/transcripts/[id]/page.tsx"
+      },
+      {
+        "path": "/test/sprint-5",
+        "name": "test-sprint-5",
+        "category": "other",
+        "description": "Page at /test/sprint-5",
+        "file": "src/app/test/sprint-5/page.tsx"
+      },
+      {
+        "path": "/test/sprint-4",
+        "name": "test-sprint-4",
+        "category": "other",
+        "description": "Page at /test/sprint-4",
+        "file": "src/app/test/sprint-4/page.tsx"
+      },
+      {
+        "path": "/test/sprint-3",
+        "name": "test-sprint-3",
+        "category": "other",
+        "description": "Page at /test/sprint-3",
+        "file": "src/app/test/sprint-3/page.tsx"
+      },
+      {
+        "path": "/test/sprint-2",
+        "name": "test-sprint-2",
+        "category": "other",
+        "description": "Page at /test/sprint-2",
+        "file": "src/app/test/sprint-2/page.tsx"
+      },
+      {
+        "path": "/test/sprint-1",
+        "name": "test-sprint-1",
+        "category": "other",
+        "description": "Page at /test/sprint-1",
+        "file": "src/app/test/sprint-1/page.tsx"
+      },
+      {
+        "path": "/syndication/dashboard",
+        "name": "syndication-dashboard",
+        "category": "other",
+        "description": "Page at /syndication/dashboard",
+        "file": "src/app/syndication/dashboard/page.tsx"
+      },
+      {
+        "path": "/photos/:id",
+        "name": "photos-:id",
+        "category": "other",
+        "description": "Page at /photos/:id",
+        "file": "src/app/photos/[id]/page.tsx"
+      },
+      {
+        "path": "/join/:code",
+        "name": "join-:code",
+        "category": "other",
+        "description": "Page at /join/:code",
+        "file": "src/app/join/[code]/page.tsx"
+      },
+      {
+        "path": "/test/sprint-5/curation",
+        "name": "test-sprint-5-curation",
+        "category": "other",
+        "description": "Page at /test/sprint-5/curation",
+        "file": "src/app/test/sprint-5/curation/page.tsx"
+      },
+      {
+        "path": "/test/sprint-5/recruitment",
+        "name": "test-sprint-5-recruitment",
+        "category": "other",
+        "description": "Page at /test/sprint-5/recruitment",
+        "file": "src/app/test/sprint-5/recruitment/page.tsx"
+      },
+      {
+        "path": "/test/sprint-5/consent-tracking",
+        "name": "test-sprint-5-consent-tracking",
+        "category": "other",
+        "description": "Page at /test/sprint-5/consent-tracking",
+        "file": "src/app/test/sprint-5/consent-tracking/page.tsx"
+      },
+      {
+        "path": "/test/sprint-5/elder-review",
+        "name": "test-sprint-5-elder-review",
+        "category": "other",
+        "description": "Page at /test/sprint-5/elder-review",
+        "file": "src/app/test/sprint-5/elder-review/page.tsx"
+      },
+      {
+        "path": "/test/sprint-5/analytics",
+        "name": "test-sprint-5-analytics",
+        "category": "other",
+        "description": "Page at /test/sprint-5/analytics",
+        "file": "src/app/test/sprint-5/analytics/page.tsx"
+      }
+    ]
+  },
+  "components": {
+    "ui": [
+      {
+        "name": "typography",
+        "path": "src/components/ui/typography.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "tooltip",
+        "path": "src/components/ui/tooltip.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "textarea",
+        "path": "src/components/ui/textarea.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "tabs",
+        "path": "src/components/ui/tabs.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "table",
+        "path": "src/components/ui/table.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "switch",
+        "path": "src/components/ui/switch.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "storytelling-card",
+        "path": "src/components/ui/storytelling-card.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "storyteller-profile-card",
+        "path": "src/components/ui/storyteller-profile-card.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "story-card",
+        "path": "src/components/ui/story-card.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "slider",
+        "path": "src/components/ui/slider.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "skeleton",
+        "path": "src/components/ui/skeleton.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "sheet",
+        "path": "src/components/ui/sheet.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "separator",
+        "path": "src/components/ui/separator.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "select",
+        "path": "src/components/ui/select.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "scroll-area",
+        "path": "src/components/ui/scroll-area.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "radio-group",
+        "path": "src/components/ui/radio-group.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "progress",
+        "path": "src/components/ui/progress.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "popover",
+        "path": "src/components/ui/popover.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "network-graph",
+        "path": "src/components/ui/network-graph.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "metric-card",
+        "path": "src/components/ui/metric-card.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "location-picker",
+        "path": "src/components/ui/location-picker.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "label",
+        "path": "src/components/ui/label.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "input",
+        "path": "src/components/ui/input.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "dropdown-menu",
+        "path": "src/components/ui/dropdown-menu.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "dialog",
+        "path": "src/components/ui/dialog.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "date-picker",
+        "path": "src/components/ui/date-picker.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "cultural-chart",
+        "path": "src/components/ui/cultural-chart.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "command",
+        "path": "src/components/ui/command.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "collapsible",
+        "path": "src/components/ui/collapsible.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "checkbox",
+        "path": "src/components/ui/checkbox.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "card",
+        "path": "src/components/ui/card.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "calendar",
+        "path": "src/components/ui/calendar.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "button",
+        "path": "src/components/ui/button.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "breadcrumb",
+        "path": "src/components/ui/breadcrumb.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "badge",
+        "path": "src/components/ui/badge.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "avatar",
+        "path": "src/components/ui/avatar.tsx",
+        "type": "ui",
+        "usedIn": []
+      },
+      {
+        "name": "alert",
+        "path": "src/components/ui/alert.tsx",
+        "type": "ui",
+        "usedIn": []
+      }
+    ],
+    "pages": [],
+    "features": [
+      {
+        "name": "TranscriptCreationDialog",
+        "path": "src/components/transcripts/TranscriptCreationDialog.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThemeTimeline",
+        "path": "src/components/themes/ThemeTimeline.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThemeStatus",
+        "path": "src/components/themes/ThemeStatus.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThemeRelationshipsGraph",
+        "path": "src/components/themes/ThemeRelationshipsGraph.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThemeEvolutionDashboard",
+        "path": "src/components/themes/ThemeEvolutionDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SemanticShiftDetector",
+        "path": "src/components/themes/SemanticShiftDetector.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProminenceChart",
+        "path": "src/components/themes/ProminenceChart.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "GrowthRateCalculator",
+        "path": "src/components/themes/GrowthRateCalculator.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "UserTestingDashboard",
+        "path": "src/components/testing/UserTestingDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SyndicationDashboard",
+        "path": "src/components/syndication/SyndicationDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SyndicationConsentList",
+        "path": "src/components/syndication/SyndicationConsentList.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryConnectionsDashboard",
+        "path": "src/components/syndication/StoryConnectionsDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ShareYourStoryModal",
+        "path": "src/components/syndication/ShareYourStoryModal.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "RevokeConsentDialog",
+        "path": "src/components/syndication/RevokeConsentDialog.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "RemovalProgressTracker",
+        "path": "src/components/syndication/RemovalProgressTracker.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ConsentStatusCard",
+        "path": "src/components/syndication/ConsentStatusCard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ConsentStatusBadge",
+        "path": "src/components/syndication/ConsentStatusBadge.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "HelpWidget",
+        "path": "src/components/support/HelpWidget.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "FloatingHelpButton",
+        "path": "src/components/support/FloatingHelpButton.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "unified-storyteller-card",
+        "path": "src/components/storyteller/unified-storyteller-card.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "storyteller-card",
+        "path": "src/components/storyteller/storyteller-card.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "storyteller-card-demo",
+        "path": "src/components/storyteller/storyteller-card-demo.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "storyteller-card-collection",
+        "path": "src/components/storyteller/storyteller-card-collection.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "enhanced-storyteller-card",
+        "path": "src/components/storyteller/enhanced-storyteller-card.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "elegant-storyteller-card",
+        "path": "src/components/storyteller/elegant-storyteller-card.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "VideoManager",
+        "path": "src/components/storyteller/VideoManager.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "TranscriptToStory",
+        "path": "src/components/storyteller/TranscriptToStory.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "TranscriptList",
+        "path": "src/components/storyteller/TranscriptList.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "TranscriptCard",
+        "path": "src/components/storyteller/TranscriptCard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StorytellerNavigation",
+        "path": "src/components/storyteller/StorytellerNavigation.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StorytellerHeader",
+        "path": "src/components/storyteller/StorytellerHeader.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StorytellerDashboard",
+        "path": "src/components/storyteller/StorytellerDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryDashboard",
+        "path": "src/components/storyteller/StoryDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "EditableSummary",
+        "path": "src/components/storyteller/EditableSummary.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "InterviewRecorder",
+        "path": "src/components/shared/InterviewRecorder.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "story-card",
+        "path": "src/components/story/story-card.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "TriggerWarning",
+        "path": "src/components/story/TriggerWarning.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StorytellerSidebar",
+        "path": "src/components/story/StorytellerSidebar.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryPage",
+        "path": "src/components/story/StoryPage.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryHeader",
+        "path": "src/components/story/StoryHeader.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryGalleryLinker",
+        "path": "src/components/story/StoryGalleryLinker.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryGallery",
+        "path": "src/components/story/StoryGallery.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ShareButton",
+        "path": "src/components/story/ShareButton.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SacredContentWarning",
+        "path": "src/components/story/SacredContentWarning.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "RelatedStories",
+        "path": "src/components/story/RelatedStories.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CulturalContextPanel",
+        "path": "src/components/story/CulturalContextPanel.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SemanticSearchEngine",
+        "path": "src/components/search/SemanticSearchEngine.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SearchHistory",
+        "path": "src/components/search/SearchHistory.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "GlobalSearchDashboard",
+        "path": "src/components/search/GlobalSearchDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "TranscriptImporter",
+        "path": "src/components/stories/TranscriptImporter.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryVisibilityControls",
+        "path": "src/components/stories/StoryVisibilityControls.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryTemplates",
+        "path": "src/components/stories/StoryTemplates.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryPublisher",
+        "path": "src/components/stories/StoryPublisher.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryPreview",
+        "path": "src/components/stories/StoryPreview.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryModeSelector",
+        "path": "src/components/stories/StoryModeSelector.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryEditor",
+        "path": "src/components/stories/StoryEditor.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryCreationForm",
+        "path": "src/components/stories/StoryCreationForm.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "QuickAddStory",
+        "path": "src/components/stories/QuickAddStory.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "GuidedStoryCreator",
+        "path": "src/components/stories/GuidedStoryCreator.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "RecruitmentDashboard",
+        "path": "src/components/recruitment/RecruitmentDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "QRCodeGenerator",
+        "path": "src/components/recruitment/QRCodeGenerator.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MagicLinkGenerator",
+        "path": "src/components/recruitment/MagicLinkGenerator.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "InvitationTracker",
+        "path": "src/components/recruitment/InvitationTracker.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "InvitationManager",
+        "path": "src/components/recruitment/InvitationManager.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SavedSearchesDashboard",
+        "path": "src/components/saved-searches/SavedSearchesDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "FunderReportGenerator",
+        "path": "src/components/reports/FunderReportGenerator.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "UnpublishDialog",
+        "path": "src/components/publishing/UnpublishDialog.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SchedulePublish",
+        "path": "src/components/publishing/SchedulePublish.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PublishingWizard",
+        "path": "src/components/publishing/PublishingWizard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PublishingChecklist",
+        "path": "src/components/publishing/PublishingChecklist.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PublishConfirmation",
+        "path": "src/components/publishing/PublishConfirmation.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PreviewModal",
+        "path": "src/components/publishing/PreviewModal.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ArchiveDialog",
+        "path": "src/components/publishing/ArchiveDialog.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "GlobalProviders",
+        "path": "src/components/providers/GlobalProviders.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ClientAuthProvider",
+        "path": "src/components/providers/ClientAuthProvider.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "TerritoryAcknowledgment",
+        "path": "src/components/public/TerritoryAcknowledgment.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StorytellerSpotlight",
+        "path": "src/components/public/StorytellerSpotlight.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "RecentStoriesCarousel",
+        "path": "src/components/public/RecentStoriesCarousel.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PublicHomepage",
+        "path": "src/components/public/PublicHomepage.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PlatformStats",
+        "path": "src/components/public/PlatformStats.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "OCAPCallout",
+        "path": "src/components/public/OCAPCallout.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "HeroSection",
+        "path": "src/components/public/HeroSection.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "HeroSearch",
+        "path": "src/components/public/HeroSearch.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "FeaturedStoriesGrid",
+        "path": "src/components/public/FeaturedStoriesGrid.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "BrowseByTheme",
+        "path": "src/components/public/BrowseByTheme.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectsListing",
+        "path": "src/components/projects/ProjectsListing.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectSeedInterviewWizard",
+        "path": "src/components/projects/ProjectSeedInterviewWizard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectOutcomesView",
+        "path": "src/components/projects/ProjectOutcomesView.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectDetails",
+        "path": "src/components/projects/ProjectDetails.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectContextManager",
+        "path": "src/components/projects/ProjectContextManager.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectAnalysisView",
+        "path": "src/components/projects/ProjectAnalysisView.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "FullScreenAnalysisButton",
+        "path": "src/components/projects/FullScreenAnalysisButton.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProtocolsBadge",
+        "path": "src/components/profile/ProtocolsBadge.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProfileDashboard",
+        "path": "src/components/profile/ProfileDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PrivacyBadge",
+        "path": "src/components/profile/PrivacyBadge.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ImmersiveStorytellerProfile",
+        "path": "src/components/profile/ImmersiveStorytellerProfile.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "EnhancedStorytellerProfile",
+        "path": "src/components/profile/EnhancedStorytellerProfile.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CulturalAffiliations",
+        "path": "src/components/profile/CulturalAffiliations.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AvatarUpload",
+        "path": "src/components/profile/AvatarUpload.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AddLocationDialog",
+        "path": "src/components/profile/AddLocationDialog.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "VisibilitySelector",
+        "path": "src/components/privacy/VisibilitySelector.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PrivacySettingsPanel",
+        "path": "src/components/privacy/PrivacySettingsPanel.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ExportDataDialog",
+        "path": "src/components/privacy/ExportDataDialog.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "DeleteAccountDialog",
+        "path": "src/components/privacy/DeleteAccountDialog.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "DataSovereigntyPreferences",
+        "path": "src/components/privacy/DataSovereigntyPreferences.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ContactPermissions",
+        "path": "src/components/privacy/ContactPermissions.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "VideoPlayer",
+        "path": "src/components/player/VideoPlayer.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "TranscriptSync",
+        "path": "src/components/player/TranscriptSync.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SyncedMediaPlayer",
+        "path": "src/components/player/SyncedMediaPlayer.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PlaybackControls",
+        "path": "src/components/player/PlaybackControls.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "DownloadButton",
+        "path": "src/components/player/DownloadButton.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AudioWaveform",
+        "path": "src/components/player/AudioWaveform.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "HarvestedOutcomesDashboard",
+        "path": "src/components/outcomes/HarvestedOutcomesDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryCollection",
+        "path": "src/components/organization/StoryCollection.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SeedInterviewWizard",
+        "path": "src/components/organization/SeedInterviewWizard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "RecentProjects",
+        "path": "src/components/organization/RecentProjects.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "RecentActivity",
+        "path": "src/components/organization/RecentActivity.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectsCollection",
+        "path": "src/components/organization/ProjectsCollection.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectRelationshipManager",
+        "path": "src/components/organization/ProjectRelationshipManager.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "OrganizationNavigation",
+        "path": "src/components/organization/OrganizationNavigation.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "OrganizationMetrics",
+        "path": "src/components/organization/OrganizationMetrics.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "OrganizationHeader",
+        "path": "src/components/organization/OrganizationHeader.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "OrganizationContextManager",
+        "path": "src/components/organization/OrganizationContextManager.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "OrganizationAnalytics",
+        "path": "src/components/organization/OrganizationAnalytics.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MemberInvitations",
+        "path": "src/components/organization/MemberInvitations.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MemberHighlights",
+        "path": "src/components/organization/MemberHighlights.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MemberDirectory",
+        "path": "src/components/organization/MemberDirectory.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "DocumentImportDialog",
+        "path": "src/components/organization/DocumentImportDialog.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "DashboardQuickActions",
+        "path": "src/components/organization/DashboardQuickActions.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AddStorytellerDialog",
+        "path": "src/components/organization/AddStorytellerDialog.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AddNewStorytellerForm",
+        "path": "src/components/organization/AddNewStorytellerForm.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "components",
+        "path": "src/components/interpretation/components.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "InterpretationSessionForm",
+        "path": "src/components/interpretation/InterpretationSessionForm.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "InterpretationSessionDashboard",
+        "path": "src/components/interpretation/InterpretationSessionDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "VideoThumbnail",
+        "path": "src/components/media/VideoThumbnail.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "VideoReviewModal",
+        "path": "src/components/media/VideoReviewModal.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "VideoPlayerModal",
+        "path": "src/components/media/VideoPlayerModal.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "VideoPlayer",
+        "path": "src/components/media/VideoPlayer.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "VideoEmbed",
+        "path": "src/components/media/VideoEmbed.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaUsageTracker",
+        "path": "src/components/media/MediaUsageTracker.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaUploader",
+        "path": "src/components/media/MediaUploader.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaSelector",
+        "path": "src/components/media/MediaSelector.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaMetadataEditor",
+        "path": "src/components/media/MediaMetadataEditor.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaLinkingManager",
+        "path": "src/components/media/MediaLinkingManager.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaLibrary",
+        "path": "src/components/media/MediaLibrary.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaGrid",
+        "path": "src/components/media/MediaGrid.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaGallery",
+        "path": "src/components/media/MediaGallery.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaEditor",
+        "path": "src/components/media/MediaEditor.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaDetails",
+        "path": "src/components/media/MediaDetails.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaDelete",
+        "path": "src/components/media/MediaDelete.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaCanvasEditor",
+        "path": "src/components/media/MediaCanvasEditor.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "page-layout",
+        "path": "src/components/layout/page-layout.tsx",
+        "type": "layout",
+        "usedIn": []
+      },
+      {
+        "name": "header",
+        "path": "src/components/layout/header.tsx",
+        "type": "layout",
+        "usedIn": []
+      },
+      {
+        "name": "footer",
+        "path": "src/components/layout/footer.tsx",
+        "type": "layout",
+        "usedIn": []
+      },
+      {
+        "name": "StoryGalleryConnector",
+        "path": "src/components/integration/StoryGalleryConnector.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PhotoUploadManager",
+        "path": "src/components/galleries/PhotoUploadManager.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "RealTimeImpactNotifications",
+        "path": "src/components/impact/RealTimeImpactNotifications.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MultiLevelImpactDashboard",
+        "path": "src/components/impact/MultiLevelImpactDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "LiveImpactDashboard",
+        "path": "src/components/impact/LiveImpactDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "FacetedSearch",
+        "path": "src/components/filters/FacetedSearch.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AdvancedFilterPanel",
+        "path": "src/components/filters/AdvancedFilterPanel.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ErrorFallback",
+        "path": "src/components/error/ErrorFallback.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ErrorBoundary",
+        "path": "src/components/error/ErrorBoundary.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "VersionHistory",
+        "path": "src/components/drafts/VersionHistory.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "VersionCompare",
+        "path": "src/components/drafts/VersionCompare.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "RestoreVersion",
+        "path": "src/components/drafts/RestoreVersion.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "DraftsList",
+        "path": "src/components/drafts/DraftsList.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "DraftFilters",
+        "path": "src/components/drafts/DraftFilters.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "DraftCard",
+        "path": "src/components/drafts/DraftCard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryPreview",
+        "path": "src/components/elder/StoryPreview.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ReviewQueue",
+        "path": "src/components/elder/ReviewQueue.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ReviewHistory",
+        "path": "src/components/elder/ReviewHistory.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ElderReviewDashboard",
+        "path": "src/components/elder/ElderReviewDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ConcernCategories",
+        "path": "src/components/elder/ConcernCategories.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ApprovalWorkflow",
+        "path": "src/components/elder/ApprovalWorkflow.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryMetadataPanel",
+        "path": "src/components/editor/StoryMetadataPanel.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryEditorPage",
+        "path": "src/components/editor/StoryEditorPage.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "RichTextEditor",
+        "path": "src/components/editor/RichTextEditor.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PrivacySettingsPanel",
+        "path": "src/components/editor/PrivacySettingsPanel.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "EditorToolbar",
+        "path": "src/components/editor/EditorToolbar.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "EditorPreview",
+        "path": "src/components/editor/EditorPreview.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CulturalProtocolsSelector",
+        "path": "src/components/editor/CulturalProtocolsSelector.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "RecommendationsEngine",
+        "path": "src/components/discovery/RecommendationsEngine.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "DiscoveryFeed",
+        "path": "src/components/discovery/DiscoveryFeed.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PersonalDevelopmentPlan",
+        "path": "src/components/development/PersonalDevelopmentPlan.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThemeTagger",
+        "path": "src/components/curation/ThemeTagger.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryCurationDashboard",
+        "path": "src/components/curation/StoryCurationDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryAssignment",
+        "path": "src/components/curation/StoryAssignment.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "QualityReviewQueue",
+        "path": "src/components/curation/QualityReviewQueue.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CampaignOrganizer",
+        "path": "src/components/curation/CampaignOrganizer.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "interactive-map",
+        "path": "src/components/cultural/interactive-map.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CulturalReviewWorkflow",
+        "path": "src/components/cultural/CulturalReviewWorkflow.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ContentQualityDashboard",
+        "path": "src/components/content/ContentQualityDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AIContentBuilder",
+        "path": "src/components/content/AIContentBuilder.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "WithdrawalProcessor",
+        "path": "src/components/consent/WithdrawalProcessor.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "WithdrawalDialog",
+        "path": "src/components/consent/WithdrawalDialog.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "RenewalWorkflow",
+        "path": "src/components/consent/RenewalWorkflow.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ExpirationReminders",
+        "path": "src/components/consent/ExpirationReminders.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ConsentsList",
+        "path": "src/components/consent/ConsentsList.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ConsentTrackingDashboard",
+        "path": "src/components/consent/ConsentTrackingDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ConsentAuditTrail",
+        "path": "src/components/consent/ConsentAuditTrail.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ReportDialog",
+        "path": "src/components/comments/ReportDialog.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CommentsSection",
+        "path": "src/components/comments/CommentsSection.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CommentThread",
+        "path": "src/components/comments/CommentThread.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CommentItem",
+        "path": "src/components/comments/CommentItem.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CommentForm",
+        "path": "src/components/comments/CommentForm.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ViewToggle",
+        "path": "src/components/browse/ViewToggle.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThemeFilter",
+        "path": "src/components/browse/ThemeFilter.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryPreviewCard",
+        "path": "src/components/browse/StoryPreviewCard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryBrowsePage",
+        "path": "src/components/browse/StoryBrowsePage.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SortSelector",
+        "path": "src/components/browse/SortSelector.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "Pagination",
+        "path": "src/components/browse/Pagination.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaTypeFilter",
+        "path": "src/components/browse/MediaTypeFilter.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "LanguageFilter",
+        "path": "src/components/browse/LanguageFilter.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "FilterSidebar",
+        "path": "src/components/browse/FilterSidebar.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CulturalGroupFilter",
+        "path": "src/components/browse/CulturalGroupFilter.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "InviteCollaborator",
+        "path": "src/components/collaboration/InviteCollaborator.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CollaboratorsList",
+        "path": "src/components/collaboration/CollaboratorsList.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CollaboratorPermissions",
+        "path": "src/components/collaboration/CollaboratorPermissions.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CollaborationActivity",
+        "path": "src/components/collaboration/CollaborationActivity.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SimpleSignInForm",
+        "path": "src/components/auth/SimpleSignInForm.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SignInForm",
+        "path": "src/components/auth/SignInForm.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "TranscriptAnalysisView",
+        "path": "src/components/analysis/TranscriptAnalysisView.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThemeDistributionChart",
+        "path": "src/components/analysis/ThemeDistributionChart.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ImpactDepthIndicator",
+        "path": "src/components/analysis/ImpactDepthIndicator.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "TranscriptAnalyticsDashboard",
+        "path": "src/components/analytics/TranscriptAnalyticsDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThemeChart",
+        "path": "src/components/analytics/ThemeChart.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThematicAnalysis",
+        "path": "src/components/analytics/ThematicAnalysis.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StorytellerAnalyticsTest",
+        "path": "src/components/analytics/StorytellerAnalyticsTest.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StorytellerAnalyticsDashboard",
+        "path": "src/components/analytics/StorytellerAnalyticsDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SkillsRadarChart",
+        "path": "src/components/analytics/SkillsRadarChart.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SearchAnalyticsDashboard",
+        "path": "src/components/analytics/SearchAnalyticsDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "QuoteGallery",
+        "path": "src/components/analytics/QuoteGallery.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "QuoteAnalysis",
+        "path": "src/components/analytics/QuoteAnalysis.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectTimeline",
+        "path": "src/components/analytics/ProjectTimeline.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PhilanthropyIntelligenceDashboard",
+        "path": "src/components/analytics/PhilanthropyIntelligenceDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PersonalAnalyticsDashboard",
+        "path": "src/components/analytics/PersonalAnalyticsDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "OpportunityMatchCard",
+        "path": "src/components/analytics/OpportunityMatchCard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "NetworkVisualization",
+        "path": "src/components/analytics/NetworkVisualization.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "NetworkConnections",
+        "path": "src/components/analytics/NetworkConnections.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ImpactStoriesGrid",
+        "path": "src/components/analytics/ImpactStoriesGrid.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CrossSectorInsights",
+        "path": "src/components/analytics/CrossSectorInsights.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AnalyticsExport",
+        "path": "src/components/analytics/AnalyticsExport.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AnalyticsDashboard",
+        "path": "src/components/analytics/AnalyticsDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AnalysisQualityMetrics",
+        "path": "src/components/analytics/AnalysisQualityMetrics.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SacredKnowledgeProtection",
+        "path": "src/components/alma/SacredKnowledgeProtection.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ElderReviewPreferences",
+        "path": "src/components/alma/ElderReviewPreferences.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CulturalSafetySettings",
+        "path": "src/components/alma/CulturalSafetySettings.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ALMASettingsPanel",
+        "path": "src/components/alma/ALMASettingsPanel.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AIConsentControls",
+        "path": "src/components/alma/AIConsentControls.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ValueAssignment",
+        "path": "src/components/analytics-sroi/ValueAssignment.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StorytellerMetrics",
+        "path": "src/components/analytics-sroi/StorytellerMetrics.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SROICalculator",
+        "path": "src/components/analytics-sroi/SROICalculator.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ReportBuilder",
+        "path": "src/components/analytics-sroi/ReportBuilder.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "OutcomesSelector",
+        "path": "src/components/analytics-sroi/OutcomesSelector.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "OrganizationAnalyticsDashboard",
+        "path": "src/components/analytics-sroi/OrganizationAnalyticsDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MetricsOverview",
+        "path": "src/components/analytics-sroi/MetricsOverview.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "InvestmentInput",
+        "path": "src/components/analytics-sroi/InvestmentInput.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ImpactTimeline",
+        "path": "src/components/analytics-sroi/ImpactTimeline.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "FunderDashboard",
+        "path": "src/components/analytics-sroi/FunderDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "EngagementMetrics",
+        "path": "src/components/analytics-sroi/EngagementMetrics.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "DemographicsBreakdown",
+        "path": "src/components/analytics-sroi/DemographicsBreakdown.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "FloatingAIAssistant",
+        "path": "src/components/ai/FloatingAIAssistant.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThemeNode",
+        "path": "src/components/advanced-features/ThemeNode.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThemeExtractor",
+        "path": "src/components/advanced-features/ThemeExtractor.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThematicNetworkViewer",
+        "path": "src/components/advanced-features/ThematicNetworkViewer.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SentimentAnalysis",
+        "path": "src/components/advanced-features/SentimentAnalysis.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "SearchResults",
+        "path": "src/components/advanced-features/SearchResults.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "QuoteHighlighter",
+        "path": "src/components/advanced-features/QuoteHighlighter.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "NetworkControls",
+        "path": "src/components/advanced-features/NetworkControls.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MapLegend",
+        "path": "src/components/advanced-features/MapLegend.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "LanguageAnalyzer",
+        "path": "src/components/advanced-features/LanguageAnalyzer.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "InteractiveStoryMap",
+        "path": "src/components/advanced-features/InteractiveStoryMap.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CulturalThemeExplorer",
+        "path": "src/components/advanced-features/CulturalThemeExplorer.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AdvancedSearchPanel",
+        "path": "src/components/advanced-features/AdvancedSearchPanel.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AISettingsPanel",
+        "path": "src/components/advanced-features/AISettingsPanel.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AIAnalysisDashboard",
+        "path": "src/components/advanced-features/AIAnalysisDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "UserManagement",
+        "path": "src/components/admin/UserManagement.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "UserEditForm",
+        "path": "src/components/admin/UserEditForm.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StorytellerRelationshipManager",
+        "path": "src/components/admin/StorytellerRelationshipManager.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StorytellerManagement",
+        "path": "src/components/admin/StorytellerManagement.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StorytellerManagement-simple",
+        "path": "src/components/admin/StorytellerManagement-simple.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryReviewModal",
+        "path": "src/components/admin/StoryReviewModal.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StatusEditor",
+        "path": "src/components/admin/StatusEditor.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectManagement",
+        "path": "src/components/admin/ProjectManagement.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PlatformValueDashboard",
+        "path": "src/components/admin/PlatformValueDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "OrganizationSelector",
+        "path": "src/components/admin/OrganizationSelector.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "OrganizationManagement",
+        "path": "src/components/admin/OrganizationManagement.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "MediaGalleryManagement",
+        "path": "src/components/admin/MediaGalleryManagement.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "LocationEditor",
+        "path": "src/components/admin/LocationEditor.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "KnowledgeSearch",
+        "path": "src/components/admin/KnowledgeSearch.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ContentModeration",
+        "path": "src/components/admin/ContentModeration.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ConnectionManager",
+        "path": "src/components/admin/ConnectionManager.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "BulkProfileManager",
+        "path": "src/components/admin/BulkProfileManager.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AnalyticsDashboard",
+        "path": "src/components/admin/AnalyticsDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AdminStorytellingWorkflow",
+        "path": "src/components/admin/AdminStorytellingWorkflow.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AdminNavigation",
+        "path": "src/components/admin/AdminNavigation.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AdminDashboard",
+        "path": "src/components/admin/AdminDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AdminDashboard-simple",
+        "path": "src/components/admin/AdminDashboard-simple.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "index",
+        "path": "src/components/storyteller/StorytellerCreationWizard/index.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProfileStorytellerTab",
+        "path": "src/components/profile/tabs/ProfileStorytellerTab.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProfilePrivacyTab",
+        "path": "src/components/profile/tabs/ProfilePrivacyTab.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProfilePersonalTab",
+        "path": "src/components/profile/tabs/ProfilePersonalTab.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProfileOrganizationsTab",
+        "path": "src/components/profile/tabs/ProfileOrganizationsTab.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProfileLocationsTab",
+        "path": "src/components/profile/tabs/ProfileLocationsTab.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AdminLayout",
+        "path": "src/components/features/admin/AdminLayout.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AdvancedSearch",
+        "path": "src/components/features/Search/AdvancedSearch.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ThemeToggle",
+        "path": "src/components/features/ThemeToggle/ThemeToggle.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ExportModal",
+        "path": "src/components/features/Export/ExportModal.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "CommandPalette",
+        "path": "src/components/features/CommandPalette/CommandPalette.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "NotificationCenter",
+        "path": "src/components/features/Notifications/NotificationCenter.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectTranscriptsTab",
+        "path": "src/components/admin/project-management/ProjectTranscriptsTab.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectStorytellersTab",
+        "path": "src/components/admin/project-management/ProjectStorytellersTab.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectStoriesTab",
+        "path": "src/components/admin/project-management/ProjectStoriesTab.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectMediaTab",
+        "path": "src/components/admin/project-management/ProjectMediaTab.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ProjectDetailsView",
+        "path": "src/components/admin/project-management/ProjectDetailsView.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "TranscriptStep",
+        "path": "src/components/storyteller/StorytellerCreationWizard/steps/TranscriptStep.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "TaggingStep",
+        "path": "src/components/storyteller/StorytellerCreationWizard/steps/TaggingStep.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ReviewStep",
+        "path": "src/components/storyteller/StorytellerCreationWizard/steps/ReviewStep.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "PhotoUploadStep",
+        "path": "src/components/storyteller/StorytellerCreationWizard/steps/PhotoUploadStep.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "ModeSelectionStep",
+        "path": "src/components/storyteller/StorytellerCreationWizard/steps/ModeSelectionStep.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "LocationStep",
+        "path": "src/components/storyteller/StorytellerCreationWizard/steps/LocationStep.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "BasicInfoStep",
+        "path": "src/components/storyteller/StorytellerCreationWizard/steps/BasicInfoStep.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StoryEditor",
+        "path": "src/components/features/stories/StoryEditor/StoryEditor.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "VirtualizedStorytellerTable",
+        "path": "src/components/features/admin/StorytellerTable/VirtualizedStorytellerTable.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "StorytellerFilters",
+        "path": "src/components/features/admin/StorytellerTable/StorytellerFilters.tsx",
+        "type": "component",
+        "usedIn": []
+      },
+      {
+        "name": "AdminDashboard",
+        "path": "src/components/features/admin/Dashboard/AdminDashboard.tsx",
+        "type": "component",
+        "usedIn": []
+      }
+    ]
+  },
+  "brandCompliance": {
+    "issues": [
+      {
+        "type": "color",
+        "count": 4606,
+        "files": [
+          "src/lib/storyteller-utils.tsx",
+          "src/components/transcripts/TranscriptCreationDialog.tsx",
+          "src/components/ui/textarea.tsx",
+          "src/components/ui/storyteller-profile-card.tsx",
+          "src/components/ui/story-card.tsx",
+          "src/components/ui/select.tsx",
+          "src/components/ui/network-graph.tsx",
+          "src/components/ui/input.tsx",
+          "src/components/themes/ThemeTimeline.tsx",
+          "src/components/themes/ThemeStatus.tsx",
+          "src/components/themes/ThemeRelationshipsGraph.tsx",
+          "src/components/themes/ThemeEvolutionDashboard.tsx",
+          "src/components/themes/ProminenceChart.tsx",
+          "src/components/themes/GrowthRateCalculator.tsx",
+          "src/components/testing/UserTestingDashboard.tsx",
+          "src/components/syndication/SyndicationDashboard.tsx",
+          "src/components/syndication/ShareYourStoryModal.tsx",
+          "src/components/support/HelpWidget.tsx",
+          "src/components/support/FloatingHelpButton.tsx",
+          "src/components/storyteller/unified-storyteller-card.tsx",
+          "src/components/storyteller/storyteller-card.tsx",
+          "src/components/storyteller/storyteller-card-demo.tsx",
+          "src/components/storyteller/storyteller-card-collection.tsx",
+          "src/components/storyteller/enhanced-storyteller-card.tsx",
+          "src/components/storyteller/elegant-storyteller-card.tsx",
+          "src/components/storyteller/VideoManager.tsx",
+          "src/components/storyteller/TranscriptToStory.tsx",
+          "src/components/storyteller/TranscriptList.tsx",
+          "src/components/storyteller/TranscriptCard.tsx",
+          "src/components/storyteller/StorytellerNavigation.tsx",
+          "src/components/storyteller/StorytellerDashboard.tsx",
+          "src/components/storyteller/StoryDashboard.tsx",
+          "src/components/storyteller/EditableSummary.tsx",
+          "src/components/story/story-card.tsx",
+          "src/components/story/StorytellerSidebar.tsx",
+          "src/components/story/StoryPage.tsx",
+          "src/components/story/StoryHeader.tsx",
+          "src/components/story/StoryGallery.tsx",
+          "src/components/story/ShareButton.tsx",
+          "src/components/story/SacredContentWarning.tsx",
+          "src/components/story/RelatedStories.tsx",
+          "src/components/story/CulturalContextPanel.tsx",
+          "src/components/stories/TranscriptImporter.tsx",
+          "src/components/stories/StoryVisibilityControls.tsx",
+          "src/components/stories/StoryTemplates.tsx",
+          "src/components/stories/StoryPublisher.tsx",
+          "src/components/stories/StoryPreview.tsx",
+          "src/components/stories/StoryModeSelector.tsx",
+          "src/components/stories/StoryEditor.tsx",
+          "src/components/stories/StoryCreationForm.tsx",
+          "src/components/stories/GuidedStoryCreator.tsx",
+          "src/components/shared/InterviewRecorder.tsx",
+          "src/components/search/SemanticSearchEngine.tsx",
+          "src/components/search/SearchHistory.tsx",
+          "src/components/search/GlobalSearchDashboard.tsx",
+          "src/components/saved-searches/SavedSearchesDashboard.tsx",
+          "src/components/reports/FunderReportGenerator.tsx",
+          "src/components/recruitment/QRCodeGenerator.tsx",
+          "src/components/publishing/UnpublishDialog.tsx",
+          "src/components/publishing/SchedulePublish.tsx",
+          "src/components/publishing/PublishingWizard.tsx",
+          "src/components/publishing/PublishingChecklist.tsx",
+          "src/components/publishing/PublishConfirmation.tsx",
+          "src/components/publishing/ArchiveDialog.tsx",
+          "src/components/public/TerritoryAcknowledgment.tsx",
+          "src/components/public/StorytellerSpotlight.tsx",
+          "src/components/public/RecentStoriesCarousel.tsx",
+          "src/components/public/PublicHomepage.tsx",
+          "src/components/public/PlatformStats.tsx",
+          "src/components/public/OCAPCallout.tsx",
+          "src/components/public/HeroSection.tsx",
+          "src/components/public/HeroSearch.tsx",
+          "src/components/public/FeaturedStoriesGrid.tsx",
+          "src/components/public/BrowseByTheme.tsx",
+          "src/components/projects/ProjectsListing.tsx",
+          "src/components/projects/ProjectSeedInterviewWizard.tsx",
+          "src/components/projects/ProjectOutcomesView.tsx",
+          "src/components/projects/ProjectDetails.tsx",
+          "src/components/projects/ProjectContextManager.tsx",
+          "src/components/projects/ProjectAnalysisView.tsx",
+          "src/components/profile/ProtocolsBadge.tsx",
+          "src/components/profile/ProfileDashboard.tsx",
+          "src/components/profile/PrivacyBadge.tsx",
+          "src/components/profile/ImmersiveStorytellerProfile.tsx",
+          "src/components/profile/EnhancedStorytellerProfile.tsx",
+          "src/components/privacy/PrivacySettingsPanel.tsx",
+          "src/components/privacy/ExportDataDialog.tsx",
+          "src/components/privacy/DeleteAccountDialog.tsx",
+          "src/components/privacy/DataSovereigntyPreferences.tsx",
+          "src/components/privacy/ContactPermissions.tsx",
+          "src/components/player/VideoPlayer.tsx",
+          "src/components/player/TranscriptSync.tsx",
+          "src/components/player/SyncedMediaPlayer.tsx",
+          "src/components/player/PlaybackControls.tsx",
+          "src/components/player/DownloadButton.tsx",
+          "src/components/player/AudioWaveform.tsx",
+          "src/components/outcomes/HarvestedOutcomesDashboard.tsx",
+          "src/components/organization/SeedInterviewWizard.tsx",
+          "src/components/organization/RecentProjects.tsx",
+          "src/components/organization/RecentActivity.tsx",
+          "src/components/organization/ProjectsCollection.tsx",
+          "src/components/organization/ProjectRelationshipManager.tsx",
+          "src/components/organization/OrganizationContextManager.tsx",
+          "src/components/organization/MemberInvitations.tsx",
+          "src/components/organization/MemberHighlights.tsx",
+          "src/components/organization/MemberDirectory.tsx",
+          "src/components/organization/DocumentImportDialog.tsx",
+          "src/components/organization/AddNewStorytellerForm.tsx",
+          "src/components/media/VideoReviewModal.tsx",
+          "src/components/media/VideoPlayer.tsx",
+          "src/components/media/MediaUsageTracker.tsx",
+          "src/components/media/MediaUploader.tsx",
+          "src/components/media/MediaSelector.tsx",
+          "src/components/media/MediaMetadataEditor.tsx",
+          "src/components/media/MediaLinkingManager.tsx",
+          "src/components/media/MediaLibrary.tsx",
+          "src/components/media/MediaGrid.tsx",
+          "src/components/media/MediaGallery.tsx",
+          "src/components/media/MediaEditor.tsx",
+          "src/components/media/MediaDetails.tsx",
+          "src/components/media/MediaDelete.tsx",
+          "src/components/media/MediaCanvasEditor.tsx",
+          "src/components/layout/header.tsx",
+          "src/components/interpretation/InterpretationSessionDashboard.tsx",
+          "src/components/integration/StoryGalleryConnector.tsx",
+          "src/components/impact/RealTimeImpactNotifications.tsx",
+          "src/components/impact/MultiLevelImpactDashboard.tsx",
+          "src/components/impact/LiveImpactDashboard.tsx",
+          "src/components/galleries/PhotoUploadManager.tsx",
+          "src/components/filters/FacetedSearch.tsx",
+          "src/components/filters/AdvancedFilterPanel.tsx",
+          "src/components/error/ErrorFallback.tsx",
+          "src/components/error/ErrorBoundary.tsx",
+          "src/components/elder/StoryPreview.tsx",
+          "src/components/elder/ReviewQueue.tsx",
+          "src/components/editor/StoryMetadataPanel.tsx",
+          "src/components/editor/StoryEditorPage.tsx",
+          "src/components/editor/RichTextEditor.tsx",
+          "src/components/editor/PrivacySettingsPanel.tsx",
+          "src/components/editor/EditorToolbar.tsx",
+          "src/components/editor/EditorPreview.tsx",
+          "src/components/editor/CulturalProtocolsSelector.tsx",
+          "src/components/drafts/VersionHistory.tsx",
+          "src/components/drafts/VersionCompare.tsx",
+          "src/components/drafts/RestoreVersion.tsx",
+          "src/components/drafts/DraftsList.tsx",
+          "src/components/drafts/DraftFilters.tsx",
+          "src/components/drafts/DraftCard.tsx",
+          "src/components/discovery/RecommendationsEngine.tsx",
+          "src/components/discovery/DiscoveryFeed.tsx",
+          "src/components/development/PersonalDevelopmentPlan.tsx",
+          "src/components/cultural/interactive-map.tsx",
+          "src/components/cultural/CulturalReviewWorkflow.tsx",
+          "src/components/comments/ReportDialog.tsx",
+          "src/components/comments/CommentsSection.tsx",
+          "src/components/comments/CommentThread.tsx",
+          "src/components/comments/CommentItem.tsx",
+          "src/components/comments/CommentForm.tsx",
+          "src/components/collaboration/InviteCollaborator.tsx",
+          "src/components/collaboration/CollaboratorsList.tsx",
+          "src/components/collaboration/CollaboratorPermissions.tsx",
+          "src/components/collaboration/CollaborationActivity.tsx",
+          "src/components/browse/ViewToggle.tsx",
+          "src/components/browse/ThemeFilter.tsx",
+          "src/components/browse/StoryPreviewCard.tsx",
+          "src/components/browse/StoryBrowsePage.tsx",
+          "src/components/browse/SortSelector.tsx",
+          "src/components/browse/Pagination.tsx",
+          "src/components/browse/MediaTypeFilter.tsx",
+          "src/components/browse/LanguageFilter.tsx",
+          "src/components/browse/FilterSidebar.tsx",
+          "src/components/browse/CulturalGroupFilter.tsx",
+          "src/components/auth/SimpleSignInForm.tsx",
+          "src/components/analytics-sroi/ValueAssignment.tsx",
+          "src/components/analytics-sroi/StorytellerMetrics.tsx",
+          "src/components/analytics-sroi/SROICalculator.tsx",
+          "src/components/analytics-sroi/OrganizationAnalyticsDashboard.tsx",
+          "src/components/analytics-sroi/MetricsOverview.tsx",
+          "src/components/analytics-sroi/InvestmentInput.tsx",
+          "src/components/analytics-sroi/FunderDashboard.tsx",
+          "src/components/analytics-sroi/EngagementMetrics.tsx",
+          "src/components/analytics-sroi/DemographicsBreakdown.tsx",
+          "src/components/analytics/TranscriptAnalyticsDashboard.tsx",
+          "src/components/analytics/ThemeChart.tsx",
+          "src/components/analytics/ThematicAnalysis.tsx",
+          "src/components/analytics/StorytellerAnalyticsTest.tsx",
+          "src/components/analytics/StorytellerAnalyticsDashboard.tsx",
+          "src/components/analytics/SkillsRadarChart.tsx",
+          "src/components/analytics/SearchAnalyticsDashboard.tsx",
+          "src/components/analytics/QuoteGallery.tsx",
+          "src/components/analytics/QuoteAnalysis.tsx",
+          "src/components/analytics/ProjectTimeline.tsx",
+          "src/components/analytics/PhilanthropyIntelligenceDashboard.tsx",
+          "src/components/analytics/PersonalAnalyticsDashboard.tsx",
+          "src/components/analytics/OpportunityMatchCard.tsx",
+          "src/components/analytics/NetworkVisualization.tsx",
+          "src/components/analytics/NetworkConnections.tsx",
+          "src/components/analytics/ImpactStoriesGrid.tsx",
+          "src/components/analytics/CrossSectorInsights.tsx",
+          "src/components/analytics/AnalyticsDashboard.tsx",
+          "src/components/analytics/AnalysisQualityMetrics.tsx",
+          "src/components/analysis/TranscriptAnalysisView.tsx",
+          "src/components/analysis/ThemeDistributionChart.tsx",
+          "src/components/analysis/ImpactDepthIndicator.tsx",
+          "src/components/alma/SacredKnowledgeProtection.tsx",
+          "src/components/alma/ElderReviewPreferences.tsx",
+          "src/components/alma/CulturalSafetySettings.tsx",
+          "src/components/alma/ALMASettingsPanel.tsx",
+          "src/components/alma/AIConsentControls.tsx",
+          "src/components/ai/FloatingAIAssistant.tsx",
+          "src/components/advanced-features/ThemeExtractor.tsx",
+          "src/components/advanced-features/ThematicNetworkViewer.tsx",
+          "src/components/advanced-features/SentimentAnalysis.tsx",
+          "src/components/advanced-features/QuoteHighlighter.tsx",
+          "src/components/advanced-features/MapLegend.tsx",
+          "src/components/advanced-features/InteractiveStoryMap.tsx",
+          "src/components/advanced-features/CulturalThemeExplorer.tsx",
+          "src/components/advanced-features/AIAnalysisDashboard.tsx",
+          "src/components/admin/UserManagement.tsx",
+          "src/components/admin/UserEditForm.tsx",
+          "src/components/admin/StorytellerRelationshipManager.tsx",
+          "src/components/admin/StorytellerManagement.tsx",
+          "src/components/admin/StorytellerManagement-simple.tsx",
+          "src/components/admin/StoryReviewModal.tsx",
+          "src/components/admin/StatusEditor.tsx",
+          "src/components/admin/ProjectManagement.tsx",
+          "src/components/admin/PlatformValueDashboard.tsx",
+          "src/components/admin/OrganizationManagement.tsx",
+          "src/components/admin/MediaGalleryManagement.tsx",
+          "src/components/admin/KnowledgeSearch.tsx",
+          "src/components/admin/ContentModeration.tsx",
+          "src/components/admin/ConnectionManager.tsx",
+          "src/components/admin/BulkProfileManager.tsx",
+          "src/components/admin/AnalyticsDashboard.tsx",
+          "src/components/admin/AdminStorytellingWorkflow.tsx",
+          "src/components/admin/AdminDashboard.tsx",
+          "src/components/admin/AdminDashboard-simple.tsx",
+          "src/app/test-storyteller-cards/page.tsx",
+          "src/app/test-simple/page.tsx",
+          "src/app/test-orgs/page.tsx",
+          "src/app/test-minimal/page.tsx",
+          "src/app/test-auth/page.tsx",
+          "src/app/test-analytics/page.tsx",
+          "src/app/terms/page.tsx",
+          "src/app/storytellers/page.tsx",
+          "src/app/privacy/page.tsx",
+          "src/app/organisations/page.tsx",
+          "src/app/my-analytics/page.tsx",
+          "src/app/guidelines/page.tsx",
+          "src/app/galleries/page.tsx",
+          "src/components/profile/tabs/ProfileStorytellerTab.tsx",
+          "src/components/profile/tabs/ProfilePrivacyTab.tsx",
+          "src/components/profile/tabs/ProfileOrganizationsTab.tsx",
+          "src/components/profile/tabs/ProfileLocationsTab.tsx",
+          "src/components/features/admin/AdminLayout.tsx",
+          "src/components/features/Export/ExportModal.tsx",
+          "src/components/features/CommandPalette/CommandPalette.tsx",
+          "src/components/features/Notifications/NotificationCenter.tsx",
+          "src/components/admin/project-management/ProjectTranscriptsTab.tsx",
+          "src/components/admin/project-management/ProjectStorytellersTab.tsx",
+          "src/components/admin/project-management/ProjectStoriesTab.tsx",
+          "src/components/admin/project-management/ProjectMediaTab.tsx",
+          "src/app/test/sprint-5/page.tsx",
+          "src/app/test/sprint-4/page.tsx",
+          "src/app/test/sprint-2/page.tsx",
+          "src/app/test/sprint-3/page.tsx",
+          "src/app/test/sprint-1/page.tsx",
+          "src/app/storytellers/create/page.tsx",
+          "src/app/storytellers/[id]/page.tsx",
+          "src/app/stories/create-modern/page.tsx",
+          "src/app/stories/create-ai/page.tsx",
+          "src/app/stories/create/page.tsx",
+          "src/app/photos/[id]/page.tsx",
+          "src/app/organisations/simple-dashboard/page.tsx",
+          "src/app/organisations/create/page.tsx",
+          "src/app/join/[code]/page.tsx",
+          "src/app/galleries/create/page.tsx",
+          "src/app/galleries/[id]/page.tsx",
+          "src/app/auth/forgot-password/page.tsx",
+          "src/app/analytics/storyteller-network/page.tsx",
+          "src/app/analytics/geographic/page.tsx",
+          "src/app/analytics/demographics/page.tsx",
+          "src/app/analytics/community-impact/page.tsx",
+          "src/app/admin/transcripts/page.tsx",
+          "src/app/admin/storytellers/page.tsx",
+          "src/app/admin/stories/page.tsx",
+          "src/app/admin/settings/page.tsx",
+          "src/app/admin/reviews/page.tsx",
+          "src/app/admin/quick-add/page.tsx",
+          "src/app/admin/projects/page.tsx",
+          "src/app/admin/photos/page.tsx",
+          "src/app/admin/organisations/page.tsx",
+          "src/app/admin/member-management/page.tsx",
+          "src/app/admin/media-review/page.tsx",
+          "src/app/admin/galleries/page.tsx",
+          "src/app/admin/cleanup/page.tsx",
+          "src/app/admin/bulk-edit/page.tsx",
+          "src/app/admin/analytics/page.tsx",
+          "src/components/features/stories/StoryEditor/StoryEditor.tsx",
+          "src/components/features/admin/StorytellerTable/VirtualizedStorytellerTable.tsx",
+          "src/components/features/admin/Dashboard/AdminDashboard.tsx",
+          "src/app/test/sprint-5/recruitment/page.tsx",
+          "src/app/test/sprint-5/elder-review/page.tsx",
+          "src/app/test/sprint-5/curation/page.tsx",
+          "src/app/test/sprint-5/analytics/page.tsx",
+          "src/app/test/sprint-5/consent-tracking/page.tsx",
+          "src/app/storytellers/modern/dashboard/page.tsx",
+          "src/app/storytellers/[id]/stories/page.tsx",
+          "src/app/storytellers/[id]/opportunities/page.tsx",
+          "src/app/storytellers/[id]/media-hub/page.tsx",
+          "src/app/storytellers/[id]/skills/page.tsx",
+          "src/app/storytellers/[id]/insights/page.tsx",
+          "src/app/storytellers/[id]/impact/page.tsx",
+          "src/app/storytellers/[id]/galleries/page.tsx",
+          "src/app/storytellers/[id]/enhanced/page.tsx",
+          "src/app/storytellers/[id]/edit/page.tsx",
+          "src/app/storytellers/[id]/analytics/page.tsx",
+          "src/app/storytellers/[id]/dashboard/page.tsx",
+          "src/app/organisations/[id]/transcripts/page.tsx",
+          "src/app/organisations/[id]/storytellers/page.tsx",
+          "src/app/organisations/[id]/storytellers/page-old.tsx",
+          "src/app/organisations/[id]/settings/page.tsx",
+          "src/app/organisations/[id]/galleries/page.tsx",
+          "src/app/organisations/[id]/impact-analytics/page.tsx",
+          "src/app/organisations/[id]/analysis/page.tsx",
+          "src/app/galleries/[id]/edit/page.tsx",
+          "src/app/api/search/global/route.ts",
+          "src/app/admin/transcripts/[id]/page.tsx",
+          "src/app/admin/organisations/create/page.tsx",
+          "src/app/admin/organisations/[id]/page.tsx",
+          "src/app/admin/transcripts/[id]/edit/page.tsx",
+          "src/app/admin/storytellers/[id]/edit/page.tsx",
+          "src/app/admin/projects/[id]/storytellers/page.tsx",
+          "src/app/admin/organisations/[id]/edit/page.tsx",
+          "src/app/organisations/[id]/projects/[projectId]/analysis/page.tsx"
+        ]
+      },
+      {
+        "type": "typography",
+        "count": 1286,
+        "files": [
+          "src/components/transcripts/TranscriptCreationDialog.tsx",
+          "src/components/ui/storyteller-profile-card.tsx",
+          "src/components/ui/story-card.tsx",
+          "src/components/ui/metric-card.tsx",
+          "src/components/ui/location-picker.tsx",
+          "src/components/ui/dropdown-menu.tsx",
+          "src/components/ui/command.tsx",
+          "src/components/ui/button.tsx",
+          "src/components/ui/badge.tsx",
+          "src/components/themes/ThemeStatus.tsx",
+          "src/components/themes/ThemeRelationshipsGraph.tsx",
+          "src/components/themes/ThemeEvolutionDashboard.tsx",
+          "src/components/themes/SemanticShiftDetector.tsx",
+          "src/components/themes/GrowthRateCalculator.tsx",
+          "src/components/testing/UserTestingDashboard.tsx",
+          "src/components/syndication/SyndicationDashboard.tsx",
+          "src/components/syndication/StoryConnectionsDashboard.tsx",
+          "src/components/syndication/ShareYourStoryModal.tsx",
+          "src/components/syndication/RevokeConsentDialog.tsx",
+          "src/components/syndication/RemovalProgressTracker.tsx",
+          "src/components/syndication/ConsentStatusCard.tsx",
+          "src/components/support/HelpWidget.tsx",
+          "src/components/support/FloatingHelpButton.tsx",
+          "src/components/storyteller/unified-storyteller-card.tsx",
+          "src/components/storyteller/storyteller-card.tsx",
+          "src/components/storyteller/storyteller-card-collection.tsx",
+          "src/components/storyteller/enhanced-storyteller-card.tsx",
+          "src/components/storyteller/elegant-storyteller-card.tsx",
+          "src/components/storyteller/TranscriptToStory.tsx",
+          "src/components/storyteller/TranscriptList.tsx",
+          "src/components/storyteller/TranscriptCard.tsx",
+          "src/components/storyteller/StorytellerNavigation.tsx",
+          "src/components/storyteller/StorytellerHeader.tsx",
+          "src/components/storyteller/StorytellerDashboard.tsx",
+          "src/components/storyteller/StoryDashboard.tsx",
+          "src/components/storyteller/EditableSummary.tsx",
+          "src/components/story/story-card.tsx",
+          "src/components/story/TriggerWarning.tsx",
+          "src/components/story/StorytellerSidebar.tsx",
+          "src/components/story/StoryHeader.tsx",
+          "src/components/story/StoryGalleryLinker.tsx",
+          "src/components/story/StoryGallery.tsx",
+          "src/components/story/SacredContentWarning.tsx",
+          "src/components/story/RelatedStories.tsx",
+          "src/components/story/CulturalContextPanel.tsx",
+          "src/components/stories/TranscriptImporter.tsx",
+          "src/components/stories/StoryVisibilityControls.tsx",
+          "src/components/stories/StoryTemplates.tsx",
+          "src/components/stories/StoryPublisher.tsx",
+          "src/components/stories/StoryPreview.tsx",
+          "src/components/stories/StoryModeSelector.tsx",
+          "src/components/stories/StoryEditor.tsx",
+          "src/components/stories/StoryCreationForm.tsx",
+          "src/components/stories/QuickAddStory.tsx",
+          "src/components/search/SemanticSearchEngine.tsx",
+          "src/components/search/SearchHistory.tsx",
+          "src/components/search/GlobalSearchDashboard.tsx",
+          "src/components/saved-searches/SavedSearchesDashboard.tsx",
+          "src/components/reports/FunderReportGenerator.tsx",
+          "src/components/recruitment/RecruitmentDashboard.tsx",
+          "src/components/recruitment/QRCodeGenerator.tsx",
+          "src/components/recruitment/InvitationTracker.tsx",
+          "src/components/recruitment/InvitationManager.tsx",
+          "src/components/publishing/UnpublishDialog.tsx",
+          "src/components/publishing/SchedulePublish.tsx",
+          "src/components/publishing/PublishingChecklist.tsx",
+          "src/components/publishing/ArchiveDialog.tsx",
+          "src/components/public/StorytellerSpotlight.tsx",
+          "src/components/public/RecentStoriesCarousel.tsx",
+          "src/components/public/OCAPCallout.tsx",
+          "src/components/public/HeroSearch.tsx",
+          "src/components/public/FeaturedStoriesGrid.tsx",
+          "src/components/public/BrowseByTheme.tsx",
+          "src/components/providers/GlobalProviders.tsx",
+          "src/components/projects/ProjectsListing.tsx",
+          "src/components/projects/ProjectSeedInterviewWizard.tsx",
+          "src/components/projects/ProjectOutcomesView.tsx",
+          "src/components/projects/ProjectDetails.tsx",
+          "src/components/projects/ProjectContextManager.tsx",
+          "src/components/projects/ProjectAnalysisView.tsx",
+          "src/components/profile/ImmersiveStorytellerProfile.tsx",
+          "src/components/profile/AvatarUpload.tsx",
+          "src/components/profile/AddLocationDialog.tsx",
+          "src/components/privacy/VisibilitySelector.tsx",
+          "src/components/privacy/ExportDataDialog.tsx",
+          "src/components/privacy/DataSovereigntyPreferences.tsx",
+          "src/components/player/VideoPlayer.tsx",
+          "src/components/player/TranscriptSync.tsx",
+          "src/components/player/PlaybackControls.tsx",
+          "src/components/player/DownloadButton.tsx",
+          "src/components/player/AudioWaveform.tsx",
+          "src/components/outcomes/HarvestedOutcomesDashboard.tsx",
+          "src/components/organization/StoryCollection.tsx",
+          "src/components/organization/SeedInterviewWizard.tsx",
+          "src/components/organization/RecentProjects.tsx",
+          "src/components/organization/ProjectsCollection.tsx",
+          "src/components/organization/ProjectRelationshipManager.tsx",
+          "src/components/organization/OrganizationAnalytics.tsx",
+          "src/components/organization/MemberDirectory.tsx",
+          "src/components/organization/DocumentImportDialog.tsx",
+          "src/components/organization/AddStorytellerDialog.tsx",
+          "src/components/organization/AddNewStorytellerForm.tsx",
+          "src/components/media/VideoThumbnail.tsx",
+          "src/components/media/VideoReviewModal.tsx",
+          "src/components/media/VideoPlayerModal.tsx",
+          "src/components/media/VideoPlayer.tsx",
+          "src/components/media/VideoEmbed.tsx",
+          "src/components/media/MediaUsageTracker.tsx",
+          "src/components/media/MediaUploader.tsx",
+          "src/components/media/MediaMetadataEditor.tsx",
+          "src/components/media/MediaLinkingManager.tsx",
+          "src/components/media/MediaGrid.tsx",
+          "src/components/media/MediaGallery.tsx",
+          "src/components/media/MediaDetails.tsx",
+          "src/components/media/MediaCanvasEditor.tsx",
+          "src/components/layout/header.tsx",
+          "src/components/layout/footer.tsx",
+          "src/components/interpretation/components.tsx",
+          "src/components/interpretation/InterpretationSessionDashboard.tsx",
+          "src/components/integration/StoryGalleryConnector.tsx",
+          "src/components/impact/RealTimeImpactNotifications.tsx",
+          "src/components/impact/MultiLevelImpactDashboard.tsx",
+          "src/components/impact/LiveImpactDashboard.tsx",
+          "src/components/galleries/PhotoUploadManager.tsx",
+          "src/components/filters/FacetedSearch.tsx",
+          "src/components/filters/AdvancedFilterPanel.tsx",
+          "src/components/error/ErrorFallback.tsx",
+          "src/components/error/ErrorBoundary.tsx",
+          "src/components/elder/StoryPreview.tsx",
+          "src/components/elder/ReviewQueue.tsx",
+          "src/components/elder/ReviewHistory.tsx",
+          "src/components/elder/ElderReviewDashboard.tsx",
+          "src/components/elder/ConcernCategories.tsx",
+          "src/components/elder/ApprovalWorkflow.tsx",
+          "src/components/editor/StoryMetadataPanel.tsx",
+          "src/components/editor/RichTextEditor.tsx",
+          "src/components/editor/PrivacySettingsPanel.tsx",
+          "src/components/editor/EditorToolbar.tsx",
+          "src/components/editor/EditorPreview.tsx",
+          "src/components/editor/CulturalProtocolsSelector.tsx",
+          "src/components/drafts/VersionHistory.tsx",
+          "src/components/drafts/VersionCompare.tsx",
+          "src/components/drafts/RestoreVersion.tsx",
+          "src/components/drafts/DraftsList.tsx",
+          "src/components/drafts/DraftFilters.tsx",
+          "src/components/drafts/DraftCard.tsx",
+          "src/components/discovery/RecommendationsEngine.tsx",
+          "src/components/discovery/DiscoveryFeed.tsx",
+          "src/components/development/PersonalDevelopmentPlan.tsx",
+          "src/components/curation/ThemeTagger.tsx",
+          "src/components/curation/StoryCurationDashboard.tsx",
+          "src/components/curation/StoryAssignment.tsx",
+          "src/components/curation/QualityReviewQueue.tsx",
+          "src/components/curation/CampaignOrganizer.tsx",
+          "src/components/cultural/interactive-map.tsx",
+          "src/components/cultural/CulturalReviewWorkflow.tsx",
+          "src/components/content/ContentQualityDashboard.tsx",
+          "src/components/content/AIContentBuilder.tsx",
+          "src/components/consent/WithdrawalProcessor.tsx",
+          "src/components/consent/WithdrawalDialog.tsx",
+          "src/components/consent/ExpirationReminders.tsx",
+          "src/components/consent/ConsentsList.tsx",
+          "src/components/consent/ConsentTrackingDashboard.tsx",
+          "src/components/consent/ConsentAuditTrail.tsx",
+          "src/components/comments/ReportDialog.tsx",
+          "src/components/comments/CommentsSection.tsx",
+          "src/components/comments/CommentItem.tsx",
+          "src/components/comments/CommentForm.tsx",
+          "src/components/collaboration/InviteCollaborator.tsx",
+          "src/components/collaboration/CollaboratorsList.tsx",
+          "src/components/collaboration/CollaboratorPermissions.tsx",
+          "src/components/collaboration/CollaborationActivity.tsx",
+          "src/components/browse/ThemeFilter.tsx",
+          "src/components/browse/StoryPreviewCard.tsx",
+          "src/components/browse/MediaTypeFilter.tsx",
+          "src/components/browse/LanguageFilter.tsx",
+          "src/components/browse/FilterSidebar.tsx",
+          "src/components/browse/CulturalGroupFilter.tsx",
+          "src/components/auth/SimpleSignInForm.tsx",
+          "src/components/auth/SignInForm.tsx",
+          "src/components/analytics-sroi/ValueAssignment.tsx",
+          "src/components/analytics-sroi/StorytellerMetrics.tsx",
+          "src/components/analytics-sroi/OutcomesSelector.tsx",
+          "src/components/analytics-sroi/EngagementMetrics.tsx",
+          "src/components/analytics/TranscriptAnalyticsDashboard.tsx",
+          "src/components/analytics/ThemeChart.tsx",
+          "src/components/analytics/StorytellerAnalyticsTest.tsx",
+          "src/components/analytics/StorytellerAnalyticsDashboard.tsx",
+          "src/components/analytics/SkillsRadarChart.tsx",
+          "src/components/analytics/QuoteGallery.tsx",
+          "src/components/analytics/QuoteAnalysis.tsx",
+          "src/components/analytics/ProjectTimeline.tsx",
+          "src/components/analytics/PersonalAnalyticsDashboard.tsx",
+          "src/components/analytics/OpportunityMatchCard.tsx",
+          "src/components/analytics/NetworkVisualization.tsx",
+          "src/components/analytics/NetworkConnections.tsx",
+          "src/components/analytics/ImpactStoriesGrid.tsx",
+          "src/components/analytics/CrossSectorInsights.tsx",
+          "src/components/analytics/AnalyticsExport.tsx",
+          "src/components/analytics/AnalyticsDashboard.tsx",
+          "src/components/analytics/AnalysisQualityMetrics.tsx",
+          "src/components/analysis/TranscriptAnalysisView.tsx",
+          "src/components/analysis/ThemeDistributionChart.tsx",
+          "src/components/analysis/ImpactDepthIndicator.tsx",
+          "src/components/alma/SacredKnowledgeProtection.tsx",
+          "src/components/alma/ElderReviewPreferences.tsx",
+          "src/components/alma/CulturalSafetySettings.tsx",
+          "src/components/alma/ALMASettingsPanel.tsx",
+          "src/components/alma/AIConsentControls.tsx",
+          "src/components/ai/FloatingAIAssistant.tsx",
+          "src/components/advanced-features/ThemeNode.tsx",
+          "src/components/advanced-features/ThematicNetworkViewer.tsx",
+          "src/components/admin/UserManagement.tsx",
+          "src/components/admin/StorytellerRelationshipManager.tsx",
+          "src/components/admin/StorytellerManagement.tsx",
+          "src/components/admin/StoryReviewModal.tsx",
+          "src/components/admin/StatusEditor.tsx",
+          "src/components/admin/ProjectManagement.tsx",
+          "src/components/admin/PlatformValueDashboard.tsx",
+          "src/components/admin/OrganizationManagement.tsx",
+          "src/components/admin/MediaGalleryManagement.tsx",
+          "src/components/admin/LocationEditor.tsx",
+          "src/components/admin/KnowledgeSearch.tsx",
+          "src/components/admin/ContentModeration.tsx",
+          "src/components/admin/ConnectionManager.tsx",
+          "src/components/admin/BulkProfileManager.tsx",
+          "src/components/admin/AnalyticsDashboard.tsx",
+          "src/components/admin/AdminStorytellingWorkflow.tsx",
+          "src/components/admin/AdminNavigation.tsx",
+          "src/components/admin/AdminDashboard.tsx",
+          "src/components/admin/AdminDashboard-simple.tsx",
+          "src/app/test-storyteller-cards/page.tsx",
+          "src/app/storytellers/page.tsx",
+          "src/app/how-it-works/page.tsx",
+          "src/app/galleries/page.tsx",
+          "src/app/admin/layout.tsx",
+          "src/components/profile/tabs/ProfilePrivacyTab.tsx",
+          "src/components/profile/tabs/ProfileOrganizationsTab.tsx",
+          "src/components/profile/tabs/ProfileLocationsTab.tsx",
+          "src/components/features/ThemeToggle/ThemeToggle.tsx",
+          "src/components/features/admin/AdminLayout.tsx",
+          "src/components/features/Search/AdvancedSearch.tsx",
+          "src/components/features/CommandPalette/CommandPalette.tsx",
+          "src/components/features/Notifications/NotificationCenter.tsx",
+          "src/components/admin/project-management/ProjectTranscriptsTab.tsx",
+          "src/components/admin/project-management/ProjectStorytellersTab.tsx",
+          "src/components/admin/project-management/ProjectStoriesTab.tsx",
+          "src/components/admin/project-management/ProjectMediaTab.tsx",
+          "src/app/transcripts/create/page.tsx",
+          "src/app/test/sprint-4/page.tsx",
+          "src/app/test/sprint-3/page.tsx",
+          "src/app/storytellers/create/page.tsx",
+          "src/app/storytellers/[id]/page.tsx",
+          "src/app/stories/create-ai/page.tsx",
+          "src/app/stories/create/page.tsx",
+          "src/app/photos/[id]/page.tsx",
+          "src/app/organisations/simple-dashboard/page.tsx",
+          "src/app/galleries/create/page.tsx",
+          "src/app/galleries/[id]/page.tsx",
+          "src/app/analytics/storyteller-network/page.tsx",
+          "src/app/analytics/geographic/page.tsx",
+          "src/app/analytics/demographics/page.tsx",
+          "src/app/analytics/community-impact/page.tsx",
+          "src/app/admin/transcripts/page.tsx",
+          "src/app/admin/storytellers/page.tsx",
+          "src/app/admin/stories/page.tsx",
+          "src/app/admin/settings/page.tsx",
+          "src/app/admin/reviews/page.tsx",
+          "src/app/admin/quick-add/page.tsx",
+          "src/app/admin/projects/page.tsx",
+          "src/app/admin/photos/page.tsx",
+          "src/app/admin/organisations/page.tsx",
+          "src/app/admin/member-management/page.tsx",
+          "src/app/admin/media-review/page.tsx",
+          "src/app/admin/locations/page.tsx",
+          "src/app/admin/galleries/page.tsx",
+          "src/app/admin/cleanup/page.tsx",
+          "src/app/admin/analytics/page.tsx",
+          "src/components/storyteller/StorytellerCreationWizard/steps/TranscriptStep.tsx",
+          "src/components/storyteller/StorytellerCreationWizard/steps/PhotoUploadStep.tsx",
+          "src/components/features/stories/StoryEditor/StoryEditor.tsx",
+          "src/components/features/admin/StorytellerTable/VirtualizedStorytellerTable.tsx",
+          "src/components/features/admin/Dashboard/AdminDashboard.tsx",
+          "src/app/test/sprint-5/elder-review/page.tsx",
+          "src/app/storytellers/modern/dashboard/page.tsx",
+          "src/app/storytellers/[id]/syndication/page.tsx",
+          "src/app/storytellers/[id]/stories/page.tsx",
+          "src/app/storytellers/[id]/opportunities/page.tsx",
+          "src/app/storytellers/[id]/media-hub/page.tsx",
+          "src/app/storytellers/[id]/skills/page.tsx",
+          "src/app/storytellers/[id]/impact/page.tsx",
+          "src/app/storytellers/[id]/galleries/page.tsx",
+          "src/app/storytellers/[id]/enhanced/page.tsx",
+          "src/app/storytellers/[id]/analytics/page.tsx",
+          "src/app/storytellers/[id]/dashboard/page.tsx",
+          "src/app/organisations/[id]/transcripts/page.tsx",
+          "src/app/organisations/[id]/storytellers/page-old.tsx",
+          "src/app/organisations/[id]/galleries/page.tsx",
+          "src/app/admin/transcripts/[id]/edit/page.tsx",
+          "src/app/admin/storytellers/[id]/edit/page.tsx",
+          "src/app/admin/projects/[id]/storytellers/page.tsx",
+          "src/app/admin/organisations/[id]/edit/page.tsx"
+        ]
+      }
+    ],
+    "score": 0
+  },
+  "recommendations": [
+    "Review 19 public pages for consistent user experience",
+    "Ensure all pages use Editorial Warmth color palette",
+    "Verify serif fonts for headings, sans-serif for body text",
+    "Check responsive design on mobile/tablet viewports",
+    "Run visual regression tests before releases",
+    "Review accessibility (WCAG 2.1 AA compliance)"
+  ]
+}

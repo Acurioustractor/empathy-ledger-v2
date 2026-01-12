@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Home, Users, BookOpen, Building2, FolderOpen, Settings, BarChart, Image, Camera, FileText, Shield, ImagePlus, Sparkles, PlusCircle, Video, Search, Layers } from 'lucide-react'
+import { Home, Users, BookOpen, Building2, FolderOpen, FolderKanban, Settings, BarChart, Image, Camera, FileText, Shield, ImagePlus, Sparkles, PlusCircle, Video, Search, Layers } from 'lucide-react'
 import Header from '@/components/layout/header'
 
 export default function Layout({
@@ -87,6 +87,12 @@ export default function Layout({
               <Button variant="ghost" className="w-full justify-start">
                 <Camera className="w-4 h-4 mr-3" />
                 Photos
+              </Button>
+            </Link>
+            <Link href="/admin/compendium-media">
+              <Button variant="ghost" className="w-full justify-start">
+                <FolderKanban className="w-4 h-4 mr-3" />
+                Compendium Media
               </Button>
             </Link>
             <Link href="/admin/story-images">

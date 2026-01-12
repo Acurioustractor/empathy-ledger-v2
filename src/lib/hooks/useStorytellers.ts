@@ -38,23 +38,17 @@ export function useStorytellers({
   
   const url = `/api/admin/storytellers?${params}`
   
-  // Regular pagination
-  if (!infinite) {
-    const { data, error, mutate, isLoading } = useSWR(url, fetcher, {
-      revalidateOnFocus: false,
-      dedupingInterval: 5000,
-      keepPreviousData: true
-    })
-    
-    return {
-      storytellers: data?.storytellers || [],
-      total: data?.total || 0,
-      summary: data?.summary || null,
-      isLoading,
-      error,
-      mutate
-    }
-  }
+  // Always register hooks; disable via null keys when not used
+  const {
+    data: pagedData,
+    error: pagedError,
+    mutate: pagedMutate,
+    isLoading: pagedLoading
+  } = useSWR(!infinite ? url : null, fetcher, {
+    revalidateOnFocus: false,
+    dedupingInterval: 5000,
+    keepPreviousData: true
+  })
   
   // Infinite scroll
   const getKey = (pageIndex: number, previousPageData: any) => {
@@ -65,8 +59,15 @@ export function useStorytellers({
     return `/api/admin/storytellers?${infiniteParams}`
   }
   
-  const { data, error, size, setSize, mutate, isLoading } = useSWRInfinite(
-    getKey,
+  const {
+    data,
+    error,
+    size,
+    setSize,
+    mutate,
+    isLoading
+  } = useSWRInfinite(
+    infinite ? getKey : () => null,
     fetcher,
     {
       revalidateOnFocus: false,
@@ -74,6 +75,18 @@ export function useStorytellers({
       parallel: false
     }
   )
+
+  // Regular pagination response when not using infinite mode
+  if (!infinite) {
+    return {
+      storytellers: pagedData?.storytellers || [],
+      total: pagedData?.total || 0,
+      summary: pagedData?.summary || null,
+      isLoading: pagedLoading,
+      error: pagedError,
+      mutate: pagedMutate
+    }
+  }
   
   const storytellers = data?.flatMap(page => page.storytellers) ?? []
   const isLoadingMore = size > 0 && data && typeof data[size - 1] === 'undefined'

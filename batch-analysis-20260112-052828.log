@@ -1,0 +1,187 @@
+[dotenv@17.2.2] injecting env (61) from .env.local -- tip: ⚙️  override existing env vars with { override: true }
+📊 Batch Transcript Analysis - Direct Method
+================================================================================
+
+🔍 Fetching unanalyzed transcripts...
+✅ Found 233 transcripts to analyze
+
+📊 BATCH ANALYSIS ESTIMATES
+────────────────────────────────────────────────────────────────────────────────
+Transcripts to Analyze:  233
+Batch Size:              5
+Estimated Time:          3.2 hours
+Estimated Cost:          $6.99 USD
+────────────────────────────────────────────────────────────────────────────────
+
+📦 Processing 47 batches of up to 5 transcripts
+
+⚠️  WARNING: This will analyze all unanalyzed transcripts directly.
+   Estimated cost: $6.99 USD
+   Estimated time: 3.2 hours
+
+Press Ctrl+C to cancel, or the script will continue in 5 seconds...
+
+🚀 Starting batch processing...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 1/47
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Linda Turner
+   ID: aa903b5a-998c-4a53-b5c4-228de1867177
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 7/7 quotes
+⚡ Analysis complete in 70627ms
+   ❌ Failed: Failed to save: Could not find the 'analysis_result' column of 'transcript_analysis_results' in the schema cache
+
+[2/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Jonathan Xenakis
+   ID: 3951b8cb-f8c7-4c4c-b57c-a03f25df2389
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+✅ Themes normalized: 0 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 42409ms
+   ❌ Failed: Failed to save: Could not find the 'analysis_result' column of 'transcript_analysis_results' in the schema cache
+
+[3/5] 🔄 Analyzing:
+   Transcript: Transcript – Speaker View &amp; Screen Share: In, in relation to, this interest, I suppose ju
+   Storyteller: Olga Havnen
+   ID: d8df9019-3d3a-4f3f-8b6f-025161cf8313
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 56993ms
+   ❌ Failed: Failed to save: Could not find the 'analysis_result' column of 'transcript_analysis_results' in the schema cache
+
+[4/5] 🔄 Analyzing:
+   Transcript: Brian Russell
+   Storyteller: Brian Russell
+   ID: d23dbf4f-8ae6-436a-8bd4-115d33bb20b5
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+✅ Themes normalized: 5 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 51343ms
+   ❌ Failed: Failed to save: Could not find the 'analysis_result' column of 'transcript_analysis_results' in the schema cache
+
+[5/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Jean-Baptiste Metz
+   ID: 746d8ae2-e31b-4cae-8645-a505186571eb
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+✅ Themes normalized: 1 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 58515ms
+   ❌ Failed: Failed to save: Could not find the 'analysis_result' column of 'transcript_analysis_results' in the schema cache
+
+📊 Progress: 5/233 (2.1%)
+   Elapsed: 4.7m, Remaining: ~215.8m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 2/47
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Aunty Vicky Wade - Community Story
+   Storyteller: Aunty Vicky Wade
+   ID: edde7ce6-9347-439a-ba04-bf8e0a7ba85e
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 53276ms
+   ❌ Failed: Failed to save: Could not find the 'analysis_result' column of 'transcript_analysis_results' in the schema cache
+
+[2/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Navjot Soni 
+   ID: 510afb24-6fba-488d-ad36-eff086a7e265
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 37005ms
+   ❌ Failed: Failed to save: Could not find the 'analysis_result' column of 'transcript_analysis_results' in the schema cache
+
+[3/5] 🔄 Analyzing:
+   Transcript: Shayne Bloomfield - 10/11/2025
+   Storyteller: Shayne Bloomfield
+   ID: d475ca38-0f6b-4d61-bffb-56c6d07b42ef
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 69127ms
+   ❌ Failed: Failed to save: Could not find the 'analysis_result' column of 'transcript_analysis_results' in the schema cache
+
+[4/5] 🔄 Analyzing:
+   Transcript: Daniel  Patrick Noble - Interview Transcript
+   Storyteller: Daniel  Patrick Noble
+   ID: d1baf567-e019-4db5-87ce-b2064a1e3fd7
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 49081ms
+   ❌ Failed: Failed to save: Could not find the 'analysis_result' column of 'transcript_analysis_results' in the schema cache
+
+[5/5] 🔄 Analyzing:
+   Transcript: Braydon Dema - 10/11/2025
+   Storyteller: Braydon Dema
+   ID: e47c4c53-790a-46b2-9fea-4f1edef69e07
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...

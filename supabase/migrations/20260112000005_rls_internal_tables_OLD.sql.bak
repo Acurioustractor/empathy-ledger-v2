@@ -1,0 +1,297 @@
+-- Migration: Enable RLS on internal/system tables
+-- Created: 2026-01-12
+-- Author: Database Production Readiness Review
+-- Priority: BLOCKING - System tables and processing jobs exposed
+
+-- These tables contain processing jobs, cache data, system logs,
+-- and other internal data that should be restricted appropriately.
+
+BEGIN;
+
+-- ====================
+-- PROCESSING JOBS & SYSTEM TASKS
+-- ====================
+
+-- processing_jobs: Background job queue (scraping/processing system)
+ALTER TABLE IF EXISTS public.processing_jobs ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Super admins can manage all processing jobs"
+  ON public.processing_jobs
+  FOR ALL
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM super_admin_permissions
+      WHERE profile_id = auth.uid() AND is_active = TRUE
+    )
+  );
+
+-- Note: created_by is varchar (email/username), not UUID
+-- Jobs are system-level, restricted to super admins only
+
+-- ai_processing_queue: AI job queue
+ALTER TABLE IF EXISTS public.ai_processing_queue ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view their own AI jobs"
+  ON public.ai_processing_queue
+  FOR SELECT
+  TO authenticated
+  USING (auth.uid() = initiated_by);
+
+CREATE POLICY "Super admins can manage AI queue"
+  ON public.ai_processing_queue
+  FOR ALL
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM super_admin_permissions
+      WHERE profile_id = auth.uid() AND is_active = TRUE
+    )
+  );
+
+-- ====================
+-- CACHE TABLES
+-- ====================
+
+-- cache_storyteller_analytics: Analytics cache
+ALTER TABLE IF EXISTS public.cache_storyteller_analytics ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Storytellers can view own cached analytics"
+  ON public.cache_storyteller_analytics
+  FOR SELECT
+  TO authenticated
+  USING (auth.uid() = storyteller_id);
+
+CREATE POLICY "Org members can view cached analytics in their org"
+  ON public.cache_storyteller_analytics
+  FOR SELECT
+  TO authenticated
+  USING (
+    tenant_id = (SELECT tenant_id FROM profiles WHERE id = auth.uid())
+  );
+
+-- cached_queries: Query result cache
+ALTER TABLE IF EXISTS public.cached_queries ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view their own cached queries"
+  ON public.cached_queries
+  FOR SELECT
+  TO authenticated
+  USING (
+    auth.uid() = user_id OR
+    tenant_id = (SELECT tenant_id FROM profiles WHERE id = auth.uid())
+  );
+
+-- ====================
+-- ADMIN AUDIT LOGS
+-- ====================
+
+-- super_admin_audit_log: System admin actions audit
+ALTER TABLE IF EXISTS public.super_admin_audit_log ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Super admins can view audit log"
+  ON public.super_admin_audit_log
+  FOR SELECT
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM super_admin_permissions
+      WHERE profile_id = auth.uid() AND is_active = TRUE
+    )
+  );
+
+-- Super admins can insert audit entries (but not modify/delete)
+CREATE POLICY "Super admins can insert audit entries"
+  ON public.super_admin_audit_log
+  FOR INSERT
+  TO authenticated
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM super_admin_permissions
+      WHERE profile_id = auth.uid() AND is_active = TRUE
+    )
+  );
+
+-- ====================
+-- SUPER ADMIN PERMISSIONS
+-- ====================
+
+-- super_admin_permissions: System admin roles
+ALTER TABLE IF EXISTS public.super_admin_permissions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Super admins can view all permissions"
+  ON public.super_admin_permissions
+  FOR SELECT
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM super_admin_permissions
+      WHERE profile_id = auth.uid() AND is_active = TRUE
+    )
+  );
+
+-- Users can view their own permission status
+CREATE POLICY "Users can view own super admin status"
+  ON public.super_admin_permissions
+  FOR SELECT
+  TO authenticated
+  USING (auth.uid() = user_id);
+
+-- ====================
+-- SESSION & NOTIFICATION TABLES
+-- ====================
+
+-- notification_queue: User notifications
+ALTER TABLE IF EXISTS public.notification_queue ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view own notifications"
+  ON public.notification_queue
+  FOR ALL
+  TO authenticated
+  USING (auth.uid() = user_id);
+
+-- user_sessions: Active user sessions
+ALTER TABLE IF EXISTS public.user_sessions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view own sessions"
+  ON public.user_sessions
+  FOR SELECT
+  TO authenticated
+  USING (auth.uid() = user_id);
+
+CREATE POLICY "Super admins can view all sessions"
+  ON public.user_sessions
+  FOR SELECT
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM super_admin_permissions
+      WHERE profile_id = auth.uid() AND is_active = TRUE
+    )
+  );
+
+-- ====================
+-- ERROR LOGS & DEBUGGING
+-- ====================
+
+-- error_logs: Application error tracking
+ALTER TABLE IF EXISTS public.error_logs ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view errors they encountered"
+  ON public.error_logs
+  FOR SELECT
+  TO authenticated
+  USING (auth.uid() = user_id);
+
+CREATE POLICY "Super admins can view all errors"
+  ON public.error_logs
+  FOR SELECT
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM super_admin_permissions
+      WHERE profile_id = auth.uid() AND is_active = TRUE
+    )
+  );
+
+-- ====================
+-- RATE LIMITING & ABUSE PREVENTION
+-- ====================
+
+-- rate_limit_tracking: API rate limit counters
+ALTER TABLE IF EXISTS public.rate_limit_tracking ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view own rate limits"
+  ON public.rate_limit_tracking
+  FOR SELECT
+  TO authenticated
+  USING (auth.uid() = user_id);
+
+-- abuse_reports: Content moderation reports
+ALTER TABLE IF EXISTS public.abuse_reports ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can submit abuse reports"
+  ON public.abuse_reports
+  FOR INSERT
+  TO authenticated
+  WITH CHECK (auth.uid() = reporter_id);
+
+CREATE POLICY "Users can view reports they submitted"
+  ON public.abuse_reports
+  FOR SELECT
+  TO authenticated
+  USING (auth.uid() = reporter_id);
+
+CREATE POLICY "Org admins and elders can view abuse reports"
+  ON public.abuse_reports
+  FOR SELECT
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM organization_members om
+      WHERE om.profile_id = auth.uid()
+        AND om.role IN ('admin', 'elder', 'cultural_advisor', 'board_member')
+    )
+  );
+
+-- ====================
+-- VERIFICATION
+-- ====================
+
+DO $$
+DECLARE
+  table_record RECORD;
+  tables_checked INTEGER := 0;
+  tables_secured INTEGER := 0;
+BEGIN
+  FOR table_record IN
+    SELECT tablename
+    FROM pg_tables
+    WHERE schemaname = 'public'
+      AND tablename IN (
+        'processing_jobs',
+        'ai_processing_queue',
+        'cache_storyteller_analytics',
+        'cached_queries',
+        'super_admin_audit_log',
+        'super_admin_permissions',
+        'notification_queue',
+        'user_sessions',
+        'error_logs',
+        'rate_limit_tracking',
+        'abuse_reports'
+      )
+  LOOP
+    tables_checked := tables_checked + 1;
+
+    IF EXISTS (
+      SELECT 1 FROM pg_tables
+      WHERE schemaname = 'public'
+        AND tablename = table_record.tablename
+        AND rowsecurity = TRUE
+    ) THEN
+      tables_secured := tables_secured + 1;
+      RAISE NOTICE 'SUCCESS: RLS enabled on %', table_record.tablename;
+    ELSE
+      RAISE WARNING 'FAILED: RLS not enabled on %', table_record.tablename;
+    END IF;
+  END LOOP;
+
+  RAISE NOTICE 'Internal/system tables secured: % of %', tables_secured, tables_checked;
+
+  IF tables_secured < tables_checked THEN
+    RAISE WARNING 'Some internal tables do not exist or do not have RLS (may be expected)';
+  END IF;
+END $$;
+
+COMMIT;
+
+-- Down Migration (for rollback)
+--
+-- BEGIN;
+-- DROP POLICY IF EXISTS "Users can view their own processing jobs" ON public.processing_jobs;
+-- DROP POLICY IF EXISTS "Super admins can manage all processing jobs" ON public.processing_jobs;
+-- ALTER TABLE IF EXISTS public.processing_jobs DISABLE ROW LEVEL SECURITY;
+--
+-- ... (repeat for all tables)
+-- COMMIT;

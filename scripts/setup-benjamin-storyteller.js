@@ -20,7 +20,7 @@ async function setupBenjaminAsStoryteller() {
     // 1. First, let's find Benjamin's profile or create it
     console.log('👤 Looking for Benjamin Knight\'s profile...');
 
-    let { data: profile, error: profileError } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('*')
       .eq('email', BENJAMIN_EMAIL)

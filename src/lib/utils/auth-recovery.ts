@@ -6,6 +6,7 @@
  */
 
 import { supabase } from '@/lib/supabase/client'
+import { adminConfig } from '@/lib/config/admin-config'
 
 interface AuthDiagnostics {
   hasSession: boolean
@@ -168,7 +169,6 @@ export class AuthRecovery {
    * Uses the centralized admin configuration system
    */
   static isAdminEmail(email: string | null): boolean {
-    const { adminConfig } = require('@/lib/config/admin-config')
     return adminConfig.isSuperAdmin(email)
   }
 
@@ -177,8 +177,6 @@ export class AuthRecovery {
    * This checks both super admin emails and database admin status
    */
   static async isAdmin(userId: string, email: string | null): Promise<boolean> {
-    const { adminConfig } = require('@/lib/config/admin-config')
-    
     // Check super admin status first
     if (adminConfig.isSuperAdmin(email)) {
       return true
@@ -194,8 +192,6 @@ export class AuthRecovery {
    * Get user permissions based on admin status
    */
   static async getUserPermissions(userId: string, email: string | null) {
-    const { adminConfig } = require('@/lib/config/admin-config')
-    
     // Check if user has organisation admin roles
     const isOrgAdmin = false // TODO: Check organization_roles table
     

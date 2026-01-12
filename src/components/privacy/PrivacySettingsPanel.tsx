@@ -5,7 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import { Shield, Eye, Database, Download, Trash2, CheckCircle2, Loader2 } from 'lucide-react'
+import { Shield, Eye, Database, Download, Trash2, CheckCircle2, Loader2, Scale, ExternalLink } from 'lucide-react'
+import { Switch } from '@/components/ui/switch'
+import { Label } from '@/components/ui/label'
 import { VisibilitySelector } from './VisibilitySelector'
 import { DataSovereigntyPreferences } from './DataSovereigntyPreferences'
 import { ContactPermissions } from './ContactPermissions'
@@ -22,6 +24,10 @@ interface PrivacySettingsPanelProps {
 
 type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
 
+interface PlatformSharingSettings {
+  justicehub_enabled: boolean
+}
+
 export function PrivacySettingsPanel({
   storytellerId,
   storytellerEmail,
@@ -30,6 +36,31 @@ export function PrivacySettingsPanel({
 }: PrivacySettingsPanelProps) {
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
   const [activeTab, setActiveTab] = useState('visibility')
+  const [platformSharing, setPlatformSharing] = useState<PlatformSharingSettings>({
+    justicehub_enabled: false
+  })
+
+  // Load initial platform sharing settings
+  React.useEffect(() => {
+    if (!testMode && storytellerId) {
+      fetch(`/api/storytellers/${storytellerId}`)
+        .then(res => res.json())
+        .then(data => {
+          // API returns justicehub_enabled at root level
+          if (data.justicehub_enabled !== undefined) {
+            setPlatformSharing({
+              justicehub_enabled: data.justicehub_enabled || false
+            })
+          }
+        })
+        .catch(err => console.error('Failed to load platform settings:', err))
+    }
+  }, [storytellerId, testMode])
+
+  const handleJusticeHubToggle = async (enabled: boolean) => {
+    setPlatformSharing(prev => ({ ...prev, justicehub_enabled: enabled }))
+    await handleSettingsChange({ justicehub_enabled: enabled })
+  }
 
   const handleSettingsChange = async (settings: Record<string, unknown>) => {
     // In test mode, just update state without saving to API
@@ -182,6 +213,56 @@ export function PrivacySettingsPanel({
                 storytellerId={storytellerId}
                 onSettingsChange={handleSettingsChange}
               />
+            </CardContent>
+          </Card>
+
+          {/* Platform Sharing - JusticeHub Opt-in */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Scale className="h-5 w-5 text-blue-600" />
+                Platform Sharing
+              </CardTitle>
+              <CardDescription>
+                Choose which partner platforms can display your profile and stories you've shared.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-start justify-between gap-4 p-4 rounded-lg border border-blue-200 bg-blue-50/50">
+                <div className="flex-1 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor="justicehub-toggle" className="text-base font-medium text-clay-900 cursor-pointer">
+                      Allow my profile on JusticeHub
+                    </Label>
+                    <a
+                      href="https://justicehub.org.au"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
+                  <p className="text-sm text-clay-600">
+                    When enabled, your public profile and stories you've explicitly shared may appear on JusticeHub,
+                    a platform supporting youth justice reform. You control which specific stories are shared separately.
+                  </p>
+                </div>
+                <Switch
+                  id="justicehub-toggle"
+                  checked={platformSharing.justicehub_enabled}
+                  onCheckedChange={handleJusticeHubToggle}
+                  className="data-[state=checked]:bg-blue-600"
+                />
+              </div>
+
+              <Alert className="bg-sage-50 border-sage-200">
+                <AlertDescription className="text-sm text-sage-800">
+                  <strong>Your Control:</strong> This setting only makes you discoverable on partner platforms.
+                  You still choose which individual stories to share using the "Share Your Story" feature.
+                  You can revoke access at any time.
+                </AlertDescription>
+              </Alert>
             </CardContent>
           </Card>
 

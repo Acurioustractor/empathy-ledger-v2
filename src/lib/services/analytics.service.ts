@@ -5,7 +5,10 @@
  */
 
 import { createSupabaseClient } from '@/lib/supabase/client';
-import { ai } from 'ai';
+
+// ============================================================================
+// TYPE DEFINITIONS
+// ============================================================================
 
 export interface CommunityMetrics {
   totalStories: number;
@@ -45,7 +48,7 @@ export interface WisdomQuote {
   text: string;
   storyteller: string;
   culturalContext: string;
-  significance: number; // AI-determined significance score
+  significance: number;
   themes: string[];
   elderApproval: 'pending' | 'approved' | 'restricted';
   storyId: string;
@@ -76,6 +79,412 @@ export interface ImpactAnalytics {
   }[];
 }
 
+// ============================================================================
+// CONSTANTS
+// ============================================================================
+
+const FALLBACK_THEMES = ['Resilience', 'Community', 'Heritage', 'Healing', 'Connection'];
+
+const RESILIENCE_KEYWORDS = [
+  'healing', 'strength', 'community', 'recovery', 'overcome',
+  'resilience', 'unity', 'support', 'together'
+];
+
+const DEFAULT_APPROVED_THEMES = [
+  'healing', 'community', 'tradition', 'heritage', 'wisdom', 'family',
+  'culture', 'resilience', 'strength', 'unity', 'peace', 'love', 'respect'
+];
+
+const ELDER_BIRTH_YEAR_THRESHOLD = 1960;
+
+const SCORE_WEIGHTS = {
+  KEYWORD_MATCH: 2,
+  THEME_MATCH: 5,
+  STORY_COUNT: 5,
+  VIEW_COUNT_DIVISOR: 10,
+  THEME_DIVERSITY: 2,
+  TRANSCRIPT_COUNT: 2,
+  MAX_STORY_BONUS: 40,
+  MAX_VIEW_BONUS: 30,
+  MAX_THEME_BONUS: 20,
+  MAX_TRANSCRIPT_BONUS: 10,
+  MAX_THEME_DIVERSITY_BONUS: 15,
+  MAX_INTERGENERATIONAL_BONUS: 10,
+  MAX_DIVERSITY_BONUS: 5,
+  ELDER_QUOTE_MULTIPLIER: 1.5,
+  TRADITION_MULTIPLIER: 1.2,
+  HEALING_MULTIPLIER: 1.3,
+  QUOTE_LENGTH_DIVISOR: 10,
+  THEME_SIGNIFICANCE_MULTIPLIER: 10
+};
+
+const BASE_SCORES = {
+  COMMUNITY_RESILIENCE: 60,
+  CULTURAL_VITALITY: 70
+};
+
+// ============================================================================
+// FALLBACK DATA
+// ============================================================================
+
+const FALLBACK_COMMUNITY_METRICS: CommunityMetrics = {
+  totalStories: 0,
+  totalTranscripts: 0,
+  activeStorytellers: 0,
+  culturalThemes: FALLBACK_THEMES,
+  healingJourneys: 0,
+  intergenerationalConnections: 0,
+  elderWisdomQuotes: 0,
+  communityResilience: 75,
+  culturalVitality: 82
+};
+
+const FALLBACK_STORYTELLER: StorytellerConnection = {
+  id: '1',
+  name: 'Sample Storyteller',
+  organisation: 'Community Center',
+  connections: [],
+  influences: 85,
+  culturalRole: 'Community Keeper',
+  storyCount: 3,
+  themes: ['Heritage', 'Community', 'Healing']
+};
+
+const FALLBACK_CULTURAL_THEMES: CulturalTheme[] = [
+  {
+    name: 'Community Resilience',
+    frequency: 45,
+    sentiment: 'positive',
+    relatedQuotes: ['Together we are stronger than apart', 'Our community has always been our strength'],
+    stories: ['1', '2', '3'],
+    significance: 95,
+    elderApproved: true
+  },
+  {
+    name: 'Cultural Heritage',
+    frequency: 38,
+    sentiment: 'positive',
+    relatedQuotes: ['Our traditions connect us to our ancestors', 'These stories are our heritage'],
+    stories: ['4', '5'],
+    significance: 92,
+    elderApproved: true
+  },
+  {
+    name: 'Healing Journey',
+    frequency: 29,
+    sentiment: 'positive',
+    relatedQuotes: ['Healing comes through telling our stories', 'The journey of healing never ends'],
+    stories: ['6', '7', '8'],
+    significance: 88,
+    elderApproved: true
+  }
+];
+
+const FALLBACK_WISDOM_QUOTES: WisdomQuote[] = [
+  {
+    id: 'quote-1',
+    text: 'Our stories are the threads that weave the fabric of our community together.',
+    storyteller: 'Elder Mary Johnson',
+    culturalContext: 'Indigenous Community',
+    significance: 95,
+    themes: ['Community', 'Tradition', 'Wisdom'],
+    elderApproval: 'approved',
+    storyId: '1'
+  },
+  {
+    id: 'quote-2',
+    text: 'When we share our pain, we lighten the burden for those who come after us.',
+    storyteller: 'Elder Robert Thunder',
+    culturalContext: 'First Nations',
+    significance: 92,
+    themes: ['Healing', 'Community', 'Legacy'],
+    elderApproval: 'approved',
+    storyId: '2'
+  },
+  {
+    id: 'quote-3',
+    text: 'The land remembers what we forget, and our stories help us remember what the land knows.',
+    storyteller: 'Elder Sarah Crow Feather',
+    culturalContext: 'Native American',
+    significance: 89,
+    themes: ['Connection to Land', 'Memory', 'Cultural Knowledge'],
+    elderApproval: 'approved',
+    storyId: '3'
+  }
+];
+
+const FALLBACK_GEOGRAPHIC_INSIGHTS: GeographicInsight[] = [
+  {
+    region: 'Pacific Northwest',
+    storyDensity: 35,
+    predominantThemes: ['Connection to Land', 'Cultural Heritage', 'Community Resilience'],
+    culturalClusters: [
+      {
+        name: 'Indigenous Communities',
+        storytellers: 15,
+        commonThemes: ['Traditional Knowledge', 'Land Stewardship']
+      },
+      {
+        name: 'Immigrant Stories',
+        storytellers: 12,
+        commonThemes: ['Cultural Adaptation', 'Community Building']
+      }
+    ]
+  },
+  {
+    region: 'Great Lakes Region',
+    storyDensity: 28,
+    predominantThemes: ['Healing Journeys', 'Intergenerational Wisdom', 'Community Support'],
+    culturalClusters: [
+      {
+        name: 'Elder Voices',
+        storytellers: 10,
+        commonThemes: ['Traditional Healing', 'Cultural Preservation']
+      }
+    ]
+  }
+];
+
+const FALLBACK_HEALING_PATTERNS = [
+  {
+    pattern: 'Connection to Land',
+    frequency: 45,
+    outcomes: ['Spiritual healing', 'Cultural reconnection', 'Personal growth']
+  },
+  {
+    pattern: 'Intergenerational Dialogue',
+    frequency: 38,
+    outcomes: ['Knowledge transfer', 'Family healing', 'Community strength']
+  },
+  {
+    pattern: 'Cultural Ceremony',
+    frequency: 29,
+    outcomes: ['Spiritual cleansing', 'Community bonding', 'Traditional healing']
+  }
+];
+
+// ============================================================================
+// QUERY UTILITIES
+// ============================================================================
+
+async function safeQuery<T>(
+  queryFn: () => Promise<{ data: T | null; error: any }>,
+  fallback: T,
+  errorMessage: string
+): Promise<T> {
+  try {
+    const { data, error } = await queryFn();
+    if (error) throw error;
+    return data || fallback;
+  } catch (error) {
+    console.warn(errorMessage, error);
+    return fallback;
+  }
+}
+
+async function safeCount(
+  queryFn: () => Promise<{ count: number | null; error: any }>,
+  fallback: number,
+  errorMessage: string
+): Promise<number> {
+  try {
+    const { count, error } = await queryFn();
+    if (error) throw error;
+    return count ?? fallback;
+  } catch (error) {
+    console.warn(errorMessage, error);
+    return fallback;
+  }
+}
+
+function extractUniqueThemes(transcripts: any[]): string[] {
+  const themes = new Set<string>();
+  transcripts.forEach(t => {
+    if (t.themes) {
+      t.themes.forEach((theme: string) => themes.add(theme));
+    }
+  });
+  return Array.from(themes);
+}
+
+function countThemeFrequency(themes: string[]): Record<string, number> {
+  const counts: Record<string, number> = {};
+  themes.forEach(theme => {
+    counts[theme] = (counts[theme] || 0) + 1;
+  });
+  return counts;
+}
+
+function extractTopThemes(themes: string[], limit: number = 5): string[] {
+  const themeCounts = countThemeFrequency(themes);
+  return Object.entries(themeCounts)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, limit)
+    .map(([theme]) => theme);
+}
+
+// ============================================================================
+// ELDER IDENTIFICATION
+// ============================================================================
+
+function isElder(storyteller: any): boolean {
+  return storyteller.birth_year && storyteller.birth_year < ELDER_BIRTH_YEAR_THRESHOLD;
+}
+
+async function getElderIds(supabase: any): Promise<string[]> {
+  const { data: elders } = await supabase
+    .from('storytellers')
+    .select('id')
+    .or(`birth_year.lt.${ELDER_BIRTH_YEAR_THRESHOLD},cultural_role.ilike.%elder%`);
+  return elders ? elders.map((e: any) => e.id) : [];
+}
+
+// ============================================================================
+// SCORING UTILITIES
+// ============================================================================
+
+function calculateResilienceScore(content: string, themes?: string[]): number {
+  let score = 0;
+  const contentLower = content.toLowerCase();
+
+  // Count keyword occurrences
+  RESILIENCE_KEYWORDS.forEach(keyword => {
+    const matches = (contentLower.match(new RegExp(keyword, 'g')) || []).length;
+    score += matches * SCORE_WEIGHTS.KEYWORD_MATCH;
+  });
+
+  // Bonus for resilience-related themes
+  if (themes) {
+    const resilienceThemes = themes.filter(theme =>
+      RESILIENCE_KEYWORDS.some(keyword => theme.toLowerCase().includes(keyword))
+    );
+    score += resilienceThemes.length * SCORE_WEIGHTS.THEME_MATCH;
+  }
+
+  return Math.min(100, score);
+}
+
+function calculateVitalityScore(
+  uniqueThemes: Set<string>,
+  intergenerationalContent: number,
+  uniqueBackgrounds: Set<string>
+): number {
+  let score = BASE_SCORES.CULTURAL_VITALITY;
+
+  // Theme diversity bonus
+  const themeBonus = Math.min(
+    SCORE_WEIGHTS.MAX_THEME_DIVERSITY_BONUS,
+    uniqueThemes.size * 0.5
+  );
+  score += themeBonus;
+
+  // Intergenerational content bonus
+  const intergenerationalBonus = Math.min(
+    SCORE_WEIGHTS.MAX_INTERGENERATIONAL_BONUS,
+    intergenerationalContent * 0.3
+  );
+  score += intergenerationalBonus;
+
+  // Cultural diversity bonus
+  const diversityBonus = Math.min(
+    SCORE_WEIGHTS.MAX_DIVERSITY_BONUS,
+    uniqueBackgrounds.size * 0.2
+  );
+  score += diversityBonus;
+
+  return Math.min(100, Math.floor(score));
+}
+
+function calculateInfluenceScore(
+  storyCount: number,
+  totalViews: number,
+  uniqueThemeCount: number,
+  transcriptCount: number
+): number {
+  let score = 0;
+
+  // Story count contribution
+  score += Math.min(
+    SCORE_WEIGHTS.MAX_STORY_BONUS,
+    storyCount * SCORE_WEIGHTS.STORY_COUNT
+  );
+
+  // View count contribution
+  score += Math.min(
+    SCORE_WEIGHTS.MAX_VIEW_BONUS,
+    Math.floor(totalViews / SCORE_WEIGHTS.VIEW_COUNT_DIVISOR)
+  );
+
+  // Theme diversity contribution
+  score += Math.min(
+    SCORE_WEIGHTS.MAX_THEME_BONUS,
+    uniqueThemeCount * SCORE_WEIGHTS.THEME_DIVERSITY
+  );
+
+  // Transcript contribution
+  score += Math.min(
+    SCORE_WEIGHTS.MAX_TRANSCRIPT_BONUS,
+    transcriptCount * SCORE_WEIGHTS.TRANSCRIPT_COUNT
+  );
+
+  return Math.min(100, score);
+}
+
+function calculateQuoteSignificance(quote: string, isElder: boolean): number {
+  let score = quote.length / SCORE_WEIGHTS.QUOTE_LENGTH_DIVISOR;
+  if (isElder) score *= SCORE_WEIGHTS.ELDER_QUOTE_MULTIPLIER;
+  if (quote.toLowerCase().includes('tradition')) score *= SCORE_WEIGHTS.TRADITION_MULTIPLIER;
+  if (quote.toLowerCase().includes('healing')) score *= SCORE_WEIGHTS.HEALING_MULTIPLIER;
+  return Math.min(100, Math.floor(score));
+}
+
+function calculateThemeSignificance(frequency: number): number {
+  return Math.min(100, frequency * SCORE_WEIGHTS.THEME_SIGNIFICANCE_MULTIPLIER);
+}
+
+// ============================================================================
+// CULTURAL ROLE DETERMINATION
+// ============================================================================
+
+function determineCulturalRole(storyteller: any): string {
+  if (storyteller.birth_year && storyteller.birth_year < ELDER_BIRTH_YEAR_THRESHOLD) {
+    return 'Elder';
+  }
+  if (storyteller.stories?.length > 5) {
+    return 'Community Keeper';
+  }
+  return 'Community Member';
+}
+
+// ============================================================================
+// DATA TRANSFORMATION
+// ============================================================================
+
+function identifyCulturalClusters(
+  backgrounds: string[],
+  storytellerCount: number
+): { name: string; storytellers: number; commonThemes: string[] }[] {
+  const clusters = new Map<string, number>();
+  backgrounds.forEach(bg => {
+    clusters.set(bg, (clusters.get(bg) || 0) + 1);
+  });
+
+  return Array.from(clusters.entries()).map(([name, count]) => ({
+    name,
+    storytellers: count,
+    commonThemes: ['tradition', 'community'] // Placeholder for future AI enhancement
+  }));
+}
+
+function extractSignificantQuotes(content: string, limit: number = 5): string[] {
+  const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 20);
+  return sentences.slice(0, limit);
+}
+
+// ============================================================================
+// ANALYTICS SERVICE CLASS
+// ============================================================================
+
 export class AnalyticsService {
   private supabase = createSupabaseClient();
 
@@ -84,82 +493,50 @@ export class AnalyticsService {
    */
   async getCommunityMetrics(): Promise<CommunityMetrics> {
     try {
-      // Use fallback data if tables don't exist
-      const fallbackData = {
-        totalStories: 0,
-        totalTranscripts: 0,
-        activeStorytellers: 0,
-        culturalThemes: ['Resilience', 'Community', 'Heritage', 'Healing', 'Connection'],
-        healingJourneys: 0,
-        intergenerationalConnections: 0,
-        elderWisdomQuotes: 0,
-        communityResilience: 75,
-        culturalVitality: 82
-      };
+      // Get basic counts
+      const [storiesCount, transcriptsCount, storytellersCount] = await Promise.all([
+        safeCount(
+          () => this.supabase.from('stories').select('id', { count: 'exact', head: true }),
+          0,
+          'Error counting stories'
+        ),
+        safeCount(
+          () => this.supabase.from('transcripts').select('id', { count: 'exact', head: true }),
+          0,
+          'Error counting transcripts'
+        ),
+        safeCount(
+          () => this.supabase.from('storytellers').select('id', { count: 'exact', head: true }),
+          0,
+          'Error counting storytellers'
+        )
+      ]);
 
-      // Try to get basic counts with error handling
-      let storiesCount = { count: 0 };
-      let transcriptsCount = { count: 0 };
-      let storytellersCount = { count: 0 };
+      // Get active storytellers
+      const activeStorytellers = await this.getActiveStorytellerCount();
 
-      try {
-        const results = await Promise.all([
-          this.supabase.from('stories').select('id', { count: 'exact', head: true }),
-          this.supabase.from('transcripts').select('id', { count: 'exact', head: true }),
-          this.supabase.from('storytellers').select('id', { count: 'exact', head: true })
-        ]);
-        [storiesCount, transcriptsCount, storytellersCount] = results;
-      } catch (error) {
-        console.warn('Some tables not available, using fallback data:', error);
-        return fallbackData;
-      }
+      // Get cultural themes
+      const culturalThemes = await this.extractCulturalThemesFromTranscripts();
 
-      // Get active storytellers (those with stories) with error handling
-      let activeStorytellers: any[] = [];
-      try {
-        const { data: storyTellerIds } = await this.supabase
-          .from('stories')
-          .select('storyteller_id');
-        
-        const storytellerIds = storyTellerIds?.map(s => s.storyteller_id).filter(Boolean) || [];
-        
-        if (storytellerIds.length > 0) {
-          const { data } = await this.supabase
-            .from('storytellers')
-            .select('id')
-            .in('id', storytellerIds);
-          activeStorytellers = data || [];
-        }
-      } catch (error) {
-        console.warn('Error getting active storytellers:', error);
-      }
-
-      // Get cultural themes from transcript analysis with error handling
-      let culturalThemes = fallbackData.culturalThemes;
-      try {
-        const { data: transcripts } = await this.supabase
-          .from('transcripts')
-          .select('content, themes, analysis')
-          .not('themes', 'is', null);
-
-        if (transcripts && transcripts.length > 0) {
-          culturalThemes = this.extractCulturalThemes(transcripts);
-        }
-      } catch (error) {
-        console.warn('Error getting transcripts:', error);
-      }
-      
-      // Calculate metrics with fallback values
-      const healingJourneys = await this.calculateHealingJourneys();
-      const intergenerationalConnections = await this.calculateIntergenerationalConnections();
-      const elderWisdomQuotes = await this.countElderWisdomQuotes();
-      const communityResilience = await this.calculateCommunityResilience();
-      const culturalVitality = await this.calculateCulturalVitality();
+      // Calculate all metrics in parallel
+      const [
+        healingJourneys,
+        intergenerationalConnections,
+        elderWisdomQuotes,
+        communityResilience,
+        culturalVitality
+      ] = await Promise.all([
+        this.calculateHealingJourneys(),
+        this.calculateIntergenerationalConnections(),
+        this.countElderWisdomQuotes(),
+        this.calculateCommunityResilience(),
+        this.calculateCulturalVitality()
+      ]);
 
       return {
-        totalStories: storiesCount.count || 0,
-        totalTranscripts: transcriptsCount.count || 0,
-        activeStorytellers: activeStorytellers.length,
+        totalStories: storiesCount,
+        totalTranscripts: transcriptsCount,
+        activeStorytellers,
         culturalThemes,
         healingJourneys,
         intergenerationalConnections,
@@ -169,18 +546,7 @@ export class AnalyticsService {
       };
     } catch (error) {
       console.error('Error getting community metrics:', error);
-      // Return fallback data instead of throwing
-      return {
-        totalStories: 0,
-        totalTranscripts: 0,
-        activeStorytellers: 0,
-        culturalThemes: ['Resilience', 'Community', 'Heritage', 'Healing', 'Connection'],
-        healingJourneys: 0,
-        intergenerationalConnections: 0,
-        elderWisdomQuotes: 0,
-        communityResilience: 75,
-        culturalVitality: 82
-      };
+      return FALLBACK_COMMUNITY_METRICS;
     }
   }
 
@@ -189,38 +555,22 @@ export class AnalyticsService {
    */
   async getStorytellerNetwork(): Promise<StorytellerConnection[]> {
     try {
-      let storytellers: any[] = [];
-      
-      try {
-        const { data } = await this.supabase
+      const storytellers = await safeQuery(
+        () => this.supabase
           .from('storytellers')
           .select(`
             id,
             name,
             organisation,
             cultural_background,
-            stories!inner(
-              id,
-              title,
-              themes
-            )
-          `);
-        storytellers = data || [];
-      } catch (error) {
-        console.warn('Error fetching storytellers, using fallback data:', error);
-        // Return fallback network data
-        return [
-          {
-            id: '1',
-            name: 'Sample Storyteller',
-            organisation: 'Community Center',
-            connections: [],
-            influences: 85,
-            culturalRole: 'Community Keeper',
-            storyCount: 3,
-            themes: ['Heritage', 'Community', 'Healing']
-          }
-        ];
+            stories!inner(id, title, themes)
+          `),
+        [],
+        'Error fetching storytellers for network'
+      );
+
+      if (!storytellers || storytellers.length === 0) {
+        return [FALLBACK_STORYTELLER];
       }
 
       const connections: StorytellerConnection[] = [];
@@ -228,11 +578,10 @@ export class AnalyticsService {
       for (const storyteller of storytellers) {
         try {
           const storyThemes = storyteller.stories?.flatMap((s: any) => s.themes || []) || [];
-          
-          // Find connections based on shared themes, organisations, or cultural background
+
           const relatedStorytellers = await this.findRelatedStorytellers(
-            storyteller.id, 
-            storyThemes, 
+            storyteller.id,
+            storyThemes,
             storyteller.organisation,
             storyteller.cultural_background
           );
@@ -241,9 +590,9 @@ export class AnalyticsService {
             id: storyteller.id,
             name: storyteller.name,
             organisation: storyteller.organisation,
-            connections: relatedStorytellers.map(r => r.id),
-            influences: await this.calculateInfluenceScore(storyteller.id),
-            culturalRole: this.determineCulturalRole(storyteller),
+            connections: relatedStorytellers.map((r: any) => r.id),
+            influences: await this.calculateInfluenceScoreForStoryteller(storyteller.id),
+            culturalRole: determineCulturalRole(storyteller),
             storyCount: storyteller.stories?.length || 0,
             themes: [...new Set(storyThemes)]
           });
@@ -252,22 +601,10 @@ export class AnalyticsService {
         }
       }
 
-      return connections;
+      return connections.length > 0 ? connections : [FALLBACK_STORYTELLER];
     } catch (error) {
       console.error('Error generating storyteller network:', error);
-      // Return fallback data instead of throwing
-      return [
-        {
-          id: '1',
-          name: 'Sample Storyteller',
-          organisation: 'Community Center',
-          connections: [],
-          influences: 85,
-          culturalRole: 'Community Keeper',
-          storyCount: 3,
-          themes: ['Heritage', 'Community', 'Healing']
-        }
-      ];
+      return [FALLBACK_STORYTELLER];
     }
   }
 
@@ -276,40 +613,8 @@ export class AnalyticsService {
    */
   async getCulturalThemes(): Promise<CulturalTheme[]> {
     try {
-      // Fallback cultural themes data
-      const fallbackThemes: CulturalTheme[] = [
-        {
-          name: 'Community Resilience',
-          frequency: 45,
-          sentiment: 'positive',
-          relatedQuotes: ['Together we are stronger than apart', 'Our community has always been our strength'],
-          stories: ['1', '2', '3'],
-          significance: 95,
-          elderApproved: true
-        },
-        {
-          name: 'Cultural Heritage',
-          frequency: 38,
-          sentiment: 'positive',
-          relatedQuotes: ['Our traditions connect us to our ancestors', 'These stories are our heritage'],
-          stories: ['4', '5'],
-          significance: 92,
-          elderApproved: true
-        },
-        {
-          name: 'Healing Journey',
-          frequency: 29,
-          sentiment: 'positive',
-          relatedQuotes: ['Healing comes through telling our stories', 'The journey of healing never ends'],
-          stories: ['6', '7', '8'],
-          significance: 88,
-          elderApproved: true
-        }
-      ];
-
-      let transcripts: any[] = [];
-      try {
-        const { data } = await this.supabase
+      const transcripts = await safeQuery(
+        () => this.supabase
           .from('transcripts')
           .select(`
             content,
@@ -318,95 +623,66 @@ export class AnalyticsService {
             stories(id, title),
             storytellers(name, cultural_background)
           `)
-          .not('content', 'is', null);
-        transcripts = data || [];
-      } catch (error) {
-        console.warn('Error fetching transcripts, using fallback data:', error);
-        return fallbackThemes;
-      }
+          .not('content', 'is', null),
+        [],
+        'Error fetching transcripts for theme analysis'
+      );
 
       if (!transcripts || transcripts.length === 0) {
-        return fallbackThemes;
+        return FALLBACK_CULTURAL_THEMES;
       }
 
       const themeAnalysis = new Map<string, {
         frequency: number;
-        sentiment: 'positive' | 'neutral' | 'negative';
         quotes: string[];
         stories: string[];
-        significance: number;
       }>();
 
+      // Aggregate theme data
       for (const transcript of transcripts) {
         if (transcript.themes) {
           for (const theme of transcript.themes) {
             const current = themeAnalysis.get(theme) || {
               frequency: 0,
-              sentiment: 'neutral' as const,
               quotes: [],
-              stories: [],
-              significance: 0
+              stories: []
             };
 
             current.frequency += 1;
             if (transcript.stories) {
               current.stories.push(...transcript.stories.map((s: any) => s.id));
             }
-            
-            // Extract significant quotes related to this theme
-            const quotes = await this.extractThemeQuotes(transcript.content, theme);
-            current.quotes.push(...quotes);
 
-            // Analyze sentiment using AI
-            const sentiment = await this.analyzeSentiment(transcript.content);
-            current.sentiment = sentiment;
-
-            // Calculate significance based on frequency and cultural importance
-            current.significance = await this.calculateThemeSignificance(theme, current.frequency);
+            // Extract quotes (simplified for now)
+            if (transcript.content) {
+              const quotes = extractSignificantQuotes(transcript.content, 2);
+              current.quotes.push(...quotes);
+            }
 
             themeAnalysis.set(theme, current);
           }
         }
       }
 
+      // Build cultural themes
       const culturalThemes: CulturalTheme[] = [];
       for (const [name, analysis] of themeAnalysis.entries()) {
         culturalThemes.push({
           name,
           frequency: analysis.frequency,
-          sentiment: analysis.sentiment,
-          relatedQuotes: analysis.quotes.slice(0, 10), // Top 10 quotes
+          sentiment: 'positive', // Simplified - can be enhanced with AI
+          relatedQuotes: analysis.quotes.slice(0, 10),
           stories: [...new Set(analysis.stories)],
-          significance: analysis.significance,
+          significance: calculateThemeSignificance(analysis.frequency),
           elderApproved: await this.checkElderApproval(name)
         });
       }
 
       const result = culturalThemes.sort((a, b) => b.significance - a.significance);
-      return result.length > 0 ? result : fallbackThemes;
+      return result.length > 0 ? result : FALLBACK_CULTURAL_THEMES;
     } catch (error) {
-      console.error('Error analysing cultural themes:', error);
-      // Return fallback data instead of throwing
-      return [
-        {
-          name: 'Community Resilience',
-          frequency: 45,
-          sentiment: 'positive',
-          relatedQuotes: ['Together we are stronger than apart'],
-          stories: ['1', '2', '3'],
-          significance: 95,
-          elderApproved: true
-        },
-        {
-          name: 'Cultural Heritage',
-          frequency: 38,
-          sentiment: 'positive',
-          relatedQuotes: ['Our traditions connect us to our ancestors'],
-          stories: ['4', '5'],
-          significance: 92,
-          elderApproved: true
-        }
-      ];
+      console.error('Error analyzing cultural themes:', error);
+      return FALLBACK_CULTURAL_THEMES;
     }
   }
 
@@ -415,43 +691,8 @@ export class AnalyticsService {
    */
   async getWisdomQuotes(limit: number = 50): Promise<WisdomQuote[]> {
     try {
-      // Fallback wisdom quotes data
-      const fallbackQuotes: WisdomQuote[] = [
-        {
-          id: 'quote-1',
-          text: 'Our stories are the threads that weave the fabric of our community together.',
-          storyteller: 'Elder Mary Johnson',
-          culturalContext: 'Indigenous Community',
-          significance: 95,
-          themes: ['Community', 'Tradition', 'Wisdom'],
-          elderApproval: 'approved',
-          storyId: '1'
-        },
-        {
-          id: 'quote-2',
-          text: 'When we share our pain, we lighten the burden for those who come after us.',
-          storyteller: 'Elder Robert Thunder',
-          culturalContext: 'First Nations',
-          significance: 92,
-          themes: ['Healing', 'Community', 'Legacy'],
-          elderApproval: 'approved',
-          storyId: '2'
-        },
-        {
-          id: 'quote-3',
-          text: 'The land remembers what we forget, and our stories help us remember what the land knows.',
-          storyteller: 'Elder Sarah Crow Feather',
-          culturalContext: 'Native American',
-          significance: 89,
-          themes: ['Connection to Land', 'Memory', 'Cultural Knowledge'],
-          elderApproval: 'approved',
-          storyId: '3'
-        }
-      ];
-
-      let transcripts: any[] = [];
-      try {
-        const { data } = await this.supabase
+      const transcripts = await safeQuery(
+        () => this.supabase
           .from('transcripts')
           .select(`
             id,
@@ -463,15 +704,13 @@ export class AnalyticsService {
               storytellers(name, birth_year, cultural_background)
             )
           `)
-          .not('content', 'is', null);
-        transcripts = data || [];
-      } catch (error) {
-        console.warn('Error fetching transcripts for wisdom quotes, using fallback data:', error);
-        return fallbackQuotes.slice(0, limit);
-      }
+          .not('content', 'is', null),
+        [],
+        'Error fetching transcripts for wisdom quotes'
+      );
 
       if (!transcripts || transcripts.length === 0) {
-        return fallbackQuotes.slice(0, limit);
+        return FALLBACK_WISDOM_QUOTES.slice(0, limit);
       }
 
       const wisdomQuotes: WisdomQuote[] = [];
@@ -480,27 +719,24 @@ export class AnalyticsService {
         if (!transcript.content) continue;
 
         try {
-          // Extract meaningful quotes using AI
-          const quotes = await this.extractSignificantQuotes(transcript.content);
-          
+          const quotes = extractSignificantQuotes(transcript.content);
+
           for (const story of transcript.stories || []) {
             const storyteller = story.storytellers;
             if (!storyteller) continue;
 
-            // Determine if this is an elder (cultural significance or age)
-            const isElder = this.isElder(storyteller);
-            
+            const isElderStoryteller = isElder(storyteller);
+
             for (const quote of quotes) {
-              const themes = await this.identifyQuoteThemes(quote);
-              const significance = await this.calculateQuoteSignificance(quote, isElder);
-              
+              const significance = calculateQuoteSignificance(quote, isElderStoryteller);
+
               wisdomQuotes.push({
                 id: `${transcript.id}-${wisdomQuotes.length}`,
                 text: quote,
                 storyteller: storyteller.name,
                 culturalContext: storyteller.cultural_background || 'Not specified',
                 significance,
-                themes,
+                themes: ['wisdom', 'tradition'], // Simplified - can be enhanced with AI
                 elderApproval: 'pending',
                 storyId: story.id,
                 transcriptId: transcript.id
@@ -512,37 +748,14 @@ export class AnalyticsService {
         }
       }
 
-      // Sort by significance and return top quotes
       const result = wisdomQuotes
         .sort((a, b) => b.significance - a.significance)
         .slice(0, limit);
 
-      return result.length > 0 ? result : fallbackQuotes.slice(0, limit);
+      return result.length > 0 ? result : FALLBACK_WISDOM_QUOTES.slice(0, limit);
     } catch (error) {
       console.error('Error extracting wisdom quotes:', error);
-      // Return fallback data instead of throwing
-      return [
-        {
-          id: 'quote-1',
-          text: 'Our stories are the threads that weave the fabric of our community together.',
-          storyteller: 'Elder Mary Johnson',
-          culturalContext: 'Indigenous Community',
-          significance: 95,
-          themes: ['Community', 'Tradition', 'Wisdom'],
-          elderApproval: 'approved',
-          storyId: '1'
-        },
-        {
-          id: 'quote-2',
-          text: 'When we share our pain, we lighten the burden for those who come after us.',
-          storyteller: 'Elder Robert Thunder',
-          culturalContext: 'First Nations',
-          significance: 92,
-          themes: ['Healing', 'Community', 'Legacy'],
-          elderApproval: 'approved',
-          storyId: '2'
-        }
-      ].slice(0, limit);
+      return FALLBACK_WISDOM_QUOTES.slice(0, limit);
     }
   }
 
@@ -551,63 +764,22 @@ export class AnalyticsService {
    */
   async getGeographicInsights(): Promise<GeographicInsight[]> {
     try {
-      // Fallback geographic data
-      const fallbackInsights: GeographicInsight[] = [
-        {
-          region: 'Pacific Northwest',
-          storyDensity: 35,
-          predominantThemes: ['Connection to Land', 'Cultural Heritage', 'Community Resilience'],
-          culturalClusters: [
-            {
-              name: 'Indigenous Communities',
-              storytellers: 15,
-              commonThemes: ['Traditional Knowledge', 'Land Stewardship']
-            },
-            {
-              name: 'Immigrant Stories',
-              storytellers: 12,
-              commonThemes: ['Cultural Adaptation', 'Community Building']
-            }
-          ]
-        },
-        {
-          region: 'Great Lakes Region',
-          storyDensity: 28,
-          predominantThemes: ['Healing Journeys', 'Intergenerational Wisdom', 'Community Support'],
-          culturalClusters: [
-            {
-              name: 'Elder Voices',
-              storytellers: 10,
-              commonThemes: ['Traditional Healing', 'Cultural Preservation']
-            }
-          ]
-        }
-      ];
-
-      let stories: any[] = [];
-      try {
-        const { data } = await this.supabase
+      const stories = await safeQuery(
+        () => this.supabase
           .from('stories')
           .select(`
             id,
             location,
             themes,
-            storytellers(
-              id,
-              name,
-              location,
-              cultural_background
-            )
+            storytellers(id, name, location, cultural_background)
           `)
-          .not('location', 'is', null);
-        stories = data || [];
-      } catch (error) {
-        console.warn('Error fetching stories for geographic insights, using fallback data:', error);
-        return fallbackInsights;
-      }
+          .not('location', 'is', null),
+        [],
+        'Error fetching stories for geographic insights'
+      );
 
       if (!stories || stories.length === 0) {
-        return fallbackInsights;
+        return FALLBACK_GEOGRAPHIC_INSIGHTS;
       }
 
       const regionAnalysis = new Map<string, {
@@ -617,9 +789,10 @@ export class AnalyticsService {
         culturalBackgrounds: string[];
       }>();
 
+      // Aggregate regional data
       for (const story of stories) {
         const region = story.location || story.storytellers?.location || 'Unknown';
-        
+
         const current = regionAnalysis.get(region) || {
           storyCount: 0,
           themes: [],
@@ -639,15 +812,11 @@ export class AnalyticsService {
         regionAnalysis.set(region, current);
       }
 
+      // Build geographic insights
       const insights: GeographicInsight[] = [];
       for (const [region, analysis] of regionAnalysis.entries()) {
-        const themeCounts = this.countThemeFrequency(analysis.themes);
-        const predominantThemes = Object.entries(themeCounts)
-          .sort(([,a], [,b]) => b - a)
-          .slice(0, 5)
-          .map(([theme]) => theme);
-
-        const culturalClusters = this.identifyCulturalClusters(
+        const predominantThemes = extractTopThemes(analysis.themes);
+        const culturalClusters = identifyCulturalClusters(
           analysis.culturalBackgrounds,
           analysis.storytellers.size
         );
@@ -661,24 +830,10 @@ export class AnalyticsService {
       }
 
       const result = insights.sort((a, b) => b.storyDensity - a.storyDensity);
-      return result.length > 0 ? result : fallbackInsights;
+      return result.length > 0 ? result : FALLBACK_GEOGRAPHIC_INSIGHTS;
     } catch (error) {
       console.error('Error generating geographic insights:', error);
-      // Return fallback data instead of throwing
-      return [
-        {
-          region: 'Pacific Northwest',
-          storyDensity: 35,
-          predominantThemes: ['Connection to Land', 'Cultural Heritage', 'Community Resilience'],
-          culturalClusters: [
-            {
-              name: 'Indigenous Communities',
-              storytellers: 15,
-              commonThemes: ['Traditional Knowledge', 'Land Stewardship']
-            }
-          ]
-        }
-      ];
+      return FALLBACK_GEOGRAPHIC_INSIGHTS;
     }
   }
 
@@ -717,438 +872,270 @@ export class AnalyticsService {
     }
   }
 
-  // Private helper methods
+  // ==========================================================================
+  // PRIVATE HELPER METHODS
+  // ==========================================================================
 
-  private extractCulturalThemes(transcripts: any[]): string[] {
-    const themes = new Set<string>();
-    transcripts.forEach(t => {
-      if (t.themes) {
-        t.themes.forEach((theme: string) => themes.add(theme));
+  private async getActiveStorytellerCount(): Promise<number> {
+    try {
+      const { data: storyTellerIds } = await this.supabase
+        .from('stories')
+        .select('storyteller_id');
+
+      const storytellerIds = storyTellerIds?.map(s => s.storyteller_id).filter(Boolean) || [];
+
+      if (storytellerIds.length === 0) return 0;
+
+      const { data } = await this.supabase
+        .from('storytellers')
+        .select('id')
+        .in('id', storytellerIds);
+
+      return data?.length || 0;
+    } catch (error) {
+      console.warn('Error getting active storytellers:', error);
+      return 0;
+    }
+  }
+
+  private async extractCulturalThemesFromTranscripts(): Promise<string[]> {
+    try {
+      const { data: transcripts } = await this.supabase
+        .from('transcripts')
+        .select('themes')
+        .not('themes', 'is', null);
+
+      if (!transcripts || transcripts.length === 0) {
+        return FALLBACK_THEMES;
       }
-    });
-    return Array.from(themes);
+
+      return extractUniqueThemes(transcripts);
+    } catch (error) {
+      console.warn('Error extracting cultural themes:', error);
+      return FALLBACK_THEMES;
+    }
   }
 
   private async calculateHealingJourneys(): Promise<number> {
-    try {
-      // Analyze transcripts for healing-related content
-      const { data } = await this.supabase
+    return safeCount(
+      () => this.supabase
         .from('transcripts')
-        .select('content')
-        .or('content.ilike.%healing%,content.ilike.%recovery%,content.ilike.%journey%');
-      
-      return data?.length || 0;
-    } catch (error) {
-      console.warn('Error calculating healing journeys:', error);
-      return 12; // Fallback value
-    }
+        .select('id', { count: 'exact', head: true })
+        .or('content.ilike.%healing%,content.ilike.%recovery%,content.ilike.%journey%'),
+      12,
+      'Error calculating healing journeys'
+    );
   }
 
   private async calculateIntergenerationalConnections(): Promise<number> {
-    try {
-      // Find stories that connect different generations
-      const { data } = await this.supabase
+    return safeCount(
+      () => this.supabase
         .from('stories')
-        .select('themes')
-        .or('themes.cs.{intergenerational},themes.cs.{family},themes.cs.{tradition}');
-      
-      return data?.length || 0;
-    } catch (error) {
-      console.warn('Error calculating intergenerational connections:', error);
-      return 8; // Fallback value
-    }
+        .select('id', { count: 'exact', head: true })
+        .or('themes.cs.{intergenerational},themes.cs.{family},themes.cs.{tradition}'),
+      8,
+      'Error calculating intergenerational connections'
+    );
   }
 
   private async countElderWisdomQuotes(): Promise<number> {
     try {
-      // Count quotes from identified elders
-      const { data: elders } = await this.supabase
-        .from('storytellers')
-        .select('id')
-        .or('birth_year.lt.1960,cultural_role.ilike.%elder%');
-      
-      if (!elders?.length) return 15; // Fallback value
+      const elderIds = await getElderIds(this.supabase);
+      if (elderIds.length === 0) return 15;
 
-      const { count } = await this.supabase
-        .from('stories')
-        .select('id', { count: 'exact', head: true })
-        .in('storyteller_id', elders.map(e => e.id));
-      
-      return count || 0;
+      return safeCount(
+        () => this.supabase
+          .from('stories')
+          .select('id', { count: 'exact', head: true })
+          .in('storyteller_id', elderIds),
+        15,
+        'Error counting elder wisdom quotes'
+      );
     } catch (error) {
       console.warn('Error counting elder wisdom quotes:', error);
-      return 15; // Fallback value
+      return 15;
     }
   }
 
   private async calculateCommunityResilience(): Promise<number> {
     try {
-      // Analyze stories and transcripts for resilience-related themes
-      const resilienceKeywords = ['healing', 'strength', 'community', 'recovery', 'overcome', 'resilience', 'unity', 'support', 'together'];
-      
-      let totalScores = 0;
-      let countedItems = 0;
-
-      // Analyze transcript content for resilience themes
       const { data: transcripts } = await this.supabase
         .from('transcripts')
         .select('content, themes')
         .not('content', 'is', null);
 
-      if (transcripts && transcripts.length > 0) {
-        for (const transcript of transcripts) {
-          let score = 0;
-          const content = transcript.content.toLowerCase();
-          
-          // Count resilience keywords
-          resilienceKeywords.forEach(keyword => {
-            const matches = (content.match(new RegExp(keyword, 'g')) || []).length;
-            score += matches * 2; // Each keyword occurrence adds 2 points
-          });
-          
-          // Bonus for resilience-related themes
-          if (transcript.themes) {
-            const resilienceThemes = transcript.themes.filter((theme: string) => 
-              resilienceKeywords.some(keyword => theme.toLowerCase().includes(keyword))
-            );
-            score += resilienceThemes.length * 5; // Each resilience theme adds 5 points
-          }
-          
-          totalScores += Math.min(score, 100); // Cap individual scores at 100
-          countedItems++;
-        }
+      if (!transcripts || transcripts.length === 0) {
+        return 75;
       }
-      
-      // If we have data, calculate average and ensure it's in 60-100 range
+
+      let totalScores = 0;
+      let countedItems = 0;
+
+      for (const transcript of transcripts) {
+        const score = calculateResilienceScore(transcript.content, transcript.themes);
+        totalScores += Math.min(score, 100);
+        countedItems++;
+      }
+
       if (countedItems > 0) {
         const averageScore = totalScores / countedItems;
-        return Math.max(60, Math.min(100, Math.floor(averageScore + 60))); // Add base of 60 to ensure minimum
+        return Math.max(BASE_SCORES.COMMUNITY_RESILIENCE, Math.min(100, Math.floor(averageScore + BASE_SCORES.COMMUNITY_RESILIENCE)));
       }
-      
-      return 75; // Default fallback value
+
+      return 75;
     } catch (error) {
       console.warn('Error calculating community resilience:', error);
-      return 75; // Fallback value
+      return 75;
     }
   }
 
   private async calculateCulturalVitality(): Promise<number> {
     try {
-      let vitalityScore = 70; // Base score
-      
-      // Get unique cultural themes across all content
-      const { data: transcripts } = await this.supabase
-        .from('transcripts')
-        .select('themes')
-        .not('themes', 'is', null);
-      
+      const [transcripts, storytellers] = await Promise.all([
+        safeQuery(
+          () => this.supabase.from('transcripts').select('themes').not('themes', 'is', null),
+          [],
+          'Error fetching transcripts for vitality'
+        ),
+        safeQuery(
+          () => this.supabase.from('storytellers').select('cultural_background').not('cultural_background', 'is', null),
+          [],
+          'Error fetching storytellers for vitality'
+        )
+      ]);
+
       const uniqueThemes = new Set<string>();
       let intergenerationalContent = 0;
-      
-      if (transcripts && transcripts.length > 0) {
-        transcripts.forEach(transcript => {
-          if (transcript.themes) {
-            transcript.themes.forEach((theme: string) => {
-              uniqueThemes.add(theme.toLowerCase());
-              
-              // Check for intergenerational themes
-              if (theme.toLowerCase().includes('intergenerational') ||
-                  theme.toLowerCase().includes('elder') ||
-                  theme.toLowerCase().includes('tradition') ||
-                  theme.toLowerCase().includes('heritage')) {
-                intergenerationalContent++;
-              }
-            });
-          }
-        });
-      }
-      
-      // Theme diversity bonus (more themes = higher vitality)
-      const themeBonus = Math.min(15, uniqueThemes.size * 0.5); // Up to 15 bonus points
-      vitalityScore += themeBonus;
-      
-      // Intergenerational content bonus
-      const intergenerationalBonus = Math.min(10, intergenerationalContent * 0.3); // Up to 10 bonus points
-      vitalityScore += intergenerationalBonus;
-      
-      // Check for active storytellers with diverse backgrounds
-      const { data: storytellers } = await this.supabase
-        .from('storytellers')
-        .select('cultural_background')
-        .not('cultural_background', 'is', null);
-      
-      if (storytellers && storytellers.length > 0) {
-        const uniqueBackgrounds = new Set(storytellers.map(s => s.cultural_background));
-        const diversityBonus = Math.min(5, uniqueBackgrounds.size * 0.2); // Up to 5 bonus points
-        vitalityScore += diversityBonus;
-      }
-      
-      return Math.min(100, Math.floor(vitalityScore));
+
+      transcripts.forEach((transcript: any) => {
+        if (transcript.themes) {
+          transcript.themes.forEach((theme: string) => {
+            uniqueThemes.add(theme.toLowerCase());
+
+            if (theme.toLowerCase().includes('intergenerational') ||
+                theme.toLowerCase().includes('elder') ||
+                theme.toLowerCase().includes('tradition') ||
+                theme.toLowerCase().includes('heritage')) {
+              intergenerationalContent++;
+            }
+          });
+        }
+      });
+
+      const uniqueBackgrounds = new Set(storytellers.map((s: any) => s.cultural_background));
+
+      return calculateVitalityScore(uniqueThemes, intergenerationalContent, uniqueBackgrounds);
     } catch (error) {
       console.warn('Error calculating cultural vitality:', error);
-      return 82; // Fallback value
+      return 82;
     }
   }
 
-  private async findRelatedStorytellers(id: string, themes: string[], org?: string, cultural?: string) {
+  private async findRelatedStorytellers(
+    id: string,
+    themes: string[],
+    org?: string,
+    cultural?: string
+  ): Promise<any[]> {
     const { data } = await this.supabase
       .from('storytellers')
       .select('id, name, stories(themes)')
       .neq('id', id)
       .limit(10);
 
-    return (data || []).filter(s => {
-      const sharedThemes = s.stories.some(story => 
-        story.themes?.some(t => themes.includes(t))
+    return (data || []).filter((s: any) => {
+      const sharedThemes = s.stories?.some((story: any) =>
+        story.themes?.some((t: string) => themes.includes(t))
       );
       return sharedThemes;
     });
   }
 
-  private async calculateInfluenceScore(storytellerId: string): Promise<number> {
+  private async calculateInfluenceScoreForStoryteller(storytellerId: string): Promise<number> {
     try {
-      let influenceScore = 0;
-      
-      // Get storyteller's stories and associated data
       const { data: stories } = await this.supabase
         .from('stories')
-        .select(`
-          id,
-          title,
-          themes,
-          view_count,
-          created_at
-        `)
+        .select('id, themes, view_count')
         .eq('storyteller_id', storytellerId);
-      
+
       if (!stories || stories.length === 0) {
         return 0;
       }
-      
-      // Story count contribution (up to 40 points)
-      const storyBonus = Math.min(40, stories.length * 5);
-      influenceScore += storyBonus;
-      
-      // View count contribution (up to 30 points)
+
+      const storyCount = stories.length;
       const totalViews = stories.reduce((sum, story) => sum + (story.view_count || 0), 0);
-      const viewBonus = Math.min(30, Math.floor(totalViews / 10)); // 1 point per 10 views
-      influenceScore += viewBonus;
-      
-      // Theme diversity (up to 20 points)
       const allThemes = stories.flatMap(story => story.themes || []);
-      const uniqueThemes = new Set(allThemes);
-      const themeBonus = Math.min(20, uniqueThemes.size * 2);
-      influenceScore += themeBonus;
-      
-      // Engagement metrics from transcripts (up to 10 points)
+      const uniqueThemeCount = new Set(allThemes).size;
+
+      // Get transcript count
       const storyIds = stories.map(story => story.id);
-      if (storyIds.length > 0) {
-        const { data: transcripts } = await this.supabase
-          .from('transcripts')
-          .select('id')
-          .in('story_id', storyIds);
-        
-        const transcriptBonus = Math.min(10, (transcripts?.length || 0) * 2);
-        influenceScore += transcriptBonus;
-      }
-      
-      return Math.min(100, influenceScore);
+      const transcriptCount = storyIds.length > 0
+        ? await safeCount(
+            () => this.supabase.from('transcripts').select('id', { count: 'exact', head: true }).in('story_id', storyIds),
+            0,
+            'Error counting transcripts'
+          )
+        : 0;
+
+      return calculateInfluenceScore(storyCount, totalViews, uniqueThemeCount, transcriptCount);
     } catch (error) {
       console.warn(`Error calculating influence score for ${storytellerId}:`, error);
-      return 50; // Fallback moderate influence score
+      return 50;
     }
-  }
-
-  private determineCulturalRole(storyteller: any): string {
-    // Determine role based on age, background, and story content
-    if (storyteller.birth_year && storyteller.birth_year < 1960) {
-      return 'Elder';
-    }
-    if (storyteller.stories.length > 5) {
-      return 'Community Keeper';
-    }
-    return 'Community Member';
-  }
-
-  private async extractThemeQuotes(content: string, theme: string): Promise<string[]> {
-    // Extract relevant quotes using AI
-    // This would use the AI service to find meaningful quotes related to the theme
-    return [];
-  }
-
-  private async analyzeSentiment(content: string): Promise<'positive' | 'neutral' | 'negative'> {
-    // Use AI to analyse sentiment
-    return 'positive'; // Placeholder
-  }
-
-  private async calculateThemeSignificance(theme: string, frequency: number): Promise<number> {
-    // Calculate significance based on cultural importance and frequency
-    return Math.min(100, frequency * 10);
   }
 
   private async checkElderApproval(theme: string): Promise<boolean> {
     try {
-      // Check if we have any elder approval data in the database
-      // First, look for any approval tracking table or field
+      // Check for explicit approval (if table exists)
       const { data: approvals } = await this.supabase
         .from('theme_approvals')
         .select('approved')
         .eq('theme_name', theme)
         .eq('approved_by_elder', true)
         .single();
-      
+
       if (approvals) {
         return approvals.approved;
       }
-      
-      // If no explicit approval system, check if theme appears in elder stories
-      const { data: elders } = await this.supabase
-        .from('storytellers')
-        .select('id')
-        .or('birth_year.lt.1960,cultural_role.ilike.%elder%');
-      
-      if (elders && elders.length > 0) {
-        const elderIds = elders.map(e => e.id);
-        
-        // Check if theme appears in elder stories/transcripts
+    } catch (error) {
+      // Table may not exist, continue to fallback logic
+    }
+
+    try {
+      // Check if theme appears in elder stories
+      const elderIds = await getElderIds(this.supabase);
+
+      if (elderIds.length > 0) {
         const { data: elderStories } = await this.supabase
           .from('stories')
           .select('themes')
           .in('storyteller_id', elderIds)
           .not('themes', 'is', null);
-        
+
         if (elderStories) {
-          const elderUsesTheme = elderStories.some(story => 
-            story.themes && story.themes.some((t: string) => 
+          const elderUsesTheme = elderStories.some((story: any) =>
+            story.themes && story.themes.some((t: string) =>
               t.toLowerCase().includes(theme.toLowerCase())
             )
           );
-          
-          // If elders use this theme, consider it approved
+
           if (elderUsesTheme) {
             return true;
           }
         }
       }
-      
-      // Default approval for common positive themes
-      const defaultApprovedThemes = [
-        'healing', 'community', 'tradition', 'heritage', 'wisdom', 'family',
-        'culture', 'resilience', 'strength', 'unity', 'peace', 'love', 'respect'
-      ];
-      
-      return defaultApprovedThemes.some(approved => 
-        theme.toLowerCase().includes(approved)
-      );
     } catch (error) {
-      // If theme_approvals table doesn't exist, that's expected
-      // Try the elder stories approach only
-      try {
-        const { data: elders } = await this.supabase
-          .from('storytellers')
-          .select('id')
-          .or('birth_year.lt.1960,cultural_role.ilike.%elder%');
-        
-        if (elders && elders.length > 0) {
-          const elderIds = elders.map(e => e.id);
-          
-          const { data: elderStories } = await this.supabase
-            .from('stories')
-            .select('themes')
-            .in('storyteller_id', elderIds)
-            .not('themes', 'is', null);
-          
-          if (elderStories) {
-            const elderUsesTheme = elderStories.some(story => 
-              story.themes && story.themes.some((t: string) => 
-                t.toLowerCase().includes(theme.toLowerCase())
-              )
-            );
-            
-            if (elderUsesTheme) {
-              return true;
-            }
-          }
-        }
-      } catch (elderError) {
-        console.warn('Error checking elder approval:', elderError);
-      }
-      
-      // Final fallback: approve common positive themes
-      const defaultApprovedThemes = [
-        'healing', 'community', 'tradition', 'heritage', 'wisdom', 'family',
-        'culture', 'resilience', 'strength', 'unity', 'peace', 'love', 'respect'
-      ];
-      
-      return defaultApprovedThemes.some(approved => 
-        theme.toLowerCase().includes(approved)
-      );
+      console.warn('Error checking elder approval:', error);
     }
-  }
 
-  private async extractSignificantQuotes(content: string): Promise<string[]> {
-    // Use AI to extract meaningful quotes
-    const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 20);
-    return sentences.slice(0, 5); // Return first 5 meaningful sentences as placeholder
-  }
-
-  private isElder(storyteller: any): boolean {
-    return storyteller.birth_year && storyteller.birth_year < 1960;
-  }
-
-  private async identifyQuoteThemes(quote: string): Promise<string[]> {
-    // Use AI to identify themes in the quote
-    return ['wisdom', 'tradition']; // Placeholder
-  }
-
-  private async calculateQuoteSignificance(quote: string, isElder: boolean): Promise<number> {
-    let score = quote.length / 10; // Base score on length
-    if (isElder) score *= 1.5; // Boost elder quotes
-    if (quote.toLowerCase().includes('tradition')) score *= 1.2;
-    if (quote.toLowerCase().includes('healing')) score *= 1.3;
-    return Math.min(100, Math.floor(score));
-  }
-
-  private countThemeFrequency(themes: string[]): Record<string, number> {
-    const counts: Record<string, number> = {};
-    themes.forEach(theme => {
-      counts[theme] = (counts[theme] || 0) + 1;
-    });
-    return counts;
-  }
-
-  private identifyCulturalClusters(backgrounds: string[], storytellerCount: number): { name: string; storytellers: number; commonThemes: string[] }[] {
-    const clusters = new Map<string, number>();
-    backgrounds.forEach(bg => {
-      clusters.set(bg, (clusters.get(bg) || 0) + 1);
-    });
-
-    return Array.from(clusters.entries()).map(([name, count]) => ({
-      name,
-      storytellers: count,
-      commonThemes: ['tradition', 'community'] // Placeholder
-    }));
+    // Default approval for common positive themes
+    return DEFAULT_APPROVED_THEMES.some(approved =>
+      theme.toLowerCase().includes(approved)
+    );
   }
 
   private async analyzeHealingPatterns() {
-    // Analyze patterns in healing narratives
-    return [
-      {
-        pattern: 'Connection to Land',
-        frequency: 45,
-        outcomes: ['Spiritual healing', 'Cultural reconnection', 'Personal growth']
-      },
-      {
-        pattern: 'Intergenerational Dialogue',
-        frequency: 38,
-        outcomes: ['Knowledge transfer', 'Family healing', 'Community strength']
-      },
-      {
-        pattern: 'Cultural Ceremony',
-        frequency: 29,
-        outcomes: ['Spiritual cleansing', 'Community bonding', 'Traditional healing']
-      }
-    ];
+    return FALLBACK_HEALING_PATTERNS;
   }
 }
 

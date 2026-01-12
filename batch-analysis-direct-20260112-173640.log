@@ -1,0 +1,2991 @@
+[dotenv@17.2.2] injecting env (61) from .env.local -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+📊 Batch Transcript Analysis - Direct Method
+================================================================================
+
+🔍 Fetching unanalyzed transcripts...
+✅ Found 126 transcripts to analyze
+
+📊 BATCH ANALYSIS ESTIMATES
+────────────────────────────────────────────────────────────────────────────────
+Transcripts to Analyze:  126
+Batch Size:              5
+Estimated Time:          1.8 hours
+Estimated Cost:          $3.78 USD
+────────────────────────────────────────────────────────────────────────────────
+
+📦 Processing 26 batches of up to 5 transcripts
+
+⚠️  WARNING: This will analyze all unanalyzed transcripts directly.
+   Estimated cost: $3.78 USD
+   Estimated time: 1.8 hours
+
+Press Ctrl+C to cancel, or the script will continue in 5 seconds...
+
+🚀 Starting batch processing...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 1/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Tyrese - 10/31/2025
+   Storyteller: Tyrese
+   ID: f20cd4de-6237-45fe-b7a4-e38479445ce1
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 30321ms
+   ✅ Success - 3 themes, ALMA: Yes, 30.3s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Terina Ahone-Masafi - Interview Transcript
+   Storyteller: Terina Ahone-Masafi
+   ID: 8eb6239c-7ef5-4643-9a36-a463d3ef6e0c
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 3
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 3/3 quotes
+⚡ Analysis complete in 28764ms
+   ✅ Success - 3 themes, ALMA: Yes, 28.8s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Bob Purdy - Interview Transcript
+   Storyteller: Bob Purdy
+   ID: 5d24ec22-e766-4ff3-af08-74a2d62334ac
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 35216ms
+   ✅ Success - 3 themes, ALMA: Yes, 35.2s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: TOMNET meeting discussion
+   ID: 3f6ef232-1f89-437b-9ba1-b2e51f932629
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+⚠️ Attempting JSON repair for truncated response...
+✅ JSON repair successful
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 16
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+❌ Claude analysis failed: ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "alma_signals",
+      "capability"
+    ],
+    "message": "Invalid input: expected object, received undefined"
+  },
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "alma_signals",
+      "option_value"
+    ],
+    "message": "Invalid input: expected object, received undefined"
+  },
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "alma_signals",
+      "community_value_return"
+    ],
+    "message": "Invalid input: expected object, received undefined"
+  }
+]
+    at ClaudeTranscriptAnalyzer.runClaudeAnalysis (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:701:54)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ClaudeTranscriptAnalyzer.analyzeTranscript (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:285:24)
+    at async analyzeAndSaveTranscript (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:78:22)
+    at async processBatch (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:159:20)
+    at async batchAnalyzeAllTranscripts (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:230:26)
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 0/0 quotes
+⚡ Analysis complete in 95015ms
+   ✅ Success - 0 themes, ALMA: No, 95.0s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Patricia Ann Miller
+   ID: 52cc787e-8db3-40c2-b34c-d974ea662aad
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 49444ms
+   ✅ Success - 11 themes, ALMA: Yes, 49.4s
+
+📊 Progress: 5/126 (4.0%)
+   Elapsed: 4.0m, Remaining: ~97.9m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 2/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Wayne Tait - Interview Transcript
+   Storyteller: Wayne Tait
+   ID: 046ad25c-0f58-4dd0-a6de-1d853278a543
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 48509ms
+   ✅ Success - 6 themes, ALMA: Yes, 48.5s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Ben on Diagrama
+   Storyteller: Benjamin Knight
+   ID: 42290f32-e9d6-4eab-92f1-6de32b0a5fbb
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 49076ms
+   ✅ Success - 6 themes, ALMA: Yes, 49.1s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Childcare workers - Interview Transcript
+   Storyteller: Childcare workers
+   ID: ac1e1a52-0ed2-40af-bff3-7618ba96c7bd
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 44297ms
+   ✅ Success - 6 themes, ALMA: Yes, 44.3s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Marcus Barlow - Interview Transcript
+   Storyteller: Marcus Barlow
+   ID: 3b254245-b398-4fd4-adce-b39b677be6cb
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 41967ms
+   ✅ Success - 4 themes, ALMA: Yes, 42.0s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Jim Aulbury
+   ID: 62f56215-5566-49c9-9596-1dec709e0156
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 48470ms
+   ✅ Success - 7 themes, ALMA: Yes, 48.5s
+
+📊 Progress: 10/126 (7.9%)
+   Elapsed: 8.1m, Remaining: ~93.6m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 3/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Uncle Robert's Country Stories
+   Storyteller: Uncle Robert Test
+   ID: 19e5f7e8-2dd1-42e4-bcc6-b7118ddeefc3
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 5
+  - Quotes: 2
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 2/2 quotes
+⚡ Analysis complete in 25720ms
+   ✅ Success - 6 themes, ALMA: Yes, 25.7s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Transcript – David Allen - Friend - Doveton
+   Storyteller: David Allen
+   ID: e95af862-60c6-4808-8516-0ab799e6060a
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 6
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 6/6 quotes
+⚡ Analysis complete in 42147ms
+   ✅ Success - 3 themes, ALMA: Yes, 42.1s
+
+[3/5] 🔄 Analyzing:
+   Transcript: My Journey as a Storyteller
+   Storyteller: Sarah J.
+   ID: 5f81ee40-d31b-4e83-b009-18429f902708
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 32440ms
+   ✅ Success - 6 themes, ALMA: Yes, 32.4s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Javier Aparicio Grau - Interview Transcript
+   Storyteller: Javier Aparicio Grau
+   ID: fd7d9a4a-c67a-475d-89c5-e214ce827fea
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 6
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 6/6 quotes
+⚡ Analysis complete in 51411ms
+   ✅ Success - 4 themes, ALMA: Yes, 51.4s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Colin Banks - Interview Transcript
+   Storyteller: Colin Banks
+   ID: 19d82fa9-b774-4f58-b9e2-464472ff0c53
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 37281ms
+   ✅ Success - 4 themes, ALMA: Yes, 37.3s
+
+📊 Progress: 15/126 (11.9%)
+   Elapsed: 11.4m, Remaining: ~84.2m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 4/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Jason - Interview Transcript
+   Storyteller: Jason
+   ID: 0ffcd646-a311-4237-8f6f-8ad0ce60b967
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 5
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 30487ms
+   ✅ Success - 5 themes, ALMA: Yes, 30.5s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Troy John McConnell
+   Storyteller: Troy John McConnell
+   ID: 6dfd635e-0c24-4415-8e8f-e584826ddb76
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 3
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 3/3 quotes
+⚡ Analysis complete in 25777ms
+   ✅ Success - 4 themes, ALMA: Yes, 25.8s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Norman Frank
+   ID: 0071d5be-6c2a-4818-a762-67e3f2409eea
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 6
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 6/6 quotes
+⚡ Analysis complete in 62258ms
+   ✅ Success - 7 themes, ALMA: Yes, 62.3s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Margot and Grahame
+   Storyteller:  Margot Scales
+
+   ID: 5feb1289-51db-4275-a56b-a62bca10aa0d
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 44064ms
+   ✅ Success - 3 themes, ALMA: Yes, 44.1s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Dianne Stokes
+   ID: 37fbb44f-3628-4378-b00e-1765a42179cd
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 61965ms
+   ✅ Success - 14 themes, ALMA: Yes, 62.0s
+
+📊 Progress: 20/126 (15.9%)
+   Elapsed: 15.3m, Remaining: ~81.0m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 5/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Nichole Ann Dobson - Interview Transcript
+   Storyteller: Nichole Ann Dobson
+   ID: 7bab9ccd-c02d-42aa-a15b-6600236db496
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 44457ms
+   ✅ Success - 5 themes, ALMA: Yes, 44.5s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Lessons from Community Collaboration
+   Storyteller: Ben Knight
+   ID: 76f97d47-f63d-4b42-9a06-39528732bc4e
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 28177ms
+   ✅ Success - 3 themes, ALMA: Yes, 28.2s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Sarah Jessica Meyers
+   Storyteller: Sarah Mayers
+   ID: be930a06-da98-4835-b8d2-06e4649bf08c
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 5 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 51200ms
+   ✅ Success - 7 themes, ALMA: Yes, 51.2s
+
+[4/5] 🔄 Analyzing:
+   Transcript: The Importance of Cultural Protocols in Tech
+   Storyteller: Ben Knight
+   ID: 3cc8f081-2100-491b-8bc0-8824ed518322
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 5
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 33056ms
+   ✅ Success - 6 themes, ALMA: Yes, 33.1s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Tracy & Jared
+   Storyteller:  Tracy McIntyre
+   ID: b2ad6738-dcd0-4466-b205-6a25fbf9c783
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 44369ms
+   ✅ Success - 2 themes, ALMA: Yes, 44.4s
+
+📊 Progress: 25/126 (19.8%)
+   Elapsed: 18.8m, Remaining: ~75.9m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 6/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Lesley Lalor - Interview Transcript
+   Storyteller: Lesley Lalor
+   ID: fa10f22a-69de-40f7-ae47-5fcdcbd65d39
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 42774ms
+   ✅ Success - 5 themes, ALMA: Yes, 42.8s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Cissy Johns - Deadly Hearts Community Story
+   Storyteller: Cissy Johns
+   ID: c8a6a35f-8745-4712-98dc-ef7b4ed7fd38
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 54090ms
+   ✅ Success - 7 themes, ALMA: Yes, 54.1s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Edward Campion - Interview Transcript
+   Storyteller: Edward Campion
+   ID: fb4f8eca-7c16-40d2-b656-b509120ab867
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 36998ms
+   ✅ Success - 3 themes, ALMA: Yes, 37.0s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Greg Graham - Interview Transcript
+   Storyteller: Greg Graham
+   ID: 7b294b54-5cbc-4184-9963-1f5280d0e940
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 39285ms
+   ✅ Success - 6 themes, ALMA: Yes, 39.3s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Aunty May - Talk
+   Storyteller: Aunty Diganbal May Rose
+   ID: 6b12be7c-9742-4738-8d78-7989ee12c322
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+⚠️ Attempting JSON repair for truncated response...
+✅ JSON repair successful
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 6
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 6/6 quotes
+⚡ Analysis complete in 90217ms
+   ✅ Success - 14 themes, ALMA: Yes, 90.2s
+
+📊 Progress: 30/126 (23.8%)
+   Elapsed: 23.3m, Remaining: ~74.6m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 7/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Brendan Gunning - School Vice Principal - Interview Transcript
+   Storyteller: Brendan Gunning - School Vice Principal
+   ID: 4e6dd324-1920-4170-855c-c190317c6ba1
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 35652ms
+   ✅ Success - 7 themes, ALMA: Yes, 35.7s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Rita - Interview Transcript
+   Storyteller: Rita
+   ID: 9bb5cde6-a7f0-4e15-bb41-8028eef4c7d1
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 46558ms
+   ✅ Success - 6 themes, ALMA: Yes, 46.6s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Veronica Vos - Interview Transcript
+   Storyteller: Veronica Vos
+   ID: b2b045b7-b892-490c-b5d8-ab783b0370ec
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 6
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 6/6 quotes
+⚡ Analysis complete in 57234ms
+   ✅ Success - 4 themes, ALMA: Yes, 57.2s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Kylie - Interview Transcript
+   Storyteller: Kylie
+   ID: 35a3fd6c-d000-420b-82ba-e079189e34b5
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 33647ms
+   ✅ Success - 3 themes, ALMA: Yes, 33.6s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Dena - Interview Transcript
+   Storyteller: Dena
+   ID: 9be21646-d84f-4b38-b481-3c1609989aa3
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 47010ms
+   ✅ Success - 5 themes, ALMA: Yes, 47.0s
+
+📊 Progress: 35/126 (27.8%)
+   Elapsed: 27.1m, Remaining: ~70.6m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 8/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Jacqui - Interview Transcript
+   Storyteller: Jacqui
+   ID: c0accdba-6347-410c-b9cd-49a98e33514a
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 33696ms
+   ✅ Success - 3 themes, ALMA: Yes, 33.7s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Michael Young (Bear) - Interview Transcript
+   Storyteller: Michael Young (Bear)
+   ID: 7f17f81d-b5c2-4a70-8f04-edff550fe87a
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 47115ms
+   ✅ Success - 6 themes, ALMA: Yes, 47.1s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Samual Thornberry - Interview Transcript
+   Storyteller: Samual Thornberry
+   ID: 90ada1f5-2c99-414b-ad02-c6eff75c3fed
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 38408ms
+   ✅ Success - 0 themes, ALMA: Yes, 38.4s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Melissa Legg - Interview Transcript
+   Storyteller: Melissa Legg
+   ID: ce1bab70-99df-4230-b3ef-957122dbec8e
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 44438ms
+   ✅ Success - 6 themes, ALMA: Yes, 44.4s
+
+[5/5] 🔄 Analyzing:
+   Transcript: AJ Bailey - Interview Transcript
+   Storyteller: AJ Bailey
+   ID: a7254e94-7b38-499d-93b8-d7cb44dd9335
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 38812ms
+   ✅ Success - 4 themes, ALMA: Yes, 38.8s
+
+📊 Progress: 40/126 (31.7%)
+   Elapsed: 30.7m, Remaining: ~65.9m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 9/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Graham - Interview Transcript
+   Storyteller: Graham
+   ID: a8410726-63d6-47e1-9f68-3c0ef48fdad8
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 1 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 38670ms
+   ✅ Success - 1 themes, ALMA: Yes, 38.7s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Danee Vanderwall - Interview Transcript
+   Storyteller: Danee Vanderwall
+   ID: 1b94b01a-9517-4385-ba4a-e220a340443f
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 42629ms
+   ✅ Success - 5 themes, ALMA: Yes, 42.6s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Brett Klumpp - Interview Transcript
+   Storyteller: Brett Klumpp
+   ID: 79e65366-490d-49b2-9b52-7d829c2f5b13
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 35782ms
+   ✅ Success - 4 themes, ALMA: Yes, 35.8s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Abby - Interview Transcript
+   Storyteller: Abby
+   ID: 152c98ef-1a69-4619-9cde-f706fa58deb1
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 4
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 42894ms
+   ✅ Success - 5 themes, ALMA: Yes, 42.9s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Aunty Maureen
+   ID: 38451703-da6e-4c05-ade2-1f9a5f45dae7
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 3
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 3/3 quotes
+⚡ Analysis complete in 35496ms
+   ✅ Success - 8 themes, ALMA: Yes, 35.5s
+
+📊 Progress: 45/126 (35.7%)
+   Elapsed: 34.1m, Remaining: ~61.3m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 10/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Paul Morris
+   Storyteller: Paul Morris
+   ID: 190679f3-6fe2-4a0c-a4cb-fa06d5f9a772
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 31213ms
+   ✅ Success - 2 themes, ALMA: Yes, 31.2s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Peggy Palm Island - Interview Transcript
+   Storyteller: Peggy Palm Island
+   ID: d4d7a243-a6d6-4c8e-b396-fd5f473b99a4
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 5 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 47627ms
+   ✅ Success - 10 themes, ALMA: Yes, 47.6s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Roy Prior
+   Storyteller: Roy Prior
+   ID: de14c1dc-be80-42e5-bdd4-ffec5348c6e7
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 56280ms
+   ✅ Success - 9 themes, ALMA: Yes, 56.3s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Uncle George - Interview Transcript
+   Storyteller: Uncle George
+   ID: b16731a0-1093-4611-b533-ab68d17ee105
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+⚠️ Attempting JSON repair for truncated response...
+✅ JSON repair successful
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 10
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 10/10 quotes
+⚡ Analysis complete in 82252ms
+   ✅ Success - 9 themes, ALMA: Yes, 82.3s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Chloe - Interview Transcript
+   Storyteller: Chloe
+   ID: fb9ce2cd-3983-48f1-b7d3-5825d9588759
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 46131ms
+   ✅ Success - 5 themes, ALMA: Yes, 46.1s
+
+📊 Progress: 50/126 (39.7%)
+   Elapsed: 38.6m, Remaining: ~58.7m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 11/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: James Miller
+   Storyteller: James Miller
+   ID: 58601654-f73a-40ec-b565-380de9819eb4
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 44262ms
+   ✅ Success - 5 themes, ALMA: Yes, 44.3s
+
+[2/5] 🔄 Analyzing:
+   Transcript: AI Test Story - 2:40:44 PM
+   Storyteller: Sarah J.
+   ID: 07d75e18-605e-41f9-ac77-7308b1d93f7e
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 3
+  - Quotes: 0
+  - Summary: Present
+✅ Themes normalized: 0 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 0/0 quotes
+⚡ Analysis complete in 9691ms
+   ✅ Success - 0 themes, ALMA: Yes, 9.7s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Brontee Lawson
+   Storyteller: Brontee Lawson
+   ID: 5c6c38e6-924a-4b80-88dc-f3874d3b7878
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+❌ Claude analysis failed: ZodError: [
+  {
+    "code": "invalid_value",
+    "values": [
+      "transformation",
+      "wisdom",
+      "challenge",
+      "impact",
+      "cultural_insight",
+      "relationship"
+    ],
+    "path": [
+      "key_quotes",
+      3,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"transformation\"|\"wisdom\"|\"challenge\"|\"impact\"|\"cultural_insight\"|\"relationship\""
+  }
+]
+    at ClaudeTranscriptAnalyzer.runClaudeAnalysis (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:701:54)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ClaudeTranscriptAnalyzer.analyzeTranscript (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:285:24)
+    at async analyzeAndSaveTranscript (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:78:22)
+    at async processBatch (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:159:20)
+    at async batchAnalyzeAllTranscripts (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:230:26)
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 0/0 quotes
+⚡ Analysis complete in 41311ms
+   ✅ Success - 0 themes, ALMA: No, 41.3s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Gloria - Interview Transcript
+   Storyteller: Gloria
+   ID: 1941f6ea-7142-412d-aadc-5c5caff727b5
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 44952ms
+   ✅ Success - 7 themes, ALMA: Yes, 45.0s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Bec Smyth - Interview Transcript
+   Storyteller: Bec Smyth
+   ID: 90870412-39f9-43a7-bfe8-7b87b8660d09
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 1 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 35009ms
+   ✅ Success - 1 themes, ALMA: Yes, 35.0s
+
+📊 Progress: 55/126 (43.7%)
+   Elapsed: 41.7m, Remaining: ~53.8m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 12/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Building the Empathy Ledger Platform
+   Storyteller: Ben Knight
+   ID: 2e330849-4ad7-4d2c-b9fa-9ffcb555bdbb
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 3
+  - Summary: Present
+✅ Themes normalized: 5 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 3/3 quotes
+⚡ Analysis complete in 29275ms
+   ✅ Success - 8 themes, ALMA: Yes, 29.3s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Paul - Interview Transcript
+   Storyteller: Paul
+   ID: c03f00e4-e540-4f01-b483-cbb83302b69c
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 1 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 37613ms
+   ✅ Success - 3 themes, ALMA: Yes, 37.6s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Celeste Gibbs
+   ID: 49c144fc-b938-4a19-8b2c-89a56d4ddcbf
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 41818ms
+   ✅ Success - 5 themes, ALMA: Yes, 41.8s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Michael Quinn
+   ID: b54d4ffc-69d9-4144-98c5-7dbb92bdd427
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+❌ Claude analysis failed: ZodError: [
+  {
+    "code": "invalid_value",
+    "values": [
+      "transformation",
+      "wisdom",
+      "challenge",
+      "impact",
+      "cultural_insight",
+      "relationship"
+    ],
+    "path": [
+      "key_quotes",
+      2,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"transformation\"|\"wisdom\"|\"challenge\"|\"impact\"|\"cultural_insight\"|\"relationship\""
+  }
+]
+    at ClaudeTranscriptAnalyzer.runClaudeAnalysis (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:701:54)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ClaudeTranscriptAnalyzer.analyzeTranscript (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:285:24)
+    at async analyzeAndSaveTranscript (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:78:22)
+    at async processBatch (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:159:20)
+    at async batchAnalyzeAllTranscripts (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:230:26)
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 0/0 quotes
+⚡ Analysis complete in 51296ms
+   ✅ Success - 0 themes, ALMA: No, 51.3s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Charlie  Brun
+   ID: 9202b7ca-d403-444f-b3c4-5d305e444943
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 48589ms
+   ✅ Success - 6 themes, ALMA: Yes, 48.6s
+
+📊 Progress: 60/126 (47.6%)
+   Elapsed: 45.3m, Remaining: ~49.9m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 13/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Shaun Full - test edit
+   Storyteller: Shaun Fisher
+   ID: b0c288e8-4f15-4422-aaaa-b7444a54235b
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 7
+  - Summary: Present
+✅ Themes normalized: 7 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 7/7 quotes
+⚡ Analysis complete in 72673ms
+   ✅ Success - 12 themes, ALMA: Yes, 72.7s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Chris Dwyer - Interview Transcript
+   Storyteller: Chris Dwyer
+   ID: fbd9bbb2-7a3e-4e1e-a05f-e5cc6c5b8bd6
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 1 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 37121ms
+   ✅ Success - 1 themes, ALMA: Yes, 37.1s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Steve Sutton - Interview Transcript
+   Storyteller: Steve Sutton
+   ID: dd951011-9881-4d95-a699-948f2125d0bc
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 47078ms
+   ✅ Success - 2 themes, ALMA: Yes, 47.1s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Vicki Sorenson - Interview Transcript
+   Storyteller: Vicki Sorenson
+   ID: d30048dd-7067-4768-a2f8-2cbbce6a9369
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 1 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 37899ms
+   ✅ Success - 1 themes, ALMA: Yes, 37.9s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Jeri Pasovsky - Interview Transcript
+   Storyteller: Jeri Pasovsky
+   ID: 05dd89b8-aff6-4afa-8f0d-2268b36e3cf2
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 3
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 3/3 quotes
+⚡ Analysis complete in 32790ms
+   ✅ Success - 6 themes, ALMA: Yes, 32.8s
+
+📊 Progress: 65/126 (51.6%)
+   Elapsed: 49.3m, Remaining: ~46.2m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 14/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Brian Edwards
+   Storyteller: Brian Edwards
+   ID: f5450239-a8cc-4543-9898-810518f7a9e6
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 45283ms
+   ✅ Success - 3 themes, ALMA: Yes, 45.3s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Matthew Neill - Interview Transcript
+   Storyteller: Matthew Neill
+   ID: acb598e3-e8e6-4438-ad35-741220108d1e
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 35317ms
+   ✅ Success - 2 themes, ALMA: Yes, 35.3s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Amanda Mundell - Interview Transcript
+   Storyteller: Amanda Mundell
+   ID: 43480ed2-027b-4c06-bc8d-59cedcabd6c4
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 12
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 52683ms
+   ✅ Success - 6 themes, ALMA: Yes, 52.7s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Suzanne Evans - Interview Transcript
+   Storyteller: Suzanne Evans
+   ID: f96cce1b-3e48-4ab7-9a8b-539cb9c129be
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 42757ms
+   ✅ Success - 5 themes, ALMA: Yes, 42.8s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Catherine Plant
+   Storyteller: Catherine Plant
+   ID: e932aa21-1a4f-4c20-8358-7fc2798cb380
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 15
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 10/10 quotes
+⚡ Analysis complete in 58101ms
+   ✅ Success - 3 themes, ALMA: Yes, 58.1s
+
+📊 Progress: 70/126 (55.6%)
+   Elapsed: 53.3m, Remaining: ~42.7m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 15/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Tom Bowyer  - Interview Transcript
+   Storyteller: Tom Bowyer 
+   ID: ab9ac92b-b760-48ec-a6fd-6eae671ba719
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 49416ms
+   ✅ Success - 6 themes, ALMA: Yes, 49.4s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Karl Whitney - Interview Transcript
+   Storyteller: Karl Whitney
+   ID: 8d4d1836-955c-47cf-aee2-b8436ae9b28a
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 4
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 41516ms
+   ✅ Success - 4 themes, ALMA: Yes, 41.5s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Kelly Benjamin - Interview Transcript
+   Storyteller: Kelly Benjamin
+   ID: d6942a49-30dd-4933-8ca2-bf45c7bdb759
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 47252ms
+   ✅ Success - 4 themes, ALMA: Yes, 47.3s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Morage Hendry
+   Storyteller: Morage Hendry
+   ID: 18e6082a-3abd-42cb-b8eb-bb4b0a3800d8
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 3
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 3/3 quotes
+⚡ Analysis complete in 28175ms
+   ✅ Success - 2 themes, ALMA: Yes, 28.2s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Kellie Knight
+   Storyteller: Kellie Knight
+   ID: f266c734-da54-4428-b07b-7315c77120a2
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 1 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 38389ms
+   ✅ Success - 2 themes, ALMA: Yes, 38.4s
+
+📊 Progress: 75/126 (59.5%)
+   Elapsed: 56.9m, Remaining: ~38.7m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 16/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Tom Robinson - Interview Transcript
+   Storyteller: Tom Robinson
+   ID: 7ad1efd1-ff2e-4188-a3fb-ae4074fce4c5
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 6
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 6/6 quotes
+⚡ Analysis complete in 48431ms
+   ✅ Success - 2 themes, ALMA: Yes, 48.4s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Bob and Julie - Hamilton - Interview Transcript
+   Storyteller: Bob and Julie - Hamilton
+   ID: b0256d11-0166-42a8-960a-6f349cdd552a
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 44367ms
+   ✅ Success - 3 themes, ALMA: Yes, 44.4s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Paul Gordan - Interview Transcript
+   Storyteller: Paul Gordan
+   ID: 23e8831e-325f-46ac-aef1-15ed5b17d46e
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+❌ Claude analysis failed: ZodError: [
+  {
+    "code": "invalid_value",
+    "values": [
+      "transformation",
+      "wisdom",
+      "challenge",
+      "impact",
+      "cultural_insight",
+      "relationship"
+    ],
+    "path": [
+      "key_quotes",
+      4,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"transformation\"|\"wisdom\"|\"challenge\"|\"impact\"|\"cultural_insight\"|\"relationship\""
+  }
+]
+    at ClaudeTranscriptAnalyzer.runClaudeAnalysis (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:701:54)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ClaudeTranscriptAnalyzer.analyzeTranscript (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:285:24)
+    at async analyzeAndSaveTranscript (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:78:22)
+    at async processBatch (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:159:20)
+    at async batchAnalyzeAllTranscripts (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:230:26)
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 0/0 quotes
+⚡ Analysis complete in 38598ms
+   ✅ Success - 0 themes, ALMA: No, 38.6s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Clive - CEO Bega - Interview Transcript
+   Storyteller: Clive - CEO Bega
+   ID: cf6282e2-eb87-4c84-914d-b476aabb323b
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 6
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 6/6 quotes
+⚡ Analysis complete in 53757ms
+   ✅ Success - 8 themes, ALMA: Yes, 53.8s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Elaine Everett - Interview Transcript
+   Storyteller: Elaine Everett
+   ID: 098f1578-3de8-4824-80e4-98ca36a765e8
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+⚠️ Attempting JSON repair for truncated response...
+✅ JSON repair successful
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 15
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 10/10 quotes
+⚡ Analysis complete in 58212ms
+   ✅ Success - 2 themes, ALMA: Yes, 58.2s
+
+📊 Progress: 80/126 (63.5%)
+   Elapsed: 61.1m, Remaining: ~35.1m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 17/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Samantha Breust - Interview Transcript
+   Storyteller: Samantha Breust
+   ID: 89ca3b88-2fb1-4a76-ac01-71bfd89c0187
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 47908ms
+   ✅ Success - 7 themes, ALMA: Yes, 47.9s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Min - Interview Transcript
+   Storyteller: Min
+   ID: 7751e26a-df5a-4b88-8d98-5cd6143a6850
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 51170ms
+   ✅ Success - 6 themes, ALMA: Yes, 51.2s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Rikki Downman - Interview Transcript
+   Storyteller: Rikki Downman
+   ID: 8e2530ac-c040-4a0f-a00a-4d969259f055
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 43073ms
+   ✅ Success - 4 themes, ALMA: Yes, 43.1s
+
+[4/5] 🔄 Analyzing:
+   Transcript:  Tig Hall - Interview Transcript
+   Storyteller:  Tig Hall
+   ID: 701ba2c9-a832-40fb-91ae-e34659e966f7
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 1 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 34847ms
+   ✅ Success - 2 themes, ALMA: Yes, 34.8s
+
+[5/5] 🔄 Analyzing:
+   Transcript: William Radke - Interview Transcript
+   Storyteller: William Radke
+   ID: 848194bc-b551-49c3-b312-d4ed90f502c0
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 36747ms
+   ✅ Success - 2 themes, ALMA: Yes, 36.7s
+
+📊 Progress: 85/126 (67.5%)
+   Elapsed: 64.8m, Remaining: ~31.3m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 18/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Luke Watkins - Interview Transcript
+   Storyteller: Luke Watkins
+   ID: e949c689-38d4-4b9b-be50-5b8dd08b8cb3
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 36375ms
+   ✅ Success - 2 themes, ALMA: Yes, 36.4s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Tegan Burns
+   ID: 996d959c-cbd0-44ed-812c-ee778e3e709a
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 6 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 44211ms
+   ✅ Success - 11 themes, ALMA: Yes, 44.2s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Chelsea Rolfe
+   ID: 422d192a-2795-4b97-abdc-0d9060fd4ab3
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 8
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+❌ Claude analysis failed: ZodError: [
+  {
+    "code": "invalid_value",
+    "values": [
+      "transformation",
+      "wisdom",
+      "challenge",
+      "impact",
+      "cultural_insight",
+      "relationship"
+    ],
+    "path": [
+      "key_quotes",
+      5,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"transformation\"|\"wisdom\"|\"challenge\"|\"impact\"|\"cultural_insight\"|\"relationship\""
+  }
+]
+    at ClaudeTranscriptAnalyzer.runClaudeAnalysis (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:701:54)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ClaudeTranscriptAnalyzer.analyzeTranscript (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:285:24)
+    at async analyzeAndSaveTranscript (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:78:22)
+    at async processBatch (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:159:20)
+    at async batchAnalyzeAllTranscripts (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:230:26)
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 0/0 quotes
+⚡ Analysis complete in 52573ms
+   ✅ Success - 0 themes, ALMA: No, 52.6s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Richard Cassidy - Interview Transcript
+   Storyteller: Richard Cassidy
+   ID: 27093360-bf33-4840-aee0-4c6932426cd3
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+⚠️ Attempting JSON repair for truncated response...
+✅ JSON repair successful
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 8
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 8/8 quotes
+⚡ Analysis complete in 81756ms
+   ✅ Success - 14 themes, ALMA: Yes, 81.8s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Felicity Davis-Smith
+   Storyteller: Felicity Davis-Smith
+   ID: 233cacf0-1264-4691-bdfd-a71fde29c570
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+❌ Claude analysis failed: ZodError: [
+  {
+    "code": "invalid_value",
+    "values": [
+      "transformation",
+      "wisdom",
+      "challenge",
+      "impact",
+      "cultural_insight",
+      "relationship"
+    ],
+    "path": [
+      "key_quotes",
+      1,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"transformation\"|\"wisdom\"|\"challenge\"|\"impact\"|\"cultural_insight\"|\"relationship\""
+  }
+]
+    at ClaudeTranscriptAnalyzer.runClaudeAnalysis (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:701:54)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ClaudeTranscriptAnalyzer.analyzeTranscript (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:285:24)
+    at async analyzeAndSaveTranscript (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:78:22)
+    at async processBatch (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:159:20)
+    at async batchAnalyzeAllTranscripts (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:230:26)
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 0/0 quotes
+⚡ Analysis complete in 54637ms
+   ✅ Success - 0 themes, ALMA: No, 54.6s
+
+📊 Progress: 90/126 (71.4%)
+   Elapsed: 69.5m, Remaining: ~27.8m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 19/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Gary - Interview Transcript
+   Storyteller: Gary
+   ID: 582288e5-d939-4bd8-aea5-fd86b7529313
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+⚠️ Attempting JSON repair for truncated response...
+✅ JSON repair successful
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 7
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 7/7 quotes
+⚡ Analysis complete in 84091ms
+   ✅ Success - 11 themes, ALMA: Yes, 84.1s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Emily Bell
+   Storyteller: Emily Bell
+   ID: d9b75bc3-b2aa-4543-8dd0-378152b1c30f
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 33727ms
+   ✅ Success - 4 themes, ALMA: Yes, 33.7s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Alyssa Dawn Brewster - Interview Transcript
+   Storyteller: Alyssa Dawn Brewster
+   ID: c24aa55e-0737-493b-ba38-4166bf2001b0
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 6 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 44759ms
+   ✅ Success - 12 themes, ALMA: Yes, 44.8s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Brodie Germaine - Interview Transcript
+   Storyteller: Brodie Germaine
+   ID: b7b96bbd-bc48-4142-9b4a-50a1f6795f5c
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+⚠️ Attempting JSON repair for truncated response...
+✅ JSON repair successful
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 10
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 10/10 quotes
+⚡ Analysis complete in 86833ms
+   ✅ Success - 8 themes, ALMA: Yes, 86.8s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Nici Toll
+   Storyteller: Nici Toll
+   ID: 4a410dd9-dd45-48f0-802b-94d233ff8695
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 46914ms
+   ✅ Success - 3 themes, ALMA: Yes, 46.9s
+
+📊 Progress: 95/126 (75.4%)
+   Elapsed: 74.6m, Remaining: ~24.3m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 20/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Elders Group - Interview Transcript
+   Storyteller: Elders Group
+   ID: a16c883c-6ef6-4afb-b745-a0bc3ea3c663
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 6 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 55626ms
+   ✅ Success - 9 themes, ALMA: Yes, 55.6s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Walter - Interview Transcript
+   Storyteller: Walter
+   ID: 0a1907c5-8f96-4a7d-9c39-12bc2bf63e03
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 34087ms
+   ✅ Success - 7 themes, ALMA: Yes, 34.1s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Dena - Interview Transcript
+   Storyteller: Dena
+   ID: 5f0267aa-526f-4392-90ef-9fb5a13fd16d
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 57186ms
+   ✅ Success - 9 themes, ALMA: Yes, 57.2s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Jenni Calcraft - Interview Transcript
+   Storyteller: Jenni Calcraft
+   ID: cb4e8c8b-ae7a-450d-8697-0f589b04def9
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 5 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 41214ms
+   ✅ Success - 8 themes, ALMA: Yes, 41.2s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Kristy2
+   Storyteller: Kristy Bloomfield
+   ID: 8d6b2835-ae86-43cd-ada7-fd4a8a3410f8
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 11
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 61200ms
+   ✅ Success - 16 themes, ALMA: Yes, 61.2s
+
+📊 Progress: 100/126 (79.4%)
+   Elapsed: 78.9m, Remaining: ~20.5m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 21/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Ethel and Iris Ferdies
+   Storyteller: Ethel and  Iris Ferdies
+   ID: b5fe0861-9888-4837-9b16-c2552190b3d7
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+⚠️ Attempting JSON repair for truncated response...
+✅ JSON repair successful
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 8
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 8/8 quotes
+⚡ Analysis complete in 76226ms
+   ✅ Success - 14 themes, ALMA: Yes, 76.2s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Uncle Frank Daniel Landers
+   Storyteller: Uncle Frank Daniel Landers
+   ID: faf8b701-a72e-44b2-8b24-34cebca13bde
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 7
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 7/7 quotes
+⚡ Analysis complete in 55849ms
+   ✅ Success - 11 themes, ALMA: Yes, 55.8s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Ruby Sibley
+   Storyteller: Ruby Sibley
+   ID: 253b6f6b-081f-49d9-86c8-c88cb0ffb7ef
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 40438ms
+   ✅ Success - 8 themes, ALMA: Yes, 40.4s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Irene Nleallajar
+   Storyteller: Irene Nleallajar
+   ID: 7dda283e-af8f-48a2-9b4c-910a61065b4d
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 7 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 48477ms
+   ✅ Success - 12 themes, ALMA: Yes, 48.5s
+
+[5/5] 🔄 Analyzing:
+   Transcript: George Nanganjuan
+   Storyteller: George Nanganjuan
+   ID: 9887e6c3-5830-4eda-b2d3-b2934de7f7a6
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 45468ms
+   ✅ Success - 5 themes, ALMA: Yes, 45.5s
+
+📊 Progress: 105/126 (83.3%)
+   Elapsed: 83.5m, Remaining: ~16.7m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 22/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Amelia Tynan
+   Storyteller: Amelia Tynan
+   ID: 5ce45454-d5e6-4f41-b151-902a05f4fa39
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 5 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 43086ms
+   ✅ Success - 8 themes, ALMA: Yes, 43.1s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Callum William Mason
+   Storyteller: Callum William Mason
+   ID: 981bc67e-439e-4dd6-9f3e-169e2e28090e
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 4 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 46408ms
+   ✅ Success - 9 themes, ALMA: Yes, 46.4s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Georgie Ibbott
+   Storyteller: Georgie Ibbott
+   ID: a3e260a6-135a-4a1d-9cd0-f7d972ebca8e
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 1 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 36545ms
+   ✅ Success - 1 themes, ALMA: Yes, 36.5s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Kirrily
+   Storyteller: Kirrily Brianne-Scarf
+   ID: 1163cb9d-ec61-4a87-a6e3-c4a4a851b035
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 5 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 56456ms
+   ✅ Success - 8 themes, ALMA: Yes, 56.5s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Zero
+   Storyteller: ZERO
+   ID: 599b799a-c55b-4b82-9867-434afc239aec
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+❌ Claude analysis failed: ZodError: [
+  {
+    "code": "invalid_value",
+    "values": [
+      "transformation",
+      "wisdom",
+      "challenge",
+      "impact",
+      "cultural_insight",
+      "relationship"
+    ],
+    "path": [
+      "key_quotes",
+      3,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"transformation\"|\"wisdom\"|\"challenge\"|\"impact\"|\"cultural_insight\"|\"relationship\""
+  }
+]
+    at ClaudeTranscriptAnalyzer.runClaudeAnalysis (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:701:54)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ClaudeTranscriptAnalyzer.analyzeTranscript (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:285:24)
+    at async analyzeAndSaveTranscript (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:78:22)
+    at async processBatch (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:159:20)
+    at async batchAnalyzeAllTranscripts (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:230:26)
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 0/0 quotes
+⚡ Analysis complete in 41875ms
+   ✅ Success - 0 themes, ALMA: No, 41.9s
+
+📊 Progress: 110/126 (87.3%)
+   Elapsed: 87.3m, Remaining: ~12.7m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 23/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Paul Kayne & Kay Peterson
+   Storyteller: Kay Peterson
+   ID: 01601cf3-09aa-4600-aea4-0d6c9ae7f726
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 1 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 32001ms
+   ✅ Success - 1 themes, ALMA: Yes, 32.0s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Paul Kayne & Kay Peterson
+   Storyteller: Paul Kayne
+   ID: c28d7902-836e-45f5-b974-307a31ba661b
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 1 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 31667ms
+   ✅ Success - 1 themes, ALMA: Yes, 31.7s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Robyn Watts
+   Storyteller: Robyn Watts
+   ID: 65c071db-10bf-4625-b9c9-e25e8c511bf1
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 45846ms
+   ✅ Success - 3 themes, ALMA: Yes, 45.8s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Keeda Zilm - Interview Transcript
+   Storyteller: Keeda Zilm
+   ID: 0c2a0a96-9ac8-4f8a-acbb-96538f224a80
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 1 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 32900ms
+   ✅ Success - 1 themes, ALMA: Yes, 32.9s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Linda Pietri
+   Storyteller: Linda  Pietri
+   ID: 8044405e-6ead-421b-9c4f-005c01e0fa9f
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 9
+  - Quotes: 6
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 6/6 quotes
+⚡ Analysis complete in 53178ms
+   ✅ Success - 3 themes, ALMA: Yes, 53.2s
+
+📊 Progress: 115/126 (91.3%)
+   Elapsed: 90.7m, Remaining: ~8.7m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 24/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Allan Mott
+   Storyteller: Allan Mott
+   ID: ddd4bcd7-a388-44ae-be01-3c9b4f791b2b
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 52635ms
+   ✅ Success - 3 themes, ALMA: Yes, 52.6s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Julie Jaunty
+   Storyteller: Julie Jauncey
+   ID: d5437833-a25d-4658-b4f9-f6c678fa0e11
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 41247ms
+   ✅ Success - 2 themes, ALMA: Yes, 41.2s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Daniel O'neill
+   ID: 08c6d035-4213-413a-948f-c9b8610ee847
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 33287ms
+   ✅ Success - 4 themes, ALMA: Yes, 33.3s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Shaun Thomas Rogers
+   ID: 8b174fba-e658-45f8-a3da-3a515ffb9ba4
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 2 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 45364ms
+   ✅ Success - 2 themes, ALMA: Yes, 45.4s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Siobhan Leyne
+   ID: 40b90907-7667-433d-9b71-98e18b7de64d
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 42188ms
+   ✅ Success - 6 themes, ALMA: Yes, 42.2s
+
+📊 Progress: 120/126 (95.2%)
+   Elapsed: 94.5m, Remaining: ~4.7m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 25/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Ray  Kirkman
+   ID: 2340d740-4b89-4669-b45a-330681bdbf9d
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+✅ Themes normalized: 5 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 63223ms
+   ✅ Success - 7 themes, ALMA: Yes, 63.2s
+
+[2/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Bernie Moran
+   ID: 761997e7-4d0b-42f9-a238-aa5430f0c77c
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 10
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+✅ Successfully salvaged Claude data
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 5/5 quotes
+⚡ Analysis complete in 62400ms
+   ✅ Success - 9 themes, ALMA: Yes, 62.4s
+
+[3/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Darrell  Pierpoint
+   ID: 0869b273-eeda-4449-84b6-46163c57bcf8
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 8
+  - Quotes: 5
+  - Summary: Present
+⚠️  Claude data exceeded schema limits, trimming to fit...
+❌ Claude analysis failed: ZodError: [
+  {
+    "code": "invalid_value",
+    "values": [
+      "transformation",
+      "wisdom",
+      "challenge",
+      "impact",
+      "cultural_insight",
+      "relationship"
+    ],
+    "path": [
+      "key_quotes",
+      1,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"transformation\"|\"wisdom\"|\"challenge\"|\"impact\"|\"cultural_insight\"|\"relationship\""
+  }
+]
+    at ClaudeTranscriptAnalyzer.runClaudeAnalysis (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:701:54)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ClaudeTranscriptAnalyzer.analyzeTranscript (/Users/benknight/Code/empathy-ledger-v2/src/lib/ai/transcript-analyzer-v3-claude.ts:285:24)
+    at async analyzeAndSaveTranscript (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:78:22)
+    at async processBatch (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:159:20)
+    at async batchAnalyzeAllTranscripts (/Users/benknight/Code/empathy-ledger-v2/scripts/batch-analyze-transcripts-direct.ts:230:26)
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 0/0 quotes
+⚡ Analysis complete in 41990ms
+   ✅ Success - 0 themes, ALMA: No, 42.0s
+
+[4/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Risilda Hogan
+   ID: 769e6784-4818-4d3a-9219-0b508bd4690b
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 6
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 32438ms
+   ✅ Success - 5 themes, ALMA: Yes, 32.4s
+
+[5/5] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Tasos
+   ID: f509e2eb-1058-4cba-903f-037df5116037
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 3 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 32420ms
+   ✅ Success - 5 themes, ALMA: Yes, 32.4s
+
+📊 Progress: 125/126 (99.2%)
+   Elapsed: 98.5m, Remaining: ~0.8m
+   Rate: 0.02 transcripts/sec
+
+⏸️  Waiting 5 seconds before next batch...
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 BATCH 26/26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/1] 🔄 Analyzing:
+   Transcript: Untitled
+   Storyteller: Marillie Giannakopoulou
+   ID: adac0376-fe9d-4781-be21-0960f724a05d
+🔍 Starting Claude 3.5 Sonnet transcript analysis...
+📊 Phase 1: Skipping pattern matching...
+✅ Pattern insights disabled
+🤖 Phase 2: Claude 3.5 Sonnet analysis...
+📊 Parsed result summary:
+  - Themes: 7
+  - Quotes: 4
+  - Summary: Present
+✅ Themes normalized: 0 standard themes
+✅ Claude analysis complete
+🔍 Phase 3: Verifying quotes...
+✅ Verified 4/4 quotes
+⚡ Analysis complete in 44108ms
+   ✅ Success - 1 themes, ALMA: Yes, 44.1s
+
+📊 Progress: 130/126 (100.0%)
+   Elapsed: 99.3m, Remaining: ~-3.1m
+   Rate: 0.02 transcripts/sec
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 BATCH PROCESSING SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Total Analyzed:          126
+Successful:              126 ✅
+Failed:                  0 
+Success Rate:            100.0%
+With ALMA Signals:       118/126 (93.7%)
+Avg Themes:              5.1
+Avg Processing Time:     45.5s
+Total Time:              99.3 minutes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Batch processing complete!
+
+Next Steps:
+1. Run verification: npx tsx scripts/verify-alma-extraction.ts
+2. Review quality report
+3. Backfill storyteller analysis: npx tsx scripts/backfill-storyteller-analysis.ts
+4. Run ACT rollup: npm run act:rollup:all
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+

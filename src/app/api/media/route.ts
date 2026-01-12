@@ -18,13 +18,15 @@ export async function GET(request: Request) {
     const culturalSensitivity = searchParams.get('cultural_sensitivity')
     const tags = searchParams.get('tags')?.split(',').filter(Boolean)
     const organizationId = searchParams.get('organization_id')
+    const projectId = searchParams.get('project_id')
     const uploaderSearch = searchParams.get('uploader')
-    
+    const search = searchParams.get('search')
+
     const supabase = createSupabaseServerClient()
-    
+
     // Get current user
     const { data: { user } } = await supabase.auth.getUser()
-    
+
     let query = supabase
       .from('media_assets')
       .select('*')
@@ -34,9 +36,24 @@ export async function GET(request: Request) {
     if (fileType) {
       query = query.eq('file_type', fileType)
     }
-    
+
     if (culturalSensitivity) {
       query = query.eq('cultural_sensitivity_level', culturalSensitivity)
+    }
+
+    // Filter by organization
+    if (organizationId) {
+      query = query.eq('organization_id', organizationId)
+    }
+
+    // Filter by project
+    if (projectId) {
+      query = query.eq('project_id', projectId)
+    }
+
+    // Search by title/filename
+    if (search) {
+      query = query.or(`title.ilike.%${search}%,original_filename.ilike.%${search}%`)
     }
 
     // Apply pagination

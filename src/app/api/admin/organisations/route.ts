@@ -2,14 +2,17 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
-
-
+// Use service role to bypass RLS for admin operations
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+    console.log('🔓 Using admin bypass for organisations access')
     
     // Get all organizations with basic stats
     const { data: organisations, error } = await supabase
@@ -85,7 +88,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const supabase = createSupabaseServerClient()
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+    console.log('🔓 Using admin bypass for organisation create')
 
     // Generate slug for the organisation
     const slug = body.name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '')

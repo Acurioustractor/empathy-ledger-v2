@@ -40,6 +40,20 @@ const nextConfig = {
   // Handle static asset optimization
   images: {
     unoptimized: true, // Temporarily disable image optimization to avoid conflicts
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.supabase.in',
+      },
+    ],
   },
 
   // Output file tracing configuration (removed for Next.js 14 compatibility)

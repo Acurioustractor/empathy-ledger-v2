@@ -112,7 +112,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ adminLevel, tenantId })
 
   // Filter users based on search and filters
   useEffect(() => {
-    let filtered = users.filter(user => {
+    const filtered = users.filter(user => {
       const matchesSearch = searchTerm === '' || 
         user.displayName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||

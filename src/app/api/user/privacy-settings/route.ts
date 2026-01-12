@@ -30,6 +30,33 @@ export async function PUT(request: NextRequest) {
       )
     }
 
+    // Handle platform sharing settings separately (stored in storytellers table)
+    if (settings.justicehub_enabled !== undefined) {
+      // First check if storyteller record exists
+      const { data: storyteller } = await supabase
+        .from('storytellers')
+        .select('id')
+        .eq('profile_id', storytellerId)
+        .single()
+
+      if (storyteller) {
+        const { error: storytellerError } = await supabase
+          .from('storytellers')
+          .update({
+            justicehub_enabled: settings.justicehub_enabled,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('profile_id', storytellerId)
+
+        if (storytellerError) {
+          console.error('Storyteller settings update error:', storytellerError)
+        }
+      }
+
+      // Remove from settings object so it doesn't get stored in privacy_settings JSON
+      delete settings.justicehub_enabled
+    }
+
     // Update privacy settings in profiles table
     const { error: updateError } = await supabase
       .from('profiles')

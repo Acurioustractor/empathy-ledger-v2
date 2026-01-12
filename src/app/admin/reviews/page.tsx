@@ -72,13 +72,17 @@ export default function ContentReviewDashboard() {
         throw new Error('Failed to fetch pending reviews')
       }
 
-      const data = await response.json()
-      setReviews(data.reviews || [])
-      setFilteredReviews(data.reviews || [])
-      
+      const responseData = await response.json()
+      // Handle both wrapped ({ data: { reviews } }) and direct ({ reviews }) response formats
+      const data = responseData.data || responseData
+      const reviews = data.reviews || []
+
+      setReviews(reviews)
+      setFilteredReviews(reviews)
+
       // Calculate stats
-      const pendingCount = data.reviews?.length || 0
-      const elderReviewQueue = data.reviews?.filter((r: PendingReview) => r.requiresElderReview).length || 0
+      const pendingCount = reviews.length
+      const elderReviewQueue = reviews.filter((r: PendingReview) => r.requiresElderReview).length
       
       setStats({
         pendingCount,

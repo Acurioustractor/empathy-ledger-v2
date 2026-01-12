@@ -1,0 +1,433 @@
+{
+  "name": "Brand Compliance Fixes",
+  "description": "Fix 5892 brand compliance issues across 846 files",
+  "created": "2026-01-06T21:01:15.632Z",
+  "priority_order": "Files sorted by issue count (most issues = highest priority)",
+  "stories": [
+    {
+      "id": "BRAND-001",
+      "title": "Fix brand compliance in components/profile/ImmersiveStorytellerProfile.tsx",
+      "description": "Update components/profile/ImmersiveStorytellerProfile.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 1,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 78 color issues - replace non-brand colors with palette",
+        "Fix 21 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/profile/ImmersiveStorytellerProfile.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 78 color, 21 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-002",
+      "title": "Fix brand compliance in components/admin/MediaGalleryManagement.tsx",
+      "description": "Update components/admin/MediaGalleryManagement.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 2,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 73 color issues - replace non-brand colors with palette",
+        "Fix 14 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/admin/MediaGalleryManagement.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 73 color, 14 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-003",
+      "title": "Fix brand compliance in app/admin/photos/page.tsx",
+      "description": "Update app/admin/photos/page.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 3,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 57 color issues - replace non-brand colors with palette",
+        "Fix 30 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/app/admin/photos/page.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 57 color, 30 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-004",
+      "title": "Fix brand compliance in components/projects/ProjectAnalysisView.tsx",
+      "description": "Update components/projects/ProjectAnalysisView.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 4,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 75 color issues - replace non-brand colors with palette",
+        "Fix 11 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/projects/ProjectAnalysisView.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 75 color, 11 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-005",
+      "title": "Fix brand compliance in app/admin/stories/page.tsx",
+      "description": "Update app/admin/stories/page.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 5,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 72 color issues - replace non-brand colors with palette",
+        "Fix 10 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/app/admin/stories/page.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 72 color, 10 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-006",
+      "title": "Fix brand compliance in app/storytellers/[id]/opportunities/page.tsx",
+      "description": "Update app/storytellers/[id]/opportunities/page.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 6,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 60 color issues - replace non-brand colors with palette",
+        "Fix 21 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/app/storytellers/[id]/opportunities/page.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 60 color, 21 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-007",
+      "title": "Fix brand compliance in app/admin/galleries/page.tsx",
+      "description": "Update app/admin/galleries/page.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 7,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 61 color issues - replace non-brand colors with palette",
+        "Fix 18 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/app/admin/galleries/page.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 61 color, 18 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-008",
+      "title": "Fix brand compliance in components/development/PersonalDevelopmentPlan.tsx",
+      "description": "Update components/development/PersonalDevelopmentPlan.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 8,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 58 color issues - replace non-brand colors with palette",
+        "Fix 18 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/development/PersonalDevelopmentPlan.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 58 color, 18 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-009",
+      "title": "Fix brand compliance in components/admin/ProjectManagement.tsx",
+      "description": "Update components/admin/ProjectManagement.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 9,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 51 color issues - replace non-brand colors with palette",
+        "Fix 24 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/admin/ProjectManagement.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 51 color, 24 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-010",
+      "title": "Fix brand compliance in components/analytics/AnalyticsDashboard.tsx",
+      "description": "Update components/analytics/AnalyticsDashboard.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 10,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 54 color issues - replace non-brand colors with palette",
+        "Fix 13 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/analytics/AnalyticsDashboard.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 54 color, 13 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-011",
+      "title": "Fix brand compliance in app/storytellers/[id]/skills/page.tsx",
+      "description": "Update app/storytellers/[id]/skills/page.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 11,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 45 color issues - replace non-brand colors with palette",
+        "Fix 18 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/app/storytellers/[id]/skills/page.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 45 color, 18 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-012",
+      "title": "Fix brand compliance in components/admin/StorytellerManagement.tsx",
+      "description": "Update components/admin/StorytellerManagement.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 12,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 39 color issues - replace non-brand colors with palette",
+        "Fix 19 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/admin/StorytellerManagement.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 39 color, 19 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-013",
+      "title": "Fix brand compliance in app/organisations/[id]/galleries/page.tsx",
+      "description": "Update app/organisations/[id]/galleries/page.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 13,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 30 color issues - replace non-brand colors with palette",
+        "Fix 25 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/app/organisations/[id]/galleries/page.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 30 color, 25 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-014",
+      "title": "Fix brand compliance in app/organisations/[id]/transcripts/page.tsx",
+      "description": "Update app/organisations/[id]/transcripts/page.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 14,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 44 color issues - replace non-brand colors with palette",
+        "Fix 8 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/app/organisations/[id]/transcripts/page.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 44 color, 8 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-015",
+      "title": "Fix brand compliance in components/organization/MemberDirectory.tsx",
+      "description": "Update components/organization/MemberDirectory.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 15,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 39 color issues - replace non-brand colors with palette",
+        "Fix 10 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/organization/MemberDirectory.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 39 color, 10 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-016",
+      "title": "Fix brand compliance in components/storyteller/unified-storyteller-card.tsx",
+      "description": "Update components/storyteller/unified-storyteller-card.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 16,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 26 color issues - replace non-brand colors with palette",
+        "Fix 18 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/storyteller/unified-storyteller-card.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 26 color, 18 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-017",
+      "title": "Fix brand compliance in components/browse/StoryPreviewCard.tsx",
+      "description": "Update components/browse/StoryPreviewCard.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 17,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 35 color issues - replace non-brand colors with palette",
+        "Fix 9 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/browse/StoryPreviewCard.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 35 color, 9 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-018",
+      "title": "Fix brand compliance in components/testing/UserTestingDashboard.tsx",
+      "description": "Update components/testing/UserTestingDashboard.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 18,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 36 color issues - replace non-brand colors with palette",
+        "Fix 6 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/testing/UserTestingDashboard.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 36 color, 6 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-019",
+      "title": "Fix brand compliance in components/cultural/CulturalReviewWorkflow.tsx",
+      "description": "Update components/cultural/CulturalReviewWorkflow.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 19,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 37 color issues - replace non-brand colors with palette",
+        "Fix 5 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/cultural/CulturalReviewWorkflow.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 37 color, 5 typography, 0 spacing"
+    },
+    {
+      "id": "BRAND-020",
+      "title": "Fix brand compliance in components/analytics/OpportunityMatchCard.tsx",
+      "description": "Update components/analytics/OpportunityMatchCard.tsx to use brand colors, typography, and spacing per style guide",
+      "priority": 20,
+      "passes": false,
+      "acceptance_criteria": [
+        "Fix 34 color issues - replace non-brand colors with palette",
+        "Fix 8 typography issues - use serif for headings",
+        "File builds without type errors",
+        "Visual appearance matches brand guidelines"
+      ],
+      "files_to_modify": [
+        "src/components/analytics/OpportunityMatchCard.tsx"
+      ],
+      "tests_required": [
+        "npm run build passes",
+        "npm run lint passes"
+      ],
+      "notes": "Issues: 34 color, 8 typography, 0 spacing"
+    }
+  ],
+  "completion_criteria": {
+    "all_stories_pass": true,
+    "ci_green": true,
+    "no_type_errors": true
+  }
+}

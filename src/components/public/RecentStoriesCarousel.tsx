@@ -16,6 +16,7 @@ interface Story {
   storyteller: {
     display_name: string
     cultural_background?: string
+    avatar_url?: string
   }
   featured_image_url?: string
   story_type: 'text' | 'audio' | 'video' | 'mixed'
@@ -144,7 +145,7 @@ export function RecentStoriesCarousel({
                 className="group"
               >
                 <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-xl border-2 hover:border-[#D97757]">
-                  {/* Story Image */}
+                  {/* Story Image - falls back to storyteller avatar */}
                   <div className="relative aspect-video overflow-hidden bg-[#F8F6F1]">
                     {story.featured_image_url ? (
                       <Image
@@ -153,9 +154,20 @@ export function RecentStoriesCarousel({
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
+                    ) : story.storyteller.avatar_url ? (
+                      <Image
+                        src={story.storyteller.avatar_url}
+                        alt={story.storyteller.display_name}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-[#D97757]/20 via-[#D4A373]/20 to-[#2D5F4F]/20 flex items-center justify-center">
-                        <div className="text-4xl opacity-40">🌾</div>
+                        <div className="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center shadow-lg">
+                          <span className="text-xl font-bold text-[#D4A373]">
+                            {story.storyteller.display_name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                          </span>
+                        </div>
                       </div>
                     )}
 

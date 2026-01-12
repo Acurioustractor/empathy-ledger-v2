@@ -27,7 +27,7 @@ async function removeShortBioMarkers() {
     // Extract SHORT_BIO content and use it as the main bio
     const shortBioMatch = updatedBio.match(/\[SHORT_BIO\]([^[]+)\[\/SHORT_BIO\]/);
     if (shortBioMatch) {
-      let shortBioContent = shortBioMatch[1].replace(/^"|"$/g, '').trim();
+      const shortBioContent = shortBioMatch[1].replace(/^"|"$/g, '').trim();
 
       // Remove the entire bio and replace with just the SHORT_BIO content
       updatedBio = shortBioContent;

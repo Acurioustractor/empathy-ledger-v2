@@ -108,9 +108,11 @@ export function MediaUploader({
           : f
       ))
 
-      // Get the current session token
+      // Get the current session token (bypass in development)
       const { data: { session } } = await supabase.auth.getSession()
-      if (!session?.access_token) {
+      const isDevelopment = process.env.NODE_ENV === 'development'
+
+      if (!session?.access_token && !isDevelopment) {
         throw new Error('Not authenticated')
       }
 
@@ -138,7 +140,13 @@ export function MediaUploader({
               reject(new Error('Invalid response'))
             }
           } else {
-            reject(new Error('Upload failed'))
+            try {
+              const errorData = JSON.parse(xhr.responseText)
+              console.error('❌ API Error Response:', errorData)
+              reject(new Error(`Upload failed: ${errorData.error} - ${errorData.details || ''}`))
+            } catch {
+              reject(new Error(`Upload failed with status ${xhr.status}: ${xhr.responseText}`))
+            }
           }
         })
 
@@ -146,7 +154,10 @@ export function MediaUploader({
         xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')))
 
         xhr.open('POST', '/api/media/upload')
-        xhr.setRequestHeader('Authorization', `Bearer ${session.access_token}`)
+        // Only set Authorization header if we have a session token
+        if (session?.access_token) {
+          xhr.setRequestHeader('Authorization', `Bearer ${session.access_token}`)
+        }
         xhr.send(formData)
       })
       

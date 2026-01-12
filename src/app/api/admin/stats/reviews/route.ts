@@ -2,40 +2,45 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
-
-import { requireAdminAuth } from '@/lib/middleware/admin-auth'
-
-
+// Use service role to bypass RLS for admin stats
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
-    
-    // Temporarily bypass auth check to get data working
-    // TODO: Fix proper authentication flow later
-    console.log('Bypassing auth check for admin reviews stats')
-
     // Get pending stories (stories that need review)
     const { count: pendingReviews } = await supabase
       .from('stories')
       .select('*', { count: 'exact', head: true })
       .eq('status', 'pending')
 
-    // Get flagged content (stories reported by users)
-    const { count: flaggedContent } = await supabase
+    // Get stories marked as culturally sensitive
+    const { count: culturallySensitive } = await supabase
       .from('stories')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'flagged')
+      .eq('cultural_sensitivity_level', 'high')
 
-    // For now, elder approvals will be 0 since we don't have that system yet
-    const elderApprovals = 0
+    // Get featured stories without images (needs attention)
+    const { count: featuredWithoutImages } = await supabase
+      .from('stories')
+      .select('*', { count: 'exact', head: true })
+      .eq('is_featured', true)
+      .is('story_image_url', null)
+
+    // Get transcripts that don't have stories yet
+    const { count: transcriptsWithoutStories } = await supabase
+      .from('transcripts')
+      .select('*', { count: 'exact', head: true })
+      .is('story_id', null)
 
     return NextResponse.json({
       pending: pendingReviews || 0,
-      flagged: flaggedContent || 0,
-      elderApprovals: elderApprovals
+      culturallySensitive: culturallySensitive || 0,
+      featuredWithoutImages: featuredWithoutImages || 0,
+      transcriptsWithoutStories: transcriptsWithoutStories || 0
     })
 
   } catch (error) {
