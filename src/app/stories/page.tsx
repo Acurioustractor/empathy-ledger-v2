@@ -102,12 +102,12 @@ export default async function StoriesPage({
       import_metadata,
       source_url,
       featured_image_id,
-      visibility,
+      is_public,
       author_storyteller_id,
       storytellers:author_storyteller_id(id, display_name, location)
     `)
     .eq('status', 'published')
-    .eq('visibility', 'public')
+    .eq('is_public', true)
 
   if (project) query = query.eq('primary_project', project)
   if (tag) query = query.contains('tags', [tag])
