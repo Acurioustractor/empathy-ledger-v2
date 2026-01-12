@@ -46,14 +46,12 @@ export async function GET(request: NextRequest) {
       .select(`
         id,
         title,
-        excerpt,
+        summary,
         content,
         story_type,
         story_image_url,
-        reading_time,
         views_count,
         cultural_themes,
-        language,
         created_at,
         storyteller_id
       `, { count: 'exact' })
@@ -76,11 +74,7 @@ export async function GET(request: NextRequest) {
       query = query.in('story_type', types)
     }
 
-    const languages = searchParams.get('languages')
-    if (languages) {
-      const langs = languages.split(',')
-      query = query.in('language', langs)
-    }
+    // Note: language column doesn't exist in stories table
 
     // Apply sorting and pagination
     const { data: stories, error, count } = await query
@@ -116,13 +110,11 @@ export async function GET(request: NextRequest) {
       return {
         id: story.id,
         title: story.title,
-        excerpt: story.excerpt || story.content?.substring(0, 200) + '...',
+        excerpt: story.summary || story.content?.substring(0, 200) + '...',
         story_type: story.story_type,
         featured_image_url: story.story_image_url,
-        reading_time_minutes: story.reading_time,
         view_count: story.views_count || 0,
         cultural_tags: story.cultural_themes || [],
-        language: story.language,
         created_at: story.created_at,
         storyteller: {
           id: storyteller?.id,

@@ -20,11 +20,10 @@ export async function GET(request: NextRequest) {
       .select(`
         id,
         title,
-        excerpt,
+        summary,
         content,
         story_type,
         story_image_url,
-        reading_time,
         views_count,
         created_at,
         storyteller_id
@@ -63,10 +62,9 @@ export async function GET(request: NextRequest) {
       return {
         id: story.id,
         title: story.title,
-        excerpt: story.excerpt || story.content?.substring(0, 150) + '...',
+        excerpt: story.summary || story.content?.substring(0, 150) + '...',
         story_type: story.story_type,
         featured_image_url: story.story_image_url,
-        reading_time_minutes: story.reading_time,
         views_count: story.views_count || 0,
         created_at: story.created_at,
         storyteller: {
