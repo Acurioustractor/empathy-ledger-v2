@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
         orderBy = { column: 'created_at', ascending: true }
         break
       case 'popular':
-        orderBy = { column: 'view_count', ascending: false }
+        orderBy = { column: 'views_count', ascending: false }
         break
       case 'alphabetical':
         orderBy = { column: 'title', ascending: true }
