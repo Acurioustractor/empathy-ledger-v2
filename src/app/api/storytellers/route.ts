@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
         bio,
         cultural_background,
         language_skills,
-        avatar_url,
+        public_avatar_url,
         is_active,
         created_at,
         updated_at
@@ -109,14 +109,14 @@ export async function GET(request: NextRequest) {
         organisations: [],
         projects: [],
         profile: {
-          avatar_url: storyteller.avatar_url,
-          profile_image_url: storyteller.avatar_url,
+          avatar_url: storyteller.public_avatar_url,
+          profile_image_url: storyteller.public_avatar_url,
           cultural_affiliations: [],
           pronouns: null,
           display_name: storyteller.display_name,
           bio: storyteller.bio
         },
-        avatar_url: storyteller.avatar_url
+        avatar_url: storyteller.public_avatar_url
       }
     }))
 
