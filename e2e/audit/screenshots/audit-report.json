@@ -1,28 +1,6 @@
 {
-  "timestamp": "2026-01-06T21:03:19.440Z",
+  "timestamp": "2026-01-16T10:45:22.878Z",
   "routes": [
-    {
-      "path": "/storytellers",
-      "name": "storytellers-list",
-      "category": "public",
-      "screenshots": [
-        {
-          "viewport": "desktop",
-          "file": "public/storytellers-list-desktop.png",
-          "status": "captured"
-        },
-        {
-          "viewport": "tablet",
-          "file": "public/storytellers-list-tablet.png",
-          "status": "captured"
-        },
-        {
-          "viewport": "mobile",
-          "file": "public/storytellers-list-mobile.png",
-          "status": "captured"
-        }
-      ]
-    },
     {
       "path": "/browse",
       "name": "browse",

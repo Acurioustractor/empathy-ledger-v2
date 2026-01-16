@@ -28,7 +28,7 @@ import {
   ChevronRight
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useStorytellers } from '@/lib/hooks/useStorytellers'
+import { useAuth } from '@/lib/context/auth.context'
 import { Badge } from '@/components/ui/badge'
 
 interface CommandPaletteProps {
@@ -40,14 +40,29 @@ export default function CommandPalette({ open: controlledOpen, onOpenChange }: C
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [pages, setPages] = useState<string[]>(['home'])
+  const [storytellers, setStorytellers] = useState<any[]>([])
   const router = useRouter()
-  
+  const { isLoading: isAuthLoading, isAuthenticated, isAdmin } = useAuth()
+
   // Use controlled state if provided
   const isOpen = controlledOpen !== undefined ? controlledOpen : open
   const handleOpenChange = onOpenChange || setOpen
-  
-  // Fetch data for search
-  const { storytellers } = useStorytellers({ limit: 5 })
+
+  // Fetch storytellers only when auth is ready and user is admin
+  useEffect(() => {
+    if (!isAuthLoading && isAuthenticated && isAdmin) {
+      fetch('/api/admin/storytellers?limit=5')
+        .then(res => res.ok ? res.json() : null)
+        .then(data => {
+          if (data?.storytellers) {
+            setStorytellers(data.storytellers)
+          }
+        })
+        .catch(() => {
+          // Silently fail - not critical for command palette
+        })
+    }
+  }, [isAuthLoading, isAuthenticated, isAdmin])
   
   const currentPage = pages[pages.length - 1]
 
@@ -176,8 +191,8 @@ export default function CommandPalette({ open: controlledOpen, onOpenChange }: C
                   </Command.Item>
                 </Command.Group>
 
-                {/* Recent Storytellers */}
-                {storytellers.length > 0 && (
+                {/* Recent Storytellers (admin only) */}
+                {isAdmin && storytellers.length > 0 && (
                   <Command.Group heading="Recent Storytellers">
                     {storytellers.slice(0, 3).map((storyteller: any) => (
                       <Command.Item
@@ -186,9 +201,9 @@ export default function CommandPalette({ open: controlledOpen, onOpenChange }: C
                         className="flex items-center gap-2 cursor-pointer"
                       >
                         <User className="h-4 w-4" />
-                        <span>{storyteller.displayName}</span>
+                        <span>{storyteller.display_name || storyteller.displayName}</span>
                         <Badge variant="outline" className="ml-auto">
-                          {storyteller.storyCount} stories
+                          {storyteller.story_count || storyteller.storyCount || 0} stories
                         </Badge>
                       </Command.Item>
                     ))}
