@@ -2,14 +2,23 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
-
 import { createClient } from '@supabase/supabase-js'
 
+// Create client inside handler to ensure env vars are available at runtime
+function getServiceClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
+  if (!url || !serviceKey) {
+    console.error('❌ Missing Supabase credentials:', {
+      hasUrl: !!url,
+      hasServiceKey: !!serviceKey
+    })
+    throw new Error('Missing Supabase configuration')
+  }
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+  return createClient(url, serviceKey)
+}
 
 interface DetailedTranscript {
   id: string
@@ -87,8 +96,12 @@ export async function GET(
 ) {
   try {
     const { id: storytellerId } = await params
-    const url = new URL(request.url)
-    const organizationId = url.searchParams.get('org')
+    const requestUrl = new URL(request.url)
+    const organizationId = requestUrl.searchParams.get('org')
+
+    // Create Supabase client at runtime
+    const supabase = getServiceClient()
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 
     console.log('🔍 Fetching storyteller dashboard:', storytellerId, 'Org context:', organizationId)
 
