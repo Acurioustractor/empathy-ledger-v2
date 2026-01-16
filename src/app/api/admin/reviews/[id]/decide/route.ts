@@ -68,13 +68,11 @@ export async function POST(
       )
     }
 
-    let newStatus: string
-    let updateData: any = {
-      updated_at: new Date().toISOString()
-    }
-
     const now = new Date().toISOString()
-    const baseUpdate = { ...updateData, review_notes: decision.notes }
+    const baseUpdateData = {
+      updated_at: new Date().toISOString(),
+      review_notes: decision.notes
+    }
 
     const decisionConfig: Record<
       ReviewDecisionType,
@@ -120,9 +118,9 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid review decision type' }, { status: 400 })
     }
 
-    newStatus = config.status
-    updateData = {
-      ...baseUpdate,
+    const newStatus = config.status
+    const updateData = {
+      ...baseUpdateData,
       status: config.status,
       cultural_review_status: config.culturalStatus,
       ...config.extraData

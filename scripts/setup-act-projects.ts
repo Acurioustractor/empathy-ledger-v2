@@ -171,7 +171,7 @@ async function setupACTProjects() {
 
   let created = 0;
   let updated = 0;
-  let skipped = 0;
+  const skipped = 0;
 
   for (const project of ACT_PROJECTS) {
     const existingProject = existingByName.get(project.name.toLowerCase());

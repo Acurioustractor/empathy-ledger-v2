@@ -103,7 +103,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ adminLevel }) => 
 
   // Filter projects
   useEffect(() => {
-    let filtered = projects.filter(project => {
+    const filtered = projects.filter(project => {
       const matchesSearch = searchTerm === '' || 
         project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||

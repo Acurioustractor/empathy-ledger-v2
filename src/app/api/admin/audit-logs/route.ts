@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
       // Fall back to general audit_logs table
       console.log('Falling back to audit_logs table')
 
-      let fallbackQuery = supabase
+      const fallbackQuery = supabase
         .from('audit_logs')
         .select('*')
         .order('created_at', { ascending: false })

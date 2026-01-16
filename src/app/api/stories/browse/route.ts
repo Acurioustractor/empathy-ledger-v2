@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
 
     // Fetch storytellers for the stories
     const storytellerIds = [...new Set((stories || []).map(s => s.storyteller_id).filter(Boolean))]
-    let storytellersMap: Record<string, { id: string; display_name: string; cultural_background?: string; public_avatar_url?: string }> = {}
+    const storytellersMap: Record<string, { id: string; display_name: string; cultural_background?: string; public_avatar_url?: string }> = {}
 
     if (storytellerIds.length > 0) {
       const { data: storytellers } = await supabase
