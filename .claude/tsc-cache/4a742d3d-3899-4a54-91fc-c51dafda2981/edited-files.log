@@ -91,3 +91,9 @@
 1768598698:/Users/benknight/Code/empathy-ledger-v2/src/app/storytellers/[id]/dashboard/page.tsx:src
 1768599316:/Users/benknight/Code/empathy-ledger-v2/src/app/api/storytellers/[id]/dashboard/route.ts:src
 1768599842:/Users/benknight/Code/empathy-ledger-v2/src/app/projects/page.tsx:src
+1768600870:/Users/benknight/Code/empathy-ledger-v2/src/app/api/storytellers/[id]/stats/route.ts:src
+1768600890:/Users/benknight/Code/empathy-ledger-v2/src/app/api/storytellers/[id]/stories/route.ts:src
+1768600911:/Users/benknight/Code/empathy-ledger-v2/src/app/api/storytellers/[id]/media/route.ts:src
+1768600933:/Users/benknight/Code/empathy-ledger-v2/src/app/api/storytellers/[id]/galleries/route.ts:src
+1768600955:/Users/benknight/Code/empathy-ledger-v2/src/app/api/storytellers/[id]/transcripts/route.ts:src
+1768600975:/Users/benknight/Code/empathy-ledger-v2/src/app/api/storytellers/[id]/route.ts:src

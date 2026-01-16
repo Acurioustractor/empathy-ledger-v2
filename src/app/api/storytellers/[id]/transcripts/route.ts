@@ -2,23 +2,42 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
-
-import { createSupabaseServiceClient } from '@/lib/supabase/client-ssr'
-
-
+import { createSupabaseServiceClient, createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { getAuthenticatedUser, canAccessStoryteller, isSuperAdmin } from '@/lib/auth/api-auth'
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: storytellerId } = await params
+
+    // Authentication check
+    const { user, error: authError } = await getAuthenticatedUser()
+    if (authError || !user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - Please sign in' },
+        { status: 401 }
+      )
+    }
+
+    // Authorization check
+    const { allowed, reason } = await canAccessStoryteller(user.id, user.email, storytellerId)
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, error: reason || 'Forbidden' },
+        { status: 403 }
+      )
+    }
+
     const { searchParams } = new URL(request.url)
     const limit = parseInt(searchParams.get('limit') || '10')
     const page = parseInt(searchParams.get('page') || '1')
 
-    // Use service client to avoid RLS recursion issues
-    const supabase = createSupabaseServiceClient()
-    const { id: storytellerId } = await params
+    // Use service client for admins to avoid RLS recursion issues
+    const supabase = isSuperAdmin(user.email)
+      ? createSupabaseServiceClient()
+      : await createSupabaseServerClient()
 
     // Simple query with just essential fields that we know exist
     const query = supabase
