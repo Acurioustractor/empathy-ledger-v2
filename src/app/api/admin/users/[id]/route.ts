@@ -18,7 +18,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     console.log('Bypassing auth check for individual user fetch')
 
     // Fetch the user's profile and metadata
-    let { data: userData, error: userError } = await supabase
+    const userResult = await supabase
       .from('profiles')
       .select(`
         id,
@@ -41,6 +41,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       `)
       .eq('id', id)
       .single()
+
+    let userData = userResult.data
+    const userError = userResult.error
 
     if (userError || !userData) {
       console.error('Error fetching user or user not found:', userError)

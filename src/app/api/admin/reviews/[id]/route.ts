@@ -24,7 +24,7 @@ export async function GET(
     const { id } = params
 
     // First try to get by review ID
-    let { data: review, error } = await supabase
+    const reviewResult = await supabase
       .from('article_reviews')
       .select(`
         *,
@@ -44,6 +44,9 @@ export async function GET(
       `)
       .eq('id', id)
       .single()
+
+    let review = reviewResult.data
+    const error = reviewResult.error
 
     // If not found by review ID, try by article ID
     if (!review) {

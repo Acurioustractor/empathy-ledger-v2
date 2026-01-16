@@ -84,7 +84,7 @@ async function getOrganizationData(organizationId: string) {
   console.log('🔍 Profiles with tenant_id:', profilesWithTenant, 'for tenant:', organisation.tenant_id)
 
   // Get all members for this organisation through profile_organizations
-  let { data: memberRelations, error } = await supabase
+  const membersResult = await supabase
     .from('profile_organizations')
     .select(`
       profile_id,
@@ -107,6 +107,9 @@ async function getOrganizationData(organizationId: string) {
     .eq('organization_id', organizationId)
     .eq('is_active', true)
     .order('joined_at', { ascending: false })
+
+  let memberRelations = membersResult.data
+  const error = membersResult.error
 
   console.log('🔍 Member relations found:', memberRelations?.length || 0)
   if (memberRelations && memberRelations.length > 0) {

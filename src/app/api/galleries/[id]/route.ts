@@ -30,11 +30,14 @@ export async function GET(
     const isDevelopmentBypass = process.env.NODE_ENV === 'development'
 
     // Try to get the gallery from the main galleries table first
-    let { data: gallery, error: galleriesError } = await supabase
+    const galleryResult = await supabase
       .from('galleries')
       .select('*')
       .eq('id', id)
       .single()
+
+    let gallery = galleryResult.data
+    const galleriesError = galleryResult.error
 
     if (galleriesError && galleriesError.code === 'PGRST116') {
       console.log('📋 Gallery not found in main galleries table, checking photo_galleries...')
