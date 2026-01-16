@@ -7,7 +7,7 @@ import { ArrowRight, Eye, EyeOff, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { supabase } from '@/lib/supabase/client'
+import { getSupabaseBrowser } from '@/lib/supabase/browser'
 
 interface SignInFormProps {
   redirectTo?: string
@@ -29,7 +29,7 @@ export function SignInForm({ redirectTo = '/admin' }: SignInFormProps) {
 
     try {
       console.log('🔐 Attempting authentication with Supabase...')
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await getSupabaseBrowser().auth.signInWithPassword({
         email,
         password,
       })
@@ -70,7 +70,7 @@ export function SignInForm({ redirectTo = '/admin' }: SignInFormProps) {
     setError('')
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await getSupabaseBrowser().auth.signInWithPassword({
         email: demoEmail,
         password: demoPassword,
       })

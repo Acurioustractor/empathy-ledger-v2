@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { User, Session } from '@supabase/supabase-js'
-import { supabase } from '@/lib/supabase/client'
+import { getSupabaseBrowser } from '@/lib/supabase/browser'
 import { AuthRecovery } from '@/lib/utils/auth-recovery'
 import type { Profile, ConsentPreferences, PrivacySettings } from '@/types/database'
 
@@ -163,7 +163,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log('🚪 Signing out...')
       // Set flag BEFORE clearing state to prevent development bypass from kicking in
       setHasExplicitlySignedOut(true)
-      await supabase.auth.signOut()
+      await getSupabaseBrowser().auth.signOut()
       setUser(null)
       setSession(null)
       setProfile(null)
@@ -188,7 +188,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.log('🚀 Initializing authentication system...')
         
         // Get session with longer timeout and better error handling
-        const { data: { session }, error } = await supabase.auth.getSession().catch((err) => {
+        const { data: { session }, error } = await getSupabaseBrowser().auth.getSession().catch((err) => {
           console.log('⏰ Auth session error, retrying...', err)
           return { data: { session: null }, error: err }
         })
@@ -281,7 +281,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     console.log('🔗 Setting up auth state listener...')
     
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    const { data: { subscription } } = getSupabaseBrowser().auth.onAuthStateChange(
       async (event, session) => {
         // Only log and process certain events, ignore others to prevent loops
         if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED') {

@@ -36,10 +36,14 @@ export async function middleware(request: NextRequest) {
     error,
   } = await supabase.auth.getUser()
 
-  // Debug logging for auth issues (only in production for protected routes)
+  // Debug logging for auth issues
   const isProtectedPath = request.nextUrl.pathname.includes('profile') ||
                           request.nextUrl.pathname.includes('admin') ||
-                          request.nextUrl.pathname.includes('dashboard')
+                          request.nextUrl.pathname.includes('dashboard') ||
+                          request.nextUrl.pathname.includes('storytellers')
+
+  // Always log for protected paths to debug auth issues
+  const authCookies = request.cookies.getAll().filter(c => c.name.includes('supabase') || c.name.includes('auth'))
 
   if (isProtectedPath) {
     console.log('🔐 Middleware auth check:', {
@@ -47,7 +51,10 @@ export async function middleware(request: NextRequest) {
       hasUser: !!user,
       userEmail: user?.email,
       error: error?.message,
-      cookieNames: request.cookies.getAll().map(c => c.name).filter(n => n.includes('supabase') || n.includes('auth'))
+      authCookieCount: authCookies.length,
+      authCookieNames: authCookies.map(c => c.name),
+      // Log first 50 chars of each cookie value for debugging
+      authCookiePreview: authCookies.map(c => ({ name: c.name, valueLength: c.value.length, preview: c.value.substring(0, 50) }))
     })
   }
 

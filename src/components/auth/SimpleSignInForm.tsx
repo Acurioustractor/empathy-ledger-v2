@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase/client'
+import { getSupabaseBrowser } from '@/lib/supabase/browser'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -33,7 +33,7 @@ export function SimpleSignInForm({ redirectTo = '/storytellers/d0a162d2-282e-465
       }
 
       console.log('🔐 Attempting authentication for:', email)
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await getSupabaseBrowser().auth.signInWithPassword({
         email: email.trim(),
         password,
       })
@@ -71,7 +71,7 @@ export function SimpleSignInForm({ redirectTo = '/storytellers/d0a162d2-282e-465
     setError('')
 
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await getSupabaseBrowser().auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirectTo)}`,
