@@ -34,12 +34,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [initialized, setInitialized] = useState(false)
+  const [hasExplicitlySignedOut, setHasExplicitlySignedOut] = useState(false)
 
   // Derived state - computed once per render
   const baseIsAuthenticated = Boolean(user && session)
 
-  // Development mode bypass for authentication - more aggressive bypass
-  const isDevelopmentBypass = process.env.NODE_ENV === 'development' && !baseIsAuthenticated
+  // Development mode bypass for authentication - BUT NOT if user has explicitly signed out
+  const isDevelopmentBypass = process.env.NODE_ENV === 'development' && !baseIsAuthenticated && !hasExplicitlySignedOut
   const isAuthenticated = baseIsAuthenticated || isDevelopmentBypass
 
   // Debug logging for development
@@ -159,10 +160,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Sign out
   const signOut = useCallback(async () => {
     try {
+      console.log('🚪 Signing out...')
+      // Set flag BEFORE clearing state to prevent development bypass from kicking in
+      setHasExplicitlySignedOut(true)
       await supabase.auth.signOut()
       setUser(null)
       setSession(null)
       setProfile(null)
+      console.log('✅ Sign out complete, redirecting...')
       // Redirect to home page after sign out
       if (typeof window !== 'undefined') {
         window.location.href = '/'
@@ -289,6 +294,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setUser(session?.user ?? null)
 
           if (session?.user && event === 'SIGNED_IN') {
+            // Reset the sign out flag when user signs in
+            setHasExplicitlySignedOut(false)
             const isSuper = AuthRecovery.isAdminEmail(session.user.email)
             let profileData = await fetchProfile(session.user.id)
 
