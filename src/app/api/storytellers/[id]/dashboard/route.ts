@@ -3,8 +3,10 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { getAuthenticatedUser, canAccessStoryteller, isSuperAdmin } from '@/lib/auth/api-auth'
 
-// Create client inside handler to ensure env vars are available at runtime
+// Service client for admin access (bypasses RLS)
 function getServiceClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -98,12 +100,46 @@ export async function GET(
     const { id: storytellerId } = await params
     const requestUrl = new URL(request.url)
     const organizationId = requestUrl.searchParams.get('org')
-
-    // Create Supabase client at runtime
-    const supabase = getServiceClient()
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 
     console.log('🔍 Fetching storyteller dashboard:', storytellerId, 'Org context:', organizationId)
+
+    // ========================================
+    // AUTHENTICATION CHECK
+    // ========================================
+    const { user, error: authError } = await getAuthenticatedUser()
+
+    if (authError || !user) {
+      console.log('🔐 Dashboard API: Unauthorized access attempt')
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - Please sign in' },
+        { status: 401 }
+      )
+    }
+
+    console.log('🔐 Dashboard API: Authenticated user:', user.email)
+
+    // ========================================
+    // AUTHORIZATION CHECK
+    // ========================================
+    const { allowed, reason } = await canAccessStoryteller(user.id, user.email, storytellerId)
+
+    if (!allowed) {
+      console.log('🔐 Dashboard API: Forbidden access attempt:', reason)
+      return NextResponse.json(
+        { success: false, error: reason || 'Forbidden' },
+        { status: 403 }
+      )
+    }
+
+    // ========================================
+    // SELECT CLIENT BASED ON ACCESS LEVEL
+    // ========================================
+    // Use service client for admins (can view any user), session client for self
+    const isAdmin = isSuperAdmin(user.email)
+    const supabase = isAdmin ? getServiceClient() : await createSupabaseServerClient()
+
+    console.log('🔐 Dashboard API: Access granted, isAdmin:', isAdmin)
 
     // Handle development mode with fake user - fetch REAL data from database
     if (process.env.NODE_ENV === 'development' && storytellerId === 'dev-super-admin') {

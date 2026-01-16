@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useParams, useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useAuth } from '@/lib/context/auth.context'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -124,9 +125,12 @@ interface ApiResponse {
 export default function StorytellerDashboard() {
   const params = useParams()
   const searchParams = useSearchParams()
+  const router = useRouter()
+  const { user, isAuthenticated, isLoading: authLoading, isSuperAdmin } = useAuth()
+
   const storytellerId = params.id as string
   const organizationId = searchParams.get('org')
-  
+
   const [data, setData] = useState<StorytellerDetail | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -140,22 +144,55 @@ export default function StorytellerDashboard() {
   })
   const [isCreatingTranscript, setIsCreatingTranscript] = useState(false)
 
+  // Redirect to own dashboard if user tries to access another user's dashboard (and not admin)
   useEffect(() => {
+    if (!authLoading && isAuthenticated && user) {
+      const isOwnDashboard = user.id === storytellerId
+      const canViewOthers = isSuperAdmin
+
+      if (!isOwnDashboard && !canViewOthers) {
+        console.log('🔐 Redirecting to own dashboard - cannot access other users')
+        router.replace(`/storytellers/${user.id}/dashboard${organizationId ? `?org=${organizationId}` : ''}`)
+      }
+    }
+  }, [authLoading, isAuthenticated, user, storytellerId, isSuperAdmin, organizationId, router])
+
+  useEffect(() => {
+    // Don't fetch if still loading auth or if user will be redirected
+    if (authLoading) return
+    if (!isAuthenticated) {
+      setError('Please sign in to view your dashboard')
+      setIsLoading(false)
+      return
+    }
+
     const fetchDashboard = async () => {
       try {
         setIsLoading(true)
         console.log('🔍 Fetching dashboard for storyteller:', storytellerId)
-        
+
         const url = `/api/storytellers/${storytellerId}/dashboard${organizationId ? `?org=${organizationId}` : ''}`
-        const response = await fetch(url)
+        const response = await fetch(url, {
+          credentials: 'include' // Include cookies for auth
+        })
         const result: ApiResponse = await response.json()
-        
+
         console.log('📊 Dashboard API response:', result)
-        
+
+        if (!response.ok) {
+          // Handle specific error codes
+          if (response.status === 401) {
+            throw new Error('Please sign in to view this dashboard')
+          } else if (response.status === 403) {
+            throw new Error('You do not have permission to view this dashboard')
+          }
+          throw new Error(result.error || 'Failed to fetch storyteller data')
+        }
+
         if (!result.success) {
           throw new Error(result.error || 'Failed to fetch storyteller data')
         }
-        
+
         setData(result.storyteller)
       } catch (err) {
         console.error('❌ Error fetching storyteller dashboard:', err)
@@ -166,7 +203,7 @@ export default function StorytellerDashboard() {
     }
 
     fetchDashboard()
-  }, [storytellerId, organizationId])
+  }, [storytellerId, organizationId, authLoading, isAuthenticated])
 
   const getInitials = (name: string) => {
     return name

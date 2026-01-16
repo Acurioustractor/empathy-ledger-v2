@@ -19,10 +19,10 @@ const getSupabaseEnv = () => {
   return { supabaseUrl, supabaseAnonKey, supabaseServiceKey }
 }
 
-// Server-side Supabase client for App Router
-export const createSupabaseServerClient = () => {
+// Server-side Supabase client for App Router (session-aware, uses anon key)
+export const createSupabaseServerClient = async () => {
   const { supabaseUrl, supabaseAnonKey } = getSupabaseEnv()
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
 
   return createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
     cookies: {
