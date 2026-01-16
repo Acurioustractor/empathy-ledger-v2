@@ -7,7 +7,7 @@ export async function POST(
 ) {
   try {
     const { id } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const { data: { user } } = await supabase.auth.getUser()
     const viewerIp = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'

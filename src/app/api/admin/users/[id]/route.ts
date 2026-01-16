@@ -12,7 +12,7 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Temporarily bypass auth check for development
     console.log('Bypassing auth check for individual user fetch')
@@ -152,7 +152,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Temporarily bypass auth check for development
     console.log('Bypassing auth check for user update')
@@ -197,7 +197,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Get the current user to verify super admin access
     const { data: { user }, error: authError } = await supabase.auth.getUser()

@@ -8,7 +8,7 @@ export async function POST(
   try {
     const { id } = await params
     const { platform } = await request.json()
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const { data: { user } } = await supabase.auth.getUser()
 

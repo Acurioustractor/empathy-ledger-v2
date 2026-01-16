@@ -13,7 +13,7 @@ interface ManageProjectPageProps {
 
 export default async function ManageProjectPage({ params }: ManageProjectPageProps) {
   const { id: organizationId, projectId } = await params
-  const supabase = createSupabaseServerClient()
+  const supabase = await createSupabaseServerClient()
 
   // Get project details
   const { data: project } = await supabase

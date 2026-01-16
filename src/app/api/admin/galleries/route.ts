@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     const visibility = searchParams.get('visibility') || ''
     const sensitivity = searchParams.get('sensitivity') || ''
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     let query = supabase
       .from('galleries')
@@ -148,7 +148,7 @@ export async function POST(request: Request) {
   try {
     console.log('Creating new gallery')
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const galleryData = await request.json()
 
     console.log('Received gallery data:', galleryData)
@@ -274,7 +274,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Gallery ID is required' }, { status: 400 })
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Delete the gallery
     const { error } = await supabase

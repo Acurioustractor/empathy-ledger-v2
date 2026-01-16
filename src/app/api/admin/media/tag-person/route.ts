@@ -24,7 +24,7 @@ import { createFaceRecognition } from '@/lib/media-intelligence/face-recognition
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const body = await request.json()
     const { faceId, storytellerId, mediaId, faceLocation } = body as {
@@ -158,7 +158,7 @@ export async function POST(request: NextRequest) {
  */
 export async function DELETE(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const body = await request.json()
     const { faceId } = body as { faceId: string }
@@ -215,7 +215,7 @@ export async function DELETE(request: NextRequest) {
  */
 export async function PATCH(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const body = await request.json()
     const { faceId, consent, canBePublic } = body as {

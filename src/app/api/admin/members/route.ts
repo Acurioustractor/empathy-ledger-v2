@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
     console.log('🔓 Bypassing auth check for admin member management')
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     let query = supabase
       .from('profile_organizations')
@@ -179,7 +179,7 @@ export async function DELETE(request: NextRequest) {
 
     console.log('🔓 Super admin removing member:', { memberId, organizationId })
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get member and organisation names for response
     const [memberResult, orgResult] = await Promise.all([
@@ -257,7 +257,7 @@ export async function POST(request: NextRequest) {
 
     console.log('🔓 Super admin adding member to organisation:', { memberId, organizationId, role })
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Check if relationship already exists
     const { data: existing } = await supabase

@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Verify user exists and has permissions
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { data: user, error: userError } = await supabase
       .from('profiles')
       .select('id, display_name, cultural_affiliations, is_elder')
@@ -224,7 +224,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify user
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { data: user, error: userError } = await supabase
       .from('profiles')
       .select('id, display_name, cultural_affiliations, is_elder')
@@ -411,7 +411,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Verify user has elevated permissions for batch operations
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { data: user, error: userError } = await supabase
       .from('profiles')
       .select('id, is_elder, community_roles')

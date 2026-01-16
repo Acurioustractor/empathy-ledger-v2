@@ -15,7 +15,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
   const { id: projectId } = await context.params
   
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Get current user
     const { data: { user }, error: userError } = await supabase.auth.getUser()
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest, context: RouteContext) {
   const { id: projectId } = await context.params
   
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Get current user
     const { data: { user }, error: userError } = await supabase.auth.getUser()

@@ -21,7 +21,7 @@ export async function GET(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // First, check if this ID is from the storytellers table
     // If so, get the storyteller data directly
@@ -602,7 +602,7 @@ export async function PUT(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Extract storyteller fields vs profile fields
     const storytellerFields = {
@@ -690,7 +690,7 @@ export async function DELETE(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Soft delete by setting status to inactive
     const { error } = await supabase

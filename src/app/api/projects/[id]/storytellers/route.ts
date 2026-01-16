@@ -11,7 +11,7 @@ import { createSupabaseServerClient, createSupabaseServiceClient } from '@/lib/s
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     const { id: projectId } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     console.log('🎯 API: Getting storytellers for project:', projectId)
 
@@ -109,7 +109,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       return NextResponse.json({ error: 'Storyteller ID is required' }, { status: 400 })
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Check if project exists
     const { data: project } = await supabase
@@ -207,7 +207,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       return NextResponse.json({ error: 'Link ID is required' }, { status: 400 })
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const updateData: any = { updated_at: new Date().toISOString() }
     if (role) updateData.role = role
@@ -252,7 +252,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
       return NextResponse.json({ error: 'Link ID is required' }, { status: 400 })
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const { error } = await supabase
       .from('project_participants')

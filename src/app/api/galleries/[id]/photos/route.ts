@@ -16,7 +16,7 @@ export async function GET(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id } = await params
 
     // Get gallery photos through the photo_gallery_items junction table

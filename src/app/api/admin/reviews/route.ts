@@ -10,7 +10,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { searchParams } = new URL(request.url)
 
     const reviewType = searchParams.get('type') // 'editor', 'elder', or null for all

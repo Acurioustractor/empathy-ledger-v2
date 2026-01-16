@@ -98,7 +98,7 @@ async function ensureCompendiumTag(supabase: any) {
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient() as any
+    const supabase = await createSupabaseServerClient() as any
     const { searchParams } = new URL(request.url)
 
     const search = searchParams.get('search')?.trim()
@@ -239,7 +239,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient() as any
+    const supabase = await createSupabaseServerClient() as any
     const payload = await request.json().catch(() => ({}))
 
     const ids = Array.isArray(payload.ids) ? payload.ids.filter(Boolean) : []

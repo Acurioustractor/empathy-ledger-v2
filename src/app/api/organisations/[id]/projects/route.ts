@@ -13,7 +13,7 @@ export async function GET(
 ) {
   try {
     const { id: organizationId } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get all projects for this organisation
     const { data: projects, error } = await supabase
@@ -40,7 +40,7 @@ export async function POST(
 ) {
   try {
     const { id: organizationId } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get organization to validate and get tenant_id
     const { data: organization, error: orgError } = await supabase

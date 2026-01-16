@@ -16,7 +16,7 @@ export async function GET(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id: mediaId } = await params
     
     // Check authentication
@@ -166,7 +166,7 @@ export async function POST(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id: mediaId } = await params
     
     // Check authentication
@@ -274,7 +274,7 @@ export async function PUT(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id: mediaId } = await params
     
     let body = {}

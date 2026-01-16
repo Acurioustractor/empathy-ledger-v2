@@ -21,7 +21,7 @@ import { createPhotoAnalyzer, PhotoAnalysisResult } from '@/lib/media-intelligen
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get request body
     const body = await request.json()
@@ -152,7 +152,7 @@ export async function POST(request: NextRequest) {
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const { searchParams } = new URL(request.url)
     const mediaId = searchParams.get('mediaId')

@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     if (analyzeAll) {
       // Analyze all storytellers
@@ -173,7 +173,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get latest analysis
     const { data: latestAnalysis, error } = await supabase

@@ -32,7 +32,7 @@ export async function GET(
       isElder: false
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Try to get organisation roles (may fail due to PostgREST cache issue)
     let roles: any[] = []
@@ -145,7 +145,7 @@ export async function POST(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Check if assigner has authority to assign this role
     const assignerRole = context!.userRole as OrganizationRole
@@ -282,7 +282,7 @@ export async function PUT(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get the role assignment
     const { data: roleAssignment } = await supabase

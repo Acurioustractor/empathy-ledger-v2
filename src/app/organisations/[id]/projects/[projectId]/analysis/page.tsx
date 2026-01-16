@@ -9,7 +9,7 @@ interface ProjectAnalysisPageProps {
 
 export default async function ProjectAnalysisPage({ params }: ProjectAnalysisPageProps) {
   const { id: organizationId, projectId } = params
-  const supabase = createSupabaseServerClient()
+  const supabase = await createSupabaseServerClient()
 
   // Get project details
   const { data: project } = await supabase
@@ -133,7 +133,7 @@ export default async function ProjectAnalysisPage({ params }: ProjectAnalysisPag
 // Generate metadata for SEO
 export async function generateMetadata({ params }: ProjectAnalysisPageProps) {
   const { projectId } = await params
-  const supabase = createSupabaseServerClient()
+  const supabase = await createSupabaseServerClient()
 
   const { data: project } = await supabase
     .from('projects')

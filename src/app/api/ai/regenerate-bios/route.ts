@@ -13,7 +13,7 @@ import { openai } from '@ai-sdk/openai'
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get all storytellers with their stories and transcripts
     const { data: storytellers, error } = await supabase

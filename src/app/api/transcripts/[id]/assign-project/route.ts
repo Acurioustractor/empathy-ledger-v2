@@ -15,7 +15,7 @@ export async function PATCH(
     const { id: transcriptId } = await params
     const { projectId } = await request.json()
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Update the transcript with the new project assignment
     const { error } = await supabase

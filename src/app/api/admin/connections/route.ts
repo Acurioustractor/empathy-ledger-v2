@@ -35,7 +35,7 @@ type ProjectRole = 'lead' | 'contributor' | 'storyteller' | 'advisor' | 'partici
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const connectionData: ConnectionRequest = await request.json()
 
     console.log('🌟 Creating world-class connection:', {
@@ -223,7 +223,7 @@ async function createProjectConnection(supabase: any, data: ConnectionRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { searchParams } = new URL(request.url)
     const storytellerId = searchParams.get('storyteller_id')
 

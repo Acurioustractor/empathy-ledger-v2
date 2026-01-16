@@ -21,7 +21,7 @@ export async function GET(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get media files for the storyteller
     const { data: media, error } = await supabase

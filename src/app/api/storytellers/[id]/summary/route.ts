@@ -13,7 +13,7 @@ export async function GET(
 ) {
   try {
     const { id: storytellerId } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const { data: profile, error } = await supabase
       .from('profiles')
@@ -62,7 +62,7 @@ export async function PUT(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Update the profile summary
     const { data, error } = await supabase

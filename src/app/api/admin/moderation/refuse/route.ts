@@ -11,7 +11,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const body = await request.json()
     const { storyId, destinations, reason } = body
 

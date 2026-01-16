@@ -28,7 +28,7 @@ export async function GET(
       isElder: false
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     console.log('🏢 Fetching organisation dashboard data for:', organizationId)
 

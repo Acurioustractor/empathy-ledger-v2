@@ -22,7 +22,7 @@ export async function POST(
 ) {
   try {
     const { id: projectId } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Development mode bypass - skip all auth checks
     const isDevelopment = process.env.NODE_ENV === 'development'

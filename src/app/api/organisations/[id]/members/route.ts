@@ -22,7 +22,7 @@ export async function POST(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get organisation to find tenant_id
     const { data: organisation } = await supabase
@@ -94,7 +94,7 @@ export async function GET(
 ) {
   try {
     const { id: organizationId } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get organisation to find tenant_id
     const { data: organisation } = await supabase
@@ -180,7 +180,7 @@ export async function DELETE(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Check if current user is super admin (bypass for development)
     const { data: { user } } = await supabase.auth.getUser()

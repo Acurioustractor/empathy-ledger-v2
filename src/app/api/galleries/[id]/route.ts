@@ -18,7 +18,7 @@ export async function GET(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id } = await params
 
     console.log('🔍 Fetching standalone gallery:', id)
@@ -181,7 +181,7 @@ export async function PUT(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id } = await params
 
     // Check authentication
@@ -233,7 +233,7 @@ export async function DELETE(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id } = await params
 
     // Check authentication

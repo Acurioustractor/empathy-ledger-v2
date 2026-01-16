@@ -16,7 +16,7 @@ export async function POST(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id: galleryId } = await params
 
     // Parse request body
@@ -124,7 +124,7 @@ export async function DELETE(
   { params }: { params: Promise<Params> }
 ) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id: galleryId } = await params
 
     // Get association_id from query params

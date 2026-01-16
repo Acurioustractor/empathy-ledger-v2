@@ -10,7 +10,7 @@ interface ProjectPageProps {
 }
 
 async function getProject(projectId: string) {
-  const supabase = createSupabaseServerClient()
+  const supabase = await createSupabaseServerClient()
 
   const { data: project, error } = await supabase
     .from('projects')
@@ -30,7 +30,7 @@ async function getProject(projectId: string) {
 }
 
 async function getProjectRelationships(projectId: string) {
-  const supabase = createSupabaseServerClient()
+  const supabase = await createSupabaseServerClient()
 
   // Get project organisations
   const { data: organisations } = await supabase
@@ -98,7 +98,7 @@ async function getProjectRelationships(projectId: string) {
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { id } = await params
-  const supabase = createSupabaseServerClient()
+  const supabase = await createSupabaseServerClient()
 
   const [project, relationships] = await Promise.all([
     getProject(id),

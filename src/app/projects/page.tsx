@@ -4,7 +4,7 @@ import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
 
 async function getAllProjects() {
-  const supabase = createSupabaseServerClient()
+  const supabase = await createSupabaseServerClient()
   
   const { data: projects, error } = await supabase
     .from('projects')

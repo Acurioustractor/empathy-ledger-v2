@@ -45,7 +45,7 @@ async function verifyOrganizationAccess(organizationId: string) {
     }
   }
 
-  const supabase = createSupabaseServerClient()
+  const supabase = await createSupabaseServerClient()
 
   // Only log in development mode for debugging
   if (adminConfig.isDevelopmentMode()) {

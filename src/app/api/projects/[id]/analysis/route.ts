@@ -121,7 +121,7 @@ interface ProjectAnalysisData {
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: projectId } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Check which AI model to use
     const { searchParams } = new URL(request.url)

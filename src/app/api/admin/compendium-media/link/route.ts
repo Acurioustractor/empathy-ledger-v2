@@ -49,7 +49,7 @@ async function ensureCompendiumGallery(supabase: any) {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient() as any
+    const supabase = await createSupabaseServerClient() as any
     const payload = await request.json().catch(() => ({}))
 
     const mediaIds = Array.isArray(payload.mediaIds)

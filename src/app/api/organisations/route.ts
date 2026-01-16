@@ -10,7 +10,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 export async function GET(request: NextRequest) {
   try {
     console.log('🔓 Bypassing auth check for organisations API - FORCE RECOMPILE')
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Skip auth in development
     // const authResult = await requireAdminAuth(request)

@@ -34,7 +34,7 @@ interface ConnectionSuggestion {
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { searchParams } = new URL(request.url)
     const storytellerId = searchParams.get('storyteller_id')
 

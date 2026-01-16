@@ -22,7 +22,7 @@ export async function POST(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get the profile to create storyteller from
     const { data: profile, error: profileError } = await supabase

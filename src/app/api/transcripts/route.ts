@@ -20,7 +20,7 @@ import { TranscriptProcessingPipeline } from '@/lib/workflows/transcript-process
 export async function GET(request: NextRequest) {
   try {
     console.log('🔓 Bypassing auth check for transcripts API')
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Skip auth in development
     // const authResult = await requireAdminAuth(request)
@@ -103,7 +103,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Skip auth in development for storyteller creation wizard
     console.log('🔓 Bypassing auth check for transcript creation')

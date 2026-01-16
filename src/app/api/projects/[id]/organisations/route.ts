@@ -11,7 +11,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: projectId } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     console.log('🏢 API: Getting organisations for project:', projectId)
 
@@ -121,7 +121,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
       return NextResponse.json({ error: 'Organization ID is required' }, { status: 400 })
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Check if project exists
     const { data: project } = await supabase
@@ -204,7 +204,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: 'Link ID is required' }, { status: 400 })
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const { error } = await supabase
       .from('project_organizations')

@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify the author exists
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { data: author, error: authorError } = await supabase
       .from('profiles')
       .select('id, display_name, is_elder')
@@ -141,7 +141,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Verify elder permissions
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { data: elder, error: elderError } = await supabase
       .from('profiles')
       .select('id, display_name, is_elder')
@@ -234,7 +234,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Verify elder permissions
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { data: elder, error: elderError } = await supabase
       .from('profiles')
       .select('id, display_name, is_elder')
@@ -339,7 +339,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     // Verify user and get moderation result
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { data: user } = await supabase
       .from('profiles')
       .select('id, display_name')

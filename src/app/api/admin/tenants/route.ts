@@ -11,7 +11,7 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin tenants')
@@ -99,7 +99,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin tenants create')
@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin tenants update')
@@ -182,7 +182,7 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin tenants delete')

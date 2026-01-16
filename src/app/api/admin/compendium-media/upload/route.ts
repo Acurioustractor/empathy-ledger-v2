@@ -19,7 +19,7 @@ const slugify = (value: string) =>
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient() as any
+    const supabase = await createSupabaseServerClient() as any
     const formData = await request.formData()
     const files = formData.getAll('files').filter(Boolean) as File[]
 

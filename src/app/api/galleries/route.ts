@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     const organizationId = searchParams.get('organization_id')
     const featured = searchParams.get('featured') === 'true'
     
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Get current user to check permissions
     const { data: { user } } = await supabase.auth.getUser()
@@ -161,7 +161,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()

@@ -14,7 +14,7 @@ import { openai } from '@ai-sdk/openai'
 export async function POST(request: NextRequest) {
   try {
     const { storytellerIds, forceAll = false } = await request.json()
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     let query = supabase
       .from('profiles')

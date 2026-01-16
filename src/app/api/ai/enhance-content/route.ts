@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify user has permission to enhance content
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { data: story, error: storyError } = await supabase
       .from('stories')
       .select(`
@@ -203,7 +203,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Verify user has access to this story
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { data: story, error: storyError } = await supabase
       .from('stories')
       .select('id, title, author_id, cultural_sensitivity_level, elder_approval')
@@ -323,7 +323,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Verify user has permission for batch enhancement
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { data: user } = await supabase
       .from('profiles')
       .select('id, is_elder, cultural_permissions')

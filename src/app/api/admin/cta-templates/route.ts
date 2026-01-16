@@ -10,7 +10,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { searchParams } = new URL(request.url)
     const articleType = searchParams.get('articleType')
 

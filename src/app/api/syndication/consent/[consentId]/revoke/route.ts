@@ -17,7 +17,7 @@ export async function POST(
 ) {
   try {
     const { consentId } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // 1. Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()

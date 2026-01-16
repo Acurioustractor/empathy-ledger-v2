@@ -15,7 +15,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const storytellerId = params.id
 
     console.log('🔍 Fetching enhanced profile with impact data for:', storytellerId)

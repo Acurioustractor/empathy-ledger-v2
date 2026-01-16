@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Fetch storyteller data
     const [profileResult, storiesResult, transcriptsResult, quotesResult] = await Promise.all([
@@ -169,7 +169,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get enhancement history
     const { data: enhancementHistory, error } = await supabase
@@ -227,7 +227,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     if (action === 'apply') {
       // Get the enhancement recommendations

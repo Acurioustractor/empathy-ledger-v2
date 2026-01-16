@@ -34,7 +34,7 @@ export async function POST(
     console.log('⚠️ TEMPORARILY BYPASSING AUTH FOR REVIEW DECISIONS')
     const reviewerId = 'test-admin-id' // TODO: Get from auth context
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     console.log('📝 Processing review decision:', { reviewId, decision: decision.type })
 

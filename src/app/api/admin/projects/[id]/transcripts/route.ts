@@ -9,7 +9,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id: projectId } = await params
     
     console.log('Getting transcripts for project:', projectId)
@@ -123,7 +123,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id: projectId } = await params
     
     console.log('Creating transcript for project:', projectId)
@@ -213,7 +213,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id: projectId } = await params
     
     const { transcriptId, ...updateData } = await request.json()
@@ -276,7 +276,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const { id: projectId } = await params
     const { searchParams } = new URL(request.url)
     const transcriptId = searchParams.get('transcriptId')

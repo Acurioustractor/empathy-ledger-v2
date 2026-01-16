@@ -27,7 +27,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // 1. Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -210,7 +210,7 @@ export async function POST(request: NextRequest) {
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // 1. Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()

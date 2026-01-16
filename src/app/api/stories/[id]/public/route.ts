@@ -11,7 +11,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // First get the story with storyteller
     const { data: story, error } = await supabase

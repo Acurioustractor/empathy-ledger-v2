@@ -5,7 +5,7 @@ interface SimpleTestProps {
 }
 
 async function getBasicOrganizationData(organizationId: string) {
-  const supabase = createSupabaseServerClient()
+  const supabase = await createSupabaseServerClient()
   
   // Get organisation details - basic test
   const { data: organisation, error } = await supabase

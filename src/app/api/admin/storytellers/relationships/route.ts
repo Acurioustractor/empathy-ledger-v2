@@ -11,7 +11,7 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for storyteller relationships update')

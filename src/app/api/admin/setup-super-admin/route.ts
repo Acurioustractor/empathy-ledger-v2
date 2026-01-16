@@ -10,7 +10,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     const body = await request.json()
     const { profileId, setupKey } = body
 
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const { searchParams } = new URL(request.url)
     const setupKey = searchParams.get('key')

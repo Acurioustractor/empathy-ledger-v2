@@ -11,7 +11,7 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const body = await request.json()
     const { story_image_url } = body
@@ -67,7 +67,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     const { data: story, error } = await supabase
       .from('stories')

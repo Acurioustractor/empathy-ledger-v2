@@ -22,7 +22,7 @@ export async function POST(
       )
     }
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get organisation to find tenant_id
     const { data: organisation } = await supabase

@@ -15,7 +15,7 @@ export async function DELETE(
     const { id: organizationId, storytellerId } = await params
     console.log('🗑️ Removing storyteller:', storytellerId, 'from organisation:', organizationId)
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get organisation details
     const { data: organisation, error: orgError } = await supabase

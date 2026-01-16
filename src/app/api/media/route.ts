@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     const uploaderSearch = searchParams.get('uploader')
     const search = searchParams.get('search')
 
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Get current user
     const { data: { user } } = await supabase.auth.getUser()

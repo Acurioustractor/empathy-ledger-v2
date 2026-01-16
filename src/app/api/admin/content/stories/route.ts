@@ -11,7 +11,7 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin content stories')
@@ -117,7 +117,7 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin content stories update')

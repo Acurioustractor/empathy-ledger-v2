@@ -15,7 +15,7 @@ import { validateRequest, ValidationPatterns } from '@/lib/utils/validation'
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Temporarily bypass auth check
     console.log('Bypassing auth check for admin media gallery linking')

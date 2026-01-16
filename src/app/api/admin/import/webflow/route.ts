@@ -12,7 +12,7 @@ import type { WebflowImportRequest } from '@/types/webflow'
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Check authentication
     const { data: { user } } = await supabase.auth.getUser()
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
 
     // Check authentication
     const { data: { user } } = await supabase.auth.getUser()
