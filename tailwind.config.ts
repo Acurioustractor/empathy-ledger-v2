@@ -113,20 +113,7 @@ const config: Config = {
           900: '#3d2d1c',
           950: '#2a1f12',
         },
-        // Accent - Sage Green
-        sage: {
-          50: '#f7f8f6',
-          100: '#e8ebe5',
-          200: '#d2d7ca',
-          300: '#b7c2ae',
-          400: '#9cad92',
-          500: '#7e9774',
-          600: '#67805c',
-          700: '#526946',
-          800: '#3e5131',
-          900: '#2a3620',
-          950: '#1d2416',
-        },
+        // Accent - Sage Green (using primary sage definition above)
         // Accent - Sky Blue (Trust/Transparency)
         sky: {
           50: '#f0f9ff',
