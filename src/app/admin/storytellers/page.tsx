@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/lib/context/auth.context'
 import { Search, Filter, Download, Eye, Edit, MoreHorizontal, Users, BookOpen, Activity, MapPin, Building2, Star, Crown, FileText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -69,6 +70,7 @@ interface Storyteller {
 
 export default function AdminStorytellersPage() {
   const router = useRouter()
+  const { isLoading: isAuthLoading, isAuthenticated } = useAuth()
   const [storytellers, setStorytellers] = useState<Storyteller[]>([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
@@ -136,8 +138,11 @@ export default function AdminStorytellersPage() {
   }
 
   useEffect(() => {
-    fetchStorytellers(currentPage)
-  }, [currentPage, storytellerFilters])
+    // Wait for auth to complete before making API calls
+    if (!isAuthLoading && isAuthenticated) {
+      fetchStorytellers(currentPage)
+    }
+  }, [isAuthLoading, isAuthenticated, currentPage, storytellerFilters])
 
   const handleSearch = (value: string) => {
     updateStorytellerFilters({ search: value })
@@ -393,6 +398,18 @@ export default function AdminStorytellersPage() {
   const getInitials = (name: string) => {
     if (!name) return 'U'
     return name.split(' ').map(n => n.charAt(0)).join('').toUpperCase().slice(0, 2)
+  }
+
+  // Show loading while auth initializes
+  if (isAuthLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-earth-600 mx-auto mb-4"></div>
+          <p className="text-grey-600">Loading...</p>
+        </div>
+      </div>
+    )
   }
 
   return (

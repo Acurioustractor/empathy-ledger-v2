@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useAuth } from '@/lib/context/auth.context'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -24,6 +25,7 @@ import {
 } from 'lucide-react'
 
 const AdminDashboard: React.FC = () => {
+  const { isLoading: isAuthLoading, isAuthenticated } = useAuth()
   const [stats, setStats] = useState({
     // Users
     totalStorytellers: 0,
@@ -100,10 +102,12 @@ const AdminDashboard: React.FC = () => {
     }
   }
 
-  // Load data on mount
+  // Load data when auth is ready
   useEffect(() => {
-    fetchAdminStats()
-  }, [])
+    if (!isAuthLoading && isAuthenticated) {
+      fetchAdminStats()
+    }
+  }, [isAuthLoading, isAuthenticated])
 
   // Calculate attention items
   const attentionItems = []
@@ -133,6 +137,18 @@ const AdminDashboard: React.FC = () => {
       color: 'text-purple-600',
       bgColor: 'bg-purple-50'
     })
+  }
+
+  // Show loading while auth initializes
+  if (isAuthLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-earth-600 mx-auto mb-4"></div>
+          <p className="text-grey-600">Loading...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
