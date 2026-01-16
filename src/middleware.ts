@@ -2,6 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  // Create response early so we can modify cookies on it
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -15,6 +16,7 @@ export async function middleware(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
+          // Update both the request (for this middleware chain) and the response (for the browser)
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
@@ -27,10 +29,27 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session if expired - required for Server Components
+  // IMPORTANT: Don't use getSession() here - it doesn't validate the JWT
+  // Use getUser() which actually validates the token with Supabase
   const {
     data: { user },
+    error,
   } = await supabase.auth.getUser()
+
+  // Debug logging for auth issues (only in production for protected routes)
+  const isProtectedPath = request.nextUrl.pathname.includes('profile') ||
+                          request.nextUrl.pathname.includes('admin') ||
+                          request.nextUrl.pathname.includes('dashboard')
+
+  if (isProtectedPath) {
+    console.log('🔐 Middleware auth check:', {
+      path: request.nextUrl.pathname,
+      hasUser: !!user,
+      userEmail: user?.email,
+      error: error?.message,
+      cookieNames: request.cookies.getAll().map(c => c.name).filter(n => n.includes('supabase') || n.includes('auth'))
+    })
+  }
 
   // Protect admin routes
   if (request.nextUrl.pathname.startsWith('/admin')) {

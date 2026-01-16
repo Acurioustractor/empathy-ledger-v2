@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { createServerClient } from '@supabase/ssr'
 
 // Force dynamic rendering for this route since it uses request.url
 export const dynamic = 'force-dynamic'
@@ -7,14 +7,32 @@ export const dynamic = 'force-dynamic'
 export async function GET(request: NextRequest) {
   try {
     console.log('🔄 Processing OAuth callback...')
-    
+
     const { searchParams, origin } = new URL(request.url)
     const code = searchParams.get('code')
-    const next = searchParams.get('redirect') || '/storytellers/d0a162d2-282e-4653-9d12-aa934c9dfa4e/dashboard'
-    
+    const next = searchParams.get('redirect') || '/dashboard'
+
     if (code) {
-      const supabase = createSupabaseServerClient()
-      
+      // Create a response object to attach cookies to
+      const response = NextResponse.redirect(`${origin}${next}`)
+
+      const supabase = createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+          cookies: {
+            getAll() {
+              return request.cookies.getAll()
+            },
+            setAll(cookiesToSet) {
+              cookiesToSet.forEach(({ name, value, options }) => {
+                response.cookies.set(name, value, options)
+              })
+            },
+          },
+        }
+      )
+
       console.log('🔐 Exchanging OAuth code for session...')
       const { data, error } = await supabase.auth.exchangeCodeForSession(code)
       
@@ -60,11 +78,12 @@ export async function GET(request: NextRequest) {
           }
         }
         
-        console.log('🔄 Redirecting to:', next)
-        return NextResponse.redirect(`${origin}${next}`)
+        console.log('🔄 Redirecting to:', next, '(with auth cookies)')
+        // Return the response with the cookies set
+        return response
       }
     }
-    
+
     console.error('❌ No code provided in OAuth callback')
     return NextResponse.redirect(`${origin}/auth/signin?error=oauth_error`)
     
