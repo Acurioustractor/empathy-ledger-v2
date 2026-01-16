@@ -9,8 +9,15 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { WebflowImportService } from '@/lib/services/webflow-import.service'
 import type { WebflowImportRequest } from '@/types/webflow'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function POST(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
 
@@ -113,6 +120,12 @@ export async function POST(request: NextRequest) {
  * Returns import status and configuration options
  */
 export async function GET(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
 

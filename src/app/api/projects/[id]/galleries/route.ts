@@ -7,10 +7,16 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
 
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id: projectId } = params
+    const { id: projectId } = await params
     const supabase = await createSupabaseServerClient()
+
+    // Authentication check
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
     const { data: galleries, error } = await supabase
       .from('photo_galleries')

@@ -4,12 +4,9 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createClient } from '@supabase/supabase-js'
+import { getAuthenticatedUser, canAccessStoryteller } from '@/lib/auth/api-auth'
 
 
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 export async function PATCH(
   request: NextRequest,
@@ -17,7 +14,31 @@ export async function PATCH(
 ) {
   try {
     const { id: storytellerId } = await params
+
+    // Authentication check
+    const { user, error: authError } = await getAuthenticatedUser()
+    if (authError || !user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - Please sign in' },
+        { status: 401 }
+      )
+    }
+
+    // Authorization check
+    const { allowed, reason } = await canAccessStoryteller(user.id, user.email, storytellerId)
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, error: reason || 'Forbidden' },
+        { status: 403 }
+      )
+    }
+
     console.log('🎥 Updating videos for storyteller:', storytellerId)
+
+    // Service client for update (after auth verification)
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
     // Parse the request body
     const body = await request.json()

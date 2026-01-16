@@ -1,5 +1,7 @@
 export const dynamic = 'force-dynamic'
 
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
+
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import {
@@ -26,6 +28,12 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const { id: reviewId } = await params
     const decision: ReviewDecision = await request.json()

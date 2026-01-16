@@ -149,45 +149,13 @@ export async function POST(
     const { id: projectId } = await params
     const supabase = await createSupabaseServerClient()
 
-    // Development mode bypass - skip all auth checks
-    const isDevelopment = process.env.NODE_ENV === 'development'
-    const devBypass = isDevelopment && process.env.NEXT_PUBLIC_DEV_SUPER_ADMIN_EMAIL
-
-    if (!devBypass) {
-      // Production: require authentication
-      const { data: { user }, error: authError } = await supabase.auth.getUser()
-      if (authError || !user) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-      }
-
-      // Get project to check organization membership
-      const { data: project, error: projectError } = await supabase
-        .from('projects')
-        .select('organization_id, name')
-        .eq('id', projectId)
-        .single()
-
-      if (projectError || !project) {
-        return NextResponse.json({ error: 'Project not found' }, { status: 404 })
-      }
-
-      // Verify user is admin or project manager
-      const { data: membership, error: memberError } = await supabase
-        .from('profile_organizations')
-        .select('role')
-        .eq('profile_id', user.id)
-        .eq('organization_id', project.organization_id)
-        .eq('is_active', true)
-        .single()
-
-      if (memberError || !membership || !['admin', 'project_manager'].includes(membership.role)) {
-        return NextResponse.json({ error: 'Must be admin or project manager' }, { status: 403 })
-      }
-    } else {
-      console.log('🔓 DEV MODE: Bypassing auth checks for seed interview API')
+    // Authentication check
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Get project info (needed regardless of auth mode)
+    // Get project to check organization membership
     const { data: project, error: projectError } = await supabase
       .from('projects')
       .select('organization_id, name')
@@ -196,6 +164,19 @@ export async function POST(
 
     if (projectError || !project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+    }
+
+    // Verify user is admin or project manager
+    const { data: membership, error: memberError } = await supabase
+      .from('profile_organizations')
+      .select('role')
+      .eq('profile_id', user.id)
+      .eq('organization_id', project.organization_id)
+      .eq('is_active', true)
+      .single()
+
+    if (memberError || !membership || !['admin', 'project_manager'].includes(membership.role)) {
+      return NextResponse.json({ error: 'Must be admin or project manager' }, { status: 403 })
     }
 
     // Parse request body

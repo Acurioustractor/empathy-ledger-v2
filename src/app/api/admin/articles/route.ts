@@ -3,12 +3,19 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 /**
  * GET /api/admin/articles
  * List all articles with filtering and stats
  */
 export async function GET(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
 
@@ -114,6 +121,12 @@ export async function GET(request: NextRequest) {
  * Create a new article
  */
 export async function POST(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
     const body = await request.json()

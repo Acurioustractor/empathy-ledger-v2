@@ -22,52 +22,13 @@ export async function GET(
     const { id: projectId } = await params
     const supabase = await createSupabaseServerClient()
 
-    // Development mode bypass - skip all auth checks
-    const isDevelopment = process.env.NODE_ENV === 'development'
-    const devBypass = isDevelopment && process.env.NEXT_PUBLIC_DEV_SUPER_ADMIN_EMAIL
-
-    let membership: any = null
-
-    if (!devBypass) {
-      // Production: require authentication
-      const { data: { user }, error: authError } = await supabase.auth.getUser()
-
-      if (authError || !user) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-      }
-
-      // Get project to check organization membership
-      const { data: project, error: projectError } = await supabase
-        .from('projects')
-        .select('organization_id')
-        .eq('id', projectId)
-        .single()
-
-      if (projectError || !project) {
-        return NextResponse.json({ error: 'Project not found' }, { status: 404 })
-      }
-
-      // Verify user is member of organization
-      const { data: userMembership, error: memberError } = await supabase
-        .from('profile_organizations')
-        .select('role')
-        .eq('profile_id', user.id)
-        .eq('organization_id', project.organization_id)
-        .eq('is_active', true)
-        .single()
-
-      if (memberError || !userMembership) {
-        return NextResponse.json({ error: 'Not a member of this organization' }, { status: 403 })
-      }
-
-      membership = userMembership
-    } else {
-      // Development: bypass auth, assume admin role
-      console.log('🔓 DEV MODE: Bypassing auth checks for project context API')
-      membership = { role: 'admin' }
+    // Authentication check
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Get project (needed regardless of auth mode)
+    // Get project to check organization membership
     const { data: project, error: projectError } = await supabase
       .from('projects')
       .select('organization_id')
@@ -76,6 +37,19 @@ export async function GET(
 
     if (projectError || !project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+    }
+
+    // Verify user is member of organization
+    const { data: membership, error: memberError } = await supabase
+      .from('profile_organizations')
+      .select('role')
+      .eq('profile_id', user.id)
+      .eq('organization_id', project.organization_id)
+      .eq('is_active', true)
+      .single()
+
+    if (memberError || !membership) {
+      return NextResponse.json({ error: 'Not a member of this organization' }, { status: 403 })
     }
 
     // Get project context

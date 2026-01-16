@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 /**
  * POST /api/admin/media/verify-tags
@@ -22,6 +23,12 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
  * - Updated tag lists
  */
 export async function POST(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
 
@@ -180,6 +187,12 @@ export async function POST(request: NextRequest) {
  * Get tags for a media asset
  */
 export async function GET(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
 
@@ -237,6 +250,12 @@ export async function GET(request: NextRequest) {
  * - items: Array<{ mediaId: string, action: string, tags: string[] }>
  */
 export async function PATCH(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
 

@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireOrganizationMember, requireOrganizationAdmin } from '@/lib/middleware/organization-role-middleware'
 
 
 
@@ -13,16 +14,16 @@ export async function POST(
 ) {
   try {
     const { id: organizationId } = await params
-    const body = await request.json()
-    
-    if (!organizationId) {
-      return NextResponse.json(
-        { error: 'Organization ID is required' },
-        { status: 400 }
-      )
+
+    // Organization admin check (includes authentication) - only admins can add members
+    const { context, error: authError } = await requireOrganizationAdmin(request, organizationId)
+    if (authError) {
+      return authError
     }
 
     const supabase = await createSupabaseServerClient()
+
+    const body = await request.json()
 
     // Get organisation to find tenant_id
     const { data: organisation } = await supabase
@@ -94,6 +95,13 @@ export async function GET(
 ) {
   try {
     const { id: organizationId } = await params
+
+    // Organization membership check (includes authentication)
+    const { context, error: authError } = await requireOrganizationMember(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
     const supabase = await createSupabaseServerClient()
 
     // Get organisation to find tenant_id
@@ -170,6 +178,13 @@ export async function DELETE(
 ) {
   try {
     const { id: organizationId } = await params
+
+    // Organization admin check (includes authentication) - only admins can remove members
+    const { context, error: authError } = await requireOrganizationAdmin(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
     const { searchParams } = new URL(request.url)
     const memberId = searchParams.get('memberId')
 
@@ -181,42 +196,6 @@ export async function DELETE(
     }
 
     const supabase = await createSupabaseServerClient()
-
-    // Check if current user is super admin (bypass for development)
-    const { data: { user } } = await supabase.auth.getUser()
-    let isSuperAdmin = false
-
-    if (user) {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('is_super_admin')
-        .eq('id', user.id)
-        .single()
-
-      isSuperAdmin = profile?.is_super_admin || false
-    } else {
-      // Development bypass
-      isSuperAdmin = true
-    }
-
-    if (!isSuperAdmin) {
-      // Check if user is organisation admin
-      const { data: membership } = await supabase
-        .from('profile_organizations')
-        .select('role')
-        .eq('organization_id', organizationId)
-        .eq('profile_id', user?.id)
-        .single()
-
-      const canRemove = membership?.role === 'admin' || membership?.role === 'owner'
-
-      if (!canRemove) {
-        return NextResponse.json(
-          { error: 'Insufficient permissions to remove members' },
-          { status: 403 }
-        )
-      }
-    }
 
     // Remove member from organisation (deactivate relationship)
     const { error: removeError } = await supabase

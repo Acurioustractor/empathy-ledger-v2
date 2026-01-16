@@ -5,17 +5,27 @@
  * ACT Framework: Project-level accountability
  */
 
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: projectId } = await params
     const supabase = await createClient();
 
-    // RLS will enforce access control
+    // Authentication check
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // RLS will enforce access control, auth check ensures user is logged in
     const { data: analysis, error } = await supabase
       .from('project_impact_analysis')
       .select(`
@@ -27,7 +37,7 @@ export async function GET(
           created_at
         )
       `)
-      .eq('project_id', params.id)
+      .eq('project_id', projectId)
       .single();
 
     if (error) {
@@ -47,7 +57,7 @@ export async function GET(
 
     // Format response
     const response = {
-      project_id: params.id,
+      project_id: projectId,
       project_name: analysis.project.name,
       project_description: analysis.project.description,
       project_age_months: projectAgeMonths,

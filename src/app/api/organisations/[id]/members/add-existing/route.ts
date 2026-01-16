@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireOrganizationAdmin } from '@/lib/middleware/organization-role-middleware'
 
 
 
@@ -13,8 +14,15 @@ export async function POST(
 ) {
   try {
     const { id: organizationId } = await params
+
+    // Organization admin check (includes authentication) - only admins can add existing members
+    const { context, error: authError } = await requireOrganizationAdmin(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
     const { storytellerId } = await request.json()
-    
+
     if (!organizationId || !storytellerId) {
       return NextResponse.json(
         { error: 'Organization ID and storyteller ID are required' },

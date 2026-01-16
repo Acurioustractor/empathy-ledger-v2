@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
 
 import { createClient } from '@supabase/supabase-js'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 
 

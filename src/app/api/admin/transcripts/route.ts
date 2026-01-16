@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createClient } from '@supabase/supabase-js'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 
 
@@ -33,6 +34,12 @@ function detectVideoPlatform(url?: string | null): string | null {
 }
 
 export async function GET(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const { searchParams } = new URL(request.url)
     const storytellerId = searchParams.get('storyteller_id')
@@ -185,6 +192,12 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const body = (await request.json()) as CreateTranscriptBody
     const {

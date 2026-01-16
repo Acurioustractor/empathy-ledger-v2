@@ -3,12 +3,19 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 /**
  * POST /api/admin/setup-super-admin
  * One-time setup to grant super-admin permissions
  */
 export async function POST(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
     const body = await request.json()
@@ -117,6 +124,12 @@ export async function POST(request: NextRequest) {
  * List all profiles to help identify which one to grant super-admin to
  */
 export async function GET(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
 

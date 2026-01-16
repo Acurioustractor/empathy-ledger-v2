@@ -1,11 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 /**
  * GET /api/admin/media/library
  * Get all media assets for admin (no auth required for now - would add admin check in production)
  */
 export async function GET(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
     const { searchParams } = new URL(request.url)

@@ -5,14 +5,38 @@
  * ACT Framework: Individual sovereignty container
  */
 
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
+import { getAuthenticatedUser, canAccessStoryteller } from '@/lib/auth/api-auth';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: storytellerId } = await params
+
+    // Authentication check
+    const { user, error: authError } = await getAuthenticatedUser()
+    if (authError || !user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - Please sign in' },
+        { status: 401 }
+      )
+    }
+
+    // Authorization check
+    const { allowed, reason } = await canAccessStoryteller(user.id, user.email, storytellerId)
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, error: reason || 'Forbidden' },
+        { status: 403 }
+      )
+    }
+
     const supabase = await createClient();
 
     // RLS will enforce access control
@@ -27,7 +51,7 @@ export async function GET(
           cultural_affiliations
         )
       `)
-      .eq('storyteller_id', params.id)
+      .eq('storyteller_id', storytellerId)
       .single();
 
     if (error) {
@@ -42,7 +66,7 @@ export async function GET(
 
     // Format response according to ACT specification
     const response = {
-      storyteller_id: params.id,
+      storyteller_id: storytellerId,
       storyteller_name: analysis.storyteller
         ? `${analysis.storyteller.given_names} ${analysis.storyteller.family_name}`
         : 'Unknown',

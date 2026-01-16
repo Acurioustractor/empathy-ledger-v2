@@ -3,12 +3,10 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 
-import { createClient } from '@supabase/supabase-js'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireOrganizationMember } from '@/lib/middleware/organization-role-middleware'
 
 
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 export async function GET(
   request: NextRequest,
@@ -16,9 +14,16 @@ export async function GET(
 ) {
   try {
     const { id: organizationId } = await params
+
+    // Organization membership check (includes authentication)
+    const { context, error: authError } = await requireOrganizationMember(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
     console.log(`🔍 Analyzing cross-sector insights for organisation: ${organizationId}`)
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = await createSupabaseServerClient()
 
     // Get organisation details
     const { data: organisation, error: orgError } = await supabase

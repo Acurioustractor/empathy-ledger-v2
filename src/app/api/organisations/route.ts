@@ -4,19 +4,22 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { getAuthenticatedUser } from '@/lib/auth/api-auth'
 
 
 
 export async function GET(request: NextRequest) {
   try {
-    console.log('🔓 Bypassing auth check for organisations API - FORCE RECOMPILE')
-    const supabase = await createSupabaseServerClient()
+    // Authentication check
+    const { user, error: authError } = await getAuthenticatedUser()
+    if (authError || !user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - Please sign in' },
+        { status: 401 }
+      )
+    }
 
-    // Skip auth in development
-    // const authResult = await requireAdminAuth(request)
-    // if (authResult instanceof NextResponse) {
-    //   return authResult
-    // }
+    const supabase = await createSupabaseServerClient()
 
     console.log('🔍 Fetching organisations with stats...')
 

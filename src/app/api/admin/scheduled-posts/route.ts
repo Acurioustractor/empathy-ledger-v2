@@ -17,6 +17,7 @@ import { createServiceRoleClient } from '@/lib/supabase/service-role-client'
  * - limit: number of results (default 50)
  */
 export async function GET(request: NextRequest) {
+  // Require super admin authentication (includes admin check)
   const authResult = await requireSuperAdminAuth(request)
   if (authResult instanceof NextResponse) return authResult
 
@@ -80,6 +81,7 @@ export async function GET(request: NextRequest) {
  * Create a new scheduled post
  */
 export async function POST(request: NextRequest) {
+  // Require super admin authentication (includes admin check)
   const authResult = await requireSuperAdminAuth(request)
   if (authResult instanceof NextResponse) return authResult
 

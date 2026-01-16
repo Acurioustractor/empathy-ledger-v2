@@ -13,6 +13,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const { id: projectId } = await params
     const supabase = await createSupabaseServerClient()
 
+    // Authentication check
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     console.log('🏢 API: Getting organisations for project:', projectId)
 
     // Get the project and its owner organisation
@@ -112,16 +118,22 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 }
 
 // POST /api/projects/[id]/organisations - Add organisation to project
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id: projectId } = params
+    const { id: projectId } = await params
+    const supabase = await createSupabaseServerClient()
+
+    // Authentication check
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const { organization_id, role = 'partner' } = await request.json()
-    
+
     if (!organization_id) {
       return NextResponse.json({ error: 'Organization ID is required' }, { status: 400 })
     }
-
-    const supabase = await createSupabaseServerClient()
 
     // Check if project exists
     const { data: project } = await supabase
@@ -194,17 +206,23 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
 }
 
 // DELETE /api/projects/[id]/organisations?link_id=xxx - Remove organisation from project
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id: projectId } = params
+    const { id: projectId } = await params
+    const supabase = await createSupabaseServerClient()
+
+    // Authentication check
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const { searchParams } = new URL(request.url)
     const linkId = searchParams.get('link_id')
 
     if (!linkId) {
       return NextResponse.json({ error: 'Link ID is required' }, { status: 400 })
     }
-
-    const supabase = await createSupabaseServerClient()
 
     const { error } = await supabase
       .from('project_organizations')

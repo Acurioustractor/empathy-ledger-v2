@@ -2,15 +2,13 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
-
 import { requireSuperAdminAuth } from '@/lib/middleware/admin-auth'
-
 import { createServiceRoleClient } from '@/lib/supabase/service-role-client'
 
 
 
 export async function POST(request: NextRequest) {
-  // Require super admin authentication
+  // Require super admin authentication (includes admin check)
   const authResult = await requireSuperAdminAuth(request)
   if (authResult instanceof NextResponse) {
     return authResult

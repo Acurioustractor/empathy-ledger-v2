@@ -4,20 +4,39 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { individualAnalyticsService } from '@/lib/services/individual-analytics.service'
+import { getAuthenticatedUser, canAccessStoryteller } from '@/lib/auth/api-auth'
 
 
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const storytellerId = params.id
+    const { id: storytellerId } = await params
 
     if (!storytellerId) {
       return NextResponse.json(
         { error: 'Storyteller ID is required' },
         { status: 400 }
+      )
+    }
+
+    // Authentication check
+    const { user, error: authError } = await getAuthenticatedUser()
+    if (authError || !user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - Please sign in' },
+        { status: 401 }
+      )
+    }
+
+    // Authorization check
+    const { allowed, reason } = await canAccessStoryteller(user.id, user.email, storytellerId)
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, error: reason || 'Forbidden' },
+        { status: 403 }
       )
     }
 
@@ -96,13 +115,13 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const storytellerId = params.id
+    const { id: storytellerId } = await params
     const body = await request.json()
-    
-    const { 
+
+    const {
       regenerate = false,
       focusOnProfessionalUse = true,
       includeCulturalContext = true,
@@ -113,6 +132,24 @@ export async function POST(
       return NextResponse.json(
         { error: 'Storyteller ID is required' },
         { status: 400 }
+      )
+    }
+
+    // Authentication check
+    const { user, error: authError } = await getAuthenticatedUser()
+    if (authError || !user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - Please sign in' },
+        { status: 401 }
+      )
+    }
+
+    // Authorization check
+    const { allowed, reason } = await canAccessStoryteller(user.id, user.email, storytellerId)
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, error: reason || 'Forbidden' },
+        { status: 403 }
       )
     }
 

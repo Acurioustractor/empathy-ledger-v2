@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 import { ProfileEnhancementAnalyzer } from '@/lib/ai/profile-enhancement-analyzer'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 
 
@@ -13,6 +14,12 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 export async function POST(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const { storytellerId, bulkMode = false, tenantId } = await request.json()
 
@@ -180,6 +187,12 @@ function countMissingFields(profile: any): number {
 
 // GET endpoint for fetching existing enhancement suggestions
 export async function GET(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const { searchParams } = new URL(request.url)
     const storytellerId = searchParams.get('storytellerId')

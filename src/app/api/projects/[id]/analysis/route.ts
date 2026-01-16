@@ -123,6 +123,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const { id: projectId } = await params
     const supabase = await createSupabaseServerClient()
 
+    // Authentication check
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     // Check which AI model to use
     const { searchParams } = new URL(request.url)
     const useIntelligentAI = searchParams.get('intelligent') === 'true'

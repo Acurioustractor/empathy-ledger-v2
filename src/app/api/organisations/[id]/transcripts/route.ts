@@ -3,13 +3,10 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 
-import { createClient } from '@supabase/supabase-js'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireOrganizationMember } from '@/lib/middleware/organization-role-middleware'
 
 
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 interface TranscriptData {
   id: string
@@ -39,6 +36,15 @@ export async function GET(
 ) {
   try {
     const { id: organizationId } = await params
+
+    // Organization membership check (includes authentication)
+    const { context, error: authError } = await requireOrganizationMember(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
+    const supabase = await createSupabaseServerClient()
+
     console.log('🔍 Fetching transcripts for organisation:', organizationId)
 
     // Get organisation details first

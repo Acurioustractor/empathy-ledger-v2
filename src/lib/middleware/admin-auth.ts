@@ -16,7 +16,7 @@ export async function requireAdminAuth(request: NextRequest): Promise<{ user: Au
   console.log('🔐 Admin auth middleware called for:', request.url)
 
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     console.log('📱 Supabase client created')
 
     // Debug: Check if cookies are present

@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireOrganizationAdmin } from '@/lib/middleware/organization-role-middleware'
 
 
 
@@ -13,6 +14,13 @@ export async function DELETE(
 ) {
   try {
     const { id: organizationId, storytellerId } = await params
+
+    // Organization admin check (includes authentication) - only admins can remove storytellers
+    const { context, error: authError } = await requireOrganizationAdmin(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
     console.log('🗑️ Removing storyteller:', storytellerId, 'from organisation:', organizationId)
 
     const supabase = await createSupabaseServerClient()

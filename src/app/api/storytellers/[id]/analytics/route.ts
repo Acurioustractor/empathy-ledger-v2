@@ -4,12 +4,9 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createClient } from '@supabase/supabase-js'
+import { getAuthenticatedUser, canAccessStoryteller } from '@/lib/auth/api-auth'
 
 
-
-// Use service role client for comprehensive analytics
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 export async function GET(
   request: NextRequest,
@@ -19,7 +16,29 @@ export async function GET(
     const { id: storytellerId } = await params
     const { searchParams } = new URL(request.url)
 
-    // Handle dev-super-admin mode FIRST
+    // Authentication check
+    const { user, error: authError } = await getAuthenticatedUser()
+    if (authError || !user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - Please sign in' },
+        { status: 401 }
+      )
+    }
+
+    // Authorization check
+    const { allowed, reason } = await canAccessStoryteller(user.id, user.email, storytellerId)
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, error: reason || 'Forbidden' },
+        { status: 403 }
+      )
+    }
+
+    // Use service role client for comprehensive analytics (after auth verification)
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+
+    // Handle dev-super-admin mode for testing (only admin can access)
     if (process.env.NODE_ENV === 'development' && storytellerId === 'dev-super-admin') {
       console.log('🔧 Development mode: Returning demo analytics for dev-super-admin')
 

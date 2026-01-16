@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import { createPhotoAnalyzer, PhotoAnalysisResult } from '@/lib/media-intelligence/photo-analyzer'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 /**
  * POST /api/admin/media/analyze
@@ -20,6 +21,12 @@ import { createPhotoAnalyzer, PhotoAnalysisResult } from '@/lib/media-intelligen
  * - Or error if consent not granted or analysis fails
  */
 export async function POST(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
 
@@ -151,6 +158,12 @@ export async function POST(request: NextRequest) {
  * Get analysis status/results for a media asset
  */
 export async function GET(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
 

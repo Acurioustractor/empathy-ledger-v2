@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { getAuthenticatedUser, canAccessStoryteller } from '@/lib/auth/api-auth'
 
 
 
@@ -13,6 +14,25 @@ export async function GET(
 ) {
   try {
     const { id: storytellerId } = await params
+
+    // Authentication check
+    const { user, error: authError } = await getAuthenticatedUser()
+    if (authError || !user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - Please sign in' },
+        { status: 401 }
+      )
+    }
+
+    // Authorization check
+    const { allowed, reason } = await canAccessStoryteller(user.id, user.email, storytellerId)
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, error: reason || 'Forbidden' },
+        { status: 403 }
+      )
+    }
+
     const supabase = await createSupabaseServerClient()
 
     const { data: profile, error } = await supabase
@@ -54,6 +74,24 @@ export async function PUT(
   try {
     const { id: storytellerId } = await params
     const { summary } = await request.json()
+
+    // Authentication check
+    const { user, error: authError } = await getAuthenticatedUser()
+    if (authError || !user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - Please sign in' },
+        { status: 401 }
+      )
+    }
+
+    // Authorization check
+    const { allowed, reason } = await canAccessStoryteller(user.id, user.email, storytellerId)
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, error: reason || 'Forbidden' },
+        { status: 403 }
+      )
+    }
 
     if (!summary || typeof summary !== 'string') {
       return NextResponse.json(

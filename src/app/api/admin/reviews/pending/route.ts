@@ -6,10 +6,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/server'
 
 import { ApiErrors, createSuccessResponse } from '@/lib/utils/api-responses'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 
 
 export async function GET(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     // Use admin client to bypass RLS (avoids profiles table recursion)
     const supabase = createAdminClient()

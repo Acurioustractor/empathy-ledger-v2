@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceRoleClient } from '@/lib/supabase/service-role-client'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 /**
  * GET /api/admin/social-platforms
@@ -11,6 +12,12 @@ import { createServiceRoleClient } from '@/lib/supabase/service-role-client'
  * Public endpoint - just shows what platforms are available
  */
 export async function GET(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   const supabase = createServiceRoleClient()
 
   try {

@@ -3,20 +3,25 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 
-import { createClient } from '@supabase/supabase-js'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireOrganizationMember } from '@/lib/middleware/organization-role-middleware'
 
 
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: organizationId } = params
+    const { id: organizationId } = await params
+
+    // Organization membership check (includes authentication)
+    const { context, error: authError } = await requireOrganizationMember(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
+    const supabase = await createSupabaseServerClient()
 
     // Get organisation members count from junction table
     const { count: membersCount, error: membersError } = await supabase

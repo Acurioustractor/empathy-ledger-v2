@@ -17,6 +17,7 @@ import { createServiceRoleClient } from '@/lib/supabase/service-role-client'
  * - offset: pagination offset
  */
 export async function GET(request: NextRequest) {
+  // Require super admin authentication (includes admin check)
   const authResult = await requireSuperAdminAuth(request)
   if (authResult instanceof NextResponse) return authResult
 

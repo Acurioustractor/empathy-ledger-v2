@@ -8,10 +8,16 @@ import { createSupabaseServerClient, createSupabaseServiceClient } from '@/lib/s
 
 
 // GET /api/projects/[id]/storytellers - Get all storytellers for a project
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: projectId } = await params
     const supabase = await createSupabaseServerClient()
+
+    // Authentication check
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
     console.log('🎯 API: Getting storytellers for project:', projectId)
 
@@ -103,13 +109,19 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: projectId } = await params
+    const supabase = await createSupabaseServerClient()
+
+    // Authentication check
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const { storyteller_id, role = 'participant' } = await request.json()
-    
+
     if (!storyteller_id) {
       return NextResponse.json({ error: 'Storyteller ID is required' }, { status: 400 })
     }
-
-    const supabase = await createSupabaseServerClient()
 
     // Check if project exists
     const { data: project } = await supabase
@@ -201,13 +213,19 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: projectId } = await params
+    const supabase = await createSupabaseServerClient()
+
+    // Authentication check
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const { link_id, role, status } = await request.json()
-    
+
     if (!link_id) {
       return NextResponse.json({ error: 'Link ID is required' }, { status: 400 })
     }
-
-    const supabase = await createSupabaseServerClient()
 
     const updateData: any = { updated_at: new Date().toISOString() }
     if (role) updateData.role = role
@@ -245,14 +263,20 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: projectId } = await params
+    const supabase = await createSupabaseServerClient()
+
+    // Authentication check
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const { searchParams } = new URL(request.url)
     const linkId = searchParams.get('link_id')
 
     if (!linkId) {
       return NextResponse.json({ error: 'Link ID is required' }, { status: 400 })
     }
-
-    const supabase = await createSupabaseServerClient()
 
     const { error } = await supabase
       .from('project_participants')

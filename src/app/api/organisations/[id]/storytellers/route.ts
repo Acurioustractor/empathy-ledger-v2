@@ -3,13 +3,10 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 
-import { createClient } from '@supabase/supabase-js'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireOrganizationMember, requireOrganizationAdmin } from '@/lib/middleware/organization-role-middleware'
 
 
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 interface StorytellerData {
   id: string
@@ -78,6 +75,15 @@ export async function GET(
 ) {
   try {
     const { id: organizationId } = await params
+
+    // Organization membership check (includes authentication)
+    const { context, error: authError } = await requireOrganizationMember(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
+    const supabase = await createSupabaseServerClient()
+
     console.log('🔍 Fetching storytellers for organisation:', organizationId)
 
     // Strategy: Find storytellers through multiple connection points
@@ -386,6 +392,15 @@ export async function POST(
 ) {
   try {
     const { id: organizationId } = await params
+
+    // Organization admin check (includes authentication) - only admins can add storytellers
+    const { context, error: authError } = await requireOrganizationAdmin(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
+    const supabase = await createSupabaseServerClient()
+
     const body = await request.json()
     const { userId } = body
 

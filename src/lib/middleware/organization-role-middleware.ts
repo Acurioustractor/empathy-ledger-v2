@@ -55,7 +55,7 @@ export async function withOrganizationRole(
   requiredRole?: OrganizationRole
 ): Promise<{ context: OrganizationRoleContext | null; error: NextResponse | null }> {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     // Get current user
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -238,7 +238,7 @@ export async function getOrganizationContext(
   organizationId: string
 ): Promise<{ organisation: any; error: NextResponse | null }> {
   try {
-    const supabase = createSupabaseServerClient()
+    const supabase = await createSupabaseServerClient()
     
     const { data: organisation, error } = await supabase
       .from('tenants')

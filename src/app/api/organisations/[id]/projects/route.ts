@@ -2,6 +2,7 @@
 export const dynamic = 'force-dynamic'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireOrganizationMember, requireOrganizationAdmin } from '@/lib/middleware/organization-role-middleware'
 
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -13,6 +14,13 @@ export async function GET(
 ) {
   try {
     const { id: organizationId } = await params
+
+    // Organization membership check (includes authentication)
+    const { context, error: authError } = await requireOrganizationMember(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
     const supabase = await createSupabaseServerClient()
 
     // Get all projects for this organisation
@@ -40,6 +48,13 @@ export async function POST(
 ) {
   try {
     const { id: organizationId } = await params
+
+    // Organization admin check (includes authentication) - only admins can create projects
+    const { context, error: authError } = await requireOrganizationAdmin(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
     const supabase = await createSupabaseServerClient()
 
     // Get organization to validate and get tenant_id

@@ -15,7 +15,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // Verify super admin access
+  // Require super admin authentication (includes admin check)
   const authResult = await requireSuperAdminAuth(request)
   if (authResult instanceof NextResponse) return authResult
 
@@ -151,7 +151,7 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // Verify super admin access
+  // Require super admin authentication (includes admin check)
   const authResult = await requireSuperAdminAuth(request)
   if (authResult instanceof NextResponse) return authResult
 
@@ -244,7 +244,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // Verify super admin access
+  // Require super admin authentication (includes admin check)
   const authResult = await requireSuperAdminAuth(request)
   if (authResult instanceof NextResponse) return authResult
 

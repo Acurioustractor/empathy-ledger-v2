@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 
-import { createSupabaseServiceClient } from '@/lib/supabase/client-ssr'
+import { createSupabaseServerClient, createSupabaseServiceClient } from '@/lib/supabase/client-ssr'
 
 
 
@@ -15,8 +15,17 @@ export async function GET(
 ) {
   try {
     const { id: projectId } = await params
+
+    // Authentication check
+    const authSupabase = await createSupabaseServerClient()
+    const { data: { user }, error: authError } = await authSupabase.auth.getUser()
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     console.log('[Transcripts API] Fetching transcripts for project:', projectId)
 
+    // Use service client for the query (after auth verification)
     const supabase = createSupabaseServiceClient()
 
     // First test a simple query

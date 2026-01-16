@@ -3,7 +3,8 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 
-import { createClient } from '@supabase/supabase-js'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireOrganizationAdmin, requireOrganizationMember } from '@/lib/middleware/organization-role-middleware'
 
 
 
@@ -18,12 +19,15 @@ export async function POST(
   try {
     const { id: organizationId } = await params
 
+    // Organization admin check (includes authentication) - only admins can trigger analysis
+    const { context, error: authError } = await requireOrganizationAdmin(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
     console.log(`🔬 Starting comprehensive analysis for organization: ${organizationId}`)
 
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    )
+    const supabase = await createSupabaseServerClient()
 
     // Get organization and tenant
     const { data: org, error: orgError } = await supabase
@@ -144,10 +148,13 @@ export async function GET(
   try {
     const { id: organizationId } = await params
 
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    )
+    // Organization membership check (includes authentication)
+    const { context, error: authError } = await requireOrganizationMember(request, organizationId)
+    if (authError) {
+      return authError
+    }
+
+    const supabase = await createSupabaseServerClient()
 
     // Get organization
     const { data: org } = await supabase

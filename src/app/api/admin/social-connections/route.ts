@@ -14,7 +14,7 @@ import { createServiceRoleClient } from '@/lib/supabase/service-role-client'
  * - organization_id: filter by organization (required for non-super-admins)
  */
 export async function GET(request: NextRequest) {
-  // Verify admin access
+  // Require super admin authentication (includes admin check)
   const authResult = await requireSuperAdminAuth(request)
   if (authResult instanceof NextResponse) return authResult
 
@@ -72,6 +72,7 @@ export async function GET(request: NextRequest) {
  * Create a new social connection (after OAuth callback)
  */
 export async function POST(request: NextRequest) {
+  // Require super admin authentication (includes admin check)
   const authResult = await requireSuperAdminAuth(request)
   if (authResult instanceof NextResponse) return authResult
 

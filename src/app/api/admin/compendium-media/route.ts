@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 const BASE_COMPENDIUM_TAG = 'compendium-2026'
 const COMPENDIUM_SLUG = 'compendium-2026'
@@ -97,6 +98,12 @@ async function ensureCompendiumTag(supabase: any) {
 }
 
 export async function GET(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient() as any
     const { searchParams } = new URL(request.url)
@@ -238,6 +245,12 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient() as any
     const payload = await request.json().catch(() => ({}))

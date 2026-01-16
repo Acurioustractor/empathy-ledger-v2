@@ -15,17 +15,11 @@ export async function GET(
 ) {
   try {
     const { id: organizationId } = await params
-    
-    // Temporarily bypass auth for testing - TODO: Re-enable after PostgREST cache fixes
-    console.log('⚠️ TEMPORARILY BYPASSING AUTH FOR TESTING')
-    const context = {
-      userId: 'test-user-id',
-      userRole: 'admin' as const,
-      canManageUsers: true,
-      canManageContent: true,
-      canManageProjects: true,
-      isAdmin: true,
-      isElder: false
+
+    // Organization admin check (includes authentication)
+    const { context, error: authError } = await requireOrganizationAdmin(request, organizationId)
+    if (authError) {
+      return authError
     }
 
     const supabase = await createSupabaseServerClient()

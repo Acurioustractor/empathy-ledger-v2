@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 
 
@@ -34,6 +35,12 @@ type OrganizationRole = 'admin' | 'member' | 'collaborator' | 'elder' | 'cultura
 type ProjectRole = 'lead' | 'contributor' | 'storyteller' | 'advisor' | 'participant' | 'cultural_guide'
 
 export async function POST(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
     const connectionData: ConnectionRequest = await request.json()
@@ -222,6 +229,12 @@ async function createProjectConnection(supabase: any, data: ConnectionRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
     const { searchParams } = new URL(request.url)

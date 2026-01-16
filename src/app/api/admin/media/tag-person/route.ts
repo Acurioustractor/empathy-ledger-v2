@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 import { createFaceRecognition } from '@/lib/media-intelligence/face-recognition'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 /**
  * POST /api/admin/media/tag-person
@@ -23,6 +24,12 @@ import { createFaceRecognition } from '@/lib/media-intelligence/face-recognition
  * - Success status and face record details
  */
 export async function POST(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
 
@@ -157,6 +164,12 @@ export async function POST(request: NextRequest) {
  * - faceId: string - The face recognition record ID to untag
  */
 export async function DELETE(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
 
@@ -214,6 +227,12 @@ export async function DELETE(request: NextRequest) {
  * - canBePublic: boolean - Whether face can be shown in public view
  */
 export async function PATCH(request: NextRequest) {
+  // Admin authentication check
+  const authResult = await requireAdminAuth(request)
+  if (authResult instanceof NextResponse) {
+    return authResult
+  }
+
   try {
     const supabase = await createSupabaseServerClient()
 

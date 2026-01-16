@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 // Use service role to bypass RLS for admin operations
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
