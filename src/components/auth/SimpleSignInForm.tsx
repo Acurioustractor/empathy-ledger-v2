@@ -11,7 +11,7 @@ interface SimpleSignInFormProps {
   redirectTo?: string
 }
 
-export function SimpleSignInForm({ redirectTo = '/storytellers/d0a162d2-282e-4653-9d12-aa934c9dfa4e/dashboard' }: SimpleSignInFormProps) {
+export function SimpleSignInForm({ redirectTo = '/profile' }: SimpleSignInFormProps) {
   const [email, setEmail] = useState('benjamin@act.place')
   const [password, setPassword] = useState('benjamin123')
   const [isLoading, setIsLoading] = useState(false)
