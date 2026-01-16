@@ -105,14 +105,14 @@ export async function GET(
     console.log('🔍 Fetching storyteller dashboard:', storytellerId, 'Org context:', organizationId)
 
     // ========================================
-    // AUTHENTICATION CHECK
+    // AUTHENTICATION CHECK (v2 - deployed 2026-01-17)
     // ========================================
     const { user, error: authError } = await getAuthenticatedUser()
 
     if (authError || !user) {
-      console.log('🔐 Dashboard API: Unauthorized access attempt')
+      console.log('🔐 Dashboard API v2: Unauthorized access attempt')
       return NextResponse.json(
-        { success: false, error: 'Unauthorized - Please sign in' },
+        { success: false, error: 'Unauthorized - Please sign in', version: 'v2' },
         { status: 401 }
       )
     }
