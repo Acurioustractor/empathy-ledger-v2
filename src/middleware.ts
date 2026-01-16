@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/admin')) {
     if (!user) {
       // Redirect to signin with return URL
-      const redirectUrl = new URL('/signin', request.url)
+      const redirectUrl = new URL('/auth/signin', request.url)
       redirectUrl.searchParams.set('redirect', request.nextUrl.pathname)
       return NextResponse.redirect(redirectUrl)
     }
@@ -56,7 +56,7 @@ export async function middleware(request: NextRequest) {
   )
 
   if (isProtectedRoute && !user) {
-    const redirectUrl = new URL('/signin', request.url)
+    const redirectUrl = new URL('/auth/signin', request.url)
     redirectUrl.searchParams.set('redirect', request.nextUrl.pathname)
     return NextResponse.redirect(redirectUrl)
   }
