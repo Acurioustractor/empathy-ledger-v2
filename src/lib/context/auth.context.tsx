@@ -75,7 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Fetch user profile with error handling
   const fetchProfile = useCallback(async (userId: string): Promise<Profile | null> => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await getSupabaseBrowser()
         .from('profiles')
         .select('*')
         .eq('id', userId)
@@ -98,7 +98,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!user) return null
 
     try {
-      const { data, error } = await supabase
+      const { data, error } = await getSupabaseBrowser()
         .from('profiles')
         .update({
           ...updates,

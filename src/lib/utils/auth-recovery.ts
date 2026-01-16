@@ -5,7 +5,7 @@
  * including loops, stuck loading states, and session corruption.
  */
 
-import { supabase } from '@/lib/supabase/client'
+import { getSupabaseBrowser } from '@/lib/supabase/browser'
 import { adminConfig } from '@/lib/config/admin-config'
 
 interface AuthDiagnostics {
@@ -25,7 +25,7 @@ export class AuthRecovery {
    */
   static async diagnose(): Promise<AuthDiagnostics> {
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+      const { data: { session }, error: sessionError } = await getSupabaseBrowser().auth.getSession()
       
       const diagnostics: AuthDiagnostics = {
         hasSession: !!session && !sessionError,
@@ -45,7 +45,7 @@ export class AuthRecovery {
 
       // Check if profile exists
       if (session?.user?.id) {
-        const { data: profile, error: profileError } = await supabase
+        const { data: profile, error: profileError } = await getSupabaseBrowser()
           .from('profiles')
           .select('id, display_name, email')
           .eq('id', session.user.id)
@@ -79,7 +79,7 @@ export class AuthRecovery {
       console.log('🧹 Clearing all authentication state...')
       
       // Sign out from Supabase
-      await supabase.auth.signOut()
+      await getSupabaseBrowser().auth.signOut()
       
       // Clear localStorage
       if (typeof window !== 'undefined') {
@@ -88,12 +88,12 @@ export class AuthRecovery {
           'sb-auth-token',
           'supabase-auth-token'
         ]
-        
+
         keysToRemove.forEach(key => {
           localStorage.removeItem(key)
           sessionStorage.removeItem(key)
         })
-        
+
         // Clear all supabase-related items
         for (let i = localStorage.length - 1; i >= 0; i--) {
           const key = localStorage.key(i)
@@ -116,7 +116,7 @@ export class AuthRecovery {
     try {
       console.log('🔄 Refreshing authentication session...')
       
-      const { data, error } = await supabase.auth.refreshSession()
+      const { data, error } = await getSupabaseBrowser().auth.refreshSession()
       
       if (error) {
         console.error('❌ Session refresh failed:', error)
@@ -217,7 +217,7 @@ export class AuthRecovery {
         profile_visibility: 'private',
       }
 
-      const { data, error } = await supabase
+      const { data, error } = await getSupabaseBrowser()
         .from('profiles')
         .insert(profileData)
         .select()
