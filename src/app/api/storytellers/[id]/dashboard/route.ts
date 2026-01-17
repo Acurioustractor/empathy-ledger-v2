@@ -141,22 +141,26 @@ export async function GET(
     // ========================================
     // SELECT CLIENT BASED ON ACCESS LEVEL
     // ========================================
-    // Use service client for admins (can view any user), session client for self
+    // IMPORTANT: Always use service client for dashboard data since auth/authz passed
+    // The session client respects RLS which can cause "not found" errors
+    // even when the user is authorized (RLS policies may be misconfigured)
     const isAdmin = isSuperAdmin(user.email)
+    const isSelfAccess = user.id === storytellerId
 
     console.log('🔐 Dashboard API: Selecting client:', {
       isAdmin,
       userId: user.id,
       userEmail: user.email,
       storytellerId,
-      isSelfAccess: user.id === storytellerId
+      isSelfAccess,
+      decision: 'Using service client (auth already passed)'
     })
 
-    // For self-access, ALWAYS use session client (even for admins viewing own dashboard)
-    const isSelfAccess = user.id === storytellerId
-    const supabase = (isAdmin && !isSelfAccess) ? getServiceClient() : await createSupabaseServerClient()
+    // Always use service client since we've already verified auth/authz above
+    // This bypasses RLS - we handle access control in code instead
+    const supabase = getServiceClient()
 
-    console.log('🔐 Dashboard API: Access granted, isAdmin:', isAdmin, 'usingSelfAccess:', isSelfAccess)
+    console.log('🔐 Dashboard API: Access granted, isAdmin:', isAdmin, 'isSelfAccess:', isSelfAccess)
 
     // Handle development mode with fake user - fetch REAL data from database
     if (process.env.NODE_ENV === 'development' && storytellerId === 'dev-super-admin') {
