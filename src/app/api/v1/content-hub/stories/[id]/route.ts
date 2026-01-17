@@ -35,7 +35,7 @@ export async function GET(
     .from('stories')
     .select(`
       *,
-      storytellers(name, bio),
+      profiles:storyteller_id(display_name, bio),
       media_assets(url, alt_text)
     `)
     .eq('id', id)
@@ -59,8 +59,8 @@ export async function GET(
     title: story.title,
     summary: story.summary,
     content: story.content,
-    authorName: story.storytellers?.name || 'Anonymous',
-    authorBio: story.storytellers?.bio,
+    authorName: story.profiles?.display_name || 'Anonymous',
+    authorBio: story.profiles?.bio,
     authorId: story.storyteller_id,
     publishedAt: story.published_at,
     themes: story.cultural_themes || [],

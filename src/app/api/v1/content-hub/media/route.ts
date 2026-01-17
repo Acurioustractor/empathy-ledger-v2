@@ -77,7 +77,7 @@ export async function GET(request: Request) {
       attribution_text,
       created_at,
       uploader_id,
-      storytellers:uploader_id(name)
+      profiles:uploader_id(display_name)
     `, { count: 'exact' })
     .eq('status', 'active')
     .order('created_at', { ascending: false });
@@ -158,7 +158,7 @@ export async function GET(request: Request) {
     culturalSensitivity: item.cultural_sensitivity,
     attributionText: item.attribution_text,
     // Provenance
-    uploaderName: item.storytellers?.name,
+    uploaderName: item.profiles?.display_name,
     createdAt: item.created_at
   }));
 

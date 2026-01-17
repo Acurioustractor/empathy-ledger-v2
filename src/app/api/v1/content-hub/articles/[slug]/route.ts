@@ -44,7 +44,7 @@ export async function GET(
     .from('articles')
     .select(`
       *,
-      storytellers:author_storyteller_id(display_name, bio)
+      profiles:author_storyteller_id(display_name, bio)
     `)
     .eq('slug', slug)
     .eq('status', 'published')
@@ -87,8 +87,8 @@ export async function GET(
     subtitle: article.subtitle,
     excerpt: article.excerpt,
     content: article.content,
-    authorName: article.author_name || article.storytellers?.display_name || 'Staff',
-    authorBio: article.storytellers?.bio,
+    authorName: article.author_name || article.profiles?.display_name || 'Staff',
+    authorBio: article.profiles?.bio,
     articleType: article.article_type,
     primaryProject: article.primary_project,
     relatedProjects: article.related_projects || [],
