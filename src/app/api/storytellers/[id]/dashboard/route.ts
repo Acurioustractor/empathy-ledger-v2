@@ -143,9 +143,20 @@ export async function GET(
     // ========================================
     // Use service client for admins (can view any user), session client for self
     const isAdmin = isSuperAdmin(user.email)
-    const supabase = isAdmin ? getServiceClient() : await createSupabaseServerClient()
 
-    console.log('🔐 Dashboard API: Access granted, isAdmin:', isAdmin)
+    console.log('🔐 Dashboard API: Selecting client:', {
+      isAdmin,
+      userId: user.id,
+      userEmail: user.email,
+      storytellerId,
+      isSelfAccess: user.id === storytellerId
+    })
+
+    // For self-access, ALWAYS use session client (even for admins viewing own dashboard)
+    const isSelfAccess = user.id === storytellerId
+    const supabase = (isAdmin && !isSelfAccess) ? getServiceClient() : await createSupabaseServerClient()
+
+    console.log('🔐 Dashboard API: Access granted, isAdmin:', isAdmin, 'usingSelfAccess:', isSelfAccess)
 
     // Handle development mode with fake user - fetch REAL data from database
     if (process.env.NODE_ENV === 'development' && storytellerId === 'dev-super-admin') {
@@ -292,6 +303,20 @@ export async function GET(
 
     // Get storyteller profile
     console.log('🔍 Querying profile for storytellerId:', storytellerId)
+
+    // First, let's do a simple count to verify the table is accessible
+    const { count: profileCount, error: countError } = await supabase
+      .from('profiles')
+      .select('*', { count: 'exact', head: true })
+      .eq('id', storytellerId)
+
+    console.log('🔢 Profile count check:', {
+      storytellerId,
+      count: profileCount,
+      countError: countError?.message,
+      countErrorCode: countError?.code
+    })
+
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select(`
@@ -318,13 +343,26 @@ export async function GET(
     if (profileError || !profile) {
       console.error('❌ Storyteller not found:', {
         storytellerId,
+        userId: user.id,
+        userEmail: user.email,
+        isSelfAccess,
         error: profileError?.message,
         code: profileError?.code,
         details: profileError?.details,
         hint: profileError?.hint
       })
       return NextResponse.json(
-        { success: false, error: 'Storyteller not found', debug: { storytellerId, errorCode: profileError?.code } },
+        {
+          success: false,
+          error: 'Storyteller not found',
+          debug: {
+            storytellerId,
+            userId: user.id,
+            isSelfAccess,
+            errorCode: profileError?.code,
+            errorMessage: profileError?.message
+          }
+        },
         { status: 404 }
       )
     }
