@@ -30,7 +30,8 @@ import {
   Camera,
   Loader2,
   BarChart3,
-  Shield
+  Shield,
+  Share2
 } from 'lucide-react'
 import { TranscriptList } from '@/components/storyteller/TranscriptList'
 import { VideoPlayer } from '@/components/media/VideoPlayer'
@@ -459,6 +460,15 @@ export default function StorytellerDashboard() {
                   {data.culturalBackground}
                 </Badge>
               )}
+            </div>
+            {/* Quick Actions */}
+            <div className="flex gap-2 mt-2 md:mt-0">
+              <Link href="/admin/syndication">
+                <Button variant="outline" size="sm" className="gap-2">
+                  <Share2 className="h-4 w-4" />
+                  Syndicate Content
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
