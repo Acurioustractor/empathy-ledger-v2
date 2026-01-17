@@ -1,77 +1,32 @@
-'use client'
+import { redirect } from 'next/navigation'
+import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
-import { useEffect, useState } from 'react'
-import { useAuth } from '@/lib/context/auth.context'
-import { useRouter } from 'next/navigation'
-import { getSupabaseBrowser } from '@/lib/supabase/browser'
+/**
+ * Server-side dashboard redirect page.
+ *
+ * This is a SERVER COMPONENT that redirects on the server before any
+ * client-side JavaScript runs. This eliminates the race condition where
+ * client-side auth checks get aborted during navigation.
+ *
+ * The middleware already validates auth, so if user reaches this page,
+ * they ARE authenticated. We just need to get their user ID and redirect.
+ */
+export default async function DashboardRedirectPage() {
+  const supabase = await createSupabaseServerClient()
 
-export default function DashboardRedirectPage() {
-  const { user, isAuthenticated, isLoading } = useAuth()
-  const router = useRouter()
-  const [directUserId, setDirectUserId] = useState<string | null>(null)
-  const [checkingDirect, setCheckingDirect] = useState(true)
+  // Get user from server-side session (no client-side race condition)
+  const { data: { user }, error } = await supabase.auth.getUser()
 
-  // Direct session check - bypasses auth context race condition
-  // Middleware already validated auth, so if we're here, user IS authenticated
-  useEffect(() => {
-    const checkSessionDirect = async () => {
-      try {
-        console.log('🔍 Dashboard: Checking session directly...')
-        const { data: { session }, error } = await getSupabaseBrowser().auth.getSession()
+  if (error) {
+    console.log('🔀 Dashboard server: Auth error, redirecting to signin:', error.message)
+    redirect('/auth/signin?redirect=/dashboard')
+  }
 
-        if (error) {
-          console.log('⚠️ Dashboard: Session check error:', error.message)
-        }
+  if (!user) {
+    console.log('🔀 Dashboard server: No user found, redirecting to signin')
+    redirect('/auth/signin?redirect=/dashboard')
+  }
 
-        if (session?.user?.id) {
-          console.log('✅ Dashboard: Found user directly:', session.user.email)
-          setDirectUserId(session.user.id)
-        } else {
-          console.log('⚠️ Dashboard: No session found in direct check')
-        }
-      } catch (err) {
-        console.log('⚠️ Dashboard: Direct check failed:', err)
-      } finally {
-        setCheckingDirect(false)
-      }
-    }
-
-    checkSessionDirect()
-  }, [])
-
-  // Redirect logic - use direct user ID or auth context user
-  useEffect(() => {
-    // Still checking direct session
-    if (checkingDirect) return
-
-    // Got user from direct check - redirect immediately
-    if (directUserId) {
-      console.log('🔀 Redirecting to storyteller dashboard (direct):', directUserId)
-      router.replace(`/storytellers/${directUserId}/dashboard`)
-      return
-    }
-
-    // Fall back to auth context if direct check failed but context has user
-    if (!isLoading && isAuthenticated && user?.id) {
-      console.log('🔀 Redirecting to storyteller dashboard (context):', user.id)
-      router.replace(`/storytellers/${user.id}/dashboard`)
-      return
-    }
-
-    // Both checks complete with no user - this shouldn't happen since middleware
-    // should have redirected, but handle it just in case
-    if (!checkingDirect && !isLoading && !directUserId && !user?.id) {
-      console.log('🔀 No user found after all checks, redirecting to signin')
-      router.replace('/auth/signin?redirect=/dashboard')
-    }
-  }, [checkingDirect, directUserId, isLoading, isAuthenticated, user?.id, router])
-
-  return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-        <p>Loading your dashboard...</p>
-      </div>
-    </div>
-  )
+  console.log('🔀 Dashboard server: Redirecting to storyteller dashboard:', user.id)
+  redirect(`/storytellers/${user.id}/dashboard`)
 }
