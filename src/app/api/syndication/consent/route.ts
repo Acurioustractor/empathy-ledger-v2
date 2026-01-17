@@ -184,7 +184,26 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // 11. Return success response
+    // 11. Send webhook notification if consent is immediately approved
+    if (consent.status === 'approved') {
+      try {
+        const { notifyConsentGranted } = await import('@/lib/webhooks/syndication-webhooks')
+        const webhookResult = await notifyConsentGranted(consent.id, {
+          includeEmbedToken: true
+        })
+
+        if (webhookResult?.success) {
+          console.log(`Webhook notification sent for new consent ${consent.id}`)
+        } else if (webhookResult?.error) {
+          console.warn(`Webhook notification failed: ${webhookResult.error}`)
+        }
+      } catch (webhookError) {
+        // Don't fail consent creation if webhook fails
+        console.error('Error sending webhook notification:', webhookError)
+      }
+    }
+
+    // 12. Return success response
     return NextResponse.json({
       success: true,
       consent,

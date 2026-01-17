@@ -117,18 +117,25 @@ export async function POST(
       // Not critical - continue anyway
     }
 
-    // 9. TODO: Send webhook notification to syndication site
-    // if (consent.site.webhook_url) {
-    //   await sendRevocationWebhook(consent.site.webhook_url, {
-    //     consentId,
-    //     storyId: consent.story_id,
-    //     action: 'revoked'
-    //   })
-    // }
+    // 9. Send webhook notification to syndication site
+    try {
+      const { notifyConsentRevoked } = await import('@/lib/webhooks/syndication-webhooks')
+      const webhookResult = await notifyConsentRevoked(consentId, reason)
+
+      if (webhookResult?.success) {
+        console.log(`Webhook notification sent successfully for consent ${consentId}`)
+      } else if (webhookResult?.error) {
+        console.warn(`Webhook notification failed: ${webhookResult.error}`)
+      }
+    } catch (webhookError) {
+      // Don't fail the revocation if webhook fails
+      console.error('Error sending webhook notification:', webhookError)
+    }
 
     return NextResponse.json({
       success: true,
       consent: revokedConsent,
+      tokensRevoked: revokedCount,
       message: 'Consent revoked successfully. External sites will no longer be able to access this story.'
     }, { status: 200 })
 
