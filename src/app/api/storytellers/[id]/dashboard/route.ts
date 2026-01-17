@@ -102,7 +102,13 @@ export async function GET(
     const organizationId = requestUrl.searchParams.get('org')
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 
-    console.log('🔍 Fetching storyteller dashboard:', storytellerId, 'Org context:', organizationId)
+    console.log('🔍 Dashboard API called:', {
+      storytellerId,
+      organizationId,
+      url: request.url,
+      hasServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+      hasUrl: !!supabaseUrl
+    })
 
     // ========================================
     // AUTHENTICATION CHECK (v2 - deployed 2026-01-17)
@@ -285,6 +291,7 @@ export async function GET(
     }
 
     // Get storyteller profile
+    console.log('🔍 Querying profile for storytellerId:', storytellerId)
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select(`
@@ -300,10 +307,24 @@ export async function GET(
       .eq('id', storytellerId)
       .single()
 
+    console.log('📊 Profile query result:', {
+      hasProfile: !!profile,
+      profileId: profile?.id,
+      profileEmail: profile?.email,
+      error: profileError?.message,
+      errorCode: profileError?.code
+    })
+
     if (profileError || !profile) {
-      console.error('❌ Storyteller not found:', profileError?.message)
+      console.error('❌ Storyteller not found:', {
+        storytellerId,
+        error: profileError?.message,
+        code: profileError?.code,
+        details: profileError?.details,
+        hint: profileError?.hint
+      })
       return NextResponse.json(
-        { success: false, error: 'Storyteller not found' },
+        { success: false, error: 'Storyteller not found', debug: { storytellerId, errorCode: profileError?.code } },
         { status: 404 }
       )
     }
