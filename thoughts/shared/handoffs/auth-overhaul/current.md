@@ -8,13 +8,13 @@ status: active
 # Work Stream: auth-overhaul
 
 ## Ledger
-**Updated:** 2026-01-17T16:45:00Z
+**Updated:** 2026-01-17T17:15:00Z
 **Goal:** Fix dashboard 404 errors after auth overhaul - user can sign in and access their dashboard.
 **Branch:** main
 **Test:** `npm run build && curl -s https://empathy-ledger-v2.vercel.app/api/debug/auth`
 
 ### Now
-[->] Debug why /dashboard page returns 404 after deployment
+[->] Verify Vercel deployment and test signin flow end-to-end
 
 ### This Session
 - [x] Fixed ~115 API routes with proper auth checks (previous session)
@@ -22,6 +22,8 @@ status: active
 - [x] Changed dashboard API to use service client after auth/authz passes
 - [x] Created /dashboard redirect page (was missing)
 - [x] Enhanced /api/debug/auth with profile access tests
+- [x] Added AbortError handling in auth context (508fdc9)
+- [x] Fixed race condition in dashboard redirect - added 500ms settling delay (ebbb45a)
 - [x] Build passes locally
 
 ### Next
@@ -33,10 +35,10 @@ status: active
 - Dashboard API: Use service client AFTER auth/authz check (bypasses RLS, more reliable)
 - Auth pattern: Code-based auth check first, then service client for data access
 - RLS issue: Session client + RLS policies = unreliable; handle auth in code instead
+- Auth settling: Wait 500ms after isLoading=false before redirect decision (prevents race)
 
 ### Open Questions
-- UNCONFIRMED: Is /dashboard page deployed? User still seeing 404
-- UNCONFIRMED: Vercel build status - need to check deployment logs
+- UNCONFIRMED: Does 500ms settling delay fix the race condition in production?
 
 ### Workflow State
 pattern: bug-fix
@@ -77,9 +79,12 @@ User reports /dashboard still returns 404 after fix deployed
   "build_status": "passing",
   "api_fix_committed": true,
   "dashboard_page_created": true,
+  "race_condition_fixed": true,
   "commits": [
     "207eb04 - fix: use service client for dashboard API after auth check",
-    "2dedae9 - fix: add /dashboard redirect page"
+    "2dedae9 - fix: add /dashboard redirect page",
+    "508fdc9 - fix: handle AbortError in auth context during navigation",
+    "ebbb45a - fix: add auth settling delay to dashboard redirect"
   ],
   "last_test_command": "npm run build",
   "last_test_exit_code": 0
@@ -88,8 +93,8 @@ User reports /dashboard still returns 404 after fix deployed
 
 #### Resume Context
 - Current focus: Verify deployment and test sign-in flow
-- Next action: Check Vercel deployment logs
-- Blockers: User still seeing 404 on /dashboard
+- Next action: Wait for Vercel deployment, then test https://empathy-ledger-v2.vercel.app/auth/signin
+- Blockers: None - all fixes committed and pushed
 
 ---
 
