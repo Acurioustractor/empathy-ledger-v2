@@ -158,12 +158,14 @@
 
 **See:** [SPRINT4_PHASE3_DASHBOARD_COMPLETE.md](../../SPRINT4_PHASE3_DASHBOARD_COMPLETE.md)
 
-**Next Steps (Optional):**
-1. 📝 Add navigation link in main dashboard
+**Optional Enhancements (Added January 17, 2026):**
+1. ✅ Add syndication nav link to storyteller dashboard
 2. 📝 End-to-end testing with real consent data
-3. 📝 Create optional components (CreateConsentDialog, EmbedTokenDetails)
-4. 📝 Add webhook notifications to JusticeHub
-5. 📝 Build analytics page for individual stories
+3. ✅ CreateConsentDialog component (consent granting with OCAP, cultural levels, elder approval)
+4. ✅ EmbedTokenDetails component (token display, copy, revocation)
+5. 📝 Add webhook notifications to JusticeHub
+6. ✅ Story analytics page (`/admin/stories/[id]/analytics`) with engagement, traffic, syndication metrics
+7. ✅ StoryAnalyticsDashboard component with time range filtering
 
 ---
 
@@ -182,8 +184,8 @@ Sprint 4 delivered a complete **Sharing & Syndication System** with:
 - Phase 3: Storyteller dashboard UI with affirming messaging
 
 **Total Impact:**
-- 12 new components created
-- 7 API endpoints built
+- 17 new components created (+5 in optional enhancements)
+- 8 API endpoints built (+1 story analytics)
 - 3 database tables deployed
 - 100% OCAP compliance
 - 100% cultural safety embedded
