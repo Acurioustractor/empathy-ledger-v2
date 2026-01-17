@@ -1,53 +1,70 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '@/lib/context/auth.context'
 import { useRouter } from 'next/navigation'
+import { getSupabaseBrowser } from '@/lib/supabase/browser'
 
 export default function DashboardRedirectPage() {
   const { user, isAuthenticated, isLoading } = useAuth()
   const router = useRouter()
-  const [waitedForAuth, setWaitedForAuth] = useState(false)
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const [directUserId, setDirectUserId] = useState<string | null>(null)
+  const [checkingDirect, setCheckingDirect] = useState(true)
 
-  // Give auth context time to initialize before making redirect decision
-  // This prevents race condition where we redirect to signin before auth loads
+  // Direct session check - bypasses auth context race condition
+  // Middleware already validated auth, so if we're here, user IS authenticated
   useEffect(() => {
-    // Wait a brief moment for auth to settle after initial load
-    if (!isLoading && !waitedForAuth) {
-      timerRef.current = setTimeout(() => {
-        setWaitedForAuth(true)
-      }, 500) // Give auth 500ms to fully initialize
-    }
+    const checkSessionDirect = async () => {
+      try {
+        console.log('🔍 Dashboard: Checking session directly...')
+        const { data: { session }, error } = await getSupabaseBrowser().auth.getSession()
 
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current)
+        if (error) {
+          console.log('⚠️ Dashboard: Session check error:', error.message)
+        }
+
+        if (session?.user?.id) {
+          console.log('✅ Dashboard: Found user directly:', session.user.email)
+          setDirectUserId(session.user.id)
+        } else {
+          console.log('⚠️ Dashboard: No session found in direct check')
+        }
+      } catch (err) {
+        console.log('⚠️ Dashboard: Direct check failed:', err)
+      } finally {
+        setCheckingDirect(false)
       }
     }
-  }, [isLoading, waitedForAuth])
 
+    checkSessionDirect()
+  }, [])
+
+  // Redirect logic - use direct user ID or auth context user
   useEffect(() => {
-    // Don't redirect until we've waited for auth to settle
-    if (isLoading || !waitedForAuth) return
+    // Still checking direct session
+    if (checkingDirect) return
 
-    console.log('🔀 Dashboard redirect check:', {
-      isAuthenticated,
-      userId: user?.id,
-      userEmail: user?.email,
-      waitedForAuth
-    })
+    // Got user from direct check - redirect immediately
+    if (directUserId) {
+      console.log('🔀 Redirecting to storyteller dashboard (direct):', directUserId)
+      router.replace(`/storytellers/${directUserId}/dashboard`)
+      return
+    }
 
-    if (isAuthenticated && user?.id) {
-      // Redirect to user's storyteller dashboard
-      console.log('🔀 Redirecting to storyteller dashboard:', user.id)
+    // Fall back to auth context if direct check failed but context has user
+    if (!isLoading && isAuthenticated && user?.id) {
+      console.log('🔀 Redirecting to storyteller dashboard (context):', user.id)
       router.replace(`/storytellers/${user.id}/dashboard`)
-    } else {
-      // Not authenticated after waiting, redirect to sign in
-      console.log('🔀 Not authenticated after auth check, redirecting to signin')
+      return
+    }
+
+    // Both checks complete with no user - this shouldn't happen since middleware
+    // should have redirected, but handle it just in case
+    if (!checkingDirect && !isLoading && !directUserId && !user?.id) {
+      console.log('🔀 No user found after all checks, redirecting to signin')
       router.replace('/auth/signin?redirect=/dashboard')
     }
-  }, [isLoading, isAuthenticated, user?.id, user?.email, router, waitedForAuth])
+  }, [checkingDirect, directUserId, isLoading, isAuthenticated, user?.id, router])
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
