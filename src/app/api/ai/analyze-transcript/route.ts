@@ -17,10 +17,12 @@ import {
 // Force dynamic rendering for API routes
 export const dynamic = 'force-dynamic'
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Create OpenAI client inside handlers, not at module level
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  })
+}
 
 // Request validation schema
 const AnalyzeTranscriptSchema = z.object({
@@ -92,14 +94,17 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = createClient()
-    
+
     // Set the auth token for this request
     const token = authorization.replace('Bearer ', '')
     const { data: { user }, error: authError } = await supabase.auth.getUser(token)
-    
+
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized - Invalid token' }, { status: 401 })
     }
+
+    // Create OpenAI client after auth check
+    const openai = getOpenAIClient()
 
     // Validate request body
     const body = await request.json()

@@ -9,11 +9,12 @@ export const dynamic = 'force-dynamic'
 
 import { TranscriptProcessingPipeline } from '@/lib/workflows/transcript-processing-pipeline'
 
-
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Helper: Create OpenAI client (lazy initialization to avoid build-time errors)
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  })
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -80,6 +81,8 @@ export async function POST(request: NextRequest) {
       })
 
     try {
+      const openai = getOpenAIClient()
+
       // Convert blob to File for OpenAI
       const file = new File([fileData], mediaAsset.filename, { type: mediaAsset.mime_type })
 

@@ -2,9 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import OpenAI from 'openai'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-})
+// Helper: Create OpenAI client (lazy initialization to avoid build-time errors)
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+  })
+}
 
 /**
  * GET /api/search/semantic
@@ -27,6 +30,8 @@ export async function GET(request: NextRequest) {
         { status: 400 }
       )
     }
+
+    const openai = getOpenAIClient()
 
     // Generate embedding for the query
     const embeddingResponse = await openai.embeddings.create({

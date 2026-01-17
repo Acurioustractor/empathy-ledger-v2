@@ -5,11 +5,12 @@ import OpenAI from 'openai'
 // Force dynamic rendering for API routes
 export const dynamic = 'force-dynamic'
 
-
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || ''
-})
+// Helper: Create OpenAI client (lazy initialization to avoid build-time errors)
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY || ''
+  })
+}
 
 export async function POST(request: Request) {
   try {
@@ -27,6 +28,8 @@ export async function POST(request: Request) {
       fileSize: audioFile.size,
       fileType: audioFile.type
     })
+
+    const openai = getOpenAIClient()
 
     // Convert File to Buffer for OpenAI Whisper API
     const bytes = await audioFile.arrayBuffer()
