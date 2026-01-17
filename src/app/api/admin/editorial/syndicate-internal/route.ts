@@ -12,10 +12,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Create service role client inside handlers, not at module level
+function getServiceClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 interface SyndicateRequest {
   storyIds: string[];
@@ -42,6 +45,9 @@ export async function POST(request: NextRequest) {
     }
 
     console.log(`📤 Internal syndication request: ${storyIds.length} stories → project ${targetProjectId}`);
+
+    // Create service client after auth check
+    const supabase = getServiceClient();
 
     // Verify target project belongs to the same organization
     const { data: targetProject, error: projectError } = await supabase
@@ -211,6 +217,9 @@ export async function GET(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Create service client after auth check
+    const supabase = getServiceClient();
 
     // Get syndication statistics
     let query = supabase
