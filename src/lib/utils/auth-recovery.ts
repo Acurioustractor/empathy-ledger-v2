@@ -199,37 +199,36 @@ export class AuthRecovery {
   }
 
   /**
-   * Create a missing profile for a user
+   * Create a missing profile for a user via API (bypasses RLS)
    */
   static async createMissingProfile(userId: string, email: string): Promise<boolean> {
     try {
       console.log(`👤 Creating missing profile for user: ${email}`)
-      
-      const profileData = {
-        id: userId,
-        email: email,
-        display_name: email.split('@')[0],
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        onboarding_completed: false,
-        is_storyteller: this.isAdminEmail(email), // Admin emails also get storyteller access
-        is_elder: false,
-        profile_visibility: 'private',
-      }
 
-      const { data, error } = await getSupabaseBrowser()
-        .from('profiles')
-        .insert(profileData)
-        .select()
-        .single()
+      // Call the ensure-profile API which uses service role to bypass RLS
+      const response = await fetch('/api/auth/ensure-profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Include cookies for auth
+      })
 
-      if (error) {
-        console.error('❌ Profile creation failed:', error)
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        console.error('❌ Profile creation failed:', errorData.error || response.statusText)
         return false
       }
 
-      console.log('✅ Profile created successfully')
-      return true
+      const result = await response.json()
+
+      if (result.success) {
+        console.log('✅ Profile ensured successfully:', result.created ? 'created' : 'already existed')
+        return true
+      }
+
+      console.error('❌ Profile creation failed:', result.error)
+      return false
     } catch (error) {
       console.error('❌ Profile creation error:', error)
       return false
