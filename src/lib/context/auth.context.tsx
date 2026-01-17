@@ -182,21 +182,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (initialized) return
 
     let isMounted = true
-    
+    const abortController = new AbortController()
+
     const initializeAuth = async () => {
       try {
         console.log('🚀 Initializing authentication system...')
-        
-        // Get session with longer timeout and better error handling
-        const { data: { session }, error } = await getSupabaseBrowser().auth.getSession().catch((err) => {
-          console.log('⏰ Auth session error, retrying...', err)
-          return { data: { session: null }, error: err }
-        })
-        
-        if (!isMounted) return
+
+        // Get session with abort signal handling
+        let session = null
+        let error = null
+
+        try {
+          const result = await getSupabaseBrowser().auth.getSession()
+          session = result.data?.session
+          error = result.error
+        } catch (err: any) {
+          // Ignore abort errors - they're expected during navigation/unmount
+          if (err?.name === 'AbortError' || err?.message?.includes('aborted')) {
+            console.log('🔄 Auth init aborted (navigation), skipping...')
+            return
+          }
+          console.log('⏰ Auth session error:', err)
+          error = err
+        }
+
+        if (!isMounted || abortController.signal.aborted) return
 
         if (error) {
-          console.error('❌ Session error:', error)
+          // Don't log abort errors as errors
+          if (error?.name !== 'AbortError') {
+            console.error('❌ Session error:', error)
+          }
           if (isMounted) {
             setIsLoading(false)
             setInitialized(true)
@@ -259,7 +275,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             profileEmail: profileData?.email
           })
         }
-      } catch (error) {
+      } catch (error: any) {
+        // Ignore abort errors - they're expected during navigation/unmount
+        if (error?.name === 'AbortError' || error?.message?.includes('aborted')) {
+          console.log('🔄 Auth init aborted (navigation)')
+          return
+        }
         console.error('💥 Auth initialization failed:', error)
         if (isMounted) {
           setIsLoading(false)
@@ -272,6 +293,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     return () => {
       isMounted = false
+      abortController.abort()
     }
   }, [initialized, fetchProfile])
 
