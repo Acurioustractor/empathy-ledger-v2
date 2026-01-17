@@ -331,7 +331,7 @@ export async function GET(
         avatar_url,
         email,
         cultural_background,
-        location_data
+        location
       `)
       .eq('id', storytellerId)
       .single()
@@ -535,7 +535,7 @@ export async function GET(
       avatarUrl: profile.avatar_url,
       email: profile.email,
       culturalBackground: profile.cultural_background,
-      location: profile.location_data?.city || profile.location_data?.country,
+      location: profile.location,
       transcripts: detailedTranscripts,
       stories: detailedStories,
       photos: photoAssets,
