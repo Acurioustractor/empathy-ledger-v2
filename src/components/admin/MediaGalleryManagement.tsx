@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { 
-  Image, 
-  Search, 
-  Filter, 
+import {
+  Image,
+  Search,
+  Filter,
   Download,
   Eye,
   EyeOff,
@@ -27,8 +27,12 @@ import {
   Clock,
   HardDrive,
   Zap,
-  Camera
+  Camera,
+  Video,
+  X
 } from 'lucide-react'
+import { VideoUploader } from '@/components/media/VideoUploader'
+import { VideoThumbnailSelector } from '@/components/media/VideoThumbnailSelector'
 
 interface AdminMediaAsset {
   id: string
@@ -115,6 +119,8 @@ const MediaGalleryManagement: React.FC = () => {
   const [editingMedia, setEditingMedia] = useState<AdminMediaAsset | null>(null)
   const [showPreview, setShowPreview] = useState(false)
   const [previewMedia, setPreviewMedia] = useState<AdminMediaAsset | null>(null)
+  const [showUploadModal, setShowUploadModal] = useState(false)
+  const [uploadType, setUploadType] = useState<'image' | 'video'>('image')
 
   const fetchMedia = async () => {
     try {
@@ -475,7 +481,10 @@ const MediaGalleryManagement: React.FC = () => {
               Refresh
             </button>
             
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center gap-2">
+            <button
+              onClick={() => setShowUploadModal(true)}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center gap-2"
+            >
               <Upload className="h-4 w-4" />
               Upload
             </button>
@@ -874,7 +883,7 @@ const MediaGalleryManagement: React.FC = () => {
                 ×
               </button>
             </div>
-            
+
             <div className="bg-white rounded-lg p-4 max-h-[80vh] overflow-auto">
               {previewMedia.mimeType.startsWith('image/') ? (
                 <img
@@ -915,7 +924,7 @@ const MediaGalleryManagement: React.FC = () => {
                   </a>
                 </div>
               )}
-              
+
               <div className="mt-4 text-sm text-grey-600">
                 <p><strong>Filename:</strong> {previewMedia.filename}</p>
                 <p><strong>Size:</strong> {formatFileSize(previewMedia.fileSize)}</p>
@@ -926,6 +935,110 @@ const MediaGalleryManagement: React.FC = () => {
                   <p><strong>Description:</strong> {previewMedia.description}</p>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Upload Modal */}
+      {showUploadModal && (
+        <div className="fixed inset-0 bg-grey-600 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center p-4 border-b">
+              <h2 className="text-xl font-semibold">Upload Media</h2>
+              <button
+                onClick={() => setShowUploadModal(false)}
+                className="text-grey-400 hover:text-grey-600"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="p-4">
+              {/* Upload Type Selector */}
+              <div className="flex gap-4 mb-6">
+                <button
+                  onClick={() => setUploadType('image')}
+                  className={`flex-1 p-4 rounded-lg border-2 transition-colors ${
+                    uploadType === 'image'
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-grey-200 hover:border-grey-300'
+                  }`}
+                >
+                  <Image className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+                  <p className="font-medium">Images</p>
+                  <p className="text-xs text-grey-500">JPG, PNG, WebP, GIF</p>
+                </button>
+
+                <button
+                  onClick={() => setUploadType('video')}
+                  className={`flex-1 p-4 rounded-lg border-2 transition-colors ${
+                    uploadType === 'video'
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-grey-200 hover:border-grey-300'
+                  }`}
+                >
+                  <Video className="h-8 w-8 mx-auto mb-2 text-purple-600" />
+                  <p className="font-medium">Videos</p>
+                  <p className="text-xs text-grey-500">MP4, WebM, MOV</p>
+                </button>
+              </div>
+
+              {/* Upload Component */}
+              {uploadType === 'video' ? (
+                <VideoUploader
+                  onUploadComplete={(result) => {
+                    console.log('Video uploaded:', result)
+                    setShowUploadModal(false)
+                    fetchMedia()
+                  }}
+                  onCancel={() => setShowUploadModal(false)}
+                />
+              ) : (
+                <div className="border-2 border-dashed rounded-lg p-8 text-center">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    id="image-upload"
+                    onChange={async (e) => {
+                      const files = e.target.files
+                      if (!files || files.length === 0) return
+
+                      // Upload images to Supabase storage
+                      for (const file of Array.from(files)) {
+                        const formData = new FormData()
+                        formData.append('file', file)
+                        formData.append('type', 'image')
+
+                        try {
+                          const response = await fetch('/api/media/upload', {
+                            method: 'POST',
+                            body: formData
+                          })
+
+                          if (response.ok) {
+                            console.log('Image uploaded successfully')
+                          }
+                        } catch (error) {
+                          console.error('Upload failed:', error)
+                        }
+                      }
+
+                      setShowUploadModal(false)
+                      fetchMedia()
+                    }}
+                  />
+                  <label htmlFor="image-upload" className="cursor-pointer">
+                    <Upload className="h-12 w-12 mx-auto text-grey-400 mb-4" />
+                    <p className="text-lg font-medium mb-1">Drop images here or click to browse</p>
+                    <p className="text-sm text-grey-500">
+                      Supports: JPG, PNG, WebP, GIF up to 10MB each
+                    </p>
+                  </label>
+                </div>
+              )}
             </div>
           </div>
         </div>

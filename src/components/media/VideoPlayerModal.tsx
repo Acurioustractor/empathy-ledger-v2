@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { X, ExternalLink } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { ExternalLink, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -19,6 +19,15 @@ interface VideoPlayerModalProps {
   storytellerName?: string
 }
 
+// Check if URL is a direct video file (not an embed)
+function isDirectVideoFile(url: string): boolean {
+  const videoExtensions = ['.mp4', '.webm', '.mov', '.ogg', '.m4v']
+  const lowerUrl = url.toLowerCase()
+  return videoExtensions.some(ext => lowerUrl.includes(ext)) ||
+    url.includes('supabase.co/storage') ||
+    url.includes('/storage/v1/object')
+}
+
 export function VideoPlayerModal({
   isOpen,
   onClose,
@@ -28,9 +37,20 @@ export function VideoPlayerModal({
   storytellerName
 }: VideoPlayerModalProps) {
   const [embedUrl, setEmbedUrl] = useState<string | null>(null)
+  const [isDirectVideo, setIsDirectVideo] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     if (!videoUrl) return
+
+    // Check if this is a direct video file
+    if (isDirectVideoFile(videoUrl)) {
+      setIsDirectVideo(true)
+      setEmbedUrl(null)
+      return
+    }
+
+    setIsDirectVideo(false)
 
     // Convert various video URLs to embeddable format
     const getEmbedUrl = (url: string) => {
@@ -53,8 +73,26 @@ export function VideoPlayerModal({
     setEmbedUrl(getEmbedUrl(videoUrl))
   }, [videoUrl])
 
+  // Auto-play when modal opens with direct video
+  useEffect(() => {
+    if (isOpen && isDirectVideo && videoRef.current) {
+      videoRef.current.play().catch(() => {
+        // Autoplay might be blocked, that's fine
+      })
+    }
+  }, [isOpen, isDirectVideo])
+
   const handleOpenExternal = () => {
     window.open(videoUrl, '_blank')
+  }
+
+  const handleDownload = () => {
+    const link = document.createElement('a')
+    link.href = videoUrl
+    link.download = title || 'video'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   return (
@@ -64,6 +102,17 @@ export function VideoPlayerModal({
           <DialogTitle className="flex items-center justify-between">
             <span>{title}</span>
             <div className="flex items-center gap-2">
+              {isDirectVideo && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleDownload}
+                  className="text-xs"
+                >
+                  <Download className="w-3 h-3 mr-1" />
+                  Download
+                </Button>
+              )}
               <Button
                 variant="outline"
                 size="sm"
@@ -92,7 +141,21 @@ export function VideoPlayerModal({
 
           {/* Video container */}
           <div className="flex-1 bg-black rounded-lg overflow-hidden">
-            {embedUrl ? (
+            {isDirectVideo ? (
+              // Native HTML5 video player for direct files (MP4, WebM, etc.)
+              <video
+                ref={videoRef}
+                src={videoUrl}
+                className="w-full h-full"
+                controls
+                autoPlay
+                playsInline
+                title={title}
+              >
+                Your browser does not support the video tag.
+              </video>
+            ) : embedUrl ? (
+              // Iframe embed for YouTube, Vimeo, Descript, etc.
               <iframe
                 src={embedUrl}
                 className="w-full h-full"

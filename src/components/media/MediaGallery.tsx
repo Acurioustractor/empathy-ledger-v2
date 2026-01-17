@@ -24,8 +24,10 @@ import {
   Eye,
   CheckCircle2,
   Circle,
-  Tags
+  Tags,
+  Play
 } from 'lucide-react'
+import { VideoPlayerModal } from './VideoPlayerModal'
 import { cn } from '@/lib/utils'
 import { BatchTaggingBar } from './BatchTaggingBar'
 import { EnhancedMediaTagger } from './EnhancedMediaTagger'
@@ -78,6 +80,7 @@ export function MediaGallery({
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [mediaItems, setMediaItems] = useState<MediaItem[]>(media)
   const [editingMediaId, setEditingMediaId] = useState<string | null>(null)
+  const [playingVideo, setPlayingVideo] = useState<MediaItem | null>(null)
 
   // Get the media item being edited
   const editingMedia = editingMediaId
@@ -149,6 +152,16 @@ export function MediaGallery({
   // Close media tagger dialog
   const handleCloseTagger = () => {
     setEditingMediaId(null)
+  }
+
+  // Open video player modal
+  const handlePlayVideo = (item: MediaItem) => {
+    setPlayingVideo(item)
+  }
+
+  // Close video player modal
+  const handleCloseVideo = () => {
+    setPlayingVideo(null)
   }
 
   // Determine if we should show batch tagging bar
@@ -266,13 +279,22 @@ export function MediaGallery({
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="relative w-full h-full">
+                  <div
+                    className="relative w-full h-full cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handlePlayVideo(item)
+                    }}
+                  >
                     <video
                       src={item.url}
                       className="w-full h-full object-cover"
+                      preload="metadata"
                     />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                      <Video className="h-12 w-12 text-white" />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors">
+                      <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                        <Play className="h-7 w-7 text-slate-900 ml-1" fill="currentColor" />
+                      </div>
                     </div>
                   </div>
                 )}
@@ -391,7 +413,7 @@ export function MediaGallery({
                   )}
 
                   {/* Thumbnail */}
-                  <div className="flex-shrink-0 w-20 h-20 bg-slate-100 rounded overflow-hidden">
+                  <div className="flex-shrink-0 w-20 h-20 bg-slate-100 rounded overflow-hidden relative">
                     {item.type === 'image' ? (
                       <img
                         src={item.url}
@@ -399,8 +421,23 @@ export function MediaGallery({
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <Video className="h-8 w-8 text-gray-400" />
+                      <div
+                        className="w-full h-full relative cursor-pointer group/video"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handlePlayVideo(item)
+                        }}
+                      >
+                        <video
+                          src={item.url}
+                          className="w-full h-full object-cover"
+                          preload="metadata"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover/video:bg-black/50 transition-colors">
+                          <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center">
+                            <Play className="h-5 w-5 text-slate-900 ml-0.5" fill="currentColor" />
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -534,6 +571,17 @@ export function MediaGallery({
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Video Player Modal */}
+      {playingVideo && (
+        <VideoPlayerModal
+          isOpen={!!playingVideo}
+          onClose={handleCloseVideo}
+          videoUrl={playingVideo.url}
+          title={playingVideo.title || 'Video'}
+          description={playingVideo.caption}
+        />
+      )}
     </div>
   )
 }
