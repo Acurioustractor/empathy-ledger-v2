@@ -169,7 +169,12 @@ export default function StorytellerDashboard() {
     const fetchDashboard = async () => {
       try {
         setIsLoading(true)
-        console.log('🔍 Fetching dashboard for storyteller:', storytellerId)
+        console.log('🔍 Fetching dashboard for storyteller:', {
+          storytellerId,
+          userId: user?.id,
+          userEmail: user?.email,
+          isMatch: storytellerId === user?.id
+        })
 
         const url = `/api/storytellers/${storytellerId}/dashboard${organizationId ? `?org=${organizationId}` : ''}`
         const response = await fetch(url, {
@@ -177,7 +182,12 @@ export default function StorytellerDashboard() {
         })
         const result: ApiResponse = await response.json()
 
-        console.log('📊 Dashboard API response:', result)
+        console.log('📊 Dashboard API response:', {
+          status: response.status,
+          success: result.success,
+          error: result.error,
+          debug: (result as any).debug
+        })
 
         if (!response.ok) {
           // Handle specific error codes
