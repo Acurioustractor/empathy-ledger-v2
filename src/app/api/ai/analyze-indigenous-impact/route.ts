@@ -14,7 +14,10 @@ if (!supabaseUrl || !supabaseServiceKey) {
   throw new Error('Missing Supabase configuration')
 }
 
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+// Create service client inside handlers, not at module level
+function getServiceClient() {
+  return createClient(supabaseUrl, supabaseServiceKey)
+}
 
 // UPGRADED AI ENDPOINT - Uses intelligent depth-based impact analysis
 // Replaced pattern-based analyzer with v3 intelligent analyzer (depth scoring)
@@ -31,6 +34,9 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('🔍 Analyzing Indigenous community impact for transcript:', transcriptId)
+
+    // Create service client after auth check
+    const supabase = getServiceClient()
 
     // 1. Get the transcript content
     const { data: transcript, error: transcriptError } = await supabase

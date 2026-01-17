@@ -9,7 +9,11 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+// Create service client inside handlers, not at module level
+function getServiceClient() {
+  return createClient(supabaseUrl, supabaseServiceKey)
+}
 
 export async function POST(
   request: NextRequest,
@@ -20,6 +24,9 @@ export async function POST(
     const body = await request.json()
 
     console.log('🎯 Accepting invitation with code:', inviteCode)
+
+    // Create service client after auth check
+    const supabase = getServiceClient()
 
     // Find the invitation
     const { data: invitation, error: inviteError } = await supabase
@@ -181,6 +188,9 @@ export async function GET(
     const { code: inviteCode } = await params
 
     console.log('🔍 Checking invitation with code:', inviteCode)
+
+    // Create service client after auth check
+    const supabase = getServiceClient()
 
     // Find the invitation
     const { data: invitation, error: inviteError } = await supabase

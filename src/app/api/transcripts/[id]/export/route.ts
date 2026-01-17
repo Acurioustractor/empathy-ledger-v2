@@ -9,7 +9,11 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+// Create service client inside handlers, not at module level
+function getServiceClient() {
+  return createClient(supabaseUrl, supabaseServiceKey)
+}
 
 export async function GET(
   request: NextRequest,
@@ -18,6 +22,9 @@ export async function GET(
   try {
     const { id: transcriptId } = await params
     console.log('📄 Exporting transcript:', transcriptId)
+
+    // Create service client after auth check
+    const supabase = getServiceClient()
 
     // Get transcript details
     const { data: transcript, error } = await supabase

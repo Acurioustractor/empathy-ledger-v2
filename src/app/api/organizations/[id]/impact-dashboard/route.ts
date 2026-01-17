@@ -8,10 +8,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+
+// Create service client inside handlers, not at module level
+function getServiceClient() {
+  return createClient(supabaseUrl, supabaseServiceKey);
+}
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -20,6 +23,9 @@ interface RouteParams {
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: organizationId } = await params;
+
+    // Create service client after auth check
+    const supabase = getServiceClient();
 
     // Get organization impact intelligence
     const { data: orgImpact, error: orgError } = await supabase

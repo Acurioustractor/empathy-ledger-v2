@@ -9,7 +9,11 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+// Create service client inside handlers, not at module level
+function getServiceClient() {
+  return createClient(supabaseUrl, supabaseServiceKey)
+}
 
 export async function GET(
   request: NextRequest,
@@ -17,6 +21,9 @@ export async function GET(
 ) {
   try {
     const { id: transcriptId } = await params
+
+    // Create service client after auth check
+    const supabase = getServiceClient()
 
     const { data: transcript, error } = await supabase
       .from('transcripts')
@@ -65,6 +72,9 @@ export async function PATCH(
     const { ai_summary, key_quotes } = body
 
     console.log('📝 Updating AI analysis for transcript:', transcriptId)
+
+    // Create service client after auth check
+    const supabase = getServiceClient()
 
     const { data, error } = await supabase
       .from('transcripts')
@@ -117,6 +127,9 @@ export async function PUT(
         { status: 400 }
       )
     }
+
+    // Create service client after auth check
+    const supabase = getServiceClient()
 
     // Check if transcript exists
     const { data: existingTranscript, error: fetchError } = await supabase
@@ -187,6 +200,9 @@ export async function DELETE(
   try {
     const { id: transcriptId } = await params
     console.log('🗑️ Removing transcript:', transcriptId)
+
+    // Create service client after auth check
+    const supabase = getServiceClient()
 
     // Check if transcript exists
     const { data: transcript, error: fetchError } = await supabase

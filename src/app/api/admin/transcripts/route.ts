@@ -11,7 +11,11 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 // Use service role to bypass RLS for admin seeding/testing
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+// Create service client inside handlers, not at module level
+function getServiceClient() {
+  return createClient(supabaseUrl, supabaseServiceKey)
+}
 
 type CreateTranscriptBody = {
   storyteller_id: string
@@ -39,6 +43,9 @@ export async function GET(request: NextRequest) {
   if (authResult instanceof NextResponse) {
     return authResult
   }
+
+  // Create service client after auth check
+  const supabase = getServiceClient()
 
   try {
     const { searchParams } = new URL(request.url)
@@ -197,6 +204,9 @@ export async function POST(request: NextRequest) {
   if (authResult instanceof NextResponse) {
     return authResult
   }
+
+  // Create service client after auth check
+  const supabase = getServiceClient()
 
   try {
     const body = (await request.json()) as CreateTranscriptBody

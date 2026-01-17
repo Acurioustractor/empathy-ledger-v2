@@ -11,7 +11,10 @@ if (!supabaseUrl || !supabaseServiceKey) {
   throw new Error('Missing Supabase configuration')
 }
 
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+// Create service client inside handlers, not at module level
+function getServiceClient() {
+  return createClient(supabaseUrl, supabaseServiceKey)
+}
 
 /**
  * GET /api/analysis/results?transcriptId=xxx
@@ -32,6 +35,9 @@ export async function GET(request: NextRequest) {
     }
 
     console.log('📖 Loading analysis results for transcript:', transcriptId)
+
+    // Create service client after auth check
+    const supabase = getServiceClient()
 
     // 1. Get transcript with embedded analysis data (legacy schema)
     const { data: transcript, error: transcriptError } = await supabase
