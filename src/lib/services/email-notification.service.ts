@@ -1,11 +1,16 @@
 import { createClient } from '@supabase/supabase-js'
 
-const EMAIL_PROVIDER = process.env.EMAIL_PROVIDER || 'resend'
-const FROM_EMAIL = process.env.EMAIL_FROM || 'notifications@empathyledger.org'
-const FROM_NAME = process.env.EMAIL_FROM_NAME || 'Empathy Ledger'
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3030'
-const RESEND_API_KEY = process.env.RESEND_API_KEY
-const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY
+// Get email config at runtime, not build time
+function getEmailConfig() {
+  return {
+    EMAIL_PROVIDER: process.env.EMAIL_PROVIDER || 'resend',
+    FROM_EMAIL: process.env.EMAIL_FROM || 'notifications@empathyledger.org',
+    FROM_NAME: process.env.EMAIL_FROM_NAME || 'Empathy Ledger',
+    BASE_URL: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3030',
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY
+  }
+}
 
 export type EmailTemplateType =
   | 'story_submitted'
@@ -68,13 +73,14 @@ export async function sendEmail(payload: EmailPayload): Promise<{
   messageId?: string
 }> {
   try {
-    if (EMAIL_PROVIDER === 'resend') {
+    const config = getEmailConfig()
+    if (config.EMAIL_PROVIDER === 'resend') {
       return await sendViaResend(payload)
     }
-    if (EMAIL_PROVIDER === 'sendgrid') {
+    if (config.EMAIL_PROVIDER === 'sendgrid') {
       return await sendViaSendGrid(payload)
     }
-    throw new Error(`Unsupported email provider: ${EMAIL_PROVIDER}`)
+    throw new Error(`Unsupported email provider: ${config.EMAIL_PROVIDER}`)
   } catch (error) {
     console.error('Email sending failed:', error)
     return {
@@ -85,7 +91,8 @@ export async function sendEmail(payload: EmailPayload): Promise<{
 }
 
 async function sendViaResend(payload: EmailPayload) {
-  if (!RESEND_API_KEY) {
+  const config = getEmailConfig()
+  if (!config.RESEND_API_KEY) {
     throw new Error('RESEND_API_KEY not configured')
   }
 
@@ -93,10 +100,10 @@ async function sendViaResend(payload: EmailPayload) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${RESEND_API_KEY}`
+      Authorization: `Bearer ${config.RESEND_API_KEY}`
     },
     body: JSON.stringify({
-      from: `${FROM_NAME} <${FROM_EMAIL}>`,
+      from: `${config.FROM_NAME} <${config.FROM_EMAIL}>`,
       to: payload.to.map((r) => r.email),
       subject: payload.subject,
       html: payload.html,
@@ -115,7 +122,8 @@ async function sendViaResend(payload: EmailPayload) {
 }
 
 async function sendViaSendGrid(payload: EmailPayload) {
-  if (!SENDGRID_API_KEY) {
+  const config = getEmailConfig()
+  if (!config.SENDGRID_API_KEY) {
     throw new Error('SENDGRID_API_KEY not configured')
   }
 
@@ -123,7 +131,7 @@ async function sendViaSendGrid(payload: EmailPayload) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${SENDGRID_API_KEY}`
+      Authorization: `Bearer ${config.SENDGRID_API_KEY}`
     },
     body: JSON.stringify({
       personalizations: [
@@ -131,7 +139,7 @@ async function sendViaSendGrid(payload: EmailPayload) {
           to: payload.to.map((r) => ({ email: r.email, name: r.name }))
         }
       ],
-      from: { email: FROM_EMAIL, name: FROM_NAME },
+      from: { email: config.FROM_EMAIL, name: config.FROM_NAME },
       reply_to: payload.replyTo ? { email: payload.replyTo } : undefined,
       subject: payload.subject,
       content: [{ type: 'text/html', value: payload.html }]
@@ -150,6 +158,7 @@ async function sendViaSendGrid(payload: EmailPayload) {
 }
 
 export async function notifyStorySubmitted(data: StoryNotificationData) {
+  const config = getEmailConfig()
   const reviewers = await getReviewers(data.storyId)
 
   if (reviewers.length === 0) {
@@ -162,8 +171,8 @@ export async function notifyStorySubmitted(data: StoryNotificationData) {
     storyTitle: data.storyTitle,
     authorName: data.authorName,
     organizationName: data.organizationName,
-    reviewUrl: `${BASE_URL}/admin/reviews/${data.storyId}`,
-    queueUrl: `${BASE_URL}/admin/reviews`
+    reviewUrl: `${config.BASE_URL}/admin/reviews/${data.storyId}`,
+    queueUrl: `${config.BASE_URL}/admin/reviews`
   })
 
   return sendEmail({
@@ -174,13 +183,14 @@ export async function notifyStorySubmitted(data: StoryNotificationData) {
 }
 
 export async function notifyStoryApproved(data: StoryNotificationData) {
+  const config = getEmailConfig()
   const subject = `Your Story Has Been Approved: ${data.storyTitle}`
   const html = renderEmailTemplate('story_approved', {
     storyTitle: data.storyTitle,
     authorName: data.authorName,
     reviewerName: data.reviewerName,
     culturalGuidance: data.culturalGuidance,
-    storyUrl: data.storySlug ? `${BASE_URL}/stories/${data.storySlug}` : undefined
+    storyUrl: data.storySlug ? `${config.BASE_URL}/stories/${data.storySlug}` : undefined
   })
 
   return sendEmail({
@@ -191,8 +201,9 @@ export async function notifyStoryApproved(data: StoryNotificationData) {
 }
 
 export async function notifyStoryPublished(data: StoryNotificationData) {
+  const config = getEmailConfig()
   const subject = `Your Story is Now Live: ${data.storyTitle}`
-  const storyUrl = `${BASE_URL}/stories/${data.storySlug}`
+  const storyUrl = `${config.BASE_URL}/stories/${data.storySlug}`
   const html = renderEmailTemplate('story_published', {
     storyTitle: data.storyTitle,
     authorName: data.authorName,
@@ -208,13 +219,14 @@ export async function notifyStoryPublished(data: StoryNotificationData) {
 }
 
 export async function notifyChangesRequested(data: StoryNotificationData) {
+  const config = getEmailConfig()
   const subject = `Changes Requested for Your Story: ${data.storyTitle}`
   const html = renderEmailTemplate('changes_requested', {
     storyTitle: data.storyTitle,
     authorName: data.authorName,
     reviewerName: data.reviewerName,
     requestedChanges: data.requestedChanges,
-    editUrl: `${BASE_URL}/stories/${data.storyId}/edit`
+    editUrl: `${config.BASE_URL}/stories/${data.storyId}/edit`
   })
 
   return sendEmail({
@@ -225,13 +237,14 @@ export async function notifyChangesRequested(data: StoryNotificationData) {
 }
 
 export async function notifyStoryRejected(data: StoryNotificationData) {
+  const config = getEmailConfig()
   const subject = `Story Review Decision: ${data.storyTitle}`
   const html = renderEmailTemplate('story_rejected', {
     storyTitle: data.storyTitle,
     authorName: data.authorName,
     reviewerName: data.reviewerName,
     rejectionReason: data.rejectionReason,
-    supportUrl: `${BASE_URL}/support`
+    supportUrl: `${config.BASE_URL}/support`
   })
 
   return sendEmail({
@@ -246,12 +259,13 @@ export async function notifyReviewAssigned(data: StoryNotificationData) {
     return { success: true, skipped: true }
   }
 
+  const config = getEmailConfig()
   const subject = `Story Review Assigned to You: ${data.storyTitle}`
   const html = renderEmailTemplate('review_assigned', {
     storyTitle: data.storyTitle,
     reviewerName: data.reviewerName,
     authorName: data.authorName,
-    reviewUrl: `${BASE_URL}/admin/reviews/${data.storyId}`
+    reviewUrl: `${config.BASE_URL}/admin/reviews/${data.storyId}`
   })
 
   return sendEmail({
@@ -262,6 +276,7 @@ export async function notifyReviewAssigned(data: StoryNotificationData) {
 }
 
 export async function notifyElderEscalation(data: StoryNotificationData) {
+  const config = getEmailConfig()
   const elders = await getElderCouncil()
 
   if (elders.length === 0) {
@@ -273,7 +288,7 @@ export async function notifyElderEscalation(data: StoryNotificationData) {
   const html = renderEmailTemplate('elder_escalation', {
     storyTitle: data.storyTitle,
     escalationReason: data.escalationReason,
-    reviewUrl: `${BASE_URL}/admin/reviews/${data.storyId}`
+    reviewUrl: `${config.BASE_URL}/admin/reviews/${data.storyId}`
   })
 
   return sendEmail({
@@ -353,6 +368,7 @@ const EMAIL_STYLES = {
 type TemplateData = Record<string, any>
 
 function wrapEmailContent(content: string): string {
+  const config = getEmailConfig()
   return `
     <!DOCTYPE html>
     <html>
@@ -363,18 +379,18 @@ function wrapEmailContent(content: string): string {
     <body style="margin: 0; padding: 20px; background: #f5f5f4;">
       <div style="${EMAIL_STYLES.container}">
         <div style="${EMAIL_STYLES.header}">
-          <a href="${BASE_URL}" style="${EMAIL_STYLES.logo}">Empathy Ledger</a>
+          <a href="${config.BASE_URL}" style="${EMAIL_STYLES.logo}">Empathy Ledger</a>
         </div>
         <div style="${EMAIL_STYLES.body}">
           ${content}
         </div>
         <div style="${EMAIL_STYLES.footer}">
           <p style="margin: 0 0 8px 0;">
-            This email was sent by <a href="${BASE_URL}">Empathy Ledger</a>
+            This email was sent by <a href="${config.BASE_URL}">Empathy Ledger</a>
           </p>
           <p style="margin: 0;">
-            <a href="${BASE_URL}/unsubscribe" style="color: #78716c;">Unsubscribe</a> |
-            <a href="${BASE_URL}/preferences" style="color: #78716c;">Email Preferences</a>
+            <a href="${config.BASE_URL}/unsubscribe" style="color: #78716c;">Unsubscribe</a> |
+            <a href="${config.BASE_URL}/preferences" style="color: #78716c;">Email Preferences</a>
           </p>
         </div>
       </div>

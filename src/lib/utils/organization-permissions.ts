@@ -1,8 +1,13 @@
 import { createClient } from '@supabase/supabase-js'
 import { adminConfig } from '@/lib/config/admin-config'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+// Create service client inside functions, not at module level
+function getServiceClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+}
 
 export interface OrganizationPermissions {
   canView: boolean
@@ -18,7 +23,7 @@ export async function checkOrganizationPermissions(
   organizationId: string,
   userId: string
 ): Promise<OrganizationPermissions> {
-  const supabase = createClient(supabaseUrl, supabaseServiceKey)
+  const supabase = getServiceClient()
 
   try {
     // Check for development super admin bypass first

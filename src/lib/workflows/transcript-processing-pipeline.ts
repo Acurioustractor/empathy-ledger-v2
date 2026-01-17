@@ -559,8 +559,10 @@ export class TranscriptProcessingPipeline {
   }
 }
 
-// EXPORT SINGLETON INSTANCE
-export const transcriptProcessor = new TranscriptProcessingPipeline(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+// Factory function - creates instance with env vars at runtime, not build time
+export function getTranscriptProcessor() {
+  return new TranscriptProcessingPipeline(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+}
