@@ -36,6 +36,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [initialized, setInitialized] = useState(false)
   const [hasExplicitlySignedOut, setHasExplicitlySignedOut] = useState(false)
 
+  // Global handler to suppress AbortError from Supabase internals during navigation
+  useEffect(() => {
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      if (
+        event.reason?.name === 'AbortError' ||
+        event.reason?.message?.includes('aborted') ||
+        event.reason?.message?.includes('signal is aborted')
+      ) {
+        // Suppress AbortError - expected during navigation/unmount
+        event.preventDefault()
+      }
+    }
+
+    window.addEventListener('unhandledrejection', handleUnhandledRejection)
+    return () => window.removeEventListener('unhandledrejection', handleUnhandledRejection)
+  }, [])
+
   // Derived state - computed once per render
   const baseIsAuthenticated = Boolean(user && session)
 
