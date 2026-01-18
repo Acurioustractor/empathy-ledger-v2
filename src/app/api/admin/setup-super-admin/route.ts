@@ -2,7 +2,7 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
+import { createSupabaseServiceClient } from '@/lib/supabase/client-ssr'
 
 /**
  * POST /api/admin/setup-super-admin
@@ -10,10 +10,11 @@ import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
  *
  * NOTE: This endpoint does NOT require admin auth - the setup key IS the authentication.
  * This is intentional for bootstrapping the first super admin.
+ * Uses service role client to bypass RLS during bootstrap.
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServiceClient()
     const body = await request.json()
     const { profileId, setupKey } = body
 
@@ -124,7 +125,7 @@ export async function POST(request: NextRequest) {
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = createSupabaseServiceClient()
 
     const { searchParams } = new URL(request.url)
     const setupKey = searchParams.get('key')
