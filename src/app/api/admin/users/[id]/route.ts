@@ -11,11 +11,14 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     const { id } = await params
     const supabase = await createSupabaseServerClient()
-    
-    // Temporarily bypass auth check for development
-    console.log('Bypassing auth check for individual user fetch')
 
     // Fetch the user's profile and metadata
     const userResult = await supabase
@@ -154,11 +157,14 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     const { id } = await params
     const supabase = await createSupabaseServerClient()
-    
-    // Temporarily bypass auth check for development
-    console.log('Bypassing auth check for user update')
 
     const body = await request.json()
 

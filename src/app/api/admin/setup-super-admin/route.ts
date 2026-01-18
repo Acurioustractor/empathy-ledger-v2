@@ -21,9 +21,9 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { profileId, setupKey } = body
 
-    // Security: Require a setup key (in production, this should be an env var)
-    // For now, using a simple check
-    if (setupKey !== 'empathy-ledger-super-admin-setup-2026') {
+    // Security: Require a setup key from environment variable
+    const expectedSetupKey = process.env.SUPER_ADMIN_SETUP_KEY
+    if (!expectedSetupKey || setupKey !== expectedSetupKey) {
       return NextResponse.json({ error: 'Invalid setup key' }, { status: 403 })
     }
 
@@ -137,7 +137,8 @@ export async function GET(request: NextRequest) {
     const setupKey = searchParams.get('key')
 
     // Security check
-    if (setupKey !== 'empathy-ledger-super-admin-setup-2026') {
+    const expectedSetupKey = process.env.SUPER_ADMIN_SETUP_KEY
+    if (!expectedSetupKey || setupKey !== expectedSetupKey) {
       return NextResponse.json({ error: 'Invalid setup key' }, { status: 403 })
     }
 
@@ -176,7 +177,7 @@ export async function GET(request: NextRequest) {
         message: 'To grant super-admin access, POST to this endpoint with:',
         body: {
           profileId: '<profile-id-from-list>',
-          setupKey: 'empathy-ledger-super-admin-setup-2026'
+          setupKey: '<SUPER_ADMIN_SETUP_KEY from environment>'
         }
       }
     })

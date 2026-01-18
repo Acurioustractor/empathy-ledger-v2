@@ -79,10 +79,13 @@ interface MediaResponse {
 
 export async function GET(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     const supabase = createSupabaseServiceClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin media')
 
     const { searchParams } = new URL(request.url)
     const search = searchParams.get('search') || ''
@@ -375,10 +378,13 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = createSupabaseServiceClient()
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
 
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin media update')
+    const supabase = createSupabaseServiceClient()
 
     const { id, ...updateData } = await request.json()
 
@@ -459,10 +465,13 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     const supabase = createSupabaseServiceClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin media delete')
 
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')

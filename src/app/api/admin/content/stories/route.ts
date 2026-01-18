@@ -11,10 +11,13 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function GET(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     const supabase = await createSupabaseServerClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin content stories')
 
     const { searchParams } = new URL(request.url)
     const status = searchParams.get('status') || 'all'
@@ -117,10 +120,13 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     const supabase = await createSupabaseServerClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin content stories update')
 
     const body = await request.json()
     const { storyId, updates, adminAction } = body

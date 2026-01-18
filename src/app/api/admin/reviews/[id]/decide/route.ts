@@ -37,10 +37,9 @@ export async function POST(
   try {
     const { id: reviewId } = await params
     const decision: ReviewDecision = await request.json()
-    
-    // Temporarily bypass auth for testing
-    console.log('⚠️ TEMPORARILY BYPASSING AUTH FOR REVIEW DECISIONS')
-    const reviewerId = 'test-admin-id' // TODO: Get from auth context
+
+    // Use the authenticated admin's ID from auth context
+    const reviewerId = authResult.user?.id || 'system'
 
     const supabase = await createSupabaseServerClient()
 

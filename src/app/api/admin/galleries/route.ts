@@ -1,7 +1,7 @@
 // Force dynamic rendering for API routes
 export const dynamic = 'force-dynamic'
 
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
@@ -9,9 +9,13 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    console.log('Bypassing auth check for admin galleries')
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
 
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
@@ -144,8 +148,14 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     console.log('Creating new gallery')
 
     const supabase = await createSupabaseServerClient()
@@ -263,8 +273,14 @@ export async function POST(request: Request) {
   }
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     console.log('Delete gallery API called')
 
     const { searchParams } = new URL(request.url)

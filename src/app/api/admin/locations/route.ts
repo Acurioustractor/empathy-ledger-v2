@@ -11,10 +11,13 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function GET(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     const supabase = await createSupabaseServerClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin locations')
 
     const { data: locations, error } = await supabase
       .from('locations')

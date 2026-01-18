@@ -1,7 +1,7 @@
 // Force dynamic rendering for API routes
 export const dynamic = 'force-dynamic'
 
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/client-ssr'
 
@@ -11,11 +11,14 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     const { id } = await params
     const supabase = await createSupabaseServerClient()
-    
-    // Temporarily bypass auth check for development
-    console.log('Bypassing auth check for user status update')
 
     const body = await request.json()
     const { status } = body

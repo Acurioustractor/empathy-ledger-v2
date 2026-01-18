@@ -11,10 +11,13 @@ import { requireAdminAuth } from '@/lib/middleware/admin-auth'
 
 export async function GET(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     const supabase = await createSupabaseServerClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin tenants')
 
     const { searchParams } = new URL(request.url)
     const search = searchParams.get('search') || ''
@@ -99,10 +102,13 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     const supabase = await createSupabaseServerClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin tenants create')
 
     const tenantData = await request.json()
 
@@ -138,10 +144,13 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     const supabase = await createSupabaseServerClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin tenants update')
 
     const { id, ...updateData } = await request.json()
 
@@ -182,10 +191,13 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    // Require admin authentication
+    const authResult = await requireAdminAuth(request)
+    if (authResult instanceof NextResponse) {
+      return authResult
+    }
+
     const supabase = await createSupabaseServerClient()
-    
-    // Temporarily bypass auth check
-    console.log('Bypassing auth check for admin tenants delete')
 
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
